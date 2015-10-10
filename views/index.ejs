@@ -1,0 +1,37 @@
+<%- include header %>
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <% posts.forEach(function (post, index) { %>
+            <div class="blog-post">
+
+            <p><h2 class="blog-post-title"><a href="/p/<%= post._id %>"><%= post.title %></a></h2>
+            <a href="/u/<%= post.name %>"><img src="<%= post.head %>" class="r_head" /></a>
+            <p class="blog-post-meta">
+              Author: <a href="u/<%= post.name %>"><%= post.name %></a> |
+              Date: <%= post.time.minute %>|
+              Tags: <% post.tags.forEach(function (tag, index) { %>
+              <% if (tag) { %>
+                <a class="tag" href="/tags/<%= tag %>"><%= tag %></a>
+              <% } %>
+            <% }) %>
+            </p>
+
+
+            <p><%- post.post %></p>
+             <p class="blog-post-meta"> Read: <%= post.pv %> | <span> Comment </span> |
+             Citation:
+            <% if (post.reprint_info.reprint_to) { %>
+              <%= post.reprint_info.reprint_to.length %>
+            <% } else { %>
+              <%= 0 %>
+            <% } %>
+            </p>
+
+            </div> <!--end of blog-post -->
+            <% }) %>
+           <%- include paging %>
+
+          </div><!-- end of post-main -->
+          <%- include siderbar %>
+    </div> <!--end of row -->
+<%- include footer %>

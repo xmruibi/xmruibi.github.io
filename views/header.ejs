@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog</title>
+<link rel="stylesheet" href="/stylesheets/style.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
+</head>
+<body>
+
+
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li <% if (page_name === 'home') { %>class="active" <% } %>><a title="Home" href="/">Home</a></li>
+            <% if (user) { %>
+            <li <% if (page_name === 'post') { %>class="active" <% } %>><a title="Post" href="/post">Post</a></li>
+            <li <% if (page_name === 'tags') { %>class="active" <% } %>><a title="Tags" href="/tags">Tags</a></li>
+             <li <% if (page_name === 'upload') { %>class="active" <% } %>><a title="File Upload" href="/upload">Upload File</a></li>
+             <li><a title="Logout" href="/logout">Logout</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><span class="blog-nav-item"><form action="/search" method="GET"><input type="text" name="keyword" placeholder="SEARCH" class="search" /></form></span></li>
+          </ul>
+          <% } else { %>
+			<ul class="nav navbar-nav navbar-right">
+             <li><a title="Login" href="/login">Login</a></li>
+             <li><a title="Register" href="/reg">Register</a></li>
+          </ul>
+          <% } %>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+
+
+
+<div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title"><%= title %></h1>
+      </div>
+
+<% if (success) { %>
+  <div><%= success %></div>
+<% } %>
+<% if (error) { %>
+  <div><%= error %> </div>
+<% } %>

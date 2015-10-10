@@ -1,0 +1,28 @@
+<%- include header %>
+<div class="row">
+  <div class="col-lg-8">
+
+<form method="post">
+
+<div class="form-group">
+    <label for="exampleInputTitle">  Title: </label>
+    <input class="form-control" type="text" name="title" placeholder="Enter Article Title">
+  </div>
+  <div class="form-inline form-group">
+    <label for="exampleInputTag">Tags:  </label>
+    <input type="text" name="tag1" class="form-control" id="exampleInputTag1" placeholder="Tag One">
+	<input type="text" name="tag2" class="form-control" id="exampleInputTag2" placeholder="Tag Two">
+	<input type="text" name="tag3" class="form-control" id="exampleInputTag3" placeholder="Tag Three">
+  </div>
+
+
+	<div class="form-group">
+	<label for="exampleContent">Content: </label>
+  	<textarea name="post" class="form-control" rows="20"></textarea>
+  	</div>
+  <button type="submit" class="btn btn-default"/> Post </button>
+</form>
+
+</div>
+</div>
+<%- include footer %>
