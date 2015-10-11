@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Algorithm on Rui&#39;s Site</title>
+    <link>http://xmruibi.github.io/categories/algorithm/</link>
+    <description>Recent content in Algorithm on Rui&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Oct 2015 10:40:49 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/categories/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Subarray Sum I</title>
+      <link>http://xmruibi.github.io/post/algorithms/SubarraySumI/</link>
+      <pubDate>Fri, 09 Oct 2015 10:40:49 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/post/algorithms/SubarraySumI/</guid>
+      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is zero. Your code should return the index of the first number and the index of the last number.&lt;/p&gt;
+
+&lt;pre&gt;
+    &lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @return: A list of integers includes the index of the first number 
+     *          and the index of the last number
+     */
+    public ArrayList&lt;Integer&gt; subarraySum(int[] nums) {
+        // write your code here
+        ArrayList&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();
+        if(nums == null || nums.length == 0)
+            return res;       
+        HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer&gt;();
+        int sum = 0;
+        map.put(0, 0);
+        for(int i = 0; i &lt; nums.length; i++) {
+            if(map.containsKey(sum+nums[i])) {
+                res.add(map.get(sum+nums[i]));
+                res.add(i);
+                return res;
+            }
+            map.put(sum+=nums[i], i+1);
+        }
+        return res;
+    }
+}   
+
+&lt;/code&gt;
+
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

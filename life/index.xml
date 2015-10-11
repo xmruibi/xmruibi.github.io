@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lives on Rui&#39;s Site</title>
+    <link>http://xmruibi.github.io/life/</link>
+    <description>Recent content in Lives on Rui&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 02 Sep 2015 10:42:11 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/life/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Long Journey Across United States</title>
+      <link>http://xmruibi.github.io/life/LongJourneyAcrossAmerican/</link>
+      <pubDate>Wed, 02 Sep 2015 10:42:11 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/life/LongJourneyAcrossAmerican/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;media/Journey/IMG_4353.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4388.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4400.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4426.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4445.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4470.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4496.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;media/Journey/IMG_4497.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

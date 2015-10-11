@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="keywords" content="MongoDB, Configuration, ">
+
+ 
+<meta property="og:type" content="article"/>
+<meta property="og:description" content=""/>
+<meta property="og:title" content="Distributed MongoDB Configuration : rui.com"/>
+<meta property="og:site_name" content="Rui"/>
+<meta property="og:image" content="" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="" />
+<meta property="og:image:height" content="" />
+<meta property="og:url" content="http://xmruibi.github.io/project/DistributedMongoDB/">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-03-10"/>
+<meta property="article:modified_time" content="2015-03-10"/>
+
+
+
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="Configuration">
+
+
+
+
+
+
+
+    <base href="http://xmruibi.github.io/">
+    <title> Distributed MongoDB Configuration - xmruibi.github.io </title>
+    <link rel="canonical" href="http://xmruibi.github.io/project/DistributedMongoDB/">
+    
+
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/static/css/style.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/lightbox.css">
+  <script src="static/js/lightbox.min.js"></script>
+
+
+    
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+
+<body lang="en" itemscope itemtype="http://schema.org/Article">
+<header id="header">
+    <figure>
+      <a href="/" border=0 id="logolink"><img src="apple-touch-icon.png" style="padding-left: 2em"></a>
+    </figure>
+    <div id="byline">Rui Bi</div>
+    <nav id="nav">
+            <ul id="mainnav">
+            <li>
+                <a href="/post/">
+                <span class="icon"> <i aria-hidden="true" class="icon-quill"></i></span>
+                <span> blog </span>
+            </a>
+            </li>
+            <li>
+            <a href="/project/">
+                <span class="icon"> <i aria-hidden="true" class="icon-github-2"></i></span>
+                <span> code </span>
+            </a>
+            </li>
+            <li>
+            <a href="/life/">
+                <span class="icon"> <i aria-hidden="true" class="icon-airplane"></i></span>
+                <span> life </span>
+            </a>
+            </li>
+            <li>
+            <a href="/about">
+                <span class="icon"> <i aria-hidden="true" class="icon-happy"></i></span>
+                <span> me </span>
+            </a> 
+            </li>
+            
+        </ul>
+
+            <ul id="social">
+            
+            <li id="follow">
+                <span class="icon icon-rocket"> </span>
+                <span class="title"> follow </span>
+                <div class="dropdown follow">
+                    <ul class="social">
+                        
+                        <li> <a href="http://www.linkedin.com/in/ruibi" target="_blank" title="LinkedIn" class="linkedin"><span class="icon icon-linkedin"></span>LinkedIn</a> </li>
+                        <li> <a href="http://github.com/xmruibi" target="_blank" title="GitHub" class="github"><span class="icon icon-github"></span>GitHub</a> </li>
+                    </ul>
+                    
+                </div>
+            </li>
+        </ul>
+
+    </nav>
+</header>
+
+
+
+<section id="main">
+  <h1 itemprop="name" id="title">Distributed MongoDB Configuration</h1>
+  <div>
+        <article itemprop="articleBody" id="content">
+           
+
+<h3 id="this-project-has-using-distributed-sharded-mongodb-as-data-storage-and-hadoop-map-reduce-as-computing-framework:4aa0a68069c32ae3cd96af8e4943a95f">This Project has using Distributed Sharded MongoDB as Data Storage and Hadoop Map Reduce as Computing Framework.</h3>
+
+<h2 id="sharded-mongodb-configuration:4aa0a68069c32ae3cd96af8e4943a95f">Sharded MongoDB Configuration</h2>
+
+<p>The following graph is the architecture of how I set three VMs with different port to simulate the real sharding pattern(which need 15 machines actually)</p>
+
+<p><img src="media/Sharded%20MongoDB.png" alt=""></p>
+
+<p>The following procedure is how I configured MongoDB on remote three VMs.</p>
+
+<h3 id="1-set-up-data-path-config-file-and-log-file-paths-in-each-node-with-mongos-config-shard1-shard2-shard3-directory-name:4aa0a68069c32ae3cd96af8e4943a95f">1. Set up data path, config file and log file paths in each node with mongos 、config 、 shard1 、shard2、shard3 (directory name)</h3>
+
+<pre><code>mkdir -p /data/mongos/log
+sudo chmod -R 777 /data/mongos/log
+mkdir -p /data/config/data
+sudo chmod -R 777 /data/config/data
+mkdir -p /data/config/log
+sudo chmod -R 777 /data/config/log
+mkdir -p /data/mongos/log
+sudo chmod -R 777 /data/mongos/log
+mkdir -p /data/shard1/data
+sudo chmod -R 777 /data/shard1/data
+mkdir -p /data/shard1/log
+sudo chmod -R 777 /data/shard1/log
+mkdir -p /data/shard2/data
+sudo chmod -R 777 /data/shard2/data
+mkdir -p /data/shard2/log
+sudo chmod -R 777 /data/shard2/log
+mkdir -p /data/shard3/data
+sudo chmod -R 777 /data/shard3/data
+mkdir -p /data/shard3/log
+sudo chmod -R 777 /data/shard3/log
+</code></pre>
+
+<h3 id="2-make-a-plan-of-port-number-and-modify-some-config-parameter-in-mongod-conf:4aa0a68069c32ae3cd96af8e4943a95f">2. Make a plan of port number and modify some config parameter in mongod.conf</h3>
+
+<pre><code>mongod --configsvr --dbpath /data/config/data --port 27019 --logpath /data/config/log/config.log --fork
+
+
+mongos  --configdb 45.55.188.234:27019,45.55.186.238:27019,104.131.106.22:27019  --port 27017   --logpath  /data/mongos/log/mongos.log --fork
+
+## or 
+## These codes can migration configuration 
+
+rsync -az /data/configdb mongo-config1.example.net:/data/configdb
+rsync -az /data/configdb mongo-config2.example.net:/data/configdb
+
+nano etc/mongod.conf
+
+### This is important!!
+set bing_ip = 0.0.0.0; for remote login
+set default mongod: 27019 
+## !Otherwise your mongos port(27017) will be blocked
+</code></pre>
+
+<h3 id="3-config-sharding-setting-on-each-vm:4aa0a68069c32ae3cd96af8e4943a95f">3. Config sharding setting on each VM</h3>
+
+<pre><code>### set up shards ports and dbpath and log path
+mongod --shardsvr --replSet shard1 --port 22001 --dbpath /data/shard1/data  --logpath /data/shard1/log/shard1.log --fork --journal  --oplogSize 10
+mongod --shardsvr --replSet shard2 --port 22002 --dbpath /data/shard2/data  --logpath /data/shard2/log/shard2.log --fork --journal  --oplogSize 10
+mongod --shardsvr --replSet shard3 --port 22003 --dbpath /data/shard3/data  --logpath /data/shard3/log/shard3.log --fork --journal  --oplogSize 10
+
+
+# Shard_1 in Node(45.55.188.234)
+mongo  127.0.0.1:22001
+use admin
+config = { _id:&quot;shard1&quot;, members:[
+                     {_id:0,host:&quot;45.55.188.234:22001&quot;},
+                     {_id:1,host:&quot;45.55.186.238:22001&quot;},
+                {_id:2,host:&quot;104.131.106.22:22001&quot;,arbiterOnly:true}
+                ]
+         }
+rs.initiate(config);
+
+# Shard_2 in Node(45.55.186.238)
+mongo  127.0.0.1:22002
+use admin
+config = { _id:&quot;shard2&quot;, members:[
+                     {_id:0,host:&quot;45.55.186.238:22002&quot;},
+                     {_id:1,host:&quot;104.131.106.22:22002&quot;},
+                {_id:2,host:&quot;45.55.188.234:22002&quot;,arbiterOnly:true}
+                ]
+         }
+rs.initiate(config);
+
+# Shard_3 in Node(104.131.106.22)
+mongo  127.0.0.1:22003
+use admin
+config = { _id:&quot;shard3&quot;, members:[
+                     {_id:0,host:&quot;104.131.106.22:22003&quot;},
+                     {_id:1,host:&quot;45.55.188.234:22003&quot;},
+           {_id:2,host:&quot;45.55.186.238:22003&quot;,arbiterOnly:true}
+                ]
+         }
+rs.initiate(config);
+## if you need to reconfig, please use Cmd( rs.reconfig(your_para) )
+</code></pre>
+
+<h3 id="4-add-shard-config-just-in-one-of-vms:4aa0a68069c32ae3cd96af8e4943a95f">4. Add Shard Config just in one of VMs</h3>
+
+<p>It seems no master mode concept in MongoDB. So just choose one of it. Config Sharding info in mongos; I also made the sharding part on different machines (e.g. Primary Shard1 on Server One, Primary Shard2 on Server Two).</p>
+
+<pre><code>## no specific addr/port 
+mongo
+use admin
+
+db.runCommand({addshard : &quot;shard1/45.55.188.234:22001,45.55.186.238:22001,104.131.106.22:22001&quot;});
+
+db.runCommand({addshard: &quot;shard2/45.55.186.238:22002,104.131.106.22:22002,45.55.188.234:22002&quot;});
+
+db.runCommand({addshard : &quot;shard3/104.131.106.22:22003,45.55.188.234:22003,45.55.186.238:22003&quot;});
+
+## if you need to reset your previous setting
+## 
+db.runCommand( { removeShard: &quot;shard1&quot; } )
+
+#Test:
+db.runCommand( { enablesharding :&quot;stock&quot;});
+db.runCommand( { shardcollection : &quot;stock.quotes&quot;,key : {&quot;_id&quot;: 1} })
+
+for (var i = 1; i &lt;= 100000; i++) db.table1.save({id:i,&quot;test1&quot;:&quot;testval1&quot;});
+
+
+use admin
+db.addUser('test','test')
+db.auth('test','test')
+</code></pre>
+
+<h3 id="5-some-commmands-for-check-database-status:4aa0a68069c32ae3cd96af8e4943a95f">5. Some Commmands for check Database Status;</h3>
+
+<pre><code>db.stats();
+
+show databases
+
+db.dropDatabase()
+
+db.printShardingStatus()
+</code></pre>
+
+<h3 id="6-misc:4aa0a68069c32ae3cd96af8e4943a95f">6. Misc.</h3>
+
+<pre><code>## Sometimes export jar failed
+ zip -d stockCrawler.jar META-INF/LICENSE
+ jar tvf stockCrawler.jar | grep -i license
+ 
+ ## HDFS manipulation
+ 
+ hadoop fs -ls
+ hadoop fs -mkdir /user/${adminName}   
+ hadoop fs -touch test
+ hdfs dfs -copyFromLocal ${fileName}
+ hdfs dfs -cat ${fileName}
+ hadoop fs -rmr output
+ hadoop jar stockCrawler.jar
+ 
+ ## Some query example:
+ db.quotes.find({'historical_quotes.date':'2015-04-10'})
+ 
+</code></pre>
+
+        </article>
+  </div>
+</section>
+
+<aside id="meta">
+    <div itemscope itemtype="http://schema.org/SoftwareApplication" id="projectmeta">
+        
+
+        
+        <span class="smaller" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            Author: <span itemprop="name">Rui Bi</span></span><br>
+        <br>
+        
+        
+        
+        <meta itemprop="publisher" content="rui.com">
+        <meta itemprop="softwareApplicationCategory" content="UtilitiesApplication">
+        <meta itemprop="operatingSystems" content="Windows 7 and above, OSX 10.7 and above, linux">
+    </div>
+
+
+    <div>
+        <section id="datecount">
+          <h4 id="date"> Tue Mar 10, 2015 </h4>
+          <h5 id="wc"> 529 Words </h5>
+          <h5 id="readtime"> Read in about 3 Min </h5>
+        </section>
+        <ul id="categories">
+          
+        </ul>
+  
+        <ul id="tags">
+          
+            <li> <a href="http://xmruibi.github.io//tags/mongodb">MongoDB</a> </li>
+          
+            <li> <a href="http://xmruibi.github.io//tags/configuration">Configuration</a> </li>
+          
+        </ul>
+
+        <ul id="levels">
+          
+        </ul>
+    </div>
+
+    <div>
+        <section id="prev">
+            &nbsp;<a class="previous" href="http://xmruibi.github.io/post/conclusion/Algorithm%20Conclusion/"><i class="icon-arrow-left"></i> Algorithm Questions Conclusion</a><br>
+        </section>
+        <section id="next">
+            &nbsp;<a class="next" href="http://xmruibi.github.io/about/">About Me <i class="icon-arrow-right"></i></a>
+        </section>
+    </div>
+
+    <div>
+        <section id="author">
+             <h4>Note:</h4> 
+            <p>
+                ....
+            </p>
+        </section>
+    </div>
+
+</aside>
+
+<meta itemprop="wordCount" content="529">
+<meta itemprop="datePublished" content="2015-03-10">
+<meta itemprop="url" content="http://xmruibi.github.io/project/DistributedMongoDB/">
+
+
+
+<div id="outer_ribbon">
+<div id="ribbon">
+    <a href="https://github.com/xmruibi/MongoDBHadoopStockInfo" rel="me">Fork me on GitHub</a>
+</div> </div>
+
+
+<footer>
+  <div>
+    <p>
+    &copy; 2013-14 <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Rui Bi</span>,</span>
+    Some rights reserved;<br>
+    Powered by <a href="http://gohugo.io">Hugo</a>. Themes By <a href="http://spf13.com/"> SPF13</a>
+        Hosted by <a href="http://xmruibi.github.io">Github</a>.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript">
+(function(){var j=function(a,b){return window.getComputedStyle?getComputedStyle(a).getPropertyValue(b):a.currentStyle[b]};var k=function(a,b,c){if(a.addEventListener)a.addEventListener(b,c,false);else a.attachEvent('on'+b,c)};var l=function(a,b){for(key in b)if(b.hasOwnProperty(key))a[key]=b[key];return a};window.fitText=function(d,e,f){var g=l({'minFontSize':-1/0,'maxFontSize':1/0},f);var h=function(a){var b=e||1;var c=function(){a.style.fontSize=Math.max(Math.min(a.clientWidth/(b*10),parseFloat(g.maxFontSize)),parseFloat(g.minFontSize))+'px'};c();k(window,'resize',c)};if(d.length)for(var i=0;i<d.length;i++)h(d[i]);else h(d);return d}})();
+fitText(document.getElementById('title'), 1)
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-7131036-1', 'rui.com');
+  ga('require', 'linkid', 'linkid.js');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
+
