@@ -11,10 +11,10 @@
     
     <item>
       <title>Subarray Sum II</title>
-      <link>http://xmruibi.github.io/post/Algorithm/SubarraySumII/</link>
+      <link>http://xmruibi.github.io/post/algorithms/SubarraySumII/</link>
       <pubDate>Sat, 10 Oct 2015 21:18:09 -0700</pubDate>
       
-      <guid>http://xmruibi.github.io/post/Algorithm/SubarraySumII/</guid>
+      <guid>http://xmruibi.github.io/post/algorithms/SubarraySumII/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;java&#34;&gt;

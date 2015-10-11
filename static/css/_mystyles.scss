@@ -258,6 +258,16 @@ h3, h4, h5, h6 {
     padding-bottom: 1em;
 }
 
+#levels li {
+    font-style: italic;
+}
+
+#levels{
+    color: #FFF;
+    font-size:0.5em;
+    padding-top: 0.8em;
+}
+
 aside ul {
     @include bulletless;
 }

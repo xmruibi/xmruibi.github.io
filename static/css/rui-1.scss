@@ -1,17 +1,17 @@
 @font-face {
-	font-family: 'rui-1';
-	src:url('../fonts/rui-1.eot');
-	src:url('../fonts/rui-1.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/rui-1.woff') format('woff'),
-		url('../fonts/rui-1.ttf') format('truetype'),
-		url('../fonts/rui-1.svg#rui-1') format('svg');
+	font-family: 'fontawesome-webfont';
+	src:url('../fonts/fontawesome-webfont.eot');
+	src:url('../fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/fontawesome-webfont.woff') format('woff'),
+		url('../fonts/fontawesome-webfont.ttf') format('truetype'),
+		url('../fonts/fontawesome-webfont.svg#rui-1') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
-	font-family: 'rui-1';
+	font-family: 'rfontawesome-webfont;
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
