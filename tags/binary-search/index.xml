@@ -6,13 +6,13 @@
     <description>Recent content in Binary Search on Rui&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Oct 2015 13:37:08 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2015 13:37:08 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>SearchIn2DMatrixI</title>
+      <title>Search In 2D Matrix I</title>
       <link>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/</link>
-      <pubDate>Sun, 11 Oct 2015 13:37:08 -0700</pubDate>
+      <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
       
       <guid>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/</guid>
       <description>
@@ -91,7 +91,7 @@ public class Solution {
     <item>
       <title>Subarray Sum II</title>
       <link>http://xmruibi.github.io/post/algorithms/SubarraySumII/</link>
-      <pubDate>Thu, 08 Oct 2015 21:18:09 -0700</pubDate>
+      <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
       
       <guid>http://xmruibi.github.io/post/algorithms/SubarraySumII/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;

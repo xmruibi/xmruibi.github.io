@@ -6,13 +6,77 @@
     <description>Recent content in Two Pointer on Rui&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Oct 2015 13:37:08 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2015 13:35:30 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/two-pointer/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>SearchIn2DMatrixI</title>
+      <title>Search In 2D Matrix II</title>
+      <link>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixII/</link>
+      <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixII/</guid>
+      <description>
+
+&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
+
+&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Integers in each row are sorted from left to right.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Integers in each column are sorted from up to bottom.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;No duplicate integers in each row or column.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;solution:a5bec991679a7402cddd3c1b4b2198ca&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical Matrix Search Problem, using a condition for driven coordinate moving.&lt;/li&gt;
+&lt;li&gt;Here the value and target comparasion is the driven condition.&lt;/li&gt;
+&lt;li&gt;Since the sorted matrix, we can start from right top element.&lt;/li&gt;
+&lt;li&gt;Because on the diagonal from right top to left down, all the left elements are less than the right elments.&lt;/li&gt;
+&lt;li&gt;So we have three type of running condition and set the x, y coordinate differently.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix: A list of lists of integers
+     * @param: A number you want to search in the matrix
+     * @return: An integer indicate the occurrence of target in the given matrix
+     */
+
+    public int searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if(matrix == null || matrix.length == 0)
+            return 0;
+        int rightTop = matrix[0][matrix[0].length - 1];
+        int x = 0, y = matrix[0].length - 1;
+        int occ = 0;
+        while(x &lt; matrix.length &amp;&amp; y &gt;= 0) {
+            int cur = matrix[x][y];
+            if(cur == target) {
+                occ ++;
+                x++; y--;
+            }else if(cur &lt; target)
+                x++;
+            else
+                y--;
+        }       
+        return occ;
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Search In 2D Matrix I</title>
       <link>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/</link>
-      <pubDate>Sun, 11 Oct 2015 13:37:08 -0700</pubDate>
+      <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
       
       <guid>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/</guid>
       <description>
@@ -81,70 +145,6 @@ public class Solution {
             return true;
         else
             return false;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Search In 2D Matrix II</title>
-      <link>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixII/</link>
-      <pubDate>Sun, 11 Oct 2015 13:35:30 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixII/</guid>
-      <description>
-
-&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
-
-&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Integers in each row are sorted from left to right.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Integers in each column are sorted from up to bottom.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;No duplicate integers in each row or column.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;solution:a5bec991679a7402cddd3c1b4b2198ca&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical Matrix Search Problem, using a condition for driven coordinate moving.&lt;/li&gt;
-&lt;li&gt;Here the value and target comparasion is the driven condition.&lt;/li&gt;
-&lt;li&gt;Since the sorted matrix, we can start from right top element.&lt;/li&gt;
-&lt;li&gt;Because on the diagonal from right top to left down, all the left elements are less than the right elments.&lt;/li&gt;
-&lt;li&gt;So we have three type of running condition and set the x, y coordinate differently.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @param: A number you want to search in the matrix
-     * @return: An integer indicate the occurrence of target in the given matrix
-     */
-
-    public int searchMatrix(int[][] matrix, int target) {
-        // write your code here
-        if(matrix == null || matrix.length == 0)
-            return 0;
-        int rightTop = matrix[0][matrix[0].length - 1];
-        int x = 0, y = matrix[0].length - 1;
-        int occ = 0;
-        while(x &lt; matrix.length &amp;&amp; y &gt;= 0) {
-            int cur = matrix[x][y];
-            if(cur == target) {
-                occ ++;
-                x++; y--;
-            }else if(cur &lt; target)
-                x++;
-            else
-                y--;
-        }       
-        return occ;
     }
 }
 &lt;/code&gt;

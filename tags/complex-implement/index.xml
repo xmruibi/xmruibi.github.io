@@ -6,13 +6,13 @@
     <description>Recent content in Complex Implement on Rui&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Oct 2015 22:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2015 22:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/complex-implement/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Set Matrix Zeroes</title>
       <link>http://xmruibi.github.io/post/algorithms/SetZeroes/</link>
-      <pubDate>Sun, 11 Oct 2015 22:10:29 -0700</pubDate>
+      <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
       
       <guid>http://xmruibi.github.io/post/algorithms/SetZeroes/</guid>
       <description>
@@ -80,9 +80,9 @@ public class Solution {
     </item>
     
     <item>
-      <title>RotateImage</title>
+      <title>Rotate Image</title>
       <link>http://xmruibi.github.io/post/algorithms/RotateImage/</link>
-      <pubDate>Sun, 11 Oct 2015 16:06:19 -0700</pubDate>
+      <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
       
       <guid>http://xmruibi.github.io/post/algorithms/RotateImage/</guid>
       <description>
