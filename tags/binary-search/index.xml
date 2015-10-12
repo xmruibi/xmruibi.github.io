@@ -6,8 +6,87 @@
     <description>Recent content in Binary Search on Rui&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Oct 2015 21:18:09 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2015 13:37:08 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SearchIn2DMatrixI</title>
+      <link>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/</link>
+      <pubDate>Sun, 11 Oct 2015 13:37:08 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/</guid>
+      <description>
+
+&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
+
+&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integers in each row are sorted from left to right.&lt;/li&gt;
+&lt;li&gt;The first integer of each row is greater than the last integer of the previous row.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;solution:f10b94d913674fb49b94f61e480eb3d9&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First binary search with checking the first element in each row so that we can find the row may contain the target number;&lt;/li&gt;
+&lt;li&gt;So we search the lowbound of target number. However, we also can do if the element is just equals to target number then directly return for reducing time.&lt;/li&gt;
+&lt;li&gt;Once we get the target row, then we do the second binary search in this row to find the target number.&lt;/li&gt;
+&lt;li&gt;All in all, two binary search to find the target!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix, a list of lists of integers
+     * @param target, an integer
+     * @return a boolean, indicate whether matrix contains target
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if(matrix == null || matrix.length == 0)
+            return false;
+        
+        int up = 0, down = matrix.length - 1;
+        while(up &lt; down - 1) {
+            int mrow = up + ((down - up) &gt;&gt; 1);
+            if(matrix[mrow][0] == target)
+                return true;
+            if(matrix[mrow][0] &lt; target)
+                up = mrow;
+            else
+                down = mrow;
+        }
+        int curRow;
+        if(matrix[up][0] &gt; target)
+            return false;
+        else if(matrix[up][0] &lt;= target &amp;&amp; matrix[down][0] &gt; target)
+            curRow = up;
+        else
+            curRow = down;
+        
+        int l = 0, r = matrix[curRow].length - 1;
+        while(l &lt; r - 1) {
+            int m = l + ((r - l) &gt;&gt; 1);
+            if(matrix[curRow][m] == target)
+                return true;
+            else if(matrix[curRow][m] &lt; target)
+                l = m;
+            else
+                r = m;
+        }
+        
+        if(matrix[curRow][l] == target || matrix[curRow][r] == target)
+            return true;
+        else
+            return false;
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Subarray Sum II</title>

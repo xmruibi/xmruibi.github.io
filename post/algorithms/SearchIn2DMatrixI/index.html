@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="keywords" content="Matrix, Binary Search, Two Pointer, ">
+
+ 
+<meta property="og:type" content="article"/>
+<meta property="og:description" content=""/>
+<meta property="og:title" content="SearchIn2DMatrixI : rui.com"/>
+<meta property="og:site_name" content="Rui"/>
+<meta property="og:image" content="" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="" />
+<meta property="og:image:height" content="" />
+<meta property="og:url" content="http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-10-11"/>
+<meta property="article:modified_time" content="2015-10-11"/>
+
+
+
+<meta property="article:tag" content="Matrix">
+<meta property="article:tag" content="Binary Search">
+<meta property="article:tag" content="Two Pointer">
+
+
+
+
+
+
+
+    <base href="http://xmruibi.github.io/">
+    <title> SearchIn2DMatrixI - xmruibi.github.io </title>
+    <link rel="canonical" href="http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/">
+    
+
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/static/css/style.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+
+<body lang="en" itemscope itemtype="http://schema.org/Article">
+<header id="header">
+    <figure>
+      <a href="/" border=0 id="logolink"><img src="apple-touch-icon.png" style="padding-left: 2em"></a>
+    </figure>
+    <div id="byline">Rui Bi</div>
+    <nav id="nav">
+            <ul id="mainnav">
+            <li>
+                <a href="/post/">
+                <span class="icon"> <i aria-hidden="true" class="icon-quill"></i></span>
+                <span> blog </span>
+            </a>
+            </li>
+            <li>
+            <a href="/project/">
+                <span class="icon"> <i aria-hidden="true" class="icon-github-2"></i></span>
+                <span> code </span>
+            </a>
+            </li>
+            <li>
+            <a href="/life/">
+                <span class="icon"> <i aria-hidden="true" class="icon-airplane"></i></span>
+                <span> life </span>
+            </a>
+            </li>
+            <li>
+            <a href="/about">
+                <span class="icon"> <i aria-hidden="true" class="icon-happy"></i></span>
+                <span> me </span>
+            </a> 
+            </li>
+            
+        </ul>
+
+            <ul id="social">
+            
+            <li id="follow">
+                <span class="icon icon-rocket"> </span>
+                <span class="title"> follow </span>
+                <div class="dropdown follow">
+                    <ul class="social">
+                        
+                        <li> <a href="http://www.linkedin.com/in/ruibi" target="_blank" title="LinkedIn" class="linkedin"><span class="icon icon-linkedin"></span>LinkedIn</a> </li>
+                        <li> <a href="http://github.com/xmruibi" target="_blank" title="GitHub" class="github"><span class="icon icon-github"></span>GitHub</a> </li>
+                    </ul>
+                    
+                </div>
+            </li>
+        </ul>
+
+    </nav>
+</header>
+
+
+
+<section id="main">
+  <h1 itemprop="name" id="title">SearchIn2DMatrixI</h1>
+  <div>
+        <article itemprop="articleBody" id="content">
+           
+
+<p>Write an efficient algorithm that searches for a value in an m x n matrix.</p>
+
+<p>This matrix has the following properties:</p>
+
+<ul>
+<li>Integers in each row are sorted from left to right.</li>
+<li>The first integer of each row is greater than the last integer of the previous row.</li>
+</ul>
+
+<h4 id="solution:f10b94d913674fb49b94f61e480eb3d9">Solution:</h4>
+
+<ul>
+<li>First binary search with checking the first element in each row so that we can find the row may contain the target number;</li>
+<li>So we search the lowbound of target number. However, we also can do if the element is just equals to target number then directly return for reducing time.</li>
+<li>Once we get the target row, then we do the second binary search in this row to find the target number.</li>
+<li>All in all, two binary search to find the target!</li>
+</ul>
+
+<pre>
+<code class="java">
+public class Solution {
+    /**
+     * @param matrix, a list of lists of integers
+     * @param target, an integer
+     * @return a boolean, indicate whether matrix contains target
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if(matrix == null || matrix.length == 0)
+            return false;
+        
+        int up = 0, down = matrix.length - 1;
+        while(up < down - 1) {
+            int mrow = up + ((down - up) >> 1);
+            if(matrix[mrow][0] == target)
+                return true;
+            if(matrix[mrow][0] < target)
+                up = mrow;
+            else
+                down = mrow;
+        }
+        int curRow;
+        if(matrix[up][0] > target)
+            return false;
+        else if(matrix[up][0] <= target && matrix[down][0] > target)
+            curRow = up;
+        else
+            curRow = down;
+        
+        int l = 0, r = matrix[curRow].length - 1;
+        while(l < r - 1) {
+            int m = l + ((r - l) >> 1);
+            if(matrix[curRow][m] == target)
+                return true;
+            else if(matrix[curRow][m] < target)
+                l = m;
+            else
+                r = m;
+        }
+        
+        if(matrix[curRow][l] == target || matrix[curRow][r] == target)
+            return true;
+        else
+            return false;
+    }
+}
+</code>
+</pre>
+
+        </article>
+  </div>
+</section>
+
+
+
+<aside id="meta">
+
+    <div>
+        <section id="datecount">
+          <h4 id="date"> Sun Oct 11, 2015 </h4>
+          <h5 id="wc"> 228 Words </h5>
+          <h5 id="readtime"> Read in about 2 Min </h5>
+        </section>
+        <ul id="categories">
+          
+            <li><a href="http://xmruibi.github.io//categories/algorithm">Algorithm</a> </li>
+          
+        </ul>
+  
+        <ul id="tags">
+          
+            <li> <a href="http://xmruibi.github.io//tags/matrix">Matrix</a> </li>
+          
+            <li> <a href="http://xmruibi.github.io//tags/binary-search">Binary Search</a> </li>
+          
+            <li> <a href="http://xmruibi.github.io//tags/two-pointer">Two Pointer</a> </li>
+          
+        </ul>
+
+        <ul id="levels">
+          
+            <li>Easy </li>
+          
+        </ul>
+    </div>
+
+    <div>
+        <section id="prev">
+            &nbsp;<a class="previous" href="http://xmruibi.github.io/post/algorithms/RouteBetweenDirectedGraph/"><i class="icon-arrow-left"></i> Route Between Two Nodes in Directed Graph</a><br>
+        </section>
+        <section id="next">
+            &nbsp;<a class="next" href="http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixII/">Search In 2D Matrix II <i class="icon-arrow-right"></i></a>
+        </section>
+    </div>
+
+    <div>
+        <section id="author">
+             <h4>Note:</h4> 
+            <p>
+                ....
+            </p>
+        </section>
+    </div>
+
+</aside>
+
+<meta itemprop="wordCount" content="228">
+<meta itemprop="datePublished" content="2015-10-11">
+<meta itemprop="url" content="http://xmruibi.github.io/post/algorithms/SearchIn2DMatrixI/">
+
+
+<aside id=comments>
+    <div><h2> Comments </h2></div>
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/post\/algorithms\/SearchIn2DMatrixI\/';
+    var disqus_title = 'SearchIn2DMatrixI';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/post\/algorithms\/SearchIn2DMatrixI\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</aside>
+
+<footer>
+  <div>
+    <p>
+    &copy; 2013-14 <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Rui Bi</span>,</span>
+    Some rights reserved;<br>
+    Powered by <a href="http://gohugo.io">Hugo</a>. Themes By <a href="http://spf13.com/"> SPF13</a>
+        Hosted by <a href="http://xmruibi.github.io">Github</a>.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript">
+(function(){var j=function(a,b){return window.getComputedStyle?getComputedStyle(a).getPropertyValue(b):a.currentStyle[b]};var k=function(a,b,c){if(a.addEventListener)a.addEventListener(b,c,false);else a.attachEvent('on'+b,c)};var l=function(a,b){for(key in b)if(b.hasOwnProperty(key))a[key]=b[key];return a};window.fitText=function(d,e,f){var g=l({'minFontSize':-1/0,'maxFontSize':1/0},f);var h=function(a){var b=e||1;var c=function(){a.style.fontSize=Math.max(Math.min(a.clientWidth/(b*10),parseFloat(g.maxFontSize)),parseFloat(g.minFontSize))+'px'};c();k(window,'resize',c)};if(d.length)for(var i=0;i<d.length;i++)h(d[i]);else h(d);return d}})();
+fitText(document.getElementById('title'), 1)
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-7131036-1', 'rui.com');
+  ga('require', 'linkid', 'linkid.js');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
+
