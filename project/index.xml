@@ -189,24 +189,48 @@ db.printShardingStatus()
 
 &lt;p&gt;A system for figuring out the category of user query in search engine and potential subtask of user in group searching task.&lt;/p&gt;
 
-&lt;h3 id=&#34;basically:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Basically&lt;/h3&gt;
+&lt;h2 id=&#34;basically:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Basically&lt;/h2&gt;
 
 &lt;p&gt;Query classifier is some kind of that when you give a query then it return the most possible category or topic of this query.But things are little bit different here. Because this query classifier is a subproject for collaborative search engine.&lt;/p&gt;
 
-&lt;h3 id=&#34;as-for-collaborative-search-engine:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;As for Collaborative Search Engine&lt;/h3&gt;
+&lt;h2 id=&#34;collaborative-search-engine:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Collaborative Search Engine&lt;/h2&gt;
 
 &lt;p&gt;That is a search engine platform for a team not an individual (As you know, most of current search engine are just personized for individual). In here we set some experiments according to the real situation that when a team is addressing some problems around a certain task. For example, we assumed a team are planning to go for a travel, so one of guy focus on booking hotel or airline ticket, one guy focus on studying the route of attractions. Then the collaborative search engine should give each person different ranking results.&lt;/p&gt;
 
-&lt;h3 id=&#34;why-need-query-classifier:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Why need query classifier?&lt;/h3&gt;
+&lt;h2 id=&#34;why-need-query-classifier:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Why need query classifier?&lt;/h2&gt;
 
 &lt;p&gt;We assume that during the collaborative search engine working, a team is working on a certain task. And there is a task statement wrote by natural language. In task statement, the subtopic also indicated by some sentences. (Experiment initial stage) So my query classifier is trying to figure out the input query belong to what kind of subtopic under this task.&lt;/p&gt;
 
-&lt;h3 id=&#34;procedure:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Procedure:&lt;/h3&gt;
+&lt;h2 id=&#34;what-does-classifier-result-look-like:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;What does classifier result look like?&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve set two experimental tasks for team searching. One is (Study on Social Media). Another is travel in Helsinki. I did some example queries on Console and screenshot results.&lt;/p&gt;
+
+&lt;p&gt;For traveling task, we assumed we have three people searching on three aspects in Helsinki: culture, dining and outdoor activity.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;media/TravelTask.png&#34; alt=&#34;&#34; &gt;&lt;/p&gt;
+
+&lt;p&gt;For social media study, we assumed five subtopics for team member:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Emergence and spread of social networking sites, such as MySpace, Facebook, Twitter, and del.icio.us&lt;/li&gt;
+&lt;li&gt;Statistics about popularity of such sites-(How many users? How much time they spend? How much content?)&lt;/li&gt;
+&lt;li&gt;Impacts on students and professionals&lt;/li&gt;
+&lt;li&gt;Commerce around these sites-(How do they make money? How do users use them to make money?)&lt;/li&gt;
+&lt;li&gt;Examples of usage of such services in various domains, such as healthcare and politics&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;media/SocialMedia1.png&#34; alt=&#34;&#34; &gt;
+&lt;img src=&#34;media/SocialMedia2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;How about them by scores and rank?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;media/SocialMedia3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;procedure:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Procedure:&lt;/h2&gt;
 
 &lt;h4 id=&#34;step-0-basic-idea:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 0. Basic idea&lt;/h4&gt;
 
-&lt;pre&gt;&lt;code&gt;Build language model for each subtopic in one task and get the relevance score between query and subtopic model.  
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Build language model for each subtopic in one task and get the relevance score between query and subtopic model.&lt;/p&gt;
 
 &lt;h4 id=&#34;step-1-corpus:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 1. Corpus&lt;/h4&gt;
 
@@ -250,7 +274,7 @@ length are used differ.&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;how-to-implement:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;How to implement?&lt;/h3&gt;
+&lt;h2 id=&#34;how-to-implement:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;How to implement?&lt;/h2&gt;
 
 &lt;h3 id=&#34;subtopic-language-model:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Subtopic Language Model&lt;/h3&gt;
 
@@ -289,7 +313,7 @@ Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delic
 
 &lt;p&gt;However, sometimes the term may not get any frequency in collection which is shown as c(w,D) in equation due to the collection may not rich enough for some terms. To deal with this problem, I tried to use the title of task as query to search on Google and get its TOP 50 result as the collection background.&lt;/p&gt;
 
-&lt;h3 id=&#34;query-expansion:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Query Expansion&lt;/h3&gt;
+&lt;h2 id=&#34;query-expansion:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Query Expansion&lt;/h2&gt;
 
 &lt;h4 id=&#34;1-expansion-content:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;1. Expansion Content&lt;/h4&gt;
 

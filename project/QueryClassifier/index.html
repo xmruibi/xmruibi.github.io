@@ -118,24 +118,48 @@
 
 <p>A system for figuring out the category of user query in search engine and potential subtask of user in group searching task.</p>
 
-<h3 id="basically:7e4628281278dc6dc1c2688a607a2efd">Basically</h3>
+<h2 id="basically:7e4628281278dc6dc1c2688a607a2efd">Basically</h2>
 
 <p>Query classifier is some kind of that when you give a query then it return the most possible category or topic of this query.But things are little bit different here. Because this query classifier is a subproject for collaborative search engine.</p>
 
-<h3 id="as-for-collaborative-search-engine:7e4628281278dc6dc1c2688a607a2efd">As for Collaborative Search Engine</h3>
+<h2 id="collaborative-search-engine:7e4628281278dc6dc1c2688a607a2efd">Collaborative Search Engine</h2>
 
 <p>That is a search engine platform for a team not an individual (As you know, most of current search engine are just personized for individual). In here we set some experiments according to the real situation that when a team is addressing some problems around a certain task. For example, we assumed a team are planning to go for a travel, so one of guy focus on booking hotel or airline ticket, one guy focus on studying the route of attractions. Then the collaborative search engine should give each person different ranking results.</p>
 
-<h3 id="why-need-query-classifier:7e4628281278dc6dc1c2688a607a2efd">Why need query classifier?</h3>
+<h2 id="why-need-query-classifier:7e4628281278dc6dc1c2688a607a2efd">Why need query classifier?</h2>
 
 <p>We assume that during the collaborative search engine working, a team is working on a certain task. And there is a task statement wrote by natural language. In task statement, the subtopic also indicated by some sentences. (Experiment initial stage) So my query classifier is trying to figure out the input query belong to what kind of subtopic under this task.</p>
 
-<h3 id="procedure:7e4628281278dc6dc1c2688a607a2efd">Procedure:</h3>
+<h2 id="what-does-classifier-result-look-like:7e4628281278dc6dc1c2688a607a2efd">What does classifier result look like?</h2>
+
+<p>We&rsquo;ve set two experimental tasks for team searching. One is (Study on Social Media). Another is travel in Helsinki. I did some example queries on Console and screenshot results.</p>
+
+<p>For traveling task, we assumed we have three people searching on three aspects in Helsinki: culture, dining and outdoor activity.</p>
+
+<p><img src="media/TravelTask.png" alt="" ></p>
+
+<p>For social media study, we assumed five subtopics for team member:</p>
+
+<ul>
+<li>Emergence and spread of social networking sites, such as MySpace, Facebook, Twitter, and del.icio.us</li>
+<li>Statistics about popularity of such sites-(How many users? How much time they spend? How much content?)</li>
+<li>Impacts on students and professionals</li>
+<li>Commerce around these sites-(How do they make money? How do users use them to make money?)</li>
+<li>Examples of usage of such services in various domains, such as healthcare and politics</li>
+</ul>
+
+<p><img src="media/SocialMedia1.png" alt="" >
+<img src="media/SocialMedia2.png" alt=""></p>
+
+<p>How about them by scores and rank?</p>
+
+<p><img src="media/SocialMedia3.png" alt=""></p>
+
+<h2 id="procedure:7e4628281278dc6dc1c2688a607a2efd">Procedure:</h2>
 
 <h4 id="step-0-basic-idea:7e4628281278dc6dc1c2688a607a2efd">Step 0. Basic idea</h4>
 
-<pre><code>Build language model for each subtopic in one task and get the relevance score between query and subtopic model.  
-</code></pre>
+<p>Build language model for each subtopic in one task and get the relevance score between query and subtopic model.</p>
 
 <h4 id="step-1-corpus:7e4628281278dc6dc1c2688a607a2efd">Step 1. Corpus</h4>
 
@@ -179,7 +203,7 @@ length are used differ.</p>
 </ul></li>
 </ul>
 
-<h3 id="how-to-implement:7e4628281278dc6dc1c2688a607a2efd">How to implement?</h3>
+<h2 id="how-to-implement:7e4628281278dc6dc1c2688a607a2efd">How to implement?</h2>
 
 <h3 id="subtopic-language-model:7e4628281278dc6dc1c2688a607a2efd">Subtopic Language Model</h3>
 
@@ -218,7 +242,7 @@ Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delic
 
 <p>However, sometimes the term may not get any frequency in collection which is shown as c(w,D) in equation due to the collection may not rich enough for some terms. To deal with this problem, I tried to use the title of task as query to search on Google and get its TOP 50 result as the collection background.</p>
 
-<h3 id="query-expansion:7e4628281278dc6dc1c2688a607a2efd">Query Expansion</h3>
+<h2 id="query-expansion:7e4628281278dc6dc1c2688a607a2efd">Query Expansion</h2>
 
 <h4 id="1-expansion-content:7e4628281278dc6dc1c2688a607a2efd">1. Expansion Content</h4>
 
@@ -256,8 +280,8 @@ Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delic
     <div>
         <section id="datecount">
           <h4 id="date"> Mon Jan 12, 2015 </h4>
-          <h5 id="wc"> 1145 Words </h5>
-          <h5 id="readtime"> Read in about 6 Min </h5>
+          <h5 id="wc"> 1281 Words </h5>
+          <h5 id="readtime"> Read in about 7 Min </h5>
         </section>
         <ul id="categories">
           
@@ -300,7 +324,7 @@ Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delic
 
 </aside>
 
-<meta itemprop="wordCount" content="1145">
+<meta itemprop="wordCount" content="1281">
 <meta itemprop="datePublished" content="2015-01-12">
 <meta itemprop="url" content="http://xmruibi.github.io/project/QueryClassifier/">
 
