@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Query Classifier  &middot; Coder Thinking -- Home Page</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="Classification, Collaborative Search Engine, ">
+
+
+<meta property="og:title" content="Query Classifier  &middot; Coder Thinking -- Home Page ">
+<meta property="og:site_name" content="Coder Thinking -- Home Page"/>
+<meta property="og:url" content="/xmruibi.github.io/code/QueryClassifier/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-01-12T15:33:07-07:00" />
+<meta property="og:article:modified_time" content="2015-01-12T15:33:07-07:00" />
+
+  
+    
+<meta property="og:article:tag" content="Classification">
+    
+<meta property="og:article:tag" content="Collaborative Search Engine">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="Query Classifier" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="/xmruibi.github.io/code/QueryClassifier/" />
+<meta name="twitter:domain" content="/xmruibi.github.io">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Query Classifier",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-01-12",
+    "description": "",
+    "wordCount":  1282 
+  }
+</script>
+
+
+
+<link rel="canonical" href="/xmruibi.github.io/code/QueryClassifier/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="xmruibi.github.io/touch-icon-144-precomposed.png">
+<link href="xmruibi.github.io/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.14" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="xmruibi.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="xmruibi.github.io/css/style.css">
+<link rel="stylesheet" href="xmruibi.github.io/css/search.css">
+<link rel="stylesheet" href="xmruibi.github.io/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="/xmruibi.github.io">
+  Rui
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  A Coder, A Thinker, A Traveler
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+<a class="homelink" href="/xmruibi.github.io">Home</a>
+
+
+  
+<a href="xmruibi.github.io/topics/algorithm" title="Show list of topics">Algorithm</a>
+
+<a href="xmruibi.github.io/code" title="Show list of projects">Project</a>
+
+<a href="xmruibi.github.io/life" title="Show list of trips">Travel</a>
+
+<a href="xmruibi.github.io/post" title="Show list of posts">Archive</a>
+
+
+</nav>
+
+<div class="container nav primary no-print" style="position: relative;
+ margin-top: 2em;margin-bottom: 2em; ">
+<form id="search">
+	<input type="search" placeholder="Search">
+</form>
+ </div>
+<div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
+  
+<a href="xmruibi.github.io/about">About</a>
+
+<a href="xmruibi.github.io/tags" title="Show list of tags">Tags</a>
+
+<a href="xmruibi.github.io/topics" title="Show list of topics">Topics</a>
+
+</div>
+<div class="container nav secondary no-print" style="position: relative;
+ margin-bottom: 0em;">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:xmruibi@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/xmruibi">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+<a id="contact-link-linkedin" class="contact_link" href="fr.linkedin.com/in/ruibi">
+  <span class="fa fa-linkedin-square"></span><span>linkedin</span></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Query Classifier
+</h1>
+
+  <div class="badges">
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a class="ribbon git upright" href="https://github.com/xmruibi/SearchEngineQueryClassifier">
+  <img
+    src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+    alt="Fork me on GitHub">
+</a>
+
+
+
+
+</header>
+
+  <div class="container content">
+  
+
+<p>A system for figuring out the category of user query in search engine and potential subtask of user in group searching task.</p>
+
+<h2 id="basically">Basically</h2>
+
+<p>Query classifier is some kind of that when you give a query then it return the most possible category or topic of this query.But things are little bit different here. Because this query classifier is a subproject for collaborative search engine.</p>
+
+<h2 id="collaborative-search-engine">Collaborative Search Engine</h2>
+
+<p>That is a search engine platform for a team not an individual (As you know, most of current search engine are just personized for individual). In here we set some experiments according to the real situation that when a team is addressing some problems around a certain task. For example, we assumed a team are planning to go for a travel, so one of guy focus on booking hotel or airline ticket, one guy focus on studying the route of attractions. Then the collaborative search engine should give each person different ranking results.</p>
+
+<h2 id="why-need-query-classifier">Why need query classifier?</h2>
+
+<p>We assume that during the collaborative search engine working, a team is working on a certain task. And there is a task statement wrote by natural language. In task statement, the subtopic also indicated by some sentences. (Experiment initial stage) So my query classifier is trying to figure out the input query belong to what kind of subtopic under this task.</p>
+
+<h2 id="what-does-classifier-result-look-like">What does classifier result look like?</h2>
+
+<p>We&rsquo;ve set two experimental tasks for team searching. One is (Study on Social Media). Another is travel in Helsinki. I did some example queries on Console and screenshot results.</p>
+
+<p>For traveling task, we assumed we have three people searching on three aspects in Helsinki: culture, dining and outdoor activity.</p>
+
+<p>![preview](media/TravelTask.png&raquo;）</p>
+
+<p>For social media study, we assumed five subtopics for team member:</p>
+
+<ul>
+<li>Emergence and spread of social networking sites, such as MySpace, Facebook, Twitter, and del.icio.us</li>
+<li>Statistics about popularity of such sites-(How many users? How much time they spend? How much content?)</li>
+<li>Impacts on students and professionals</li>
+<li>Commerce around these sites-(How do they make money? How do users use them to make money?)</li>
+<li>Examples of usage of such services in various domains, such as healthcare and politics</li>
+</ul>
+
+<p><img src="media/SocialMedia1.png" alt="" >
+<img src="media/SocialMedia2.png" alt=""></p>
+
+<p>How about them by scores and rank?</p>
+
+<p><img src="media/SocialMedia3.png" alt=""></p>
+
+<h2 id="procedure">Procedure:</h2>
+
+<h4 id="step-0-basic-idea">Step 0. Basic idea</h4>
+
+<p>Build language model for each subtopic in one task and get the relevance score between query and subtopic model.</p>
+
+<h4 id="step-1-corpus">Step 1. Corpus</h4>
+
+<p>Set up Corpus for task and each subtopic
+ - Keywords extraction from task statement
+     - We believe the keyword should be noun or proper noun or noun phrase from task statement.
+     - Then Stanford NLP parser to get part-of-speech tags.<br />
+     - There is a little bit tricky during finding the noun phrase. As we know the NLP parser generate the tagging sentences as a tree. Every leaf of tree is the word in sentence. But we need look up the parent nodes or grandparent nodes of leaves to get the phrase tag. So each time even if we find a word is noun or proper noun we still need to check its upper level nodes and consider its tags.</p>
+
+<ul>
+<li>Build keywords as query on Google
+
+<ul>
+<li>A subtopic can be represent by some keywords combination:</li>
+<li>Those keywords can be formed as the queries</li>
+<li>Fetch the Google Top 20 Results title and snippet as the subtopic model</li>
+</ul></li>
+</ul>
+
+<h4 id="step-2-evaluate-query-and-subtopic-relevance">Step 2. Evaluate Query and Subtopic Relevance</h4>
+
+<p>I consider both classical statistic model and language model and get relevance score from two part, but different weights on two models (0.8 and 0.2). As we know language model has better performance. Because, the language model is more rely on the real language rules other than the mathematical statistical rules and  the details of how statistics like term frequency and document
+length are used differ.</p>
+
+<ul>
+<li><p>Query Likelihood Model: Dirichlet Smoothing Algorithm</p>
+
+<ul>
+<li>considering term frequency and collection frequency</li>
+<li>Using a reference model (collection language model) to discriminate unseen words.
+    $$P(w|D) = \frac{c(w,M_D)+\mu\cdot P(w|M_C)}{|D|+\mu}$$
+    |D| means the length of current document!
+    $c(w,M_D)$ means the term frequency in a document</li>
+</ul></li>
+
+<li><p>Vector Space Model: using TF-IDF score</p>
+
+<ul>
+<li>The vector between subtopic model and query</li>
+<li>but did some query expansion: top 5 snippet from google result as expansion</li>
+</ul></li>
+</ul>
+
+<h2 id="how-to-implement">How to implement?</h2>
+
+<h3 id="subtopic-language-model">Subtopic Language Model</h3>
+
+<h4 id="1-keyword-extraction">1. Keyword Extraction</h4>
+
+<p>Keywords extraction means to extracted keywords from task statement and subtopic statement. These keywords would be combined as queries to search on Google and crawl their Top 20 result as the language model for subtopic.
+In this study, I use the Stanford Nature language parser package to extraction noun word leaves from statement as a keyword, moreover, if a certain noun word leaf has parent node which is noun phrase, the noun phrase should be used as keyword.</p>
+
+<p>Keyword Extraction Example from Task 2 and Task 5
+(Word with “+” means the proper noun)</p>
+
+<p>Keywords for Task 2:
+Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delicious+, statistics, popularity, sites, users, time, impacts, students, professionals, commerce, money, examples, usage, services, domains, healthcare, politics</p>
+
+<p>Keywords for Task 5:
+ friend, four-day vacation, December+, Helsinki+, Finland+, information, vacation, flights, US+, hotels, activities, goal, joint plan, things, Euros, person, group, vacation, outdoor activity, dining activity, cultural activity, types, addition</p>
+
+<h4 id="2-corpus-set-up">2. Corpus Set Up</h4>
+
+<p>According to the keywords extracted from task or subtopic statement, these keywords can be combined as query for each subtopic. Here are the combination rules:</p>
+
+<ul>
+<li>1)   Keywords from task statement should regarded as a collection.</li>
+<li>2)   Proper Noun words should regarded as a collection.</li>
+<li>3)   Keywords from each subtopic statement should regarded as a collection.</li>
+<li>4)   Those keywords come from three collections combined as a query represent for each subtopic.</li>
+</ul>
+
+<p>Using these query and search the TOP 20 results on Google, the titles and snippets on the Google result pages can regarded as the corpus for describing each subtopic .</p>
+
+<h4 id="3-dirichlet-prior-smoothing">3. Dirichlet Prior Smoothing</h4>
+
+<p>Once the corpus built up, We nned build language model for getting the likehood of each query belong to what kind of subtopic. I use Dirichlet Prior Smoothing (DPS) method to get the probability of each term from a query in a certain subtopic language model. Then get product by these probability. The probability can be regarded as score one.</p>
+
+<h4 id="4-collection-expansion">4. Collection Expansion</h4>
+
+<p>However, sometimes the term may not get any frequency in collection which is shown as c(w,D) in equation due to the collection may not rich enough for some terms. To deal with this problem, I tried to use the title of task as query to search on Google and get its TOP 50 result as the collection background.</p>
+
+<h2 id="query-expansion">Query Expansion</h2>
+
+<h4 id="1-expansion-content">1. Expansion Content</h4>
+
+<p>For each user query, I first search the query on Google with fetching its TOP 5 results. The titles and snippets are combined as the query’s expansion.</p>
+
+<h4 id="2-tfidf-similarity-by-vsm">2. TFIDF Similarity by VSM</h4>
+
+<p>For each query expansion content and subtopic description content (Language model), they can be figured out with two vectors according the terms TFIDF values in two contents. Using the VSM model with these two vectors, then can calculate the similarity between query expansion content and subtopic description. The similarity value can be regarded as score two in this study.</p>
+
+<h3 id="3-performance-progress">3.  Performance Progress</h3>
+
+<p>The experiments are stepping by several stages. At the first stage, only language model with Dirichlet Prior Smoothing score applied to evaluate whether a query matching with the subtopic. Under this case, the precision  of experiment is just over than 0.64. Then after inserting the collection background, the precision is improved to 0.73. Finally, with combining DFS score and VSM similarity score, the precision has lift to over 0.81, which is acceptable for the study. So far, we decide to leave the rest of possible features and only use the DFS score and VSM similarity score for the query – subtopic rank system.</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+
+    
+    <a class="next" href="/xmruibi.github.io/code/DistributedMongoDB/" title="Distributed MongoDB Configuration">
+      Newer Article
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    
+    
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+<a class="toplink" href="#">back to top</a>
+
+</div>
+<div class="container nav foot no-print">
+  
+
+  
+</div>
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  code with <i class='fa fa-heart'></i>
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2015 Rui Bi.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="xmruibi.github.io/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

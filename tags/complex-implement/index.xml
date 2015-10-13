@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Complex Implement on Coder Thinking -- Home Page</title>
+    <link>xmruibi.github.io/tags/complex-implement/</link>
+    <description>Recent content in Complex Implement on Coder Thinking -- Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Fri, 18 Sep 2015 22:10:29 -0700</lastBuildDate>
+    <atom:link href="xmruibi.github.io/tags/complex-implement/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Set Matrix Zeroes</title>
+      <link>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
+      <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
+      <description>
+
+&lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
+
+&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use the first row (up row) and the first col (left col) to record the position info of zeroes in matrix;&lt;/li&gt;
+&lt;li&gt;But we also need to set two boolean value to check if there is zero in first row and first col;&lt;/li&gt;
+&lt;li&gt;Then go through the matrix again, when [i][0] is marked zero or [0][j] is marked zero set current position as zero! This is important!;&lt;/li&gt;
+&lt;li&gt;Finally, go back to check two boolean value, and set that row or col as zero if boolean value is true;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix: A list of lists of integers
+     * @return: Void
+     */
+    public void setZeroes(int[][] matrix) {
+
+        if(matrix == null || matrix.length == 0)
+            return;
+        
+        boolean row = false;
+        boolean col = false;
+                        
+        for(int i = 0; i &lt; matrix.length; i++)
+            if(matrix[i][0] == 0)
+                col = true;
+                
+        for(int j = 0; j &lt; matrix[0].length; j++)
+            if(matrix[0][j] == 0)
+                row = true;
+        
+        for(int i = 1; i &lt; matrix.length; i++)
+            for(int j = 1; j &lt; matrix[i].length; j++) 
+                if(matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+                
+        for(int i = 1; i &lt; matrix.length; i++){ 
+            for(int j = 1; j &lt; matrix[0].length; j++){
+                if(matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
+            }   
+        }
+        
+        if(row)
+            for(int j = 0; j &lt; matrix[0].length; j++)
+                    matrix[0][j] = 0;
+                    
+        if(col)
+            for(int i = 0; i &lt; matrix.length; i++)
+                    matrix[i][0] = 0;
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rotate Image</title>
+      <link>/xmruibi.github.io/2015/09/11/rotate-image/</link>
+      <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>/xmruibi.github.io/2015/09/11/rotate-image/</guid>
+      <description>
+
+&lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
+
+&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Headache Implement question!&lt;/li&gt;
+&lt;li&gt;Very carefully to treat index.&lt;/li&gt;
+&lt;li&gt;Only calculate the &amp;frac14; of index in matrix!&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix: A list of lists of integers
+     * @return: Void
+     */
+    public void rotate(int[][] matrix) {
+        
+        int n = matrix.length;
+
+        // One of i or j need to consider boundry!
+        for(int i = 0; i &lt; ( n &gt;&gt; 1); i ++) {
+        // that&#39;s why j &lt; (n+1) / 2, that is the boundry!
+            for(int j = 0; j &lt; ( n+1 &gt;&gt; 1); j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = tmp;
+            }
+        }
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
