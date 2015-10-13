@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Divide Conquer on Rui&#39;s Site</title>
+    <link>http://xmruibi.github.io/tags/divide-conquer/</link>
+    <description>Recent content in Divide Conquer on Rui&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 11 Sep 2015 19:06:42 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/divide-conquer/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Fast Power</title>
+      <link>http://xmruibi.github.io/post/algorithms/FastPower/</link>
+      <pubDate>Fri, 11 Sep 2015 19:06:42 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/post/algorithms/FastPower/</guid>
+      <description>
+
+&lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;
+
+&lt;p&gt;*Example: *
+ For 231 % 3 = 2
+ For 1001000 % 1000 = 0&lt;/p&gt;
+
+&lt;p&gt;*Challenge: *
+ O(logn)&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:4da23984a7a1d0b767388d3ebb05f9c0&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Divide and Conquer&lt;/li&gt;
+&lt;li&gt;Think about the two basic condition: n is 1 and n is 0;&lt;/li&gt;
+&lt;li&gt;Each time we divide the n into two part (n/2);&lt;/li&gt;
+&lt;li&gt;Then we got the combine value (divide * divide) from both parts (they&amp;rsquo;re eqaul, actually);&lt;/li&gt;
+&lt;li&gt;While n is odd, we need to add one more &amp;ldquo;a&amp;rdquo; time (*a);&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+class Solution {
+    /*
+     * @param a, b, n: 32bit integers
+     * @return: An integer
+     */
+    public int fastPower(int a, int b, int n) {
+
+        if(n == 1)
+            return a % b;
+        
+        if(n == 0)
+            return 1 % b;
+        
+        long divide = fastPower(a, b, n/2);
+        long combine = divide * divide;
+        combine %= b;
+        if(n % 2 == 1)
+            combine *= (long)a;
+        combine %= b;
+        return (int)combine;
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

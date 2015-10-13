@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dfs on Rui&#39;s Site</title>
+    <link>http://xmruibi.github.io/tags/dfs/</link>
+    <description>Recent content in Dfs on Rui&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 11 Oct 2015 15:14:18 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/dfs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Route Between Two Nodes in Directed Graph</title>
+      <link>http://xmruibi.github.io/post/algorithms/RouteBetweenDirectedGraph/</link>
+      <pubDate>Sun, 11 Oct 2015 15:14:18 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/post/algorithms/RouteBetweenDirectedGraph/</guid>
+      <description>
+
+&lt;p&gt;Given a directed graph, design an algorithm to find out whether there is a route between two nodes.&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:8b5cccba779597a5ebdb3da6cea8fb3e&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Most typical Graph algorithm question!&lt;/li&gt;
+&lt;li&gt;Try two ways: DFS, BFS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+   /**
+     * @param graph: A list of Directed graph node
+     * @param s: the starting Directed graph node
+     * @param t: the terminal Directed graph node
+     * @return: a boolean value
+     */
+     
+     // BFS
+     public boolean hasRoute(ArrayList&lt;DirectedGraphNode&gt; graph, 
+                            DirectedGraphNode s, DirectedGraphNode t) {
+        
+        if(s == t)
+            return true;
+
+        Queue&lt;DirectedGraphNode&gt; queue = new LinkedList&lt;&gt;();
+        queue.offer(s);
+        graph.remove(s);
+        while(!queue.isEmpty()) {
+            DirectedGraphNode cur = queue.remove();
+            graph.remove(cur);
+            for(DirectedGraphNode next : cur.neighbors) {
+                if(!graph.contains(next))
+                    continue;
+                if(next == t)
+                    return true;
+                queue.offer(next);
+            }
+        }
+        return false;
+    }
+     
+     
+    // DFS
+    public boolean hasRoute(ArrayList&lt;DirectedGraphNode&gt; graph, 
+                            DirectedGraphNode s, DirectedGraphNode t) {
+        // write your code here
+        if(s == t)
+            return true;
+            
+        graph.remove(s);
+        for(DirectedGraphNode next : s.neighbors) {
+            if(!graph.contains(next))
+                    continue;
+            if(hasRoute(graph, next, t))
+                return true;
+        }
+        graph.add(s);
+        return false;
+    }
+}
+
+
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
