@@ -6,39 +6,39 @@
     <description>Recent content in Machine Learning on Rui&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Oct 2015 15:33:07 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 12 Jan 2015 15:33:07 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Query Classifier</title>
-      <link>http://xmruibi.github.io/project/Query%20Classifier/</link>
-      <pubDate>Mon, 12 Oct 2015 15:33:07 -0700</pubDate>
+      <link>http://xmruibi.github.io/project/QueryClassifier/</link>
+      <pubDate>Mon, 12 Jan 2015 15:33:07 -0700</pubDate>
       
-      <guid>http://xmruibi.github.io/project/Query%20Classifier/</guid>
+      <guid>http://xmruibi.github.io/project/QueryClassifier/</guid>
       <description>
 
 &lt;p&gt;A system for figuring out the category of user query in search engine and potential subtask of user in group searching task.&lt;/p&gt;
 
-&lt;h3 id=&#34;basically:21aea27937ec9b5448f6b700405209cb&#34;&gt;Basically&lt;/h3&gt;
+&lt;h3 id=&#34;basically:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Basically&lt;/h3&gt;
 
 &lt;p&gt;Query classifier is some kind of that when you give a query then it return the most possible category or topic of this query.But things are little bit different here. Because this query classifier is a subproject for collaborative search engine.&lt;/p&gt;
 
-&lt;h3 id=&#34;as-for-collaborative-search-engine:21aea27937ec9b5448f6b700405209cb&#34;&gt;As for Collaborative Search Engine&lt;/h3&gt;
+&lt;h3 id=&#34;as-for-collaborative-search-engine:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;As for Collaborative Search Engine&lt;/h3&gt;
 
 &lt;p&gt;That is a search engine platform for a team not an individual (As you know, most of current search engine are just personized for individual). In here we set some experiments according to the real situation that when a team is addressing some problems around a certain task. For example, we assumed a team are planning to go for a travel, so one of guy focus on booking hotel or airline ticket, one guy focus on studying the route of attractions. Then the collaborative search engine should give each person different ranking results.&lt;/p&gt;
 
-&lt;h3 id=&#34;why-need-query-classifier:21aea27937ec9b5448f6b700405209cb&#34;&gt;Why need query classifier?&lt;/h3&gt;
+&lt;h3 id=&#34;why-need-query-classifier:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Why need query classifier?&lt;/h3&gt;
 
 &lt;p&gt;We assume that during the collaborative search engine working, a team is working on a certain task. And there is a task statement wrote by natural language. In task statement, the subtopic also indicated by some sentences. (Experiment initial stage) So my query classifier is trying to figure out the input query belong to what kind of subtopic under this task.&lt;/p&gt;
 
-&lt;h3 id=&#34;procedure:21aea27937ec9b5448f6b700405209cb&#34;&gt;Procedure:&lt;/h3&gt;
+&lt;h3 id=&#34;procedure:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Procedure:&lt;/h3&gt;
 
-&lt;h4 id=&#34;step-0-basic-idea:21aea27937ec9b5448f6b700405209cb&#34;&gt;Step 0. Basic idea&lt;/h4&gt;
+&lt;h4 id=&#34;step-0-basic-idea:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 0. Basic idea&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;Build language model for each subtopic in one task and get the relevance score between query and subtopic model.  
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;step-1-corpus:21aea27937ec9b5448f6b700405209cb&#34;&gt;Step 1. Corpus&lt;/h4&gt;
+&lt;h4 id=&#34;step-1-corpus:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 1. Corpus&lt;/h4&gt;
 
 &lt;p&gt;Set up Corpus for task and each subtopic
  - Keywords extraction from task statement
@@ -56,7 +56,7 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;step-2-evaluate-query-and-subtopic-relevance:21aea27937ec9b5448f6b700405209cb&#34;&gt;Step 2. Evaluate Query and Subtopic Relevance&lt;/h4&gt;
+&lt;h4 id=&#34;step-2-evaluate-query-and-subtopic-relevance:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 2. Evaluate Query and Subtopic Relevance&lt;/h4&gt;
 
 &lt;p&gt;I consider both classical statistic model and language model and get relevance score from two part, but different weights on two models (0.8 and 0.2). As we know language model has better performance. Because, the language model is more rely on the real language rules other than the mathematical statistical rules and  the details of how statistics like term frequency and document
 length are used differ.&lt;/p&gt;
@@ -80,11 +80,11 @@ length are used differ.&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;how-to-implement:21aea27937ec9b5448f6b700405209cb&#34;&gt;How to implement?&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-implement:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;How to implement?&lt;/h3&gt;
 
-&lt;h3 id=&#34;subtopic-language-model:21aea27937ec9b5448f6b700405209cb&#34;&gt;Subtopic Language Model&lt;/h3&gt;
+&lt;h3 id=&#34;subtopic-language-model:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Subtopic Language Model&lt;/h3&gt;
 
-&lt;h4 id=&#34;1-keyword-extraction:21aea27937ec9b5448f6b700405209cb&#34;&gt;1. Keyword Extraction&lt;/h4&gt;
+&lt;h4 id=&#34;1-keyword-extraction:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;1. Keyword Extraction&lt;/h4&gt;
 
 &lt;p&gt;Keywords extraction means to extracted keywords from task statement and subtopic statement. These keywords would be combined as queries to search on Google and crawl their Top 20 result as the language model for subtopic.
 In this study, I use the Stanford Nature language parser package to extraction noun word leaves from statement as a keyword, moreover, if a certain noun word leaf has parent node which is noun phrase, the noun phrase should be used as keyword.&lt;/p&gt;
@@ -98,7 +98,7 @@ Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delic
 &lt;p&gt;Keywords for Task 5:
  friend, four-day vacation, December+, Helsinki+, Finland+, information, vacation, flights, US+, hotels, activities, goal, joint plan, things, Euros, person, group, vacation, outdoor activity, dining activity, cultural activity, types, addition&lt;/p&gt;
 
-&lt;h4 id=&#34;2-corpus-set-up:21aea27937ec9b5448f6b700405209cb&#34;&gt;2. Corpus Set Up&lt;/h4&gt;
+&lt;h4 id=&#34;2-corpus-set-up:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;2. Corpus Set Up&lt;/h4&gt;
 
 &lt;p&gt;According to the keywords extracted from task or subtopic statement, these keywords can be combined as query for each subtopic. Here are the combination rules:&lt;/p&gt;
 
@@ -111,25 +111,25 @@ Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delic
 
 &lt;p&gt;Using these query and search the TOP 20 results on Google, the titles and snippets on the Google result pages can regarded as the corpus for describing each subtopic .&lt;/p&gt;
 
-&lt;h4 id=&#34;3-dirichlet-prior-smoothing:21aea27937ec9b5448f6b700405209cb&#34;&gt;3. Dirichlet Prior Smoothing&lt;/h4&gt;
+&lt;h4 id=&#34;3-dirichlet-prior-smoothing:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;3. Dirichlet Prior Smoothing&lt;/h4&gt;
 
 &lt;p&gt;Once the corpus built up, We nned build language model for getting the likehood of each query belong to what kind of subtopic. I use Dirichlet Prior Smoothing (DPS) method to get the probability of each term from a query in a certain subtopic language model. Then get product by these probability. The probability can be regarded as score one.&lt;/p&gt;
 
-&lt;h4 id=&#34;4-collection-expansion:21aea27937ec9b5448f6b700405209cb&#34;&gt;4. Collection Expansion&lt;/h4&gt;
+&lt;h4 id=&#34;4-collection-expansion:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;4. Collection Expansion&lt;/h4&gt;
 
 &lt;p&gt;However, sometimes the term may not get any frequency in collection which is shown as c(w,D) in equation due to the collection may not rich enough for some terms. To deal with this problem, I tried to use the title of task as query to search on Google and get its TOP 50 result as the collection background.&lt;/p&gt;
 
-&lt;h3 id=&#34;query-expansion:21aea27937ec9b5448f6b700405209cb&#34;&gt;Query Expansion&lt;/h3&gt;
+&lt;h3 id=&#34;query-expansion:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Query Expansion&lt;/h3&gt;
 
-&lt;h4 id=&#34;1-expansion-content:21aea27937ec9b5448f6b700405209cb&#34;&gt;1. Expansion Content&lt;/h4&gt;
+&lt;h4 id=&#34;1-expansion-content:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;1. Expansion Content&lt;/h4&gt;
 
 &lt;p&gt;For each user query, I first search the query on Google with fetching its TOP 5 results. The titles and snippets are combined as the query’s expansion.&lt;/p&gt;
 
-&lt;h4 id=&#34;2-tfidf-similarity-by-vsm:21aea27937ec9b5448f6b700405209cb&#34;&gt;2. TFIDF Similarity by VSM&lt;/h4&gt;
+&lt;h4 id=&#34;2-tfidf-similarity-by-vsm:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;2. TFIDF Similarity by VSM&lt;/h4&gt;
 
 &lt;p&gt;For each query expansion content and subtopic description content (Language model), they can be figured out with two vectors according the terms TFIDF values in two contents. Using the VSM model with these two vectors, then can calculate the similarity between query expansion content and subtopic description. The similarity value can be regarded as score two in this study.&lt;/p&gt;
 
-&lt;h3 id=&#34;3-performance-progress:21aea27937ec9b5448f6b700405209cb&#34;&gt;3.  Performance Progress&lt;/h3&gt;
+&lt;h3 id=&#34;3-performance-progress:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;3.  Performance Progress&lt;/h3&gt;
 
 &lt;p&gt;The experiments are stepping by several stages. At the first stage, only language model with Dirichlet Prior Smoothing score applied to evaluate whether a query matching with the subtopic. Under this case, the precision  of experiment is just over than 0.64. Then after inserting the collection background, the precision is improved to 0.73. Finally, with combining DFS score and VSM similarity score, the precision has lift to over 0.81, which is acceptable for the study. So far, we decide to leave the rest of possible features and only use the DFS score and VSM similarity score for the query – subtopic rank system.&lt;/p&gt;
 </description>
