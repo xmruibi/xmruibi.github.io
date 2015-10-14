@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Algorithm on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/topics/algorithm/</link>
+    <link>http://xmruibi.github.io/topics/algorithm/</link>
     <description>Recent content in Algorithm on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Mon, 12 Oct 2015 21:43:13 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Closest Number</title>
-      <link>/xmruibi.github.io/2015/10/12/closest-number/</link>
+      <link>http://xmruibi.github.io/2015/10/12/closest-number/</link>
       <pubDate>Mon, 12 Oct 2015 21:43:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/10/12/closest-number/</guid>
+      <guid>http://xmruibi.github.io/2015/10/12/closest-number/</guid>
       <description>
 
 &lt;p&gt;Given an unsorted array, find out the most closest two elements in this array. Output&lt;/p&gt;
@@ -56,10 +56,10 @@ public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
     
     <item>
       <title>Route Between Two Nodes in Directed Graph</title>
-      <link>/xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
+      <link>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
       <pubDate>Sun, 11 Oct 2015 15:14:18 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
+      <guid>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
       <description>
 
 &lt;p&gt;Given a directed graph, design an algorithm to find out whether there is a route between two nodes.&lt;/p&gt;
@@ -133,10 +133,10 @@ public class Solution {
     
     <item>
       <title>Search In 2D Matrix II</title>
-      <link>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
       <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
@@ -197,10 +197,10 @@ public class Solution {
     
     <item>
       <title>Search In 2D Matrix I</title>
-      <link>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
+      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
       <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
@@ -276,10 +276,10 @@ public class Solution {
     
     <item>
       <title>Set Matrix Zeroes</title>
-      <link>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
+      <link>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
       <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
+      <guid>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
       <description>
 
 &lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
@@ -346,10 +346,10 @@ public class Solution {
     
     <item>
       <title>Fast Power</title>
-      <link>/xmruibi.github.io/2015/09/11/fast-power/</link>
+      <link>http://xmruibi.github.io/2015/09/11/fast-power/</link>
       <pubDate>Fri, 11 Sep 2015 19:06:42 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/11/fast-power/</guid>
+      <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
       <description>
 
 &lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;
@@ -402,10 +402,10 @@ class Solution {
     
     <item>
       <title>Rotate Image</title>
-      <link>/xmruibi.github.io/2015/09/11/rotate-image/</link>
+      <link>http://xmruibi.github.io/2015/09/11/rotate-image/</link>
       <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/11/rotate-image/</guid>
+      <guid>http://xmruibi.github.io/2015/09/11/rotate-image/</guid>
       <description>
 
 &lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
@@ -450,10 +450,10 @@ public class Solution {
     
     <item>
       <title>Subarray Sum I</title>
-      <link>/xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
+      <link>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
       <pubDate>Wed, 09 Sep 2015 10:40:49 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is zero. Your code should return the index of the first number and the index of the last number.&lt;/p&gt;
 
 &lt;pre&gt;
@@ -492,10 +492,10 @@ public class Solution {
     
     <item>
       <title>Subarray Sum II</title>
-      <link>/xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
       <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;java&#34;&gt;
@@ -539,10 +539,10 @@ private int findInsPos(int[] A, int value) {
     
     <item>
       <title>Algorithm Questions Conclusion</title>
-      <link>/xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</link>
+      <link>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</link>
       <pubDate>Tue, 11 Aug 2015 00:04:29 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</guid>
+      <guid>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</guid>
       <description>
 
 &lt;h4 id=&#34;preface&#34;&gt;Preface:&lt;/h4&gt;

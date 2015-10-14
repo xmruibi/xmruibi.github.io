@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sort on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/tags/sort/</link>
+    <link>http://xmruibi.github.io/tags/sort/</link>
     <description>Recent content in Sort on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Mon, 12 Oct 2015 21:43:13 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Closest Number</title>
-      <link>/xmruibi.github.io/2015/10/12/closest-number/</link>
+      <link>http://xmruibi.github.io/2015/10/12/closest-number/</link>
       <pubDate>Mon, 12 Oct 2015 21:43:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/10/12/closest-number/</guid>
+      <guid>http://xmruibi.github.io/2015/10/12/closest-number/</guid>
       <description>
 
 &lt;p&gt;Given an unsorted array, find out the most closest two elements in this array. Output&lt;/p&gt;
@@ -56,10 +56,10 @@ public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
     
     <item>
       <title>Subarray Sum I</title>
-      <link>/xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
+      <link>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
       <pubDate>Wed, 09 Sep 2015 10:40:49 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is zero. Your code should return the index of the first number and the index of the last number.&lt;/p&gt;
 
 &lt;pre&gt;
@@ -98,10 +98,10 @@ public class Solution {
     
     <item>
       <title>Subarray Sum II</title>
-      <link>/xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
       <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;java&#34;&gt;

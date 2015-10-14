@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Two Pointer on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/tags/two-pointer/</link>
+    <link>http://xmruibi.github.io/tags/two-pointer/</link>
     <description>Recent content in Two Pointer on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Tue, 22 Sep 2015 13:35:30 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/tags/two-pointer/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/tags/two-pointer/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Search In 2D Matrix II</title>
-      <link>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
       <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
@@ -78,10 +78,10 @@ public class Solution {
     
     <item>
       <title>Search In 2D Matrix I</title>
-      <link>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
+      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
       <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;

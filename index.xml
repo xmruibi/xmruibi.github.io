@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/</link>
+    <link>http://xmruibi.github.io/</link>
     <description>Recent content on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Mon, 12 Oct 2015 21:43:13 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Closest Number</title>
-      <link>/xmruibi.github.io/2015/10/12/closest-number/</link>
+      <link>http://xmruibi.github.io/2015/10/12/closest-number/</link>
       <pubDate>Mon, 12 Oct 2015 21:43:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/10/12/closest-number/</guid>
+      <guid>http://xmruibi.github.io/2015/10/12/closest-number/</guid>
       <description>
 
 &lt;p&gt;Given an unsorted array, find out the most closest two elements in this array. Output&lt;/p&gt;
@@ -56,10 +56,10 @@ public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
     
     <item>
       <title>Route Between Two Nodes in Directed Graph</title>
-      <link>/xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
+      <link>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
       <pubDate>Sun, 11 Oct 2015 15:14:18 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
+      <guid>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
       <description>
 
 &lt;p&gt;Given a directed graph, design an algorithm to find out whether there is a route between two nodes.&lt;/p&gt;
@@ -133,10 +133,10 @@ public class Solution {
     
     <item>
       <title>Search In 2D Matrix II</title>
-      <link>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
       <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
@@ -197,10 +197,10 @@ public class Solution {
     
     <item>
       <title>Search In 2D Matrix I</title>
-      <link>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
+      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
       <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
@@ -276,10 +276,10 @@ public class Solution {
     
     <item>
       <title>Set Matrix Zeroes</title>
-      <link>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
+      <link>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
       <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
+      <guid>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
       <description>
 
 &lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
@@ -346,10 +346,10 @@ public class Solution {
     
     <item>
       <title>What Is Good Java API</title>
-      <link>/xmruibi.github.io/2015/09/12/what-is-good-java-api/</link>
+      <link>http://xmruibi.github.io/2015/09/12/what-is-good-java-api/</link>
       <pubDate>Sat, 12 Sep 2015 00:00:00 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/12/what-is-good-java-api/</guid>
+      <guid>http://xmruibi.github.io/2015/09/12/what-is-good-java-api/</guid>
       <description>
 
 &lt;p&gt;Here are some good points for designing a good Java API!&lt;/p&gt;
@@ -590,10 +590,10 @@ As NoResultException is a RuntimeException this flaw heavily violates the Princi
     
     <item>
       <title>Fast Power</title>
-      <link>/xmruibi.github.io/2015/09/11/fast-power/</link>
+      <link>http://xmruibi.github.io/2015/09/11/fast-power/</link>
       <pubDate>Fri, 11 Sep 2015 19:06:42 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/11/fast-power/</guid>
+      <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
       <description>
 
 &lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;
@@ -646,10 +646,10 @@ class Solution {
     
     <item>
       <title>Rotate Image</title>
-      <link>/xmruibi.github.io/2015/09/11/rotate-image/</link>
+      <link>http://xmruibi.github.io/2015/09/11/rotate-image/</link>
       <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/11/rotate-image/</guid>
+      <guid>http://xmruibi.github.io/2015/09/11/rotate-image/</guid>
       <description>
 
 &lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
@@ -694,10 +694,10 @@ public class Solution {
     
     <item>
       <title>Subarray Sum I</title>
-      <link>/xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
+      <link>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
       <pubDate>Wed, 09 Sep 2015 10:40:49 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is zero. Your code should return the index of the first number and the index of the last number.&lt;/p&gt;
 
 &lt;pre&gt;
@@ -736,10 +736,10 @@ public class Solution {
     
     <item>
       <title>Subarray Sum II</title>
-      <link>/xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
       <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
       <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;java&#34;&gt;
@@ -783,10 +783,10 @@ private int findInsPos(int[] A, int value) {
     
     <item>
       <title>Long Journey Across United States</title>
-      <link>/xmruibi.github.io/long-journey-across-united-states/</link>
+      <link>http://xmruibi.github.io/long-journey-across-united-states/</link>
       <pubDate>Wed, 02 Sep 2015 10:42:11 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/long-journey-across-united-states/</guid>
+      <guid>http://xmruibi.github.io/long-journey-across-united-states/</guid>
       <description>
 
 &lt;p&gt;Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!&lt;/p&gt;
@@ -808,7 +808,7 @@ private int findInsPos(int[] A, int value) {
 &lt;p&gt;Passed Iowa, acrossed Mississippi.&lt;/p&gt;
 
 &lt;p&gt;Huge corn field all the way! Typical great plain scene!
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4353.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4353.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;aug-29th&#34;&gt;Aug 29th&lt;/h3&gt;
 
@@ -817,51 +817,51 @@ private int findInsPos(int[] A, int value) {
 &lt;p&gt;Farms and Corns in Omaha, then the Colorado&amp;rsquo;s desert.&lt;/p&gt;
 
 &lt;p&gt;Rocky Mountain National Park!! 4000 kilometer above sea level! Gorgeous view, like Xinjiang Uygur Autonomous Regin and Tibet in China.
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4388.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4400.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4426.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4388.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4400.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4426.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;The highest road in United States.
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4445.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4445.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;aug-30th&#34;&gt;Aug 30th&lt;/h3&gt;
 
 &lt;h4 id=&#34;danver-co-salt-lake-city-ut&#34;&gt;Danver, CO - Salt Lake City, UT&lt;/h4&gt;
 
 &lt;p&gt;Lonely Gas Staion in Wyoming
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4470.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4470.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;Storm on the way!
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4496.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4496.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;Hello Utah! Red Rock! The location is near the welcome center in Utah
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4497.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4497.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;aug-31st&#34;&gt;Aug 31st&lt;/h3&gt;
 
 &lt;h4 id=&#34;salt-lake-city-ut-reno-nv&#34;&gt;Salt Lake City, UT - Reno, NV&lt;/h4&gt;
 
 &lt;p&gt;Great Salt Plain! Never seen the view like this. Huge White Salt plat stretches continuously for nearly 100 kilometer!
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4571.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4571.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;Desert in Nevada
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4576.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4576.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;sept-1st&#34;&gt;Sept 1st,&lt;/h3&gt;
 
 &lt;h4 id=&#34;reno-nv-san-francisco-ca&#34;&gt;Reno, NV - San Francisco, CA&lt;/h4&gt;
 
 &lt;p&gt;Tahoe Lake!
-&lt;img src=&#34;xmruibi.github.io/media/Journey/IMG_4591.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4591.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Immutable Classes</title>
-      <link>/xmruibi.github.io/2015/08/11/immutable-classes/</link>
+      <link>http://xmruibi.github.io/2015/08/11/immutable-classes/</link>
       <pubDate>Tue, 11 Aug 2015 23:57:44 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/08/11/immutable-classes/</guid>
+      <guid>http://xmruibi.github.io/2015/08/11/immutable-classes/</guid>
       <description>
 
 &lt;h3 id=&#34;what-is-immutable-classes&#34;&gt;What is Immutable Classes&lt;/h3&gt;
@@ -958,10 +958,10 @@ private int findInsPos(int[] A, int value) {
     
     <item>
       <title>Algorithm Questions Conclusion</title>
-      <link>/xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</link>
+      <link>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</link>
       <pubDate>Tue, 11 Aug 2015 00:04:29 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</guid>
+      <guid>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</guid>
       <description>
 
 &lt;h4 id=&#34;preface&#34;&gt;Preface:&lt;/h4&gt;
@@ -1067,10 +1067,10 @@ private int findInsPos(int[] A, int value) {
     
     <item>
       <title>AccessControl</title>
-      <link>/xmruibi.github.io/2015/07/12/accesscontrol/</link>
+      <link>http://xmruibi.github.io/2015/07/12/accesscontrol/</link>
       <pubDate>Sun, 12 Jul 2015 00:03:07 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/07/12/accesscontrol/</guid>
+      <guid>http://xmruibi.github.io/2015/07/12/accesscontrol/</guid>
       <description>&lt;p&gt;Reading Note while reading Java Best Practice.&lt;/p&gt;
 
 &lt;ol&gt;
@@ -1103,10 +1103,10 @@ public class should not expose any mutable field;&lt;/p&gt;&lt;/li&gt;
     
     <item>
       <title>Distributed MongoDB Configuration</title>
-      <link>/xmruibi.github.io/code/DistributedMongoDB/</link>
+      <link>http://xmruibi.github.io/code/DistributedMongoDB/</link>
       <pubDate>Tue, 10 Mar 2015 22:56:15 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/code/DistributedMongoDB/</guid>
+      <guid>http://xmruibi.github.io/code/DistributedMongoDB/</guid>
       <description>
 
 &lt;p&gt;How to shard the distributed Mongo DB in remote VMs? Here is what I did during a project using Mongo DB as Database and using Hadoop as computing framework.&lt;/p&gt;
@@ -1115,7 +1115,7 @@ public class should not expose any mutable field;&lt;/p&gt;&lt;/li&gt;
 
 &lt;p&gt;The following graph is the architecture of how I set three VMs with different port to simulate the real sharding pattern(which need 15 machines actually)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;xmruibi.github.io/media/Sharded%20MongoDB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/Sharded%20MongoDB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;The following procedure is how I configured MongoDB on remote three VMs.&lt;/p&gt;
 

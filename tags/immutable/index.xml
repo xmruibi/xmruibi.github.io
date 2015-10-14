@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Immutable on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/tags/immutable/</link>
+    <link>http://xmruibi.github.io/tags/immutable/</link>
     <description>Recent content in Immutable on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Tue, 11 Aug 2015 23:57:44 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/tags/immutable/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/tags/immutable/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Immutable Classes</title>
-      <link>/xmruibi.github.io/2015/08/11/immutable-classes/</link>
+      <link>http://xmruibi.github.io/2015/08/11/immutable-classes/</link>
       <pubDate>Tue, 11 Aug 2015 23:57:44 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/08/11/immutable-classes/</guid>
+      <guid>http://xmruibi.github.io/2015/08/11/immutable-classes/</guid>
       <description>
 
 &lt;h3 id=&#34;what-is-immutable-classes&#34;&gt;What is Immutable Classes&lt;/h3&gt;

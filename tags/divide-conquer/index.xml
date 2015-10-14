@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Divide Conquer on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/tags/divide-conquer/</link>
+    <link>http://xmruibi.github.io/tags/divide-conquer/</link>
     <description>Recent content in Divide Conquer on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Fri, 11 Sep 2015 19:06:42 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/tags/divide-conquer/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/tags/divide-conquer/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Fast Power</title>
-      <link>/xmruibi.github.io/2015/09/11/fast-power/</link>
+      <link>http://xmruibi.github.io/2015/09/11/fast-power/</link>
       <pubDate>Fri, 11 Sep 2015 19:06:42 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/11/fast-power/</guid>
+      <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
       <description>
 
 &lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;

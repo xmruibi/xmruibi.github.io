@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dfs on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/tags/dfs/</link>
+    <link>http://xmruibi.github.io/tags/dfs/</link>
     <description>Recent content in Dfs on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Sun, 11 Oct 2015 15:14:18 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/tags/dfs/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/tags/dfs/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Route Between Two Nodes in Directed Graph</title>
-      <link>/xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
+      <link>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
       <pubDate>Sun, 11 Oct 2015 15:14:18 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
+      <guid>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
       <description>
 
 &lt;p&gt;Given a directed graph, design an algorithm to find out whether there is a route between two nodes.&lt;/p&gt;

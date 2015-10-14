@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Devops on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/topics/devops/</link>
+    <link>http://xmruibi.github.io/topics/devops/</link>
     <description>Recent content in Devops on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Tue, 10 Mar 2015 22:56:15 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/topics/devops/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/topics/devops/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Distributed MongoDB Configuration</title>
-      <link>/xmruibi.github.io/code/DistributedMongoDB/</link>
+      <link>http://xmruibi.github.io/code/DistributedMongoDB/</link>
       <pubDate>Tue, 10 Mar 2015 22:56:15 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/code/DistributedMongoDB/</guid>
+      <guid>http://xmruibi.github.io/code/DistributedMongoDB/</guid>
       <description>
 
 &lt;p&gt;How to shard the distributed Mongo DB in remote VMs? Here is what I did during a project using Mongo DB as Database and using Hadoop as computing framework.&lt;/p&gt;
@@ -26,7 +26,7 @@
 
 &lt;p&gt;The following graph is the architecture of how I set three VMs with different port to simulate the real sharding pattern(which need 15 machines actually)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;xmruibi.github.io/media/Sharded%20MongoDB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/Sharded%20MongoDB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;The following procedure is how I configured MongoDB on remote three VMs.&lt;/p&gt;
 

@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Matrix on Coder Thinking -- Home Page</title>
-    <link>xmruibi.github.io/tags/matrix/</link>
+    <link>http://xmruibi.github.io/tags/matrix/</link>
     <description>Recent content in Matrix on Coder Thinking -- Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
     <lastBuildDate>Tue, 22 Sep 2015 13:35:30 -0700</lastBuildDate>
-    <atom:link href="xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Search In 2D Matrix II</title>
-      <link>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
+      <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
       <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
+      <guid>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
@@ -78,10 +78,10 @@ public class Solution {
     
     <item>
       <title>Search In 2D Matrix I</title>
-      <link>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
+      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
       <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
+      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
       <description>
 
 &lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
@@ -157,10 +157,10 @@ public class Solution {
     
     <item>
       <title>Set Matrix Zeroes</title>
-      <link>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
+      <link>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
       <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
+      <guid>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
       <description>
 
 &lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
@@ -227,10 +227,10 @@ public class Solution {
     
     <item>
       <title>Rotate Image</title>
-      <link>/xmruibi.github.io/2015/09/11/rotate-image/</link>
+      <link>http://xmruibi.github.io/2015/09/11/rotate-image/</link>
       <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>/xmruibi.github.io/2015/09/11/rotate-image/</guid>
+      <guid>http://xmruibi.github.io/2015/09/11/rotate-image/</guid>
       <description>
 
 &lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
