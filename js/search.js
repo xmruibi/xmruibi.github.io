@@ -58,7 +58,7 @@ $(document).ready(function () {
 
 	// instead an on-submit handler which
 	// resets things when the query changes
-	$("#search").submit(function() {
+	$("#searchForm").submit(function() {
 		newq = $("#query").val();
 		if (newq !== userQuery) {
 			// reset to first page
