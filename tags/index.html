@@ -92,8 +92,9 @@
 
 <div class="container nav primary no-print" style="position: relative;
  margin-top: 2em;margin-bottom: 2em; ">
-<form id="search">
-	<input type="search" placeholder="Search">
+<form role="search" id="search" action="/search">
+	<input id="page" name="p" value="1" type="hidden"/>
+	<input id="query" name="q" type="search" placeholder="Search">
 </form>
  </div>
 <div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
@@ -190,8 +191,8 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/prefix-sum">
-        prefix-sum
+      <a href="http://xmruibi.github.iotags/two-pointer">
+        two-pointer
       </a>
       <strong>
         2
@@ -199,8 +200,8 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/two-pointer">
-        two-pointer
+      <a href="http://xmruibi.github.iotags/prefix-sum">
+        prefix-sum
       </a>
       <strong>
         2
@@ -217,6 +218,24 @@
     </li>
   
     <li>
+      <a href="http://xmruibi.github.iotags/collaborative-search-engine">
+        collaborative-search-engine
+      </a>
+      <strong>
+        1
+      </strong>
+    </li>
+  
+    <li>
+      <a href="http://xmruibi.github.iotags/immutable">
+        immutable
+      </a>
+      <strong>
+        1
+      </strong>
+    </li>
+  
+    <li>
       <a href="http://xmruibi.github.iotags/mongodb">
         mongodb
       </a>
@@ -226,8 +245,8 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/conclusion">
-        conclusion
+      <a href="http://xmruibi.github.iotags/api-design">
+        api-design
       </a>
       <strong>
         1
@@ -235,8 +254,26 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/array">
-        array
+      <a href="http://xmruibi.github.iotags/divide-conquer">
+        divide-conquer
+      </a>
+      <strong>
+        1
+      </strong>
+    </li>
+  
+    <li>
+      <a href="http://xmruibi.github.iotags/graph">
+        graph
+      </a>
+      <strong>
+        1
+      </strong>
+    </li>
+  
+    <li>
+      <a href="http://xmruibi.github.iotags/dfs">
+        dfs
       </a>
       <strong>
         1
@@ -262,8 +299,8 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/api-design">
-        api-design
+      <a href="http://xmruibi.github.iotags/american">
+        american
       </a>
       <strong>
         1
@@ -271,8 +308,8 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/american">
-        american
+      <a href="http://xmruibi.github.iotags/conclusion">
+        conclusion
       </a>
       <strong>
         1
@@ -289,6 +326,15 @@
     </li>
   
     <li>
+      <a href="http://xmruibi.github.iotags/array">
+        array
+      </a>
+      <strong>
+        1
+      </strong>
+    </li>
+  
+    <li>
       <a href="http://xmruibi.github.iotags/configuration">
         configuration
       </a>
@@ -298,53 +344,8 @@
     </li>
   
     <li>
-      <a href="http://xmruibi.github.iotags/graph">
-        graph
-      </a>
-      <strong>
-        1
-      </strong>
-    </li>
-  
-    <li>
-      <a href="http://xmruibi.github.iotags/immutable">
-        immutable
-      </a>
-      <strong>
-        1
-      </strong>
-    </li>
-  
-    <li>
       <a href="http://xmruibi.github.iotags/classification">
         classification
-      </a>
-      <strong>
-        1
-      </strong>
-    </li>
-  
-    <li>
-      <a href="http://xmruibi.github.iotags/collaborative-search-engine">
-        collaborative-search-engine
-      </a>
-      <strong>
-        1
-      </strong>
-    </li>
-  
-    <li>
-      <a href="http://xmruibi.github.iotags/dfs">
-        dfs
-      </a>
-      <strong>
-        1
-      </strong>
-    </li>
-  
-    <li>
-      <a href="http://xmruibi.github.iotags/divide-conquer">
-        divide-conquer
       </a>
       <strong>
         1
@@ -410,6 +411,10 @@
 
 
 
+
+
+<script src="http://xmruibi.github.io/js/handlebars.js"></script>
+<script src="http://xmruibi.github.io/js/search.js"></script>
 
     
   </body>

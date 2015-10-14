@@ -92,8 +92,9 @@
 
 <div class="container nav primary no-print" style="position: relative;
  margin-top: 2em;margin-bottom: 2em; ">
-<form id="search">
-	<input type="search" placeholder="Search">
+<form role="search" id="search" action="/search">
+	<input id="page" name="p" value="1" type="hidden"/>
+	<input id="query" name="q" type="search" placeholder="Search">
 </form>
  </div>
 <div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
@@ -238,6 +239,10 @@
 
 
 
+
+
+<script src="http://xmruibi.github.io/js/handlebars.js"></script>
+<script src="http://xmruibi.github.io/js/search.js"></script>
 
     
   </body>

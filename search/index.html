@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Rotate Image  &middot; Coder Thinking -- Home Page</title>
+  <title>Search Results  &middot; Coder Thinking -- Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,35 +14,29 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Matrix, Complex Implement, ">
+<meta name="keywords" content="">
 
 
-<meta property="og:title" content="Rotate Image  &middot; Coder Thinking -- Home Page ">
+<meta property="og:title" content="Search Results  &middot; Coder Thinking -- Home Page ">
 <meta property="og:site_name" content="Coder Thinking -- Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/09/11/rotate-image/" />
+<meta property="og:url" content="http://xmruibi.github.io/search/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-09-11T16:06:19-07:00" />
-<meta property="og:article:modified_time" content="2015-09-11T16:06:19-07:00" />
+<meta property="og:article:published_time" content="0001-01-01T00:00:00Z" />
+<meta property="og:article:modified_time" content="0001-01-01T00:00:00Z" />
 
-  
-    
-<meta property="og:article:tag" content="Matrix">
-    
-<meta property="og:article:tag" content="Complex Implement">
-    
   
 
   
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Rotate Image" />
+<meta name="twitter:title" content="Search Results" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/09/11/rotate-image/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/search/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -50,20 +44,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Rotate Image",
+    "headline": "Search Results",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-09-11",
+    "datePublished": "0001-01-01",
     "description": "",
-    "wordCount":  141 
+    "wordCount":  76 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/09/11/rotate-image/" />
+<link rel="canonical" href="http://xmruibi.github.io/search/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -180,125 +174,137 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Rotate Image
+  <h1>Search Results
 </h1>
-
-  <div class="metas">
-<time datetime="2015-09-11">11 Sep, 2015</time>
-
-
-  
-  &middot; Read in about 1 min
-  &middot; (141 Words)
-  <br>
-  Tags: 
-
-<a class="label" href="http://xmruibi.github.io/tags/matrix">Matrix; </a> 
-
-
-<a class="label" href="http://xmruibi.github.io/tags/complex-implement">Complex Implement; </a> 
-
-
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  Topics: 
-
-<a class="label" href="http://xmruibi.github.io/topics/algorithm">Algorithm; </a> 
-
-
-</div>
 
 </header>
 
   <div class="container content">
   
 
-<p>You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).</p>
+<form method="GET"  role="search" id="search" action="/search">
+<div class="row">
+    <!-- search form -->
 
-<h4 id="solution">Solution:</h4>
-
-<ul>
-<li>Headache Implement question!</li>
-<li>Very carefully to treat index.</li>
-<li>Only calculate the &frac14; of index in matrix!</li>
-<li></li>
-</ul>
-
-<pre>
-<code class="java">
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @return: Void
-     */
-    public void rotate(int[][] matrix) {
-        
-        int n = matrix.length;
-
-        // One of i or j need to consider boundry!
-        for(int i = 0; i < ( n >> 1); i ++) {
-        // that's why j < (n+1) / 2, that is the boundry!
-            for(int j = 0; j < ( n+1 >> 1); j++) {
-                int tmp = matrix[i][j];
-                matrix[i][j] = matrix[n - j - 1][i];
-                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
-                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
-                matrix[j][n - i - 1] = tmp;
-            }
-        }
-    }
-}
-</code>
-</pre>
-
+    <div class="col-md-12">
+            <div id="custom-search-input">
+                <div class="input-group col-md-6 col-md-offset-3">
+                    <input id="page" name="p" value="1" type="hidden"/>
+                    <input id="query" name="q" type="search" placeholder="Refine" />
+                </div>
+            </div>
+    </div>
+    <!-- search results -->
+    <div id="searchResultsArea" class="col-md-12"></div>
 </div>
+</form>
+
+<h2 id="toc_0">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-</h2>
+
+<h2 id="oops-this-function-still-under-construction">Oops&hellip; This function still under construction!</h2>
+
+<p>Learn about Hugo insite search? Please see <a href="https://github.com/blevesearch/hugoidx">Bleeve Search</a>.</p>
+
+<script id="searchResultsTmpl" type="text/x-handlebars-template">
+
+    <h5>
+        {{#hasMultiplePages}}Page {{page}} of {{/hasMultiplePages}}
+        {{total_hits}} results ({{searchTime}})
+    </h5>
+
+    <div class="col-md-8">
+    {{#hits}}
+        <div>
+            <b>
+                <a class="resultLink" href="{{id}}">{{fields.title}}</a>
+            </b>
+                     
+            <span class="badge pull-right">{{roundScore}}</span>
+                    
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    <b>{{fields.author}}</b> on {{fields.date}}
+                </div>
+
+                <div class="panel-body">
+                    {{#fragments}}
+                        <div>
+                            {{#content}}
+                                <div>{{{.}}}</div>
+                            {{/content}}
+                        </div>
+                    {{/fragments}}
+                </div>
+
+            </div>
+        </div>
+    {{/hits}}
+    </div>
+
+    <div class="col-md-3 col-md-offset-1">
+        <h3>Refine Results</h3>
+        {{#each facets}}
+            <div class="panel panel-default">
+                <div class="panel-heading"><b>{{@key}}</b></div>
+                <div class="panel-body">
+                    {{#each terms}}
+                    <div class="checkbox">
+                      <label>
+                        <input name="f{{@../key}}" type="checkbox" value="{{term}}" onclick="toggleFilter('{{@../key}}','{{term}}',event);" {{checked isChecked}}>
+                        {{term}} ({{count}})
+                      </label>
+                    </div>
+                    {{/each}}
+                    {{#each date_ranges}}
+                    <div class="checkbox">
+                      <label>
+                        <input name="f{{@../key}}" type="checkbox" value="{{name}}" onclick="toggleFilter('{{@../key}}','{{name}}',event);" {{checked isChecked}}>
+                        {{name}} ({{count}})
+                      </label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
 
 
-  <footer class="container">
-  <div class="container navigation no-print">
-  <h2>Navigation</h2>
-  
-  
+    {{#hasMultiplePages}}
+        <div class="col-md-4 col-md-offset-4">
+            <ul class="pagination">
+                {{#notOnFirstPage}}
+                    <li>
+                        <a onclick="jumpToPage({{prevPage}})" href="">&laquo;</a>
 
-    
-    <a class="prev" href="http://xmruibi.github.io/2015/09/09/subarray-sum-i/" title="Subarray Sum I">
-      Earlier Article
-    </a>
-    
+                {{/notOnFirstPage}}
 
-    
-    <a class="next" href="http://xmruibi.github.io/2015/09/11/fast-power/" title="Fast Power">
-      Newer Article
-    </a>
-    
-
-  
-
-
-</div>
-
-  <div class="container comments">
-  <h2>Comments</h2>
-  
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-  (function() {
-    
-    
-    
-    
-
-    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
-    dsq.src = '//ruisblog.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+                {{#validPages}}
+                    <li class="{{clazz}}">
+                        <a href="" onclick="jumpToPage({{index}}, event)">{{index}}</a>
+                    </li>
+                {{/validPages}}
+                
+                {{#notOnLastPage}}
+                    <li>
+                        <a onclick="jumpToPage(nextPage)" href="">&raquo;</a>
+                    </li>
+                {{/notOnLastPage}}
+            </ul>
+        </div>
+    {{/hasMultiplePages}}
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
+<script id="noHitsTmpl" type="text/x-handlebars-template">
+    <h5>Your search - {{userQuery}} - did not match any documents.</h5>
+</script>
+<script id="searchErrorTmpl" type="text/x-handlebars-template">
+    <h5>Error executing search: {{msg}}</h5>
+</script>
 
 </div>
 
-</footer>
 
+  
 </article>
       <footer id="main-footer" class="container main_footer">
   
