@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Closest Number  &middot; Coder Thinking -- Home Page</title>
+  <title>Longest Substring Without Repeating Characters  &middot; Coder Thinking -- Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,25 +14,27 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Sort, Array, ">
+<meta name="keywords" content="String, Two Pointers, Hash Table, ">
 
 
-<meta property="og:title" content="Closest Number  &middot; Coder Thinking -- Home Page ">
+<meta property="og:title" content="Longest Substring Without Repeating Characters  &middot; Coder Thinking -- Home Page ">
 <meta property="og:site_name" content="Coder Thinking -- Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/12/closest-number/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-12T21:43:13-07:00" />
-<meta property="og:article:modified_time" content="2015-10-12T21:43:13-07:00" />
+<meta property="og:article:published_time" content="2015-10-15T09:43:13-07:00" />
+<meta property="og:article:modified_time" content="2015-10-15T09:43:13-07:00" />
 
   
     
-<meta property="og:article:tag" content="Sort">
+<meta property="og:article:tag" content="String">
     
-<meta property="og:article:tag" content="Array">
+<meta property="og:article:tag" content="Two Pointers">
+    
+<meta property="og:article:tag" content="Hash Table">
     
   
 
@@ -40,9 +42,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Closest Number" />
+<meta name="twitter:title" content="Longest Substring Without Repeating Characters" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/12/closest-number/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -50,20 +52,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Closest Number",
+    "headline": "Longest Substring Without Repeating Characters",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-10-12",
+    "datePublished": "2015-10-15",
     "description": "",
-    "wordCount":  87 
+    "wordCount":  152 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/12/closest-number/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -180,23 +182,26 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Closest Number
+  <h1>Longest Substring Without Repeating Characters
 </h1>
 
   <div class="metas">
-<time datetime="2015-10-12">12 Oct, 2015</time>
+<time datetime="2015-10-15">15 Oct, 2015</time>
 
 
   
   &middot; Read in about 1 min
-  &middot; (87 Words)
+  &middot; (152 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/sort">Sort; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/string">String; </a> 
 
 
-<a class="label" href="http://xmruibi.github.io/tags/array">Array; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/two-pointers">Two Pointers; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/hash-table">Hash Table; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -212,37 +217,50 @@
   <div class="container content">
   
 
-<p>Given an unsorted array, find out the most closest two elements in this array. Output</p>
+<p>Given a string, find the length of the longest substring without repeating characters.</p>
 
-<h4 id="solution">Solution:</h4>
+<h3 id="example">Example</h3>
+
+<p>For example, the longest substring without repeating letters for <code>abcabcbb</code> is <code>abc</code>, which the length is 3.</p>
+
+<p>For <code>bbbbb</code> the longest substring is <code>b</code>, with the length of 1.</p>
+
+<h3 id="challenge">Challenge</h3>
+
+<p>O(n) time</p>
+
+<h2 id="solution">Solution:</h2>
 
 <ul>
-<li>Sort is important here! You must think about sort first. Since other may may cost</li>
-<li>Then the gap between adjacent elements are the</li>
+<li>Set two pointers as a windows for input string.</li>
+<li>Very simple idea, to use a hashset to store the characters in a window (substring) in string.</li>
+<li>While the repeat detect, move forward the previous pointer.</li>
+<li>Update the max window size each time.</li>
 </ul>
 
-<pre>
-<code class="java">
-public ArrayList<int[]> closestNumber(int[] arr){
-    ArrayList<int[]> res = new ArrayList<>();
-    if(arr == null || arr.length == 0)
-        return res;
-    Arrays.sort(arr);
-
-    int mindiff = Integer.MAX_VALUE;
-    for(int i = 1; i < arr.length; i++) {
-        int curdiff = arr[i] - arr[i - 1];
-        if(curdiff >= mindiff) {
-            if(curdiff > mindiff)
-                res.clear();
-            int[] cres = new int[]{arr[i - 1], arr[i]};
-            res.add(cres);
+<pre><code>public class Solution {
+    /**
+     * @param s: a string
+     * @return: an integer 
+     */
+    public int lengthOfLongestSubstring(String s) {
+        Set&lt;Character&gt; disc = new HashSet&lt;&gt;();
+        
+        int maxLen = 0;
+        int prev = 0;
+        for(int i = 0; i &lt; s.length(); i++) {
+            char c = s.charAt(i);
+            
+            while(disc.contains(c)){
+                disc.remove(s.charAt(prev++));
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+            disc.add(c);
         }
+        return maxLen;
     }
-    return res;
 }
-</code>
-</pre>
+</code></pre>
 
 </div>
 
@@ -254,15 +272,11 @@ public ArrayList<int[]> closestNumber(int[] arr){
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/" title="Route Between Two Nodes in Directed Graph">
+    <a class="prev" href="http://xmruibi.github.io/2015/10/12/closest-number/" title="Closest Number">
       Earlier Article
     </a>
     
 
-    
-    <a class="next" href="http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/" title="Longest Substring Without Repeating Characters">
-      Newer Article
-    </a>
     
 
   

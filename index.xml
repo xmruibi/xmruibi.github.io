@@ -9,8 +9,63 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 12 Oct 2015 23:33:07 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 15 Oct 2015 09:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Substring Without Repeating Characters</title>
+      <link>http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/</link>
+      <pubDate>Thu, 15 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/</guid>
+      <description>
+
+&lt;p&gt;Given a string, find the length of the longest substring without repeating characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, the longest substring without repeating letters for &lt;code&gt;abcabcbb&lt;/code&gt; is &lt;code&gt;abc&lt;/code&gt;, which the length is 3.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;bbbbb&lt;/code&gt; the longest substring is &lt;code&gt;b&lt;/code&gt;, with the length of 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set two pointers as a windows for input string.&lt;/li&gt;
+&lt;li&gt;Very simple idea, to use a hashset to store the characters in a window (substring) in string.&lt;/li&gt;
+&lt;li&gt;While the repeat detect, move forward the previous pointer.&lt;/li&gt;
+&lt;li&gt;Update the max window size each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s: a string
+     * @return: an integer 
+     */
+    public int lengthOfLongestSubstring(String s) {
+        Set&amp;lt;Character&amp;gt; disc = new HashSet&amp;lt;&amp;gt;();
+        
+        int maxLen = 0;
+        int prev = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            char c = s.charAt(i);
+            
+            while(disc.contains(c)){
+                disc.remove(s.charAt(prev++));
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+            disc.add(c);
+        }
+        return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>How to build a Hugo Site like this site?</title>
@@ -498,6 +553,99 @@ search.js is our custom code to bind everything together.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Longest Substring with At Most K Distinct Characters Show result</title>
+      <link>http://xmruibi.github.io/2015/10/08/longest-substring-with-at-most-k-distinct-characters-show-result/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/longest-substring-with-at-most-k-distinct-characters-show-result/</guid>
+      <description>
+
+&lt;p&gt;Given a string s, find the length of the longest substring T that contains at most k distinct characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, Given s = &lt;code&gt;eceba&lt;/code&gt;, k = 3,&lt;/p&gt;
+
+&lt;p&gt;T is &lt;code&gt;eceb&lt;/code&gt; which its length is 4.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n), n is the size of the string s.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set two pointers as a windows for input string.&lt;/li&gt;
+&lt;li&gt;Use a hashmap to store the characters in a window (substring) in string.&lt;/li&gt;
+&lt;li&gt;However, we notice that we use hashmap for count the character appearance times.&lt;/li&gt;
+&lt;li&gt;Remove the character as a key only if the count for this key is zero.&lt;/li&gt;
+&lt;li&gt;Update the max window size each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s : A string
+     * @return : The length of the longest substring 
+     *           that contains at most k distinct characters.
+     */
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        if(s == null)
+            return 0;
+        
+        HashMap&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        
+        int prev = 0;
+        int maxLen = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            char c = s.charAt(i);
+            if(dict.containsKey(c)) {
+                dict.put(c, dict.get(c) + 1);
+            }else {
+                dict.put(c, 1);
+                while(dict.size() &amp;gt; k) {
+                    char prevChar = s.charAt(prev++);
+                    if(dict.get(prevChar) &amp;gt; 1)
+                        dict.put(prevChar, dict.get(prevChar) - 1);
+                    else
+                        dict.remove(prevChar);
+                }
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+        }
+        
+        return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At the first I made a mistake by using hashset. However, like the previous mentioned, we need to count the character appearance. Why? Since there is possible when the character on index &lt;code&gt;prev&lt;/code&gt; has another one in this window. But when you simply remove this element, there is still one inside this window. Tha makes the mistake happened!&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Say, in &lt;code&gt;acdab&lt;/code&gt;, pointer &lt;code&gt;prev&lt;/code&gt; is on first &lt;code&gt;a&lt;/code&gt;, once we do &lt;code&gt;set.remove(a)&lt;/code&gt;, the &lt;code&gt;size()&lt;/code&gt; become 3, but in fact, it is still 4.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    // This is the wrong code!!!
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        // write your code here
+        Set&amp;lt;Character&amp;gt; disc = new HashSet&amp;lt;&amp;gt;();
+        
+        int maxLen = 0;
+        int prev = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            char c = s.charAt(i);
+            disc.add(c);
+            while(disc.size() &amp;gt; k){
+                disc.remove(s.charAt(prev++));
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+        }
+        return maxLen;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Partition Array</title>
       <link>http://xmruibi.github.io/2015/10/08/partition-array/</link>
       <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
@@ -545,6 +693,69 @@ search.js is our custom code to bind everything together.&lt;/p&gt;
         if(nums[nums.length - 1] &amp;lt; k)
             return nums.length;
         return pivot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Word Pattern</title>
+      <link>http://xmruibi.github.io/2015/10/08/word-pattern/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/word-pattern/</guid>
+      <description>
+
+&lt;p&gt;Given a pattern and a string str, find if str follows the same pattern.&lt;/p&gt;
+
+&lt;p&gt;Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
+
+&lt;p&gt;pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return true.
+pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat fish&lt;/code&gt; should return false.
+pattern = &lt;code&gt;aaaa&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return false.
+pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog dog dog dog&lt;/code&gt; should return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;notes&#34;&gt;Notes:&lt;/h3&gt;
+
+&lt;p&gt;You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.&lt;/p&gt;
+
+&lt;h2 id=&#34;solutioin&#34;&gt;Solutioin&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Firstly, you need to convert &lt;code&gt;str&lt;/code&gt; into string array with spliting by space.&lt;/li&gt;
+&lt;li&gt;Check two stuffs are equal length, if not? directly return false!&lt;/li&gt;
+&lt;li&gt;Setup a hashmap for storing element both pattern and strs. However, the key are different types: character, string. Why not just use string? Consider about this case: pattern - &lt;code&gt;abba&lt;/code&gt;, str - &lt;code&gt;a a b a&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;There is one more tricky thing: why we compare the &lt;code&gt;map.put()&lt;/code&gt; return value? Here is a segment in HashMap API.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt; 	if (e != null) { // existing mapping for key
+        V oldValue = e.value;
+        if (!onlyIfAbsent || oldValue == null)
+            e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;That means the previous index(value) of character(key) will be returned as index reference. So we return the previous index and also update the index for next index reference!&lt;/li&gt;
+&lt;li&gt;So if the reference index not matched for current index, it should return false.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        String[] strs = str.split(&amp;quot; &amp;quot;);
+        if(strs.length != pattern.length())
+            return false;
+        Map&amp;lt;Object, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; strs.length; i++) {
+            if(!Objects.equals(map.put(pattern.charAt(i), i), map.put(strs[i], i)))
+                return false;
+        }
+        return true;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -1109,170 +1320,6 @@ public class Solution {
 }
 &lt;/code&gt;
 &lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Subarray Sum I</title>
-      <link>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
-      <pubDate>Wed, 09 Sep 2015 10:40:49 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
-      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is zero. Your code should return the index of the first number and the index of the last number.&lt;/p&gt;
-
-&lt;pre&gt;
-    &lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param nums: A list of integers
-     * @return: A list of integers includes the index of the first number 
-     *          and the index of the last number
-     */
-    public ArrayList&lt;Integer&gt; subarraySum(int[] nums) {
-        // write your code here
-        ArrayList&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();
-        if(nums == null || nums.length == 0)
-            return res;       
-        HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer&gt;();
-        int sum = 0;
-        map.put(0, 0);
-        for(int i = 0; i &lt; nums.length; i++) {
-            if(map.containsKey(sum+nums[i])) {
-                res.add(map.get(sum+nums[i]));
-                res.add(i);
-                return res;
-            }
-            map.put(sum+=nums[i], i+1);
-        }
-        return res;
-    }
-}   
-
-&lt;/code&gt;
-
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Subarray Sum II</title>
-      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
-      <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
-      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;java&#34;&gt;
-public int subarraySumII(int[] A, int start, int end) {
-    int res = 0;
-        for(int i = 1; i &lt; A.length; i++)
-            A[i] += A[i - 1];
-        
-        Arrays.sort(A);
-        for(int i = 0; i &lt; A.length; i++) {
-            if(A[i] &gt;= start &amp;&amp; A[i] &lt;= end)
-                res++;
-            // start &lt;= A[i] - A[j] &lt;= end
-            // so the max bound and min bound of A[j] are following:
-            int max = A[i] - start;
-            int min = A[i] - end;
-            // max + 1 make sure the right bound of max value and also index problem
-            int range = findInsPos(A, max + 1) - findInsPos(A, min);
-            res += range;
-        }
-        return res;
-}
-private int findInsPos(int[] A, int value) {
-        int l = 0, r = A.length - 1;
-        
-        while(l &lt; r - 1) {
-            int m = l + ((r - l) &gt;&gt;1);
-            if(A[m] &lt; value)
-                l = m;
-            else
-                r = m;
-        }
-        if(A[l] &gt;= value)
-            return l;
-        else
-            return r;
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Long Journey Across United States</title>
-      <link>http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/</link>
-      <pubDate>Wed, 02 Sep 2015 10:42:11 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/</guid>
-      <description>
-
-&lt;p&gt;Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!&lt;/p&gt;
-
-&lt;p&gt;Great road trip! Love it! Crossed 11 states in American.&lt;/p&gt;
-
-&lt;h3 id=&#34;aug-27th&#34;&gt;Aug 27th&lt;/h3&gt;
-
-&lt;h4 id=&#34;pittsburgh-pa-chicago-il&#34;&gt;Pittsburgh,PA - Chicago, IL&lt;/h4&gt;
-
-&lt;p&gt;Start from my american home town Pittsburgh! Say good bye, but really miss you!&lt;/p&gt;
-
-&lt;p&gt;Through Ohio, Indina, then Illinois. All the way is Toll way in first day trip!&lt;/p&gt;
-
-&lt;h3 id=&#34;aug-28th&#34;&gt;Aug 28th&lt;/h3&gt;
-
-&lt;h4 id=&#34;chicago-il-omaha-ne&#34;&gt;Chicago,IL - Omaha, NE&lt;/h4&gt;
-
-&lt;p&gt;Passed Iowa, acrossed Mississippi.&lt;/p&gt;
-
-&lt;p&gt;Huge corn field all the way! Typical great plain scene!
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4353.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;aug-29th&#34;&gt;Aug 29th&lt;/h3&gt;
-
-&lt;h4 id=&#34;omaha-ne-danver-co&#34;&gt;Omaha, NE - Danver, CO&lt;/h4&gt;
-
-&lt;p&gt;Farms and Corns in Omaha, then the Colorado&amp;rsquo;s desert.&lt;/p&gt;
-
-&lt;p&gt;Rocky Mountain National Park!! 4000 kilometer above sea level! Gorgeous view, like Xinjiang Uygur Autonomous Regin and Tibet in China.
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4388.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4400.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4426.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;The highest road in United States.
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4445.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;aug-30th&#34;&gt;Aug 30th&lt;/h3&gt;
-
-&lt;h4 id=&#34;danver-co-salt-lake-city-ut&#34;&gt;Danver, CO - Salt Lake City, UT&lt;/h4&gt;
-
-&lt;p&gt;Lonely Gas Staion in Wyoming
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4470.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;Storm on the way!
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4496.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;Hello Utah! Red Rock! The location is near the welcome center in Utah
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4497.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;aug-31st&#34;&gt;Aug 31st&lt;/h3&gt;
-
-&lt;h4 id=&#34;salt-lake-city-ut-reno-nv&#34;&gt;Salt Lake City, UT - Reno, NV&lt;/h4&gt;
-
-&lt;p&gt;Great Salt Plain! Never seen the view like this. Huge White Salt plat stretches continuously for nearly 100 kilometer!
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4571.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;Desert in Nevada
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4576.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;sept-1st&#34;&gt;Sept 1st,&lt;/h3&gt;
-
-&lt;h4 id=&#34;reno-nv-san-francisco-ca&#34;&gt;Reno, NV - San Francisco, CA&lt;/h4&gt;
-
-&lt;p&gt;Tahoe Lake!
-&lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4591.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 </description>
     </item>
     

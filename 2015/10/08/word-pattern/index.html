@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Closest Number  &middot; Coder Thinking -- Home Page</title>
+  <title>Word Pattern  &middot; Coder Thinking -- Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,25 +14,27 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Sort, Array, ">
+<meta name="keywords" content="String, Hash Table, Pattern Match, ">
 
 
-<meta property="og:title" content="Closest Number  &middot; Coder Thinking -- Home Page ">
+<meta property="og:title" content="Word Pattern  &middot; Coder Thinking -- Home Page ">
 <meta property="og:site_name" content="Coder Thinking -- Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/12/closest-number/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/08/word-pattern/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-12T21:43:13-07:00" />
-<meta property="og:article:modified_time" content="2015-10-12T21:43:13-07:00" />
+<meta property="og:article:published_time" content="2015-10-08T22:10:29-07:00" />
+<meta property="og:article:modified_time" content="2015-10-08T22:10:29-07:00" />
 
   
     
-<meta property="og:article:tag" content="Sort">
+<meta property="og:article:tag" content="String">
     
-<meta property="og:article:tag" content="Array">
+<meta property="og:article:tag" content="Hash Table">
+    
+<meta property="og:article:tag" content="Pattern Match">
     
   
 
@@ -40,9 +42,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Closest Number" />
+<meta name="twitter:title" content="Word Pattern" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/12/closest-number/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/08/word-pattern/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -50,20 +52,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Closest Number",
+    "headline": "Word Pattern",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-10-12",
+    "datePublished": "2015-10-08",
     "description": "",
-    "wordCount":  87 
+    "wordCount":  302 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/12/closest-number/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/08/word-pattern/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -180,23 +182,26 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Closest Number
+  <h1>Word Pattern
 </h1>
 
   <div class="metas">
-<time datetime="2015-10-12">12 Oct, 2015</time>
+<time datetime="2015-10-08">8 Oct, 2015</time>
 
 
   
-  &middot; Read in about 1 min
-  &middot; (87 Words)
+  &middot; Read in about 2 min
+  &middot; (302 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/sort">Sort; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/string">String; </a> 
 
 
-<a class="label" href="http://xmruibi.github.io/tags/array">Array; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/hash-table">Hash Table; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/pattern-match">Pattern Match; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -212,37 +217,58 @@
   <div class="container content">
   
 
-<p>Given an unsorted array, find out the most closest two elements in this array. Output</p>
+<p>Given a pattern and a string str, find if str follows the same pattern.</p>
 
-<h4 id="solution">Solution:</h4>
+<p>Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.</p>
+
+<h3 id="examples">Examples:</h3>
+
+<p>pattern = <code>abba</code>, str = <code>dog cat cat dog</code> should return true.
+pattern = <code>abba</code>, str = <code>dog cat cat fish</code> should return false.
+pattern = <code>aaaa</code>, str = <code>dog cat cat dog</code> should return false.
+pattern = <code>abba</code>, str = <code>dog dog dog dog</code> should return false.</p>
+
+<h3 id="notes">Notes:</h3>
+
+<p>You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.</p>
+
+<h2 id="solutioin">Solutioin</h2>
 
 <ul>
-<li>Sort is important here! You must think about sort first. Since other may may cost</li>
-<li>Then the gap between adjacent elements are the</li>
+<li>Firstly, you need to convert <code>str</code> into string array with spliting by space.</li>
+<li>Check two stuffs are equal length, if not? directly return false!</li>
+<li>Setup a hashmap for storing element both pattern and strs. However, the key are different types: character, string. Why not just use string? Consider about this case: pattern - <code>abba</code>, str - <code>a a b a</code>.</li>
+<li>There is one more tricky thing: why we compare the <code>map.put()</code> return value? Here is a segment in HashMap API.</li>
 </ul>
 
-<pre>
-<code class="java">
-public ArrayList<int[]> closestNumber(int[] arr){
-    ArrayList<int[]> res = new ArrayList<>();
-    if(arr == null || arr.length == 0)
-        return res;
-    Arrays.sort(arr);
-
-    int mindiff = Integer.MAX_VALUE;
-    for(int i = 1; i < arr.length; i++) {
-        int curdiff = arr[i] - arr[i - 1];
-        if(curdiff >= mindiff) {
-            if(curdiff > mindiff)
-                res.clear();
-            int[] cres = new int[]{arr[i - 1], arr[i]};
-            res.add(cres);
-        }
+<pre><code> 	if (e != null) { // existing mapping for key
+        V oldValue = e.value;
+        if (!onlyIfAbsent || oldValue == null)
+            e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
     }
-    return res;
+</code></pre>
+
+<ul>
+<li>That means the previous index(value) of character(key) will be returned as index reference. So we return the previous index and also update the index for next index reference!</li>
+<li>So if the reference index not matched for current index, it should return false.</li>
+</ul>
+
+<pre><code>public class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        String[] strs = str.split(&quot; &quot;);
+        if(strs.length != pattern.length())
+            return false;
+        Map&lt;Object, Integer&gt; map = new HashMap&lt;&gt;();
+        for(int i = 0; i &lt; strs.length; i++) {
+            if(!Objects.equals(map.put(pattern.charAt(i), i), map.put(strs[i], i)))
+                return false;
+        }
+        return true;
+    }
 }
-</code>
-</pre>
+</code></pre>
 
 </div>
 
@@ -254,13 +280,13 @@ public ArrayList<int[]> closestNumber(int[] arr){
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/" title="Route Between Two Nodes in Directed Graph">
+    <a class="prev" href="http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/" title="Search In 2D Matrix II">
       Earlier Article
     </a>
     
 
     
-    <a class="next" href="http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/" title="Longest Substring Without Repeating Characters">
+    <a class="next" href="http://xmruibi.github.io/2015/10/08/partition-array/" title="Partition Array">
       Newer Article
     </a>
     

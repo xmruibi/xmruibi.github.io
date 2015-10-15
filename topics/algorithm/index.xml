@@ -9,8 +9,63 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 12 Oct 2015 21:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 15 Oct 2015 09:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Substring Without Repeating Characters</title>
+      <link>http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/</link>
+      <pubDate>Thu, 15 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/15/longest-substring-without-repeating-characters/</guid>
+      <description>
+
+&lt;p&gt;Given a string, find the length of the longest substring without repeating characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, the longest substring without repeating letters for &lt;code&gt;abcabcbb&lt;/code&gt; is &lt;code&gt;abc&lt;/code&gt;, which the length is 3.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;bbbbb&lt;/code&gt; the longest substring is &lt;code&gt;b&lt;/code&gt;, with the length of 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set two pointers as a windows for input string.&lt;/li&gt;
+&lt;li&gt;Very simple idea, to use a hashset to store the characters in a window (substring) in string.&lt;/li&gt;
+&lt;li&gt;While the repeat detect, move forward the previous pointer.&lt;/li&gt;
+&lt;li&gt;Update the max window size each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s: a string
+     * @return: an integer 
+     */
+    public int lengthOfLongestSubstring(String s) {
+        Set&amp;lt;Character&amp;gt; disc = new HashSet&amp;lt;&amp;gt;();
+        
+        int maxLen = 0;
+        int prev = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            char c = s.charAt(i);
+            
+            while(disc.contains(c)){
+                disc.remove(s.charAt(prev++));
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+            disc.add(c);
+        }
+        return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Closest Number</title>
@@ -128,6 +183,99 @@ public class Solution {
 
 &lt;/code&gt;
 &lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Substring with At Most K Distinct Characters Show result</title>
+      <link>http://xmruibi.github.io/2015/10/08/longest-substring-with-at-most-k-distinct-characters-show-result/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/longest-substring-with-at-most-k-distinct-characters-show-result/</guid>
+      <description>
+
+&lt;p&gt;Given a string s, find the length of the longest substring T that contains at most k distinct characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, Given s = &lt;code&gt;eceba&lt;/code&gt;, k = 3,&lt;/p&gt;
+
+&lt;p&gt;T is &lt;code&gt;eceb&lt;/code&gt; which its length is 4.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n), n is the size of the string s.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set two pointers as a windows for input string.&lt;/li&gt;
+&lt;li&gt;Use a hashmap to store the characters in a window (substring) in string.&lt;/li&gt;
+&lt;li&gt;However, we notice that we use hashmap for count the character appearance times.&lt;/li&gt;
+&lt;li&gt;Remove the character as a key only if the count for this key is zero.&lt;/li&gt;
+&lt;li&gt;Update the max window size each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s : A string
+     * @return : The length of the longest substring 
+     *           that contains at most k distinct characters.
+     */
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        if(s == null)
+            return 0;
+        
+        HashMap&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        
+        int prev = 0;
+        int maxLen = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            char c = s.charAt(i);
+            if(dict.containsKey(c)) {
+                dict.put(c, dict.get(c) + 1);
+            }else {
+                dict.put(c, 1);
+                while(dict.size() &amp;gt; k) {
+                    char prevChar = s.charAt(prev++);
+                    if(dict.get(prevChar) &amp;gt; 1)
+                        dict.put(prevChar, dict.get(prevChar) - 1);
+                    else
+                        dict.remove(prevChar);
+                }
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+        }
+        
+        return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At the first I made a mistake by using hashset. However, like the previous mentioned, we need to count the character appearance. Why? Since there is possible when the character on index &lt;code&gt;prev&lt;/code&gt; has another one in this window. But when you simply remove this element, there is still one inside this window. Tha makes the mistake happened!&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Say, in &lt;code&gt;acdab&lt;/code&gt;, pointer &lt;code&gt;prev&lt;/code&gt; is on first &lt;code&gt;a&lt;/code&gt;, once we do &lt;code&gt;set.remove(a)&lt;/code&gt;, the &lt;code&gt;size()&lt;/code&gt; become 3, but in fact, it is still 4.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    // This is the wrong code!!!
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        // write your code here
+        Set&amp;lt;Character&amp;gt; disc = new HashSet&amp;lt;&amp;gt;();
+        
+        int maxLen = 0;
+        int prev = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            char c = s.charAt(i);
+            disc.add(c);
+            while(disc.size() &amp;gt; k){
+                disc.remove(s.charAt(prev++));
+            }
+            maxLen = Math.max(maxLen, i - prev + 1);
+        }
+        return maxLen;
+    }
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
@@ -260,6 +408,69 @@ public class Solution {
         if(nums[nums.length - 1] &amp;lt; k)
             return nums.length;
         return pivot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Word Pattern</title>
+      <link>http://xmruibi.github.io/2015/10/08/word-pattern/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/word-pattern/</guid>
+      <description>
+
+&lt;p&gt;Given a pattern and a string str, find if str follows the same pattern.&lt;/p&gt;
+
+&lt;p&gt;Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
+
+&lt;p&gt;pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return true.
+pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat fish&lt;/code&gt; should return false.
+pattern = &lt;code&gt;aaaa&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return false.
+pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog dog dog dog&lt;/code&gt; should return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;notes&#34;&gt;Notes:&lt;/h3&gt;
+
+&lt;p&gt;You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.&lt;/p&gt;
+
+&lt;h2 id=&#34;solutioin&#34;&gt;Solutioin&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Firstly, you need to convert &lt;code&gt;str&lt;/code&gt; into string array with spliting by space.&lt;/li&gt;
+&lt;li&gt;Check two stuffs are equal length, if not? directly return false!&lt;/li&gt;
+&lt;li&gt;Setup a hashmap for storing element both pattern and strs. However, the key are different types: character, string. Why not just use string? Consider about this case: pattern - &lt;code&gt;abba&lt;/code&gt;, str - &lt;code&gt;a a b a&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;There is one more tricky thing: why we compare the &lt;code&gt;map.put()&lt;/code&gt; return value? Here is a segment in HashMap API.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt; 	if (e != null) { // existing mapping for key
+        V oldValue = e.value;
+        if (!onlyIfAbsent || oldValue == null)
+            e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;That means the previous index(value) of character(key) will be returned as index reference. So we return the previous index and also update the index for next index reference!&lt;/li&gt;
+&lt;li&gt;So if the reference index not matched for current index, it should return false.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        String[] strs = str.split(&amp;quot; &amp;quot;);
+        if(strs.length != pattern.length())
+            return false;
+        Map&amp;lt;Object, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; strs.length; i++) {
+            if(!Objects.equals(map.put(pattern.charAt(i), i), map.put(strs[i], i)))
+                return false;
+        }
+        return true;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
