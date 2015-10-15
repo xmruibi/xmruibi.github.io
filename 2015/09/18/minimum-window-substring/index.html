@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Minimum Window Substring  &middot; Coder Thinking -- Home Page</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="String, Hash Table, Complex Implement, ">
+
+
+<meta property="og:title" content="Minimum Window Substring  &middot; Coder Thinking -- Home Page ">
+<meta property="og:site_name" content="Coder Thinking -- Home Page"/>
+<meta property="og:url" content="http://localhost:1313/2015/09/18/minimum-window-substring/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-09-18T22:10:29-07:00" />
+<meta property="og:article:modified_time" content="2015-09-18T22:10:29-07:00" />
+
+  
+    
+<meta property="og:article:tag" content="String">
+    
+<meta property="og:article:tag" content="Hash Table">
+    
+<meta property="og:article:tag" content="Complex Implement">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="Minimum Window Substring" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://localhost:1313/2015/09/18/minimum-window-substring/" />
+<meta name="twitter:domain" content="http://localhost:1313/">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Minimum Window Substring",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-09-18",
+    "description": "",
+    "wordCount":  306 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://localhost:1313/2015/09/18/minimum-window-substring/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:1313/touch-icon-144-precomposed.png">
+<link href="http://localhost:1313/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.14" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://localhost:1313/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://localhost:1313/css/style.css">
+<link rel="stylesheet" href="http://localhost:1313/css/search.css">
+<link rel="stylesheet" href="http://localhost:1313/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://localhost:1313/">
+  Rui
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  A Coder, A Thinker, A Traveler
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+<a class="homelink" href="http://localhost:1313/">Home</a>
+
+
+  
+<a href="http://localhost:1313/topics/algorithm" title="Show list of topics">Algorithm</a>
+
+<a href="http://localhost:1313/code" title="Show list of projects">Project</a>
+
+<a href="http://localhost:1313/life" title="Show list of trips">Travel</a>
+
+<a href="http://localhost:1313/post" title="Show list of posts">Archive</a>
+
+
+</nav>
+
+<div class="container nav primary no-print" style="position: relative;
+ margin-top: 2em;margin-bottom: 2em; ">
+<form role="search" id="search" action="/search">
+	<input id="page" name="p" value="1" type="hidden"/>
+	<input id="query" name="q" type="search" placeholder="Search">
+</form>
+ </div>
+<div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
+  
+<a href="http://localhost:1313/about">About</a>
+
+<a href="http://localhost:1313/tags" title="Show list of tags">Tags</a>
+
+<a href="http://localhost:1313/topics" title="Show list of topics">Topics</a>
+
+</div>
+<div class="container nav secondary no-print" style="position: relative;
+ margin-bottom: 0em;">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:xmruibi@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/xmruibi">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+<a id="contact-link-linkedin" class="contact_link" href="fr.linkedin.com/in/ruibi">
+  <span class="fa fa-linkedin-square"></span><span>linkedin</span></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Minimum Window Substring
+</h1>
+
+  <div class="metas">
+<time datetime="2015-09-18">18 Sep, 2015</time>
+
+
+  
+  &middot; Read in about 2 min
+  &middot; (306 Words)
+  <br>
+  Tags: 
+
+<a class="label" href="http://localhost:1313/tags/string">String; </a> 
+
+
+<a class="label" href="http://localhost:1313/tags/hash-table">Hash Table; </a> 
+
+
+<a class="label" href="http://localhost:1313/tags/complex-implement">Complex Implement; </a> 
+
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Topics: 
+
+<a class="label" href="http://localhost:1313/topics/algorithm">Algorithm; </a> 
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>Given a string source and a string target, find the minimum window in source which will contain all the characters in target.</p>
+
+<h3 id="example">Example</h3>
+
+<p>source = &laquo;ADOBECODEBANC&raquo; target = &laquo;ABC&raquo; Minimum window is &laquo;BANC&raquo;.</p>
+
+<h3 id="note">Note</h3>
+
+<p>If there is no such window in source that covers all characters in target, return the emtpy string &laquo;&raquo;.</p>
+
+<p>If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.</p>
+
+<h3 id="challenge">Challenge</h3>
+
+<p>Can you do it in time complexity O(n) ?</p>
+
+<h3 id="clarification">Clarification</h3>
+
+<p>The characters in minimum window doesn&rsquo;t need to has the same order in target.</p>
+
+<h2 id="solution">Solution:</h2>
+
+<pre><code>    public String minWindow(String source, String target) {
+        // preload for target checking
+        if(source == null || source.length() == 0 || target == null || target.length() == 0)
+            return &quot;&quot;;
+        
+        
+        int tarLen = target.length();
+        HashMap&lt;Character, Integer&gt; dict = new HashMap&lt;&gt;();
+        for(char c : target.toCharArray()) 
+            dict.put(c, dict.containsKey(c)? dict.get(c) + 1 : 1);
+        
+        int hitCount = 0; // record current window hits how many characters in target
+        int prevIdx = 0; // record the left bound of current window
+        int minWindow = source.length() + 1; // initial the minimum window length
+        int start = 0;
+        for(int i = 0; i &lt; source.length(); i++) {
+            char cur = source.charAt(i);
+            // if current char is not in dict, continue
+            if(!dict.containsKey(cur))
+                continue;
+            
+            dict.put(cur, dict.get(cur) - 1);
+            if(dict.get(cur) &gt;= 0)
+                hitCount++;
+            
+            // check the windows has amount of this char more than it in target string
+            // loop until the amount back to normal, but always reduce the prev index char
+            while(hitCount == tarLen) {
+                if( minWindow &gt; i - prevIdx + 1) {
+                    start = prevIdx;
+                    minWindow = i - prevIdx + 1;
+                }
+                char prevChar = source.charAt(prevIdx);
+                if(dict.containsKey(prevChar)) {
+                    dict.put(prevChar, dict.get(prevChar)+1);
+                    if(dict.get(prevChar) &gt; 0)
+                        hitCount--;
+                }
+                prevIdx++;
+            }
+        }
+        // 
+        if(minWindow &gt; source.length())
+            return &quot;&quot;;
+        return source.substring(start, start + minWindow);
+    }
+
+</code></pre>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://localhost:1313/2015/09/18/set-matrix-zeroes/" title="Set Matrix Zeroes">
+      Earlier Article
+    </a>
+    
+
+    
+    <a class="next" href="http://localhost:1313/2015/09/21/search-in-2d-matrix-i/" title="Search In 2D Matrix I">
+      Newer Article
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    
+    
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+<a class="toplink" href="#">back to top</a>
+
+</div>
+<div class="container nav foot no-print">
+  
+
+  
+</div>
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  code with <i class='fa fa-heart'></i>
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2015 Rui Bi.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    <script src="http://localhost:1313/js/jquery.min.js"></script>
+<script src="http://localhost:1313/js/bootstrap.min.js"></script>
+<script src="http://localhost:1313/js/bootstrap.js"></script>
+<script src="http://localhost:1313/js/npm.js"></script>
+<script src="http://localhost:1313/js/prism.js"></script>
+<script src="http://localhost:1313/js/handlebars.js"></script>
+<script src="http://localhost:1313/js/search.js"></script>
+
+
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://localhost:1313/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+    
+  <script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+</html>
+

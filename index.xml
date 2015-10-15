@@ -9,8 +9,176 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 12 Oct 2015 21:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2015 23:33:07 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How to build a Hugo Site like this site?</title>
+      <link>http://xmruibi.github.io/code/HugoSiteConstruction/</link>
+      <pubDate>Mon, 12 Oct 2015 23:33:07 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/code/HugoSiteConstruction/</guid>
+      <description>
+
+&lt;p&gt;This is how I build this site and the instruction for people who wanna use &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; to build static site as Github Personal Page.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-hugo&#34;&gt;What is Hugo?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Hugo is a general-purpose website framework. Technically speaking, Hugo is a static site generator.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Yes, Hugo is a kind of static site generator. Unlike the WordPress, Ghost, or Drupal, static web site doesn&amp;rsquo;t need to generate the page content when it received any request. So that means all pages should be set up once the site is built. Here is one more instruction for &lt;a href=&#34;https://www.udemy.com/build-static-sites-in-seconds-with-hugo/&#34;&gt;Hugo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;what-should-you-learn&#34;&gt;What should you learn?&lt;/h2&gt;
+
+&lt;p&gt;Hugo is built by Go language. Why use the Go? Author &lt;a href=&#34;http://spf13.com&#34;&gt;Steve Francia&lt;/a&gt; said:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I looked at existing static site generators like Jekyll, Middleman and nanoc. All had complicated dependencies to install and took far longer to render my blog with hundreds of posts than I felt was acceptable. I wanted a framework to be able to get rapid feedback while making changes to the templates, and the 5+-minute render times was just too slow. In general, they were also very blog minded and didn’t have the ability to have different content types and flexible URLs.&lt;/p&gt;
+
+&lt;p&gt;I wanted to develop a fast and full-featured website framework without dependencies. The Go language seemed to have all of the features I needed in a language. I began developing Hugo in Go and fell in love with the language. I hope you will enjoy using (and contributing to) Hugo as much as I have writing it.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Another thing you must know is MarkDown language, which is for writing your article. Please see the introduction of &lt;a href=&#34;https://en.wikipedia.org/wiki/Markdown&#34;&gt;Markdown&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;start-you-hugo-journey&#34;&gt;Start you Hugo journey!&lt;/h2&gt;
+
+&lt;p&gt;Install by &lt;code&gt;brew&lt;/code&gt;! What? You don&amp;rsquo;t know that? Do the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Check you &lt;code&gt;brew&lt;/code&gt; has updated!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ brew update
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Make sure your &lt;code&gt;brew&lt;/code&gt; has lastest &lt;code&gt;hugo&lt;/code&gt; version&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ brew info hugo
+hugo: stable 0.14 (bottled), HEAD
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then start install &lt;code&gt;hugo&lt;/code&gt;!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ brew install hugo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Well done! Finished! You&amp;rsquo;ve install Hugo! But&amp;hellip;wait&amp;hellip;How to build a site?&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s go!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ hugo new site yourFolder/siteFileName
+$ cd /thatPath
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then you&amp;rsquo;ll see the Hugo structure like this!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; ▸ archetypes/ 
+ ▸ content/
+ ▸ layouts/
+ ▸ static/
+   config.toml
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;config.toml&lt;/code&gt; that is most important thing! That guides your configuration globally for your site, includes &lt;code&gt;baseurl&lt;/code&gt;, &lt;code&gt;title&lt;/code&gt;, &lt;code&gt;copyright&lt;/code&gt;&amp;hellip;.&lt;/p&gt;
+
+&lt;p&gt;For other folders:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;archetypes：for content type! make your rules for new generate .md content.&lt;/li&gt;
+&lt;li&gt;content：for your articles. stores all your articles by using markdown format!&lt;/li&gt;
+&lt;li&gt;layouts：for layout pattern. decide how your site showing structure. You can make your html as modules here.&lt;/li&gt;
+&lt;li&gt;static：includes css, js, fonts, media.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So easy!&lt;/p&gt;
+
+&lt;p&gt;Make a new article? Try this!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ hugo new /post/yourArticle.md
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That will generate a &lt;code&gt;post&lt;/code&gt; folder in your &lt;code&gt;content&lt;/code&gt; folder and also a &lt;code&gt;yourArticle.md&lt;/code&gt; file!&lt;/p&gt;
+
+&lt;p&gt;Try do write some thing in your article!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+++
+date = &amp;quot;2015-02-01T18:19:54+08:00&amp;quot;
+draft = true
+title = &amp;quot;about&amp;quot;
+
++++
+
+#About Me!
+
+ - experience one
+ - experience two
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;+++&lt;/code&gt; means the format for &lt;code&gt;.toml&lt;/code&gt; format. You can also use &lt;code&gt;---&lt;/code&gt; for &lt;code&gt;.yaml&lt;/code&gt; format.&lt;/p&gt;
+
+&lt;h2 id=&#34;themes-for-hugo&#34;&gt;Themes for Hugo&lt;/h2&gt;
+
+&lt;p&gt;However, there is nothing can show in your site. Because you don&amp;rsquo;t have the skin of your site! What is skin? That is the themes for Hugo! Theme for Hugo like the website template. That decides what your site look like! Hugo is convenient because your can easily to change your theme for entire site!&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s make a folder in your site root directory and go inside it!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mkdir themes
+$ cd themes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I used the &lt;code&gt;hyde-y&lt;/code&gt; as my theme. You can download it by:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/enten/hyde-y
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then you&amp;rsquo;ll see a &lt;code&gt;themes/hyde-y&lt;/code&gt; folder, which contains similar structure like your site folder!&lt;/p&gt;
+
+&lt;p&gt;You also can get more themes from &lt;a href=&#34;http://themes.gohugo.io/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, you still not have linked your site and this theme! Back to the root path in your site folder, get the &lt;code&gt;config.toml&lt;/code&gt; and add this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Theme to use (located in /themes/THEMENAME/)
+theme = &amp;quot;hyde-y&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It seems everything finished! Let&amp;rsquo;s try it!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ hugo server -w
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then open &lt;code&gt;http://localhost:1313&lt;/code&gt;, we will see your site!&lt;/p&gt;
+
+&lt;h2 id=&#34;add-more-function&#34;&gt;Add more function!&lt;/h2&gt;
+
+&lt;h3 id=&#34;comment-for-your-article&#34;&gt;Comment for your article&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;Disqus&lt;/a&gt; is default supported by Hugo! Did you see that in &lt;code&gt;yourSite/themes/hyde-y/layouts/partials/modules/disqus.html&lt;/code&gt;? That is internal html module for show disqus comment below your article! However, you need to register your Disqus account! And set your disqus short name in your &lt;code&gt;config.toml&lt;/code&gt; file!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Enable Disqus integration
+disqusShortname = &amp;quot;yourShortName&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How to get your short name? Go your setting in Disqus profile home page and try &lt;code&gt;add disqus to your site&lt;/code&gt;, then follow the guide!&lt;/p&gt;
+
+&lt;p&gt;Wait&amp;hellip; Doesn&amp;rsquo;t see the disqus module during using &lt;code&gt;localhost&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Go your  &lt;code&gt;yourSite/themes/hyde-y/layouts/partials/modules/disqus.html&lt;/code&gt; file, comment the following lines:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    // if (window.location.hostname == &amp;quot;localhost&amp;quot;)
+    //   return;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Well you got it!&lt;/p&gt;
+
+&lt;h3 id=&#34;try-more-i-ll-be-back-soon&#34;&gt;Try more? I&amp;rsquo;ll be back soon!&lt;/h3&gt;
+</description>
+    </item>
     
     <item>
       <title>Closest Number</title>
@@ -244,6 +412,141 @@ search.js is our custom code to bind everything together.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;    &amp;lt;input id=&amp;quot;page&amp;quot; name=&amp;quot;p&amp;quot; value=&amp;quot;1&amp;quot; type=&amp;quot;hidden&amp;quot;/&amp;gt;
     &amp;lt;input id=&amp;quot;query&amp;quot; name=&amp;quot;q&amp;quot; type=&amp;quot;search&amp;quot; placeholder=&amp;quot;Search&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;laquo;ADOBECODEBANC&amp;raquo; target = &amp;laquo;ABC&amp;raquo; Minimum window is &amp;laquo;BANC&amp;raquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;laquo;&amp;raquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;    public String minWindow(String source, String target) {
+        // preload for target checking
+        if(source == null || source.length() == 0 || target == null || target.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        int tarLen = target.length();
+        HashMap&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        for(char c : target.toCharArray()) 
+            dict.put(c, dict.containsKey(c)? dict.get(c) + 1 : 1);
+        
+        int hitCount = 0; // record current window hits how many characters in target
+        int prevIdx = 0; // record the left bound of current window
+        int minWindow = source.length() + 1; // initial the minimum window length
+        int start = 0;
+        for(int i = 0; i &amp;lt; source.length(); i++) {
+            char cur = source.charAt(i);
+            // if current char is not in dict, continue
+            if(!dict.containsKey(cur))
+                continue;
+            
+            dict.put(cur, dict.get(cur) - 1);
+            if(dict.get(cur) &amp;gt;= 0)
+                hitCount++;
+            
+            // check the windows has amount of this char more than it in target string
+            // loop until the amount back to normal, but always reduce the prev index char
+            while(hitCount == tarLen) {
+                if( minWindow &amp;gt; i - prevIdx + 1) {
+                    start = prevIdx;
+                    minWindow = i - prevIdx + 1;
+                }
+                char prevChar = source.charAt(prevIdx);
+                if(dict.containsKey(prevChar)) {
+                    dict.put(prevChar, dict.get(prevChar)+1);
+                    if(dict.get(prevChar) &amp;gt; 0)
+                        hitCount--;
+                }
+                prevIdx++;
+            }
+        }
+        // 
+        if(minWindow &amp;gt; source.length())
+            return &amp;quot;&amp;quot;;
+        return source.substring(start, start + minWindow);
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Partition Array</title>
+      <link>http://xmruibi.github.io/2015/10/08/partition-array/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/partition-array/</guid>
+      <description>&lt;p&gt;Given an array &lt;code&gt;nums&lt;/code&gt; of integers and an int &lt;code&gt;k&lt;/code&gt;, partition the array (i.e move the elements in &amp;laquo;nums&amp;raquo;) such that:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;All elements &amp;lt; k are moved to the left&lt;/li&gt;
+&lt;li&gt;All elements &amp;gt;= k are moved to the right&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Return the partitioning index, i.e the first index i nums[i] &amp;gt;= k.&lt;/p&gt;
+
+&lt;p&gt;Solution:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical index rotate two pointer problem, looks like the idea of quick sort .&lt;/li&gt;
+&lt;li&gt;Set an index &lt;code&gt;pivot&lt;/code&gt; for marking the real position of element less than &lt;code&gt;k&lt;/code&gt; during pass the orginal array.&lt;/li&gt;
+&lt;li&gt;Once the current passing index &lt;code&gt;i&lt;/code&gt; hits the element less than &lt;code&gt;k&lt;/code&gt;, we do the swap with &lt;code&gt;pivot&lt;/code&gt; and &lt;code&gt;i&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Make sure the &lt;code&gt;pivot&lt;/code&gt; should add 1 after swap since the marked position is increase for next one.&lt;/li&gt;
+&lt;li&gt;However in new &lt;code&gt;pivot&lt;/code&gt; position we not sure the element&amp;rsquo;s value, so&amp;hellip; we need to check in next procedure.&lt;/li&gt;
+&lt;li&gt;Make sure the &lt;code&gt;i&lt;/code&gt; position decrease 1, because we just did a swap and we need to check the new &lt;code&gt;i&lt;/code&gt; is less than &amp;lsquo;k&amp;rsquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /** 
+     *@param nums: The integer array you should partition
+     *@param k: As description
+     *return: The index after partition
+     */
+    public int partitionArray(int[] nums, int k) {
+        if(nums == null || nums.length == 0)
+            return 0;
+            
+        int pivot = 0;
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            if(i &amp;gt; pivot &amp;amp;&amp;amp; nums[i] &amp;lt; k) {
+                int tmp = nums[pivot];
+                nums[pivot++] = nums[i];
+                nums[i--] = tmp;
+            }
+        }
+        // this is just for corner case when the last element still less than k
+        if(nums[nums.length - 1] &amp;lt; k)
+            return nums.length;
+        return pivot;
+    }
+}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -900,10 +1203,10 @@ private int findInsPos(int[] A, int value) {
     
     <item>
       <title>Long Journey Across United States</title>
-      <link>http://xmruibi.github.io/long-journey-across-united-states/</link>
+      <link>http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/</link>
       <pubDate>Wed, 02 Sep 2015 10:42:11 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/long-journey-across-united-states/</guid>
+      <guid>http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/</guid>
       <description>
 
 &lt;p&gt;Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!&lt;/p&gt;
@@ -970,251 +1273,6 @@ private int findInsPos(int[] A, int value) {
 
 &lt;p&gt;Tahoe Lake!
 &lt;img src=&#34;http://xmruibi.github.io/media/Journey/IMG_4591.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Immutable Classes</title>
-      <link>http://xmruibi.github.io/2015/08/11/immutable-classes/</link>
-      <pubDate>Tue, 11 Aug 2015 23:57:44 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/08/11/immutable-classes/</guid>
-      <description>
-
-&lt;h3 id=&#34;what-is-immutable-classes&#34;&gt;What is Immutable Classes&lt;/h3&gt;
-
-&lt;p&gt;不可变对象（immutable objects），后面文章我将使用immutable objects来代替不可变对象！&lt;/p&gt;
-
-&lt;p&gt;那么什么是immutable objects?什么又是mutable Objects呢？&lt;/p&gt;
-
-&lt;p&gt;immutable Objects就是那些一旦被创建，它们的状态就不能被改变的Objects，每次对他们的改变都是产生了新的immutable的对象，而mutable Objects就是那些创建后，状态可以被改变的Objects.&lt;/p&gt;
-
-&lt;p&gt;举个例子：String和StringBuilder，String是immutable的，每次对于String对象的修改都将产生一个新的String对象，而原来的对象保持不变，而StringBuilder是mutable，因为每次对于它的对象的修改都作用于该对象本身，并没有产生新的对象。&lt;/p&gt;
-
-&lt;p&gt;但有的时候String的immutable特性也会引起安全问题，这就是密码应该存放在字符数组中而不是String中的原因！&lt;/p&gt;
-
-&lt;p&gt;immutable objects 比传统的mutable对象在多线程应用中更具有优势，它不仅能够保证对象的状态不被改变，而且还可以不使用锁机制就能被其他线程共享。&lt;/p&gt;
-
-&lt;p&gt;实际上JDK本身就自带了一些immutable类，比如String，Integer以及其他包装类。为什么说String是immutable的呢？比如：java.lang.String 的trim，uppercase,substring等方法，它们返回的都是新的String对象，而并不是直接修改原来的对象。&lt;/p&gt;
-
-&lt;p&gt;如何在Java中写出Immutable的类？&lt;/p&gt;
-
-&lt;p&gt;要写出这样的类，需要遵循以下几个原则：&lt;/p&gt;
-
-&lt;p&gt;1）immutable对象的状态在创建之后就不能发生改变，任何对它的改变都应该产生一个新的对象。&lt;/p&gt;
-
-&lt;p&gt;2）Immutable类的所有的field都应该是final的。&lt;/p&gt;
-
-&lt;p&gt;3）对象必须被正确的创建，比如：对象引用在对象创建过程中不能泄露(leak)。&lt;/p&gt;
-
-&lt;p&gt;4）对象应该是final的，以此来限制子类继承父类，以避免子类改变了父类的immutable特性。&lt;/p&gt;
-
-&lt;p&gt;5）如果类中包含mutable类对象，那么返回给客户端的时候，返回该对象的一个拷贝，而不是该对象本身（该条可以归为第一条中的一个特例）&lt;/p&gt;
-
-&lt;p&gt;当然不完全遵守上面的原则也能够创建immutable的类，比如String的hashcode就不是final的，但它能保证每次调用它的值都是一致的，无论你多少次计算这个值，它都是一致的，因为这些值的是通过计算final的属性得来的！&lt;/p&gt;
-
-&lt;p&gt;另外，如果你的Java类中存在很多可选的和强制性的字段，你也可以使用建造者模式来创建一个immutable的类。&lt;/p&gt;
-
-&lt;p&gt;下面是一个例子：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public final class Contacts {
- 
-    private final String name;
-    private final String mobile;
- 
-    public Contacts(String name, String mobile) {
-        this.name = name;
-        this.mobile = mobile;
-    }
-   
-    public String getName(){
-        return name;
-    }
-   
-    public String getMobile(){
-        return mobile;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我们为类添加了final修饰，从而避免因为继承和多态引起的immutable风险。
-上面是最简单的一种实现immutable类的方式，可以看到它的所有属性都是final的。&lt;/p&gt;
-
-&lt;p&gt;有时候你要实现的immutable类中可能包含mutable的类，比如java.util.Date,尽管你将其设置成了final的，但是它的值还是可以被修改的，为了避免这个问题，我们建议返回给用户该对象的一个拷贝，这也是Java的最佳实践之一。下面是一个创建包含mutable类对象的immutable类的例子：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public final class ImmutableReminder{
-    private final Date remindingDate;
-   
-    public ImmutableReminder (Date remindingDate) {
-        if(remindingDate.getTime() &amp;lt; System.currentTimeMillis()){
-            throw new IllegalArgumentException(&amp;quot;Can not set reminder” +
-                        “ for past time: &amp;quot; + remindingDate);
-        }
-        this.remindingDate = new Date(remindingDate.getTime());
-    }
-   
-    public Date getRemindingDate() {
-        return (Date) remindingDate.clone();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面的getRemindingDate()方法可以看到，返回给用户的是类中的remindingDate属性的一个拷贝，这样的话如果别人通过getRemindingDate()方法获得了一个Date对象，然后修改了这个Date对象的值，那么这个值的修改将不会导致ImmutableReminder类对象中remindingDate值的修改。
-使用Immutable类的好处：
-1）Immutable对象是线程安全的，可以不用被synchronize就在并发环境中共享&lt;/p&gt;
-
-&lt;p&gt;2）Immutable对象简化了程序开发，因为它无需使用额外的锁机制就可以在线程间共享&lt;/p&gt;
-
-&lt;p&gt;3）Immutable对象提高了程序的性能，因为它减少了synchroinzed的使用&lt;/p&gt;
-
-&lt;p&gt;4）Immutable对象是可以被重复使用的，你可以将它们缓存起来重复使用，就像字符串字面量和整型数字一样。你可以使用静态工厂方法来提供类似于valueOf（）这样的方法，它可以从缓存中返回一个已经存在的Immutable对象，而不是重新创建一个。&lt;/p&gt;
-
-&lt;p&gt;immutable也有一个缺点就是会制造大量垃圾，由于他们不能被重用而且对于它们的使用就是”用“然后”扔“，字符串就是一个典型的例子，它会创造很多的垃圾，给垃圾收集带来很大的麻烦。当然这只是个极端的例子，合理的使用immutable对象会创造很大的价值。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Algorithm Questions Conclusion</title>
-      <link>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</link>
-      <pubDate>Tue, 11 Aug 2015 00:04:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</guid>
-      <description>
-
-&lt;h4 id=&#34;preface&#34;&gt;Preface:&lt;/h4&gt;
-
-&lt;p&gt;This is the collection of interview questions concluded by me, which is including questions from LeetCode, Cracking Code Interview, and Handwriting Coding Handbook.&lt;/p&gt;
-
-&lt;h2 id=&#34;main&#34;&gt;Main:&lt;/h2&gt;
-
-&lt;h3 id=&#34;1-basic-algorithm-part&#34;&gt;1. Basic Algorithm Part:&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Linked List Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71287&#34;&gt;https://www.zybuluo.com/xmruibi/note/71287&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Stack &amp;amp; Queue Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71283&#34;&gt;https://www.zybuluo.com/xmruibi/note/71283&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Binary Tree Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/56634&#34;&gt;https://www.zybuluo.com/xmruibi/note/56634&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Mathematical Problem Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71211&#34;&gt;https://www.zybuluo.com/xmruibi/note/71211&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Big Number Problem Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71208&#34;&gt;https://www.zybuluo.com/xmruibi/note/71208&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;2-data-structure&#34;&gt;2. Data Structure:&lt;/h3&gt;
-
-&lt;h4 id=&#34;java-collection-summary&#34;&gt;Java Collection Summary&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Abstract Collection
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71477&#34;&gt;https://www.zybuluo.com/xmruibi/note/71477&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;list&#34;&gt;- List&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;List Interface &amp;amp; Abstract List &amp;amp; Abstract Sequential List
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71582&#34;&gt;https://www.zybuluo.com/xmruibi/note/71582&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;ArrayList
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71425&#34;&gt;https://www.zybuluo.com/xmruibi/note/71425&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;set&#34;&gt;- Set&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set &amp;amp; Abstract Set
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71585&#34;&gt;https://www.zybuluo.com/xmruibi/note/71585&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;map&#34;&gt;- Map&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Map &amp;amp; Abstract Map
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71595&#34;&gt;https://www.zybuluo.com/xmruibi/note/71595&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;HashMap
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71622&#34;&gt;https://www.zybuluo.com/xmruibi/note/71622&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;graph&#34;&gt;- Graph&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Undirected Graph&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Directed Graph&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;3-algorithm-thinking&#34;&gt;3 Algorithm Thinking&lt;/h3&gt;
-
-&lt;h4 id=&#34;sort&#34;&gt;Sort&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Comparsion Sort Problems Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71280&#34;&gt;https://www.zybuluo.com/xmruibi/note/71280&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Linear Sort Solutions Summary:&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Big Data Sort Solutions Summary:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;search&#34;&gt;Search&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Binary Search Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71214&#34;&gt;https://www.zybuluo.com/xmruibi/note/71214&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;dfs-and-bfs&#34;&gt;DFS AND BFS&lt;/h4&gt;
-
-&lt;h4 id=&#34;divide-and-conquer&#34;&gt;Divide and Conquer&lt;/h4&gt;
-
-&lt;h4 id=&#34;dynamic-programming&#34;&gt;Dynamic Programming&lt;/h4&gt;
-
-&lt;h3 id=&#34;4-misc&#34;&gt;4 Misc.&lt;/h3&gt;
-
-&lt;h3 id=&#34;5-java-techs&#34;&gt;5 Java Techs&lt;/h3&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>AccessControl</title>
-      <link>http://xmruibi.github.io/2015/07/12/accesscontrol/</link>
-      <pubDate>Sun, 12 Jul 2015 00:03:07 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/07/12/accesscontrol/</guid>
-      <description>&lt;p&gt;Reading Note while reading Java Best Practice.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Access Level&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Private:&lt;/li&gt;
-&lt;li&gt;Package-private: Default&lt;/li&gt;
-&lt;li&gt;Protected:&lt;/li&gt;
-&lt;li&gt;Public&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Make each class or member as inaccessiable as possible!&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Implements Serializable may leak this class in API.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Instance field and static field must not be public!
-Lost the control of this field and not thread safety but may be okay for immutable final instance field.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;An array with not-zero length is mutable!
-Cannnot return public static array field.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;The only two ways to return above field is by establish a immutable list or create a public method returning clone object!&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Don&amp;rsquo;t expose the internal data field:
-public class should not expose any mutable field;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
 </description>
     </item>
     

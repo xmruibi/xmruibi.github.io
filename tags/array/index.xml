@@ -54,5 +54,59 @@ public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
 </description>
     </item>
     
+    <item>
+      <title>Partition Array</title>
+      <link>http://xmruibi.github.io/2015/10/08/partition-array/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/partition-array/</guid>
+      <description>&lt;p&gt;Given an array &lt;code&gt;nums&lt;/code&gt; of integers and an int &lt;code&gt;k&lt;/code&gt;, partition the array (i.e move the elements in &amp;laquo;nums&amp;raquo;) such that:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;All elements &amp;lt; k are moved to the left&lt;/li&gt;
+&lt;li&gt;All elements &amp;gt;= k are moved to the right&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Return the partitioning index, i.e the first index i nums[i] &amp;gt;= k.&lt;/p&gt;
+
+&lt;p&gt;Solution:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical index rotate two pointer problem, looks like the idea of quick sort .&lt;/li&gt;
+&lt;li&gt;Set an index &lt;code&gt;pivot&lt;/code&gt; for marking the real position of element less than &lt;code&gt;k&lt;/code&gt; during pass the orginal array.&lt;/li&gt;
+&lt;li&gt;Once the current passing index &lt;code&gt;i&lt;/code&gt; hits the element less than &lt;code&gt;k&lt;/code&gt;, we do the swap with &lt;code&gt;pivot&lt;/code&gt; and &lt;code&gt;i&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Make sure the &lt;code&gt;pivot&lt;/code&gt; should add 1 after swap since the marked position is increase for next one.&lt;/li&gt;
+&lt;li&gt;However in new &lt;code&gt;pivot&lt;/code&gt; position we not sure the element&amp;rsquo;s value, so&amp;hellip; we need to check in next procedure.&lt;/li&gt;
+&lt;li&gt;Make sure the &lt;code&gt;i&lt;/code&gt; position decrease 1, because we just did a swap and we need to check the new &lt;code&gt;i&lt;/code&gt; is less than &amp;lsquo;k&amp;rsquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /** 
+     *@param nums: The integer array you should partition
+     *@param k: As description
+     *return: The index after partition
+     */
+    public int partitionArray(int[] nums, int k) {
+        if(nums == null || nums.length == 0)
+            return 0;
+            
+        int pivot = 0;
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            if(i &amp;gt; pivot &amp;amp;&amp;amp; nums[i] &amp;lt; k) {
+                int tmp = nums[pivot];
+                nums[pivot++] = nums[i];
+                nums[i--] = tmp;
+            }
+        }
+        // this is just for corner case when the last element still less than k
+        if(nums[nums.length - 1] &amp;lt; k)
+            return nums.length;
+        return pivot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
