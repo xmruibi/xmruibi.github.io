@@ -9,8 +9,506 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 15 Oct 2015 09:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2015 21:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Submatrix Sum</title>
+      <link>http://xmruibi.github.io/2015/10/17/submatrix-sum/</link>
+      <pubDate>Sat, 17 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/submatrix-sum/</guid>
+      <description>
+
+&lt;p&gt;Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given matrix&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,5 ,7],
+  [3 ,7 ,-8],
+  [4 ,-8 ,9],
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;[(1,1), (2,2)]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n3) time.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>N Queen I</title>
+      <link>http://xmruibi.github.io/2015/10/17/n-queen-i/</link>
+      <pubDate>Sat, 17 Oct 2015 17:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/n-queen-i/</guid>
+      <description>
+
+&lt;p&gt;The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.&lt;/p&gt;
+
+&lt;p&gt;Given an integer n, return all distinct solutions to the n-queens puzzle.&lt;/p&gt;
+
+&lt;p&gt;Each solution contains a distinct board configuration of the n-queens&amp;rsquo; placement, where &amp;lsquo;Q&amp;rsquo; and &amp;lsquo;.&amp;rsquo; both indicate a queen and an empty space respectively.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;There exist two distinct solutions to the 4-queens puzzle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+
+    [&amp;quot;.Q..&amp;quot;, // Solution 1
+
+     &amp;quot;...Q&amp;quot;,
+
+     &amp;quot;Q...&amp;quot;,
+
+     &amp;quot;..Q.&amp;quot;],
+
+    [&amp;quot;..Q.&amp;quot;, // Solution 2
+
+     &amp;quot;Q...&amp;quot;,
+
+     &amp;quot;...Q&amp;quot;,
+
+     &amp;quot;.Q..&amp;quot;]
+
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use one diamension int array to represent board: index -&amp;gt; num, value -&amp;gt; col;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * Get all distinct N-Queen solutions
+     * @param n: The number of queens
+     * @return: All distinct solutions
+     * For example, A string &#39;...Q&#39; shows a queen on forth position
+     */
+    ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; solveNQueens(int n) {
+        ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        int[] board = new int[n]; 
+        recursion(res, board, 0);
+        return res;
+    }
+    
+    
+    private void recursion(ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; res, int[] board, int row) {
+        if(row == board.length) {
+            // encode the board from 1-d array to string list
+            ArrayList&amp;lt;String&amp;gt; cur = new ArrayList&amp;lt;&amp;gt;();
+            for(int i = 0 ; i &amp;lt; board.length; i++){
+                StringBuilder sb = new StringBuilder();
+                for(int j = 0 ; j &amp;lt; board.length; j++) {
+                    if(j == board[i])
+                        sb.append(&amp;quot;Q&amp;quot;);
+                    else
+                        sb.append(&amp;quot;.&amp;quot;);
+                }
+                cur.add(sb.toString());
+            }
+            res.add(cur);
+            return;
+        }
+        // recursion
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            board[row] = i;
+            if(isSafe(board, row))
+                recursion(res, board, row+1);
+        }
+            
+    }
+    
+    /**
+    * Check the current board is safe.
+    */
+    private boolean isSafe(int[] board, int row) {
+        for(int i = 0; i &amp;lt; row; i++) {
+            // difference on col value shouldn&#39;t equal to the difference on row value;
+            if((board[i]==board[row]) || (Math.abs(i - row) == Math.abs(board[i] - board[row])))
+                return false;
+        }
+        return true;
+    }
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>N Queen II</title>
+      <link>http://xmruibi.github.io/2015/10/17/n-queen-ii/</link>
+      <pubDate>Sat, 17 Oct 2015 17:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/n-queen-ii/</guid>
+      <description>&lt;p&gt;Follow up for N-Queens problem.&lt;/p&gt;
+
+&lt;p&gt;Now, instead outputting board configurations, return the total number of distinct solutions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * Calculate the total number of distinct N-Queen solutions.
+     * @param n: The number of queens.
+     * @return: The total number of distinct solutions.
+     */
+    private int solutions = 0;
+    public int totalNQueens(int n) {
+        //write your code here
+        int[] board = new int[n]; 
+        recursion(board, 0);
+        return solutions;
+    }
+    
+    private void recursion(int[] board, int row) {
+        // when valid solution found
+        if(row == board.length) {
+            solutions++;
+            return;
+        }
+        // recursion
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            board[row] = i;
+            if(isSafe(board, row))
+                recursion(board, row+1);
+        }
+            
+    }
+    
+    private boolean isSafe(int[] board, int row) {
+        for(int i = 0; i &amp;lt; row; i++) {
+            if((board[i]==board[row]) || (Math.abs(i - row) == Math.abs(board[i] - board[row])))
+                return false;
+        }
+        return true;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Integer to Roman</title>
+      <link>http://xmruibi.github.io/2015/10/16/integer-to-roman/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/integer-to-roman/</guid>
+      <description>
+
+&lt;p&gt;Given an integer, convert it to a roman numeral.&lt;/p&gt;
+
+&lt;p&gt;The number is guaranteed to be within the range from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;3999&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;4&lt;/code&gt; -&amp;gt; &lt;code&gt;IV&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12&lt;/code&gt; -&amp;gt; &lt;code&gt;XII&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;21&lt;/code&gt; -&amp;gt; &lt;code&gt;XXI&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;99&lt;/code&gt; -&amp;gt; &lt;code&gt;XCIX&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param n The integer
+     * @return Roman representation
+     */
+    public String intToRoman(int n) {
+        int[] numTab = {1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        String[] romanTab = {&amp;quot;I&amp;quot;, &amp;quot;IV&amp;quot;, &amp;quot;V&amp;quot;, &amp;quot;IX&amp;quot;, &amp;quot;X&amp;quot;, &amp;quot;XL&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;LC&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;CD&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;DM&amp;quot;,&amp;quot;M&amp;quot;};
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = numTab.length - 1; i &amp;gt;= 0; i--) {
+            while(n &amp;gt;= numTab[i]) {
+                sb.append(romanTab[i]);
+                n -= numTab[i];
+            }
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Roman to Integer</title>
+      <link>http://xmruibi.github.io/2015/10/16/roman-to-integer/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/roman-to-integer/</guid>
+      <description>
+
+&lt;p&gt;Given a roman numeral, convert it to an integer.&lt;/p&gt;
+
+&lt;p&gt;The answer is guaranteed to be within the range from 1 to 3999.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;IV&lt;/code&gt; -&amp;gt; &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XII&lt;/code&gt; -&amp;gt; &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XXI&lt;/code&gt; -&amp;gt; &lt;code&gt;21&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XCIX&lt;/code&gt; -&amp;gt; &lt;code&gt;99&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;|&amp;mdash;&amp;ndash;|&amp;mdash;&amp;mdash;|
+|Symbol | Value|
+| I | 1 |
+|V  | 5 |
+|X  | 10 |
+|L  | 50 |
+|C  | 100 |
+|D  | 500 |
+|M  | 1,000 |&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同一数码最多只能出现三次，如40不可表示为XXXX，而要表示为XL。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。&lt;/li&gt;
+&lt;li&gt;左减的数字有限制，仅限于I、X、C。比如45不可以写成VL，只能是XLV。&lt;/li&gt;
+&lt;li&gt;但是，左减时不可跨越一个位数。比如，99不可以用IC（100 - 1）表示，是用XCIX（[100 - 10] + [10 - 1]）表示。&lt;/li&gt;
+&lt;li&gt;左减数字必须为一位，比如8写成VIII，而非IIX。&lt;/li&gt;
+&lt;li&gt;右加数字不可连续超过三位，比如14写成XIV，而非XIIII。（见下方“数码限制”一项。）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s Roman representation
+     * @return an integer
+     */
+    public int romanToInt(String s) {
+        // Write your code here
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;I&#39;, 1);map.put(&#39;V&#39;, 5);
+        map.put(&#39;X&#39;, 10);map.put(&#39;L&#39;, 50);
+        map.put(&#39;C&#39;, 100);map.put(&#39;D&#39;, 500);
+        map.put(&#39;M&#39;, 1000);
+        
+        int res = 0;
+        for (int i = 0; i &amp;lt; s.length() ; i++) {
+            if(i &amp;lt; s.length() - 1 &amp;amp;&amp;amp; map.get(s.charAt(i)) &amp;lt; map.get(s.charAt(i+1)) )
+                res -= map.get(s.charAt(i));
+            else
+                res += map.get(s.charAt(i));
+        }
+        
+        return res;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Common Subsequence</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given two strings, find the longest common subsequence (LCS).&lt;/p&gt;
+
+&lt;p&gt;Your code should return the length of LCS.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;ABCD&lt;/code&gt; and &lt;code&gt;EDCA&lt;/code&gt;, the LCS is &lt;code&gt;A&lt;/code&gt; (or &lt;code&gt;D&lt;/code&gt;, &lt;code&gt;C&lt;/code&gt;), return 1.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;ABCD&lt;/code&gt; and &lt;code&gt;EACB&lt;/code&gt;, the LCS is &lt;code&gt;AC&lt;/code&gt;, return 2.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A, B: Two strings.
+     * @return: The length of longest common subsequence of A and B.
+     */
+    public int longestCommonSubsequence(String A, String B) {
+        if(A == null || B == null)
+            return 0;
+        
+        int[][] memo = new int[A.length()+1][B.length()+1];
+        for(int i = 0; i &amp;lt;= A.length(); i ++) {
+            for(int j = 0; j &amp;lt;= B.length(); j ++) {
+                if(i == 0 || j == 0)
+                    memo[i][j] = 0;
+                else
+                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : Math.max(memo[i][j-1],memo[i-1][j]));
+            }
+        }
+        return memo[A.length()][B.length()];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous Subsequence II</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer matrix (with row size n, column size m)，find the longest increasing continuous subsequence in this matrix. (The definition of the longest increasing continuous subsequence here can start at any row or column and go up/down/right/left any direction).&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,2 ,3 ,4 ,5],
+  [16,17,24,23,6],
+  [15,18,25,22,7],
+  [14,19,20,21,8],
+  [13,12,11,10,9]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;25&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(nm) time and memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is great question with DFS, Dynamic Problem and Subsequence idea.&lt;/li&gt;
+&lt;li&gt;The idea is also simple. Recursively search by DFS while we can do some memorized stuff.&lt;/li&gt;
+&lt;li&gt;Each time we figure out the maximum length with reversed increasing sequence from each element in matrix.&lt;/li&gt;
+&lt;li&gt;Note that the searching is by decreasing way.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an integer matrix
+     * @return  an integer
+     */
+    // memorized the local maximum length
+    int[][] memo;
+
+    boolean[] visited;
+    int n ,m;
+
+    // stepping way for dfs
+    int[] dx = {1,-1,0,0}; 
+    int[] dy = {0,0,1,-1};
+
+    public int longestIncreasingContinuousSubsequenceII(int[][] A) {
+        if(A.length == 0)
+            return 0;
+        n = A.length;
+        m  = A[0].length;
+        
+        memo = new int[n][m];
+        visited = new boolean[n*m];
+        
+        int res = 0;
+        for(int i = 0; i &amp;lt; n; i++) {
+            for(int j = 0; j &amp;lt; m; j++) { 
+                memo[i][j] = helper(i, j, A);
+                res = Math.max(res, memo[i][j]);
+            }
+        }
+        return res;
+    }
+    
+    private int helper(int x, int y, int[][] A) {
+        // once it touched the visited element, return that value
+        if(visited[x * m + y])
+            return memo[x][y];
+        
+        int res = 1; 
+        for(int i = 0; i &amp;lt; 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0&amp;lt;= nx &amp;amp;&amp;amp; nx &amp;lt; n &amp;amp;&amp;amp; 0&amp;lt;= ny &amp;amp;&amp;amp; ny &amp;lt; m ) {
+                // this is tricky point, we search by decreasing
+                if( A[x][y] &amp;gt; A[nx][ny]) 
+                    res = Math.max(res,  helper(nx, ny, A) + 1);
+            }
+        }
+        visited[x * m + y] = true;
+        memo[x][y] = res;
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous subsequence</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence/</link>
+      <pubDate>Fri, 16 Oct 2015 09:03:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array)，find the longest increasing continuous subsequence in this array. (The definition of the longest increasing continuous subsequence here can be from right to left or from left to right)&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[5, 4, 2, 1, 3]&lt;/code&gt;, the LICS is &lt;code&gt;[5, 4, 2, 1]&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;[5, 1, 2, 3, 4]&lt;/code&gt;, the LICS is &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;O(n) time and O(1) extra space.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is O(1) space dynamic programming. Just maintain one local max and one global max variable.&lt;/li&gt;
+&lt;li&gt;The default value of local maximum variable is 2.&lt;/li&gt;
+&lt;li&gt;The condition for growing the local maximum is by &lt;code&gt;(A[i] - A[i-1])*(A[i-1] - A[i-2]) &amp;gt; 0&lt;/code&gt;, which means &lt;code&gt;[i-2] &amp;lt; [i-1] &amp;lt; [i]&lt;/code&gt; or &lt;code&gt;[i-2] &amp;gt; [i-1] &amp;gt; [i]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an array of Integer
+     * @return  an integer
+     */
+    public int longestIncreasingContinuousSubsequence(int[] A) {
+        if( A == null )
+            return 0;
+        if( A.length &amp;lt;= 1)
+            return A.length;
+        
+        int max = 2;
+        int cur = 2;
+        for(int i = 2; i &amp;lt; A.length; i++) {
+            if((A[i] - A[i-1])*(A[i-1] - A[i-2]) &amp;gt; 0){
+                cur ++;   
+            }else
+                cur = 2;
+            max = Math.max(max, cur);
+        }
+        return max;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Longest Substring Without Repeating Characters</title>
@@ -61,6 +559,60 @@
             disc.add(c);
         }
         return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Letter Combinations of a Phone Number</title>
+      <link>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</link>
+      <pubDate>Wed, 14 Oct 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</guid>
+      <description>
+
+&lt;p&gt;Given a digit string, return all possible letter combinations that the number could represent.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Although the above answer is in lexicographical order, your answer could be in any order you want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param digits A digital string
+     * @return all posible letter combinations
+     */
+    public ArrayList&amp;lt;String&amp;gt; letterCombinations(String digits) {
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(digits == null ||digits.length() == 0)
+            return res;
+        HashMap&amp;lt;Character, String&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;2&#39;,&amp;quot;abc&amp;quot;);dict.put(&#39;3&#39;,&amp;quot;def&amp;quot;);dict.put(&#39;4&#39;,&amp;quot;ghi&amp;quot;);dict.put(&#39;5&#39;,&amp;quot;jkl&amp;quot;);
+        dict.put(&#39;6&#39;,&amp;quot;mno&amp;quot;);dict.put(&#39;7&#39;,&amp;quot;pqrs&amp;quot;);dict.put(&#39;8&#39;,&amp;quot;tuv&amp;quot;);dict.put(&#39;9&#39;,&amp;quot;wxyz&amp;quot;);
+
+        helper(dict, res, &amp;quot;&amp;quot;, digits, 0);
+        return res;
+    }
+    
+    private void helper(HashMap&amp;lt;Character, String&amp;gt; dict, ArrayList&amp;lt;String&amp;gt; res, String str, String digits, int idx) {
+        if(idx == digits.length()) {
+            res.add(new String(str));
+            return;
+        }
+        String letters = dict.get(digits.charAt(idx));
+        for(int i = 0; i &amp;lt; letters.length(); i++) {
+            str += letters.charAt(i);
+            helper(dict, res, str, digits, idx + 1);
+            str = str.substring(0, idx);
+        }
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -411,584 +963,6 @@ public class Solution {
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Word Pattern</title>
-      <link>http://xmruibi.github.io/2015/10/08/word-pattern/</link>
-      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/08/word-pattern/</guid>
-      <description>
-
-&lt;p&gt;Given a pattern and a string str, find if str follows the same pattern.&lt;/p&gt;
-
-&lt;p&gt;Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.&lt;/p&gt;
-
-&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
-
-&lt;p&gt;pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return true.
-pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat fish&lt;/code&gt; should return false.
-pattern = &lt;code&gt;aaaa&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return false.
-pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog dog dog dog&lt;/code&gt; should return false.&lt;/p&gt;
-
-&lt;h3 id=&#34;notes&#34;&gt;Notes:&lt;/h3&gt;
-
-&lt;p&gt;You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.&lt;/p&gt;
-
-&lt;h2 id=&#34;solutioin&#34;&gt;Solutioin&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Firstly, you need to convert &lt;code&gt;str&lt;/code&gt; into string array with spliting by space.&lt;/li&gt;
-&lt;li&gt;Check two stuffs are equal length, if not? directly return false!&lt;/li&gt;
-&lt;li&gt;Setup a hashmap for storing element both pattern and strs. However, the key are different types: character, string. Why not just use string? Consider about this case: pattern - &lt;code&gt;abba&lt;/code&gt;, str - &lt;code&gt;a a b a&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;There is one more tricky thing: why we compare the &lt;code&gt;map.put()&lt;/code&gt; return value? Here is a segment in HashMap API.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt; 	if (e != null) { // existing mapping for key
-        V oldValue = e.value;
-        if (!onlyIfAbsent || oldValue == null)
-            e.value = value;
-            afterNodeAccess(e);
-            return oldValue;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;That means the previous index(value) of character(key) will be returned as index reference. So we return the previous index and also update the index for next index reference!&lt;/li&gt;
-&lt;li&gt;So if the reference index not matched for current index, it should return false.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    public boolean wordPattern(String pattern, String str) {
-        String[] strs = str.split(&amp;quot; &amp;quot;);
-        if(strs.length != pattern.length())
-            return false;
-        Map&amp;lt;Object, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        for(int i = 0; i &amp;lt; strs.length; i++) {
-            if(!Objects.equals(map.put(pattern.charAt(i), i), map.put(strs[i], i)))
-                return false;
-        }
-        return true;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Search In 2D Matrix II</title>
-      <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
-      <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
-      <description>
-
-&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
-
-&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Integers in each row are sorted from left to right.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Integers in each column are sorted from up to bottom.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;No duplicate integers in each row or column.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical Matrix Search Problem, using a condition for driven coordinate moving.&lt;/li&gt;
-&lt;li&gt;Here the value and target comparasion is the driven condition.&lt;/li&gt;
-&lt;li&gt;Since the sorted matrix, we can start from right top element.&lt;/li&gt;
-&lt;li&gt;Because on the diagonal from right top to left down, all the left elements are less than the right elments.&lt;/li&gt;
-&lt;li&gt;So we have three type of running condition and set the x, y coordinate differently.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @param: A number you want to search in the matrix
-     * @return: An integer indicate the occurrence of target in the given matrix
-     */
-
-    public int searchMatrix(int[][] matrix, int target) {
-        // write your code here
-        if(matrix == null || matrix.length == 0)
-            return 0;
-        int rightTop = matrix[0][matrix[0].length - 1];
-        int x = 0, y = matrix[0].length - 1;
-        int occ = 0;
-        while(x &lt; matrix.length &amp;&amp; y &gt;= 0) {
-            int cur = matrix[x][y];
-            if(cur == target) {
-                occ ++;
-                x++; y--;
-            }else if(cur &lt; target)
-                x++;
-            else
-                y--;
-        }       
-        return occ;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Search In 2D Matrix I</title>
-      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
-      <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
-      <description>
-
-&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
-
-&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Integers in each row are sorted from left to right.&lt;/li&gt;
-&lt;li&gt;The first integer of each row is greater than the last integer of the previous row.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;First binary search with checking the first element in each row so that we can find the row may contain the target number;&lt;/li&gt;
-&lt;li&gt;So we search the lowbound of target number. However, we also can do if the element is just equals to target number then directly return for reducing time.&lt;/li&gt;
-&lt;li&gt;Once we get the target row, then we do the second binary search in this row to find the target number.&lt;/li&gt;
-&lt;li&gt;All in all, two binary search to find the target!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix, a list of lists of integers
-     * @param target, an integer
-     * @return a boolean, indicate whether matrix contains target
-     */
-    public boolean searchMatrix(int[][] matrix, int target) {
-        // write your code here
-        if(matrix == null || matrix.length == 0)
-            return false;
-        
-        int up = 0, down = matrix.length - 1;
-        while(up &lt; down - 1) {
-            int mrow = up + ((down - up) &gt;&gt; 1);
-            if(matrix[mrow][0] == target)
-                return true;
-            if(matrix[mrow][0] &lt; target)
-                up = mrow;
-            else
-                down = mrow;
-        }
-        int curRow;
-        if(matrix[up][0] &gt; target)
-            return false;
-        else if(matrix[up][0] &lt;= target &amp;&amp; matrix[down][0] &gt; target)
-            curRow = up;
-        else
-            curRow = down;
-        
-        int l = 0, r = matrix[curRow].length - 1;
-        while(l &lt; r - 1) {
-            int m = l + ((r - l) &gt;&gt; 1);
-            if(matrix[curRow][m] == target)
-                return true;
-            else if(matrix[curRow][m] &lt; target)
-                l = m;
-            else
-                r = m;
-        }
-        
-        if(matrix[curRow][l] == target || matrix[curRow][r] == target)
-            return true;
-        else
-            return false;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Set Matrix Zeroes</title>
-      <link>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
-      <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
-      <description>
-
-&lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Use the first row (up row) and the first col (left col) to record the position info of zeroes in matrix;&lt;/li&gt;
-&lt;li&gt;But we also need to set two boolean value to check if there is zero in first row and first col;&lt;/li&gt;
-&lt;li&gt;Then go through the matrix again, when [i][0] is marked zero or [0][j] is marked zero set current position as zero! This is important!;&lt;/li&gt;
-&lt;li&gt;Finally, go back to check two boolean value, and set that row or col as zero if boolean value is true;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @return: Void
-     */
-    public void setZeroes(int[][] matrix) {
-
-        if(matrix == null || matrix.length == 0)
-            return;
-        
-        boolean row = false;
-        boolean col = false;
-                        
-        for(int i = 0; i &lt; matrix.length; i++)
-            if(matrix[i][0] == 0)
-                col = true;
-                
-        for(int j = 0; j &lt; matrix[0].length; j++)
-            if(matrix[0][j] == 0)
-                row = true;
-        
-        for(int i = 1; i &lt; matrix.length; i++)
-            for(int j = 1; j &lt; matrix[i].length; j++) 
-                if(matrix[i][j] == 0) {
-                    matrix[i][0] = 0;
-                    matrix[0][j] = 0;
-                }
-                
-        for(int i = 1; i &lt; matrix.length; i++){ 
-            for(int j = 1; j &lt; matrix[0].length; j++){
-                if(matrix[i][0] == 0 || matrix[0][j] == 0)
-                    matrix[i][j] = 0;
-            }   
-        }
-        
-        if(row)
-            for(int j = 0; j &lt; matrix[0].length; j++)
-                    matrix[0][j] = 0;
-                    
-        if(col)
-            for(int i = 0; i &lt; matrix.length; i++)
-                    matrix[i][0] = 0;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Fast Power</title>
-      <link>http://xmruibi.github.io/2015/09/11/fast-power/</link>
-      <pubDate>Fri, 11 Sep 2015 19:06:42 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
-      <description>
-
-&lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;
-
-&lt;p&gt;*Example: *
- For 231 % 3 = 2
- For 1001000 % 1000 = 0&lt;/p&gt;
-
-&lt;p&gt;*Challenge: *
- O(logn)&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Divide and Conquer&lt;/li&gt;
-&lt;li&gt;Think about the two basic condition: n is 1 and n is 0;&lt;/li&gt;
-&lt;li&gt;Each time we divide the n into two part (n/2);&lt;/li&gt;
-&lt;li&gt;Then we got the combine value (divide * divide) from both parts (they&amp;rsquo;re eqaul, actually);&lt;/li&gt;
-&lt;li&gt;While n is odd, we need to add one more &amp;laquo;a&amp;raquo; time (*a);&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-class Solution {
-    /*
-     * @param a, b, n: 32bit integers
-     * @return: An integer
-     */
-    public int fastPower(int a, int b, int n) {
-
-        if(n == 1)
-            return a % b;
-        
-        if(n == 0)
-            return 1 % b;
-        
-        long divide = fastPower(a, b, n/2);
-        long combine = divide * divide;
-        combine %= b;
-        if(n % 2 == 1)
-            combine *= (long)a;
-        combine %= b;
-        return (int)combine;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Rotate Image</title>
-      <link>http://xmruibi.github.io/2015/09/11/rotate-image/</link>
-      <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/11/rotate-image/</guid>
-      <description>
-
-&lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Headache Implement question!&lt;/li&gt;
-&lt;li&gt;Very carefully to treat index.&lt;/li&gt;
-&lt;li&gt;Only calculate the &amp;frac14; of index in matrix!&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @return: Void
-     */
-    public void rotate(int[][] matrix) {
-        
-        int n = matrix.length;
-
-        // One of i or j need to consider boundry!
-        for(int i = 0; i &lt; ( n &gt;&gt; 1); i ++) {
-        // that&#39;s why j &lt; (n+1) / 2, that is the boundry!
-            for(int j = 0; j &lt; ( n+1 &gt;&gt; 1); j++) {
-                int tmp = matrix[i][j];
-                matrix[i][j] = matrix[n - j - 1][i];
-                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
-                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
-                matrix[j][n - i - 1] = tmp;
-            }
-        }
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Subarray Sum I</title>
-      <link>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</link>
-      <pubDate>Wed, 09 Sep 2015 10:40:49 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/09/subarray-sum-i/</guid>
-      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is zero. Your code should return the index of the first number and the index of the last number.&lt;/p&gt;
-
-&lt;pre&gt;
-    &lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param nums: A list of integers
-     * @return: A list of integers includes the index of the first number 
-     *          and the index of the last number
-     */
-    public ArrayList&lt;Integer&gt; subarraySum(int[] nums) {
-        // write your code here
-        ArrayList&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();
-        if(nums == null || nums.length == 0)
-            return res;       
-        HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer&gt;();
-        int sum = 0;
-        map.put(0, 0);
-        for(int i = 0; i &lt; nums.length; i++) {
-            if(map.containsKey(sum+nums[i])) {
-                res.add(map.get(sum+nums[i]));
-                res.add(i);
-                return res;
-            }
-            map.put(sum+=nums[i], i+1);
-        }
-        return res;
-    }
-}   
-
-&lt;/code&gt;
-
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Subarray Sum II</title>
-      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
-      <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
-      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;java&#34;&gt;
-public int subarraySumII(int[] A, int start, int end) {
-    int res = 0;
-        for(int i = 1; i &lt; A.length; i++)
-            A[i] += A[i - 1];
-        
-        Arrays.sort(A);
-        for(int i = 0; i &lt; A.length; i++) {
-            if(A[i] &gt;= start &amp;&amp; A[i] &lt;= end)
-                res++;
-            // start &lt;= A[i] - A[j] &lt;= end
-            // so the max bound and min bound of A[j] are following:
-            int max = A[i] - start;
-            int min = A[i] - end;
-            // max + 1 make sure the right bound of max value and also index problem
-            int range = findInsPos(A, max + 1) - findInsPos(A, min);
-            res += range;
-        }
-        return res;
-}
-private int findInsPos(int[] A, int value) {
-        int l = 0, r = A.length - 1;
-        
-        while(l &lt; r - 1) {
-            int m = l + ((r - l) &gt;&gt;1);
-            if(A[m] &lt; value)
-                l = m;
-            else
-                r = m;
-        }
-        if(A[l] &gt;= value)
-            return l;
-        else
-            return r;
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Algorithm Questions Conclusion</title>
-      <link>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</link>
-      <pubDate>Tue, 11 Aug 2015 00:04:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/</guid>
-      <description>
-
-&lt;h4 id=&#34;preface&#34;&gt;Preface:&lt;/h4&gt;
-
-&lt;p&gt;This is the collection of interview questions concluded by me, which is including questions from LeetCode, Cracking Code Interview, and Handwriting Coding Handbook.&lt;/p&gt;
-
-&lt;h2 id=&#34;main&#34;&gt;Main:&lt;/h2&gt;
-
-&lt;h3 id=&#34;1-basic-algorithm-part&#34;&gt;1. Basic Algorithm Part:&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Linked List Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71287&#34;&gt;https://www.zybuluo.com/xmruibi/note/71287&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Stack &amp;amp; Queue Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71283&#34;&gt;https://www.zybuluo.com/xmruibi/note/71283&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Binary Tree Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/56634&#34;&gt;https://www.zybuluo.com/xmruibi/note/56634&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Mathematical Problem Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71211&#34;&gt;https://www.zybuluo.com/xmruibi/note/71211&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Big Number Problem Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71208&#34;&gt;https://www.zybuluo.com/xmruibi/note/71208&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;2-data-structure&#34;&gt;2. Data Structure:&lt;/h3&gt;
-
-&lt;h4 id=&#34;java-collection-summary&#34;&gt;Java Collection Summary&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Abstract Collection
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71477&#34;&gt;https://www.zybuluo.com/xmruibi/note/71477&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;list&#34;&gt;- List&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;List Interface &amp;amp; Abstract List &amp;amp; Abstract Sequential List
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71582&#34;&gt;https://www.zybuluo.com/xmruibi/note/71582&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;ArrayList
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71425&#34;&gt;https://www.zybuluo.com/xmruibi/note/71425&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;set&#34;&gt;- Set&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set &amp;amp; Abstract Set
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71585&#34;&gt;https://www.zybuluo.com/xmruibi/note/71585&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;map&#34;&gt;- Map&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Map &amp;amp; Abstract Map
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71595&#34;&gt;https://www.zybuluo.com/xmruibi/note/71595&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;HashMap
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71622&#34;&gt;https://www.zybuluo.com/xmruibi/note/71622&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;graph&#34;&gt;- Graph&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Undirected Graph&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Directed Graph&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;3-algorithm-thinking&#34;&gt;3 Algorithm Thinking&lt;/h3&gt;
-
-&lt;h4 id=&#34;sort&#34;&gt;Sort&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Comparsion Sort Problems Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71280&#34;&gt;https://www.zybuluo.com/xmruibi/note/71280&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Linear Sort Solutions Summary:&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Big Data Sort Solutions Summary:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;search&#34;&gt;Search&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Binary Search Summary:
-&lt;a href=&#34;https://www.zybuluo.com/xmruibi/note/71214&#34;&gt;https://www.zybuluo.com/xmruibi/note/71214&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;dfs-and-bfs&#34;&gt;DFS AND BFS&lt;/h4&gt;
-
-&lt;h4 id=&#34;divide-and-conquer&#34;&gt;Divide and Conquer&lt;/h4&gt;
-
-&lt;h4 id=&#34;dynamic-programming&#34;&gt;Dynamic Programming&lt;/h4&gt;
-
-&lt;h3 id=&#34;4-misc&#34;&gt;4 Misc.&lt;/h3&gt;
-
-&lt;h3 id=&#34;5-java-techs&#34;&gt;5 Java Techs&lt;/h3&gt;
 </description>
     </item>
     

@@ -9,8 +9,506 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 15 Oct 2015 09:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2015 21:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Submatrix Sum</title>
+      <link>http://xmruibi.github.io/2015/10/17/submatrix-sum/</link>
+      <pubDate>Sat, 17 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/submatrix-sum/</guid>
+      <description>
+
+&lt;p&gt;Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given matrix&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,5 ,7],
+  [3 ,7 ,-8],
+  [4 ,-8 ,9],
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;[(1,1), (2,2)]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n3) time.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>N Queen I</title>
+      <link>http://xmruibi.github.io/2015/10/17/n-queen-i/</link>
+      <pubDate>Sat, 17 Oct 2015 17:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/n-queen-i/</guid>
+      <description>
+
+&lt;p&gt;The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.&lt;/p&gt;
+
+&lt;p&gt;Given an integer n, return all distinct solutions to the n-queens puzzle.&lt;/p&gt;
+
+&lt;p&gt;Each solution contains a distinct board configuration of the n-queens&amp;rsquo; placement, where &amp;lsquo;Q&amp;rsquo; and &amp;lsquo;.&amp;rsquo; both indicate a queen and an empty space respectively.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;There exist two distinct solutions to the 4-queens puzzle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+
+    [&amp;quot;.Q..&amp;quot;, // Solution 1
+
+     &amp;quot;...Q&amp;quot;,
+
+     &amp;quot;Q...&amp;quot;,
+
+     &amp;quot;..Q.&amp;quot;],
+
+    [&amp;quot;..Q.&amp;quot;, // Solution 2
+
+     &amp;quot;Q...&amp;quot;,
+
+     &amp;quot;...Q&amp;quot;,
+
+     &amp;quot;.Q..&amp;quot;]
+
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use one diamension int array to represent board: index -&amp;gt; num, value -&amp;gt; col;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * Get all distinct N-Queen solutions
+     * @param n: The number of queens
+     * @return: All distinct solutions
+     * For example, A string &#39;...Q&#39; shows a queen on forth position
+     */
+    ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; solveNQueens(int n) {
+        ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        int[] board = new int[n]; 
+        recursion(res, board, 0);
+        return res;
+    }
+    
+    
+    private void recursion(ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; res, int[] board, int row) {
+        if(row == board.length) {
+            // encode the board from 1-d array to string list
+            ArrayList&amp;lt;String&amp;gt; cur = new ArrayList&amp;lt;&amp;gt;();
+            for(int i = 0 ; i &amp;lt; board.length; i++){
+                StringBuilder sb = new StringBuilder();
+                for(int j = 0 ; j &amp;lt; board.length; j++) {
+                    if(j == board[i])
+                        sb.append(&amp;quot;Q&amp;quot;);
+                    else
+                        sb.append(&amp;quot;.&amp;quot;);
+                }
+                cur.add(sb.toString());
+            }
+            res.add(cur);
+            return;
+        }
+        // recursion
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            board[row] = i;
+            if(isSafe(board, row))
+                recursion(res, board, row+1);
+        }
+            
+    }
+    
+    /**
+    * Check the current board is safe.
+    */
+    private boolean isSafe(int[] board, int row) {
+        for(int i = 0; i &amp;lt; row; i++) {
+            // difference on col value shouldn&#39;t equal to the difference on row value;
+            if((board[i]==board[row]) || (Math.abs(i - row) == Math.abs(board[i] - board[row])))
+                return false;
+        }
+        return true;
+    }
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>N Queen II</title>
+      <link>http://xmruibi.github.io/2015/10/17/n-queen-ii/</link>
+      <pubDate>Sat, 17 Oct 2015 17:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/n-queen-ii/</guid>
+      <description>&lt;p&gt;Follow up for N-Queens problem.&lt;/p&gt;
+
+&lt;p&gt;Now, instead outputting board configurations, return the total number of distinct solutions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * Calculate the total number of distinct N-Queen solutions.
+     * @param n: The number of queens.
+     * @return: The total number of distinct solutions.
+     */
+    private int solutions = 0;
+    public int totalNQueens(int n) {
+        //write your code here
+        int[] board = new int[n]; 
+        recursion(board, 0);
+        return solutions;
+    }
+    
+    private void recursion(int[] board, int row) {
+        // when valid solution found
+        if(row == board.length) {
+            solutions++;
+            return;
+        }
+        // recursion
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            board[row] = i;
+            if(isSafe(board, row))
+                recursion(board, row+1);
+        }
+            
+    }
+    
+    private boolean isSafe(int[] board, int row) {
+        for(int i = 0; i &amp;lt; row; i++) {
+            if((board[i]==board[row]) || (Math.abs(i - row) == Math.abs(board[i] - board[row])))
+                return false;
+        }
+        return true;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Integer to Roman</title>
+      <link>http://xmruibi.github.io/2015/10/16/integer-to-roman/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/integer-to-roman/</guid>
+      <description>
+
+&lt;p&gt;Given an integer, convert it to a roman numeral.&lt;/p&gt;
+
+&lt;p&gt;The number is guaranteed to be within the range from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;3999&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;4&lt;/code&gt; -&amp;gt; &lt;code&gt;IV&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12&lt;/code&gt; -&amp;gt; &lt;code&gt;XII&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;21&lt;/code&gt; -&amp;gt; &lt;code&gt;XXI&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;99&lt;/code&gt; -&amp;gt; &lt;code&gt;XCIX&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param n The integer
+     * @return Roman representation
+     */
+    public String intToRoman(int n) {
+        int[] numTab = {1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        String[] romanTab = {&amp;quot;I&amp;quot;, &amp;quot;IV&amp;quot;, &amp;quot;V&amp;quot;, &amp;quot;IX&amp;quot;, &amp;quot;X&amp;quot;, &amp;quot;XL&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;LC&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;CD&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;DM&amp;quot;,&amp;quot;M&amp;quot;};
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = numTab.length - 1; i &amp;gt;= 0; i--) {
+            while(n &amp;gt;= numTab[i]) {
+                sb.append(romanTab[i]);
+                n -= numTab[i];
+            }
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Roman to Integer</title>
+      <link>http://xmruibi.github.io/2015/10/16/roman-to-integer/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/roman-to-integer/</guid>
+      <description>
+
+&lt;p&gt;Given a roman numeral, convert it to an integer.&lt;/p&gt;
+
+&lt;p&gt;The answer is guaranteed to be within the range from 1 to 3999.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;IV&lt;/code&gt; -&amp;gt; &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XII&lt;/code&gt; -&amp;gt; &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XXI&lt;/code&gt; -&amp;gt; &lt;code&gt;21&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XCIX&lt;/code&gt; -&amp;gt; &lt;code&gt;99&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;|&amp;mdash;&amp;ndash;|&amp;mdash;&amp;mdash;|
+|Symbol | Value|
+| I | 1 |
+|V  | 5 |
+|X  | 10 |
+|L  | 50 |
+|C  | 100 |
+|D  | 500 |
+|M  | 1,000 |&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同一数码最多只能出现三次，如40不可表示为XXXX，而要表示为XL。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。&lt;/li&gt;
+&lt;li&gt;左减的数字有限制，仅限于I、X、C。比如45不可以写成VL，只能是XLV。&lt;/li&gt;
+&lt;li&gt;但是，左减时不可跨越一个位数。比如，99不可以用IC（100 - 1）表示，是用XCIX（[100 - 10] + [10 - 1]）表示。&lt;/li&gt;
+&lt;li&gt;左减数字必须为一位，比如8写成VIII，而非IIX。&lt;/li&gt;
+&lt;li&gt;右加数字不可连续超过三位，比如14写成XIV，而非XIIII。（见下方“数码限制”一项。）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s Roman representation
+     * @return an integer
+     */
+    public int romanToInt(String s) {
+        // Write your code here
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;I&#39;, 1);map.put(&#39;V&#39;, 5);
+        map.put(&#39;X&#39;, 10);map.put(&#39;L&#39;, 50);
+        map.put(&#39;C&#39;, 100);map.put(&#39;D&#39;, 500);
+        map.put(&#39;M&#39;, 1000);
+        
+        int res = 0;
+        for (int i = 0; i &amp;lt; s.length() ; i++) {
+            if(i &amp;lt; s.length() - 1 &amp;amp;&amp;amp; map.get(s.charAt(i)) &amp;lt; map.get(s.charAt(i+1)) )
+                res -= map.get(s.charAt(i));
+            else
+                res += map.get(s.charAt(i));
+        }
+        
+        return res;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Common Subsequence</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given two strings, find the longest common subsequence (LCS).&lt;/p&gt;
+
+&lt;p&gt;Your code should return the length of LCS.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;ABCD&lt;/code&gt; and &lt;code&gt;EDCA&lt;/code&gt;, the LCS is &lt;code&gt;A&lt;/code&gt; (or &lt;code&gt;D&lt;/code&gt;, &lt;code&gt;C&lt;/code&gt;), return 1.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;ABCD&lt;/code&gt; and &lt;code&gt;EACB&lt;/code&gt;, the LCS is &lt;code&gt;AC&lt;/code&gt;, return 2.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A, B: Two strings.
+     * @return: The length of longest common subsequence of A and B.
+     */
+    public int longestCommonSubsequence(String A, String B) {
+        if(A == null || B == null)
+            return 0;
+        
+        int[][] memo = new int[A.length()+1][B.length()+1];
+        for(int i = 0; i &amp;lt;= A.length(); i ++) {
+            for(int j = 0; j &amp;lt;= B.length(); j ++) {
+                if(i == 0 || j == 0)
+                    memo[i][j] = 0;
+                else
+                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : Math.max(memo[i][j-1],memo[i-1][j]));
+            }
+        }
+        return memo[A.length()][B.length()];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous Subsequence II</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer matrix (with row size n, column size m)，find the longest increasing continuous subsequence in this matrix. (The definition of the longest increasing continuous subsequence here can start at any row or column and go up/down/right/left any direction).&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,2 ,3 ,4 ,5],
+  [16,17,24,23,6],
+  [15,18,25,22,7],
+  [14,19,20,21,8],
+  [13,12,11,10,9]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;25&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(nm) time and memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is great question with DFS, Dynamic Problem and Subsequence idea.&lt;/li&gt;
+&lt;li&gt;The idea is also simple. Recursively search by DFS while we can do some memorized stuff.&lt;/li&gt;
+&lt;li&gt;Each time we figure out the maximum length with reversed increasing sequence from each element in matrix.&lt;/li&gt;
+&lt;li&gt;Note that the searching is by decreasing way.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an integer matrix
+     * @return  an integer
+     */
+    // memorized the local maximum length
+    int[][] memo;
+
+    boolean[] visited;
+    int n ,m;
+
+    // stepping way for dfs
+    int[] dx = {1,-1,0,0}; 
+    int[] dy = {0,0,1,-1};
+
+    public int longestIncreasingContinuousSubsequenceII(int[][] A) {
+        if(A.length == 0)
+            return 0;
+        n = A.length;
+        m  = A[0].length;
+        
+        memo = new int[n][m];
+        visited = new boolean[n*m];
+        
+        int res = 0;
+        for(int i = 0; i &amp;lt; n; i++) {
+            for(int j = 0; j &amp;lt; m; j++) { 
+                memo[i][j] = helper(i, j, A);
+                res = Math.max(res, memo[i][j]);
+            }
+        }
+        return res;
+    }
+    
+    private int helper(int x, int y, int[][] A) {
+        // once it touched the visited element, return that value
+        if(visited[x * m + y])
+            return memo[x][y];
+        
+        int res = 1; 
+        for(int i = 0; i &amp;lt; 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0&amp;lt;= nx &amp;amp;&amp;amp; nx &amp;lt; n &amp;amp;&amp;amp; 0&amp;lt;= ny &amp;amp;&amp;amp; ny &amp;lt; m ) {
+                // this is tricky point, we search by decreasing
+                if( A[x][y] &amp;gt; A[nx][ny]) 
+                    res = Math.max(res,  helper(nx, ny, A) + 1);
+            }
+        }
+        visited[x * m + y] = true;
+        memo[x][y] = res;
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous subsequence</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence/</link>
+      <pubDate>Fri, 16 Oct 2015 09:03:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array)，find the longest increasing continuous subsequence in this array. (The definition of the longest increasing continuous subsequence here can be from right to left or from left to right)&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[5, 4, 2, 1, 3]&lt;/code&gt;, the LICS is &lt;code&gt;[5, 4, 2, 1]&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;[5, 1, 2, 3, 4]&lt;/code&gt;, the LICS is &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;O(n) time and O(1) extra space.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is O(1) space dynamic programming. Just maintain one local max and one global max variable.&lt;/li&gt;
+&lt;li&gt;The default value of local maximum variable is 2.&lt;/li&gt;
+&lt;li&gt;The condition for growing the local maximum is by &lt;code&gt;(A[i] - A[i-1])*(A[i-1] - A[i-2]) &amp;gt; 0&lt;/code&gt;, which means &lt;code&gt;[i-2] &amp;lt; [i-1] &amp;lt; [i]&lt;/code&gt; or &lt;code&gt;[i-2] &amp;gt; [i-1] &amp;gt; [i]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an array of Integer
+     * @return  an integer
+     */
+    public int longestIncreasingContinuousSubsequence(int[] A) {
+        if( A == null )
+            return 0;
+        if( A.length &amp;lt;= 1)
+            return A.length;
+        
+        int max = 2;
+        int cur = 2;
+        for(int i = 2; i &amp;lt; A.length; i++) {
+            if((A[i] - A[i-1])*(A[i-1] - A[i-2]) &amp;gt; 0){
+                cur ++;   
+            }else
+                cur = 2;
+            max = Math.max(max, cur);
+        }
+        return max;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Longest Substring Without Repeating Characters</title>
@@ -61,6 +559,60 @@
             disc.add(c);
         }
         return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Letter Combinations of a Phone Number</title>
+      <link>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</link>
+      <pubDate>Wed, 14 Oct 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</guid>
+      <description>
+
+&lt;p&gt;Given a digit string, return all possible letter combinations that the number could represent.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Although the above answer is in lexicographical order, your answer could be in any order you want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param digits A digital string
+     * @return all posible letter combinations
+     */
+    public ArrayList&amp;lt;String&amp;gt; letterCombinations(String digits) {
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(digits == null ||digits.length() == 0)
+            return res;
+        HashMap&amp;lt;Character, String&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;2&#39;,&amp;quot;abc&amp;quot;);dict.put(&#39;3&#39;,&amp;quot;def&amp;quot;);dict.put(&#39;4&#39;,&amp;quot;ghi&amp;quot;);dict.put(&#39;5&#39;,&amp;quot;jkl&amp;quot;);
+        dict.put(&#39;6&#39;,&amp;quot;mno&amp;quot;);dict.put(&#39;7&#39;,&amp;quot;pqrs&amp;quot;);dict.put(&#39;8&#39;,&amp;quot;tuv&amp;quot;);dict.put(&#39;9&#39;,&amp;quot;wxyz&amp;quot;);
+
+        helper(dict, res, &amp;quot;&amp;quot;, digits, 0);
+        return res;
+    }
+    
+    private void helper(HashMap&amp;lt;Character, String&amp;gt; dict, ArrayList&amp;lt;String&amp;gt; res, String str, String digits, int idx) {
+        if(idx == digits.length()) {
+            res.add(new String(str));
+            return;
+        }
+        String letters = dict.get(digits.charAt(idx));
+        for(int i = 0; i &amp;lt; letters.length(); i++) {
+            str += letters.charAt(i);
+            helper(dict, res, str, digits, idx + 1);
+            str = str.substring(0, idx);
+        }
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -472,87 +1024,6 @@ search.js is our custom code to bind everything together.&lt;/p&gt;
     </item>
     
     <item>
-      <title>Minimum Window Substring</title>
-      <link>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</link>
-      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</guid>
-      <description>
-
-&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;source = &amp;laquo;ADOBECODEBANC&amp;raquo; target = &amp;laquo;ABC&amp;raquo; Minimum window is &amp;laquo;BANC&amp;raquo;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;laquo;&amp;raquo;.&lt;/p&gt;
-
-&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
-
-&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
-
-&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;    public String minWindow(String source, String target) {
-        // preload for target checking
-        if(source == null || source.length() == 0 || target == null || target.length() == 0)
-            return &amp;quot;&amp;quot;;
-        
-        
-        int tarLen = target.length();
-        HashMap&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
-        for(char c : target.toCharArray()) 
-            dict.put(c, dict.containsKey(c)? dict.get(c) + 1 : 1);
-        
-        int hitCount = 0; // record current window hits how many characters in target
-        int prevIdx = 0; // record the left bound of current window
-        int minWindow = source.length() + 1; // initial the minimum window length
-        int start = 0;
-        for(int i = 0; i &amp;lt; source.length(); i++) {
-            char cur = source.charAt(i);
-            // if current char is not in dict, continue
-            if(!dict.containsKey(cur))
-                continue;
-            
-            dict.put(cur, dict.get(cur) - 1);
-            if(dict.get(cur) &amp;gt;= 0)
-                hitCount++;
-            
-            // check the windows has amount of this char more than it in target string
-            // loop until the amount back to normal, but always reduce the prev index char
-            while(hitCount == tarLen) {
-                if( minWindow &amp;gt; i - prevIdx + 1) {
-                    start = prevIdx;
-                    minWindow = i - prevIdx + 1;
-                }
-                char prevChar = source.charAt(prevIdx);
-                if(dict.containsKey(prevChar)) {
-                    dict.put(prevChar, dict.get(prevChar)+1);
-                    if(dict.get(prevChar) &amp;gt; 0)
-                        hitCount--;
-                }
-                prevIdx++;
-            }
-        }
-        // 
-        if(minWindow &amp;gt; source.length())
-            return &amp;quot;&amp;quot;;
-        return source.substring(start, start + minWindow);
-    }
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Longest Substring with At Most K Distinct Characters Show result</title>
       <link>http://xmruibi.github.io/2015/10/08/longest-substring-with-at-most-k-distinct-characters-show-result/</link>
       <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
@@ -642,684 +1113,6 @@ search.js is our custom code to bind everything together.&lt;/p&gt;
         return maxLen;
     }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Partition Array</title>
-      <link>http://xmruibi.github.io/2015/10/08/partition-array/</link>
-      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/08/partition-array/</guid>
-      <description>&lt;p&gt;Given an array &lt;code&gt;nums&lt;/code&gt; of integers and an int &lt;code&gt;k&lt;/code&gt;, partition the array (i.e move the elements in &amp;laquo;nums&amp;raquo;) such that:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;All elements &amp;lt; k are moved to the left&lt;/li&gt;
-&lt;li&gt;All elements &amp;gt;= k are moved to the right&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Return the partitioning index, i.e the first index i nums[i] &amp;gt;= k.&lt;/p&gt;
-
-&lt;p&gt;Solution:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical index rotate two pointer problem, looks like the idea of quick sort .&lt;/li&gt;
-&lt;li&gt;Set an index &lt;code&gt;pivot&lt;/code&gt; for marking the real position of element less than &lt;code&gt;k&lt;/code&gt; during pass the orginal array.&lt;/li&gt;
-&lt;li&gt;Once the current passing index &lt;code&gt;i&lt;/code&gt; hits the element less than &lt;code&gt;k&lt;/code&gt;, we do the swap with &lt;code&gt;pivot&lt;/code&gt; and &lt;code&gt;i&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Make sure the &lt;code&gt;pivot&lt;/code&gt; should add 1 after swap since the marked position is increase for next one.&lt;/li&gt;
-&lt;li&gt;However in new &lt;code&gt;pivot&lt;/code&gt; position we not sure the element&amp;rsquo;s value, so&amp;hellip; we need to check in next procedure.&lt;/li&gt;
-&lt;li&gt;Make sure the &lt;code&gt;i&lt;/code&gt; position decrease 1, because we just did a swap and we need to check the new &lt;code&gt;i&lt;/code&gt; is less than &amp;lsquo;k&amp;rsquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /** 
-     *@param nums: The integer array you should partition
-     *@param k: As description
-     *return: The index after partition
-     */
-    public int partitionArray(int[] nums, int k) {
-        if(nums == null || nums.length == 0)
-            return 0;
-            
-        int pivot = 0;
-        for(int i = 0; i &amp;lt; nums.length; i++) {
-            if(i &amp;gt; pivot &amp;amp;&amp;amp; nums[i] &amp;lt; k) {
-                int tmp = nums[pivot];
-                nums[pivot++] = nums[i];
-                nums[i--] = tmp;
-            }
-        }
-        // this is just for corner case when the last element still less than k
-        if(nums[nums.length - 1] &amp;lt; k)
-            return nums.length;
-        return pivot;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Word Pattern</title>
-      <link>http://xmruibi.github.io/2015/10/08/word-pattern/</link>
-      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/08/word-pattern/</guid>
-      <description>
-
-&lt;p&gt;Given a pattern and a string str, find if str follows the same pattern.&lt;/p&gt;
-
-&lt;p&gt;Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.&lt;/p&gt;
-
-&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
-
-&lt;p&gt;pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return true.
-pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog cat cat fish&lt;/code&gt; should return false.
-pattern = &lt;code&gt;aaaa&lt;/code&gt;, str = &lt;code&gt;dog cat cat dog&lt;/code&gt; should return false.
-pattern = &lt;code&gt;abba&lt;/code&gt;, str = &lt;code&gt;dog dog dog dog&lt;/code&gt; should return false.&lt;/p&gt;
-
-&lt;h3 id=&#34;notes&#34;&gt;Notes:&lt;/h3&gt;
-
-&lt;p&gt;You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.&lt;/p&gt;
-
-&lt;h2 id=&#34;solutioin&#34;&gt;Solutioin&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Firstly, you need to convert &lt;code&gt;str&lt;/code&gt; into string array with spliting by space.&lt;/li&gt;
-&lt;li&gt;Check two stuffs are equal length, if not? directly return false!&lt;/li&gt;
-&lt;li&gt;Setup a hashmap for storing element both pattern and strs. However, the key are different types: character, string. Why not just use string? Consider about this case: pattern - &lt;code&gt;abba&lt;/code&gt;, str - &lt;code&gt;a a b a&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;There is one more tricky thing: why we compare the &lt;code&gt;map.put()&lt;/code&gt; return value? Here is a segment in HashMap API.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt; 	if (e != null) { // existing mapping for key
-        V oldValue = e.value;
-        if (!onlyIfAbsent || oldValue == null)
-            e.value = value;
-            afterNodeAccess(e);
-            return oldValue;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;That means the previous index(value) of character(key) will be returned as index reference. So we return the previous index and also update the index for next index reference!&lt;/li&gt;
-&lt;li&gt;So if the reference index not matched for current index, it should return false.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    public boolean wordPattern(String pattern, String str) {
-        String[] strs = str.split(&amp;quot; &amp;quot;);
-        if(strs.length != pattern.length())
-            return false;
-        Map&amp;lt;Object, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        for(int i = 0; i &amp;lt; strs.length; i++) {
-            if(!Objects.equals(map.put(pattern.charAt(i), i), map.put(strs[i], i)))
-                return false;
-        }
-        return true;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Search In 2D Matrix II</title>
-      <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
-      <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</guid>
-      <description>
-
-&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.&lt;/p&gt;
-
-&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Integers in each row are sorted from left to right.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Integers in each column are sorted from up to bottom.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;No duplicate integers in each row or column.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical Matrix Search Problem, using a condition for driven coordinate moving.&lt;/li&gt;
-&lt;li&gt;Here the value and target comparasion is the driven condition.&lt;/li&gt;
-&lt;li&gt;Since the sorted matrix, we can start from right top element.&lt;/li&gt;
-&lt;li&gt;Because on the diagonal from right top to left down, all the left elements are less than the right elments.&lt;/li&gt;
-&lt;li&gt;So we have three type of running condition and set the x, y coordinate differently.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @param: A number you want to search in the matrix
-     * @return: An integer indicate the occurrence of target in the given matrix
-     */
-
-    public int searchMatrix(int[][] matrix, int target) {
-        // write your code here
-        if(matrix == null || matrix.length == 0)
-            return 0;
-        int rightTop = matrix[0][matrix[0].length - 1];
-        int x = 0, y = matrix[0].length - 1;
-        int occ = 0;
-        while(x &lt; matrix.length &amp;&amp; y &gt;= 0) {
-            int cur = matrix[x][y];
-            if(cur == target) {
-                occ ++;
-                x++; y--;
-            }else if(cur &lt; target)
-                x++;
-            else
-                y--;
-        }       
-        return occ;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Search In 2D Matrix I</title>
-      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
-      <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
-      <description>
-
-&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
-
-&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Integers in each row are sorted from left to right.&lt;/li&gt;
-&lt;li&gt;The first integer of each row is greater than the last integer of the previous row.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;First binary search with checking the first element in each row so that we can find the row may contain the target number;&lt;/li&gt;
-&lt;li&gt;So we search the lowbound of target number. However, we also can do if the element is just equals to target number then directly return for reducing time.&lt;/li&gt;
-&lt;li&gt;Once we get the target row, then we do the second binary search in this row to find the target number.&lt;/li&gt;
-&lt;li&gt;All in all, two binary search to find the target!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix, a list of lists of integers
-     * @param target, an integer
-     * @return a boolean, indicate whether matrix contains target
-     */
-    public boolean searchMatrix(int[][] matrix, int target) {
-        // write your code here
-        if(matrix == null || matrix.length == 0)
-            return false;
-        
-        int up = 0, down = matrix.length - 1;
-        while(up &lt; down - 1) {
-            int mrow = up + ((down - up) &gt;&gt; 1);
-            if(matrix[mrow][0] == target)
-                return true;
-            if(matrix[mrow][0] &lt; target)
-                up = mrow;
-            else
-                down = mrow;
-        }
-        int curRow;
-        if(matrix[up][0] &gt; target)
-            return false;
-        else if(matrix[up][0] &lt;= target &amp;&amp; matrix[down][0] &gt; target)
-            curRow = up;
-        else
-            curRow = down;
-        
-        int l = 0, r = matrix[curRow].length - 1;
-        while(l &lt; r - 1) {
-            int m = l + ((r - l) &gt;&gt; 1);
-            if(matrix[curRow][m] == target)
-                return true;
-            else if(matrix[curRow][m] &lt; target)
-                l = m;
-            else
-                r = m;
-        }
-        
-        if(matrix[curRow][l] == target || matrix[curRow][r] == target)
-            return true;
-        else
-            return false;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Set Matrix Zeroes</title>
-      <link>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
-      <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
-      <description>
-
-&lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Use the first row (up row) and the first col (left col) to record the position info of zeroes in matrix;&lt;/li&gt;
-&lt;li&gt;But we also need to set two boolean value to check if there is zero in first row and first col;&lt;/li&gt;
-&lt;li&gt;Then go through the matrix again, when [i][0] is marked zero or [0][j] is marked zero set current position as zero! This is important!;&lt;/li&gt;
-&lt;li&gt;Finally, go back to check two boolean value, and set that row or col as zero if boolean value is true;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @return: Void
-     */
-    public void setZeroes(int[][] matrix) {
-
-        if(matrix == null || matrix.length == 0)
-            return;
-        
-        boolean row = false;
-        boolean col = false;
-                        
-        for(int i = 0; i &lt; matrix.length; i++)
-            if(matrix[i][0] == 0)
-                col = true;
-                
-        for(int j = 0; j &lt; matrix[0].length; j++)
-            if(matrix[0][j] == 0)
-                row = true;
-        
-        for(int i = 1; i &lt; matrix.length; i++)
-            for(int j = 1; j &lt; matrix[i].length; j++) 
-                if(matrix[i][j] == 0) {
-                    matrix[i][0] = 0;
-                    matrix[0][j] = 0;
-                }
-                
-        for(int i = 1; i &lt; matrix.length; i++){ 
-            for(int j = 1; j &lt; matrix[0].length; j++){
-                if(matrix[i][0] == 0 || matrix[0][j] == 0)
-                    matrix[i][j] = 0;
-            }   
-        }
-        
-        if(row)
-            for(int j = 0; j &lt; matrix[0].length; j++)
-                    matrix[0][j] = 0;
-                    
-        if(col)
-            for(int i = 0; i &lt; matrix.length; i++)
-                    matrix[i][0] = 0;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>What Is Good Java API</title>
-      <link>http://xmruibi.github.io/2015/09/12/what-is-good-java-api/</link>
-      <pubDate>Sat, 12 Sep 2015 00:00:00 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/12/what-is-good-java-api/</guid>
-      <description>
-
-&lt;p&gt;Here are some good points for designing a good Java API!&lt;/p&gt;
-
-&lt;h2 id=&#34;rule-1-establish-strong-terms&#34;&gt;Rule #1: Establish strong terms&lt;/h2&gt;
-
-&lt;p&gt;If your API grows, there will be repetitive use of the same terms, over and over again. For instance, some actions will be come in several flavours resulting in various classes / types / methods, that differ only subtly in behaviour. The fact that they’re similar should be reflected by their names. Names should use strong terms. Take JDBC for instance. No matter how you execute a Statement, you will always use the term execute to do it. For instance, you will call any of these methods:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;execute(String)
-executeBatch()
-executeQuery(String)
-executeUpdate(String)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In a similar fashion, you will always use the term close to release resources, no matter which resource you’re releasing. For instance, you will call:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Connection.close()
-Statement.close()
-ResultSet.close()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As a matter of fact, close is such a strong and established term in the JDK, that it has lead to the interfaces java.io.Closeable (since Java 1.5), and java.lang.AutoCloseable (since Java 1.7), which generally establish a contract of releasing resources.&lt;/p&gt;
-
-&lt;p&gt;Rule violation: Observable&lt;/p&gt;
-
-&lt;p&gt;This rule is violated a couple of times in the JDK. For instance, in the java.util.Observable class. While other “Collection-like” types established the terms&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;size()
-remove()
-removeAll()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;… this class declares&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;countObservers()
-deleteObserver(Observer)
-deleteObservers()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;There is no good reason for using other terms in this context. The same applies to Observer.update(), which should really be called notify(), an otherwise established term in JDK APIs&lt;/p&gt;
-
-&lt;p&gt;Rule violation: Spring. Most of it&lt;/p&gt;
-
-&lt;p&gt;Spring has really gotten popular in the days when J2EE was weird, slow, and cumbersome. Think about EJB 2.0… There may be similar opinions on Spring out there, which are off-topic for this post. Here’s how Spring violates this concrete rule. A couple of random examples where Spring fails to establish strong terms, and uses long concatenations of meaningless, inconcise words instead:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;AbstractBeanFactoryBasedTargetSourceCreator
-AbstractInterceptorDrivenBeanDefinitionDecorator
-AbstractRefreshablePortletApplicationContext
-AspectJAdviceParameterNameDiscoverer
-BeanFactoryTransactionAttributeSourceAdvisor
-ClassPathScanningCandidateComponentProvider
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;… this could go on indefinitely, my favourite being …&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;J2eeBasedPreAuthenticatedWebAuthenticationDetailsSource
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Apart from “feeling” like a horrible API (to me), here’s some more objective analysis:&lt;/p&gt;
-
-&lt;p&gt;What’s the difference between a Creator and a Factory
-What’s the difference between a Source and a Provider?
-What’s the non-subtle difference between an Advisor and a Provider?
-What’s the non-subtle difference between a Discoverer and a Provider?
-Is an Advisor related to an AspectJAdvice?
-Is it a ScanningCandidate or a CandidateComponent?
-What’s a TargetSource? And how would it be different from a SourceTarget if not a SourceSource or my favourite: A SourceSourceTargetProviderSource?
-Gary Fleming commented on my previous blog post about Spring’s funny class names:&lt;/p&gt;
-
-&lt;p&gt;I’d be willing to bet that a Markov-chain generated class name (based on Spring Security) would be indistinguishable from the real thing.&lt;/p&gt;
-
-&lt;p&gt;Back to more seriousness…&lt;/p&gt;
-
-&lt;h2 id=&#34;rule-2-apply-symmetry-to-term-combinations&#34;&gt;Rule #2: Apply symmetry to term combinations&lt;/h2&gt;
-
-&lt;p&gt;Once you’ve established strong terms, you will start combining them. When you look at the JDK’s Collection APIs, you will notice the fact that they are symmetric in a way that they’ve established the terms add(), remove(), contains(), and all, before combining them symmetrically:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;add(E)
-addAll(Collection&amp;lt;? extends E&amp;gt;)
-remove(Object)
-removeAll(Collection&amp;lt;?&amp;gt;)
-contains(Object)
-containsAll(Collection&amp;lt;?&amp;gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now, the Collection type is a good example where an exception to this rule may be acceptable, when a method doesn’t “pull its own weight”. This is probably the case for retainAll(Collection&amp;lt;?&amp;gt;), which doesn’t have an equivalent retain(E) method. It might just as well be a regular violation of this rule, though.&lt;/p&gt;
-
-&lt;p&gt;####Rule violation: Map&lt;/p&gt;
-
-&lt;p&gt;This rule is violated all the time, mostly because of some methods not pulling their own weight (which is ultimately a matter of taste). With Java 8′s defender methods, there will no longer be any excuse of not adding default implementations for useful utility methods that should’ve been on some types. For instance: Map. It violates this rule a couple of times:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;It has keySet() and also containsKey(Object)&lt;/li&gt;
-&lt;li&gt;It has values() and also containsValue(Object)&lt;/li&gt;
-&lt;li&gt;It has entrySet() but no containsEntry(K, V)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Observe also, that there is no point of using the term Set in the method names. The method signature already indicates that the result has a Set type. It would’ve been more consistent and symmetric if those methods would’ve been named keys(), values(), entries(). (On a side-note, Sets and Lists are another topic that I will soon blog about, as I think those types do not pull their own weight either)&lt;/p&gt;
-
-&lt;p&gt;At the same time, the Map interface violates this rule by providing&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;put(K, V) and also putAll(Map)&lt;/li&gt;
-&lt;li&gt;remove(Object), but no removeAll(Collection&amp;lt;?&amp;gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Besides, establishing the term clear() instead of reusing removeAll() with no arguments is unnecessary. This applies to all Collection API members. In fact, the clear() method also violates rule #1. It is not immediately obvious, if clear does anything subtly different from remove when removing collection elements.&lt;/p&gt;
-
-&lt;h2 id=&#34;rule-3-add-convenience-through-overloading&#34;&gt;Rule #3: Add convenience through overloading&lt;/h2&gt;
-
-&lt;p&gt;There is mostly only one compelling reason, why you would want to overload a method: Convenience. Often you want to do precisely the same thing in different contexts, but constructing that very specific method argument type is cumbersome. So, for convenience, you offer your API users another variant of the same method, with a “friendlier” argument type set. This can be observed again in the Collection type. We have:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;toArray(), which is a convenient overload of…
-toArray(T[])
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Another example is the Arrays utility class. We have:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;copyOf(T[], int), which is an incompatible overload of…
-copyOf(boolean[], int), and of…
-copyOf(int[], int)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;… and all the others
-Overloading is mostly used for two reasons:&lt;/p&gt;
-
-&lt;p&gt;Providing “default” argument behaviour, as in Collection.toArray()
-Supporting several incompatible, yet “similar” argument sets, as in Arrays.copyOf()
-Other languages have incorporated these concepts into their language syntax. Many languages (e.g. PL/SQL) formally support named default arguments. Some languages (e.g. JavaScript) don’t even care how many arguments there really are. And another, new JVM language called Ceylon got rid of overloading by combining the support for named, default arguments with union types. As Ceylon is a statically typed language, this is probable the most powerful approach of adding convenience to your API.&lt;/p&gt;
-
-&lt;p&gt;####Rule violation: TreeSet&lt;/p&gt;
-
-&lt;p&gt;It is hard to find a good example of a case where this rule is violated in the JDK. But there is one: the TreeSet and TreeMap. Their constructors are overloaded several times. Let’s have a look at these two constructors:&lt;/p&gt;
-
-&lt;p&gt;TreeSet(Collection&amp;lt;? extends E&amp;gt;)
-TreeSet(SortedSet&lt;E&gt;)
-The latter “cleverly” adds some convenience to the first in that it extracts a well-known Comparator from the argument SortedSet to preserve ordering. This behaviour is quite different from the compatible (!) first constructor, which doesn’t do an instanceof check of the argument collection. I.e. these two constructor calls result in different behaviour:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;SortedSet&amp;lt;Object&amp;gt; original = // [...]
-// Preserves ordering:
-new TreeSet&amp;lt;Object&amp;gt;(original);
-// Resets ordering:
-new TreeSet&amp;lt;Object&amp;gt;((Collection&amp;lt;Object&amp;gt;) original);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;These constructors violate the rule in that they produce completely different behaviour. They’re not just mere convenience.&lt;/p&gt;
-
-&lt;h2 id=&#34;rule-4-consistent-argument-ordering&#34;&gt;Rule #4: Consistent argument ordering&lt;/h2&gt;
-
-&lt;p&gt;Be sure that you consistently order arguments of your methods. This is an obvious thing to do for overloaded methods, as you can immediately see how it is better to always put the array first and the int after in the previous example from the Arrays utility class:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;copyOf(T[], int), which is an incompatible overload of…
-copyOf(boolean[], int)
-copyOf(int[], int)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;… and all the others
-But you will quickly notice that all methods in that class will put the array being operated on first. Some examples:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;binarySearch(Object[], Object)
-copyOfRange(T[], int, int)
-fill(Object[], Object)
-sort(T[], Comparator&amp;lt;? super T&amp;gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;####Rule violation: Arrays&lt;/p&gt;
-
-&lt;p&gt;The same class also “subtly” violates this rule in that it puts optional arguments in between other arguments, when overloading methods. For instance, it declares&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;fill(Object[], Object)
-fill(Object[], int, int, Object)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When the latter should’ve been fill(Object[], Object, int, int). This is a “subtle” rule violation, as you may also argue that those methods in Arrays that restrict an argument array to a range will always put the array and the range argument together. In that way, the fill() method would again follow the rule as it provides the same argument order as copyOfRange(), for instance:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;fill(Object[], int, int, Object)
-copyOfRange(T[], int, int)
-copyOfRange(T[], int, int, Class)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You will never be able to escape this problem if you heavily overload your API. Unfortunately, Java doesn’t support named parameters, which helps formally distinguishing arguments in a large argument list, as sometimes, large argument lists cannot be avoided.&lt;/p&gt;
-
-&lt;p&gt;Rule violation: String&lt;/p&gt;
-
-&lt;p&gt;Another case of a rule violation is the String class:&lt;/p&gt;
-
-&lt;p&gt;regionMatches(int, String, int, int)
-regionMatches(boolean, int, String, int, int)
-The problems here are:&lt;/p&gt;
-
-&lt;p&gt;It is hard to immediately understand the difference between the two methods, as the optional boolean argument is inserted at the beginning of the argument list
-It is hard to immediately understand the purpose of every int argument, as there are many arguments in a single method&lt;/p&gt;
-
-&lt;h2 id=&#34;rule-5-establish-return-value-types&#34;&gt;Rule #5: Establish return value types&lt;/h2&gt;
-
-&lt;p&gt;This may be a bit controversial as people may have different views on this topic. No matter what your opinion is, however, you should create a consistent, regular API when it comes to defining return value types. An example rule set (on which you may disagree):&lt;/p&gt;
-
-&lt;p&gt;Methods returning a single object should return null when no object was found
-Methods returning several objects should return an empty List, Set, Map, array, etc. when no object was found (never null)
-Methods should only throw exceptions in case of an … well, an exception
-With such a rule set, it is not a good practice to have 1-2 methods lying around, which:&lt;/p&gt;
-
-&lt;p&gt;… throw ObjectNotFoundExceptions when no object was found
-… return null instead of empty Lists
-Rule violation: File&lt;/p&gt;
-
-&lt;p&gt;File is an example of a JDK class that violates many rules. Among them, the rule of regular return types. Its File.list() Javadoc reads:&lt;/p&gt;
-
-&lt;p&gt;An array of strings naming the files and directories in the directory denoted by this abstract pathname. The array will be empty if the directory is empty. Returns null if this abstract pathname does not denote a directory, or if an I/O error occurs.&lt;/p&gt;
-
-&lt;p&gt;So, the correct way to iterate over file names (if you’re doing defensive programming) is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;String[] files = file.list();
-// You should never forget this null check!
-if (files != null) {
-    for (String file : files) {
-    // Do things with your file
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Of course, we could argue that the Java 5 expert group could’ve been nice with us and worked that null check into their implementation of the foreach loop. Similar to the missing null check when switching over an enum (which should lead to the default: case). They’ve probably preferred the “fail early” approach in this case.
-The point here is that File already has sufficient means of checking if file is really a directory (File.isDirectory()). And it should throw an IOException if something went wrong, instead of returning null. This is a very strong violation of this rule, causing lots of pain at the call-site… Hence:&lt;/p&gt;
-
-&lt;p&gt;NEVER return null when returning arrays or collections!&lt;/p&gt;
-
-&lt;p&gt;####Rule violation: JPA&lt;/p&gt;
-
-&lt;p&gt;An example of how JPA violates this rule is the way how entities are retrieved from the EntityManager or from a Query:&lt;/p&gt;
-
-&lt;p&gt;EntityManager.find() methods return null if no entity could be found
-Query.getSingleResult() throws a NoResultException if no entity could be found
-As NoResultException is a RuntimeException this flaw heavily violates the Principle of Least Astonishment, as you might stay unaware of this difference until runtime!&lt;/p&gt;
-
-&lt;p&gt;IF you insist on throwing NoResultExceptions, make them checked exceptions as client code MUST handle them&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Fast Power</title>
-      <link>http://xmruibi.github.io/2015/09/11/fast-power/</link>
-      <pubDate>Fri, 11 Sep 2015 19:06:42 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
-      <description>
-
-&lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;
-
-&lt;p&gt;*Example: *
- For 231 % 3 = 2
- For 1001000 % 1000 = 0&lt;/p&gt;
-
-&lt;p&gt;*Challenge: *
- O(logn)&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Divide and Conquer&lt;/li&gt;
-&lt;li&gt;Think about the two basic condition: n is 1 and n is 0;&lt;/li&gt;
-&lt;li&gt;Each time we divide the n into two part (n/2);&lt;/li&gt;
-&lt;li&gt;Then we got the combine value (divide * divide) from both parts (they&amp;rsquo;re eqaul, actually);&lt;/li&gt;
-&lt;li&gt;While n is odd, we need to add one more &amp;laquo;a&amp;raquo; time (*a);&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-class Solution {
-    /*
-     * @param a, b, n: 32bit integers
-     * @return: An integer
-     */
-    public int fastPower(int a, int b, int n) {
-
-        if(n == 1)
-            return a % b;
-        
-        if(n == 0)
-            return 1 % b;
-        
-        long divide = fastPower(a, b, n/2);
-        long combine = divide * divide;
-        combine %= b;
-        if(n % 2 == 1)
-            combine *= (long)a;
-        combine %= b;
-        return (int)combine;
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Rotate Image</title>
-      <link>http://xmruibi.github.io/2015/09/11/rotate-image/</link>
-      <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/11/rotate-image/</guid>
-      <description>
-
-&lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Headache Implement question!&lt;/li&gt;
-&lt;li&gt;Very carefully to treat index.&lt;/li&gt;
-&lt;li&gt;Only calculate the &amp;frac14; of index in matrix!&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-    /**
-     * @param matrix: A list of lists of integers
-     * @return: Void
-     */
-    public void rotate(int[][] matrix) {
-        
-        int n = matrix.length;
-
-        // One of i or j need to consider boundry!
-        for(int i = 0; i &lt; ( n &gt;&gt; 1); i ++) {
-        // that&#39;s why j &lt; (n+1) / 2, that is the boundry!
-            for(int j = 0; j &lt; ( n+1 &gt;&gt; 1); j++) {
-                int tmp = matrix[i][j];
-                matrix[i][j] = matrix[n - j - 1][i];
-                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
-                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
-                matrix[j][n - i - 1] = tmp;
-            }
-        }
-    }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
 </description>
     </item>
     

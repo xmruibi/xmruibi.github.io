@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Combination on Coder Thinking -- Home Page</title>
+    <link>http://xmruibi.github.io/tags/combination/</link>
+    <description>Recent content in Combination on Coder Thinking -- Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Wed, 14 Oct 2015 20:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/combination/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Letter Combinations of a Phone Number</title>
+      <link>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</link>
+      <pubDate>Wed, 14 Oct 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</guid>
+      <description>
+
+&lt;p&gt;Given a digit string, return all possible letter combinations that the number could represent.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Although the above answer is in lexicographical order, your answer could be in any order you want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param digits A digital string
+     * @return all posible letter combinations
+     */
+    public ArrayList&amp;lt;String&amp;gt; letterCombinations(String digits) {
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(digits == null ||digits.length() == 0)
+            return res;
+        HashMap&amp;lt;Character, String&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;2&#39;,&amp;quot;abc&amp;quot;);dict.put(&#39;3&#39;,&amp;quot;def&amp;quot;);dict.put(&#39;4&#39;,&amp;quot;ghi&amp;quot;);dict.put(&#39;5&#39;,&amp;quot;jkl&amp;quot;);
+        dict.put(&#39;6&#39;,&amp;quot;mno&amp;quot;);dict.put(&#39;7&#39;,&amp;quot;pqrs&amp;quot;);dict.put(&#39;8&#39;,&amp;quot;tuv&amp;quot;);dict.put(&#39;9&#39;,&amp;quot;wxyz&amp;quot;);
+
+        helper(dict, res, &amp;quot;&amp;quot;, digits, 0);
+        return res;
+    }
+    
+    private void helper(HashMap&amp;lt;Character, String&amp;gt; dict, ArrayList&amp;lt;String&amp;gt; res, String str, String digits, int idx) {
+        if(idx == digits.length()) {
+            res.add(new String(str));
+            return;
+        }
+        String letters = dict.get(digits.charAt(idx));
+        for(int i = 0; i &amp;lt; letters.length(); i++) {
+            str += letters.charAt(i);
+            helper(dict, res, str, digits, idx + 1);
+            str = str.substring(0, idx);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Subsets I &amp; II</title>
+      <link>http://xmruibi.github.io/2015/10/08/subsets-i--ii/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/08/subsets-i--ii/</guid>
+      <description>
+
+&lt;p&gt;Given a set of distinct integers, return all possible subsets.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;If S = &lt;code&gt;[1,2,3]&lt;/code&gt;, a solution is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Elements in a subset must be in non-descending order.&lt;/p&gt;
+
+&lt;p&gt;For Question I: The solution set must not contain duplicate subsets.
+For Question II: The solution set may contain duplicate subsets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Question I：
+public class Solution {
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; subsets(int[] num) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt;();
+        if(num == null || num.length == 0) {
+            return result;
+        }
+        ArrayList&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
+        Arrays.sort(num);  
+        subsetsHelper(result, list, num, 0);
+
+        return result;
+    }
+
+
+    private void subsetsHelper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result,
+        ArrayList&amp;lt;Integer&amp;gt; list, int[] num, int pos) {
+
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+
+        for (int i = pos; i &amp;lt; num.length; i++) {
+            list.add(num[i]);
+            subsetsHelper(result, list, num, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+
+
+// Question II:
+public class Solution {
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; subsetsWithDup(ArrayList&amp;lt;Integer&amp;gt; num) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt;();
+        if(num == null || num.size() == 0) {
+            return result;
+        }
+        ArrayList&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
+        Collections.sort(num);  
+        subsetsHelper(result, list, num, 0);
+
+        return result;
+    }
+
+
+    private void subsetsHelper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result,
+        ArrayList&amp;lt;Integer&amp;gt; list, ArrayList&amp;lt;Integer&amp;gt; num, int pos) {
+
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+
+        for (int i = pos; i &amp;lt; num.size(); i++) {
+            if(i &amp;gt; pos &amp;amp;&amp;amp; num.get(i) == num.get(i-1))
+                continue;
+            list.add(num.get(i));
+            subsetsHelper(result, list, num, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

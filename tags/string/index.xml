@@ -9,8 +9,227 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 15 Oct 2015 09:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2015 21:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Integer to Roman</title>
+      <link>http://xmruibi.github.io/2015/10/16/integer-to-roman/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/integer-to-roman/</guid>
+      <description>
+
+&lt;p&gt;Given an integer, convert it to a roman numeral.&lt;/p&gt;
+
+&lt;p&gt;The number is guaranteed to be within the range from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;3999&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;4&lt;/code&gt; -&amp;gt; &lt;code&gt;IV&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12&lt;/code&gt; -&amp;gt; &lt;code&gt;XII&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;21&lt;/code&gt; -&amp;gt; &lt;code&gt;XXI&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;99&lt;/code&gt; -&amp;gt; &lt;code&gt;XCIX&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param n The integer
+     * @return Roman representation
+     */
+    public String intToRoman(int n) {
+        int[] numTab = {1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        String[] romanTab = {&amp;quot;I&amp;quot;, &amp;quot;IV&amp;quot;, &amp;quot;V&amp;quot;, &amp;quot;IX&amp;quot;, &amp;quot;X&amp;quot;, &amp;quot;XL&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;LC&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;CD&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;DM&amp;quot;,&amp;quot;M&amp;quot;};
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = numTab.length - 1; i &amp;gt;= 0; i--) {
+            while(n &amp;gt;= numTab[i]) {
+                sb.append(romanTab[i]);
+                n -= numTab[i];
+            }
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Roman to Integer</title>
+      <link>http://xmruibi.github.io/2015/10/16/roman-to-integer/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/roman-to-integer/</guid>
+      <description>
+
+&lt;p&gt;Given a roman numeral, convert it to an integer.&lt;/p&gt;
+
+&lt;p&gt;The answer is guaranteed to be within the range from 1 to 3999.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;IV&lt;/code&gt; -&amp;gt; &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XII&lt;/code&gt; -&amp;gt; &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XXI&lt;/code&gt; -&amp;gt; &lt;code&gt;21&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XCIX&lt;/code&gt; -&amp;gt; &lt;code&gt;99&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;|&amp;mdash;&amp;ndash;|&amp;mdash;&amp;mdash;|
+|Symbol | Value|
+| I | 1 |
+|V  | 5 |
+|X  | 10 |
+|L  | 50 |
+|C  | 100 |
+|D  | 500 |
+|M  | 1,000 |&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同一数码最多只能出现三次，如40不可表示为XXXX，而要表示为XL。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。&lt;/li&gt;
+&lt;li&gt;左减的数字有限制，仅限于I、X、C。比如45不可以写成VL，只能是XLV。&lt;/li&gt;
+&lt;li&gt;但是，左减时不可跨越一个位数。比如，99不可以用IC（100 - 1）表示，是用XCIX（[100 - 10] + [10 - 1]）表示。&lt;/li&gt;
+&lt;li&gt;左减数字必须为一位，比如8写成VIII，而非IIX。&lt;/li&gt;
+&lt;li&gt;右加数字不可连续超过三位，比如14写成XIV，而非XIIII。（见下方“数码限制”一项。）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s Roman representation
+     * @return an integer
+     */
+    public int romanToInt(String s) {
+        // Write your code here
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;I&#39;, 1);map.put(&#39;V&#39;, 5);
+        map.put(&#39;X&#39;, 10);map.put(&#39;L&#39;, 50);
+        map.put(&#39;C&#39;, 100);map.put(&#39;D&#39;, 500);
+        map.put(&#39;M&#39;, 1000);
+        
+        int res = 0;
+        for (int i = 0; i &amp;lt; s.length() ; i++) {
+            if(i &amp;lt; s.length() - 1 &amp;amp;&amp;amp; map.get(s.charAt(i)) &amp;lt; map.get(s.charAt(i+1)) )
+                res -= map.get(s.charAt(i));
+            else
+                res += map.get(s.charAt(i));
+        }
+        
+        return res;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Common Subsequence</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given two strings, find the longest common subsequence (LCS).&lt;/p&gt;
+
+&lt;p&gt;Your code should return the length of LCS.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;ABCD&lt;/code&gt; and &lt;code&gt;EDCA&lt;/code&gt;, the LCS is &lt;code&gt;A&lt;/code&gt; (or &lt;code&gt;D&lt;/code&gt;, &lt;code&gt;C&lt;/code&gt;), return 1.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;ABCD&lt;/code&gt; and &lt;code&gt;EACB&lt;/code&gt;, the LCS is &lt;code&gt;AC&lt;/code&gt;, return 2.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A, B: Two strings.
+     * @return: The length of longest common subsequence of A and B.
+     */
+    public int longestCommonSubsequence(String A, String B) {
+        if(A == null || B == null)
+            return 0;
+        
+        int[][] memo = new int[A.length()+1][B.length()+1];
+        for(int i = 0; i &amp;lt;= A.length(); i ++) {
+            for(int j = 0; j &amp;lt;= B.length(); j ++) {
+                if(i == 0 || j == 0)
+                    memo[i][j] = 0;
+                else
+                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : Math.max(memo[i][j-1],memo[i-1][j]));
+            }
+        }
+        return memo[A.length()][B.length()];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous subsequence</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence/</link>
+      <pubDate>Fri, 16 Oct 2015 09:03:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array)，find the longest increasing continuous subsequence in this array. (The definition of the longest increasing continuous subsequence here can be from right to left or from left to right)&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[5, 4, 2, 1, 3]&lt;/code&gt;, the LICS is &lt;code&gt;[5, 4, 2, 1]&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;[5, 1, 2, 3, 4]&lt;/code&gt;, the LICS is &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;O(n) time and O(1) extra space.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is O(1) space dynamic programming. Just maintain one local max and one global max variable.&lt;/li&gt;
+&lt;li&gt;The default value of local maximum variable is 2.&lt;/li&gt;
+&lt;li&gt;The condition for growing the local maximum is by &lt;code&gt;(A[i] - A[i-1])*(A[i-1] - A[i-2]) &amp;gt; 0&lt;/code&gt;, which means &lt;code&gt;[i-2] &amp;lt; [i-1] &amp;lt; [i]&lt;/code&gt; or &lt;code&gt;[i-2] &amp;gt; [i-1] &amp;gt; [i]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an array of Integer
+     * @return  an integer
+     */
+    public int longestIncreasingContinuousSubsequence(int[] A) {
+        if( A == null )
+            return 0;
+        if( A.length &amp;lt;= 1)
+            return A.length;
+        
+        int max = 2;
+        int cur = 2;
+        for(int i = 2; i &amp;lt; A.length; i++) {
+            if((A[i] - A[i-1])*(A[i-1] - A[i-2]) &amp;gt; 0){
+                cur ++;   
+            }else
+                cur = 2;
+            max = Math.max(max, cur);
+        }
+        return max;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Longest Substring Without Repeating Characters</title>
@@ -61,6 +280,60 @@
             disc.add(c);
         }
         return maxLen;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Letter Combinations of a Phone Number</title>
+      <link>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</link>
+      <pubDate>Wed, 14 Oct 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</guid>
+      <description>
+
+&lt;p&gt;Given a digit string, return all possible letter combinations that the number could represent.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Although the above answer is in lexicographical order, your answer could be in any order you want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param digits A digital string
+     * @return all posible letter combinations
+     */
+    public ArrayList&amp;lt;String&amp;gt; letterCombinations(String digits) {
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(digits == null ||digits.length() == 0)
+            return res;
+        HashMap&amp;lt;Character, String&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;2&#39;,&amp;quot;abc&amp;quot;);dict.put(&#39;3&#39;,&amp;quot;def&amp;quot;);dict.put(&#39;4&#39;,&amp;quot;ghi&amp;quot;);dict.put(&#39;5&#39;,&amp;quot;jkl&amp;quot;);
+        dict.put(&#39;6&#39;,&amp;quot;mno&amp;quot;);dict.put(&#39;7&#39;,&amp;quot;pqrs&amp;quot;);dict.put(&#39;8&#39;,&amp;quot;tuv&amp;quot;);dict.put(&#39;9&#39;,&amp;quot;wxyz&amp;quot;);
+
+        helper(dict, res, &amp;quot;&amp;quot;, digits, 0);
+        return res;
+    }
+    
+    private void helper(HashMap&amp;lt;Character, String&amp;gt; dict, ArrayList&amp;lt;String&amp;gt; res, String str, String digits, int idx) {
+        if(idx == digits.length()) {
+            res.add(new String(str));
+            return;
+        }
+        String letters = dict.get(digits.charAt(idx));
+        for(int i = 0; i &amp;lt; letters.length(); i++) {
+            str += letters.charAt(i);
+            helper(dict, res, str, digits, idx + 1);
+            str = str.substring(0, idx);
+        }
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

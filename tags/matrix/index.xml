@@ -9,8 +9,133 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 22 Sep 2015 13:35:30 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2015 21:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Submatrix Sum</title>
+      <link>http://xmruibi.github.io/2015/10/17/submatrix-sum/</link>
+      <pubDate>Sat, 17 Oct 2015 21:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/submatrix-sum/</guid>
+      <description>
+
+&lt;p&gt;Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given matrix&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,5 ,7],
+  [3 ,7 ,-8],
+  [4 ,-8 ,9],
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;[(1,1), (2,2)]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n3) time.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous Subsequence II</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer matrix (with row size n, column size m)，find the longest increasing continuous subsequence in this matrix. (The definition of the longest increasing continuous subsequence here can start at any row or column and go up/down/right/left any direction).&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,2 ,3 ,4 ,5],
+  [16,17,24,23,6],
+  [15,18,25,22,7],
+  [14,19,20,21,8],
+  [13,12,11,10,9]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;25&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(nm) time and memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is great question with DFS, Dynamic Problem and Subsequence idea.&lt;/li&gt;
+&lt;li&gt;The idea is also simple. Recursively search by DFS while we can do some memorized stuff.&lt;/li&gt;
+&lt;li&gt;Each time we figure out the maximum length with reversed increasing sequence from each element in matrix.&lt;/li&gt;
+&lt;li&gt;Note that the searching is by decreasing way.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an integer matrix
+     * @return  an integer
+     */
+    // memorized the local maximum length
+    int[][] memo;
+
+    boolean[] visited;
+    int n ,m;
+
+    // stepping way for dfs
+    int[] dx = {1,-1,0,0}; 
+    int[] dy = {0,0,1,-1};
+
+    public int longestIncreasingContinuousSubsequenceII(int[][] A) {
+        if(A.length == 0)
+            return 0;
+        n = A.length;
+        m  = A[0].length;
+        
+        memo = new int[n][m];
+        visited = new boolean[n*m];
+        
+        int res = 0;
+        for(int i = 0; i &amp;lt; n; i++) {
+            for(int j = 0; j &amp;lt; m; j++) { 
+                memo[i][j] = helper(i, j, A);
+                res = Math.max(res, memo[i][j]);
+            }
+        }
+        return res;
+    }
+    
+    private int helper(int x, int y, int[][] A) {
+        // once it touched the visited element, return that value
+        if(visited[x * m + y])
+            return memo[x][y];
+        
+        int res = 1; 
+        for(int i = 0; i &amp;lt; 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0&amp;lt;= nx &amp;amp;&amp;amp; nx &amp;lt; n &amp;amp;&amp;amp; 0&amp;lt;= ny &amp;amp;&amp;amp; ny &amp;lt; m ) {
+                // this is tricky point, we search by decreasing
+                if( A[x][y] &amp;gt; A[nx][ny]) 
+                    res = Math.max(res,  helper(nx, ny, A) + 1);
+            }
+        }
+        visited[x * m + y] = true;
+        memo[x][y] = res;
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Search In 2D Matrix II</title>
