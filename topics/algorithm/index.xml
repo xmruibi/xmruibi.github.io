@@ -13,6 +13,15 @@
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Intersection of Two Linked Lists</title>
+      <link>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</link>
+      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Ugly Number</title>
       <link>http://xmruibi.github.io/2015/10/18/ugly-number/</link>
       <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
@@ -802,60 +811,6 @@
             disc.add(c);
         }
         return maxLen;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Letter Combinations of a Phone Number</title>
-      <link>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</link>
-      <pubDate>Wed, 14 Oct 2015 20:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</guid>
-      <description>
-
-&lt;p&gt;Given a digit string, return all possible letter combinations that the number could represent.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Return &lt;code&gt;[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;Although the above answer is in lexicographical order, your answer could be in any order you want.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param digits A digital string
-     * @return all posible letter combinations
-     */
-    public ArrayList&amp;lt;String&amp;gt; letterCombinations(String digits) {
-        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(digits == null ||digits.length() == 0)
-            return res;
-        HashMap&amp;lt;Character, String&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
-        dict.put(&#39;2&#39;,&amp;quot;abc&amp;quot;);dict.put(&#39;3&#39;,&amp;quot;def&amp;quot;);dict.put(&#39;4&#39;,&amp;quot;ghi&amp;quot;);dict.put(&#39;5&#39;,&amp;quot;jkl&amp;quot;);
-        dict.put(&#39;6&#39;,&amp;quot;mno&amp;quot;);dict.put(&#39;7&#39;,&amp;quot;pqrs&amp;quot;);dict.put(&#39;8&#39;,&amp;quot;tuv&amp;quot;);dict.put(&#39;9&#39;,&amp;quot;wxyz&amp;quot;);
-
-        helper(dict, res, &amp;quot;&amp;quot;, digits, 0);
-        return res;
-    }
-    
-    private void helper(HashMap&amp;lt;Character, String&amp;gt; dict, ArrayList&amp;lt;String&amp;gt; res, String str, String digits, int idx) {
-        if(idx == digits.length()) {
-            res.add(new String(str));
-            return;
-        }
-        String letters = dict.get(digits.charAt(idx));
-        for(int i = 0; i &amp;lt; letters.length(); i++) {
-            str += letters.charAt(i);
-            helper(dict, res, str, digits, idx + 1);
-            str = str.substring(0, idx);
-        }
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
