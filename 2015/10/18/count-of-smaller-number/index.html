@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Segment Tree Modify  &middot; Rui&#39;s Home Page</title>
+  <title>Count of Smaller Number  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,27 +14,23 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Data Structure, Segement Tree, Interval Problem, ">
+<meta name="keywords" content="Binary Search, ">
 
 
-<meta property="og:title" content="Segment Tree Modify  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Count of Smaller Number  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/18/count-of-smaller-number/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-18T14:43:13-07:00" />
-<meta property="og:article:modified_time" content="2015-10-18T14:43:13-07:00" />
+<meta property="og:article:published_time" content="2015-10-18T16:13:13-07:00" />
+<meta property="og:article:modified_time" content="2015-10-18T16:13:13-07:00" />
 
   
     
-<meta property="og:article:tag" content="Data Structure">
-    
-<meta property="og:article:tag" content="Segement Tree">
-    
-<meta property="og:article:tag" content="Interval Problem">
+<meta property="og:article:tag" content="Binary Search">
     
   
 
@@ -42,9 +38,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Segment Tree Modify" />
+<meta name="twitter:title" content="Count of Smaller Number" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/18/count-of-smaller-number/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -52,20 +48,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Segment Tree Modify",
+    "headline": "Count of Smaller Number",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
     "datePublished": "2015-10-18",
     "description": "",
-    "wordCount":  279 
+    "wordCount":  300 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/18/count-of-smaller-number/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -202,7 +198,7 @@ Archive
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Segment Tree Modify
+  <h1>Count of Smaller Number
 </h1>
 
   <div class="metas">
@@ -211,17 +207,11 @@ Archive
 
   
   &middot; Read in about 2 min
-  &middot; (279 Words)
+  &middot; (300 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/data-structure">Data Structure; </a> 
-
-
-<a class="label" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree; </a> 
-
-
-<a class="label" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/binary-search">Binary Search; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -237,70 +227,85 @@ Archive
   <div class="container content">
   
 
-<p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
-
-<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+<p>Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.</p>
 
 <h3 id="example">Example</h3>
 
-<p>For segment tree:</p>
-
-<pre><code>                      [1, 4, max=3]
-                    /                \
-        [1, 2, max=2]                [3, 4, max=3]
-       /              \             /             \
-[1, 1, max=2], [2, 2, max=1], [3, 3, max=0], [4, 4, max=3]
-</code></pre>
-
-<p>if call modify(root, 2, 4), we can get:</p>
-
-<pre><code>                      [1, 4, max=4]
-                    /                \
-        [1, 2, max=4]                [3, 4, max=3]
-       /              \             /             \
-[1, 1, max=2], [2, 2, max=4], [3, 3, max=0], [4, 4, max=3]
-</code></pre>
-
-<p>or call modify(root, 4, 0), we can get:</p>
-
-<pre><code>                      [1, 4, max=2]
-                    /                \
-        [1, 2, max=2]                [3, 4, max=0]
-       /              \             /             \
-[1, 1, max=2], [2, 2, max=1], [3, 3, max=0], [4, 4, max=0]
-</code></pre>
-
-<h3 id="note">Note</h3>
-
-<p>We suggest you finish problem Segment Tree Build and Segment Tree Query first.</p>
+<p>For array <code>[1,2,7,8,5]</code>, and queries <code>[1,8,5]</code>, return <code>[0,4,2]</code></p>
 
 <h3 id="challenge">Challenge</h3>
 
-<p>Do it in O(h) time, h is the height of the segment tree.</p>
+<p>Could you use three ways to do it.</p>
 
-<h2 id="solution">Solution:</h2>
+<ul>
+<li>Just loop</li>
+<li>Sort and binary search</li>
+</ul>
 
-<pre><code>public class Solution {
-    /**
-     *@param root, index, value: The root of segment tree and 
-     *@ change the node's value with [index, index] to the new given value
-     *@return: void
+<h2 id="solution">Solution</h2>
+
+<h3 id="1-solution-by-loop-with-o-n-2">1. Solution by Loop with O(n^2)</h3>
+
+<pre><code>
+
+   /** O(n^2) Loop implement
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
      */
-    public void modify(SegmentTreeNode root, int index, int value) {
-        if(root.start == root.end) {
-            root.max = value;
-            return;
-        }
-        int m = root.start + ((root.end - root.start)&gt;&gt;1);
-        if(m &lt; index)
-            modify(root.right, index, value);
-        else
-            modify(root.left, index, value);
+    public ArrayList&lt;Integer&gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&lt;Integer&gt; res = new ArrayList&lt;&gt;();
+        if(A == null || queries == null)
+            return res;
             
-        // update max each time, this is important
-        root.max = Math.max(root.left.max, root.right.max);
+        for(int i = 0; i &lt; queries.length; i++) {
+            int cnt = 0;
+            for(int j = 0; j &lt; A.length; j++) {
+                if(A[j] &lt; queries[i])
+                    cnt++;
+            }
+            res.add(cnt);
+        }
+        return res;
     }
-}
+</code></pre>
+
+<h3 id="2-solution-by-sort-and-binary-search-with-o-nlogn">2. Solution by Sort and Binary search with O(nlogn)</h3>
+
+<pre><code>    /** O(nlogn) Sort and Binary search
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&lt;Integer&gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&lt;Integer&gt; res = new ArrayList&lt;&gt;();
+        if(queries == null)
+            return res;
+         
+        Arrays.sort(A);
+        for(int i = 0; i &lt; queries.length; i++) {
+            int cnt = binarySearch(A, queries[i]);
+            res.add(cnt);
+        }
+        return res;
+    }
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &lt; r) {
+            int m = l + ((r - l) &gt;&gt; 1);
+            if(value &gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        if(A[l] &lt; value)
+            return l + 1;
+        else
+            return l; 
+    }
 </code></pre>
 
 </div>
@@ -313,15 +318,11 @@ Archive
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/10/18/segment-tree-query/" title="Segment Tree Query">
+    <a class="prev" href="http://xmruibi.github.io/2015/10/18/interval-minimum-number/" title="Interval Minimum Number">
       Earlier Article
     </a>
     
 
-    
-    <a class="next" href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/" title="Segment Tree Build II">
-      Newer Article
-    </a>
     
 
   

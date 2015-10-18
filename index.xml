@@ -1,109 +1,104 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Coder Thinking -- Home Page</title>
+    <title>Rui&#39;s Home Page</title>
     <link>http://xmruibi.github.io/</link>
-    <description>Recent content on Coder Thinking -- Home Page</description>
+    <description>Recent content on Rui&#39;s Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 18 Oct 2015 15:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Interval Minimum Number</title>
-      <link>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</link>
-      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
+      <title>Count of Smaller Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</guid>
+      <guid>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</guid>
       <description>
 
-&lt;p&gt;Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the minimum number between index start and end in the given array, return the result list.&lt;/p&gt;
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.&lt;/p&gt;
 
 &lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
 
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[(1,2),(0,4),(2,4)]&lt;/code&gt;, return &lt;code&gt;[2,1,5]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[1,8,5]&lt;/code&gt;, return &lt;code&gt;[0,4,2]&lt;/code&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
 
-&lt;p&gt;O(logN) time for each query (Segment Tree)&lt;/p&gt;
+&lt;p&gt;Could you use three ways to do it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Just loop&lt;/li&gt;
+&lt;li&gt;Sort and binary search&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     *@param A, queries: Given an integer array and an query list
-     *@return: The result list
+&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2&#34;&gt;1. Solution by Loop with O(n^2)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;
+
+   /** O(n^2) Loop implement
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
      */
-    public ArrayList&amp;lt;Integer&amp;gt; intervalMinNumber(int[] A, 
-                                                ArrayList&amp;lt;Interval&amp;gt; queries) {
-        IntervalTree tree = new IntervalTree(A);
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
         ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        for(Interval interval : queries) {
-            res.add(tree.query(interval.start, interval.end));
+        if(A == null || queries == null)
+            return res;
+            
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = 0;
+            for(int j = 0; j &amp;lt; A.length; j++) {
+                if(A[j] &amp;lt; queries[i])
+                    cnt++;
+            }
+            res.add(cnt);
         }
         return res;
     }
-}
+&lt;/code&gt;&lt;/pre&gt;
 
-/**
-* Build Interval Tree with Min of segment!
-*
-*/
-class IntervalTree{
-        IntervalNode root;
-        
-        public IntervalTree(int[] A) {
-            root = build(A, 0, A.length - 1);
-        }
-        
-        private IntervalNode build(int[] A, int start, int end) {
-            if(start &amp;gt; end)
-                return null;
-            IntervalNode node = new IntervalNode(start, end);
-            
-            if(start == end) {
-                node.min = A[start];
-                return node;
-            }
-            
-            int m = start + ((end - start)&amp;gt;&amp;gt;1);
-            node.left = build(A, start, m);
-            node.right = build(A, m+1, end);
-            node.min = Math.min(node.left.min, node.right.min);
-            return node;
-        }
-        
-        public int query(int start, int end) {
-            return queryhelper(root, start, end);
-        }
-        
-        private int queryhelper(IntervalNode node, int start, int end) {
-            if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
-                return node.min;
-            
-            int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
-            if(m &amp;lt; start) {
-                return queryhelper(node.right, start, end);
-            }else if(m &amp;gt;= end){
-                return queryhelper(node.left, start, end);
-            }else
-                return Math.min(queryhelper(node.left, start, m), queryhelper(node.right, m+1, end));
-        }
+&lt;h3 id=&#34;2-solution-by-sort-and-binary-search-with-o-nlogn&#34;&gt;2. Solution by Sort and Binary search with O(nlogn)&lt;/h3&gt;
 
-        private class IntervalNode {
-            int start, end, min;
-            IntervalNode left, right;
-            IntervalNode(int start, int end) {
-                this.start = start;
-                this.end = end;
-            }
+&lt;pre&gt;&lt;code&gt;    /** O(nlogn) Sort and Binary search
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(queries == null)
+            return res;
+         
+        Arrays.sort(A);
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = binarySearch(A, queries[i]);
+            res.add(cnt);
         }
-}
-
-
+        return res;
+    }
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        if(A[l] &amp;lt; value)
+            return l + 1;
+        else
+            return l; 
+    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -196,6 +191,102 @@ public class Solution {
         return res;
     }
 }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Interval Minimum Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</link>
+      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</guid>
+      <description>
+
+&lt;p&gt;Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the minimum number between index start and end in the given array, return the result list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[(1,2),(0,4),(2,4)]&lt;/code&gt;, return &lt;code&gt;[2,1,5]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(logN) time for each query (Segment Tree)&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     *@param A, queries: Given an integer array and an query list
+     *@return: The result list
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; intervalMinNumber(int[] A, 
+                                                ArrayList&amp;lt;Interval&amp;gt; queries) {
+        IntervalTree tree = new IntervalTree(A);
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(Interval interval : queries) {
+            res.add(tree.query(interval.start, interval.end));
+        }
+        return res;
+    }
+}
+
+/**
+* Build Interval Tree with Min of segment!
+*
+*/
+class IntervalTree{
+        IntervalNode root;
+        
+        public IntervalTree(int[] A) {
+            root = build(A, 0, A.length - 1);
+        }
+        
+        private IntervalNode build(int[] A, int start, int end) {
+            if(start &amp;gt; end)
+                return null;
+            IntervalNode node = new IntervalNode(start, end);
+            
+            if(start == end) {
+                node.min = A[start];
+                return node;
+            }
+            
+            int m = start + ((end - start)&amp;gt;&amp;gt;1);
+            node.left = build(A, start, m);
+            node.right = build(A, m+1, end);
+            node.min = Math.min(node.left.min, node.right.min);
+            return node;
+        }
+        
+        public int query(int start, int end) {
+            return queryhelper(root, start, end);
+        }
+        
+        private int queryhelper(IntervalNode node, int start, int end) {
+            if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
+                return node.min;
+            
+            int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
+            if(m &amp;lt; start) {
+                return queryhelper(node.right, start, end);
+            }else if(m &amp;gt;= end){
+                return queryhelper(node.left, start, end);
+            }else
+                return Math.min(queryhelper(node.left, start, m), queryhelper(node.right, m+1, end));
+        }
+
+        private class IntervalNode {
+            int start, end, min;
+            IntervalNode left, right;
+            IntervalNode(int start, int end) {
+                this.start = start;
+                this.end = end;
+            }
+        }
+}
+
 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -553,6 +644,79 @@ public class Solution {
     </item>
     
     <item>
+      <title>Segment Tree Query</title>
+      <link>http://xmruibi.github.io/2015/10/18/segment-tree-query/</link>
+      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-query/</guid>
+      <description>
+
+&lt;p&gt;For an integer array (index from 0 to n-1, where n is the size of this array), in the corresponding SegmentTree, each node stores an extra attribute max to denote the maximum number in the interval of the array (index from start to end).&lt;/p&gt;
+
+&lt;p&gt;Design a query method with three parameters root, start and end, find the maximum number in the interval [start, end] by the given root of segment tree.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array [1, 4, 2, 3], the corresponding Segment Tree is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                  [0, 3, max=4]
+                 /             \
+          [0,1,max=4]        [2,3,max=3]
+          /         \        /         \
+   [0,0,max=1] [1,1,max=4] [2,2,max=2], [3,3,max=3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;query(root, 1, 1)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;query(root, 1, 2)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;query(root, 2, 3)&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;query(root, 0, 2)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;It is much easier to understand this problem if you finished Segment Tree Build first.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class SegmentTreeNode {
+    public int start, end, max;
+    public SegmentTreeNode left, right;
+    public SegmentTreeNode(int start, int end, int max) {
+        this.start = start;
+        this.end = end;
+        this.max = max
+        this.left = this.right = null;
+    }
+}
+
+public class Solution {
+    /**
+     *@param root, start, end: The root of segment tree and 
+     *                         an segment / interval
+     *@return: The maximum number in the interval [start, end]
+     */
+    public int query(SegmentTreeNode root, int start, int end) {
+        if(root == null)
+            return Integer.MIN_VALUE;
+            
+        if(root.start &amp;gt;= start &amp;amp;&amp;amp; root.end &amp;lt;= end)
+            return root.max;
+        int m = root.start + ((root.end - root.start)&amp;gt;&amp;gt;1);
+        if(start &amp;gt; m)
+            return query(root.right, start, end);
+        else if(end &amp;lt;= m)
+            return query(root.left, start, end);
+        else
+            return Math.max(query(root.left, start, m), query(root.right, m+1, end));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Segment Tree Query II</title>
       <link>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</link>
       <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
@@ -622,79 +786,6 @@ public class Solution {
             return query(root.left, start, end);
         else
             return query(root.left, start, m) + query(root.right, m+1, end);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Segment Tree Query</title>
-      <link>http://xmruibi.github.io/2015/10/18/segment-tree-query/</link>
-      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-query/</guid>
-      <description>
-
-&lt;p&gt;For an integer array (index from 0 to n-1, where n is the size of this array), in the corresponding SegmentTree, each node stores an extra attribute max to denote the maximum number in the interval of the array (index from start to end).&lt;/p&gt;
-
-&lt;p&gt;Design a query method with three parameters root, start and end, find the maximum number in the interval [start, end] by the given root of segment tree.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array [1, 4, 2, 3], the corresponding Segment Tree is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                  [0, 3, max=4]
-                 /             \
-          [0,1,max=4]        [2,3,max=3]
-          /         \        /         \
-   [0,0,max=1] [1,1,max=4] [2,2,max=2], [3,3,max=3]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 1, 1)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 1, 2)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 2, 3)&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 0, 2)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;It is much easier to understand this problem if you finished Segment Tree Build first.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class SegmentTreeNode {
-    public int start, end, max;
-    public SegmentTreeNode left, right;
-    public SegmentTreeNode(int start, int end, int max) {
-        this.start = start;
-        this.end = end;
-        this.max = max
-        this.left = this.right = null;
-    }
-}
-
-public class Solution {
-    /**
-     *@param root, start, end: The root of segment tree and 
-     *                         an segment / interval
-     *@return: The maximum number in the interval [start, end]
-     */
-    public int query(SegmentTreeNode root, int start, int end) {
-        if(root == null)
-            return Integer.MIN_VALUE;
-            
-        if(root.start &amp;gt;= start &amp;amp;&amp;amp; root.end &amp;lt;= end)
-            return root.max;
-        int m = root.start + ((root.end - root.start)&amp;gt;&amp;gt;1);
-        if(start &amp;gt; m)
-            return query(root.right, start, end);
-        else if(end &amp;lt;= m)
-            return query(root.left, start, end);
-        else
-            return Math.max(query(root.left, start, m), query(root.right, m+1, end));
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -998,58 +1089,6 @@ You may assume there are no cycles anywhere in the entire linked structure.&lt;/
     }
 }
 
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Swap Nodes in Pairs</title>
-      <link>http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/</link>
-      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/</guid>
-      <description>
-
-&lt;p&gt;Given a linked list, swap every two adjacent nodes and return its head.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given 1-&amp;gt;2-&amp;gt;3-&amp;gt;4, you should return the list as 2-&amp;gt;1-&amp;gt;4-&amp;gt;3.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Record next two node:  dummy pre -&amp;gt; A -&amp;gt; B -&amp;gt; C.&lt;/li&gt;
-&lt;li&gt;Get C as next, change pre.next to B(head.next), B.next to A(head) and A(head.next) to C.&lt;/li&gt;
-&lt;li&gt;Do while loop when head and head.next are both not null node&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param head a ListNode
-     * @return a ListNode
-     */
-    public ListNode swapPairs(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode pre = dummy;
-
-        while(head != null &amp;amp;&amp;amp; head.next != null) {
-
-            ListNode next = head.next.next;
-            pre.next = head.next;
-            pre.next.next = head;
-            pre = head;
-            head.next = next;
-            head = next;
-        }
-        return dummy.next;
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

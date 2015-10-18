@@ -1,16 +1,107 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Coder Thinking -- Home Page</title>
+    <title>Posts on Rui&#39;s Home Page</title>
     <link>http://xmruibi.github.io/post/</link>
-    <description>Recent content in Posts on Coder Thinking -- Home Page</description>
+    <description>Recent content in Posts on Rui&#39;s Home Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 18 Oct 2015 15:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Count of Smaller Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[1,8,5]&lt;/code&gt;, return &lt;code&gt;[0,4,2]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you use three ways to do it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Just loop&lt;/li&gt;
+&lt;li&gt;Sort and binary search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2&#34;&gt;1. Solution by Loop with O(n^2)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;
+
+   /** O(n^2) Loop implement
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(A == null || queries == null)
+            return res;
+            
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = 0;
+            for(int j = 0; j &amp;lt; A.length; j++) {
+                if(A[j] &amp;lt; queries[i])
+                    cnt++;
+            }
+            res.add(cnt);
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-solution-by-sort-and-binary-search-with-o-nlogn&#34;&gt;2. Solution by Sort and Binary search with O(nlogn)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;    /** O(nlogn) Sort and Binary search
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(queries == null)
+            return res;
+         
+        Arrays.sort(A);
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = binarySearch(A, queries[i]);
+            res.add(cnt);
+        }
+        return res;
+    }
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        if(A[l] &amp;lt; value)
+            return l + 1;
+        else
+            return l; 
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Interval Minimum Number</title>
@@ -998,58 +1089,6 @@ You may assume there are no cycles anywhere in the entire linked structure.&lt;/
     }
 }
 
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Swap Nodes in Pairs</title>
-      <link>http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/</link>
-      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/</guid>
-      <description>
-
-&lt;p&gt;Given a linked list, swap every two adjacent nodes and return its head.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given 1-&amp;gt;2-&amp;gt;3-&amp;gt;4, you should return the list as 2-&amp;gt;1-&amp;gt;4-&amp;gt;3.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Record next two node:  dummy pre -&amp;gt; A -&amp;gt; B -&amp;gt; C.&lt;/li&gt;
-&lt;li&gt;Get C as next, change pre.next to B(head.next), B.next to A(head) and A(head.next) to C.&lt;/li&gt;
-&lt;li&gt;Do while loop when head and head.next are both not null node&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param head a ListNode
-     * @return a ListNode
-     */
-    public ListNode swapPairs(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode pre = dummy;
-
-        while(head != null &amp;amp;&amp;amp; head.next != null) {
-
-            ListNode next = head.next.next;
-            pre.next = head.next;
-            pre.next.next = head;
-            pre = head;
-            head.next = next;
-            head = next;
-        }
-        return dummy.next;
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
