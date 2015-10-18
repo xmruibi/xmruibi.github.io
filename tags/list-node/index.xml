@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>List Node on Coder Thinking -- Home Page</title>
+    <link>http://xmruibi.github.io/tags/list-node/</link>
+    <description>Recent content in List Node on Coder Thinking -- Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 17 Oct 2015 17:50:34 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/list-node/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Swap Nodes in Pairs</title>
+      <link>http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/</link>
+      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, swap every two adjacent nodes and return its head.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given 1-&amp;gt;2-&amp;gt;3-&amp;gt;4, you should return the list as 2-&amp;gt;1-&amp;gt;4-&amp;gt;3.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Record next two node:  dummy pre -&amp;gt; A -&amp;gt; B -&amp;gt; C.&lt;/li&gt;
+&lt;li&gt;Get C as next, change pre.next to B(head.next), B.next to A(head) and A(head.next) to C.&lt;/li&gt;
+&lt;li&gt;Do while loop when head and head.next are both not null node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param head a ListNode
+     * @return a ListNode
+     */
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+
+        while(head != null &amp;amp;&amp;amp; head.next != null) {
+
+            ListNode next = head.next.next;
+            pre.next = head.next;
+            pre.next.next = head;
+            pre = head;
+            head.next = next;
+            head = next;
+        }
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Binary Tree on Coder Thinking -- Home Page</title>
+    <link>http://xmruibi.github.io/tags/binary-tree/</link>
+    <description>Recent content in Binary Tree on Coder Thinking -- Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 17 Oct 2015 17:50:34 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/binary-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Flatten Binary Tree to Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/</link>
+      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Flatten a binary tree to a fake &amp;laquo;linked list&amp;raquo; in pre-order traversal.&lt;/p&gt;
+
+&lt;p&gt;Here we use the right pointer in TreeNode as the next pointer in ListNode.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;          1
+           \
+ 1          2
+/ \          \
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2   5    =&amp;gt;    3
+  / \   \          \
+ 3   4   6          4
+                     \
+                      5
+                       \
+                        6&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Don&amp;rsquo;t forget to mark the left child of each node to null. Or you will get Time Limit Exceeded or Memory Limit Exceeded.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it in-place without any extra memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One pass with iterate each right node.&lt;/li&gt;
+&lt;li&gt;Put left node to right node.&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param root: a TreeNode, the root of the binary tree
+     * @return: nothing
+     */
+    public void flatten(TreeNode root) {
+        TreeNode node = root;
+        while(node!=null) {
+            if(node.left != null) {
+                TreeNode left = node.left;
+                while(left.right != null) {
+                    left = left.right;
+                }
+                left.right = node.right;
+                node.right = node.left;
+                node.left = null;
+            }
+            node = node.right;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

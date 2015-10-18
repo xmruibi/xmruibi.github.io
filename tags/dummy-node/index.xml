@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dummy Node on Coder Thinking -- Home Page</title>
+    <link>http://xmruibi.github.io/tags/dummy-node/</link>
+    <description>Recent content in Dummy Node on Coder Thinking -- Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 17 Oct 2015 17:50:34 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/dummy-node/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Remove Linked List Elements</title>
+      <link>http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/</link>
+      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/</guid>
+      <description>&lt;p&gt;Remove all elements from a linked list of integers that have value &lt;code&gt;val&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param head a ListNode
+     * @param val an integer
+     * @return a ListNode
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        while(head!=null) {
+            if(head.val != val) {
+                pre.next = head;
+                pre = pre.next;
+            }
+            head = head.next;
+        }
+        // this is important
+        pre.next = null;
+        return dummy.next;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
