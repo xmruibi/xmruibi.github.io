@@ -63,7 +63,7 @@
     },
     "datePublished": "2015-10-12",
     "description": "",
-    "wordCount":  780 
+    "wordCount":  954 
   }
 </script>
 
@@ -194,8 +194,8 @@
 
 
   
-  &middot; Read in about 4 min
-  &middot; (780 Words)
+  &middot; Read in about 5 min
+  &middot; (954 Words)
   <br>
   Tags: 
 
@@ -382,6 +382,64 @@ disqusShortname = &quot;yourShortName&quot;
 </code></pre>
 
 <p>Well you got it!</p>
+
+<h3 id="push-on-github-home-page">Push on Github Home Page</h3>
+
+<ol>
+<li><p>Create repo for <code>your-username.github.io</code>. Note that the repo name should be your username of your github. Only by this way you can make it as your personal home page.</p></li>
+
+<li><p>Enter your project directory.
+<code>cd workspace/yourProject</code></p></li>
+
+<li><p>Remove your <code>public</code> folder under this directory.
+<code>rm -rf public</code></p></li>
+
+<li><p>Initilize this directory as github repo
+<code>git init</code></p></li>
+
+<li><p>Make <code>public/</code> directory sync with .github.io
+<code>git submodule add git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git public</code></p></li>
+
+<li><p>Create a file &lsquo;deploy.sh&rsquo; under the your project dir and copy the following:</p></li>
+</ol>
+
+<pre><code>#!/bin/bash
+echo -e &quot;\033[0;32mDeploying updates to GitHub...\033[0m&quot;
+
+msg=&quot;rebuilding site `date`&quot;
+if [ $# -eq 1 ]
+  then msg=&quot;$1&quot;
+fi
+
+# Push Hugo content 
+git add -A
+git commit -m &quot;$msg&quot;
+git push origin master
+
+
+# Build the project. 
+hugo # if using a theme, replace by `hugo -t &lt;yourtheme&gt;`
+
+# Go To Public folder
+cd public
+# Add changes to git.
+git add -A
+
+# Commit changes.
+
+git commit -m &quot;$msg&quot;
+
+# Push source and build repos.
+git push origin master
+
+# Come Back
+cd ..
+</code></pre>
+
+<ol>
+<li>Run the above .sh file
+<code>./deploy.sh</code></li>
+</ol>
 
 <h3 id="try-more-i-ll-be-back-soon">Try more? I&rsquo;ll be back soon!</h3>
 

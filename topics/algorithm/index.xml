@@ -9,8 +9,96 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 17 Oct 2015 21:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2015 11:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ugly Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/ugly-number/</link>
+      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/ugly-number/</guid>
+      <description>
+
+&lt;p&gt;Write a program to check whether a given number is an ugly number.&lt;/p&gt;
+
+&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;6, 8&lt;/code&gt; are ugly while &lt;code&gt;14&lt;/code&gt; is not ugly since it includes another prime factor &lt;code&gt;7&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note that 1 is typically treated as an ugly number.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    public boolean isUgly(int num) {
+        if(num&amp;lt;=0)
+            return false;
+        int[] factors = {2,3,5};
+        for(int i = factors.length - 1; i &amp;gt;= 0; i--) {
+            while(num % factors[i] == 0) {
+                num /= factors[i];
+            }
+        }
+        return num == 1;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ugly Number II</title>
+      <link>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</link>
+      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</guid>
+      <description>
+
+&lt;p&gt;Write a program to find the n-th ugly number.&lt;/p&gt;
+
+&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;1, 2, 3, 4, 5, 6, 8, 9, 10, 12&lt;/code&gt; is the sequence of the first &lt;code&gt;10&lt;/code&gt; ugly numbers.&lt;/p&gt;
+
+&lt;p&gt;Note that &lt;code&gt;1&lt;/code&gt; is typically treated as an ugly number.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Declare an array for ugly numbers:  ugly[150]&lt;/li&gt;
+&lt;li&gt;Initialize first ugly no:  ugly[1] = 1&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Initialize three array index variables t2, t3, t5 to point to
+1st element of the ugly array:
+    i2 = i3 = i5 = 1;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Initialize 3 choices for the next ugly no:
+     next_mulitple_of_2 = ugly[i2]*2;
+     next_mulitple_of_3 = ugly[i3]*3
+     next_mulitple_of_5 = ugly[i5]*5;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Choose the minimum from the aboved 3 choices as the next ugly number.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check which choice and increase that index.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    public long nthUglyNumber(int k) {
+        long[] memo = new long[k + 1];
+            memo[1] = 1;
+            int t2 = 1, t3 = 1, t5 = 1;
+            for(int i = 2; i &amp;lt;= k; i++) {
+                memo[i] = Math.min(memo[t2]*2, Math.min(memo[t3]*3, memo[t5]*5));
+                if(memo[i] == memo[t2]*2)
+                    t2++;
+                if(memo[i] == memo[t3]*3)
+                    t3++;
+                if(memo[i] == memo[t5]*5)
+                    t5++;
+            }
+            return memo[k];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Submatrix Sum</title>
@@ -55,19 +143,18 @@
 
 &lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
 
-&lt;pre&gt;&lt;code&gt;          1
-           \
- 1          2
-/ \          \
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;2   5    =&amp;gt;    3
+&lt;pre&gt;&lt;code&gt;              1
+               \
+     1          2
+    / \          \
+   2   5    =&amp;gt;    3
   / \   \          \
  3   4   6          4
                      \
                       5
                        \
-                        6&lt;/p&gt;
+                        6
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
 
@@ -772,125 +859,6 @@
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Closest Number</title>
-      <link>http://xmruibi.github.io/2015/10/12/closest-number/</link>
-      <pubDate>Mon, 12 Oct 2015 21:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/12/closest-number/</guid>
-      <description>
-
-&lt;p&gt;Given an unsorted array, find out the most closest two elements in this array. Output&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort is important here! You must think about sort first. Since other may may cost&lt;/li&gt;
-&lt;li&gt;Then the gap between adjacent elements are the&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
-    ArrayList&lt;int[]&gt; res = new ArrayList&lt;&gt;();
-    if(arr == null || arr.length == 0)
-        return res;
-    Arrays.sort(arr);
-
-    int mindiff = Integer.MAX_VALUE;
-    for(int i = 1; i &lt; arr.length; i++) {
-        int curdiff = arr[i] - arr[i - 1];
-        if(curdiff &gt;= mindiff) {
-            if(curdiff &gt; mindiff)
-                res.clear();
-            int[] cres = new int[]{arr[i - 1], arr[i]};
-            res.add(cres);
-        }
-    }
-    return res;
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Route Between Two Nodes in Directed Graph</title>
-      <link>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
-      <pubDate>Sun, 11 Oct 2015 15:14:18 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
-      <description>
-
-&lt;p&gt;Given a directed graph, design an algorithm to find out whether there is a route between two nodes.&lt;/p&gt;
-
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Most typical Graph algorithm question!&lt;/li&gt;
-&lt;li&gt;Try two ways: DFS, BFS.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-public class Solution {
-   /**
-     * @param graph: A list of Directed graph node
-     * @param s: the starting Directed graph node
-     * @param t: the terminal Directed graph node
-     * @return: a boolean value
-     */
-     
-     // BFS
-     public boolean hasRoute(ArrayList&lt;DirectedGraphNode&gt; graph, 
-                            DirectedGraphNode s, DirectedGraphNode t) {
-        
-        if(s == t)
-            return true;
-
-        Queue&lt;DirectedGraphNode&gt; queue = new LinkedList&lt;&gt;();
-        queue.offer(s);
-        graph.remove(s);
-        while(!queue.isEmpty()) {
-            DirectedGraphNode cur = queue.remove();
-            graph.remove(cur);
-            for(DirectedGraphNode next : cur.neighbors) {
-                if(!graph.contains(next))
-                    continue;
-                if(next == t)
-                    return true;
-                queue.offer(next);
-            }
-        }
-        return false;
-    }
-     
-     
-    // DFS
-    public boolean hasRoute(ArrayList&lt;DirectedGraphNode&gt; graph, 
-                            DirectedGraphNode s, DirectedGraphNode t) {
-        // write your code here
-        if(s == t)
-            return true;
-            
-        graph.remove(s);
-        for(DirectedGraphNode next : s.neighbors) {
-            if(!graph.contains(next))
-                    continue;
-            if(hasRoute(graph, next, t))
-                return true;
-        }
-        graph.add(s);
-        return false;
-    }
-}
-
-
-&lt;/code&gt;
-&lt;/pre&gt;
 </description>
     </item>
     

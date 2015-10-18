@@ -346,6 +346,64 @@ disqusShortname = &amp;quot;yourShortName&amp;quot;
 
 &lt;p&gt;Well you got it!&lt;/p&gt;
 
+&lt;h3 id=&#34;push-on-github-home-page&#34;&gt;Push on Github Home Page&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Create repo for &lt;code&gt;your-username.github.io&lt;/code&gt;. Note that the repo name should be your username of your github. Only by this way you can make it as your personal home page.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Enter your project directory.
+&lt;code&gt;cd workspace/yourProject&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Remove your &lt;code&gt;public&lt;/code&gt; folder under this directory.
+&lt;code&gt;rm -rf public&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Initilize this directory as github repo
+&lt;code&gt;git init&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Make &lt;code&gt;public/&lt;/code&gt; directory sync with .github.io
+&lt;code&gt;git submodule add git@github.com:&amp;lt;username&amp;gt;/&amp;lt;username&amp;gt;.github.io.git public&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Create a file &amp;lsquo;deploy.sh&amp;rsquo; under the your project dir and copy the following:&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+echo -e &amp;quot;\033[0;32mDeploying updates to GitHub...\033[0m&amp;quot;
+
+msg=&amp;quot;rebuilding site `date`&amp;quot;
+if [ $# -eq 1 ]
+  then msg=&amp;quot;$1&amp;quot;
+fi
+
+# Push Hugo content 
+git add -A
+git commit -m &amp;quot;$msg&amp;quot;
+git push origin master
+
+
+# Build the project. 
+hugo # if using a theme, replace by `hugo -t &amp;lt;yourtheme&amp;gt;`
+
+# Go To Public folder
+cd public
+# Add changes to git.
+git add -A
+
+# Commit changes.
+
+git commit -m &amp;quot;$msg&amp;quot;
+
+# Push source and build repos.
+git push origin master
+
+# Come Back
+cd ..
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Run the above .sh file
+&lt;code&gt;./deploy.sh&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
 &lt;h3 id=&#34;try-more-i-ll-be-back-soon&#34;&gt;Try more? I&amp;rsquo;ll be back soon!&lt;/h3&gt;
 </description>
     </item>

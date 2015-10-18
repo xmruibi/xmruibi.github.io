@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Math on Coder Thinking -- Home Page</title>
+    <link>http://xmruibi.github.io/tags/math/</link>
+    <description>Recent content in Math on Coder Thinking -- Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sun, 18 Oct 2015 11:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ugly Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/ugly-number/</link>
+      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/ugly-number/</guid>
+      <description>
+
+&lt;p&gt;Write a program to check whether a given number is an ugly number.&lt;/p&gt;
+
+&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;6, 8&lt;/code&gt; are ugly while &lt;code&gt;14&lt;/code&gt; is not ugly since it includes another prime factor &lt;code&gt;7&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note that 1 is typically treated as an ugly number.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    public boolean isUgly(int num) {
+        if(num&amp;lt;=0)
+            return false;
+        int[] factors = {2,3,5};
+        for(int i = factors.length - 1; i &amp;gt;= 0; i--) {
+            while(num % factors[i] == 0) {
+                num /= factors[i];
+            }
+        }
+        return num == 1;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ugly Number II</title>
+      <link>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</link>
+      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</guid>
+      <description>
+
+&lt;p&gt;Write a program to find the n-th ugly number.&lt;/p&gt;
+
+&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;1, 2, 3, 4, 5, 6, 8, 9, 10, 12&lt;/code&gt; is the sequence of the first &lt;code&gt;10&lt;/code&gt; ugly numbers.&lt;/p&gt;
+
+&lt;p&gt;Note that &lt;code&gt;1&lt;/code&gt; is typically treated as an ugly number.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Declare an array for ugly numbers:  ugly[150]&lt;/li&gt;
+&lt;li&gt;Initialize first ugly no:  ugly[1] = 1&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Initialize three array index variables t2, t3, t5 to point to
+1st element of the ugly array:
+    i2 = i3 = i5 = 1;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Initialize 3 choices for the next ugly no:
+     next_mulitple_of_2 = ugly[i2]*2;
+     next_mulitple_of_3 = ugly[i3]*3
+     next_mulitple_of_5 = ugly[i5]*5;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Choose the minimum from the aboved 3 choices as the next ugly number.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check which choice and increase that index.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    public long nthUglyNumber(int k) {
+        long[] memo = new long[k + 1];
+            memo[1] = 1;
+            int t2 = 1, t3 = 1, t5 = 1;
+            for(int i = 2; i &amp;lt;= k; i++) {
+                memo[i] = Math.min(memo[t2]*2, Math.min(memo[t3]*3, memo[t5]*5));
+                if(memo[i] == memo[t2]*2)
+                    t2++;
+                if(memo[i] == memo[t3]*3)
+                    t3++;
+                if(memo[i] == memo[t5]*5)
+                    t5++;
+            }
+            return memo[k];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
