@@ -57,7 +57,7 @@
     },
     "datePublished": "2015-10-18",
     "description": "",
-    "wordCount":  0 
+    "wordCount":  213 
   }
 </script>
 
@@ -113,13 +113,33 @@
 
 
   
-<a href="http://xmruibi.github.io/topics/algorithm" title="Show list of topics">Algorithm</a>
+<a href="http://xmruibi.github.io/topics/algorithm" title="Show list of topics"
 
-<a href="http://xmruibi.github.io/code" title="Show list of projects">Project</a>
+>
+Algorithm
 
-<a href="http://xmruibi.github.io/life" title="Show list of trips">Travel</a>
+</a>
 
-<a href="http://xmruibi.github.io/post" title="Show list of posts">Archive</a>
+<a href="http://xmruibi.github.io/code" title="Show list of projects"
+
+>
+Project
+
+</a>
+
+<a href="http://xmruibi.github.io/life" title="Show list of trips"
+
+>
+Travel
+
+</a>
+
+<a href="http://xmruibi.github.io/post" title="Show list of posts"
+
+>
+Archive
+
+</a>
 
 
 </nav>
@@ -188,8 +208,8 @@
 
 
   
-  &middot; Read in about 0 min
-  &middot; (0 Words)
+  &middot; Read in about 1 min
+  &middot; (213 Words)
   <br>
   Tags: 
 
@@ -211,6 +231,78 @@
 
   <div class="container content">
   
+
+<p>Write a program to find the node at which the intersection of two singly linked lists begins.</p>
+
+<h3 id="example">Example</h3>
+
+<p>The following two linked lists:</p>
+
+<pre><code>A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3
+                   ↗            
+B:     b1 → b2 → b3
+</code></pre>
+
+<p>begin to intersect at node c1.</p>
+
+<h3 id="note">Note</h3>
+
+<p>If the two linked lists have no intersection at all, return null.
+The linked lists must retain their original structure after the function returns.
+You may assume there are no cycles anywhere in the entire linked structure.</p>
+
+<h2 id="solution">Solution</h2>
+
+<ul>
+<li>Count the length of each linked list</li>
+<li>Make two counts to be equal, then start moving and check if there are two nodes the same as each other.</li>
+</ul>
+
+<pre><code>public class Solution {
+    /**
+     * @param headA: the first list
+     * @param headB: the second list
+     * @return: a ListNode 
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        ListNode a = headA;
+        ListNode b = headB;
+        int alen = 0, blen = 0;
+        
+        while(a!=null) {
+            a = a.next;
+            alen++;
+        }
+        while(b!=null) {
+            b = b.next;
+            blen++;
+        }
+        
+        while(alen &gt; blen) {
+            headA = headA.next;
+            alen--;
+        }
+        
+        while(alen &lt; blen) {
+            headB = headB.next;
+            blen--;
+        }
+        
+        while(headA != null &amp;&amp; headB != null) {
+            if(headA == headB)
+                return headA;
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return null;
+    }  
+}
+
+</code></pre>
+
 </div>
 
 
@@ -226,6 +318,10 @@
     </a>
     
 
+    
+    <a class="next" href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/" title="Segment Tree Query II">
+      Newer Article
+    </a>
     
 
   

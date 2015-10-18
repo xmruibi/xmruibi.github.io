@@ -18,7 +18,79 @@
       <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
       <guid>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</guid>
-      <description></description>
+      <description>
+
+&lt;p&gt;Write a program to find the node at which the intersection of two singly linked lists begins.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;The following two linked lists:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3
+                   ↗            
+B:     b1 → b2 → b3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;begin to intersect at node c1.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If the two linked lists have no intersection at all, return null.
+The linked lists must retain their original structure after the function returns.
+You may assume there are no cycles anywhere in the entire linked structure.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Count the length of each linked list&lt;/li&gt;
+&lt;li&gt;Make two counts to be equal, then start moving and check if there are two nodes the same as each other.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param headA: the first list
+     * @param headB: the second list
+     * @return: a ListNode 
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        ListNode a = headA;
+        ListNode b = headB;
+        int alen = 0, blen = 0;
+        
+        while(a!=null) {
+            a = a.next;
+            alen++;
+        }
+        while(b!=null) {
+            b = b.next;
+            blen++;
+        }
+        
+        while(alen &amp;gt; blen) {
+            headA = headA.next;
+            alen--;
+        }
+        
+        while(alen &amp;lt; blen) {
+            headB = headB.next;
+            blen--;
+        }
+        
+        while(headA != null &amp;amp;&amp;amp; headB != null) {
+            if(headA == headB)
+                return headA;
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return null;
+    }  
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
