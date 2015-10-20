@@ -9,8 +9,727 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 18 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 19 Oct 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Number of Airplanes in the Sky</title>
+      <link>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</link>
+      <pubDate>Mon, 19 Oct 2015 22:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</guid>
+      <description>
+
+&lt;p&gt;Given an interval list which are flying and landing time of the flight. How many airplanes are on the sky at most?&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For interval list &lt;code&gt;[[1,10],[2,3],[5,8],[4,7]]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If landing and flying happens at the same time, we consider landing should happen at first.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Array Method (Naive):
+
+&lt;ul&gt;
+&lt;li&gt;Use an integer array to count segment occurence.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     * Array Method:
+     * @param intervals: An interval array
+     * @return: Count of airplanes are in the sky.
+     */
+    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
+        
+        // find the min and max value in interval list;
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for(Interval interval : airplanes) {
+            min = Math.min(min, interval.start);
+            max = Math.max(max, interval.end);
+        }
+
+        int maxCnt = 0;
+        int[] segment = new int[max - min + 1];
+        for(Interval interval : airplanes) {
+            for(int i = interval.start; i &amp;lt; interval.end; i++) {
+                segment[i - min]++;
+                maxCnt = Math.max(maxCnt, segment[i - min]);
+            }
+        }
+        return maxCnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Customized Structure:
+
+&lt;ul&gt;
+&lt;li&gt;Point Class: mark &lt;code&gt;int time&lt;/code&gt; and (&lt;code&gt;boolean start/end&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Mark those Points ordered by time.&lt;/li&gt;
+&lt;li&gt;One pass all points and count increase when touch start but decrease when end;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     * Point Method:
+     * @param intervals: An interval array
+     * @return: Count of airplanes are in the sky.
+     */
+    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
+
+    	// create a list with point class
+    	List&amp;lt;Point&amp;gt; points = new ArrayList&amp;lt;&amp;gt;();
+    	for(Interval interval : airplanes) {
+    		points.add(new Point(interval.start, 1));
+    		points.add(new Point(interval.end, 0));
+    	}
+
+    	// sort
+    	Collections.sort(points, new Comparator&amp;lt;Point&amp;gt;(){
+    	    @Override
+    	    public int compare(Point p1, Point p2) {
+    	         if(p1.time == p2.time) return p1.flag - p2.flag;
+                 else return p1.time - p2.time;
+    	    }
+    	});
+
+    	// one pass for count
+    	int count = 0;
+    	int max = 0; // record the peak count;
+    	for(Point p : points) {
+    		if(p.flag == 1)
+    			count++;
+    		else
+    			count--;
+    		max = Math.max(max, count);
+    	}
+
+    	return max;
+	}
+
+	private class Point{
+		int time;
+		int flag;
+		public Point(int time, int flag) {
+			this.time = time;
+			this.flag = flag;
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Array Method (Naive):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Two pass and one of pass has one more inner loop (segment size: k): o(n + n*k) -&amp;gt; O(n^2);
+An array to store occurence frequence: Space: O(n);&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Next Permutation</title>
+      <link>http://xmruibi.github.io/2015/10/19/next-permutation/</link>
+      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/next-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a list of integers, which denote a permutation.&lt;/p&gt;
+
+&lt;p&gt;Find the next permutation in ascending order.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[1,3,2,3]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,3,3,2]&lt;/code&gt;
+For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2,3,4]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The list may contains duplicate integers.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;字典序算法：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从后往前寻找索引满足 a[k] &amp;lt; a[k + 1], 如果此条件不满足，则说明已遍历到最后一个。&lt;/li&gt;
+&lt;li&gt;如 k == 0, 说明是字典序最后一位， 因此直接倒置整个数组即可.&lt;/li&gt;
+&lt;li&gt;从后往前遍历，找到第一个比a[k]大的数a[l], 即a[k] &amp;lt; a[l].&lt;/li&gt;
+&lt;li&gt;交换a[k]与a[l].&lt;/li&gt;
+&lt;li&gt;反转k + 1 ~ n之间的元素.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: an array of integers
+     * @return: return nothing (void), do not return anything, modify nums in-place instead
+     */
+    public int[] nextPermutation(int[] nums) {
+        if(nums == null || nums.length == 1)
+            return nums;
+        
+        // step1: find nums[i] &amp;lt; nums[i + 1]
+        int i = 0;
+        for (i = nums.length - 2; i &amp;gt;= 0; i--) {
+            if (nums[i] &amp;lt; nums[i + 1]) {
+                break;
+            } else if (i == 0) {
+                // reverse nums if reach maximum
+                reverse(nums, 0, nums.length - 1);
+                return nums;
+            }
+        }
+        // step2: find nums[i] &amp;lt; nums[j]
+        int j = 0;
+        for (j = nums.length - 1; j &amp;gt; i; j--) {
+            if (nums[i] &amp;lt; nums[j]) {
+                break;
+            }
+        }
+        // step3: swap betwenn nums[i] and nums[j]
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+        
+        // step4: reverse between [i + 1, n - 1]
+        reverse(nums, i + 1, nums.length - 1);
+
+        return nums;
+    }
+    
+    private void reverse(int[] nums, int l, int r) {
+        while(l &amp;lt; r) {
+            int tmp = nums[l];
+            nums[l++] = nums[r];
+            nums[r--] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
+
+&lt;p&gt;At most, two pass o(2*n) -&amp;gt; O(n); Constant Space Complexity: O(1)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permutation</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation/</link>
+      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a list of numbers, return all possible permutations.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For nums = [1,2,3], the permutations are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it without recursion.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;h4 id=&#34;method-one&#34;&gt;Method One:&lt;/h4&gt;
+
+&lt;p&gt;Backtracking, with memorized the element usage, which takes space, or we can search on arraylist(more time);&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * @param nums: A list of integers.
+     * @return: A list of permutations.
+     */
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; permute(ArrayList&amp;lt;Integer&amp;gt; nums) {
+
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(nums == null || nums.size() == 0)
+            return res;
+        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), nums);
+        return res;
+    }
+    
+    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; list,  ArrayList&amp;lt;Integer&amp;gt; nums ) {
+        
+        if(list.size() == nums.size()) {
+            res.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+            return;
+        }
+        
+        for(int i = 0; i&amp;lt;nums.size(); i++){
+        	// to check if this number already taken
+            if(list.contains(nums.get(i)))
+                continue;
+            
+            list.add(nums.get(i));
+            helper(res, list, nums);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;method-two&#34;&gt;Method Two:&lt;/h4&gt;
+
+&lt;p&gt;Swap: &lt;a href=&#34;https://www.cs.princeton.edu/~rs/talks/perms.pdf&#34;&gt;Reference&lt;/a&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/PermutationSwap.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+  private static Set&amp;lt;Integer&amp;gt; exchPermutation(int[] arr) {
+    Set&amp;lt;Integer&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
+    int i = 0, num = 0;
+    outer: while(true) {
+      
+      while(i &amp;lt; arr.length - 1) {
+        num = exchGenerate(arr, i, ++i);
+        if(set.contains(num))
+          break outer;
+        set.add(num);
+      }
+      
+      num = exchGenerate(arr, 0, 1);
+      if(set.contains(num))
+        break outer;
+      set.add(num);
+      
+      while(i &amp;gt; 0) {
+        num = exchGenerate(arr, --i, i+1);
+        if(set.contains(num))
+          break outer;
+        set.add(num);
+      }
+      
+      num = exchGenerate(arr, arr.length - 2, arr.length - 1);
+      if(set.contains(num))
+        break outer;
+      set.add(num);
+    }
+    return set;
+  }
+  
+  private static int exchGenerate(int[] arr, int i, int j) {
+    int tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+    
+    int res = 0;
+    for(int n : arr){
+      res = res*10 + n;
+    }
+    return res;
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Previous Permutation</title>
+      <link>http://xmruibi.github.io/2015/10/19/previous-permutation/</link>
+      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/previous-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a list of integers, which denote a permutation.&lt;/p&gt;
+
+&lt;p&gt;Find the previous permutation in ascending order.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[1,3,2,3]&lt;/code&gt;, the previous permutation is &lt;code&gt;[1,2,3,3]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;[1,2,3,4]&lt;/code&gt;, the previous permutation is [&lt;code&gt;4,3,2,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The list may contains duplicate integers.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;step 1: find last nums[k] &amp;gt; nums[k + 1];&lt;/li&gt;
+&lt;li&gt;step 2: find last nums[i] &amp;gt; nums[k];&lt;/li&gt;
+&lt;li&gt;step 3: swap i, j;&lt;/li&gt;
+&lt;li&gt;step 4: reverse num after i;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @return: A list of integers that&#39;s previous permuation
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; previousPermuation(ArrayList&amp;lt;Integer&amp;gt; nums) {
+        if(nums == null || nums.size() &amp;lt;= 1)
+            return nums;
+            
+        // step 1: find last nums[k] &amp;gt; nums[k + 1]
+        int i = nums.size() - 2;
+        for (; i &amp;gt;= 0; i--) {
+            if (nums.get(i) &amp;gt; nums.get(i + 1)) {
+                break;
+            }
+            if(i &amp;lt;= 0) {
+                reverse(nums, 0, nums.size() - 1);
+                return nums;
+            }
+        }
+
+        // step 2: find last nums[i] &amp;gt; nums[k]
+        int j = nums.size() - 1;
+        for (; j &amp;gt; i; j--) {
+            if (nums.get(i) &amp;gt; nums.get(j)) {
+                break;
+            }
+        }
+        
+        // step 3: swap i, j
+        Collections.swap(nums, i, j);
+        
+        // step 4: reverse num after i
+        reverse(nums, i + 1, nums.size() - 1);
+        
+        return nums;
+    }
+    
+    private void reverse(ArrayList&amp;lt;Integer&amp;gt; nums,  int start, int end) {
+        for (int i = start, j = end; i &amp;lt; j; i++, j--) {
+            Collections.swap(nums, i, j);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permutation Index II</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</link>
+      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</guid>
+      <description>
+
+&lt;p&gt;Given a permutation which may contain repeated numbers, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the permutation &lt;code&gt;[1, 4, 2, 2]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight. However, there are duplicates occured. So that means we can use a hash map to do the count.
+But the positional system should be modified. The multiple of the factorial of the duplicates occurence should be divided by original position system. That means the &lt;code&gt;entry.value&lt;/code&gt; need to to the factorial and multiply those factors.
+Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code&gt;, when &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A an integer array
+     * @return a long integer
+     */
+    public long permutationIndexII(int[] A) {
+        if(A == null || A.length == 0)
+            return 0L;
+        
+        int pos = 2;
+        long factor = 1;
+        long index = 1;
+        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
+            HashMap&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int cnt = 0;
+            // count itself
+            map.put(A[i], 1);
+            for(int j = i + 1; j &amp;lt; A.length; j++) {
+                // count all occurence on following element in Array
+                map.put(A[j], map.containsKey(A[j])?map.get(A[j])+1:1);
+                if(A[i] &amp;gt; A[j])
+                    cnt++;
+            }
+            index += (cnt*factor)/factorialMultiple(map);
+            factor *= pos;
+            pos++;
+        }
+        
+        return index;
+    }
+    
+    private int factorialMultiple(HashMap&amp;lt;Integer, Integer&amp;gt; map) {
+        int res = 1;
+        for(int value : map.values()) {
+            // do the factor on occurence
+            int factor = 1;
+            for(int i = 1; i &amp;lt;= value; i++)
+                factor*= i;
+            // get the multiple of occurence factor
+            res *= factor;
+        }
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permutation Sequence</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation-sequence/</link>
+      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/permutation-sequence/</guid>
+      <description>
+
+&lt;p&gt;Given n and k, return the k-th permutation sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For n = 3, all permutations are listed as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;
+&amp;quot;132&amp;quot;
+&amp;quot;213&amp;quot;
+&amp;quot;231&amp;quot;
+&amp;quot;312&amp;quot;
+&amp;quot;321&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If k = &lt;code&gt;4&lt;/code&gt;, the fourth permutation is &amp;laquo;&lt;code&gt;231&lt;/code&gt;&amp;laquo;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;n will be between 1 and 9 inclusive.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n*k) in time complexity is easy, can you do it in O(n^2) or less?&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;a1,a2,a3&amp;hellip;..an的permutation 如果确定了a1,那么剩下的permutation就有(n-1)!种 所以 a1 = k / (n-1)! k2 = k % (n-1)! a2 = k2 / (n-2)!&lt;/p&gt;
+
+&lt;p&gt;要注意的是&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;得到的应该是剩下选择数字的index,而不是value,所以要建一个存储可用数字的list&lt;/li&gt;
+&lt;li&gt;在用完一个数字后要将它从list中删去&lt;/li&gt;
+&lt;li&gt;array是0-based index, 那么K也应该减去1变为0-based的 (&lt;code&gt;k--&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+      * @param n: n
+      * @param k: the kth permutation
+      * @return: return the k-th permutation
+      */
+    public String getPermutation(int n, int k) {
+        
+        int[] factors = new int[n + 1];
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        factors[0] = 1;
+        for(int i = 1; i &amp;lt;= n; i++) {
+            factors[i] = i * factors[i-1];
+            list.add(i);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        // for index alignment： e.g: k == 12, k / 6 = 2, 
+        // however, it should still belong the number start for list.get(1); So here need to make a alignment
+        k--;
+        while(n &amp;gt; 1) {
+            int index = k / factors[n-1];
+            sb.append(list.remove(index));
+            k %= factors[n-1];
+            n--;
+        }
+        sb.append(list.get(0));
+        return sb.toString();
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permutation Index</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation-index/</link>
+      <pubDate>Mon, 19 Oct 2015 11:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/19/permutation-index/</guid>
+      <description>
+
+&lt;p&gt;Given a permutation which contains no repeated number, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[1,2,4]&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;thinking&#34;&gt;Thinking&lt;/h2&gt;
+
+&lt;p&gt;Illustrating by manually getting the index of {2, 4, 3, 1}. Since this is a 4-element set, we know there are 4! permutations (4! = 4*3*2*1). If the set only had 3 elements, we would have 3*2*1 permutations. If the set only had 2 elements, we would have 2!=2*1 permutations; and so on.&lt;/p&gt;
+
+&lt;p&gt;ASIDE: The decimal system of counting is a positional system. A 3-element decimal number, for instance, has the following three positional weights: hundred, ten, unit. Hence, we know the value of the number 472 because we understand: 4*hundred + 7*ten + 2*unit.&lt;/p&gt;
+
+&lt;p&gt;If we treat our 4-element set as a positional system, then we get the following positional weights: 3!, 2!, 1!, 0. So that the index of {2, 4, 3, 1} is: x*3!+y*2!+z*1!+w*0. Presently it suffices to find the values of x,y,z to calculate the index (we ignore w because it is paired with 0). x,y,z are counters: the number of succeeding elements less than the element being considered. For example, in {2, 4, 3, 1}, there are two succeeding elements less than 4 (namely 3 and 1). For 2 it&amp;rsquo;s 1 (1); for 4 it&amp;rsquo;s 2 (3 and 1); for 3 it&amp;rsquo;s 1 (1); for 1 it&amp;rsquo;s 0. Now we can calculate the index of {2, 4, 3, 1} as: x=1, y=2, z=1:
+    &lt;code&gt;x*3!+y*2!+z*1!+w*0 = 1*3! + 2*2! + 1*1! = 6 + 4 + 1 = 11&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A an integer array
+     * @return a long integer
+     */
+    public long permutationIndex(int[] A) {
+        
+        if(A == null || A.length == 0)
+            return 0L;
+        
+        int pos = 2;
+        long factor = 1;
+        long index = 1;
+        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
+            int cnt = 0;
+            for(int j = i + 1; j &amp;lt; A.length; j++) {
+                if(A[i] &amp;gt; A[j])
+                    cnt++;
+            }
+            index += (cnt*factor);
+            factor *= pos;
+            pos++;
+        }
+        
+        return index;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
+
+&lt;p&gt;Two loop: &lt;code&gt;i range 0 -&amp;gt; length - 2&lt;/code&gt; and &lt;code&gt;j range i + 1 -&amp;gt; length - 1&lt;/code&gt;, So it is &lt;code&gt;O(n^2)&lt;/code&gt;;
+Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Points on a Line</title>
+      <link>http://xmruibi.github.io/2015/10/18/max-points-on-a-line/</link>
+      <pubDate>Sun, 18 Oct 2015 20:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/max-points-on-a-line/</guid>
+      <description>
+
+&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given 4 points: &lt;code&gt;(1,2)&lt;/code&gt;, &lt;code&gt;(3,6)&lt;/code&gt;, &lt;code&gt;(0,0)&lt;/code&gt;, &lt;code&gt;(1,3)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The maximum number is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use one point as a baseline. (&lt;code&gt;Point pa&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Iterate other points (&lt;code&gt;Point pb&lt;/code&gt;) (index greater than &lt;code&gt;pa&lt;/code&gt;): &lt;code&gt;j = i + 1&lt;/code&gt; and&lt;/li&gt;
+&lt;li&gt;Use Hash Map to record the ratio and count&lt;/li&gt;
+&lt;li&gt;Note:
+
+&lt;ul&gt;
+&lt;li&gt;Ratio is &lt;code&gt;double radio = (double)(pa.y - pb.y) / (double)(pa.x - pb.x)&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When pa.x == pb.x &amp;amp;&amp;amp; pa.y == pb.y, consider two points are the same, also need to count the same point.&lt;/li&gt;
+&lt;li&gt;When only &lt;code&gt;pa.x == pb.x&lt;/code&gt;, that means the ratio is infinity as &lt;code&gt;(double)Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When only &lt;code&gt;pa.y == pb.y&lt;/code&gt;, that means the ratio is zero;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Iterate Hash Map and get the local max with updating the global max;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param points an array of point
+     * @return an integer
+     */
+    public int maxPoints(Point[] points) {
+        if(points == null || points.length == 0)
+            return 0;
+        
+       
+        int maxLine = 0;
+        for(int i = 0; i &amp;lt; points.length; i++) {
+            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            Point pa = points[i];
+            int same = 0;
+            for(int j = i + 1; j &amp;lt; points.length; j++) {
+                    Point pb = points[j];
+                    int cnt = 0;
+                    if(pa.x == pb.x &amp;amp;&amp;amp; pa.y == pb.y)
+                        same ++;
+                    else if(pa.x == pb.x) {
+                        map.put((double)Integer.MAX_VALUE, map.containsKey((double)Integer.MAX_VALUE)?map.get((double)Integer.MAX_VALUE) + 1 : 2);
+                    }else if(pa.y == pb.y)
+                        map.put((double)0, map.containsKey((double)0)?map.get((double)0) + 1 : 2);
+                    else{
+                        double radio = (double)(pa.y - pb.y) / (double)(pa.x - pb.x);
+                        map.put(radio, map.containsKey(radio)?map.get(radio) + 1 : 2);
+                    }
+            }
+            int localMax = 1;
+            for (Integer value : map.values())   
+                localMax = Math.max(localMax, value);
+            localMax += same;  
+            maxLine = Math.max(maxLine, localMax); 
+        }
+        
+        return maxLine;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Count of Smaller Number</title>
@@ -104,94 +823,64 @@
     </item>
     
     <item>
-      <title>Interval Sum</title>
-      <link>http://xmruibi.github.io/2015/10/18/interval-sum/</link>
-      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
+      <title>Smallest Difference</title>
+      <link>http://xmruibi.github.io/2015/10/18/smallest-difference/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/interval-sum/</guid>
+      <guid>http://xmruibi.github.io/2015/10/18/smallest-difference/</guid>
       <description>
 
-&lt;p&gt;Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the sum number between index start and end in the given array, return the result list.&lt;/p&gt;
+&lt;p&gt;Given two array of integers(the first array is array A, the second array is array B), now we are going to find a element in array A which is A[i], and another element in array B which is B[j], so that the difference between A[i] and B&lt;a href=&#34;|A[i] - B[j]|&#34;&gt;j&lt;/a&gt; is as small as possible, return their smallest difference.&lt;/p&gt;
 
 &lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
 
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[(0,4),(1,2),(2,4)]&lt;/code&gt;, return &lt;code&gt;[23,9,20]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;For example, given array A = &lt;code&gt;[3,6,7,4]&lt;/code&gt;, B = &lt;code&gt;[2,8,9,3]&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
 
-&lt;p&gt;O(logN) time for each query&lt;/p&gt;
+&lt;p&gt;O(n log n) time&lt;/p&gt;
 
 &lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code&gt;// Segment tree for sum
-class IntervalTree{
-        IntervalNode root;
-        
-        public IntervalTree(int[] A) {
-            root = build(A, 0, A.length - 1);
-        }
-        
-        private IntervalNode build(int[] A, int start, int end) {
-            if(start &amp;gt; end)
-                return null;
-            IntervalNode node = new IntervalNode(start, end);
-            
-            if(start == end) {
-                node.val = (long)A[start];
-                return node;
-            }
-            
-            int m = start + ((end - start)&amp;gt;&amp;gt;1);
-            node.left = build(A, start, m);
-            node.right = build(A, m+1, end);
-            node.val = node.left.val + node.right.val;
-            return node;
-        }
-        
-        public long query(int start, int end) {
-            return queryhelper(root, start, end);
-        }
-        
-        private long queryhelper(IntervalNode node, int start, int end) {
-            if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
-                return node.val;
-            
-            int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
-            if(m &amp;lt; start) {
-                return queryhelper(node.right, start, end);
-            }else if(m &amp;gt;= end){
-                return queryhelper(node.left, start, end);
-            }else
-                return queryhelper(node.left, start, m) + queryhelper(node.right, m+1, end);
-        }
+&lt;ul&gt;
+&lt;li&gt;Do sort on one of array&lt;/li&gt;
+&lt;li&gt;One pass on another array and do binary search on the sorted array.&lt;/li&gt;
+&lt;li&gt;Search the target value from passing array and get the minimum difference on sorted array&lt;/li&gt;
+&lt;li&gt;Update the global minimum difference each time.&lt;/li&gt;
+&lt;/ul&gt;
 
-        private class IntervalNode {
-            int start, end;
-            long val;
-            IntervalNode left, right;
-            IntervalNode(int start, int end) {
-                this.start = start;
-                this.end = end;
-            }
-        }
-}
-
-public class Solution {
+&lt;pre&gt;&lt;code&gt;public class Solution {
     /**
-     *@param A, queries: Given an integer array and an query list
-     *@return: The result list
+     * @param A, B: Two integer arrays.
+     * @return: Their smallest difference.
      */
-    public ArrayList&amp;lt;Long&amp;gt; intervalSum(int[] A, 
-                                       ArrayList&amp;lt;Interval&amp;gt; queries) {
-        IntervalTree tree = new IntervalTree(A);
-        ArrayList&amp;lt;Long&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        for(Interval interval : queries) {
-            res.add(tree.query(interval.start, interval.end));
+    public int smallestDifference(int[] A, int[] B) {
+        if(A == null || B == null || A.length == 0 || B.length == 0)
+            return 0;
+        Arrays.sort(B);
+        int mindiff = Integer.MAX_VALUE;
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            int curdiff = binarySearch(B, A[i]);
+            mindiff = Math.min(mindiff, curdiff);
         }
-        return res;
+        return mindiff;
+    }
+    
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
     }
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -287,6 +976,99 @@ class IntervalTree{
         }
 }
 
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Interval Sum</title>
+      <link>http://xmruibi.github.io/2015/10/18/interval-sum/</link>
+      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/interval-sum/</guid>
+      <description>
+
+&lt;p&gt;Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the sum number between index start and end in the given array, return the result list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[(0,4),(1,2),(2,4)]&lt;/code&gt;, return &lt;code&gt;[23,9,20]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(logN) time for each query&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;// Segment tree for sum
+class IntervalTree{
+        IntervalNode root;
+        
+        public IntervalTree(int[] A) {
+            root = build(A, 0, A.length - 1);
+        }
+        
+        private IntervalNode build(int[] A, int start, int end) {
+            if(start &amp;gt; end)
+                return null;
+            IntervalNode node = new IntervalNode(start, end);
+            
+            if(start == end) {
+                node.val = (long)A[start];
+                return node;
+            }
+            
+            int m = start + ((end - start)&amp;gt;&amp;gt;1);
+            node.left = build(A, start, m);
+            node.right = build(A, m+1, end);
+            node.val = node.left.val + node.right.val;
+            return node;
+        }
+        
+        public long query(int start, int end) {
+            return queryhelper(root, start, end);
+        }
+        
+        private long queryhelper(IntervalNode node, int start, int end) {
+            if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
+                return node.val;
+            
+            int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
+            if(m &amp;lt; start) {
+                return queryhelper(node.right, start, end);
+            }else if(m &amp;gt;= end){
+                return queryhelper(node.left, start, end);
+            }else
+                return queryhelper(node.left, start, m) + queryhelper(node.right, m+1, end);
+        }
+
+        private class IntervalNode {
+            int start, end;
+            long val;
+            IntervalNode left, right;
+            IntervalNode(int start, int end) {
+                this.start = start;
+                this.end = end;
+            }
+        }
+}
+
+public class Solution {
+    /**
+     *@param A, queries: Given an integer array and an query list
+     *@return: The result list
+     */
+    public ArrayList&amp;lt;Long&amp;gt; intervalSum(int[] A, 
+                                       ArrayList&amp;lt;Interval&amp;gt; queries) {
+        IntervalTree tree = new IntervalTree(A);
+        ArrayList&amp;lt;Long&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(Interval interval : queries) {
+            res.add(tree.query(interval.start, interval.end));
+        }
+        return res;
+    }
+}
 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -563,532 +1345,6 @@ public class Solution {
         return node;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Segment Tree Modify</title>
-      <link>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</link>
-      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</guid>
-      <description>
-
-&lt;p&gt;For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&amp;rsquo;s interval.&lt;/p&gt;
-
-&lt;p&gt;Implement a modify function with three parameter root, index and value to change the node&amp;rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For segment tree:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                      [1, 4, max=3]
-                    /                \
-        [1, 2, max=2]                [3, 4, max=3]
-       /              \             /             \
-[1, 1, max=2], [2, 2, max=1], [3, 3, max=0], [4, 4, max=3]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;if call modify(root, 2, 4), we can get:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                      [1, 4, max=4]
-                    /                \
-        [1, 2, max=4]                [3, 4, max=3]
-       /              \             /             \
-[1, 1, max=2], [2, 2, max=4], [3, 3, max=0], [4, 4, max=3]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;or call modify(root, 4, 0), we can get:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                      [1, 4, max=2]
-                    /                \
-        [1, 2, max=2]                [3, 4, max=0]
-       /              \             /             \
-[1, 1, max=2], [2, 2, max=1], [3, 3, max=0], [4, 4, max=0]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;We suggest you finish problem Segment Tree Build and Segment Tree Query first.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Do it in O(h) time, h is the height of the segment tree.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     *@param root, index, value: The root of segment tree and 
-     *@ change the node&#39;s value with [index, index] to the new given value
-     *@return: void
-     */
-    public void modify(SegmentTreeNode root, int index, int value) {
-        if(root.start == root.end) {
-            root.max = value;
-            return;
-        }
-        int m = root.start + ((root.end - root.start)&amp;gt;&amp;gt;1);
-        if(m &amp;lt; index)
-            modify(root.right, index, value);
-        else
-            modify(root.left, index, value);
-            
-        // update max each time, this is important
-        root.max = Math.max(root.left.max, root.right.max);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Segment Tree Query</title>
-      <link>http://xmruibi.github.io/2015/10/18/segment-tree-query/</link>
-      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-query/</guid>
-      <description>
-
-&lt;p&gt;For an integer array (index from 0 to n-1, where n is the size of this array), in the corresponding SegmentTree, each node stores an extra attribute max to denote the maximum number in the interval of the array (index from start to end).&lt;/p&gt;
-
-&lt;p&gt;Design a query method with three parameters root, start and end, find the maximum number in the interval [start, end] by the given root of segment tree.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array [1, 4, 2, 3], the corresponding Segment Tree is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                  [0, 3, max=4]
-                 /             \
-          [0,1,max=4]        [2,3,max=3]
-          /         \        /         \
-   [0,0,max=1] [1,1,max=4] [2,2,max=2], [3,3,max=3]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 1, 1)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 1, 2)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 2, 3)&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(root, 0, 2)&lt;/code&gt;, return &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;It is much easier to understand this problem if you finished Segment Tree Build first.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class SegmentTreeNode {
-    public int start, end, max;
-    public SegmentTreeNode left, right;
-    public SegmentTreeNode(int start, int end, int max) {
-        this.start = start;
-        this.end = end;
-        this.max = max
-        this.left = this.right = null;
-    }
-}
-
-public class Solution {
-    /**
-     *@param root, start, end: The root of segment tree and 
-     *                         an segment / interval
-     *@return: The maximum number in the interval [start, end]
-     */
-    public int query(SegmentTreeNode root, int start, int end) {
-        if(root == null)
-            return Integer.MIN_VALUE;
-            
-        if(root.start &amp;gt;= start &amp;amp;&amp;amp; root.end &amp;lt;= end)
-            return root.max;
-        int m = root.start + ((root.end - root.start)&amp;gt;&amp;gt;1);
-        if(start &amp;gt; m)
-            return query(root.right, start, end);
-        else if(end &amp;lt;= m)
-            return query(root.left, start, end);
-        else
-            return Math.max(query(root.left, start, m), query(root.right, m+1, end));
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Segment Tree Query II</title>
-      <link>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</link>
-      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</guid>
-      <description>
-
-&lt;p&gt;For an array, we can build a SegmentTree for it, each node stores an extra attribute count to denote the number of elements in the the array which value is between interval start and end. (The array may not fully filled by elements)&lt;/p&gt;
-
-&lt;p&gt;Design a query method with three parameters root, start and end, find the number of elements in the in array&amp;rsquo;s interval [start, end] by the given root of value SegmentTree.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array [0, 2, 3], the corresponding value Segment Tree is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                     [0, 3, count=3]
-                     /             \
-          [0,1,count=1]             [2,3,count=2]
-          /         \               /            \
-   [0,0,count=1] [1,1,count=0] [2,2,count=1], [3,3,count=1]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;query(1, 1)&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(1, 2)&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(2, 3)&lt;/code&gt;, return &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;query(0, 2)&lt;/code&gt;, return &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;It is much easier to understand this problem if you finished Segment Tree Buildand Segment Tree Query first.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class SegmentTreeNode {
-    public int start, end, max;
-    public SegmentTreeNode left, right;
-    public SegmentTreeNode(int start, int end, int max) {
-        this.start = start;
-        this.end = end;
-        this.max = max
-        this.left = this.right = null;
-    }
-}
-
-public class Solution {
-    /**
-     *@param root, start, end: The root of segment tree and 
-     *                         an segment / interval
-     *@return: The count number in the interval [start, end]
-     */
-    public int query(SegmentTreeNode root, int start, int end) {
-        // write your code here
-        if(root == null)
-            return 0;
-            
-        if(root.start &amp;gt;= start &amp;amp;&amp;amp; root.end &amp;lt;= end)
-            return root.count;
-            
-        int m = root.start + ((root.end - root.start)&amp;gt;&amp;gt;1);
-        
-        if(start &amp;gt; m)
-            return query(root.right, start, end);
-        else if(end &amp;lt;= m)
-            return query(root.left, start, end);
-        else
-            return query(root.left, start, m) + query(root.right, m+1, end);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Intersection of Two Linked Lists</title>
-      <link>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</link>
-      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</guid>
-      <description>
-
-&lt;p&gt;Write a program to find the node at which the intersection of two singly linked lists begins.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;The following two linked lists:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;A:          a1 → a2
-                   ↘
-                     c1 → c2 → c3
-                   ↗            
-B:     b1 → b2 → b3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;begin to intersect at node c1.&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If the two linked lists have no intersection at all, return null.
-The linked lists must retain their original structure after the function returns.
-You may assume there are no cycles anywhere in the entire linked structure.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Count the length of each linked list&lt;/li&gt;
-&lt;li&gt;Make two counts to be equal, then start moving and check if there are two nodes the same as each other.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param headA: the first list
-     * @param headB: the second list
-     * @return: a ListNode 
-     */
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        
-        ListNode a = headA;
-        ListNode b = headB;
-        int alen = 0, blen = 0;
-        
-        while(a!=null) {
-            a = a.next;
-            alen++;
-        }
-        while(b!=null) {
-            b = b.next;
-            blen++;
-        }
-        
-        while(alen &amp;gt; blen) {
-            headA = headA.next;
-            alen--;
-        }
-        
-        while(alen &amp;lt; blen) {
-            headB = headB.next;
-            blen--;
-        }
-        
-        while(headA != null &amp;amp;&amp;amp; headB != null) {
-            if(headA == headB)
-                return headA;
-            headA = headA.next;
-            headB = headB.next;
-        }
-        return null;
-    }  
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Ugly Number</title>
-      <link>http://xmruibi.github.io/2015/10/18/ugly-number/</link>
-      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/ugly-number/</guid>
-      <description>
-
-&lt;p&gt;Write a program to check whether a given number is an ugly number.&lt;/p&gt;
-
-&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;6, 8&lt;/code&gt; are ugly while &lt;code&gt;14&lt;/code&gt; is not ugly since it includes another prime factor &lt;code&gt;7&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Note that 1 is typically treated as an ugly number.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    public boolean isUgly(int num) {
-        if(num&amp;lt;=0)
-            return false;
-        int[] factors = {2,3,5};
-        for(int i = factors.length - 1; i &amp;gt;= 0; i--) {
-            while(num % factors[i] == 0) {
-                num /= factors[i];
-            }
-        }
-        return num == 1;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Ugly Number II</title>
-      <link>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</link>
-      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</guid>
-      <description>
-
-&lt;p&gt;Write a program to find the n-th ugly number.&lt;/p&gt;
-
-&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;1, 2, 3, 4, 5, 6, 8, 9, 10, 12&lt;/code&gt; is the sequence of the first &lt;code&gt;10&lt;/code&gt; ugly numbers.&lt;/p&gt;
-
-&lt;p&gt;Note that &lt;code&gt;1&lt;/code&gt; is typically treated as an ugly number.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Declare an array for ugly numbers:  ugly[150]&lt;/li&gt;
-&lt;li&gt;Initialize first ugly no:  ugly[1] = 1&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Initialize three array index variables t2, t3, t5 to point to
-1st element of the ugly array:
-    i2 = i3 = i5 = 1;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Initialize 3 choices for the next ugly no:
-     next_mulitple_of_2 = ugly[i2]*2;
-     next_mulitple_of_3 = ugly[i3]*3
-     next_mulitple_of_5 = ugly[i5]*5;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Choose the minimum from the aboved 3 choices as the next ugly number.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Check which choice and increase that index.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    public long nthUglyNumber(int k) {
-        long[] memo = new long[k + 1];
-            memo[1] = 1;
-            int t2 = 1, t3 = 1, t5 = 1;
-            for(int i = 2; i &amp;lt;= k; i++) {
-                memo[i] = Math.min(memo[t2]*2, Math.min(memo[t3]*3, memo[t5]*5));
-                if(memo[i] == memo[t2]*2)
-                    t2++;
-                if(memo[i] == memo[t3]*3)
-                    t3++;
-                if(memo[i] == memo[t5]*5)
-                    t5++;
-            }
-            return memo[k];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Submatrix Sum</title>
-      <link>http://xmruibi.github.io/2015/10/17/submatrix-sum/</link>
-      <pubDate>Sat, 17 Oct 2015 21:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/17/submatrix-sum/</guid>
-      <description>
-
-&lt;p&gt;Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given matrix&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[
-  [1 ,5 ,7],
-  [3 ,7 ,-8],
-  [4 ,-8 ,9],
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;return &lt;code&gt;[(1,1), (2,2)]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n3) time.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Flatten Binary Tree to Linked List</title>
-      <link>http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/</link>
-      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/</guid>
-      <description>
-
-&lt;p&gt;Flatten a binary tree to a fake &amp;laquo;linked list&amp;raquo; in pre-order traversal.&lt;/p&gt;
-
-&lt;p&gt;Here we use the right pointer in TreeNode as the next pointer in ListNode.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;              1
-               \
-     1          2
-    / \          \
-   2   5    =&amp;gt;    3
-  / \   \          \
- 3   4   6          4
-                     \
-                      5
-                       \
-                        6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;Don&amp;rsquo;t forget to mark the left child of each node to null. Or you will get Time Limit Exceeded or Memory Limit Exceeded.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Do it in-place without any extra memory.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;One pass with iterate each right node.&lt;/li&gt;
-&lt;li&gt;Put left node to right node.&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param root: a TreeNode, the root of the binary tree
-     * @return: nothing
-     */
-    public void flatten(TreeNode root) {
-        TreeNode node = root;
-        while(node!=null) {
-            if(node.left != null) {
-                TreeNode left = node.left;
-                while(left.right != null) {
-                    left = left.right;
-                }
-                left.right = node.right;
-                node.right = node.left;
-                node.left = null;
-            }
-            node = node.right;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Remove Linked List Elements</title>
-      <link>http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/</link>
-      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/</guid>
-      <description>&lt;p&gt;Remove all elements from a linked list of integers that have value &lt;code&gt;val&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param head a ListNode
-     * @param val an integer
-     * @return a ListNode
-     */
-    public ListNode removeElements(ListNode head, int val) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode pre = dummy;
-        while(head!=null) {
-            if(head.val != val) {
-                pre.next = head;
-                pre = pre.next;
-            }
-            head = head.next;
-        }
-        // this is important
-        pre.next = null;
-        return dummy.next;
-    }
-}
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

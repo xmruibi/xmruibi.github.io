@@ -104,6 +104,69 @@
     </item>
     
     <item>
+      <title>Smallest Difference</title>
+      <link>http://xmruibi.github.io/2015/10/18/smallest-difference/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/smallest-difference/</guid>
+      <description>
+
+&lt;p&gt;Given two array of integers(the first array is array A, the second array is array B), now we are going to find a element in array A which is A[i], and another element in array B which is B[j], so that the difference between A[i] and B&lt;a href=&#34;|A[i] - B[j]|&#34;&gt;j&lt;/a&gt; is as small as possible, return their smallest difference.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, given array A = &lt;code&gt;[3,6,7,4]&lt;/code&gt;, B = &lt;code&gt;[2,8,9,3]&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n log n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Do sort on one of array&lt;/li&gt;
+&lt;li&gt;One pass on another array and do binary search on the sorted array.&lt;/li&gt;
+&lt;li&gt;Search the target value from passing array and get the minimum difference on sorted array&lt;/li&gt;
+&lt;li&gt;Update the global minimum difference each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A, B: Two integer arrays.
+     * @return: Their smallest difference.
+     */
+    public int smallestDifference(int[] A, int[] B) {
+        if(A == null || B == null || A.length == 0 || B.length == 0)
+            return 0;
+        Arrays.sort(B);
+        int mindiff = Integer.MAX_VALUE;
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            int curdiff = binarySearch(B, A[i]);
+            mindiff = Math.min(mindiff, curdiff);
+        }
+        return mindiff;
+    }
+    
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Search In 2D Matrix I</title>
       <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
       <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>

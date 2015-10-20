@@ -336,7 +336,7 @@ disqusShortname = &amp;quot;yourShortName&amp;quot;
 
 &lt;p&gt;How to get your short name? Go your setting in Disqus profile home page and try &lt;code&gt;add disqus to your site&lt;/code&gt;, then follow the guide!&lt;/p&gt;
 
-&lt;p&gt;Wait&amp;hellip; Doesn&amp;rsquo;t see the disqus module during using &lt;code&gt;localhost&lt;/code&gt;?&lt;/p&gt;
+&lt;p&gt;Wait&amp;hellip; Doesn&amp;rsquo;t see the disqus module during using &lt;code&gt;localhost:1313&lt;/code&gt;?&lt;/p&gt;
 
 &lt;p&gt;Go your  &lt;code&gt;yourSite/themes/hyde-y/layouts/partials/modules/disqus.html&lt;/code&gt; file, comment the following lines:&lt;/p&gt;
 
@@ -351,19 +351,23 @@ disqusShortname = &amp;quot;yourShortName&amp;quot;
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;Create repo for &lt;code&gt;your-username.github.io&lt;/code&gt;. Note that the repo name should be your username of your github. Only by this way you can make it as your personal home page.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Enter your project directory.
-&lt;code&gt;cd workspace/yourProject&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Enter your project directory.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;li&gt;&lt;p&gt;Remove your &lt;code&gt;public&lt;/code&gt; folder under this directory.
-&lt;code&gt;rm -rf public&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;&lt;code&gt;cd workspace/yourProject&lt;/code&gt;&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;Initilize this directory as github repo
-&lt;code&gt;git init&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Remove your &lt;code&gt;public&lt;/code&gt; folder under this directory. &lt;code&gt;rm -rf public&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Make &lt;code&gt;public/&lt;/code&gt; directory sync with .github.io
-&lt;code&gt;git submodule add git@github.com:&amp;lt;username&amp;gt;/&amp;lt;username&amp;gt;.github.io.git public&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Initilize this directory as github repo &lt;code&gt;git init&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Create a file &amp;lsquo;deploy.sh&amp;rsquo; under the your project dir and copy the following:&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Make &lt;code&gt;public/&lt;/code&gt; directory sync with .github.io&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code&gt;git submodule add git@github.com:&amp;lt;username&amp;gt;/&amp;lt;username&amp;gt;.github.io.git public&lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Create a file &amp;lsquo;deploy.sh&amp;rsquo; under the your project dir and copy the following:&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;pre&gt;&lt;code&gt;#!/bin/bash

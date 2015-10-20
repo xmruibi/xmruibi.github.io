@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Permutation Sequence  &middot; Rui&#39;s Home Page</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="Permutation, Math, ">
+
+
+<meta property="og:title" content="Permutation Sequence  &middot; Rui&#39;s Home Page ">
+<meta property="og:site_name" content="Rui&#39;s Home Page"/>
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/19/permutation-sequence/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-10-19T11:45:13-07:00" />
+<meta property="og:article:modified_time" content="2015-10-19T11:45:13-07:00" />
+
+  
+    
+<meta property="og:article:tag" content="Permutation">
+    
+<meta property="og:article:tag" content="Math">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="Permutation Sequence" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/19/permutation-sequence/" />
+<meta name="twitter:domain" content="http://xmruibi.github.io">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Permutation Sequence",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-10-19",
+    "description": "",
+    "wordCount":  203 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/19/permutation-sequence/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
+<link href="http://xmruibi.github.io/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.14" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+<link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+<link rel="stylesheet" href="http://xmruibi.github.io/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://xmruibi.github.io"> 
+  Geek Think
+
+</a> 
+
+</div>
+
+  
+<div class="container topline">
+  
+  A Thinker, A Coder, A Traveler
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+<a class="homelink" href="http://xmruibi.github.io">Home</a>
+
+
+  
+<a href="http://xmruibi.github.io/topics/algorithm" title="Show list of topics"
+
+>
+Algorithm
+
+</a>
+
+<a href="http://xmruibi.github.io/code" title="Show list of projects"
+
+>
+Project
+
+</a>
+
+<a href="http://xmruibi.github.io/life" title="Show list of trips"
+
+>
+Travel
+
+</a>
+
+<a href="http://xmruibi.github.io/post" title="Show list of posts"
+
+>
+Archive
+
+</a>
+
+
+</nav>
+
+<div class="container nav primary no-print" style="position: relative;
+ margin-top: 2em;margin-bottom: 2em; ">
+<form role="search" id="search" action="/search">
+	<input id="page" name="p" value="1" type="hidden"/>
+	<input id="query" name="q" type="search" placeholder="Search">
+</form>
+ </div>
+<div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
+  
+<a href="http://xmruibi.github.io/about">About</a>
+
+<a href="http://xmruibi.github.io/tags" title="Show list of tags">Tags</a>
+
+<a href="http://xmruibi.github.io/topics" title="Show list of topics">Topics</a>
+
+</div>
+<div class="container nav secondary no-print" style="position: relative;
+ margin-bottom: 0em;">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:xmruibi@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/xmruibi">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+<a id="contact-link-linkedin" class="contact_link" href="fr.linkedin.com/in/ruibi">
+  <span class="fa fa-linkedin-square"></span><span>linkedin</span></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Permutation Sequence
+</h1>
+
+  <div class="metas">
+<time datetime="2015-10-19">19 Oct, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (203 Words)
+  <br>
+  Tags: 
+
+<a class="label" href="http://xmruibi.github.io/tags/permutation">Permutation; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/math">Math; </a> 
+
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Topics: 
+
+<a class="label" href="http://xmruibi.github.io/topics/algorithm">Algorithm; </a> 
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>Given n and k, return the k-th permutation sequence.</p>
+
+<h3 id="example">Example</h3>
+
+<p>For n = 3, all permutations are listed as follows:</p>
+
+<pre><code>&quot;123&quot;
+&quot;132&quot;
+&quot;213&quot;
+&quot;231&quot;
+&quot;312&quot;
+&quot;321&quot;
+</code></pre>
+
+<p>If k = <code>4</code>, the fourth permutation is &laquo;<code>231</code>&laquo;</p>
+
+<h3 id="note">Note</h3>
+
+<p>n will be between 1 and 9 inclusive.</p>
+
+<h3 id="challenge">Challenge</h3>
+
+<p>O(n*k) in time complexity is easy, can you do it in O(n^2) or less?</p>
+
+<h2 id="think">Think</h2>
+
+<p>a1,a2,a3&hellip;..an的permutation 如果确定了a1,那么剩下的permutation就有(n-1)!种 所以 a1 = k / (n-1)! k2 = k % (n-1)! a2 = k2 / (n-2)!</p>
+
+<p>要注意的是</p>
+
+<ul>
+<li>得到的应该是剩下选择数字的index,而不是value,所以要建一个存储可用数字的list</li>
+<li>在用完一个数字后要将它从list中删去</li>
+<li>array是0-based index, 那么K也应该减去1变为0-based的 (<code>k--</code>)</li>
+</ul>
+
+<h2 id="solution">Solution</h2>
+
+<pre><code>class Solution {
+    /**
+      * @param n: n
+      * @param k: the kth permutation
+      * @return: return the k-th permutation
+      */
+    public String getPermutation(int n, int k) {
+        
+        int[] factors = new int[n + 1];
+        List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        factors[0] = 1;
+        for(int i = 1; i &lt;= n; i++) {
+            factors[i] = i * factors[i-1];
+            list.add(i);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        // for index alignment： e.g: k == 12, k / 6 = 2, 
+        // however, it should still belong the number start for list.get(1); So here need to make a alignment
+        k--;
+        while(n &gt; 1) {
+            int index = k / factors[n-1];
+            sb.append(list.remove(index));
+            k %= factors[n-1];
+            n--;
+        }
+        sb.append(list.get(0));
+        return sb.toString();
+    }
+}
+
+</code></pre>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://xmruibi.github.io/2015/10/19/permutation-index/" title="Permutation Index">
+      Earlier Article
+    </a>
+    
+
+    
+    <a class="next" href="http://xmruibi.github.io/2015/10/19/permutation-index-ii/" title="Permutation Index II">
+      Newer Article
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    
+    
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+<a class="toplink" href="#">Go top</a>
+
+</div>
+<div class="container nav foot no-print">
+  
+
+  
+</div>
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Code with <i class='fa fa-heart'> Rui Bi</i>
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2015 Rui Bi.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    <script src="http://xmruibi.github.io/js/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/js/bootstrap.min.js"></script>
+<script src="http://xmruibi.github.io/js/bootstrap.js"></script>
+<script src="http://xmruibi.github.io/js/npm.js"></script>
+<script src="http://xmruibi.github.io/js/prism.js"></script>
+<script src="http://xmruibi.github.io/js/handlebars.js"></script>
+<script src="http://xmruibi.github.io/js/search.js"></script>
+
+
+
+
+<script src="http://xmruibi.github.io/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+    Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69058903-1', 'auto');
+  ga('send', 'pageview');;
+</script>
+
+
+
+    
+  </body>
+</html>
+
