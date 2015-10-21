@@ -9,8 +9,439 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 19 Oct 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2015 19:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Interleaving String</title>
+      <link>http://xmruibi.github.io/2015/10/20/interleaving-string/</link>
+      <pubDate>Tue, 20 Oct 2015 19:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/interleaving-string/</guid>
+      <description>
+
+&lt;p&gt;Given three strings: s1, s2, s3, determine whether s3 is formed by the interleaving of s1 and s2.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For s1 = &lt;code&gt;&amp;quot;aabcc&amp;quot;&lt;/code&gt;, s2 = &lt;code&gt;&amp;quot;dbbca&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;When s3 = &lt;code&gt;&amp;quot;aadbbcbcac&amp;quot;&lt;/code&gt;, return true.
+When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n2) time or better&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical dynamic programming with subsequence problem.&lt;/li&gt;
+&lt;li&gt;Set up a 2-D dp boolean table to memorized:
+
+&lt;ul&gt;
+&lt;li&gt;Initial: memo[0][0] = true;&lt;/li&gt;
+&lt;li&gt;two conditions: s1 find matched or s2 find matched;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][j] = ( i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i - 1][j]) || (s2.charAt(j - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i][j - 1])&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * Determine whether s3 is formed by interleaving of s1 and s2.
+     * @param s1, s2, s3: As description.
+     * @return: true or false.
+     */
+    public boolean isInterleave(String s1, String s2, String s3) {
+
+        if(s1 == null || s2 == null)
+            return false;
+        if(s1.length() + s2.length() != s3.length())
+            return false;
+            
+        boolean[][] memo = new boolean[s1.length() + 1][s2.length() + 1];
+        for(int i = 0; i &amp;lt;= s1.length(); i++) {
+            for(int j = 0; j &amp;lt;= s2.length(); j++) {
+                if(i == 0 &amp;amp;&amp;amp; j == 0)
+                    memo[i][j] = true;
+                else{
+                    if(i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1))
+                        memo[i][j] = memo[i - 1][j];
+                    if(j &amp;gt; 0 &amp;amp;&amp;amp;s2.charAt(j - 1) == s3.charAt(i + j - 1))
+                        memo[i][j] |= memo[i][j - 1];
+                }
+            }
+        }
+        
+        return memo[s1.length()][s2.length()];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Binary Search Tree Iterator</title>
+      <link>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</link>
+      <pubDate>Tue, 20 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</guid>
+      <description>
+
+&lt;p&gt;Design an iterator over a binary search tree with the following rules:&lt;/p&gt;
+
+&lt;p&gt;Elements are visited in ascending order (i.e. an in-order traversal)
+next() and hasNext() queries run in O(1) time in average.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the following binary search tree, in-order traversal by using iterator is [1, 6, 10, 11, 12]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   10
+ /    \
+1      11
+ \       \
+  6       12
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###Challenge
+Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
+
+&lt;p&gt;Super Star: Extra memory usage O(1)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stack: Preorder&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    // O(height of tree) space to store current left branch nodes
+    Stack&amp;lt;TreeNode&amp;gt; stack;
+
+    //@param root: The root of binary tree.
+    public Solution(TreeNode root) {
+
+        stack = new Stack&amp;lt;&amp;gt;();
+        if(root == null)
+            return;
+        stack.push(root);
+        TreeNode left = root.left;
+        while(left != null) {
+            stack.push(left);
+            left = left.left;
+        }
+    }
+
+    //@return: True if there has next node, or false
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+    
+    //@return: return next node
+    public TreeNode next() {
+        TreeNode pop = stack.pop();
+
+        // each time pop a node, push left branch nodes for current pop node&#39;s right child
+        TreeNode left = pop.right;
+        while(left != null) {
+            stack.push(left);
+            left = left.left;
+        }
+        return pop;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find the Weak Connected Component in the Directed Graph</title>
+      <link>http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/</link>
+      <pubDate>Tue, 20 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/</guid>
+      <description>
+
+&lt;p&gt;Find the number Weak Connected Component in the directed graph. Each node in the graph contains a label and a list of its neighbors. (a connected set of a directed graph is a subgraph in which any two vertices are connected by direct edge path.)&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given graph:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A-----&amp;gt;B  C
+ \     |  | 
+  \    |  |
+   \   |  |
+    \  v  v
+     -&amp;gt;D  E &amp;lt;- F
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Return &lt;code&gt;{A,B,D}&lt;/code&gt;, &lt;code&gt;{C,E,F}&lt;/code&gt;. Since there are two connected component which are &lt;code&gt;{A,B,D}&lt;/code&gt; and &lt;code&gt;{C,E,F}&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Sort the element in the set in increasing order&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Union Find&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;class UnionFind{
+	// child - parent pair table:
+	HashMap&amp;lt;Integer, Integer&amp;gt; pairTab;
+
+	public UnionFind(HashSet&amp;lt;Integer&amp;gt; set) {
+		pairTab = new HashMap&amp;lt;&amp;gt;();
+		for(Integer i : set) 
+			pairTab.put(i, i);
+	}
+
+	public int find(int x) {
+		int parent = pairTab.get(x);
+		while(parent != pairTab.get(parent)){
+			parent = pairTab.get(parent);
+		}
+		return parent;
+	}
+
+	public void union(int x, int y) {
+		int parent_x = find(x);
+		int parent_y = find(y);
+		if(parent_x != parent_y)
+			pairTab.put(parent_x, parent_y);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nodes a array of Directed graph node
+     * @return a connected set of a directed graph
+     */
+    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; connectedSet2(ArrayList&amp;lt;DirectedGraphNode&amp;gt; nodes) {
+        
+        HashSet&amp;lt;Integer&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
+        for(DirectedGraphNode node : nodes) 
+            set.add(node.label);
+        
+        // to make union
+        UnionFind uf = new UnionFind(set);
+        for(DirectedGraphNode x : nodes) {
+            for(DirectedGraphNode y : x.neighbors) {
+                uf.union(x.label, y.label);
+            }
+        }
+        
+        HashMap&amp;lt;Integer, ArrayList&amp;lt;Integer&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(Integer label : set) {
+            int parent = uf.find(label);
+            if(!map.containsKey(parent)) 
+                map.put(parent, new ArrayList&amp;lt;Integer&amp;gt;());
+            ArrayList&amp;lt;Integer&amp;gt; cur = map.get(parent);
+            cur.add(label);
+            map.put(parent, cur);
+        }
+        
+        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;();
+        for(Map.Entry&amp;lt;Integer, ArrayList&amp;lt;Integer&amp;gt;&amp;gt; entry : map.entrySet()) {
+            Collections.sort(entry.getValue());
+            res.add(entry.getValue());
+        }
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Digit Counts</title>
+      <link>http://xmruibi.github.io/2015/10/20/digit-counts/</link>
+      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/digit-counts/</guid>
+      <description>
+
+&lt;p&gt;Count the number of k&amp;rsquo;s between 0 and n. k can be 0 - 9.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;if n=12, k=1 in &lt;code&gt;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]&lt;/code&gt;, we have &lt;code&gt;FIVE&lt;/code&gt; 1&amp;rsquo;s &lt;code&gt;(1, 10, 11, 12)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Brute Force: Check each digit in number form (0 -&amp;gt; n) then get the count;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int digitCounts(int k, int n) {
+        int[] record = new int[10];
+        Arrays.fill(record,0);
+        for (int i=0;i&amp;lt;=n;i++){
+            String temp = Integer.toString(i);
+            for (int j=0;j &amp;lt; temp.length();j++){
+                int ind = (int) (temp.charAt(j)-&#39;0&#39;);
+                record[ind]++;
+            }
+        }
+        return record[k];            
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Math:
+
+&lt;ul&gt;
+&lt;li&gt;When current digit less than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When current digit equal to &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position + lower digits + 1&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When current digit larger than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits + 1(itself) x digit position&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When &lt;code&gt;k&lt;/code&gt; == 0 and the current digit larger than &lt;code&gt;k&lt;/code&gt;, the higher digits x digit position and it need to add one in the last result;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /*
+     * param k : As description.
+     * param n : As description.
+     * return: An integer denote the count of digit k in 1..n
+     */
+    public int digitCounts(int k, int n) {
+        int digit = 1;
+        int cnt = 0;
+        while(digit &amp;lt;= n) {
+            int low = n % digit; // lower digits;
+            int high = n / (digit*10); // higher digits;
+            int cur = n / digit % 10;
+            if(cur == k) {
+                // higher digits * digit + lower digits + 1;
+                cnt += ((high * digit) + low + 1);
+            }else if(cur &amp;lt; k) {
+                // higher digits * digit
+                cnt += (high * digit);
+            }else{
+                // (higher digits + 1: itself) * digit
+                cnt += ((high + (k == 0?0:1)) * digit);   
+            }
+            digit *= 10;
+        }
+        
+        return cnt + (k == 0 ? 1 : 0);
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Divide Two Integers</title>
+      <link>http://xmruibi.github.io/2015/10/20/divide-two-integers/</link>
+      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/divide-two-integers/</guid>
+      <description>
+
+&lt;p&gt;Divide two integers without using multiplication, division and mod operator.&lt;/p&gt;
+
+&lt;p&gt;If it is overflow, return &lt;code&gt;2147483647&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dividend = &lt;code&gt;100&lt;/code&gt; and divisor = &lt;code&gt;9&lt;/code&gt;, return &lt;code&gt;11&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bitwise Idea:
+
+&lt;ul&gt;
+&lt;li&gt;Get the result sign (negative or positive) by &lt;code&gt;((dividend ^ divisor) &amp;gt;&amp;gt;&amp;gt; 31) == 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;This question contains many corner cases!&lt;/li&gt;
+&lt;li&gt;Firstly, check the corner cases in following steps:
+
+&lt;ul&gt;
+&lt;li&gt;Divisor is zero? return &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;Dividend is &lt;code&gt;Integer.MIN_VALUE&lt;/code&gt;?
+
+&lt;ul&gt;
+&lt;li&gt;if divisor is negative one? you cannot get the positive &lt;code&gt;MIN_VALUE&lt;/code&gt; so return &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dividend += Math.abs(divisor)&lt;/code&gt; so that the dividend become away from overflow but that leads the res increase one;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Divisor is &lt;code&gt;Integer.MIN_VALUE&lt;/code&gt;? return res; To avoid the inaccurate from above operation;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Make dividend and divisor both positive;&lt;/li&gt;
+&lt;li&gt;Then, the main operation to do the binary substraction;
+
+&lt;ul&gt;
+&lt;li&gt;Get the most higher position(&lt;code&gt;digit&lt;/code&gt;) for bit one with increasing the divisor until it is just larger than (&lt;code&gt;dividend &amp;gt;&amp;gt; 1&lt;/code&gt;): divisor cannot larger than dividend so that we use the &lt;code&gt;dividend&amp;gt;&amp;gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Get result by add the &lt;code&gt;1&amp;lt;&amp;lt;digit&lt;/code&gt; (current bit position should be one) and &lt;code&gt;dividend -= divisor&lt;/code&gt; but if divisor larger than dividend which means current bit position should be zero so just reduce digit and divisor should shift right one position each time;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param dividend the dividend
+     * @param divisor the divisor
+     * @return the result
+     */
+    public int divide(int dividend, int divisor) {
+        int res = 0;
+        if(divisor == 0)
+            return Integer.MAX_VALUE;
+        boolean neg = ((dividend ^ divisor) &amp;gt;&amp;gt;&amp;gt; 31) == 1;  
+        if(dividend == Integer.MIN_VALUE) {
+            // since the dividend is negative number now so we plus the abs(divisor)
+            dividend += Math.abs(divisor);
+            if(divisor == -1)
+                return Integer.MAX_VALUE;
+            res++;
+        }
+        
+        if(divisor == Integer.MIN_VALUE)
+            return res;
+        
+        // the highest position for bit in result   
+        int digit = 0;
+        dividend = Math.abs(dividend);  
+        divisor = Math.abs(divisor);
+        while(divisor &amp;lt;= (dividend&amp;gt;&amp;gt;1)) {
+            divisor &amp;lt;&amp;lt;= 1;
+            digit ++;
+        }
+        
+        while(digit&amp;gt;=0){
+            if(dividend&amp;gt;=divisor){
+                res += (1&amp;lt;&amp;lt;digit);
+                dividend-=divisor;
+            }
+            divisor&amp;gt;&amp;gt;=1;
+            digit--;
+        }
+        return neg?-res:res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Number of Airplanes in the Sky</title>
@@ -879,470 +1310,6 @@ Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;
                 r = m;
         }
         return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Interval Minimum Number</title>
-      <link>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</link>
-      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</guid>
-      <description>
-
-&lt;p&gt;Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the minimum number between index start and end in the given array, return the result list.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[(1,2),(0,4),(2,4)]&lt;/code&gt;, return &lt;code&gt;[2,1,5]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(logN) time for each query (Segment Tree)&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     *@param A, queries: Given an integer array and an query list
-     *@return: The result list
-     */
-    public ArrayList&amp;lt;Integer&amp;gt; intervalMinNumber(int[] A, 
-                                                ArrayList&amp;lt;Interval&amp;gt; queries) {
-        IntervalTree tree = new IntervalTree(A);
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        for(Interval interval : queries) {
-            res.add(tree.query(interval.start, interval.end));
-        }
-        return res;
-    }
-}
-
-/**
-* Build Interval Tree with Min of segment!
-*
-*/
-class IntervalTree{
-        IntervalNode root;
-        
-        public IntervalTree(int[] A) {
-            root = build(A, 0, A.length - 1);
-        }
-        
-        private IntervalNode build(int[] A, int start, int end) {
-            if(start &amp;gt; end)
-                return null;
-            IntervalNode node = new IntervalNode(start, end);
-            
-            if(start == end) {
-                node.min = A[start];
-                return node;
-            }
-            
-            int m = start + ((end - start)&amp;gt;&amp;gt;1);
-            node.left = build(A, start, m);
-            node.right = build(A, m+1, end);
-            node.min = Math.min(node.left.min, node.right.min);
-            return node;
-        }
-        
-        public int query(int start, int end) {
-            return queryhelper(root, start, end);
-        }
-        
-        private int queryhelper(IntervalNode node, int start, int end) {
-            if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
-                return node.min;
-            
-            int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
-            if(m &amp;lt; start) {
-                return queryhelper(node.right, start, end);
-            }else if(m &amp;gt;= end){
-                return queryhelper(node.left, start, end);
-            }else
-                return Math.min(queryhelper(node.left, start, m), queryhelper(node.right, m+1, end));
-        }
-
-        private class IntervalNode {
-            int start, end, min;
-            IntervalNode left, right;
-            IntervalNode(int start, int end) {
-                this.start = start;
-                this.end = end;
-            }
-        }
-}
-
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Interval Sum</title>
-      <link>http://xmruibi.github.io/2015/10/18/interval-sum/</link>
-      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/interval-sum/</guid>
-      <description>
-
-&lt;p&gt;Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the sum number between index start and end in the given array, return the result list.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[(0,4),(1,2),(2,4)]&lt;/code&gt;, return &lt;code&gt;[23,9,20]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(logN) time for each query&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;// Segment tree for sum
-class IntervalTree{
-        IntervalNode root;
-        
-        public IntervalTree(int[] A) {
-            root = build(A, 0, A.length - 1);
-        }
-        
-        private IntervalNode build(int[] A, int start, int end) {
-            if(start &amp;gt; end)
-                return null;
-            IntervalNode node = new IntervalNode(start, end);
-            
-            if(start == end) {
-                node.val = (long)A[start];
-                return node;
-            }
-            
-            int m = start + ((end - start)&amp;gt;&amp;gt;1);
-            node.left = build(A, start, m);
-            node.right = build(A, m+1, end);
-            node.val = node.left.val + node.right.val;
-            return node;
-        }
-        
-        public long query(int start, int end) {
-            return queryhelper(root, start, end);
-        }
-        
-        private long queryhelper(IntervalNode node, int start, int end) {
-            if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
-                return node.val;
-            
-            int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
-            if(m &amp;lt; start) {
-                return queryhelper(node.right, start, end);
-            }else if(m &amp;gt;= end){
-                return queryhelper(node.left, start, end);
-            }else
-                return queryhelper(node.left, start, m) + queryhelper(node.right, m+1, end);
-        }
-
-        private class IntervalNode {
-            int start, end;
-            long val;
-            IntervalNode left, right;
-            IntervalNode(int start, int end) {
-                this.start = start;
-                this.end = end;
-            }
-        }
-}
-
-public class Solution {
-    /**
-     *@param A, queries: Given an integer array and an query list
-     *@return: The result list
-     */
-    public ArrayList&amp;lt;Long&amp;gt; intervalSum(int[] A, 
-                                       ArrayList&amp;lt;Interval&amp;gt; queries) {
-        IntervalTree tree = new IntervalTree(A);
-        ArrayList&amp;lt;Long&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        for(Interval interval : queries) {
-            res.add(tree.query(interval.start, interval.end));
-        }
-        return res;
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Interval Sum II</title>
-      <link>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</link>
-      <pubDate>Sun, 18 Oct 2015 15:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</guid>
-      <description>
-
-&lt;p&gt;Given an integer array in the construct method, implement two methods query(start, end) and modify(index, value):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;For query(start, end), return the sum from index start to index end in the given array.&lt;/li&gt;
-&lt;li&gt;For modify(index, value), modify the number in the given index to value.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given array A = &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;query(0, 2)&lt;/code&gt;, return &lt;code&gt;10&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;modify(0, 4)&lt;/code&gt;, change &lt;code&gt;A[0]&lt;/code&gt; from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;4&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;query(0, 1)&lt;/code&gt;, return &lt;code&gt;6&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;modify(2, 1)&lt;/code&gt;, change &lt;code&gt;A[2]&lt;/code&gt; from &lt;code&gt;7&lt;/code&gt;to &lt;code&gt;1&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;query(2, 4)&lt;/code&gt;, return &lt;code&gt;14&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(logN) time for query and modify.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /* you may need to use some attributes here */
-    
-    IntervalNode root;
-    /**
-     * @param A: An integer array
-     */
-    public Solution(int[] A) {
-        root = build(A, 0, A.length - 1);
-    }
-    
-    private IntervalNode build(int[] A, int start, int end) {
-            if(start &amp;gt; end)
-                return null;
-            IntervalNode node = new IntervalNode(start, end);
-            
-            if(start == end) {
-                node.val = (long)A[start];
-                return node;
-            }
-                
-            int m = start + ((end - start)&amp;gt;&amp;gt;1);
-            node.left = build(A, start, m);
-            node.right = build(A, m+1, end);
-            node.val = node.left.val + node.right.val;
-            return node;
-    }
-        
-    /**
-     * @param start, end: Indices
-     * @return: The sum from start to end
-     */
-    public long query(int start, int end) {
-        return query(root, start, end);
-    }
-        
-    private long query(IntervalNode node, int start, int end) {
-        if(start &amp;lt;= node.start &amp;amp;&amp;amp; end &amp;gt;= node.end)
-            return node.val;
-            
-        int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
-        if(m &amp;lt; start) {
-            return query(node.right, start, end);
-        }else if(m &amp;gt;= end){
-            return query(node.left, start, end);
-        }else
-            return query(node.left, start, m) + query(node.right, m+1, end);
-    }
-    
-    /**
-     * @param index, value: modify A[index] to value.
-     */
-    public void modify(int index, int value) {
-        modify(root, index, value);
-    }
-    
-    private void modify(IntervalNode node, int index, int value) {
-        if(node.start == node.end) {
-            node.val = value;
-            return;
-        }
-        
-        int m = node.start + ((node.end - node.start)&amp;gt;&amp;gt;1);
-         if(m &amp;lt; index) 
-            modify(node.right, index, value);
-        else
-            modify(node.left, index, value);
-        node.val = node.right.val + node.left.val;
-    }
-    
-    
-    
-    private class IntervalNode {
-        int start, end;
-        long val;
-        IntervalNode left, right;
-        IntervalNode(int start, int end) {
-            this.start = start;
-            this.end = end;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Segment Tree Build</title>
-      <link>http://xmruibi.github.io/2015/10/18/segment-tree-build/</link>
-      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-build/</guid>
-      <description>
-
-&lt;p&gt;The structure of Segment Tree is a binary tree which each node has two attributes &lt;code&gt;start&lt;/code&gt; and &lt;code&gt;end&lt;/code&gt; denote an segment / interval.&lt;/p&gt;
-
-&lt;p&gt;start and end are both integers, they should be assigned in following rules:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The root&amp;rsquo;s start and end is given by &lt;code&gt;build&lt;/code&gt; method.&lt;/li&gt;
-&lt;li&gt;The left child of node A has &lt;code&gt;start=A.left, end=(A.left + A.right) / 2&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The right child of node A has &lt;code&gt;start=(A.left + A.right) / 2 + 1, end=A.right&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;if start equals to end, there will be no children for this node.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Implement a &lt;code&gt;build&lt;/code&gt; method with two parameters start and end, so that we can create a corresponding segment tree with every node has the correct start and end value, return the root of this segment tree.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given start=0, end=3. The segment tree will be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;               [0,  3]
-             /        \
-      [0,  1]           [2, 3]
-      /     \           /     \
-   [0, 0]  [1, 1]     [2, 2]  [3, 3]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Given start=1, end=6. The segment tree will be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;               [1,  6]
-             /        \
-      [1,  3]           [4,  6]
-      /     \           /     \
-   [1, 2]  [3,3]     [4, 5]   [6,6]
-   /    \           /     \
-[1,1]   [2,2]     [4,4]   [5,5]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
-
-&lt;p&gt;Segment Tree (a.k.a Interval Tree) is an advanced data structure which can support queries like:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;which of these intervals contain a given point&lt;/li&gt;
-&lt;li&gt;which of these points are in a given interval&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class SegmentTreeNode {
-    public int start, end, max;
-    public SegmentTreeNode left, right;
-    public SegmentTreeNode(int start, int end, int max) {
-        this.start = start;
-        this.end = end;
-        this.max = max
-        this.left = this.right = null;
-    }
-}
-
-public class Solution {
-    /**
-     *@param start, end: Denote an segment / interval
-     *@return: The root of Segment Tree
-     */
-    public SegmentTreeNode build(int start, int end) {
-        if(end &amp;lt; start)
-            return null;
-        SegmentTreeNode node = new SegmentTreeNode(start, end);
-        if(start == end)
-            return node;
-        int m = left + ((right - left)&amp;gt;&amp;gt;1);
-        node.left = build(start, m);
-        node.right = build(m+1,end);
-        return node;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Segment Tree Build II</title>
-      <link>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</link>
-      <pubDate>Sun, 18 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</guid>
-      <description>
-
-&lt;p&gt;The structure of Segment Tree is a binary tree which each node has two attributes &lt;code&gt;start&lt;/code&gt; and &lt;code&gt;end&lt;/code&gt; denote an segment / interval.&lt;/p&gt;
-
-&lt;p&gt;start and end are both integers, they should be assigned in following rules:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The root&amp;rsquo;s start and end is given by &lt;code&gt;build&lt;/code&gt; method.&lt;/li&gt;
-&lt;li&gt;The left child of node A has &lt;code&gt;start=A.left, end=(A.left + A.right) / 2&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The right child of node A has &lt;code&gt;start=(A.left + A.right) / 2 + 1, end=A.right&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;if start equals to end, there will be no children for this node.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Implement a build method with a given array, so that we can create a corresponding segment tree with every node value represent the corresponding interval max value in the array, return the root of this segment tree.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given [3,2,1,4]. The segment tree will be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                 [0,  3] (max = 4)
-                  /            \
-        [0,  1] (max = 3)     [2, 3]  (max = 4)
-        /        \               /             \
-[0, 0](max = 3)  [1, 1](max = 2)[2, 2](max = 1) [3, 3] (max = 4)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
-
-&lt;p&gt;Segment Tree (a.k.a Interval Tree) is an advanced data structure which can support queries like:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;which of these intervals contain a given point&lt;/li&gt;
-&lt;li&gt;which of these points are in a given interval&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     *@param A: a list of integer
-     *@return: The root of Segment Tree
-     */
-    public SegmentTreeNode build(int[] A) {
-        return builder(A, 0, A.length - 1);
-    }
-    
-    private SegmentTreeNode builder(int[] A, int left, int right) {
-        if(left &amp;gt; right)
-            return null;
-        if(left == right)
-            return new SegmentTreeNode(left, right, A[left]);
-        int m = left + ((right - left)&amp;gt;&amp;gt;1);
-        SegmentTreeNode leftNode = builder(A, left, m);
-        SegmentTreeNode rightNode = builder(A, m+1, right);
-        SegmentTreeNode node = new SegmentTreeNode(left, right, Math.max(leftNode.max, rightNode.max));
-        node.left = leftNode;
-        node.right = rightNode;
-        return node;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

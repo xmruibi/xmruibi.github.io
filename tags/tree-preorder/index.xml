@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tree Preorder on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/tree-preorder/</link>
+    <description>Recent content in Tree Preorder on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Tue, 20 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/tree-preorder/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Binary Search Tree Iterator</title>
+      <link>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</link>
+      <pubDate>Tue, 20 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</guid>
+      <description>
+
+&lt;p&gt;Design an iterator over a binary search tree with the following rules:&lt;/p&gt;
+
+&lt;p&gt;Elements are visited in ascending order (i.e. an in-order traversal)
+next() and hasNext() queries run in O(1) time in average.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the following binary search tree, in-order traversal by using iterator is [1, 6, 10, 11, 12]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   10
+ /    \
+1      11
+ \       \
+  6       12
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###Challenge
+Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
+
+&lt;p&gt;Super Star: Extra memory usage O(1)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stack: Preorder&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    // O(height of tree) space to store current left branch nodes
+    Stack&amp;lt;TreeNode&amp;gt; stack;
+
+    //@param root: The root of binary tree.
+    public Solution(TreeNode root) {
+
+        stack = new Stack&amp;lt;&amp;gt;();
+        if(root == null)
+            return;
+        stack.push(root);
+        TreeNode left = root.left;
+        while(left != null) {
+            stack.push(left);
+            left = left.left;
+        }
+    }
+
+    //@return: True if there has next node, or false
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+    
+    //@return: return next node
+    public TreeNode next() {
+        TreeNode pop = stack.pop();
+
+        // each time pop a node, push left branch nodes for current pop node&#39;s right child
+        TreeNode left = pop.right;
+        while(left != null) {
+            stack.push(left);
+            left = left.left;
+        }
+        return pop;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

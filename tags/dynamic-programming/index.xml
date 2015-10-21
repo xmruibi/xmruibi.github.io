@@ -9,8 +9,78 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 18 Oct 2015 11:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2015 19:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/dynamic-programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Interleaving String</title>
+      <link>http://xmruibi.github.io/2015/10/20/interleaving-string/</link>
+      <pubDate>Tue, 20 Oct 2015 19:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/interleaving-string/</guid>
+      <description>
+
+&lt;p&gt;Given three strings: s1, s2, s3, determine whether s3 is formed by the interleaving of s1 and s2.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For s1 = &lt;code&gt;&amp;quot;aabcc&amp;quot;&lt;/code&gt;, s2 = &lt;code&gt;&amp;quot;dbbca&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;When s3 = &lt;code&gt;&amp;quot;aadbbcbcac&amp;quot;&lt;/code&gt;, return true.
+When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n2) time or better&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical dynamic programming with subsequence problem.&lt;/li&gt;
+&lt;li&gt;Set up a 2-D dp boolean table to memorized:
+
+&lt;ul&gt;
+&lt;li&gt;Initial: memo[0][0] = true;&lt;/li&gt;
+&lt;li&gt;two conditions: s1 find matched or s2 find matched;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][j] = ( i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i - 1][j]) || (s2.charAt(j - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i][j - 1])&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * Determine whether s3 is formed by interleaving of s1 and s2.
+     * @param s1, s2, s3: As description.
+     * @return: true or false.
+     */
+    public boolean isInterleave(String s1, String s2, String s3) {
+
+        if(s1 == null || s2 == null)
+            return false;
+        if(s1.length() + s2.length() != s3.length())
+            return false;
+            
+        boolean[][] memo = new boolean[s1.length() + 1][s2.length() + 1];
+        for(int i = 0; i &amp;lt;= s1.length(); i++) {
+            for(int j = 0; j &amp;lt;= s2.length(); j++) {
+                if(i == 0 &amp;amp;&amp;amp; j == 0)
+                    memo[i][j] = true;
+                else{
+                    if(i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1))
+                        memo[i][j] = memo[i - 1][j];
+                    if(j &amp;gt; 0 &amp;amp;&amp;amp;s2.charAt(j - 1) == s3.charAt(i + j - 1))
+                        memo[i][j] |= memo[i][j - 1];
+                }
+            }
+        }
+        
+        return memo[s1.length()][s2.length()];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Ugly Number</title>
