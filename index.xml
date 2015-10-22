@@ -9,8 +9,735 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 20 Oct 2015 19:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 21 Oct 2015 15:16:26 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Parking Lot</title>
+      <link>http://xmruibi.github.io/2015/10/21/parking-lot/</link>
+      <pubDate>Wed, 21 Oct 2015 15:16:26 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/21/parking-lot/</guid>
+      <description>
+
+&lt;h1 id=&#34;parking-lot&#34;&gt;Parking Lot&lt;/h1&gt;
+
+&lt;h2 id=&#34;basic-object&#34;&gt;Basic Object&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vehicle
+
+&lt;ul&gt;
+&lt;li&gt;size of vehicle (small, medium, large)&lt;/li&gt;
+&lt;li&gt;status of vehicle (run or parked)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Sedan, SUV, Bus, Truck&amp;hellip; extends Vehicle&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Slot&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;size of slot&lt;/li&gt;
+&lt;li&gt;status (available or not)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Lot&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;hold slots in lot&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vehicle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Vehicle {
+	private final int size;
+	private final int lisense;
+	private boolean status;
+	private Lot lot;
+
+	public Vehicle(int size) {
+		this.size = size;
+		lisense = this.hashCode();
+		lot = Lot.getInstance();
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	private Slot findSlot() {
+
+		Slot slot;
+		switch (this.size) {
+		case 1:
+			slot = lot.getSmallSlots().remove(0);
+		case 2:
+			slot = lot.getCompactSlots().remove(0);
+		case 3:
+			slot = lot.getLargeSlots().remove(0);
+		default:
+			slot = null;
+		}
+		return slot;
+	}
+
+	public void park() {
+		Slot slot = findSlot();
+		if (slot != null) {
+			lot.occupiedSlots.put(this.lisense, slot);
+			slot.occupy(this);
+		}
+	}
+
+	public void leave() {
+		Slot slot = lot.occupiedSlots.remove(this.lisense);
+		slot.release();
+		switch (this.size) {
+		case 1:
+			lot.getSmallSlots().add(slot);
+		case 2:
+			lot.getCompactSlots().add(slot);
+		case 3:
+			lot.getLargeSlots().add(slot);
+		}
+	}
+}
+
+public class Car extends Vehicle{
+	public Car(){
+		super(1);		
+	}
+}
+public class Truck extends Vehicle{
+	public Truck(){
+		super(2);		
+	}
+}
+// ... other type of vehicle
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Lot&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Lot {
+	private static Lot lot = null;
+
+	private static final int NUMBER_OF_SMALL_SLOTS = 10;
+	private static final int NUMBER_OF_COMPACT_SLOTS = 10;
+	private static final int NUMBER_OF_LARGE_SLOTS = 10;
+
+	public Map&amp;lt;Integer, Slot&amp;gt; occupiedSlots;
+	private List&amp;lt;Slot&amp;gt; smallSlots;
+	private List&amp;lt;Slot&amp;gt; compactSlots;
+	private List&amp;lt;Slot&amp;gt; largeSlots;
+
+	private Lot() {
+		smallSlots = new LinkedList&amp;lt;&amp;gt;();
+		compactSlots = new LinkedList&amp;lt;&amp;gt;();
+		largeSlots = new LinkedList&amp;lt;&amp;gt;();
+		occupiedSlots = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 1; i &amp;lt;= NUMBER_OF_SMALL_SLOTS; i++)
+			smallSlots.add(new Slot(i, 1));
+
+		for (int i = 1; i &amp;lt;= NUMBER_OF_COMPACT_SLOTS; i++)
+			compactSlots.add(new Slot(i, 2));
+
+		for (int i = 1; i &amp;lt;= NUMBER_OF_LARGE_SLOTS; i++)
+			largeSlots.add(new Slot(i, 3));
+
+	}
+
+	public List&amp;lt;Slot&amp;gt; getSmallSlots() {
+		return smallSlots;
+	}
+
+	public List&amp;lt;Slot&amp;gt; getCompactSlots() {
+		return compactSlots;
+	}
+
+	public List&amp;lt;Slot&amp;gt; getLargeSlots() {
+		return largeSlots;
+	}
+
+	public static Lot getInstance() {
+		if (lot == null)
+			lot = new Lot();
+		return lot;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Slot&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+public class Slot {
+	private final int id;
+	private final int size;
+	private boolean available;
+	private Vehicle vehicle;
+
+	public Slot(int id, int size) {
+		this.id = id;
+		this.size = size;
+		this.available = true;
+	}
+
+	public void occupy(Vehicle v) {
+		this.vehicle = v;
+		this.available = false;
+	}
+
+	public void release() {
+		this.vehicle = null;
+		this.available = true;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Online Book Reader System</title>
+      <link>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</link>
+      <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</guid>
+      <description>
+
+&lt;h1 id=&#34;online-book-reader-system&#34;&gt;Online Book Reader System&lt;/h1&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;This question comes from the book named &amp;laquo;Cracking Code Interview&amp;raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.&lt;/p&gt;
+
+&lt;h4 id=&#34;functionality&#34;&gt;Functionality&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;User Membership Creation and Extension&lt;/li&gt;
+&lt;li&gt;Search the book in memory&lt;/li&gt;
+&lt;li&gt;Reading the book&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;analysis&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;h4 id=&#34;objects&#34;&gt;Objects&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Book:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ID&lt;/li&gt;
+&lt;li&gt;Title&lt;/li&gt;
+&lt;li&gt;Author&lt;/li&gt;
+&lt;li&gt;Content&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Books: (In-memory storage for many book objects)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set&lt;Book&gt;&lt;/li&gt;
+&lt;li&gt;Method
+
+&lt;ul&gt;
+&lt;li&gt;find&lt;/li&gt;
+&lt;li&gt;add&lt;/li&gt;
+&lt;li&gt;delete&lt;/li&gt;
+&lt;li&gt;update&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;User&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ID&lt;/li&gt;
+&lt;li&gt;Name&lt;/li&gt;
+&lt;li&gt;accoutnType
+-&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Users&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set&lt;User&gt;&lt;/li&gt;
+&lt;li&gt;Method
+
+&lt;ul&gt;
+&lt;li&gt;find&lt;/li&gt;
+&lt;li&gt;add&lt;/li&gt;
+&lt;li&gt;delete&lt;/li&gt;
+&lt;li&gt;update&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Chess Game</title>
+      <link>http://xmruibi.github.io/2015/10/21/chess-game/</link>
+      <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/21/chess-game/</guid>
+      <description>
+
+&lt;h1 id=&#34;chess-game&#34;&gt;Chess Game&lt;/h1&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;This typical question in many interview&amp;rsquo;s OO Design part;&lt;/p&gt;
+
+&lt;h2 id=&#34;some-rules&#34;&gt;Some Rules:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Player chooses piece to move.&lt;/li&gt;
+&lt;li&gt;Piece makes legal move according to its own move rules.&lt;/li&gt;
+&lt;li&gt;In addition to purely move-based rules, there&amp;rsquo;s also capture logic, so a bishop cannot move from a1-h8 if there&amp;rsquo;s a piece sitting on c3.&lt;/li&gt;
+&lt;li&gt;If the player was previous under check and the move does not remove the check, it must be undone.&lt;/li&gt;
+&lt;li&gt;If the move exposes check, it must be undone / disallowed.&lt;/li&gt;
+&lt;li&gt;If player captures a piece, remove the piece (including en passant!)&lt;/li&gt;
+&lt;li&gt;If the piece is a pawn reaching the back rank, promote it.&lt;/li&gt;
+&lt;li&gt;If the move is a castling, set the new position of the rook accordingly. But a king and rook can only castle if they haven&amp;rsquo;t moved, so you need to keep track of that. And if the king moves through a check to castle, that&amp;rsquo;s disallowed, too.&lt;/li&gt;
+&lt;li&gt;If the move results in a stalemate or checkmate, the game is over.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;basic-object-design&#34;&gt;Basic Object Design&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Game:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Hold the Board and Players&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Board (Singleton):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Hold spots with 8$$\times$$8&lt;/li&gt;
+&lt;li&gt;Move Piece&lt;/li&gt;
+&lt;li&gt;Remove Piece&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Spot:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Hold Pieces&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Piece (Abstract):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Concreted classes with 8 Pawns, 2 Rooks, 2 Bishops, 2 Knights, 1 Queen, 1 King&lt;/li&gt;
+&lt;li&gt;Owner(color)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Player (Abstract):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Concreted classes for Human and Computer players&lt;/li&gt;
+&lt;li&gt;Own Piece&lt;/li&gt;
+&lt;li&gt;Commands List&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Command&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Piece&lt;/li&gt;
+&lt;li&gt;Destination x, y&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-for-basic-part&#34;&gt;Solution for Basic Part&lt;/h2&gt;
+
+&lt;h4 id=&#34;here-we-can-achieve-the-step-move-and-check-the-win-for-player&#34;&gt;Here we can achieve the step move and check the win for player&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Game:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Game{
+	final static Board board;
+	Player p1;
+	Player p2;
+
+	public Game() {
+		board = new Board();
+	}
+
+	public boolean enterPlayer(Player p) {
+		if(p1 == null)
+			this.p1 = p;
+		else if(p2 == null)
+			this.p2 = p;
+		else
+			return false;
+
+		board.initialize(p);
+		return true;
+	}
+
+	public void processTurn(Player p) {
+		// Player make a command and until it is valid
+		// System input
+		do{
+			Command cmd = new Command(input);
+			p.addCommand(cmd);
+		}while(!board.executeMove(p));
+	}
+
+	public startGame(){
+		// player enter the game:
+		enterPlayer(new ComputerPlayer(&amp;quot;Computer&amp;quot;));
+		enterPlayer(new HumanPlayer(&amp;quot;Bill&amp;quot;));
+
+		while(true) {
+			processTurn(p1);
+			if(this.board.getWin()) {
+				System.out.println(&amp;quot;P1 win!&amp;quot;);
+				break;
+			}
+			processTurn(p2);
+			if(this.board.getWin()) {
+				System.out.println(&amp;quot;P2 win!&amp;quot;);
+				break;
+			}
+		}
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Board:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Board{
+
+	private Spot[][] spots;
+	private boolean win; // mark the win or not
+
+	public Board(){
+		win = false;
+		spots = new Spot[8][8];
+	}
+
+	public void initialize(Player p){
+		// put the pieces with initial status
+		for(int i=0; i&amp;lt;p.getPieces().size(); i++){
+            spots[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()].occupySpot(p.getPieces().get(i));
+        }
+	}
+
+	public boolean executeMove(Player p) {
+		Command cmd = p.getCurrentCmd();
+		Piece piece = cmd.getPiece();
+
+		// check the move step is valid for piece
+		if(!piece.validMove(this, cmd.curX, cmd.curY, cmd.desX, cmd.desY)) {
+			// if not valid cmd remove the command and return false
+			p.removeCurrentCmd();
+			return false;
+		}
+
+		// check the two pieces side
+		if(spot[cmd.desX][cmd.desY] != null &amp;amp;&amp;amp; spot[cmd.desX][cmd.desY].color == piece.color)
+			return false;
+
+		// check and change the state on spot
+		Piece taken = spot[cmd.desX][cmd.desY].occupySpot(piece);
+		if(taken != null &amp;amp;&amp;amp;taken.getClass().getName().equals(&amp;quot;King&amp;quot;))
+			board.win = true;
+		spot[cmd.curX][cmd.curY].releaseSpot;
+		return true;
+	}
+
+	public boolean getWin() {
+		return win;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Spot:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Spot {
+    int x;
+    int y;
+    Piece piece;
+
+    public Spot(int x, int y) {
+        super();
+        this.x = x;
+        this.y = y;
+        piece = null;
+    }
+
+    // return original piece
+    public void occupySpot(Piece piece){
+    	Piece origin = this.piece;
+        //if piece already here, delete it, i. e. set it dead
+        if(this.piece != null) {
+            this.piece.setAvailable(false);
+        }
+        //place piece here
+        this.piece = piece;
+        return origin;
+    }
+
+    public boolean isOccupied() {
+        if(piece != null)
+            return true;
+        return false;
+    }
+
+    public Piece releaseSpot() {
+        Piece releasedPiece = this.piece;
+        this.piece = null;
+        return releasedPiece;
+    }
+
+    public Piece getPiece() {
+    	return this.piece;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pieces:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Piece {
+    private int x;
+    private int y;
+
+    private boolean available; // mark the live or dead
+    private int color; // mark the owner
+
+    public Piece(boolean available, int x, int y, int color) {
+        super();
+        this.available = available;
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
+
+
+    public boolean isAvailable() {
+        return available;
+    }
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+    public int getX() {
+        return x;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public int getY() {
+        return y;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isValid(Board board, int fromX, int fromY, int toX, int toY){
+        // different by character of piece
+    }
+
+}
+
+public class King extends Piece{ 
+	@Override
+    public boolean isValid(Board board, int fromX, int fromY, int toX, int toY) {
+    }	
+}
+// ..... for Queen, Rook, Bishop, Pawn
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Player:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Player {
+
+    public int color;
+
+    private List&amp;lt;Piece&amp;gt; pieces = new ArrayList&amp;lt;&amp;gt;();
+
+    private List&amp;lt;Command&amp;gt; cmds = new ArrayList&amp;lt;&amp;gt;();
+
+    public Player(int color) {
+        super();
+        this.color = color;
+        initializePieces();
+    }
+
+    public List&amp;lt;Piece&amp;gt; getPieces() {
+        return pieces;
+    }
+
+    public Command getCurrentCmd(){
+    	if(cmds != null || cmds.size() != 0)
+    		return null;
+    	return cmds.get(cmds.size() - 1);
+    }
+
+    public void removeCurrentCmd(){
+    	if(cmds != null || cmds.size() != 0)
+    		return;
+    	cmds.remove(cmds.size() - 1);
+    }
+
+    public void initializePieces(){
+        if(this.color == 1){
+            for(int i=0; i&amp;lt;8; i++){ // draw pawns
+                pieces.add(new Pawn(true,i,2, 1));
+            }
+            pieces.add(new Rook(true, 0, 0, 1));
+            pieces.add(new Rook(true, 7, 0, 1));
+            pieces.add(new Bishop(true, 2, 0, 1));
+            pieces.add(new Bishop(true, 5, 0, 1));
+            pieces.add(new Knight(true, 1, 0, 1));
+            pieces.add(new Knight(true, 6, 0, 1));
+            pieces.add(new Queen(true, 3, 0, 1));
+            pieces.add(new King(true, 4, 0, 1));
+        }
+        else{
+            for(int i=0; i&amp;lt;PAWNS; i++){ // draw pawns
+                pieces.add(new Pawn(true,i,6, 0));
+            }
+            pieces.add(new Rook(true, 0, 7, 0));
+            pieces.add(new Rook(true, 7, 7, 0));
+            pieces.add(new Bishop(true, 2, 7, 0));
+            pieces.add(new Bishop(true, 5, 7, 0));
+            pieces.add(new Knight(true, 1, 7, 0));
+            pieces.add(new Knight(true, 6, 7, 0));
+            pieces.add(new Queen(true, 3, 7, 0));
+            pieces.add(new King(true, 4, 7, 0));
+        }
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Command&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Command {
+	Piece piece;
+	int curX, curY, desX, desY;
+	public Commanc(Piece piece, int curX, int curY, int desX, int desY) {
+		this.piece = piece; 
+		this.curX = curX;
+		this.curY = curY;
+		this.desX = desX;
+		this.desY = desY;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Deck of Card</title>
+      <link>http://xmruibi.github.io/2015/10/21/deck-of-card/</link>
+      <pubDate>Wed, 21 Oct 2015 10:16:26 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/21/deck-of-card/</guid>
+      <description>
+
+&lt;h1 id=&#34;deck-of-card&#34;&gt;Deck of Card&lt;/h1&gt;
+
+&lt;p&gt;Design the data structure for a generic deck of cards. How you would subclass it to implement particular card games?&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Card has suit and value; Suit has four kinds with Club, Spadem Heart and Diamond.&lt;/p&gt;
+
+&lt;h4 id=&#34;about-enum-type&#34;&gt;About Enum Type&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;enum 类型不支持 public 和 protected 修饰符的构造方法，因此构造函数一定要是 private 或 friendly 的。也正因为如此，所以枚举对象是无法在程序中通过直接调用其构造方法来初始化的。&lt;/li&gt;
+&lt;li&gt;定义 enum 类型时候，如果是简单类型 (No more constructor)，那么最后一个枚举值后不用跟任何一个符号；但如果有定制方法，那么最后一个枚举值与后面代码要用分号&amp;rsquo;;&amp;lsquo;隔开，不能用逗号或空格。&lt;/li&gt;
+&lt;li&gt;由于 enum 类型的值实际上是通过运行期构造出对象来表示的，所以在 cluster 环境下，每个虚拟机都会构造出一个同义的枚举对象。因而在做比较操作时候就需要注意，如果直接通过使用等号 ( ‘ == ’ ) 操作符，这些看似一样的枚举值一定不相等，因为这不是同一个对象实例。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Card {
+	// Define the Suit by Enum type
+	public enum Suit {
+		CLUBS(1), SPADE(2), HEART(3), DIAMOND(4);
+		int value;
+		private Suit(int val) {
+			this.value = val;
+		}
+	}
+
+	// Card has suit and value, only two kind of data need to store
+	int val;
+	Suit suit;
+
+
+	public Card(int value, Suit suit) {
+		this.val = value;
+		this.suit = suit;
+	}
+
+	public int getVal(){
+		return this.val;
+	}
+
+	public Suit getSuit(){
+		return this.suit;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;blackjack&#34;&gt;BlackJack&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Face cards (kings, queens, and jacks) are counted as ten points.&lt;/li&gt;
+&lt;li&gt;Ace can be counted as 1 point or 11 points&lt;/li&gt;
+&lt;li&gt;Other cards with value less than ten should be counted as what it values.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+class BlackJack extends Card{
+	public BlackJack(int val, Suit suit) {
+		super(val, suit);
+	}
+
+	@Override
+	public int getVal(){
+		int value = super.getVal();
+		if(value &amp;lt; 10)
+			return value；
+		else if(value == 1)
+			return 11;
+		return 10;
+	}
+
+	public boolean isAce(){
+		return super.getVal() == 1;
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Interleaving String</title>
@@ -265,91 +992,6 @@ Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
     </item>
     
     <item>
-      <title>Digit Counts</title>
-      <link>http://xmruibi.github.io/2015/10/20/digit-counts/</link>
-      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/20/digit-counts/</guid>
-      <description>
-
-&lt;p&gt;Count the number of k&amp;rsquo;s between 0 and n. k can be 0 - 9.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;if n=12, k=1 in &lt;code&gt;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]&lt;/code&gt;, we have &lt;code&gt;FIVE&lt;/code&gt; 1&amp;rsquo;s &lt;code&gt;(1, 10, 11, 12)&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Brute Force: Check each digit in number form (0 -&amp;gt; n) then get the count;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int digitCounts(int k, int n) {
-        int[] record = new int[10];
-        Arrays.fill(record,0);
-        for (int i=0;i&amp;lt;=n;i++){
-            String temp = Integer.toString(i);
-            for (int j=0;j &amp;lt; temp.length();j++){
-                int ind = (int) (temp.charAt(j)-&#39;0&#39;);
-                record[ind]++;
-            }
-        }
-        return record[k];            
-    }
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Math:
-
-&lt;ul&gt;
-&lt;li&gt;When current digit less than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When current digit equal to &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position + lower digits + 1&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When current digit larger than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits + 1(itself) x digit position&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When &lt;code&gt;k&lt;/code&gt; == 0 and the current digit larger than &lt;code&gt;k&lt;/code&gt;, the higher digits x digit position and it need to add one in the last result;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;class Solution {
-    /*
-     * param k : As description.
-     * param n : As description.
-     * return: An integer denote the count of digit k in 1..n
-     */
-    public int digitCounts(int k, int n) {
-        int digit = 1;
-        int cnt = 0;
-        while(digit &amp;lt;= n) {
-            int low = n % digit; // lower digits;
-            int high = n / (digit*10); // higher digits;
-            int cur = n / digit % 10;
-            if(cur == k) {
-                // higher digits * digit + lower digits + 1;
-                cnt += ((high * digit) + low + 1);
-            }else if(cur &amp;lt; k) {
-                // higher digits * digit
-                cnt += (high * digit);
-            }else{
-                // (higher digits + 1: itself) * digit
-                cnt += ((high + (k == 0?0:1)) * digit);   
-            }
-            digit *= 10;
-        }
-        
-        return cnt + (k == 0 ? 1 : 0);
-    }
-};
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Divide Two Integers</title>
       <link>http://xmruibi.github.io/2015/10/20/divide-two-integers/</link>
       <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
@@ -439,6 +1081,91 @@ Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
         return neg?-res:res;
     }
 }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Digit Counts</title>
+      <link>http://xmruibi.github.io/2015/10/20/digit-counts/</link>
+      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/20/digit-counts/</guid>
+      <description>
+
+&lt;p&gt;Count the number of k&amp;rsquo;s between 0 and n. k can be 0 - 9.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;if n=12, k=1 in &lt;code&gt;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]&lt;/code&gt;, we have &lt;code&gt;FIVE&lt;/code&gt; 1&amp;rsquo;s &lt;code&gt;(1, 10, 11, 12)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Brute Force: Check each digit in number form (0 -&amp;gt; n) then get the count;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int digitCounts(int k, int n) {
+        int[] record = new int[10];
+        Arrays.fill(record,0);
+        for (int i=0;i&amp;lt;=n;i++){
+            String temp = Integer.toString(i);
+            for (int j=0;j &amp;lt; temp.length();j++){
+                int ind = (int) (temp.charAt(j)-&#39;0&#39;);
+                record[ind]++;
+            }
+        }
+        return record[k];            
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Math:
+
+&lt;ul&gt;
+&lt;li&gt;When current digit less than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When current digit equal to &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position + lower digits + 1&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When current digit larger than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits + 1(itself) x digit position&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When &lt;code&gt;k&lt;/code&gt; == 0 and the current digit larger than &lt;code&gt;k&lt;/code&gt;, the higher digits x digit position and it need to add one in the last result;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /*
+     * param k : As description.
+     * param n : As description.
+     * return: An integer denote the count of digit k in 1..n
+     */
+    public int digitCounts(int k, int n) {
+        int digit = 1;
+        int cnt = 0;
+        while(digit &amp;lt;= n) {
+            int low = n % digit; // lower digits;
+            int high = n / (digit*10); // higher digits;
+            int cur = n / digit % 10;
+            if(cur == k) {
+                // higher digits * digit + lower digits + 1;
+                cnt += ((high * digit) + low + 1);
+            }else if(cur &amp;lt; k) {
+                // higher digits * digit
+                cnt += (high * digit);
+            }else{
+                // (higher digits + 1: itself) * digit
+                cnt += ((high + (k == 0?0:1)) * digit);   
+            }
+            digit *= 10;
+        }
+        
+        return cnt + (k == 0 ? 1 : 0);
+    }
+};
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -870,76 +1597,6 @@ For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2
     </item>
     
     <item>
-      <title>Permutation Index II</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</link>
-      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</guid>
-      <description>
-
-&lt;p&gt;Given a permutation which may contain repeated numbers, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given the permutation &lt;code&gt;[1, 4, 2, 2]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight. However, there are duplicates occured. So that means we can use a hash map to do the count.
-But the positional system should be modified. The multiple of the factorial of the duplicates occurence should be divided by original position system. That means the &lt;code&gt;entry.value&lt;/code&gt; need to to the factorial and multiply those factors.
-Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code&gt;, when &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param A an integer array
-     * @return a long integer
-     */
-    public long permutationIndexII(int[] A) {
-        if(A == null || A.length == 0)
-            return 0L;
-        
-        int pos = 2;
-        long factor = 1;
-        long index = 1;
-        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
-            HashMap&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-            int cnt = 0;
-            // count itself
-            map.put(A[i], 1);
-            for(int j = i + 1; j &amp;lt; A.length; j++) {
-                // count all occurence on following element in Array
-                map.put(A[j], map.containsKey(A[j])?map.get(A[j])+1:1);
-                if(A[i] &amp;gt; A[j])
-                    cnt++;
-            }
-            index += (cnt*factor)/factorialMultiple(map);
-            factor *= pos;
-            pos++;
-        }
-        
-        return index;
-    }
-    
-    private int factorialMultiple(HashMap&amp;lt;Integer, Integer&amp;gt; map) {
-        int res = 1;
-        for(int value : map.values()) {
-            // do the factor on occurence
-            int factor = 1;
-            for(int i = 1; i &amp;lt;= value; i++)
-                factor*= i;
-            // get the multiple of occurence factor
-            res *= factor;
-        }
-        return res;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Permutation Sequence</title>
       <link>http://xmruibi.github.io/2015/10/19/permutation-sequence/</link>
       <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
@@ -1021,31 +1678,24 @@ Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code
     </item>
     
     <item>
-      <title>Permutation Index</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-index/</link>
-      <pubDate>Mon, 19 Oct 2015 11:43:13 -0700</pubDate>
+      <title>Permutation Index II</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</link>
+      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-index/</guid>
+      <guid>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</guid>
       <description>
 
-&lt;p&gt;Given a permutation which contains no repeated number, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
+&lt;p&gt;Given a permutation which may contain repeated numbers, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
 
 &lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
 
-&lt;p&gt;Given &lt;code&gt;[1,2,4]&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Given the permutation &lt;code&gt;[1, 4, 2, 2]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;thinking&#34;&gt;Thinking&lt;/h2&gt;
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
 
-&lt;p&gt;Illustrating by manually getting the index of {2, 4, 3, 1}. Since this is a 4-element set, we know there are 4! permutations (4! = 4*3*2*1). If the set only had 3 elements, we would have 3*2*1 permutations. If the set only had 2 elements, we would have 2!=2*1 permutations; and so on.&lt;/p&gt;
-
-&lt;p&gt;ASIDE: The decimal system of counting is a positional system. A 3-element decimal number, for instance, has the following three positional weights: hundred, ten, unit. Hence, we know the value of the number 472 because we understand: 4*hundred + 7*ten + 2*unit.&lt;/p&gt;
-
-&lt;p&gt;If we treat our 4-element set as a positional system, then we get the following positional weights: 3!, 2!, 1!, 0. So that the index of {2, 4, 3, 1} is: x*3!+y*2!+z*1!+w*0. Presently it suffices to find the values of x,y,z to calculate the index (we ignore w because it is paired with 0). x,y,z are counters: the number of succeeding elements less than the element being considered. For example, in {2, 4, 3, 1}, there are two succeeding elements less than 4 (namely 3 and 1). For 2 it&amp;rsquo;s 1 (1); for 4 it&amp;rsquo;s 2 (3 and 1); for 3 it&amp;rsquo;s 1 (1); for 1 it&amp;rsquo;s 0. Now we can calculate the index of {2, 4, 3, 1} as: x=1, y=2, z=1:
-    &lt;code&gt;x*3!+y*2!+z*1!+w*0 = 1*3! + 2*2! + 1*1! = 6 + 4 + 1 = 11&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight. However, there are duplicates occured. So that means we can use a hash map to do the count.
+But the positional system should be modified. The multiple of the factorial of the duplicates occurence should be divided by original position system. That means the &lt;code&gt;entry.value&lt;/code&gt; need to to the factorial and multiply those factors.
+Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code&gt;, when &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
@@ -1054,8 +1704,7 @@ Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code
      * @param A an integer array
      * @return a long integer
      */
-    public long permutationIndex(int[] A) {
-        
+    public long permutationIndexII(int[] A) {
         if(A == null || A.length == 0)
             return 0L;
         
@@ -1063,253 +1712,35 @@ Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code
         long factor = 1;
         long index = 1;
         for(int i = A.length - 2; i &amp;gt;= 0; i--) {
+            HashMap&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
             int cnt = 0;
+            // count itself
+            map.put(A[i], 1);
             for(int j = i + 1; j &amp;lt; A.length; j++) {
+                // count all occurence on following element in Array
+                map.put(A[j], map.containsKey(A[j])?map.get(A[j])+1:1);
                 if(A[i] &amp;gt; A[j])
                     cnt++;
             }
-            index += (cnt*factor);
+            index += (cnt*factor)/factorialMultiple(map);
             factor *= pos;
             pos++;
         }
         
         return index;
     }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
-
-&lt;p&gt;Two loop: &lt;code&gt;i range 0 -&amp;gt; length - 2&lt;/code&gt; and &lt;code&gt;j range i + 1 -&amp;gt; length - 1&lt;/code&gt;, So it is &lt;code&gt;O(n^2)&lt;/code&gt;;
-Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;&lt;/p&gt;
-</description>
-    </item>
     
-    <item>
-      <title>Max Points on a Line</title>
-      <link>http://xmruibi.github.io/2015/10/18/max-points-on-a-line/</link>
-      <pubDate>Sun, 18 Oct 2015 20:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/max-points-on-a-line/</guid>
-      <description>
-
-&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given 4 points: &lt;code&gt;(1,2)&lt;/code&gt;, &lt;code&gt;(3,6)&lt;/code&gt;, &lt;code&gt;(0,0)&lt;/code&gt;, &lt;code&gt;(1,3)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The maximum number is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Use one point as a baseline. (&lt;code&gt;Point pa&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Iterate other points (&lt;code&gt;Point pb&lt;/code&gt;) (index greater than &lt;code&gt;pa&lt;/code&gt;): &lt;code&gt;j = i + 1&lt;/code&gt; and&lt;/li&gt;
-&lt;li&gt;Use Hash Map to record the ratio and count&lt;/li&gt;
-&lt;li&gt;Note:
-
-&lt;ul&gt;
-&lt;li&gt;Ratio is &lt;code&gt;double radio = (double)(pa.y - pb.y) / (double)(pa.x - pb.x)&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When pa.x == pb.x &amp;amp;&amp;amp; pa.y == pb.y, consider two points are the same, also need to count the same point.&lt;/li&gt;
-&lt;li&gt;When only &lt;code&gt;pa.x == pb.x&lt;/code&gt;, that means the ratio is infinity as &lt;code&gt;(double)Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When only &lt;code&gt;pa.y == pb.y&lt;/code&gt;, that means the ratio is zero;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Iterate Hash Map and get the local max with updating the global max;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param points an array of point
-     * @return an integer
-     */
-    public int maxPoints(Point[] points) {
-        if(points == null || points.length == 0)
-            return 0;
-        
-       
-        int maxLine = 0;
-        for(int i = 0; i &amp;lt; points.length; i++) {
-            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-            Point pa = points[i];
-            int same = 0;
-            for(int j = i + 1; j &amp;lt; points.length; j++) {
-                    Point pb = points[j];
-                    int cnt = 0;
-                    if(pa.x == pb.x &amp;amp;&amp;amp; pa.y == pb.y)
-                        same ++;
-                    else if(pa.x == pb.x) {
-                        map.put((double)Integer.MAX_VALUE, map.containsKey((double)Integer.MAX_VALUE)?map.get((double)Integer.MAX_VALUE) + 1 : 2);
-                    }else if(pa.y == pb.y)
-                        map.put((double)0, map.containsKey((double)0)?map.get((double)0) + 1 : 2);
-                    else{
-                        double radio = (double)(pa.y - pb.y) / (double)(pa.x - pb.x);
-                        map.put(radio, map.containsKey(radio)?map.get(radio) + 1 : 2);
-                    }
-            }
-            int localMax = 1;
-            for (Integer value : map.values())   
-                localMax = Math.max(localMax, value);
-            localMax += same;  
-            maxLine = Math.max(maxLine, localMax); 
-        }
-        
-        return maxLine;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Count of Smaller Number</title>
-      <link>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</link>
-      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</guid>
-      <description>
-
-&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[1,8,5]&lt;/code&gt;, return &lt;code&gt;[0,4,2]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Could you use three ways to do it.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Just loop&lt;/li&gt;
-&lt;li&gt;Sort and binary search&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2&#34;&gt;1. Solution by Loop with O(n^2)&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;
-
-   /** O(n^2) Loop implement
-     * @param A: An integer array
-     * @return: The number of element in the array that 
-     *          are smaller that the given integer
-     */
-    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(A == null || queries == null)
-            return res;
-            
-        for(int i = 0; i &amp;lt; queries.length; i++) {
-            int cnt = 0;
-            for(int j = 0; j &amp;lt; A.length; j++) {
-                if(A[j] &amp;lt; queries[i])
-                    cnt++;
-            }
-            res.add(cnt);
+    private int factorialMultiple(HashMap&amp;lt;Integer, Integer&amp;gt; map) {
+        int res = 1;
+        for(int value : map.values()) {
+            // do the factor on occurence
+            int factor = 1;
+            for(int i = 1; i &amp;lt;= value; i++)
+                factor*= i;
+            // get the multiple of occurence factor
+            res *= factor;
         }
         return res;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;2-solution-by-sort-and-binary-search-with-o-nlogn&#34;&gt;2. Solution by Sort and Binary search with O(nlogn)&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;    /** O(nlogn) Sort and Binary search
-     * @param A: An integer array
-     * @return: The number of element in the array that 
-     *          are smaller that the given integer
-     */
-    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(queries == null)
-            return res;
-         
-        Arrays.sort(A);
-        for(int i = 0; i &amp;lt; queries.length; i++) {
-            int cnt = binarySearch(A, queries[i]);
-            res.add(cnt);
-        }
-        return res;
-    }
-    
-    private int binarySearch(int[] A, int value) {
-        if(A == null || A.length == 0)
-            return 0;
-        int l = 0, r = A.length - 1;
-        while(l + 1 &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if(value &amp;gt; A[m])
-                l = m;
-            else
-                r = m;
-        }
-        if(A[l] &amp;lt; value)
-            return l + 1;
-        else
-            return l; 
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Smallest Difference</title>
-      <link>http://xmruibi.github.io/2015/10/18/smallest-difference/</link>
-      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/smallest-difference/</guid>
-      <description>
-
-&lt;p&gt;Given two array of integers(the first array is array A, the second array is array B), now we are going to find a element in array A which is A[i], and another element in array B which is B[j], so that the difference between A[i] and B&lt;a href=&#34;|A[i] - B[j]|&#34;&gt;j&lt;/a&gt; is as small as possible, return their smallest difference.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For example, given array A = &lt;code&gt;[3,6,7,4]&lt;/code&gt;, B = &lt;code&gt;[2,8,9,3]&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n log n) time&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Do sort on one of array&lt;/li&gt;
-&lt;li&gt;One pass on another array and do binary search on the sorted array.&lt;/li&gt;
-&lt;li&gt;Search the target value from passing array and get the minimum difference on sorted array&lt;/li&gt;
-&lt;li&gt;Update the global minimum difference each time.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param A, B: Two integer arrays.
-     * @return: Their smallest difference.
-     */
-    public int smallestDifference(int[] A, int[] B) {
-        if(A == null || B == null || A.length == 0 || B.length == 0)
-            return 0;
-        Arrays.sort(B);
-        int mindiff = Integer.MAX_VALUE;
-        for(int i = 0; i &amp;lt; A.length; i++) {
-            int curdiff = binarySearch(B, A[i]);
-            mindiff = Math.min(mindiff, curdiff);
-        }
-        return mindiff;
-    }
-    
-    
-    private int binarySearch(int[] A, int value) {
-        if(A == null || A.length == 0)
-            return 0;
-        int l = 0, r = A.length - 1;
-        while(l + 1 &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if(value &amp;gt; A[m])
-                l = m;
-            else
-                r = m;
-        }
-        return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
