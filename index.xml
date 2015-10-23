@@ -518,6 +518,79 @@ public class Slot {
     </item>
     
     <item>
+      <title>Online Book Reader System</title>
+      <link>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</link>
+      <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</guid>
+      <description>
+
+&lt;p&gt;This question comes from the book named &amp;laquo;Cracking Code Interview&amp;raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.&lt;/p&gt;
+
+&lt;h4 id=&#34;functionality&#34;&gt;Functionality&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;User Membership Creation and Extension&lt;/li&gt;
+&lt;li&gt;Search the book in memory&lt;/li&gt;
+&lt;li&gt;Reading the book&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;analysis&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;h4 id=&#34;objects&#34;&gt;Objects&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Book:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ID&lt;/li&gt;
+&lt;li&gt;Title&lt;/li&gt;
+&lt;li&gt;Author&lt;/li&gt;
+&lt;li&gt;Content&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Books: (In-memory storage for many book objects)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set&lt;Book&gt;&lt;/li&gt;
+&lt;li&gt;Method
+
+&lt;ul&gt;
+&lt;li&gt;find&lt;/li&gt;
+&lt;li&gt;add&lt;/li&gt;
+&lt;li&gt;delete&lt;/li&gt;
+&lt;li&gt;update&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;User&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ID&lt;/li&gt;
+&lt;li&gt;Name&lt;/li&gt;
+&lt;li&gt;accoutnType
+-&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Users&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set&lt;User&gt;&lt;/li&gt;
+&lt;li&gt;Method
+
+&lt;ul&gt;
+&lt;li&gt;find&lt;/li&gt;
+&lt;li&gt;add&lt;/li&gt;
+&lt;li&gt;delete&lt;/li&gt;
+&lt;li&gt;update&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Chess Game</title>
       <link>http://xmruibi.github.io/2015/10/21/chess-game/</link>
       <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
@@ -879,79 +952,6 @@ public class King extends Piece{
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Online Book Reader System</title>
-      <link>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</link>
-      <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</guid>
-      <description>
-
-&lt;p&gt;This question comes from the book named &amp;laquo;Cracking Code Interview&amp;raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.&lt;/p&gt;
-
-&lt;h4 id=&#34;functionality&#34;&gt;Functionality&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;User Membership Creation and Extension&lt;/li&gt;
-&lt;li&gt;Search the book in memory&lt;/li&gt;
-&lt;li&gt;Reading the book&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;analysis&#34;&gt;Analysis&lt;/h2&gt;
-
-&lt;h4 id=&#34;objects&#34;&gt;Objects&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Book:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;ID&lt;/li&gt;
-&lt;li&gt;Title&lt;/li&gt;
-&lt;li&gt;Author&lt;/li&gt;
-&lt;li&gt;Content&lt;/li&gt;
-&lt;li&gt;&amp;hellip;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Books: (In-memory storage for many book objects)&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set&lt;Book&gt;&lt;/li&gt;
-&lt;li&gt;Method
-
-&lt;ul&gt;
-&lt;li&gt;find&lt;/li&gt;
-&lt;li&gt;add&lt;/li&gt;
-&lt;li&gt;delete&lt;/li&gt;
-&lt;li&gt;update&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;User&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;ID&lt;/li&gt;
-&lt;li&gt;Name&lt;/li&gt;
-&lt;li&gt;accoutnType
--&amp;hellip;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Users&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set&lt;User&gt;&lt;/li&gt;
-&lt;li&gt;Method
-
-&lt;ul&gt;
-&lt;li&gt;find&lt;/li&gt;
-&lt;li&gt;add&lt;/li&gt;
-&lt;li&gt;delete&lt;/li&gt;
-&lt;li&gt;update&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     
