@@ -9,8 +9,81 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 18 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2015 14:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Triangle Count</title>
+      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[3,4,6]
+[3,6,7]
+[4,6,7]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
+[4(1),4(2),4(4)]
+[4(1),4(3),4(4)]
+[4(2),4(3),4(4)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort&lt;/li&gt;
+&lt;li&gt;Binary Search&lt;/li&gt;
+&lt;li&gt;But how to define driven condition? (Tricky Part)
+
+&lt;ul&gt;
+&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param S: A list of integers
+     * @return: An integer
+     */
+    public int triangleCount(int S[]) {
+        if(S == null || S.length == 0)
+            return 0;
+        int cnt = 0;
+        Arrays.sort(S);
+        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
+            int cur = S[i];
+            int l = 0, r = i - 1;
+            while(l &amp;lt; r) {
+                if(S[l] + S[r] &amp;gt; S[i]) {
+                    cnt += (r - l); // keypoint!
+                    r--;
+                }else 
+                    l++;
+            }
+        }
+        return cnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Count of Smaller Number</title>

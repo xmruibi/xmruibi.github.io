@@ -79,28 +79,35 @@
 
 
   
-<a href="http://xmruibi.github.io/topics/algorithm" title="Show list of topics"
+<a href="http://xmruibi.github.io/topics/algorithm" title="Discuss algorithm questions"
 
 >
 Algorithm
 
 </a>
 
-<a href="http://xmruibi.github.io/code" title="Show list of projects"
+<a href="http://xmruibi.github.io/code" title="Show my projects"
 
 >
 Project
 
 </a>
 
-<a href="http://xmruibi.github.io/life" title="Show list of trips"
+<a href="http://xmruibi.gitbooks.io/interview-preparation-notes/content/" title="about Interview Preparation"
+
+>
+My GitBook
+
+</a>
+
+<a href="http://xmruibi.github.io/life" title="Show my travels"
 
 >
 Travel
 
 </a>
 
-<a href="http://xmruibi.github.io/post" title="Show list of posts"
+<a href="http://xmruibi.github.io/post" title="Show list of archived posts"
 
 >
 Archive
@@ -124,6 +131,7 @@ Archive
 <a href="http://xmruibi.github.io/tags" title="Show list of tags">Tags</a>
 
 <a href="http://xmruibi.github.io/topics" title="Show list of topics">Topics</a>
+
 
 </div>
 <div class="container nav secondary no-print" style="position: relative;
@@ -184,7 +192,8 @@ Archive
   <p class="container content">
   
   
-    Parking Lot Basic Object Vehicle size of vehicle (small, medium, large) status of vehicle (run or parked) Sedan, SUV, Bus, Truck&hellip; extends Vehicle Slot size of slot status (available or not) Lot hold slots in lot Solution Vehicle public class Vehicle { private final int size; private final int lisense; private boolean status; private Lot lot; public Vehicle(int size) { this.size = size; lisense = this.hashCode(); lot = Lot.getInstance(); } public void setStatus(boolean status) { this.status = status; } private Slot findSlot() { Slot slot; switch (this.size) { case 1: slot = lot.getSmallSlots().remove(0); case 2: slot = lot.getCompactSlots().remove(0); case 3: slot = lot.getLargeSlots().remove(0); default: slot = null; } return slot; } public void park() { Slot slot = findSlot(); if (slot != null) { lot.occupiedSlots.put(this.lisense, slot); slot.occupy(this); } } public void leave() { Slot slot = lot.occupiedSlots.remove(this.lisense); slot.release(); switch (this.size) { case 1: lot.getSmallSlots().add(slot); case 2: lot.getCompactSlots().add(slot); case 3: lot.getLargeSlots().add(slot); } } } public class Car extends Vehicle{ public Car(){ super(1); } } public class Truck extends Vehicle{ public Truck(){ super(2); } } // ...
+    <p>Design a parking lot with object-oriented programming principle.</p>
+
   
 
 
@@ -213,7 +222,8 @@ Archive
   <p class="container content">
   
   
-    Chess Game Introduction This typical question in many interview&rsquo;s OO Design part; Some Rules: Player chooses piece to move. Piece makes legal move according to its own move rules. In addition to purely move-based rules, there&rsquo;s also capture logic, so a bishop cannot move from a1-h8 if there&rsquo;s a piece sitting on c3. If the player was previous under check and the move does not remove the check, it must be undone.
+    <p>This typical question in many interview&rsquo;s OO Design part; Design a chess game with object-oriented programming principle.</p>
+
   
 
 
@@ -242,7 +252,8 @@ Archive
   <p class="container content">
   
   
-    Online Book Reader System Introduction This question comes from the book named &laquo;Cracking Code Interview&raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action. Functionality User Membership Creation and Extension Search the book in memory Reading the book Analysis Objects Book: ID Title Author Content &hellip; Books: (In-memory storage for many book objects) Set Method find add delete update User ID Name accoutnType -&hellip; Users
+    <p>This question comes from the book named &laquo;Cracking Code Interview&raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.</p>
+
   
 
 
@@ -271,7 +282,8 @@ Archive
   <p class="container content">
   
   
-    Deck of Card Design the data structure for a generic deck of cards. How you would subclass it to implement particular card games? Think Card has suit and value; Suit has four kinds with Club, Spadem Heart and Diamond. About Enum Type enum 类型不支持 public 和 protected 修饰符的构造方法，因此构造函数一定要是 private 或 friendly 的。也正因为如此，所以枚举对象是无法在程序中通过直接调用其构造方法来初始化的。 定义 enum 类型时候，如果是简单类型 (No more constructor)，那么最后一个枚举值后不用跟任何一个符号；但如果有定制方法，那么最后一个枚举值与后面代码要用分号&rsquo;;&lsquo;隔开，不能用逗号或空格。 由于 enum 类型的值实际上是通过运行期构造出对象来表示的，所以在 cluster 环境下，每个虚拟机都会构造出一个同义的枚举对象。因而在做比较操作时候就需要注意，如果直接通过使用等号 ( ‘ == ’ ) 操作符，这些看似一样的枚举值一定不相等，因为这不是同一个对象实例。 Solution class Card { // Define the Suit by Enum type public enum Suit { CLUBS(1), SPADE(2), HEART(3), DIAMOND(4); int value; private Suit(int val) { this.value = val; } } // Card has suit and value, only two kind of data need to store int val; Suit suit; public Card(int value, Suit suit) { this.val = value; this.suit = suit; } public int getVal(){ return this.val; } public Suit getSuit(){ return this.suit; } } BlackJack Face cards (kings, queens, and jacks) are counted as ten points.
+    <p>Design the data structure for a generic deck of cards. How you would subclass it to implement particular card games?</p>
+
   
 
 

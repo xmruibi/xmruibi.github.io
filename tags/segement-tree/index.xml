@@ -9,8 +9,127 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 18 Oct 2015 15:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2015 20:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/segement-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Count of Smaller Number before itself</title>
+      <link>http://xmruibi.github.io/2015/10/22/count-of-smaller-number-before-itself/</link>
+      <pubDate>Thu, 22 Oct 2015 20:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/count-of-smaller-number-before-itself/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) . For each element Ai in the array, count the number of element before this element Ai is smaller than it and return count number array.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, return &lt;code&gt;[0,1,2,3,2]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Segment Tree&lt;/li&gt;
+&lt;li&gt;Initial with the range (0 to 10000)&lt;/li&gt;
+&lt;li&gt;Count array elements included in a certain tree node&lt;/li&gt;
+&lt;li&gt;Dynamic count and make a query.
+
+&lt;ul&gt;
+&lt;li&gt;Query a value, evaluate the value and node&amp;rsquo;s middle value,&lt;/li&gt;
+&lt;li&gt;if larger, that means the left node&amp;rsquo;s count should be included and also enter into the right node;&lt;/li&gt;
+&lt;li&gt;if less, just enter the left node;&lt;/li&gt;
+&lt;li&gt;recursive until touch the null node;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SegmentTree{
+    Node root;
+        
+    public SegmentTree(){
+        root = build(0, 20000);
+    }
+        
+    public Node build(int left, int right) {
+        if(right &amp;lt; left)
+            return null;
+        if(left == right)
+            return new Node(left, right);
+        
+        int m = left + ((right - left)&amp;gt;&amp;gt;1);
+        Node cur = new Node(left, right);
+        cur.leftNode = build(left, m);
+        cur.rightNode = build(m+1, right);
+        return cur;
+    }
+    
+    public void count(int val){
+        count(root, val);
+    }
+    
+    private void count(Node node, int val) {
+        if(node == null)
+            return;
+        int m = node.left + ((node.right - node.left)&amp;gt;&amp;gt;1);
+        node.cnt++;
+        if(val &amp;gt; m)
+            count(node.rightNode, val);
+        else
+            count(node.leftNode, val);
+    }
+    
+    public int query(int val){
+        return query(root, val);
+    }
+    
+    private int query(Node node, int val) {
+        int cnt = 0;
+        if(node == null)
+            return cnt;
+        int m = node.left + ((node.right - node.left)&amp;gt;&amp;gt;1);
+        cnt += (node.leftNode != null ? node.leftNode.cnt : 0);
+        if(val &amp;gt; m) // if larger: 
+            return cnt + query(node.rightNode, val);
+        else // if less or equal: includes val == m
+            return query(node.leftNode, val);
+    }
+    
+}
+
+class Node{
+    int left, right;
+    long cnt;
+    Node leftNode, rightNode;
+    public Node(int left, int right){
+        this.cnt = 0;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+
+public class Solution {
+   /**
+     * @param A: An integer array
+     * @return: Count the number of element before this element &#39;ai&#39; is 
+     *          smaller than it and return count number array
+     */ 
+    SegmentTree tree;
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumberII(int[] A) {
+        tree = new SegmentTree();
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            tree.count(A[i]);
+            res.add(tree.query(A[i]));
+        }
+        return res;
+    }
+    
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Interval Minimum Number</title>

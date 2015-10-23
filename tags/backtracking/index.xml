@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Backtracking on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/backtracking/</link>
+    <description>Recent content in Backtracking on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Thu, 22 Oct 2015 15:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/backtracking/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>k Sum II</title>
+      <link>http://xmruibi.github.io/2015/10/22/k-sum-ii/</link>
+      <pubDate>Thu, 22 Oct 2015 15:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/k-sum-ii/</guid>
+      <description>
+
+&lt;p&gt;Given n unique integers, number k (1&amp;lt;=k&amp;lt;=n)  and target. Find all possible k integers where their sum is target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given [1,2,3,4], k=2, target=5, [1,4] and [2,3] are possible solutions.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Unlike the k Sum I, here we need to get the each solution which can achieve the &lt;code&gt;target&lt;/code&gt; within &lt;code&gt;k&lt;/code&gt; num. Since the solution should be shown in the result, the dynamic programming cannot be used. Thus, the backtracking should be the only way.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A: an integer array.
+     * @param k: a positive integer (k &amp;lt;= length(A))
+     * @param target: a integer
+     * @return a list of lists of integer 
+     */ 
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; kSumII(int A[], int k, int target) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), A , k, target, 0);
+        return res;
+    }
+    
+    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; cur, int[] A, int k, int target, int idx) {
+        if(target &amp;lt; 0 || k &amp;lt; 0)
+            return;
+            
+        if(target == 0 &amp;amp;&amp;amp; k == 0) {
+            res.add(new ArrayList&amp;lt;&amp;gt;(cur));
+            return;
+        }
+        
+        for(int i = idx; i &amp;lt; A.length; i++) {
+            cur.add(A[i]);
+            helper(res, cur, A, k - 1, target - A[i], i + 1);
+            cur.remove(cur.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

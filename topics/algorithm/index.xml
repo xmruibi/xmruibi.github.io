@@ -9,8 +9,321 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 20 Oct 2015 19:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2015 20:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Count of Smaller Number before itself</title>
+      <link>http://xmruibi.github.io/2015/10/22/count-of-smaller-number-before-itself/</link>
+      <pubDate>Thu, 22 Oct 2015 20:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/count-of-smaller-number-before-itself/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) . For each element Ai in the array, count the number of element before this element Ai is smaller than it and return count number array.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, return &lt;code&gt;[0,1,2,3,2]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Segment Tree&lt;/li&gt;
+&lt;li&gt;Initial with the range (0 to 10000)&lt;/li&gt;
+&lt;li&gt;Count array elements included in a certain tree node&lt;/li&gt;
+&lt;li&gt;Dynamic count and make a query.
+
+&lt;ul&gt;
+&lt;li&gt;Query a value, evaluate the value and node&amp;rsquo;s middle value,&lt;/li&gt;
+&lt;li&gt;if larger, that means the left node&amp;rsquo;s count should be included and also enter into the right node;&lt;/li&gt;
+&lt;li&gt;if less, just enter the left node;&lt;/li&gt;
+&lt;li&gt;recursive until touch the null node;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SegmentTree{
+    Node root;
+        
+    public SegmentTree(){
+        root = build(0, 20000);
+    }
+        
+    public Node build(int left, int right) {
+        if(right &amp;lt; left)
+            return null;
+        if(left == right)
+            return new Node(left, right);
+        
+        int m = left + ((right - left)&amp;gt;&amp;gt;1);
+        Node cur = new Node(left, right);
+        cur.leftNode = build(left, m);
+        cur.rightNode = build(m+1, right);
+        return cur;
+    }
+    
+    public void count(int val){
+        count(root, val);
+    }
+    
+    private void count(Node node, int val) {
+        if(node == null)
+            return;
+        int m = node.left + ((node.right - node.left)&amp;gt;&amp;gt;1);
+        node.cnt++;
+        if(val &amp;gt; m)
+            count(node.rightNode, val);
+        else
+            count(node.leftNode, val);
+    }
+    
+    public int query(int val){
+        return query(root, val);
+    }
+    
+    private int query(Node node, int val) {
+        int cnt = 0;
+        if(node == null)
+            return cnt;
+        int m = node.left + ((node.right - node.left)&amp;gt;&amp;gt;1);
+        cnt += (node.leftNode != null ? node.leftNode.cnt : 0);
+        if(val &amp;gt; m) // if larger: 
+            return cnt + query(node.rightNode, val);
+        else // if less or equal: includes val == m
+            return query(node.leftNode, val);
+    }
+    
+}
+
+class Node{
+    int left, right;
+    long cnt;
+    Node leftNode, rightNode;
+    public Node(int left, int right){
+        this.cnt = 0;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+
+public class Solution {
+   /**
+     * @param A: An integer array
+     * @return: Count the number of element before this element &#39;ai&#39; is 
+     *          smaller than it and return count number array
+     */ 
+    SegmentTree tree;
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumberII(int[] A) {
+        tree = new SegmentTree();
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            tree.count(A[i]);
+            res.add(tree.query(A[i]));
+        }
+        return res;
+    }
+    
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>k Sum II</title>
+      <link>http://xmruibi.github.io/2015/10/22/k-sum-ii/</link>
+      <pubDate>Thu, 22 Oct 2015 15:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/k-sum-ii/</guid>
+      <description>
+
+&lt;p&gt;Given n unique integers, number k (1&amp;lt;=k&amp;lt;=n)  and target. Find all possible k integers where their sum is target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given [1,2,3,4], k=2, target=5, [1,4] and [2,3] are possible solutions.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Unlike the k Sum I, here we need to get the each solution which can achieve the &lt;code&gt;target&lt;/code&gt; within &lt;code&gt;k&lt;/code&gt; num. Since the solution should be shown in the result, the dynamic programming cannot be used. Thus, the backtracking should be the only way.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A: an integer array.
+     * @param k: a positive integer (k &amp;lt;= length(A))
+     * @param target: a integer
+     * @return a list of lists of integer 
+     */ 
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; kSumII(int A[], int k, int target) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), A , k, target, 0);
+        return res;
+    }
+    
+    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; cur, int[] A, int k, int target, int idx) {
+        if(target &amp;lt; 0 || k &amp;lt; 0)
+            return;
+            
+        if(target == 0 &amp;amp;&amp;amp; k == 0) {
+            res.add(new ArrayList&amp;lt;&amp;gt;(cur));
+            return;
+        }
+        
+        for(int i = idx; i &amp;lt; A.length; i++) {
+            cur.add(A[i]);
+            helper(res, cur, A, k - 1, target - A[i], i + 1);
+            cur.remove(cur.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Triangle Count</title>
+      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[3,4,6]
+[3,6,7]
+[4,6,7]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
+[4(1),4(2),4(4)]
+[4(1),4(3),4(4)]
+[4(2),4(3),4(4)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort&lt;/li&gt;
+&lt;li&gt;Binary Search&lt;/li&gt;
+&lt;li&gt;But how to define driven condition? (Tricky Part)
+
+&lt;ul&gt;
+&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param S: A list of integers
+     * @return: An integer
+     */
+    public int triangleCount(int S[]) {
+        if(S == null || S.length == 0)
+            return 0;
+        int cnt = 0;
+        Arrays.sort(S);
+        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
+            int cur = S[i];
+            int l = 0, r = i - 1;
+            while(l &amp;lt; r) {
+                if(S[l] + S[r] &amp;gt; S[i]) {
+                    cnt += (r - l); // keypoint!
+                    r--;
+                }else 
+                    l++;
+            }
+        }
+        return cnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Update Bits</title>
+      <link>http://xmruibi.github.io/2015/10/22/update-bits/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/update-bits/</guid>
+      <description>
+
+&lt;p&gt;Given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e g , M becomes a substring of N located at i and starting at j).&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given N=&lt;code&gt;(10000000000)2&lt;/code&gt;, M=&lt;code&gt;(10101)2&lt;/code&gt;, i=&lt;code&gt;2&lt;/code&gt;, j=&lt;code&gt;6&lt;/code&gt;
+return N=&lt;code&gt;(10001010100)2&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;In the function, the numbers N and M will given in decimal, you should also return a decimal number.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Minimum number of operations?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;You can assume that the bits j through i have enough space to fit all of M. That is, if M = &lt;code&gt;10011&lt;/code&gt;, you can assume that there are at least 5 bits between j and i. You would not, for example, have j=3 and i=2, because M could not fully fit between bit 3 and bit 2.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Set a mask:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Position:   31 30 ..~.. j+1  j ..~.. i  i-1 ..~.. 0
+Bit Val:     1  1  ...   1   0  ...  0   1   ...  1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Use that mask to do &lt;code&gt;&amp;amp;&lt;/code&gt; with N, so that in the new N, the position i~j will be zero.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Left shift &lt;code&gt;i&lt;/code&gt; for M to make the position aligned.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Do &lt;code&gt;|&lt;/code&gt; for M and N, then get the final result.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     *@param n, m: Two integer
+     *@param i, j: Two bit positions
+     *return: An integer
+     */
+    public int updateBits(int n, int m, int i, int j) {
+        
+        int mask = 0;
+        for(int lfShift = 31; lfShift &amp;gt; j; lfShift--) 
+            mask += (1&amp;lt;&amp;lt;lfShift);
+        
+        for(int lfShift = i - 1; lfShift &amp;gt;= 0; lfShift--) 
+            mask += (1&amp;lt;&amp;lt;lfShift);
+        n &amp;amp;= mask;
+        m &amp;lt;&amp;lt;= i;
+        return n|m;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Interleaving String</title>
@@ -1016,302 +1329,6 @@ Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code
     }
 }
 
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Permutation Index</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-index/</link>
-      <pubDate>Mon, 19 Oct 2015 11:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-index/</guid>
-      <description>
-
-&lt;p&gt;Given a permutation which contains no repeated number, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given &lt;code&gt;[1,2,4]&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;thinking&#34;&gt;Thinking&lt;/h2&gt;
-
-&lt;p&gt;Illustrating by manually getting the index of {2, 4, 3, 1}. Since this is a 4-element set, we know there are 4! permutations (4! = 4*3*2*1). If the set only had 3 elements, we would have 3*2*1 permutations. If the set only had 2 elements, we would have 2!=2*1 permutations; and so on.&lt;/p&gt;
-
-&lt;p&gt;ASIDE: The decimal system of counting is a positional system. A 3-element decimal number, for instance, has the following three positional weights: hundred, ten, unit. Hence, we know the value of the number 472 because we understand: 4*hundred + 7*ten + 2*unit.&lt;/p&gt;
-
-&lt;p&gt;If we treat our 4-element set as a positional system, then we get the following positional weights: 3!, 2!, 1!, 0. So that the index of {2, 4, 3, 1} is: x*3!+y*2!+z*1!+w*0. Presently it suffices to find the values of x,y,z to calculate the index (we ignore w because it is paired with 0). x,y,z are counters: the number of succeeding elements less than the element being considered. For example, in {2, 4, 3, 1}, there are two succeeding elements less than 4 (namely 3 and 1). For 2 it&amp;rsquo;s 1 (1); for 4 it&amp;rsquo;s 2 (3 and 1); for 3 it&amp;rsquo;s 1 (1); for 1 it&amp;rsquo;s 0. Now we can calculate the index of {2, 4, 3, 1} as: x=1, y=2, z=1:
-    &lt;code&gt;x*3!+y*2!+z*1!+w*0 = 1*3! + 2*2! + 1*1! = 6 + 4 + 1 = 11&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param A an integer array
-     * @return a long integer
-     */
-    public long permutationIndex(int[] A) {
-        
-        if(A == null || A.length == 0)
-            return 0L;
-        
-        int pos = 2;
-        long factor = 1;
-        long index = 1;
-        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
-            int cnt = 0;
-            for(int j = i + 1; j &amp;lt; A.length; j++) {
-                if(A[i] &amp;gt; A[j])
-                    cnt++;
-            }
-            index += (cnt*factor);
-            factor *= pos;
-            pos++;
-        }
-        
-        return index;
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
-
-&lt;p&gt;Two loop: &lt;code&gt;i range 0 -&amp;gt; length - 2&lt;/code&gt; and &lt;code&gt;j range i + 1 -&amp;gt; length - 1&lt;/code&gt;, So it is &lt;code&gt;O(n^2)&lt;/code&gt;;
-Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Max Points on a Line</title>
-      <link>http://xmruibi.github.io/2015/10/18/max-points-on-a-line/</link>
-      <pubDate>Sun, 18 Oct 2015 20:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/max-points-on-a-line/</guid>
-      <description>
-
-&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given 4 points: &lt;code&gt;(1,2)&lt;/code&gt;, &lt;code&gt;(3,6)&lt;/code&gt;, &lt;code&gt;(0,0)&lt;/code&gt;, &lt;code&gt;(1,3)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The maximum number is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Use one point as a baseline. (&lt;code&gt;Point pa&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Iterate other points (&lt;code&gt;Point pb&lt;/code&gt;) (index greater than &lt;code&gt;pa&lt;/code&gt;): &lt;code&gt;j = i + 1&lt;/code&gt; and&lt;/li&gt;
-&lt;li&gt;Use Hash Map to record the ratio and count&lt;/li&gt;
-&lt;li&gt;Note:
-
-&lt;ul&gt;
-&lt;li&gt;Ratio is &lt;code&gt;double radio = (double)(pa.y - pb.y) / (double)(pa.x - pb.x)&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When pa.x == pb.x &amp;amp;&amp;amp; pa.y == pb.y, consider two points are the same, also need to count the same point.&lt;/li&gt;
-&lt;li&gt;When only &lt;code&gt;pa.x == pb.x&lt;/code&gt;, that means the ratio is infinity as &lt;code&gt;(double)Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When only &lt;code&gt;pa.y == pb.y&lt;/code&gt;, that means the ratio is zero;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Iterate Hash Map and get the local max with updating the global max;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param points an array of point
-     * @return an integer
-     */
-    public int maxPoints(Point[] points) {
-        if(points == null || points.length == 0)
-            return 0;
-        
-       
-        int maxLine = 0;
-        for(int i = 0; i &amp;lt; points.length; i++) {
-            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-            Point pa = points[i];
-            int same = 0;
-            for(int j = i + 1; j &amp;lt; points.length; j++) {
-                    Point pb = points[j];
-                    int cnt = 0;
-                    if(pa.x == pb.x &amp;amp;&amp;amp; pa.y == pb.y)
-                        same ++;
-                    else if(pa.x == pb.x) {
-                        map.put((double)Integer.MAX_VALUE, map.containsKey((double)Integer.MAX_VALUE)?map.get((double)Integer.MAX_VALUE) + 1 : 2);
-                    }else if(pa.y == pb.y)
-                        map.put((double)0, map.containsKey((double)0)?map.get((double)0) + 1 : 2);
-                    else{
-                        double radio = (double)(pa.y - pb.y) / (double)(pa.x - pb.x);
-                        map.put(radio, map.containsKey(radio)?map.get(radio) + 1 : 2);
-                    }
-            }
-            int localMax = 1;
-            for (Integer value : map.values())   
-                localMax = Math.max(localMax, value);
-            localMax += same;  
-            maxLine = Math.max(maxLine, localMax); 
-        }
-        
-        return maxLine;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Count of Smaller Number</title>
-      <link>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</link>
-      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</guid>
-      <description>
-
-&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[1,8,5]&lt;/code&gt;, return &lt;code&gt;[0,4,2]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Could you use three ways to do it.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Just loop&lt;/li&gt;
-&lt;li&gt;Sort and binary search&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2&#34;&gt;1. Solution by Loop with O(n^2)&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;
-
-   /** O(n^2) Loop implement
-     * @param A: An integer array
-     * @return: The number of element in the array that 
-     *          are smaller that the given integer
-     */
-    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(A == null || queries == null)
-            return res;
-            
-        for(int i = 0; i &amp;lt; queries.length; i++) {
-            int cnt = 0;
-            for(int j = 0; j &amp;lt; A.length; j++) {
-                if(A[j] &amp;lt; queries[i])
-                    cnt++;
-            }
-            res.add(cnt);
-        }
-        return res;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;2-solution-by-sort-and-binary-search-with-o-nlogn&#34;&gt;2. Solution by Sort and Binary search with O(nlogn)&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;    /** O(nlogn) Sort and Binary search
-     * @param A: An integer array
-     * @return: The number of element in the array that 
-     *          are smaller that the given integer
-     */
-    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(queries == null)
-            return res;
-         
-        Arrays.sort(A);
-        for(int i = 0; i &amp;lt; queries.length; i++) {
-            int cnt = binarySearch(A, queries[i]);
-            res.add(cnt);
-        }
-        return res;
-    }
-    
-    private int binarySearch(int[] A, int value) {
-        if(A == null || A.length == 0)
-            return 0;
-        int l = 0, r = A.length - 1;
-        while(l + 1 &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if(value &amp;gt; A[m])
-                l = m;
-            else
-                r = m;
-        }
-        if(A[l] &amp;lt; value)
-            return l + 1;
-        else
-            return l; 
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Smallest Difference</title>
-      <link>http://xmruibi.github.io/2015/10/18/smallest-difference/</link>
-      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/smallest-difference/</guid>
-      <description>
-
-&lt;p&gt;Given two array of integers(the first array is array A, the second array is array B), now we are going to find a element in array A which is A[i], and another element in array B which is B[j], so that the difference between A[i] and B&lt;a href=&#34;|A[i] - B[j]|&#34;&gt;j&lt;/a&gt; is as small as possible, return their smallest difference.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For example, given array A = &lt;code&gt;[3,6,7,4]&lt;/code&gt;, B = &lt;code&gt;[2,8,9,3]&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n log n) time&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Do sort on one of array&lt;/li&gt;
-&lt;li&gt;One pass on another array and do binary search on the sorted array.&lt;/li&gt;
-&lt;li&gt;Search the target value from passing array and get the minimum difference on sorted array&lt;/li&gt;
-&lt;li&gt;Update the global minimum difference each time.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Solution {
-    /**
-     * @param A, B: Two integer arrays.
-     * @return: Their smallest difference.
-     */
-    public int smallestDifference(int[] A, int[] B) {
-        if(A == null || B == null || A.length == 0 || B.length == 0)
-            return 0;
-        Arrays.sort(B);
-        int mindiff = Integer.MAX_VALUE;
-        for(int i = 0; i &amp;lt; A.length; i++) {
-            int curdiff = binarySearch(B, A[i]);
-            mindiff = Math.min(mindiff, curdiff);
-        }
-        return mindiff;
-    }
-    
-    
-    private int binarySearch(int[] A, int value) {
-        if(A == null || A.length == 0)
-            return 0;
-        int l = 0, r = A.length - 1;
-        while(l + 1 &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if(value &amp;gt; A[m])
-                l = m;
-            else
-                r = m;
-        }
-        return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
