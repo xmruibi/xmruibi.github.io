@@ -9,8 +9,124 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 22 Oct 2015 20:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Binary Representation</title>
+      <link>http://xmruibi.github.io/2015/10/24/binary-representation/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/binary-representation/</guid>
+      <description>
+
+&lt;p&gt;Given a (decimal - e.g. 3.72) number that is passed in as a string, return the binary representation that is passed in as a string. If the fractional part of the number can not be represented accurately in binary with at most 32 characters, return &lt;code&gt;ERROR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.72&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;ERROR&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.5&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;11.1&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For Integer part, we use &lt;code&gt;% 2&lt;/code&gt; to get each digit from lowest bit to highest bit, or use a loop to make &lt;code&gt;&amp;amp;&lt;/code&gt; with &lt;code&gt;1&lt;/code&gt; and left shift until it get zero.&lt;/li&gt;
+&lt;li&gt;For decimal part, we can use $$\times2$$ approach. For example: &lt;code&gt;int n = 0.75; n*2 = 1.5;&lt;/code&gt; Therefore, the first digit of binary number after &lt;code&gt;.&lt;/code&gt; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+    * Therefore, the first digit of binary number after &#39;.&#39; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1 
+     *@param n: Given a decimal number that is passed in as a string
+     *@return: A string
+     */
+    public String binaryRepresentation(String n) {
+        int intPart = Integer.parseInt(n.substring(0, n.indexOf(&#39;.&#39;)));
+        StringBuilder res = new StringBuilder();
+        while(intPart != 0) {
+            res.insert(0, &amp;quot;&amp;quot; + (intPart &amp;amp; 1));
+            intPart &amp;gt;&amp;gt;= 1;
+        }
+        if(res.length() == 0)
+            res.append(0);
+        double decPart = Double.parseDouble(n.substring(n.indexOf(&#39;.&#39;)));
+        String decBit = &amp;quot;&amp;quot;;
+        // if it has decimal part, creat &#39;.&#39; in result string
+        if(decPart &amp;gt; 0.0)
+            res.append(&amp;quot;.&amp;quot;);
+        // to count how many digit in decimal binary result
+        int cnt = 0;
+        while(decPart &amp;gt; 0.0) {
+            double cur = (decPart * 2);
+            cnt++;
+            if(cnt &amp;gt; 32)
+                return &amp;quot;ERROR&amp;quot;;
+            if(cur &amp;gt;= 1) {
+                res.append(1);
+                decPart = cur - 1.0;
+            }else {
+                res.append(0);
+                decPart = cur;
+            }
+        }
+        
+        return res.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sqrt(x)</title>
+      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
+      <description>
+
+&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
+&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int mySqrt(int x) {
+        if(x == 0)
+            return 0;
+        // binary search from 1 -&amp;gt; x/2
+        int l = 1, r = (x&amp;gt;&amp;gt;1);
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
+                return m;
+            }else if(m + 1 &amp;lt;= x / m) {
+                l = m + 1;
+            }else{
+                r = m;
+            }
+        }
+        return l;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Count of Smaller Number before itself</title>
@@ -1470,227 +1586,6 @@ Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Number of Airplanes in the Sky</title>
-      <link>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</link>
-      <pubDate>Mon, 19 Oct 2015 22:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</guid>
-      <description>
-
-&lt;p&gt;Given an interval list which are flying and landing time of the flight. How many airplanes are on the sky at most?&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For interval list &lt;code&gt;[[1,10],[2,3],[5,8],[4,7]]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If landing and flying happens at the same time, we consider landing should happen at first.&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Array Method (Naive):
-
-&lt;ul&gt;
-&lt;li&gt;Use an integer array to count segment occurence.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    /**
-     * Array Method:
-     * @param intervals: An interval array
-     * @return: Count of airplanes are in the sky.
-     */
-    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
-        
-        // find the min and max value in interval list;
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-        for(Interval interval : airplanes) {
-            min = Math.min(min, interval.start);
-            max = Math.max(max, interval.end);
-        }
-
-        int maxCnt = 0;
-        int[] segment = new int[max - min + 1];
-        for(Interval interval : airplanes) {
-            for(int i = interval.start; i &amp;lt; interval.end; i++) {
-                segment[i - min]++;
-                maxCnt = Math.max(maxCnt, segment[i - min]);
-            }
-        }
-        return maxCnt;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Customized Structure:
-
-&lt;ul&gt;
-&lt;li&gt;Point Class: mark &lt;code&gt;int time&lt;/code&gt; and (&lt;code&gt;boolean start/end&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Mark those Points ordered by time.&lt;/li&gt;
-&lt;li&gt;One pass all points and count increase when touch start but decrease when end;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    /**
-     * Point Method:
-     * @param intervals: An interval array
-     * @return: Count of airplanes are in the sky.
-     */
-    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
-
-    	// create a list with point class
-    	List&amp;lt;Point&amp;gt; points = new ArrayList&amp;lt;&amp;gt;();
-    	for(Interval interval : airplanes) {
-    		points.add(new Point(interval.start, 1));
-    		points.add(new Point(interval.end, 0));
-    	}
-
-    	// sort
-    	Collections.sort(points, new Comparator&amp;lt;Point&amp;gt;(){
-    	    @Override
-    	    public int compare(Point p1, Point p2) {
-    	         if(p1.time == p2.time) return p1.flag - p2.flag;
-                 else return p1.time - p2.time;
-    	    }
-    	});
-
-    	// one pass for count
-    	int count = 0;
-    	int max = 0; // record the peak count;
-    	for(Point p : points) {
-    		if(p.flag == 1)
-    			count++;
-    		else
-    			count--;
-    		max = Math.max(max, count);
-    	}
-
-    	return max;
-	}
-
-	private class Point{
-		int time;
-		int flag;
-		public Point(int time, int flag) {
-			this.time = time;
-			this.flag = flag;
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis:&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Array Method (Naive):&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Two pass and one of pass has one more inner loop (segment size: k): o(n + n*k) -&amp;gt; O(n^2);
-An array to store occurence frequence: Space: O(n);&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Next Permutation</title>
-      <link>http://xmruibi.github.io/2015/10/19/next-permutation/</link>
-      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/next-permutation/</guid>
-      <description>
-
-&lt;p&gt;Given a list of integers, which denote a permutation.&lt;/p&gt;
-
-&lt;p&gt;Find the next permutation in ascending order.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For &lt;code&gt;[1,3,2,3]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,3,3,2]&lt;/code&gt;
-For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2,3,4]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;The list may contains duplicate integers.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;字典序算法：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;从后往前寻找索引满足 a[k] &amp;lt; a[k + 1], 如果此条件不满足，则说明已遍历到最后一个。&lt;/li&gt;
-&lt;li&gt;如 k == 0, 说明是字典序最后一位， 因此直接倒置整个数组即可.&lt;/li&gt;
-&lt;li&gt;从后往前遍历，找到第一个比a[k]大的数a[l], 即a[k] &amp;lt; a[l].&lt;/li&gt;
-&lt;li&gt;交换a[k]与a[l].&lt;/li&gt;
-&lt;li&gt;反转k + 1 ~ n之间的元素.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param nums: an array of integers
-     * @return: return nothing (void), do not return anything, modify nums in-place instead
-     */
-    public int[] nextPermutation(int[] nums) {
-        if(nums == null || nums.length == 1)
-            return nums;
-        
-        // step1: find nums[i] &amp;lt; nums[i + 1]
-        int i = 0;
-        for (i = nums.length - 2; i &amp;gt;= 0; i--) {
-            if (nums[i] &amp;lt; nums[i + 1]) {
-                break;
-            } else if (i == 0) {
-                // reverse nums if reach maximum
-                reverse(nums, 0, nums.length - 1);
-                return nums;
-            }
-        }
-        // step2: find nums[i] &amp;lt; nums[j]
-        int j = 0;
-        for (j = nums.length - 1; j &amp;gt; i; j--) {
-            if (nums[i] &amp;lt; nums[j]) {
-                break;
-            }
-        }
-        // step3: swap betwenn nums[i] and nums[j]
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-        
-        // step4: reverse between [i + 1, n - 1]
-        reverse(nums, i + 1, nums.length - 1);
-
-        return nums;
-    }
-    
-    private void reverse(int[] nums, int l, int r) {
-        while(l &amp;lt; r) {
-            int tmp = nums[l];
-            nums[l++] = nums[r];
-            nums[r--] = tmp;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
-
-&lt;p&gt;At most, two pass o(2*n) -&amp;gt; O(n); Constant Space Complexity: O(1)&lt;/p&gt;
 </description>
     </item>
     

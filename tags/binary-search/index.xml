@@ -9,8 +9,56 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 22 Oct 2015 14:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Sqrt(x)</title>
+      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
+      <description>
+
+&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
+&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int mySqrt(int x) {
+        if(x == 0)
+            return 0;
+        // binary search from 1 -&amp;gt; x/2
+        int l = 1, r = (x&amp;gt;&amp;gt;1);
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
+                return m;
+            }else if(m + 1 &amp;lt;= x / m) {
+                l = m + 1;
+            }else{
+                r = m;
+            }
+        }
+        return l;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Triangle Count</title>

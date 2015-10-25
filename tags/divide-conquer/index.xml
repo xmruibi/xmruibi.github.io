@@ -20,16 +20,18 @@
       <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
       <description>
 
-&lt;p&gt;Calculate the an % b where a, b and n are all 32bit integers.&lt;/p&gt;
+&lt;p&gt;Calculate the $$ a^n \mod b $$  where a, b and n are all 32bit integers.&lt;/p&gt;
 
-&lt;p&gt;*Example: *
- For 231 % 3 = 2
+&lt;h3 id=&#34;example&#34;&gt;Example:&lt;/h3&gt;
+
+&lt;p&gt;For 231 % 3 = 2
  For 1001000 % 1000 = 0&lt;/p&gt;
 
-&lt;p&gt;*Challenge: *
- O(logn)&lt;/p&gt;
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge:&lt;/h3&gt;
 
-&lt;h4 id=&#34;solution&#34;&gt;Solution:&lt;/h4&gt;
+&lt;p&gt;O(logn)&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Divide and Conquer&lt;/li&gt;
@@ -39,9 +41,9 @@
 &lt;li&gt;While n is odd, we need to add one more &amp;laquo;a&amp;raquo; time (*a);&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;
-&lt;code class=&#34;java&#34;&gt;
-class Solution {
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
     /*
      * @param a, b, n: 32bit integers
      * @return: An integer
@@ -63,8 +65,7 @@ class Solution {
         return (int)combine;
     }
 }
-&lt;/code&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

@@ -57,7 +57,7 @@
     },
     "datePublished": "2015-10-18",
     "description": "",
-    "wordCount":  99 
+    "wordCount":  133 
   }
 </script>
 
@@ -217,7 +217,7 @@ Archive
 
   
   &middot; Read in about 1 min
-  &middot; (99 Words)
+  &middot; (133 Words)
   <br>
   Tags: 
 
@@ -246,9 +246,16 @@ Archive
 
 <p>Note that 1 is typically treated as an ugly number.</p>
 
+<h2 id="think">Think</h2>
+
+<ul>
+<li>Make sure the value can be divided exactly by the divisor in array <code>2, 3, 5</code>;</li>
+<li>So iterate the division while the value can be divided exactly, otherwise change another divisor from array.</li>
+</ul>
+
 <h2 id="solution">Solution</h2>
 
-<pre><code>public class Solution {
+<pre><code class="language-java">public class Solution {
     public boolean isUgly(int num) {
         if(num&lt;=0)
             return false;

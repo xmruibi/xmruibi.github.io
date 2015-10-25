@@ -55,7 +55,7 @@
     },
     "datePublished": "2015-09-11",
     "description": "",
-    "wordCount":  155 
+    "wordCount":  156 
   }
 </script>
 
@@ -215,7 +215,7 @@ Archive
 
   
   &middot; Read in about 1 min
-  &middot; (155 Words)
+  &middot; (156 Words)
   <br>
   Tags: 
 
@@ -235,16 +235,18 @@ Archive
   <div class="container content">
   
 
-<p>Calculate the an % b where a, b and n are all 32bit integers.</p>
+<p>Calculate the $$ a^n \mod b $$  where a, b and n are all 32bit integers.</p>
 
-<p>*Example: *
- For 231 % 3 = 2
+<h3 id="example">Example:</h3>
+
+<p>For 231 % 3 = 2
  For 1001000 % 1000 = 0</p>
 
-<p>*Challenge: *
- O(logn)</p>
+<h3 id="challenge">Challenge:</h3>
 
-<h4 id="solution">Solution:</h4>
+<p>O(logn)</p>
+
+<h2 id="think">Think</h2>
 
 <ul>
 <li>Divide and Conquer</li>
@@ -254,9 +256,9 @@ Archive
 <li>While n is odd, we need to add one more &laquo;a&raquo; time (*a);</li>
 </ul>
 
-<pre>
-<code class="java">
-class Solution {
+<h2 id="solution">Solution</h2>
+
+<pre><code class="language-java">class Solution {
     /*
      * @param a, b, n: 32bit integers
      * @return: An integer
@@ -278,8 +280,7 @@ class Solution {
         return (int)combine;
     }
 }
-</code>
-</pre>
+</code></pre>
 
 </div>
 

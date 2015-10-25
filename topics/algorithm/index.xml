@@ -9,8 +9,124 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 22 Oct 2015 20:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Binary Representation</title>
+      <link>http://xmruibi.github.io/2015/10/24/binary-representation/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/binary-representation/</guid>
+      <description>
+
+&lt;p&gt;Given a (decimal - e.g. 3.72) number that is passed in as a string, return the binary representation that is passed in as a string. If the fractional part of the number can not be represented accurately in binary with at most 32 characters, return &lt;code&gt;ERROR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.72&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;ERROR&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.5&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;11.1&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For Integer part, we use &lt;code&gt;% 2&lt;/code&gt; to get each digit from lowest bit to highest bit, or use a loop to make &lt;code&gt;&amp;amp;&lt;/code&gt; with &lt;code&gt;1&lt;/code&gt; and left shift until it get zero.&lt;/li&gt;
+&lt;li&gt;For decimal part, we can use $$\times2$$ approach. For example: &lt;code&gt;int n = 0.75; n*2 = 1.5;&lt;/code&gt; Therefore, the first digit of binary number after &lt;code&gt;.&lt;/code&gt; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+    * Therefore, the first digit of binary number after &#39;.&#39; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1 
+     *@param n: Given a decimal number that is passed in as a string
+     *@return: A string
+     */
+    public String binaryRepresentation(String n) {
+        int intPart = Integer.parseInt(n.substring(0, n.indexOf(&#39;.&#39;)));
+        StringBuilder res = new StringBuilder();
+        while(intPart != 0) {
+            res.insert(0, &amp;quot;&amp;quot; + (intPart &amp;amp; 1));
+            intPart &amp;gt;&amp;gt;= 1;
+        }
+        if(res.length() == 0)
+            res.append(0);
+        double decPart = Double.parseDouble(n.substring(n.indexOf(&#39;.&#39;)));
+        String decBit = &amp;quot;&amp;quot;;
+        // if it has decimal part, creat &#39;.&#39; in result string
+        if(decPart &amp;gt; 0.0)
+            res.append(&amp;quot;.&amp;quot;);
+        // to count how many digit in decimal binary result
+        int cnt = 0;
+        while(decPart &amp;gt; 0.0) {
+            double cur = (decPart * 2);
+            cnt++;
+            if(cnt &amp;gt; 32)
+                return &amp;quot;ERROR&amp;quot;;
+            if(cur &amp;gt;= 1) {
+                res.append(1);
+                decPart = cur - 1.0;
+            }else {
+                res.append(0);
+                decPart = cur;
+            }
+        }
+        
+        return res.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sqrt(x)</title>
+      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
+      <description>
+
+&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
+&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int mySqrt(int x) {
+        if(x == 0)
+            return 0;
+        // binary search from 1 -&amp;gt; x/2
+        int l = 1, r = (x&amp;gt;&amp;gt;1);
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
+                return m;
+            }else if(m + 1 &amp;lt;= x / m) {
+                l = m + 1;
+            }else{
+                r = m;
+            }
+        }
+        return l;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Count of Smaller Number before itself</title>
@@ -1178,157 +1294,6 @@ For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Permutation Index II</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</link>
-      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</guid>
-      <description>
-
-&lt;p&gt;Given a permutation which may contain repeated numbers, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given the permutation &lt;code&gt;[1, 4, 2, 2]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight. However, there are duplicates occured. So that means we can use a hash map to do the count.
-But the positional system should be modified. The multiple of the factorial of the duplicates occurence should be divided by original position system. That means the &lt;code&gt;entry.value&lt;/code&gt; need to to the factorial and multiply those factors.
-Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code&gt;, when &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param A an integer array
-     * @return a long integer
-     */
-    public long permutationIndexII(int[] A) {
-        if(A == null || A.length == 0)
-            return 0L;
-        
-        int pos = 2;
-        long factor = 1;
-        long index = 1;
-        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
-            HashMap&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-            int cnt = 0;
-            // count itself
-            map.put(A[i], 1);
-            for(int j = i + 1; j &amp;lt; A.length; j++) {
-                // count all occurence on following element in Array
-                map.put(A[j], map.containsKey(A[j])?map.get(A[j])+1:1);
-                if(A[i] &amp;gt; A[j])
-                    cnt++;
-            }
-            index += (cnt*factor)/factorialMultiple(map);
-            factor *= pos;
-            pos++;
-        }
-        
-        return index;
-    }
-    
-    private int factorialMultiple(HashMap&amp;lt;Integer, Integer&amp;gt; map) {
-        int res = 1;
-        for(int value : map.values()) {
-            // do the factor on occurence
-            int factor = 1;
-            for(int i = 1; i &amp;lt;= value; i++)
-                factor*= i;
-            // get the multiple of occurence factor
-            res *= factor;
-        }
-        return res;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Permutation Sequence</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-sequence/</link>
-      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-sequence/</guid>
-      <description>
-
-&lt;p&gt;Given n and k, return the k-th permutation sequence.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For n = 3, all permutations are listed as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;
-&amp;quot;132&amp;quot;
-&amp;quot;213&amp;quot;
-&amp;quot;231&amp;quot;
-&amp;quot;312&amp;quot;
-&amp;quot;321&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If k = &lt;code&gt;4&lt;/code&gt;, the fourth permutation is &amp;laquo;&lt;code&gt;231&lt;/code&gt;&amp;laquo;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;n will be between 1 and 9 inclusive.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n*k) in time complexity is easy, can you do it in O(n^2) or less?&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;a1,a2,a3&amp;hellip;..an的permutation 如果确定了a1,那么剩下的permutation就有(n-1)!种 所以 a1 = k / (n-1)! k2 = k % (n-1)! a2 = k2 / (n-2)!&lt;/p&gt;
-
-&lt;p&gt;要注意的是&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;得到的应该是剩下选择数字的index,而不是value,所以要建一个存储可用数字的list&lt;/li&gt;
-&lt;li&gt;在用完一个数字后要将它从list中删去&lt;/li&gt;
-&lt;li&gt;array是0-based index, 那么K也应该减去1变为0-based的 (&lt;code&gt;k--&lt;/code&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;class Solution {
-    /**
-      * @param n: n
-      * @param k: the kth permutation
-      * @return: return the k-th permutation
-      */
-    public String getPermutation(int n, int k) {
-        
-        int[] factors = new int[n + 1];
-        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-        factors[0] = 1;
-        for(int i = 1; i &amp;lt;= n; i++) {
-            factors[i] = i * factors[i-1];
-            list.add(i);
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        // for index alignment： e.g: k == 12, k / 6 = 2, 
-        // however, it should still belong the number start for list.get(1); So here need to make a alignment
-        k--;
-        while(n &amp;gt; 1) {
-            int index = k / factors[n-1];
-            sb.append(list.remove(index));
-            k %= factors[n-1];
-            n--;
-        }
-        sb.append(list.get(0));
-        return sb.toString();
-    }
-}
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

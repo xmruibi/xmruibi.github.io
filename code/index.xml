@@ -183,6 +183,170 @@ db.printShardingStatus()
     </item>
     
     <item>
+      <title>How to Input and Output with Mongo DB Data on Hadoop Platform</title>
+      <link>http://xmruibi.github.io/code/MongoDBwithHadoop/</link>
+      <pubDate>Thu, 16 Apr 2015 12:56:15 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/code/MongoDBwithHadoop/</guid>
+      <description>
+
+&lt;p&gt;In the previous article, I&amp;rsquo;ve talked about how to distributed a Mongo DB database in multiple virtual machine. Here, I&amp;rsquo;d like to discuss how we can make data stream between Mongo DB and Hadoop. In fact, the format from MongoDB cannot directly used in Hadoop Map Reduce function. You have to use Mongo Hadoop API to assist you for finishing this difficult connection between MongoDB and Hadoop.&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The MongoDB Connector for Hadoop is a plugin for Hadoop that provides the ability to use MongoDB as an input source and/or an output destination. The major advantage is that once the connector is implemented, the analytic power of Hadoop can be utilized with the MongoDB storage architecture.
+&amp;gt; “The Connector presents MongoDB as a Hadoop-compatible file system allowing a MapReduce job to read from MongoDB directly without first copying it to HDFS, thereby eliminating the need to move Terabytes of data across the network. MapReduce jobs can pass queries as filters, so avoiding the need to scan entire collections, and can also take advantage of MongoDB’s rich indexing capabilities including geospatial, text-search, array, compound and sparse indexes”&lt;/p&gt;
+
+&lt;h2 id=&#34;procedure&#34;&gt;Procedure&lt;/h2&gt;
+
+&lt;p&gt;Once we choose MongoDB as the I/O target, all of our I/O format needs to fit with MongoDB document format, thus we must use either JSON or BSON. So the entire procedure when Hadoop works with MongoDB is shown as follows:
+- Create MongoDB URL builder with multiple Mongos (Routers) as Database entrances
+- Set one MongoDB collection as input source with MongoDB URL builder
+- Use Hadoop as Map-Reduce computing framework.
+- Override Mapper class with BSON format as value in.
+- Override Reduce class addressing the BSON data and output the data with MongodbUpdateWritable format
+- Set another MongoDB collection as output destination  with MongoDB URL builder&lt;/p&gt;
+
+&lt;h2 id=&#34;talk-is-cheap-show-me-the-code&#34;&gt;Talk is cheap, show me the code!&lt;/h2&gt;
+
+&lt;h3 id=&#34;access-to-mongo-db&#34;&gt;Access to Mongo DB&lt;/h3&gt;
+
+&lt;p&gt;By create MongoDB URL builder, the hadoop platform can detect the database position. However, we have multiple Mongo DB routers as Database entrances. So we just save our entry IP address as a list.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private MongoClientURIBuilder ShardedDBURIBuilder() {
+		// mainly host
+		String mainHost = &amp;quot;44XX.XXX.XXX.X01&amp;quot;;
+
+		// set up the option entrances when the main one shut down
+		List&amp;lt;ServerAddress&amp;gt; serverSeeds;
+		MongoClient mongoClient = null;
+		serverSeeds = new ArrayList&amp;lt;ServerAddress&amp;gt;();
+		try {
+			serverSeeds.add(new ServerAddress(&amp;quot;4XX.XXX.XXX.X02&amp;quot;, 27017));
+			serverSeeds.add(new ServerAddress(&amp;quot;4XX.XXX.XXX.X03&amp;quot;, 27017));
+			mongoClient = new MongoClient(serverSeeds);
+			mongoClient.getMongoClientOptions();
+		} catch (UnknownHostException e) {
+			log.error(e + &amp;quot;&amp;quot; + e.getCause());
+		}
+
+		MongoClientURIBuilder uriBuilder = new MongoClientURIBuilder();
+		uriBuilder.addHost(mainHost, 27017);
+		uriBuilder.options(mongoClient.getMongoClientOptions());
+		return uriBuilder;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then we know where is the Mongo DB! But we still need to locate the collection in MongoDB and more detailed information. Here we go:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;MongoClientURIBuilder uriBuilder = ShardedDBURIBuilder();
+uriBuilder.collection(&amp;quot;stock&amp;quot;, &amp;quot;symbols&amp;quot;);
+MongoClientURI inputURI = uriBuilder.build();
+MongoConfigUtil.setInputURI(getConf(), inputURI);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;build-our-own-mapper-and-reducer&#34;&gt;Build our own mapper and reducer!&lt;/h3&gt;
+
+&lt;p&gt;Here I use my project about stock information crawler as an example. Mapper read the stock symbol data from the MongoDB. Then it get a list of symbol name in mapper. The mapper has separated that list and the reducer should read different part of list and search the stock information according to the partial symbol name list.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Override Mapper class with BSON format as value in.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class SymbolsMapper extends Mapper&amp;lt;Object, BSONObject, Text, IntWritable&amp;gt;{
+    @Override
+    public void map(Object key, BSONObject val, final Context context) 
+        throws IOException, InterruptedException {
+    	System.out.println(val.get(&amp;quot;symbol&amp;quot;)+&amp;quot;  Mapper Getted!!&amp;quot;);
+        context.write(new Text((val.get(&amp;quot;symbol&amp;quot;)).toString()), 
+        		new IntWritable(1));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Override Reduce class addressing the BSON data and output the data with MongodbUpdateWritable format&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class SymbolsReducer extends Reducer&amp;lt;Text, IntWritable, NullWritable, MongoUpdateWritable&amp;gt;{
+	
+    @Override
+    public void reduce(final Text pKey, final Iterable&amp;lt;IntWritable&amp;gt; pValues,
+                        final Context pContext )
+            throws IOException, InterruptedException{
+    	    
+        StockCrawler stockCrawler = new StockCrawler();
+        
+        // get symbol from keyIn 
+        Quote quote = stockCrawler.getHistQuotesBySymbol(pKey.toString());
+        if(quote==null||quote.getSymbolName()==null||quote.getHistorical_quotes()==null)
+        	return;
+        // get Quote info, set new id
+        BasicBSONObject query = new BasicBSONObject(&amp;quot;_id&amp;quot;, quote.getKey());
+       
+        // set symbol name and symbol quotes
+        BasicBSONObject stockQuote = new BasicBSONObject();
+        stockQuote.put(&amp;quot;symbol&amp;quot;, quote.getSymbolName());
+        ArrayList&amp;lt;Object&amp;gt; historical_quotes =  quote.getHistorical_quotes();
+        
+        BasicBSONObject update = new BasicBSONObject(&amp;quot;$set&amp;quot;, stockQuote);
+        update.append(&amp;quot;$pushAll&amp;quot;, new BasicBSONObject(&amp;quot;historical_quotes&amp;quot;, historical_quotes));
+        
+        pContext.write(null, new MongoUpdateWritable(query, update, true, false));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;output-back-to-mongo-db&#34;&gt;Output back to Mongo DB&lt;/h3&gt;
+
+&lt;p&gt;The output procedure is very simliar with the input one. But just the difference on the target collection in Mongo DB.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;MongoClientURI outputURI = uriBuilder.build();
+MongoConfigUtil.setOutputURI(getConf(), outputURI);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;the-overview-on-this-connector&#34;&gt;The overview on this connector:&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public MongoMapredStockCrawler() {
+		setConf(new Configuration());
+
+		if (MongoTool.isMapRedV1()) {
+			MapredMongoConfigUtil.setInputFormat(getConf(),
+					com.mongodb.hadoop.mapred.MongoInputFormat.class);
+			MapredMongoConfigUtil.setOutputFormat(getConf(),
+					com.mongodb.hadoop.mapred.MongoOutputFormat.class);
+		} else {
+			MongoConfigUtil.setInputFormat(getConf(), MongoInputFormat.class);
+			MongoConfigUtil.setOutputFormat(getConf(), MongoOutputFormat.class);
+		}
+
+		MongoClientURIBuilder uriBuilder = ShardedDBURIBuilder();
+		uriBuilder.collection(&amp;quot;stock&amp;quot;, &amp;quot;symbols&amp;quot;);
+		MongoClientURI inputURI = uriBuilder.build();
+		uriBuilder.collection(&amp;quot;stock&amp;quot;, &amp;quot;quotes&amp;quot;);
+		MongoClientURI outputURI = uriBuilder.build();
+
+		MongoConfigUtil.setInputURI(getConf(), inputURI);
+		MongoConfigUtil.setOutputURI(getConf(), outputURI);
+
+		MongoConfigUtil.setMapper(getConf(), SymbolsMapper.class);
+		MongoConfigUtil.setReducer(getConf(), SymbolsReducer.class);
+
+		MongoConfigUtil.setMapperOutputKey(getConf(), Text.class);
+		MongoConfigUtil.setMapperOutputValue(getConf(), IntWritable.class);
+
+		MongoConfigUtil.setOutputKey(getConf(), IntWritable.class);
+		MongoConfigUtil.setOutputValue(getConf(), BSONWritable.class);
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This is very typical example when people need to read data from Mongo DB and process the data on Hadoop platform and then back the data to Mongo DB. Since there is very little instruction about this work, I just shared my idea on that.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>How to build a Hugo Site like this site?</title>
       <link>http://xmruibi.github.io/code/HugoSiteConstruction/</link>
       <pubDate>Mon, 12 Oct 2015 23:33:07 -0700</pubDate>

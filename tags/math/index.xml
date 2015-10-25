@@ -9,8 +9,124 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 20 Oct 2015 10:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Binary Representation</title>
+      <link>http://xmruibi.github.io/2015/10/24/binary-representation/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/binary-representation/</guid>
+      <description>
+
+&lt;p&gt;Given a (decimal - e.g. 3.72) number that is passed in as a string, return the binary representation that is passed in as a string. If the fractional part of the number can not be represented accurately in binary with at most 32 characters, return &lt;code&gt;ERROR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.72&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;ERROR&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.5&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;11.1&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For Integer part, we use &lt;code&gt;% 2&lt;/code&gt; to get each digit from lowest bit to highest bit, or use a loop to make &lt;code&gt;&amp;amp;&lt;/code&gt; with &lt;code&gt;1&lt;/code&gt; and left shift until it get zero.&lt;/li&gt;
+&lt;li&gt;For decimal part, we can use $$\times2$$ approach. For example: &lt;code&gt;int n = 0.75; n*2 = 1.5;&lt;/code&gt; Therefore, the first digit of binary number after &lt;code&gt;.&lt;/code&gt; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+    * Therefore, the first digit of binary number after &#39;.&#39; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1 
+     *@param n: Given a decimal number that is passed in as a string
+     *@return: A string
+     */
+    public String binaryRepresentation(String n) {
+        int intPart = Integer.parseInt(n.substring(0, n.indexOf(&#39;.&#39;)));
+        StringBuilder res = new StringBuilder();
+        while(intPart != 0) {
+            res.insert(0, &amp;quot;&amp;quot; + (intPart &amp;amp; 1));
+            intPart &amp;gt;&amp;gt;= 1;
+        }
+        if(res.length() == 0)
+            res.append(0);
+        double decPart = Double.parseDouble(n.substring(n.indexOf(&#39;.&#39;)));
+        String decBit = &amp;quot;&amp;quot;;
+        // if it has decimal part, creat &#39;.&#39; in result string
+        if(decPart &amp;gt; 0.0)
+            res.append(&amp;quot;.&amp;quot;);
+        // to count how many digit in decimal binary result
+        int cnt = 0;
+        while(decPart &amp;gt; 0.0) {
+            double cur = (decPart * 2);
+            cnt++;
+            if(cnt &amp;gt; 32)
+                return &amp;quot;ERROR&amp;quot;;
+            if(cur &amp;gt;= 1) {
+                res.append(1);
+                decPart = cur - 1.0;
+            }else {
+                res.append(0);
+                decPart = cur;
+            }
+        }
+        
+        return res.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sqrt(x)</title>
+      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
+      <description>
+
+&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
+&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int mySqrt(int x) {
+        if(x == 0)
+            return 0;
+        // binary search from 1 -&amp;gt; x/2
+        int l = 1, r = (x&amp;gt;&amp;gt;1);
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
+                return m;
+            }else if(m + 1 &amp;lt;= x / m) {
+                l = m + 1;
+            }else{
+                r = m;
+            }
+        }
+        return l;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Digit Counts</title>
@@ -792,9 +908,16 @@ Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;
 
 &lt;p&gt;Note that 1 is typically treated as an ugly number.&lt;/p&gt;
 
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Make sure the value can be divided exactly by the divisor in array &lt;code&gt;2, 3, 5&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So iterate the division while the value can be divided exactly, otherwise change another divisor from array.&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code&gt;public class Solution {
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
     public boolean isUgly(int num) {
         if(num&amp;lt;=0)
             return false;
@@ -825,7 +948,7 @@ Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;
 
 &lt;p&gt;Note that &lt;code&gt;1&lt;/code&gt; is typically treated as an ugly number.&lt;/p&gt;
 
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Declare an array for ugly numbers:  ugly[150]&lt;/li&gt;
@@ -845,7 +968,9 @@ Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;
 &lt;li&gt;&lt;p&gt;Check which choice and increase that index.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;&lt;code&gt;public class Solution {
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
     public long nthUglyNumber(int k) {
         long[] memo = new long[k + 1];
             memo[1] = 1;
@@ -863,6 +988,8 @@ Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;```&lt;/p&gt;
 </description>
     </item>
     

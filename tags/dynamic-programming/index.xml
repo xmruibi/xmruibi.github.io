@@ -96,9 +96,16 @@ When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.
 
 &lt;p&gt;Note that 1 is typically treated as an ugly number.&lt;/p&gt;
 
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Make sure the value can be divided exactly by the divisor in array &lt;code&gt;2, 3, 5&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So iterate the division while the value can be divided exactly, otherwise change another divisor from array.&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code&gt;public class Solution {
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
     public boolean isUgly(int num) {
         if(num&amp;lt;=0)
             return false;
@@ -129,7 +136,7 @@ When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.
 
 &lt;p&gt;Note that &lt;code&gt;1&lt;/code&gt; is typically treated as an ugly number.&lt;/p&gt;
 
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Declare an array for ugly numbers:  ugly[150]&lt;/li&gt;
@@ -149,7 +156,9 @@ When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.
 &lt;li&gt;&lt;p&gt;Check which choice and increase that index.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;&lt;code&gt;public class Solution {
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
     public long nthUglyNumber(int k) {
         long[] memo = new long[k + 1];
             memo[1] = 1;
@@ -167,6 +176,8 @@ When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;```&lt;/p&gt;
 </description>
     </item>
     
