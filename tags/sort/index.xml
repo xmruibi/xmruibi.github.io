@@ -9,8 +9,126 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 22 Oct 2015 14:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Remove Nth Node From End of List</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</link>
+      <pubDate>Sun, 25 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, remove the nth node from the end of list and return its head.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;null&lt;/code&gt;, and n = &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After removing the second node from the end, the linked list becomes &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;5-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The minimum number of nodes in list is n.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical idea on runner and walker linked list question&lt;/li&gt;
+&lt;li&gt;Let runner node run for N step further than walker node.&lt;/li&gt;
+&lt;li&gt;Get the N + 1 th position from end of list.&lt;/li&gt;
+&lt;li&gt;Remove walker.next which is the target node.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: The head of linked list.
+     */
+    ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null)
+            return head;
+        ListNode runner = head;
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode walker = pre;
+        while(n&amp;gt;0&amp;amp;&amp;amp;runner!=null){
+            runner = runner.next;
+            n--;
+        }
+        while(runner!=null){
+            runner = runner.next;
+            walker = walker.next;
+        }
+        walker.next = walker.next.next;
+        return pre.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Insertion Sort for Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Sort a linked list using insertion sort.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;3-&amp;gt;2-&amp;gt;0-&amp;gt;null&lt;/code&gt;, return &lt;code&gt;0-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass nodes from head to end.&lt;/li&gt;
+&lt;li&gt;Once it get an element larger than its next one, do a swap.&lt;/li&gt;
+&lt;li&gt;Then return to the head and to do the passing again.&lt;/li&gt;
+&lt;li&gt;Loop until get all sorted.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: The head of linked list.
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+            
+            ListNode dummy = new ListNode(0);
+            ListNode pre = dummy;
+            ListNode cur = head;
+            while(cur != null){
+                pre = dummy;
+                ListNode next = cur.next;
+                while(pre.next != null &amp;amp;&amp;amp; pre.next.val &amp;lt; cur.val)
+                    pre = pre.next;
+                cur.next = pre.next;
+                pre.next = cur;
+                cur = next;
+            }
+            
+            return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Triangle Count</title>

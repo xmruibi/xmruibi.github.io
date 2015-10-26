@@ -9,8 +9,917 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;               2
+1-&amp;gt;2-&amp;gt;3  =&amp;gt;   / \
+             1   3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Find the middle point in list&lt;/li&gt;
+&lt;li&gt;Divide and Conquer to build left child and right child node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: a tree node
+     */
+    public TreeNode sortedListToBST(ListNode head) {  
+        // write your code here
+        if(head == null)
+            return null;
+        if(head.next == null)
+            return new TreeNode(head.val);
+            
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode runner = head;
+        ListNode walker = dummy;
+        while(runner!=null &amp;amp;&amp;amp; runner.next!=null) {
+            runner = runner.next.next;
+            walker = walker.next;
+        }
+        
+        ListNode m = walker.next;
+        TreeNode root = new TreeNode(m.val);
+        ListNode left = dummy.next;
+        ListNode right = walker.next.next;
+        walker.next = null;
+        root.left = sortedListToBST(left);
+        root.right = sortedListToBST(right);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remove Duplicates from Sorted List II</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</guid>
+      <description>
+
+&lt;p&gt;Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5&lt;/code&gt;, return &lt;code&gt;1-&amp;gt;2-&amp;gt;5&lt;/code&gt;.
+Given &lt;code&gt;1-&amp;gt;1-&amp;gt;1-&amp;gt;2-&amp;gt;3&lt;/code&gt;, return &lt;code&gt;2-&amp;gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param ListNode head is the head of the linked list
+     * @return: ListNode head of the linked list
+     */
+    public static ListNode deleteDuplicates(ListNode head) {
+        // write your code here
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        while(head != null){
+            ListNode cur = head;
+            while(head.next != null &amp;amp;&amp;amp; cur.val == head.next.val)
+                head = head.next;
+            
+            if(head != cur){
+                pre.next = head.next;
+            }else
+                pre = pre.next;
+            head = head.next;
+        }
+        
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Copy List with Random Pointer</title>
+      <link>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</link>
+      <pubDate>Sun, 25 Oct 2015 20:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</guid>
+      <description>
+
+&lt;p&gt;Merge k sorted linked lists and return it as one sorted list.&lt;/p&gt;
+
+&lt;p&gt;Analyze and describe its complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given lists:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  2-&amp;gt;4-&amp;gt;null,
+  null,
+  -1-&amp;gt;null
+],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;-1-&amp;gt;2-&amp;gt;4-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use a heap to receive element from linked list&lt;/li&gt;
+&lt;li&gt;Tricky part:
+
+&lt;ul&gt;
+&lt;li&gt;Just entered k node in heap instead of pass all nodes in lists.&lt;/li&gt;
+&lt;li&gt;When poll out element, it also need to push back the next node of polled node.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param lists: a list of ListNode
+     * @return: The head of one sorted list.
+     */
+    public ListNode mergeKLists(List&amp;lt;ListNode&amp;gt; lists) {  
+        if(lists == null)
+            return null;
+        
+        PriorityQueue&amp;lt;ListNode&amp;gt; queue = new PriorityQueue&amp;lt;ListNode&amp;gt;(10, new Comparator&amp;lt;ListNode&amp;gt;(){
+            @Override
+            public int compare(ListNode o1, ListNode o2){
+                return Integer.compare(o1.val, o2.val);
+            }
+        });
+        // O(n) : n total nodes 
+        for(ListNode node : lists){
+            if(node != null)
+                queue.offer(node);
+        }
+        
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        while(!queue.isEmpty()){
+            ListNode cur = queue.remove();
+            if(cur.next != null)
+                queue.offer(cur.next);
+            pre.next = cur;
+            pre = cur;
+        }
+        
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remove Nth Node From End of List</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</link>
+      <pubDate>Sun, 25 Oct 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, remove the nth node from the end of list and return its head.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;null&lt;/code&gt;, and n = &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After removing the second node from the end, the linked list becomes &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;5-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The minimum number of nodes in list is n.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical idea on runner and walker linked list question&lt;/li&gt;
+&lt;li&gt;Let runner node run for N step further than walker node.&lt;/li&gt;
+&lt;li&gt;Get the N + 1 th position from end of list.&lt;/li&gt;
+&lt;li&gt;Remove walker.next which is the target node.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: The head of linked list.
+     */
+    ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null)
+            return head;
+        ListNode runner = head;
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode walker = pre;
+        while(n&amp;gt;0&amp;amp;&amp;amp;runner!=null){
+            runner = runner.next;
+            n--;
+        }
+        while(runner!=null){
+            runner = runner.next;
+            walker = walker.next;
+        }
+        walker.next = walker.next.next;
+        return pre.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Copy List with Random Pointer</title>
+      <link>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</guid>
+      <description>
+
+&lt;p&gt;A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.&lt;/p&gt;
+
+&lt;p&gt;Return a deep copy of the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you solve it with O(1) space?&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Three pass:
+
+&lt;ul&gt;
+&lt;li&gt;Clone every node and attach it right next of original node,&lt;/li&gt;
+&lt;li&gt;Copy the random pointer for clone node (the next of origianl node&amp;rsquo;s random pointer)&lt;/li&gt;
+&lt;li&gt;Cut down the original and clone one&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The head of linked list with a random pointer.
+     * @return: A new head of a deep copy of the list.
+     */
+    public RandomListNode copyRandomList(RandomListNode head) {
+        // write your code here
+        if(head == null)
+            return null;
+        RandomListNode dummyHead = head;
+        while(head != null) {
+            RandomListNode clone = new RandomListNode(head.label);
+            RandomListNode next = head.next;
+            head.next = clone;
+            clone.next = next;
+            head = next;
+        }
+        head = dummyHead;
+        while(head != null) {
+            RandomListNode clone = head.next;
+            if(head.random != null)
+                clone.random = head.random.next;
+            head = clone.next;
+        }
+        head = dummyHead;
+        RandomListNode resHead = dummyHead.next;
+        while(head != null) {
+            RandomListNode clone = head.next;
+            head.next = clone.next;
+            head = head.next;
+            if(head != null)
+                clone.next = head.next;
+        }
+        
+        return resHead;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Expression Tree Build</title>
+      <link>http://xmruibi.github.io/2015/10/25/expression-tree-build/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/expression-tree-build/</guid>
+      <description>
+
+&lt;p&gt;The structure of Expression Tree is a binary tree to evaluate certain expressions. All leaves of the Expression Tree have an number string value. All non-leaves of the Expression Tree have an operator string value.&lt;/p&gt;
+
+&lt;p&gt;Now, given an expression array, build the expression tree of this expression, return the root of this expression tree.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;(2*6-(23+7)/(1+2))&lt;/code&gt; (which can be represented by &lt;code&gt;[&amp;quot;2&amp;quot; &amp;quot;*&amp;quot; &amp;quot;6&amp;quot; &amp;quot;-&amp;quot; &amp;quot;(&amp;quot; &amp;quot;23&amp;quot; &amp;quot;+&amp;quot; &amp;quot;7&amp;quot; &amp;quot;)&amp;quot; &amp;quot;/&amp;quot; &amp;quot;(&amp;quot; &amp;quot;1&amp;quot; &amp;quot;+&amp;quot; &amp;quot;2&amp;quot; &amp;quot;)&amp;quot;]&lt;/code&gt;). The expression tree will be like&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                 [ - ]
+             /          \
+        [ * ]              [ / ]
+      /     \           /         \
+    [ 2 ]  [ 6 ]      [ + ]        [ + ]
+                     /    \       /      \
+                   [ 23 ][ 7 ] [ 1 ]   [ 2 ] .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After building the tree, you just need to return root node &lt;code&gt;[-]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;A binary expression tree is a specific application of a binary tree to evaluate certain expressions. Two common types of expressions that a binary expression tree can represent are algebraic[1] and boolean. These trees can represent expressions that contain both unary and binary operators.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ExpressionTreeNode {
+    public String symbol;
+     public ExpressionTreeNode left, right;
+     public ExpressionTreeNode(String symbol) {
+        this.symbol = symbol;
+        this.left = this.right = null;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two stacks, one is only for operator, another is for build the result tree.&lt;/li&gt;
+&lt;li&gt;The idea is similar with RPN.&lt;/li&gt;
+&lt;li&gt;One pass the expression array, when it get a operand, insert as new treenode in result tree, when it get a operator, insert as new treenode in operator tree and compare the priority, if the current is less than stack top element, build a new node with operator in stack top and two node from result tree as its right and left child, then insert back to result tree with this new node.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+
+
+public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The root of expression tree
+     */
+    public ExpressionTreeNode build(String[] expression) {
+        Stack&amp;lt;ExpressionTreeNode&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        Stack&amp;lt;ExpressionTreeNode&amp;gt; data = new Stack&amp;lt;&amp;gt;();
+        for( int i = 0; i &amp;lt; expression.length; i++) {
+            String str = expression[i];
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek().symbol) &amp;gt;= operatorLevel(str)) {
+                    newNodeGtr(ops, data);
+                }
+                ops.push(new ExpressionTreeNode(str));
+            }else if(str.equals(&amp;quot;(&amp;quot;)){
+                ops.push(new ExpressionTreeNode(str));
+            }else if(str.equals(&amp;quot;)&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().symbol.equals(&amp;quot;(&amp;quot;))
+                    newNodeGtr(ops, data);
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;(&amp;quot;
+            }else
+                data.push(new ExpressionTreeNode(str));
+        }
+        
+        while(!ops.isEmpty())
+            newNodeGtr(ops, data);
+        
+        return data.isEmpty()? null : data.pop();
+    }
+    
+    private void newNodeGtr(Stack&amp;lt;ExpressionTreeNode&amp;gt; ops, Stack&amp;lt;ExpressionTreeNode&amp;gt; data) {
+        if(ops.isEmpty())
+            return;
+        ExpressionTreeNode node = ops.pop();
+        node.right = data.isEmpty() ? null : data.pop();
+        node.left = data.isEmpty() ? null : data.pop();
+        data.push(node);
+    }
+    
+    private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Insertion Sort for Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Sort a linked list using insertion sort.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;3-&amp;gt;2-&amp;gt;0-&amp;gt;null&lt;/code&gt;, return &lt;code&gt;0-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass nodes from head to end.&lt;/li&gt;
+&lt;li&gt;Once it get an element larger than its next one, do a swap.&lt;/li&gt;
+&lt;li&gt;Then return to the head and to do the passing again.&lt;/li&gt;
+&lt;li&gt;Loop until get all sorted.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: The head of linked list.
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+            
+            ListNode dummy = new ListNode(0);
+            ListNode pre = dummy;
+            ListNode cur = head;
+            while(cur != null){
+                pre = dummy;
+                ListNode next = cur.next;
+                while(pre.next != null &amp;amp;&amp;amp; pre.next.val &amp;lt; cur.val)
+                    pre = pre.next;
+                cur.next = pre.next;
+                pre.next = cur;
+                cur = next;
+            }
+            
+            return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reverse Nodes in k-Group</title>
+      <link>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.&lt;/p&gt;
+
+&lt;p&gt;If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.&lt;/p&gt;
+
+&lt;p&gt;You may not alter the values in the nodes, only nodes itself may be changed. Only constant memory is allowed.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given this linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For k = &lt;code&gt;2&lt;/code&gt;, you should return: &lt;code&gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;3-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For k = &lt;code&gt;3&lt;/code&gt;, you should return: &lt;code&gt;3-&amp;gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider the list like following:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;	
+	dummy(pre) -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the reversed segment:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt; when cnt % k == 0:
+
+		pre.next	  node  node.next
+		   |            |     |
+	pre -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
+
+		  last	  ----&amp;gt;	     end
+		    |		          |
+	pre -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
+			|     |	    
+		pre.next pre.next(final status)	
+			   \     \
+			      |  -&amp;gt; |     |
+				 cur   cur	 cur.next (final status)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head a ListNode
+     * @param k an integer
+     * @return a ListNode
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || head.next == null)
+            return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        int cnt = 1;
+        ListNode front = head;
+        while(head != null) {
+            if(cnt % k == 0) {
+                pre = reverse(pre, head.next);
+                head = pre.next;
+            }else
+                head = head.next;
+            cnt++;
+        }
+        return dummy.next;
+    }
+    
+    private ListNode reverse(ListNode pre, ListNode end) {
+        ListNode last = pre.next, cur = last.next;
+        while(cur != end) {
+            last.next = cur.next;
+            cur.next = pre.next;
+            pre.next = cur;
+            cur = last.next;
+        }
+        return last;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Expression to Polish Notation</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</guid>
+      <description>
+
+&lt;p&gt;Given an expression string array, return the Polish notation of this expression. (remove the parentheses)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Polish notation, also known as Polish prefix notation or simply prefix notation, is a form of notation for logic, arithmetic, and algebra. Its distinguishing feature is that it places operators to the left of their operands. If the arity of the operators is fixed, the result is a syntax lacking parentheses or other brackets that can still be parsed without ambiguity. The Polish logician Jan Łukasiewicz invented this notation in 1924 in order to simplify sentential logic.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;[(5 − 6) * 7]&lt;/code&gt; (which represented by &lt;code&gt;[&amp;quot;(&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;−&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;)&amp;quot;, &amp;quot;*&amp;quot;, &amp;quot;7&amp;quot;]&lt;/code&gt;), the corresponding polish notation is &lt;code&gt;[* - 5 6 7]&lt;/code&gt; (which the return value should be &lt;code&gt;[&amp;quot;*&amp;quot;, &amp;quot;−&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;7&amp;quot;]&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea is not complext if you took the reverse polish notation question.&lt;/li&gt;
+&lt;li&gt;Just two things changed:
+
+&lt;ul&gt;
+&lt;li&gt;Pass from rear to head;&lt;/li&gt;
+&lt;li&gt;Every insertion is to the first index in result list&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The Polish notation of this expression
+     */
+    public ArrayList&amp;lt;String&amp;gt; convertToPN(String[] expression) {
+        
+        Stack&amp;lt;String&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(int i = expression.length - 1; i &amp;gt;= 0; i--) {
+            String str = expression[i];
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek()) &amp;gt; operatorLevel(str))
+                    res.add(0, ops.pop());
+                ops.push(str);
+            }else if(str.equals(&amp;quot;)&amp;quot;)){
+                ops.push(str);
+            }else if(str.equals(&amp;quot;(&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().equals(&amp;quot;)&amp;quot;))
+                    res.add(0, ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;)&amp;quot;
+            }else
+                res.add(0, str);
+        }
+        while(!ops.isEmpty())
+            res.add(0, ops.pop());
+        return res;
+    }
+    
+     private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Expression to Reverse Polish Notation</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</guid>
+      <description>
+
+&lt;p&gt;Given an expression string array, return the Reverse Polish notation of this expression. (remove the parentheses)&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;[3 - 4 + 5]&lt;/code&gt; (which denote by &lt;code&gt;[&amp;quot;3&amp;quot;, &amp;quot;-&amp;quot;, &amp;quot;4&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;5&amp;quot;]&lt;/code&gt;), return &lt;code&gt;[3 4 - 5 +]&lt;/code&gt; (which denote by &lt;code&gt;[&amp;quot;3&amp;quot;, &amp;quot;4&amp;quot;, &amp;quot;-&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;+&amp;quot;]&lt;/code&gt;)&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Always consider stack firstly, when meet a reverse polish notation problem.&lt;/li&gt;
+&lt;li&gt;The operator priority (&lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;) &amp;gt; (&lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;), when get the operator is less priority than stack top element, pop the stack util the element has the same priority as the current operator and output the pop element in result list.&lt;/li&gt;
+&lt;li&gt;Push the &amp;laquo;(&amp;raquo; always but pop the stack when get the &amp;laquo;)&amp;raquo; until stack has pop the corresponding &amp;laquo;(&amp;raquo;.&lt;/li&gt;
+&lt;li&gt;When get the operand, just output in result list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The Reverse Polish notation of this expression
+     */
+    public ArrayList&amp;lt;String&amp;gt; convertToRPN(String[] expression) {
+        Stack&amp;lt;String&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(String str : expression) {
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek()) &amp;gt;= operatorLevel(str))
+                    res.add(ops.pop());
+                ops.push(str);
+            }else if(str.equals(&amp;quot;(&amp;quot;)){
+                ops.push(str);
+            }else if(str.equals(&amp;quot;)&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().equals(&amp;quot;(&amp;quot;))
+                    res.add(ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;(&amp;quot;
+            }else
+                res.add(str);
+        }
+        while(!ops.isEmpty())
+            res.add(ops.pop());
+        return res;
+    }
+    
+    private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Evaluate Reverse Polish Notation</title>
+      <link>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</guid>
+      <description>
+
+&lt;p&gt;Evaluate the value of an arithmetic expression in Reverse Polish Notation.&lt;/p&gt;
+
+&lt;p&gt;Valid operators are &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;. Each operand may be an integer or another expression.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;	[&amp;quot;2&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;3&amp;quot;, &amp;quot;*&amp;quot;] -&amp;gt; ((2 + 1) * 3) -&amp;gt; 9
+	[&amp;quot;4&amp;quot;, &amp;quot;13&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;/&amp;quot;, &amp;quot;+&amp;quot;] -&amp;gt; (4 + (13 / 5)) -&amp;gt; 6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reverse Polish Notation problems always accompany with the stack as its data structure;&lt;/li&gt;
+&lt;li&gt;Setup stack only to store the integer value;&lt;/li&gt;
+&lt;li&gt;One pass the tokens array, when get the integer, insert the stack, while get the operator, to do the evaluate with pop two value from stack and push back the result after calculated;&lt;/li&gt;
+&lt;li&gt;Its good to use &lt;code&gt;switch&lt;/code&gt; rather than &lt;code&gt;if&lt;/code&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param tokens The Reverse Polish Notation
+     * @return the value
+     */
+    public int evalRPN(String[] tokens) {
+        // By use stack
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        for(String str : tokens) {
+            int curRes = 0;
+            switch(str){
+                case &amp;quot;+&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) + (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;-&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    curRes = (stack.isEmpty()?0:stack.pop()) - curRes;
+                    break;
+                case &amp;quot;*&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) *  (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;/&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    if(curRes == 0)
+                        break;
+                    curRes = (stack.isEmpty()?0:stack.pop()) / curRes;
+                    break;
+                default:
+                    curRes = Integer.parseInt(str);
+            }
+            stack.push(curRes);
+        }
+        
+        return stack.isEmpty()?0:stack.pop();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Expression Evaluation</title>
+      <link>http://xmruibi.github.io/2015/10/25/expression-evaluation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/expression-evaluation/</guid>
+      <description>
+
+&lt;p&gt;Given an expression string array, return the final result of this expression&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;2*6-(23+7)/(1+2)&lt;/code&gt;, input is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  &amp;quot;2&amp;quot;, &amp;quot;*&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;-&amp;quot;, &amp;quot;(&amp;quot;,
+  &amp;quot;23&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;7&amp;quot;, &amp;quot;)&amp;quot;, &amp;quot;/&amp;quot;,
+  (&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;)&amp;quot;
+],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The expression contains only &lt;code&gt;integer&lt;/code&gt;, &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;, &lt;code&gt;(&lt;/code&gt;, &lt;code&gt;)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question is combination of read string array to RPN and then read RPN to get the integer result.&lt;/li&gt;
+&lt;li&gt;So&amp;hellip;. two steps:
+
+&lt;ul&gt;
+&lt;li&gt;first, build RPN&lt;/li&gt;
+&lt;li&gt;second, read the RPN&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param expression: an array of strings;
+     * @return: an integer
+     */
+    public int evaluateExpression(String[] expression) {
+        // two steps:
+        // first, build RPN
+        ArrayList&amp;lt;String&amp;gt; list = convertToRPN(expression);
+        // second, read the RPN
+        return RPNreader(list);
+    }
+    
+    public ArrayList&amp;lt;String&amp;gt; convertToRPN(String[] expression) {
+        Stack&amp;lt;String&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(String str : expression) {
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek()) &amp;gt;= operatorLevel(str))
+                    res.add(ops.pop());
+                ops.push(str);
+            }else if(str.equals(&amp;quot;(&amp;quot;)){
+                ops.push(str);
+            }else if(str.equals(&amp;quot;)&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().equals(&amp;quot;(&amp;quot;))
+                    res.add(ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;(&amp;quot;
+            }else
+                res.add(str);
+        }
+        while(!ops.isEmpty())
+            res.add(ops.pop());
+        return res;
+    }
+    
+    private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+    
+    private int RPNreader(ArrayList&amp;lt;String&amp;gt; list) {
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        for(String str : list) {
+            int curRes = 0;
+            switch(str){
+                case &amp;quot;+&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) + (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;-&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    curRes = (stack.isEmpty()?0:stack.pop()) - curRes;
+                    break;
+                case &amp;quot;*&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) *  (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;/&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    if(curRes == 0)
+                        break;
+                    curRes = (stack.isEmpty()?0:stack.pop()) / curRes;
+                    break;
+                default:
+                    curRes = Integer.parseInt(str);
+            }
+            stack.push(curRes);
+        }
+        
+        return stack.isEmpty()?0:stack.pop();
+    }
+    
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Binary Representation</title>
@@ -242,1348 +1151,6 @@ public class Solution {
         return res;
     }
     
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>k Sum II</title>
-      <link>http://xmruibi.github.io/2015/10/22/k-sum-ii/</link>
-      <pubDate>Thu, 22 Oct 2015 15:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/22/k-sum-ii/</guid>
-      <description>
-
-&lt;p&gt;Given n unique integers, number k (1&amp;lt;=k&amp;lt;=n)  and target. Find all possible k integers where their sum is target.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given [1,2,3,4], k=2, target=5, [1,4] and [2,3] are possible solutions.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;Unlike the k Sum I, here we need to get the each solution which can achieve the &lt;code&gt;target&lt;/code&gt; within &lt;code&gt;k&lt;/code&gt; num. Since the solution should be shown in the result, the dynamic programming cannot be used. Thus, the backtracking should be the only way.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param A: an integer array.
-     * @param k: a positive integer (k &amp;lt;= length(A))
-     * @param target: a integer
-     * @return a list of lists of integer 
-     */ 
-    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; kSumII(int A[], int k, int target) {
-        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), A , k, target, 0);
-        return res;
-    }
-    
-    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; cur, int[] A, int k, int target, int idx) {
-        if(target &amp;lt; 0 || k &amp;lt; 0)
-            return;
-            
-        if(target == 0 &amp;amp;&amp;amp; k == 0) {
-            res.add(new ArrayList&amp;lt;&amp;gt;(cur));
-            return;
-        }
-        
-        for(int i = idx; i &amp;lt; A.length; i++) {
-            cur.add(A[i]);
-            helper(res, cur, A, k - 1, target - A[i], i + 1);
-            cur.remove(cur.size() - 1);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Triangle Count</title>
-      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
-      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
-      <description>
-
-&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[3,4,6]
-[3,6,7]
-[4,6,7]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
-[4(1),4(2),4(4)]
-[4(1),4(3),4(4)]
-[4(2),4(3),4(4)]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort&lt;/li&gt;
-&lt;li&gt;Binary Search&lt;/li&gt;
-&lt;li&gt;But how to define driven condition? (Tricky Part)
-
-&lt;ul&gt;
-&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param S: A list of integers
-     * @return: An integer
-     */
-    public int triangleCount(int S[]) {
-        if(S == null || S.length == 0)
-            return 0;
-        int cnt = 0;
-        Arrays.sort(S);
-        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
-            int cur = S[i];
-            int l = 0, r = i - 1;
-            while(l &amp;lt; r) {
-                if(S[l] + S[r] &amp;gt; S[i]) {
-                    cnt += (r - l); // keypoint!
-                    r--;
-                }else 
-                    l++;
-            }
-        }
-        return cnt;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Update Bits</title>
-      <link>http://xmruibi.github.io/2015/10/22/update-bits/</link>
-      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/22/update-bits/</guid>
-      <description>
-
-&lt;p&gt;Given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e g , M becomes a substring of N located at i and starting at j).&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given N=&lt;code&gt;(10000000000)2&lt;/code&gt;, M=&lt;code&gt;(10101)2&lt;/code&gt;, i=&lt;code&gt;2&lt;/code&gt;, j=&lt;code&gt;6&lt;/code&gt;
-return N=&lt;code&gt;(10001010100)2&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;In the function, the numbers N and M will given in decimal, you should also return a decimal number.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Minimum number of operations?&lt;/p&gt;
-
-&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
-
-&lt;p&gt;You can assume that the bits j through i have enough space to fit all of M. That is, if M = &lt;code&gt;10011&lt;/code&gt;, you can assume that there are at least 5 bits between j and i. You would not, for example, have j=3 and i=2, because M could not fully fit between bit 3 and bit 2.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Set a mask:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Position:   31 30 ..~.. j+1  j ..~.. i  i-1 ..~.. 0
-Bit Val:     1  1  ...   1   0  ...  0   1   ...  1
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Use that mask to do &lt;code&gt;&amp;amp;&lt;/code&gt; with N, so that in the new N, the position i~j will be zero.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Left shift &lt;code&gt;i&lt;/code&gt; for M to make the position aligned.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Do &lt;code&gt;|&lt;/code&gt; for M and N, then get the final result.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    /**
-     *@param n, m: Two integer
-     *@param i, j: Two bit positions
-     *return: An integer
-     */
-    public int updateBits(int n, int m, int i, int j) {
-        
-        int mask = 0;
-        for(int lfShift = 31; lfShift &amp;gt; j; lfShift--) 
-            mask += (1&amp;lt;&amp;lt;lfShift);
-        
-        for(int lfShift = i - 1; lfShift &amp;gt;= 0; lfShift--) 
-            mask += (1&amp;lt;&amp;lt;lfShift);
-        n &amp;amp;= mask;
-        m &amp;lt;&amp;lt;= i;
-        return n|m;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Parking Lot</title>
-      <link>http://xmruibi.github.io/2015/10/21/parking-lot/</link>
-      <pubDate>Wed, 21 Oct 2015 15:16:26 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/21/parking-lot/</guid>
-      <description>
-
-&lt;p&gt;Design a parking lot with object-oriented programming principle.&lt;/p&gt;
-
-&lt;h2 id=&#34;basic-object&#34;&gt;Basic Object&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Vehicle
-
-&lt;ul&gt;
-&lt;li&gt;size of vehicle (small, medium, large)&lt;/li&gt;
-&lt;li&gt;status of vehicle (run or parked)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Sedan, SUV, Bus, Truck&amp;hellip; extends Vehicle&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Slot&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;size of slot&lt;/li&gt;
-&lt;li&gt;status (available or not)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Lot&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;hold slots in lot&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Vehicle&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Vehicle {
-	private final int size;
-	private final int lisense;
-	private boolean status;
-	private Lot lot;
-
-	public Vehicle(int size) {
-		this.size = size;
-		lisense = this.hashCode();
-		lot = Lot.getInstance();
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	private Slot findSlot() {
-
-		Slot slot;
-		switch (this.size) {
-		case 1:
-			slot = lot.getSmallSlots().remove(0);
-		case 2:
-			slot = lot.getCompactSlots().remove(0);
-		case 3:
-			slot = lot.getLargeSlots().remove(0);
-		default:
-			slot = null;
-		}
-		return slot;
-	}
-
-	public void park() {
-		Slot slot = findSlot();
-		if (slot != null) {
-			lot.occupiedSlots.put(this.lisense, slot);
-			slot.occupy(this);
-		}
-	}
-
-	public void leave() {
-		Slot slot = lot.occupiedSlots.remove(this.lisense);
-		slot.release();
-		switch (this.size) {
-		case 1:
-			lot.getSmallSlots().add(slot);
-		case 2:
-			lot.getCompactSlots().add(slot);
-		case 3:
-			lot.getLargeSlots().add(slot);
-		}
-	}
-}
-
-public class Car extends Vehicle{
-	public Car(){
-		super(1);		
-	}
-}
-public class Truck extends Vehicle{
-	public Truck(){
-		super(2);		
-	}
-}
-// ... other type of vehicle
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lot&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Lot {
-	private static Lot lot = null;
-
-	private static final int NUMBER_OF_SMALL_SLOTS = 10;
-	private static final int NUMBER_OF_COMPACT_SLOTS = 10;
-	private static final int NUMBER_OF_LARGE_SLOTS = 10;
-
-	public Map&amp;lt;Integer, Slot&amp;gt; occupiedSlots;
-	private List&amp;lt;Slot&amp;gt; smallSlots;
-	private List&amp;lt;Slot&amp;gt; compactSlots;
-	private List&amp;lt;Slot&amp;gt; largeSlots;
-
-	private Lot() {
-		smallSlots = new LinkedList&amp;lt;&amp;gt;();
-		compactSlots = new LinkedList&amp;lt;&amp;gt;();
-		largeSlots = new LinkedList&amp;lt;&amp;gt;();
-		occupiedSlots = new HashMap&amp;lt;&amp;gt;();
-		for (int i = 1; i &amp;lt;= NUMBER_OF_SMALL_SLOTS; i++)
-			smallSlots.add(new Slot(i, 1));
-
-		for (int i = 1; i &amp;lt;= NUMBER_OF_COMPACT_SLOTS; i++)
-			compactSlots.add(new Slot(i, 2));
-
-		for (int i = 1; i &amp;lt;= NUMBER_OF_LARGE_SLOTS; i++)
-			largeSlots.add(new Slot(i, 3));
-
-	}
-
-	public List&amp;lt;Slot&amp;gt; getSmallSlots() {
-		return smallSlots;
-	}
-
-	public List&amp;lt;Slot&amp;gt; getCompactSlots() {
-		return compactSlots;
-	}
-
-	public List&amp;lt;Slot&amp;gt; getLargeSlots() {
-		return largeSlots;
-	}
-
-	public static Lot getInstance() {
-		if (lot == null)
-			lot = new Lot();
-		return lot;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Slot&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
-public class Slot {
-	private final int id;
-	private final int size;
-	private boolean available;
-	private Vehicle vehicle;
-
-	public Slot(int id, int size) {
-		this.id = id;
-		this.size = size;
-		this.available = true;
-	}
-
-	public void occupy(Vehicle v) {
-		this.vehicle = v;
-		this.available = false;
-	}
-
-	public void release() {
-		this.vehicle = null;
-		this.available = true;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Chess Game</title>
-      <link>http://xmruibi.github.io/2015/10/21/chess-game/</link>
-      <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/21/chess-game/</guid>
-      <description>
-
-&lt;p&gt;This typical question in many interview&amp;rsquo;s OO Design part; Design a chess game with object-oriented programming principle.&lt;/p&gt;
-
-&lt;h2 id=&#34;some-rules&#34;&gt;Some Rules:&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Player chooses piece to move.&lt;/li&gt;
-&lt;li&gt;Piece makes legal move according to its own move rules.&lt;/li&gt;
-&lt;li&gt;In addition to purely move-based rules, there&amp;rsquo;s also capture logic, so a bishop cannot move from a1-h8 if there&amp;rsquo;s a piece sitting on c3.&lt;/li&gt;
-&lt;li&gt;If the player was previous under check and the move does not remove the check, it must be undone.&lt;/li&gt;
-&lt;li&gt;If the move exposes check, it must be undone / disallowed.&lt;/li&gt;
-&lt;li&gt;If player captures a piece, remove the piece (including en passant!)&lt;/li&gt;
-&lt;li&gt;If the piece is a pawn reaching the back rank, promote it.&lt;/li&gt;
-&lt;li&gt;If the move is a castling, set the new position of the rook accordingly. But a king and rook can only castle if they haven&amp;rsquo;t moved, so you need to keep track of that. And if the king moves through a check to castle, that&amp;rsquo;s disallowed, too.&lt;/li&gt;
-&lt;li&gt;If the move results in a stalemate or checkmate, the game is over.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;basic-object-design&#34;&gt;Basic Object Design&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Game:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Hold the Board and Players&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Board (Singleton):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Hold spots with 8$$\times$$8&lt;/li&gt;
-&lt;li&gt;Move Piece&lt;/li&gt;
-&lt;li&gt;Remove Piece&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Spot:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Hold Pieces&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Piece (Abstract):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Concreted classes with 8 Pawns, 2 Rooks, 2 Bishops, 2 Knights, 1 Queen, 1 King&lt;/li&gt;
-&lt;li&gt;Owner(color)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Player (Abstract):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Concreted classes for Human and Computer players&lt;/li&gt;
-&lt;li&gt;Own Piece&lt;/li&gt;
-&lt;li&gt;Commands List&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Command&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Piece&lt;/li&gt;
-&lt;li&gt;Destination x, y&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-for-basic-part&#34;&gt;Solution for Basic Part&lt;/h2&gt;
-
-&lt;h4 id=&#34;here-we-can-achieve-the-step-move-and-check-the-win-for-player&#34;&gt;Here we can achieve the step move and check the win for player&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Game:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Game{
-	final static Board board;
-	Player p1;
-	Player p2;
-
-	public Game() {
-		board = new Board();
-	}
-
-	public boolean enterPlayer(Player p) {
-		if(p1 == null)
-			this.p1 = p;
-		else if(p2 == null)
-			this.p2 = p;
-		else
-			return false;
-
-		board.initialize(p);
-		return true;
-	}
-
-	public void processTurn(Player p) {
-		// Player make a command and until it is valid
-		// System input
-		do{
-			Command cmd = new Command(input);
-			p.addCommand(cmd);
-		}while(!board.executeMove(p));
-	}
-
-	public startGame(){
-		// player enter the game:
-		enterPlayer(new ComputerPlayer(&amp;quot;Computer&amp;quot;));
-		enterPlayer(new HumanPlayer(&amp;quot;Bill&amp;quot;));
-
-		while(true) {
-			processTurn(p1);
-			if(this.board.getWin()) {
-				System.out.println(&amp;quot;P1 win!&amp;quot;);
-				break;
-			}
-			processTurn(p2);
-			if(this.board.getWin()) {
-				System.out.println(&amp;quot;P2 win!&amp;quot;);
-				break;
-			}
-		}
-	}
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Board:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Board{
-
-	private Spot[][] spots;
-	private boolean win; // mark the win or not
-
-	public Board(){
-		win = false;
-		spots = new Spot[8][8];
-	}
-
-	public void initialize(Player p){
-		// put the pieces with initial status
-		for(int i=0; i&amp;lt;p.getPieces().size(); i++){
-            spots[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()].occupySpot(p.getPieces().get(i));
-        }
-	}
-
-	public boolean executeMove(Player p) {
-		Command cmd = p.getCurrentCmd();
-		Piece piece = cmd.getPiece();
-
-		// check the move step is valid for piece
-		if(!piece.validMove(this, cmd.curX, cmd.curY, cmd.desX, cmd.desY)) {
-			// if not valid cmd remove the command and return false
-			p.removeCurrentCmd();
-			return false;
-		}
-
-		// check the two pieces side
-		if(spot[cmd.desX][cmd.desY] != null &amp;amp;&amp;amp; spot[cmd.desX][cmd.desY].color == piece.color)
-			return false;
-
-		// check and change the state on spot
-		Piece taken = spot[cmd.desX][cmd.desY].occupySpot(piece);
-		if(taken != null &amp;amp;&amp;amp;taken.getClass().getName().equals(&amp;quot;King&amp;quot;))
-			board.win = true;
-		spot[cmd.curX][cmd.curY].releaseSpot;
-		return true;
-	}
-
-	public boolean getWin() {
-		return win;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Spot:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Spot {
-    int x;
-    int y;
-    Piece piece;
-
-    public Spot(int x, int y) {
-        super();
-        this.x = x;
-        this.y = y;
-        piece = null;
-    }
-
-    // return original piece
-    public void occupySpot(Piece piece){
-    	Piece origin = this.piece;
-        //if piece already here, delete it, i. e. set it dead
-        if(this.piece != null) {
-            this.piece.setAvailable(false);
-        }
-        //place piece here
-        this.piece = piece;
-        return origin;
-    }
-
-    public boolean isOccupied() {
-        if(piece != null)
-            return true;
-        return false;
-    }
-
-    public Piece releaseSpot() {
-        Piece releasedPiece = this.piece;
-        this.piece = null;
-        return releasedPiece;
-    }
-
-    public Piece getPiece() {
-    	return this.piece;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Pieces:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Piece {
-    private int x;
-    private int y;
-
-    private boolean available; // mark the live or dead
-    private int color; // mark the owner
-
-    public Piece(boolean available, int x, int y, int color) {
-        super();
-        this.available = available;
-        this.x = x;
-        this.y = y;
-        this.color = color;
-    }
-
-
-    public boolean isAvailable() {
-        return available;
-    }
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-    public int getX() {
-        return x;
-    }
-    public void setX(int x) {
-        this.x = x;
-    }
-    public int getY() {
-        return y;
-    }
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public boolean isValid(Board board, int fromX, int fromY, int toX, int toY){
-        // different by character of piece
-    }
-
-}
-
-public class King extends Piece{ 
-	@Override
-    public boolean isValid(Board board, int fromX, int fromY, int toX, int toY) {
-    }	
-}
-// ..... for Queen, Rook, Bishop, Pawn
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Player:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Player {
-
-    public int color;
-
-    private List&amp;lt;Piece&amp;gt; pieces = new ArrayList&amp;lt;&amp;gt;();
-
-    private List&amp;lt;Command&amp;gt; cmds = new ArrayList&amp;lt;&amp;gt;();
-
-    public Player(int color) {
-        super();
-        this.color = color;
-        initializePieces();
-    }
-
-    public List&amp;lt;Piece&amp;gt; getPieces() {
-        return pieces;
-    }
-
-    public Command getCurrentCmd(){
-    	if(cmds != null || cmds.size() != 0)
-    		return null;
-    	return cmds.get(cmds.size() - 1);
-    }
-
-    public void removeCurrentCmd(){
-    	if(cmds != null || cmds.size() != 0)
-    		return;
-    	cmds.remove(cmds.size() - 1);
-    }
-
-    public void initializePieces(){
-        if(this.color == 1){
-            for(int i=0; i&amp;lt;8; i++){ // draw pawns
-                pieces.add(new Pawn(true,i,2, 1));
-            }
-            pieces.add(new Rook(true, 0, 0, 1));
-            pieces.add(new Rook(true, 7, 0, 1));
-            pieces.add(new Bishop(true, 2, 0, 1));
-            pieces.add(new Bishop(true, 5, 0, 1));
-            pieces.add(new Knight(true, 1, 0, 1));
-            pieces.add(new Knight(true, 6, 0, 1));
-            pieces.add(new Queen(true, 3, 0, 1));
-            pieces.add(new King(true, 4, 0, 1));
-        }
-        else{
-            for(int i=0; i&amp;lt;PAWNS; i++){ // draw pawns
-                pieces.add(new Pawn(true,i,6, 0));
-            }
-            pieces.add(new Rook(true, 0, 7, 0));
-            pieces.add(new Rook(true, 7, 7, 0));
-            pieces.add(new Bishop(true, 2, 7, 0));
-            pieces.add(new Bishop(true, 5, 7, 0));
-            pieces.add(new Knight(true, 1, 7, 0));
-            pieces.add(new Knight(true, 6, 7, 0));
-            pieces.add(new Queen(true, 3, 7, 0));
-            pieces.add(new King(true, 4, 7, 0));
-        }
-
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Command&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Command {
-	Piece piece;
-	int curX, curY, desX, desY;
-	public Commanc(Piece piece, int curX, int curY, int desX, int desY) {
-		this.piece = piece; 
-		this.curX = curX;
-		this.curY = curY;
-		this.desX = desX;
-		this.desY = desY;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Online Book Reader System</title>
-      <link>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</link>
-      <pubDate>Wed, 21 Oct 2015 11:16:26 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</guid>
-      <description>
-
-&lt;p&gt;This question comes from the book named &amp;laquo;Cracking Code Interview&amp;raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.&lt;/p&gt;
-
-&lt;h4 id=&#34;functionality&#34;&gt;Functionality&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;User Membership Creation and Extension&lt;/li&gt;
-&lt;li&gt;Search the book in memory&lt;/li&gt;
-&lt;li&gt;Reading the book&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;analysis&#34;&gt;Analysis&lt;/h2&gt;
-
-&lt;h4 id=&#34;objects&#34;&gt;Objects&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Book:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;ID&lt;/li&gt;
-&lt;li&gt;Title&lt;/li&gt;
-&lt;li&gt;Author&lt;/li&gt;
-&lt;li&gt;Content&lt;/li&gt;
-&lt;li&gt;&amp;hellip;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Books: (In-memory storage for many book objects)&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set&lt;Book&gt;&lt;/li&gt;
-&lt;li&gt;Method
-
-&lt;ul&gt;
-&lt;li&gt;find&lt;/li&gt;
-&lt;li&gt;add&lt;/li&gt;
-&lt;li&gt;delete&lt;/li&gt;
-&lt;li&gt;update&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;User&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;ID&lt;/li&gt;
-&lt;li&gt;Name&lt;/li&gt;
-&lt;li&gt;accoutnType
--&amp;hellip;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Users&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set&lt;User&gt;&lt;/li&gt;
-&lt;li&gt;Method
-
-&lt;ul&gt;
-&lt;li&gt;find&lt;/li&gt;
-&lt;li&gt;add&lt;/li&gt;
-&lt;li&gt;delete&lt;/li&gt;
-&lt;li&gt;update&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Deck of Card</title>
-      <link>http://xmruibi.github.io/2015/10/21/deck-of-card/</link>
-      <pubDate>Wed, 21 Oct 2015 10:16:26 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/21/deck-of-card/</guid>
-      <description>
-
-&lt;p&gt;Design the data structure for a generic deck of cards. How you would subclass it to implement particular card games?&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;Card has suit and value; Suit has four kinds with Club, Spadem Heart and Diamond.&lt;/p&gt;
-
-&lt;h4 id=&#34;about-enum-type&#34;&gt;About Enum Type&lt;/h4&gt;
-
-&lt;ol&gt;
-&lt;li&gt;enum 类型不支持 public 和 protected 修饰符的构造方法，因此构造函数一定要是 private 或 friendly 的。也正因为如此，所以枚举对象是无法在程序中通过直接调用其构造方法来初始化的。&lt;/li&gt;
-&lt;li&gt;定义 enum 类型时候，如果是简单类型 (No more constructor)，那么最后一个枚举值后不用跟任何一个符号；但如果有定制方法，那么最后一个枚举值与后面代码要用分号&amp;rsquo;;&amp;lsquo;隔开，不能用逗号或空格。&lt;/li&gt;
-&lt;li&gt;由于 enum 类型的值实际上是通过运行期构造出对象来表示的，所以在 cluster 环境下，每个虚拟机都会构造出一个同义的枚举对象。因而在做比较操作时候就需要注意，如果直接通过使用等号 ( ‘ == ’ ) 操作符，这些看似一样的枚举值一定不相等，因为这不是同一个对象实例。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Card {
-	// Define the Suit by Enum type
-	public enum Suit {
-		CLUBS(1), SPADE(2), HEART(3), DIAMOND(4);
-		int value;
-		private Suit(int val) {
-			this.value = val;
-		}
-	}
-
-	// Card has suit and value, only two kind of data need to store
-	int val;
-	Suit suit;
-
-
-	public Card(int value, Suit suit) {
-		this.val = value;
-		this.suit = suit;
-	}
-
-	public int getVal(){
-		return this.val;
-	}
-
-	public Suit getSuit(){
-		return this.suit;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;blackjack&#34;&gt;BlackJack&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Face cards (kings, queens, and jacks) are counted as ten points.&lt;/li&gt;
-&lt;li&gt;Ace can be counted as 1 point or 11 points&lt;/li&gt;
-&lt;li&gt;Other cards with value less than ten should be counted as what it values.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
-class BlackJack extends Card{
-	public BlackJack(int val, Suit suit) {
-		super(val, suit);
-	}
-
-	@Override
-	public int getVal(){
-		int value = super.getVal();
-		if(value &amp;lt; 10)
-			return value；
-		else if(value == 1)
-			return 11;
-		return 10;
-	}
-
-	public boolean isAce(){
-		return super.getVal() == 1;
-	}
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Interleaving String</title>
-      <link>http://xmruibi.github.io/2015/10/20/interleaving-string/</link>
-      <pubDate>Tue, 20 Oct 2015 19:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/20/interleaving-string/</guid>
-      <description>
-
-&lt;p&gt;Given three strings: s1, s2, s3, determine whether s3 is formed by the interleaving of s1 and s2.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For s1 = &lt;code&gt;&amp;quot;aabcc&amp;quot;&lt;/code&gt;, s2 = &lt;code&gt;&amp;quot;dbbca&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;When s3 = &lt;code&gt;&amp;quot;aadbbcbcac&amp;quot;&lt;/code&gt;, return true.
-When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n2) time or better&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical dynamic programming with subsequence problem.&lt;/li&gt;
-&lt;li&gt;Set up a 2-D dp boolean table to memorized:
-
-&lt;ul&gt;
-&lt;li&gt;Initial: memo[0][0] = true;&lt;/li&gt;
-&lt;li&gt;two conditions: s1 find matched or s2 find matched;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;memo[i][j] = ( i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i - 1][j]) || (s2.charAt(j - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i][j - 1])&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * Determine whether s3 is formed by interleaving of s1 and s2.
-     * @param s1, s2, s3: As description.
-     * @return: true or false.
-     */
-    public boolean isInterleave(String s1, String s2, String s3) {
-
-        if(s1 == null || s2 == null)
-            return false;
-        if(s1.length() + s2.length() != s3.length())
-            return false;
-            
-        boolean[][] memo = new boolean[s1.length() + 1][s2.length() + 1];
-        for(int i = 0; i &amp;lt;= s1.length(); i++) {
-            for(int j = 0; j &amp;lt;= s2.length(); j++) {
-                if(i == 0 &amp;amp;&amp;amp; j == 0)
-                    memo[i][j] = true;
-                else{
-                    if(i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1))
-                        memo[i][j] = memo[i - 1][j];
-                    if(j &amp;gt; 0 &amp;amp;&amp;amp;s2.charAt(j - 1) == s3.charAt(i + j - 1))
-                        memo[i][j] |= memo[i][j - 1];
-                }
-            }
-        }
-        
-        return memo[s1.length()][s2.length()];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Binary Search Tree Iterator</title>
-      <link>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</link>
-      <pubDate>Tue, 20 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</guid>
-      <description>
-
-&lt;p&gt;Design an iterator over a binary search tree with the following rules:&lt;/p&gt;
-
-&lt;p&gt;Elements are visited in ascending order (i.e. an in-order traversal)
-next() and hasNext() queries run in O(1) time in average.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For the following binary search tree, in-order traversal by using iterator is [1, 6, 10, 11, 12]&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   10
- /    \
-1      11
- \       \
-  6       12
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;###Challenge
-Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
-
-&lt;p&gt;Super Star: Extra memory usage O(1)&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Stack: Preorder&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    // O(height of tree) space to store current left branch nodes
-    Stack&amp;lt;TreeNode&amp;gt; stack;
-
-    //@param root: The root of binary tree.
-    public Solution(TreeNode root) {
-
-        stack = new Stack&amp;lt;&amp;gt;();
-        if(root == null)
-            return;
-        stack.push(root);
-        TreeNode left = root.left;
-        while(left != null) {
-            stack.push(left);
-            left = left.left;
-        }
-    }
-
-    //@return: True if there has next node, or false
-    public boolean hasNext() {
-        return !stack.isEmpty();
-    }
-    
-    //@return: return next node
-    public TreeNode next() {
-        TreeNode pop = stack.pop();
-
-        // each time pop a node, push left branch nodes for current pop node&#39;s right child
-        TreeNode left = pop.right;
-        while(left != null) {
-            stack.push(left);
-            left = left.left;
-        }
-        return pop;
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Find the Weak Connected Component in the Directed Graph</title>
-      <link>http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/</link>
-      <pubDate>Tue, 20 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/</guid>
-      <description>
-
-&lt;p&gt;Find the number Weak Connected Component in the directed graph. Each node in the graph contains a label and a list of its neighbors. (a connected set of a directed graph is a subgraph in which any two vertices are connected by direct edge path.)&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given graph:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;A-----&amp;gt;B  C
- \     |  | 
-  \    |  |
-   \   |  |
-    \  v  v
-     -&amp;gt;D  E &amp;lt;- F
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Return &lt;code&gt;{A,B,D}&lt;/code&gt;, &lt;code&gt;{C,E,F}&lt;/code&gt;. Since there are two connected component which are &lt;code&gt;{A,B,D}&lt;/code&gt; and &lt;code&gt;{C,E,F}&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;Sort the element in the set in increasing order&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Union Find&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;class UnionFind{
-	// child - parent pair table:
-	HashMap&amp;lt;Integer, Integer&amp;gt; pairTab;
-
-	public UnionFind(HashSet&amp;lt;Integer&amp;gt; set) {
-		pairTab = new HashMap&amp;lt;&amp;gt;();
-		for(Integer i : set) 
-			pairTab.put(i, i);
-	}
-
-	public int find(int x) {
-		int parent = pairTab.get(x);
-		while(parent != pairTab.get(parent)){
-			parent = pairTab.get(parent);
-		}
-		return parent;
-	}
-
-	public void union(int x, int y) {
-		int parent_x = find(x);
-		int parent_y = find(y);
-		if(parent_x != parent_y)
-			pairTab.put(parent_x, parent_y);
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param nodes a array of Directed graph node
-     * @return a connected set of a directed graph
-     */
-    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; connectedSet2(ArrayList&amp;lt;DirectedGraphNode&amp;gt; nodes) {
-        
-        HashSet&amp;lt;Integer&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
-        for(DirectedGraphNode node : nodes) 
-            set.add(node.label);
-        
-        // to make union
-        UnionFind uf = new UnionFind(set);
-        for(DirectedGraphNode x : nodes) {
-            for(DirectedGraphNode y : x.neighbors) {
-                uf.union(x.label, y.label);
-            }
-        }
-        
-        HashMap&amp;lt;Integer, ArrayList&amp;lt;Integer&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        for(Integer label : set) {
-            int parent = uf.find(label);
-            if(!map.containsKey(parent)) 
-                map.put(parent, new ArrayList&amp;lt;Integer&amp;gt;());
-            ArrayList&amp;lt;Integer&amp;gt; cur = map.get(parent);
-            cur.add(label);
-            map.put(parent, cur);
-        }
-        
-        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;();
-        for(Map.Entry&amp;lt;Integer, ArrayList&amp;lt;Integer&amp;gt;&amp;gt; entry : map.entrySet()) {
-            Collections.sort(entry.getValue());
-            res.add(entry.getValue());
-        }
-        return res;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Digit Counts</title>
-      <link>http://xmruibi.github.io/2015/10/20/digit-counts/</link>
-      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/20/digit-counts/</guid>
-      <description>
-
-&lt;p&gt;Count the number of k&amp;rsquo;s between 0 and n. k can be 0 - 9.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;if n=12, k=1 in &lt;code&gt;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]&lt;/code&gt;, we have &lt;code&gt;FIVE&lt;/code&gt; 1&amp;rsquo;s &lt;code&gt;(1, 10, 11, 12)&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Brute Force: Check each digit in number form (0 -&amp;gt; n) then get the count;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int digitCounts(int k, int n) {
-        int[] record = new int[10];
-        Arrays.fill(record,0);
-        for (int i=0;i&amp;lt;=n;i++){
-            String temp = Integer.toString(i);
-            for (int j=0;j &amp;lt; temp.length();j++){
-                int ind = (int) (temp.charAt(j)-&#39;0&#39;);
-                record[ind]++;
-            }
-        }
-        return record[k];            
-    }
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Math:
-
-&lt;ul&gt;
-&lt;li&gt;When current digit less than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When current digit equal to &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position + lower digits + 1&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When current digit larger than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits + 1(itself) x digit position&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;When &lt;code&gt;k&lt;/code&gt; == 0 and the current digit larger than &lt;code&gt;k&lt;/code&gt;, the higher digits x digit position and it need to add one in the last result;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;class Solution {
-    /*
-     * param k : As description.
-     * param n : As description.
-     * return: An integer denote the count of digit k in 1..n
-     */
-    public int digitCounts(int k, int n) {
-        int digit = 1;
-        int cnt = 0;
-        while(digit &amp;lt;= n) {
-            int low = n % digit; // lower digits;
-            int high = n / (digit*10); // higher digits;
-            int cur = n / digit % 10;
-            if(cur == k) {
-                // higher digits * digit + lower digits + 1;
-                cnt += ((high * digit) + low + 1);
-            }else if(cur &amp;lt; k) {
-                // higher digits * digit
-                cnt += (high * digit);
-            }else{
-                // (higher digits + 1: itself) * digit
-                cnt += ((high + (k == 0?0:1)) * digit);   
-            }
-            digit *= 10;
-        }
-        
-        return cnt + (k == 0 ? 1 : 0);
-    }
-};
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Divide Two Integers</title>
-      <link>http://xmruibi.github.io/2015/10/20/divide-two-integers/</link>
-      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/20/divide-two-integers/</guid>
-      <description>
-
-&lt;p&gt;Divide two integers without using multiplication, division and mod operator.&lt;/p&gt;
-
-&lt;p&gt;If it is overflow, return &lt;code&gt;2147483647&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given dividend = &lt;code&gt;100&lt;/code&gt; and divisor = &lt;code&gt;9&lt;/code&gt;, return &lt;code&gt;11&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Bitwise Idea:
-
-&lt;ul&gt;
-&lt;li&gt;Get the result sign (negative or positive) by &lt;code&gt;((dividend ^ divisor) &amp;gt;&amp;gt;&amp;gt; 31) == 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;This question contains many corner cases!&lt;/li&gt;
-&lt;li&gt;Firstly, check the corner cases in following steps:
-
-&lt;ul&gt;
-&lt;li&gt;Divisor is zero? return &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;Dividend is &lt;code&gt;Integer.MIN_VALUE&lt;/code&gt;?
-
-&lt;ul&gt;
-&lt;li&gt;if divisor is negative one? you cannot get the positive &lt;code&gt;MIN_VALUE&lt;/code&gt; so return &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dividend += Math.abs(divisor)&lt;/code&gt; so that the dividend become away from overflow but that leads the res increase one;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Divisor is &lt;code&gt;Integer.MIN_VALUE&lt;/code&gt;? return res; To avoid the inaccurate from above operation;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Make dividend and divisor both positive;&lt;/li&gt;
-&lt;li&gt;Then, the main operation to do the binary substraction;
-
-&lt;ul&gt;
-&lt;li&gt;Get the most higher position(&lt;code&gt;digit&lt;/code&gt;) for bit one with increasing the divisor until it is just larger than (&lt;code&gt;dividend &amp;gt;&amp;gt; 1&lt;/code&gt;): divisor cannot larger than dividend so that we use the &lt;code&gt;dividend&amp;gt;&amp;gt;1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Get result by add the &lt;code&gt;1&amp;lt;&amp;lt;digit&lt;/code&gt; (current bit position should be one) and &lt;code&gt;dividend -= divisor&lt;/code&gt; but if divisor larger than dividend which means current bit position should be zero so just reduce digit and divisor should shift right one position each time;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param dividend the dividend
-     * @param divisor the divisor
-     * @return the result
-     */
-    public int divide(int dividend, int divisor) {
-        int res = 0;
-        if(divisor == 0)
-            return Integer.MAX_VALUE;
-        boolean neg = ((dividend ^ divisor) &amp;gt;&amp;gt;&amp;gt; 31) == 1;  
-        if(dividend == Integer.MIN_VALUE) {
-            // since the dividend is negative number now so we plus the abs(divisor)
-            dividend += Math.abs(divisor);
-            if(divisor == -1)
-                return Integer.MAX_VALUE;
-            res++;
-        }
-        
-        if(divisor == Integer.MIN_VALUE)
-            return res;
-        
-        // the highest position for bit in result   
-        int digit = 0;
-        dividend = Math.abs(dividend);  
-        divisor = Math.abs(divisor);
-        while(divisor &amp;lt;= (dividend&amp;gt;&amp;gt;1)) {
-            divisor &amp;lt;&amp;lt;= 1;
-            digit ++;
-        }
-        
-        while(digit&amp;gt;=0){
-            if(dividend&amp;gt;=divisor){
-                res += (1&amp;lt;&amp;lt;digit);
-                dividend-=divisor;
-            }
-            divisor&amp;gt;&amp;gt;=1;
-            digit--;
-        }
-        return neg?-res:res;
-    }
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

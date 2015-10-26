@@ -3,8 +3,68 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-10-24T16:13:13-07:00</lastmod>
+    <lastmod>2015-10-25T20:33:13-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</loc>
+    <lastmod>2015-10-25T20:33:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</loc>
+    <lastmod>2015-10-25T20:33:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</loc>
+    <lastmod>2015-10-25T20:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</loc>
+    <lastmod>2015-10-25T16:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</loc>
+    <lastmod>2015-10-25T15:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/expression-tree-build/</loc>
+    <lastmod>2015-10-25T15:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</loc>
+    <lastmod>2015-10-25T15:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</loc>
+    <lastmod>2015-10-25T15:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</loc>
+    <lastmod>2015-10-25T10:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/expression-evaluation/</loc>
+    <lastmod>2015-10-25T10:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
+    <lastmod>2015-10-25T10:13:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
@@ -103,12 +163,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/19/permutation-sequence/</loc>
     <lastmod>2015-10-19T11:45:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/19/permutation-sequence/</loc>
+    <loc>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</loc>
     <lastmod>2015-10-19T11:45:13-07:00</lastmod>
   </url>
   
@@ -133,12 +193,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
