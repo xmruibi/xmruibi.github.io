@@ -13,7 +13,7 @@
     <atom:link href="http://xmruibi.github.io/tags/classification/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Query Classifier</title>
+      <title>Machine Learning: Query Classifier</title>
       <link>http://xmruibi.github.io/code/QueryClassifier/</link>
       <pubDate>Mon, 12 Jan 2015 15:33:07 -0700</pubDate>
       <author>xmruibi@gmail.com (Rui Bi)</author>

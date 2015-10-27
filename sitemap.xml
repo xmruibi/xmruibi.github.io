@@ -58,7 +58,7 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/expression-evaluation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -68,12 +68,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/expression-evaluation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -183,18 +183,23 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/19/permutation-sequence/</loc>
     <lastmod>2015-10-19T11:45:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/19/permutation-sequence/</loc>
+    <loc>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</loc>
     <lastmod>2015-10-19T11:45:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/19/permutation-index/</loc>
     <lastmod>2015-10-19T11:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</loc>
+    <lastmod>2015-10-18T22:10:29-07:00</lastmod>
   </url>
   
   <url>
@@ -218,22 +223,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
-    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
-    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
+    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -248,6 +248,11 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
+    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
@@ -258,12 +263,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/ugly-number/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/ugly-number/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
   </url>
   
@@ -308,12 +313,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</loc>
     <lastmod>2015-10-16T09:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</loc>
+    <loc>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</loc>
     <lastmod>2015-10-16T09:43:13-07:00</lastmod>
   </url>
   
@@ -350,6 +355,11 @@
   <url>
     <loc>http://xmruibi.github.io/code/BleveSearch/</loc>
     <lastmod>2015-10-10T23:56:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/08/license-plate-number-combination/</loc>
+    <lastmod>2015-10-08T22:10:29-07:00</lastmod>
   </url>
   
   <url>

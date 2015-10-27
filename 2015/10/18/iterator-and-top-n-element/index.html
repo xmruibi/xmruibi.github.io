@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Combination  &middot; Rui&#39;s Home Page</title>
+  <title>Iterator and Top N Element  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,22 +14,58 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="">
+<meta name="keywords" content="Top K, Array, Iterator, ">
 
 
-<meta property="og:title" content="Combination  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Iterator and Top N Element  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/tags/combination/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/" />
 <meta property="og:locale" content="en-us">
 
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-10-18T22:10:29-07:00" />
+<meta property="og:article:modified_time" content="2015-10-18T22:10:29-07:00" />
+
+  
+    
+<meta property="og:article:tag" content="Top K">
+    
+<meta property="og:article:tag" content="Array">
+    
+<meta property="og:article:tag" content="Iterator">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="Iterator and Top N Element" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/" />
+<meta name="twitter:domain" content="http://xmruibi.github.io">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Iterator and Top N Element",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-10-18",
+    "description": "",
+    "wordCount":  46 
+  }
+</script>
 
 
 
-<link href="http://xmruibi.github.io/tags/combination/index.xml" rel="alternate" type="application/rss+xml" title="Combination" />
-
-<link rel="canonical" href="http://xmruibi.github.io/tags/combination/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -172,40 +208,113 @@ Archive
 </header>
 
 
-<article id="main-content" class="container main_content list">
-  <header class="container">
-    <h1>Combination
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Iterator and Top N Element
 </h1>
 
-  </header>
-  <ul class="container content">
-    
-      <li><a href="http://xmruibi.github.io/2015/10/25/boggle-game/">Boggle Game
-</a>
+  <div class="metas">
+<time datetime="2015-10-18">18 Oct, 2015</time>
 
-</li>
 
-    
-      <li><a href="http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/">Letter Combinations of a Phone Number
-</a>
-
-</li>
-
-    
-      <li><a href="http://xmruibi.github.io/2015/10/08/license-plate-number-combination/">License Plate Number Combination
-</a>
-
-</li>
-
-    
-      <li><a href="http://xmruibi.github.io/2015/10/08/subsets-i--ii/">Subsets I &amp; II
-</a>
-
-</li>
-
-    
-  </ul>
   
+  &middot; Read in about 1 min
+  &middot; (46 Words)
+  <br>
+  Tags: 
+
+<a class="label" href="http://xmruibi.github.io/tags/top-k">Top K; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/array">Array; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/iterator">Iterator; </a> 
+
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Topics: 
+
+<a class="label" href="http://xmruibi.github.io/topics/algorithm">Algorithm; </a> 
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>Given a Iterator with next giving instances of Line class
+Design the function:<code>List&lt;String&gt; get_top_ips(Iterator iterator, int topN)</code></p>
+
+<pre><code>class Line { 
+	String ip; 
+	String request; 
+}
+</code></pre>
+
+<h2 id="solution">Solution</h2>
+
+<pre><code class="language-java">
+	public List&lt;String&gt; get_top_ips(Iterator iterator, int topN) {
+		HashMap&lt;&gt; map = new HashMap&lt;&gt;();
+		while(itertor.hasNext()) {
+			Line cur = iterator.next();
+
+		}
+
+	}
+</code></pre>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://xmruibi.github.io/2015/10/18/max-points-on-a-line/" title="Max Points on a Line">
+      Earlier Article
+    </a>
+    
+
+    
+    <a class="next" href="http://xmruibi.github.io/2015/10/19/permutation-index/" title="Permutation Index">
+      Newer Article
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    
+    
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
 
 </article>
       <footer id="main-footer" class="container main_footer">
