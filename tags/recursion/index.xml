@@ -9,8 +9,104 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 17 Oct 2015 17:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2015 16:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/recursion/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Print Numbers by Recursion</title>
+      <link>http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/</link>
+      <pubDate>Mon, 26 Oct 2015 16:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/</guid>
+      <description>
+
+&lt;p&gt;Print numbers from 1 to the largest number with &lt;code&gt;N&lt;/code&gt; digits by recursion.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;N = 1&lt;/code&gt;, return &lt;code&gt;[1,2,3,4,5,6,7,8,9]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Given &lt;code&gt;N = 2&lt;/code&gt;, return &lt;code&gt;[1,2,3,4,5,6,7,8,9,10,11,12,...,99]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;It&amp;rsquo;s pretty easy to do recursion like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;recursion(i) {
+    if i &amp;gt; largest number:
+        return
+    results.add(i)
+    recursion(i + 1)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($$10^n - 1$$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it in recursion, not for-loop.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Think from bottom to top.&lt;/li&gt;
+&lt;li&gt;Build the result list from number with one digits to N digits.&lt;/li&gt;
+&lt;li&gt;Since we considering with digits as its deep, we have to set a loop to add the number in list on the new-generated base number (1 - 9 with following digits):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;when zero digit, none;
+when one digit, new-generated base number is 1, add 1,2,...9;
+when two digit, new-generated base number is 10, add 10,20,...90;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Each time when having the new-generated base number, we need to pass through the original result list to fill the rest of number with beginning as new-generated base number.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;when one digit, new-generated base number is 1, add 1,2,...9, but original result list has nothing. so just add itself;
+when two digit, new-generated base number is 10, when add 10, go back the original result list with &amp;quot;1, 2, 3,..., 9&amp;quot;, add them as 11, 12, 13, ..., 19, when add 20, go back the original result list with &amp;quot;1, 2, 3,..., 9&amp;quot;, add them as 21, 22, 23, ..., 29;
+so the same as for 30,..., 90, 100, ..., 900, ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param n: An integer.
+     * return : An array storing 1 to the largest number with n digits.
+     */
+    public List&amp;lt;Integer&amp;gt; numbersByRecursion(int n) {
+        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(n &amp;gt;= 0)
+            add(res, n);
+        return res;
+    }
+    
+    private int add(List&amp;lt;Integer&amp;gt; res, int n){
+        if(n == 0)
+            return 1;
+        
+        int cur = add(res, n - 1);
+        int size = res.size();
+        for(int i = 1; i &amp;lt;= 9; i ++) {
+            int digit = i * cur;
+            res.add(digit);
+            for(int j = 0; j &amp;lt; size; j++) {
+                res.add(digit + res.get(j));
+            }
+        }
+        return cur * 10;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
+
+&lt;p&gt;Time: $$O(10^n - 1)$$&lt;/p&gt;
+
+&lt;p&gt;Space: $$O(n)$$&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>N Queen I</title>

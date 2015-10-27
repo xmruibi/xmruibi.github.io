@@ -9,8 +9,163 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 25 Oct 2015 20:33:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2015 16:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Print Numbers by Recursion</title>
+      <link>http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/</link>
+      <pubDate>Mon, 26 Oct 2015 16:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/</guid>
+      <description>
+
+&lt;p&gt;Print numbers from 1 to the largest number with &lt;code&gt;N&lt;/code&gt; digits by recursion.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;N = 1&lt;/code&gt;, return &lt;code&gt;[1,2,3,4,5,6,7,8,9]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Given &lt;code&gt;N = 2&lt;/code&gt;, return &lt;code&gt;[1,2,3,4,5,6,7,8,9,10,11,12,...,99]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;It&amp;rsquo;s pretty easy to do recursion like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;recursion(i) {
+    if i &amp;gt; largest number:
+        return
+    results.add(i)
+    recursion(i + 1)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($$10^n - 1$$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it in recursion, not for-loop.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Think from bottom to top.&lt;/li&gt;
+&lt;li&gt;Build the result list from number with one digits to N digits.&lt;/li&gt;
+&lt;li&gt;Since we considering with digits as its deep, we have to set a loop to add the number in list on the new-generated base number (1 - 9 with following digits):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;when zero digit, none;
+when one digit, new-generated base number is 1, add 1,2,...9;
+when two digit, new-generated base number is 10, add 10,20,...90;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Each time when having the new-generated base number, we need to pass through the original result list to fill the rest of number with beginning as new-generated base number.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;when one digit, new-generated base number is 1, add 1,2,...9, but original result list has nothing. so just add itself;
+when two digit, new-generated base number is 10, when add 10, go back the original result list with &amp;quot;1, 2, 3,..., 9&amp;quot;, add them as 11, 12, 13, ..., 19, when add 20, go back the original result list with &amp;quot;1, 2, 3,..., 9&amp;quot;, add them as 21, 22, 23, ..., 29;
+so the same as for 30,..., 90, 100, ..., 900, ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param n: An integer.
+     * return : An array storing 1 to the largest number with n digits.
+     */
+    public List&amp;lt;Integer&amp;gt; numbersByRecursion(int n) {
+        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(n &amp;gt;= 0)
+            add(res, n);
+        return res;
+    }
+    
+    private int add(List&amp;lt;Integer&amp;gt; res, int n){
+        if(n == 0)
+            return 1;
+        
+        int cur = add(res, n - 1);
+        int size = res.size();
+        for(int i = 1; i &amp;lt;= 9; i ++) {
+            int digit = i * cur;
+            res.add(digit);
+            for(int j = 0; j &amp;lt; size; j++) {
+                res.add(digit + res.get(j));
+            }
+        }
+        return cur * 10;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
+
+&lt;p&gt;Time: $$O(10^n - 1)$$&lt;/p&gt;
+
+&lt;p&gt;Space: $$O(n)$$&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Boggle Game</title>
+      <link>http://xmruibi.github.io/2015/10/25/boggle-game/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/boggle-game/</guid>
+      <description>
+
+&lt;p&gt;Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;DFS on character board to do backtracking.&lt;/li&gt;
+&lt;li&gt;Searching the character for 8 directions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+
+    public List&amp;lt;String&amp;gt; findWords(HashSet&amp;lt;String&amp;gt; dict, char[][] board) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            for(int j = 0; j &amp;lt; board[i].length; j++) {
+                findUtil(res, dict, board, visited, &amp;quot;&amp;quot;, i, j);
+            }
+        }
+        return res;
+    }
+
+    private void findUtil(List&amp;lt;String&amp;gt; res, HashSet&amp;lt;String&amp;gt; dict, char[][] board, boolean[][] visited, String cur, int x, int y) {
+        visited[x][y] = true;
+        cur += board[x][y];
+
+        if(dict.contains(cur)) {
+            res.add(cur);
+            dict.remvoe(cur);
+            return;
+        }
+        
+        int[] xs = {1,1,1,0,0,-1,-1,-1};
+        int[] ys = {1,-1,0,1,-1,0,1,-1};
+        for(int i = 0; i &amp;lt; 8; i++) {
+            int nx = xs[i] + x;
+            int ny = ys[i] + y;
+            if(nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; board.length &amp;amp;&amp;amp; ny &amp;gt;= 0 &amp;amp;&amp;amp; ny &amp;lt; board[nx].length &amp;amp;&amp;amp; !visited[nx][ny])
+                findUtil(res, dict, board, visited, cur, nx, ny);
+        }
+        visited[x][y] = false;
+        cur = cur.substring(0, cur.length() - 1);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Convert Sorted List to Binary Search Tree</title>
@@ -984,173 +1139,6 @@ public class Solution {
         
         return res.toString();
     }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sqrt(x)</title>
-      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
-      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
-      <description>
-
-&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
-&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    public int mySqrt(int x) {
-        if(x == 0)
-            return 0;
-        // binary search from 1 -&amp;gt; x/2
-        int l = 1, r = (x&amp;gt;&amp;gt;1);
-        while(l &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
-                return m;
-            }else if(m + 1 &amp;lt;= x / m) {
-                l = m + 1;
-            }else{
-                r = m;
-            }
-        }
-        return l;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Count of Smaller Number before itself</title>
-      <link>http://xmruibi.github.io/2015/10/22/count-of-smaller-number-before-itself/</link>
-      <pubDate>Thu, 22 Oct 2015 20:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/22/count-of-smaller-number-before-itself/</guid>
-      <description>
-
-&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) . For each element Ai in the array, count the number of element before this element Ai is smaller than it and return count number array.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, return &lt;code&gt;[0,1,2,3,2]&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Segment Tree&lt;/li&gt;
-&lt;li&gt;Initial with the range (0 to 10000)&lt;/li&gt;
-&lt;li&gt;Count array elements included in a certain tree node&lt;/li&gt;
-&lt;li&gt;Dynamic count and make a query.
-
-&lt;ul&gt;
-&lt;li&gt;Query a value, evaluate the value and node&amp;rsquo;s middle value,&lt;/li&gt;
-&lt;li&gt;if larger, that means the left node&amp;rsquo;s count should be included and also enter into the right node;&lt;/li&gt;
-&lt;li&gt;if less, just enter the left node;&lt;/li&gt;
-&lt;li&gt;recursive until touch the null node;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SegmentTree{
-    Node root;
-        
-    public SegmentTree(){
-        root = build(0, 20000);
-    }
-        
-    public Node build(int left, int right) {
-        if(right &amp;lt; left)
-            return null;
-        if(left == right)
-            return new Node(left, right);
-        
-        int m = left + ((right - left)&amp;gt;&amp;gt;1);
-        Node cur = new Node(left, right);
-        cur.leftNode = build(left, m);
-        cur.rightNode = build(m+1, right);
-        return cur;
-    }
-    
-    public void count(int val){
-        count(root, val);
-    }
-    
-    private void count(Node node, int val) {
-        if(node == null)
-            return;
-        int m = node.left + ((node.right - node.left)&amp;gt;&amp;gt;1);
-        node.cnt++;
-        if(val &amp;gt; m)
-            count(node.rightNode, val);
-        else
-            count(node.leftNode, val);
-    }
-    
-    public int query(int val){
-        return query(root, val);
-    }
-    
-    private int query(Node node, int val) {
-        int cnt = 0;
-        if(node == null)
-            return cnt;
-        int m = node.left + ((node.right - node.left)&amp;gt;&amp;gt;1);
-        cnt += (node.leftNode != null ? node.leftNode.cnt : 0);
-        if(val &amp;gt; m) // if larger: 
-            return cnt + query(node.rightNode, val);
-        else // if less or equal: includes val == m
-            return query(node.leftNode, val);
-    }
-    
-}
-
-class Node{
-    int left, right;
-    long cnt;
-    Node leftNode, rightNode;
-    public Node(int left, int right){
-        this.cnt = 0;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-
-public class Solution {
-   /**
-     * @param A: An integer array
-     * @return: Count the number of element before this element &#39;ai&#39; is 
-     *          smaller than it and return count number array
-     */ 
-    SegmentTree tree;
-    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumberII(int[] A) {
-        tree = new SegmentTree();
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        for(int i = 0; i &amp;lt; A.length; i++) {
-            tree.count(A[i]);
-            res.add(tree.query(A[i]));
-        }
-        return res;
-    }
-    
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

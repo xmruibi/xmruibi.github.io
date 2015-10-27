@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java Data Structure on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/java-data-structure/</link>
+    <description>Recent content in Java Data Structure on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Thu, 22 Oct 2015 00:03:07 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/java-data-structure/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Analysis  on HashMap API Source Code</title>
+      <link>http://xmruibi.github.io/2015/10/22/analysis--on-hashmap-api-source-code/</link>
+      <pubDate>Thu, 22 Oct 2015 00:03:07 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/22/analysis--on-hashmap-api-source-code/</guid>
+      <description>
+
+&lt;p&gt;Hash table based implementation of the Map interface.  This implementation provides all of the optional map operations, and permits &lt;code&gt;null&lt;/code&gt; values and the &lt;code&gt;null&lt;/code&gt; key.  (The HashMap class is roughly equivalent to Hashtable, except that it is unsynchronized and permits nulls.)  This class makes no guarantees as to the order of the map; in particular, it does not guarantee that the order will remain constant over time.&lt;/p&gt;
+
+&lt;h2 id=&#34;how-hashmap-store-data&#34;&gt;How HashMap store data?&lt;/h2&gt;
+
+&lt;h5 id=&#34;the-least-unit-in-hashmap-data-storage-is-the-entry-node-k-v-the-node-implements-map-entry-k-v&#34;&gt;The least unit in hashmap data storage is the &lt;code&gt;Entry Node&amp;lt;K,V&amp;gt;&lt;/code&gt;. The node implements &lt;code&gt;Map.Entry&amp;lt;K,V&amp;gt;&lt;/code&gt;&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt; static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; {
+        final int hash;
+        final K key;
+        V value;
+        // chaining address, point to next Entry Node
+        Node&amp;lt;K,V&amp;gt; next;
+
+        Node(int hash, K key, V value, Node&amp;lt;K,V&amp;gt; next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+
+        public final K getKey()        { return key; }
+        public final V getValue()      { return value; }
+        public final String toString() { return key + &amp;quot;=&amp;quot; + value; }
+
+        public final int hashCode() {
+            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        }
+
+        public final V setValue(V newValue) {
+            V oldValue = value;
+            value = newValue;
+            return oldValue;
+        }
+
+        public final boolean equals(Object o) {
+            if (o == this)
+                return true;
+            if (o instanceof Map.Entry) {
+                Map.Entry&amp;lt;?,?&amp;gt; e = (Map.Entry&amp;lt;?,?&amp;gt;)o;
+                if (Objects.equals(key, e.getKey()) &amp;amp;&amp;amp;
+                    Objects.equals(value, e.getValue()))
+                    return true;
+            }
+            return false;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;all-of-these-node-k-v-are-stored-in-table-as-a-node-array&#34;&gt;All of these &lt;code&gt;Node&amp;lt;K, V&amp;gt;&lt;/code&gt; are stored in &lt;code&gt;table&lt;/code&gt; as a Node Array&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Nodes Array &lt;code&gt;Node&amp;lt;K, V&amp;gt;[] table&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * The table, initialized on first use, and resized as
+     * necessary. When allocated, length is always a power of two.
+     * (We also tolerate length zero in some operations to allow
+     * bootstrapping mechanics that are currently not needed.)
+     */
+    transient Node&amp;lt;K,V&amp;gt;[] table;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;however-hashmap-provides-three-views-for-retrieving-the-inside-data-keyset-values-and-entryset&#34;&gt;However, HashMap provides three views for retrieving the inside data: &lt;code&gt;keySet()&lt;/code&gt;, &lt;code&gt;values()&lt;/code&gt; and &lt;code&gt;entrySet()&lt;/code&gt;&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;KeySet: stores all keys in this hashmap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * NOTE! This field is in AbstractMap class 
+     * Each of these fields are initialized to contain an instance of the
+     * appropriate view the first time this view is requested.  The views are
+     * stateless, so there&#39;s no reason to create more than one of each.
+     */
+    transient volatile Set&amp;lt;K&amp;gt;        keySet;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Values: stores all values in this hash Map&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * NOTE! This field is in AbstractMap class 
+     */
+    transient volatile Collection&amp;lt;V&amp;gt; values;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;EntrySet: stores Entry Node(K-V pair) in this HashMap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * This field is in HashMap class 
+     * Holds cached entrySet(). Note that AbstractMap fields are used
+     * for keySet() and values().
+     */
+    transient Set&amp;lt;Map.Entry&amp;lt;K,V&amp;gt;&amp;gt; entrySet;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;how-hashmap-manipulate-with-a-certain-k-v-pair&#34;&gt;How HashMap manipulate with a certain K-V pair?&lt;/h2&gt;
+
+&lt;h3 id=&#34;insertion&#34;&gt;Insertion&lt;/h3&gt;
+
+&lt;h5 id=&#34;here-is-the-public-entrance-put-key-value-to-insert-k-v-pair-into-hashmap-but-we-have-to-notice-it-has-the-return-value-which-is-the-previous-value-associated-with-this-key&#34;&gt;Here is the public entrance &lt;code&gt;put(key, value)&lt;/code&gt; to insert K - V pair into HashMap. But we have to notice it has the return value, which is the previous value associated with this key.&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @return the previous value associated with key, or
+     *         null if there was no mapping for key.
+     *         (A null return can also indicate that the map
+     *         previously associated null with key.)
+     */
+    public V put(K key, V value) {
+        return putVal(hash(key), key, value, false, true);
+    }
+    /**
+     * The original version about put k-v pair node implement.
+     * Notice those two boolean value
+     * @param hash hash for key
+     * @param key the key
+     * @param value the value to put
+     * @param onlyIfAbsent if true, don&#39;t change existing value
+     * @param evict if false, the table is in creation mode.
+     * @return previous value, or null if none
+     */
+    final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict){...}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;i-made-a-lite-edition-about-putval-function-according-to-hashmap-source-code-the-main-procedure-on-insert-a-k-v-pair-to-hashmap-can-be-concluded-as-following&#34;&gt;I made a Lite Edition about &lt;code&gt;putVal&lt;/code&gt; function according to HashMap source code. The main procedure on insert a K-V pair to HashMap can be concluded as following:&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Check the Entry Node table if it&amp;rsquo;s null, re-size it if necessary.&lt;/li&gt;
+&lt;li&gt;Get the bucket index by &lt;code&gt;(table.length - 1) &amp;amp; hash&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Iterate the nodes in target bucket and check if there is any exist same node &lt;code&gt;exist.hash == hash &amp;amp;&amp;amp; ((prevKey = exist.key) == key || (key != null &amp;amp;&amp;amp; key.equals(prevKey))&lt;/code&gt;. If exist the node with the same key, update its value.&lt;/li&gt;
+&lt;li&gt;Record the previous node of insert position for returning the previous value.&lt;/li&gt;
+&lt;li&gt;Insert the new node and update the previous node next pointer: &lt;code&gt;prev.next = new Node(hash, key, value, null)&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+*  Lite Editon for HashMap input K - V pair function
+**/
+final V putVal(int hash, K key, V value) {
+	// the reference for node table
+	Node&amp;lt;K,V&amp;gt;[] tab; 
+	// the reference for node in current bucket
+	Node&amp;lt;K,V&amp;gt; prev;
+    int n; // the table length
+    
+	if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+    int idx = (n - 1) &amp;amp; hash; // the bucket index
+	if((prev = table[idx]) == null) {
+		table[idx] = new Node(hash, key, value, null);
+	}else {
+		Node&amp;lt;K,V&amp;gt; exist; K prevKey;
+		// if key equal to the first node in current bucket
+		if(prev.hash == hash &amp;amp;&amp;amp; (prevKey = prev.key) == key || (key != null &amp;amp;&amp;amp; key.equals(prevKey)) {
+			exist = prev;
+		} else { 
+			// find the top node in current bucket and iterate nodes in this bucket
+			for (int binCount = 0; ; ++binCount) {
+				// insert new node when find the next pointer of a node is null 
+				if((exist = prev.next)  == null) {
+					prev.next = new Node(hash, key, value, null);
+					break;
+				}
+				// if any node in this bucket is the same as the insert one 
+				if (exist.hash == hash &amp;amp;&amp;amp; ((prevKey = exist.key) == key || (key != null &amp;amp;&amp;amp; key.equals(prevKey))))
+                    break;
+                prev = exist;
+			}
+		}
+		if (exist != null) { // existing mapping for key
+            V oldValue = exist.value;
+            if (oldValue == null)
+                exist.value = value;
+            return oldValue;
+        }
+	}
+    // modification count for fail-fast
+	++modCount;
+	// check current node amount, if larger than threshodl do resize
+    if (++size &amp;gt; threshold)
+        resize();
+    return null;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;retrieve&#34;&gt;Retrieve&lt;/h3&gt;
+
+&lt;h5 id=&#34;the-public-entrance-get-key-returns-the-value-to-which-the-specified-key-is-mapped-or-null-if-this-map-contains-no-mapping-for-the-key-more-formally-if-this-map-contains-a-k-v-pair-key-null-then-this-method-returns-v-or-null-pleas-note-that-return-null-doesn-t-necessarily-indicates-the-map-contains-no-mapping-for-the-key-it-s-also-possible-that-the-map-explicitly-maps-the-key-to-null-source-code-shown-as-below&#34;&gt;The public entrance &lt;code&gt;get(key)&lt;/code&gt; returns the value to which the specified key is mapped, or null if this map contains no mapping for the key. More formally, if this map contains a K - V pair &lt;code&gt;key==null&lt;/code&gt; then this method returns &lt;code&gt;v&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;. Pleas note that return &lt;code&gt;null&lt;/code&gt; doesn&amp;rsquo;t necessarily indicates the map contains no mapping for the key! It&amp;rsquo;s also possible that the map explicitly maps the key to &lt;code&gt;NULL&lt;/code&gt;. Source code shown as below:&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public V get(Object key) {
+        Node&amp;lt;K,V&amp;gt; e;
+        return (e = getNode(hash(key), key)) == null ? null : e.value;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;the-main-procedure-on-get-a-k-v-pair-to-hashmap-can-be-concluded-as-following&#34;&gt;The main procedure on get a K-V pair to HashMap can be concluded as following:&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the index by hash code &lt;code&gt;(table.length - 1) &amp;amp; hash&lt;/code&gt; ;&lt;/li&gt;
+&lt;li&gt;Check the first node in target bucket if it is the same as the input key and hash code&lt;/li&gt;
+&lt;li&gt;Check the rest nodes iterative in target bucket if it matches the retrieval condition.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt; final Node&amp;lt;K,V&amp;gt; getNode(int hash, Object key) {
+        Node&amp;lt;K,V&amp;gt;[] tab; Node&amp;lt;K,V&amp;gt; first, e; int n; K k;
+        if ((tab = table) != null &amp;amp;&amp;amp; (n = tab.length) &amp;gt; 0 &amp;amp;&amp;amp;
+            (first = tab[(n - 1) &amp;amp; hash]) != null) {
+            if (first.hash == hash &amp;amp;&amp;amp; // always check first node in the target bucket
+                ((k = first.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+                return first;
+            if ((e = first.next) != null) {
+                do { // check the rest nodes in this bucket
+                    if (e.hash == hash &amp;amp;&amp;amp;
+                        ((k = e.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+                        return e;
+                } while ((e = e.next) != null);
+            }
+        }
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;deletion&#34;&gt;Deletion&lt;/h3&gt;
+
+&lt;h5 id=&#34;removes-the-mapping-for-the-specified-key-from-this-map-if-present-return-the-previous-value-associated-with-input-key-or-null-if-there-was-no-mapping-for-input-key-a-null-return-can-also-indicate-that-the-map-previously-associated-null-key&#34;&gt;Removes the mapping for the specified key from this map if present. Return the previous value associated with input key or &lt;code&gt;null&lt;/code&gt; if there was no mapping for input key (A &lt;code&gt;null&lt;/code&gt; return can also indicate that the map previously associated &lt;code&gt;null&lt;/code&gt; key).&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public V remove(Object key) {
+        Node&amp;lt;K,V&amp;gt; e;
+        return (e = removeNode(hash(key), key, null, false, true)) == null ?
+            null : e.value;
+    }
+    
+    /**
+     * The original version about remove node implement.
+     * Notice those two boolean value
+     * @param hash hash for key
+     * @param key the key
+     * @param value the value to match if matchValue, else ignored
+     * @param matchValue if true only remove if value is equal
+     * @param movable if false do not move other nodes while removing
+     * @return the node, or null if none
+     */
+    final Node&amp;lt;K,V&amp;gt; removeNode(int hash, Object key, Object value,
+                               boolean matchValue, boolean movable) {...}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;implements-map-remove-and-related-methods-with-lite-version&#34;&gt;Implements Map.remove and related methods with lite version.&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    final Node&amp;lt;K,V&amp;gt; removeNode(int hash, Object key) {
+        Node&amp;lt;K,V&amp;gt;[] tab; Node&amp;lt;K,V&amp;gt; p; int n, index;
+        if ((tab = table) != null &amp;amp;&amp;amp; (n = tab.length) &amp;gt; 0 &amp;amp;&amp;amp;
+            (p = tab[index = (n - 1) &amp;amp; hash]) != null) {
+            Node&amp;lt;K,V&amp;gt; node = null, e; K k; V v;
+            if (p.hash == hash &amp;amp;&amp;amp;
+                ((k = p.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+                node = p;
+            else if ((e = p.next) != null) {
+                do {
+                    if (e.hash == hash &amp;amp;&amp;amp; ((k = e.key) == key ||
+                            (key != null &amp;amp;&amp;amp; key.equals(k)))) {
+                        node = e;
+                        break;
+                    }
+                        p = e;
+                } while ((e = e.next) != null);
+            }
+            
+            if (node != null ) {
+                if (node == p)
+                    tab[index] = node.next;
+                else
+                    p.next = node.next;
+                ++modCount;
+                --size;
+                return node;
+            }
+        }
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;how-to-hash-by-key&#34;&gt;How to hash by key?&lt;/h2&gt;
+
+&lt;h5 id=&#34;hash-function-is-very-important-to-hashmap-it-requires-quick-efficient-and-disperse-distribution-for-nodes&#34;&gt;Hash function is very important to HashMap. It requires quick, efficient and disperse distribution for nodes.&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Computes key.hashCode() and spreads (XORs) higher bits of hash to lower.  Because the table uses power-of-two masking, sets of hashes that vary only in bits above the current mask will always collide. (Among known examples are sets of Float keys holding consecutive whole numbers in small tables.)  So we apply a transform that spreads the impact of higher bits downward. There is a tradeoff between speed, utility, and quality of bit-spreading. Because many common sets of hashes are already reasonably distributed (so don&amp;rsquo;t benefit from spreading), and because we use trees to handle large sets of collisions in bins, we just XOR some shifted bits in the cheapest possible way to reduce systematic lossage, as well as to incorporate impact of the highest bits that would otherwise never be used in index calculations because of table bounds.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h &amp;gt;&amp;gt;&amp;gt; 16);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

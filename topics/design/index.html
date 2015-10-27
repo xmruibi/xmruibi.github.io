@@ -241,6 +241,35 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/">Conclusion on Object Oriented Programming
+</a>
+</h2>
+
+  <time datetime="2015-10-21">21 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    Principles Open - Close Open for extension but closed for modifications The design and writing of the code should be done in a way that new functionality should be added with minimum changes in the existing code. The design should be done in a way to allow the adding of new functionality as new classes, keeping as much as possible existing code unchanged. Example class ShapeEditor{ void drawShape(Shape s){ if (s.m_type==1) drawRectangle(s); else if (s.m_type==2) drawCircle(s); }; void drawRectangle(Shape s); void drawCircle(Shape s); } class Shape{} class Rectangle extends Shape{} class Circle extends Shape{} //---&gt; Every time if new shape added, we have to modify method in the editor class, which violates this rule!
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
   <h2><a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">Online Book Reader System
 </a>
 </h2>

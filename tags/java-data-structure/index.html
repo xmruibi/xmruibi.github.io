@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Update Bits  &middot; Rui&#39;s Home Page</title>
+  <title>Java Data Structure  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,54 +14,22 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Bit Manipulation, ">
+<meta name="keywords" content="">
 
 
-<meta property="og:title" content="Update Bits  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Java Data Structure  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/22/update-bits/" />
+<meta property="og:url" content="http://xmruibi.github.io/tags/java-data-structure/" />
 <meta property="og:locale" content="en-us">
 
 
-<meta property="og:type" content="article" />
-<meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-22T14:43:13-07:00" />
-<meta property="og:article:modified_time" content="2015-10-22T14:43:13-07:00" />
-
-  
-    
-<meta property="og:article:tag" content="Bit Manipulation">
-    
-  
-
-  
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@" />
-<meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Update Bits" />
-<meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/22/update-bits/" />
-<meta name="twitter:domain" content="http://xmruibi.github.io">
-  
-
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@type": "Article",
-    "headline": "Update Bits",
-    "author": {
-      "@type": "Person",
-      "name": "http://profiles.google.com/+?rel=author"
-    },
-    "datePublished": "2015-10-22",
-    "description": "",
-    "wordCount":  275 
-  }
-</script>
+<meta property="og:type" content="website" />
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/22/update-bits/" />
+<link href="http://xmruibi.github.io/tags/java-data-structure/index.xml" rel="alternate" type="application/rss+xml" title="Java Data Structure" />
+
+<link rel="canonical" href="http://xmruibi.github.io/tags/java-data-structure/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -204,143 +172,22 @@ Archive
 </header>
 
 
-<article id="main-content" class="container main_content single">
-  <header class="container hat">
-  <h1>Update Bits
+<article id="main-content" class="container main_content list">
+  <header class="container">
+    <h1>Java Data Structure
 </h1>
 
-  <div class="metas">
-<time datetime="2015-10-22">22 Oct, 2015</time>
+  </header>
+  <ul class="container content">
+    
+      <li><a href="http://xmruibi.github.io/2015/10/22/analysis--on-hashmap-api-source-code/">Analysis  on HashMap API Source Code
+</a>
 
+</li>
 
+    
+  </ul>
   
-  &middot; Read in about 2 min
-  &middot; (275 Words)
-  <br>
-  Tags: 
-
-<a class="label" href="http://xmruibi.github.io/tags/bit-manipulation">Bit Manipulation; </a> 
-
-
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  Topics: 
-
-<a class="label" href="http://xmruibi.github.io/topics/algorithm">Algorithm; </a> 
-
-
-</div>
-
-</header>
-
-  <div class="container content">
-  
-
-<p>Given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e g , M becomes a substring of N located at i and starting at j).</p>
-
-<h3 id="example">Example</h3>
-
-<p>Given N=<code>(10000000000)2</code>, M=<code>(10101)2</code>, i=<code>2</code>, j=<code>6</code>
-return N=<code>(10001010100)2</code></p>
-
-<h3 id="note">Note</h3>
-
-<p>In the function, the numbers N and M will given in decimal, you should also return a decimal number.</p>
-
-<h3 id="challenge">Challenge</h3>
-
-<p>Minimum number of operations?</p>
-
-<h3 id="clarification">Clarification</h3>
-
-<p>You can assume that the bits j through i have enough space to fit all of M. That is, if M = <code>10011</code>, you can assume that there are at least 5 bits between j and i. You would not, for example, have j=3 and i=2, because M could not fully fit between bit 3 and bit 2.</p>
-
-<h2 id="think">Think</h2>
-
-<ul>
-<li><p>Set a mask:</p>
-
-<pre><code>Position:   31 30 ..~.. j+1  j ..~.. i  i-1 ..~.. 0
-Bit Val:     1  1  ...   1   0  ...  0   1   ...  1
-</code></pre></li>
-
-<li><p>Use that mask to do <code>&amp;</code> with N, so that in the new N, the position i~j will be zero.</p></li>
-
-<li><p>Left shift <code>i</code> for M to make the position aligned.</p></li>
-
-<li><p>Do <code>|</code> for M and N, then get the final result.</p></li>
-</ul>
-
-<h2 id="solution">Solution</h2>
-
-<pre><code class="language-java">class Solution {
-    /**
-     *@param n, m: Two integer
-     *@param i, j: Two bit positions
-     *return: An integer
-     */
-    public int updateBits(int n, int m, int i, int j) {
-        
-        int mask = 0;
-        for(int lfShift = 31; lfShift &gt; j; lfShift--) 
-            mask += (1&lt;&lt;lfShift);
-        
-        for(int lfShift = i - 1; lfShift &gt;= 0; lfShift--) 
-            mask += (1&lt;&lt;lfShift);
-        n &amp;= mask;
-        m &lt;&lt;= i;
-        return n|m;
-    }
-}
-</code></pre>
-
-</div>
-
-
-  <footer class="container">
-  <div class="container navigation no-print">
-  <h2>Navigation</h2>
-  
-  
-
-    
-    <a class="prev" href="http://xmruibi.github.io/2015/10/22/analysis--on-hashmap-api-source-code/" title="Analysis  on HashMap API Source Code">
-      Earlier Article
-    </a>
-    
-
-    
-    <a class="next" href="http://xmruibi.github.io/2015/10/22/triangle-count/" title="Triangle Count">
-      Newer Article
-    </a>
-    
-
-  
-
-
-</div>
-
-  <div class="container comments">
-  <h2>Comments</h2>
-  
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-  (function() {
-    
-    
-    
-    
-
-    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
-    dsq.src = '//ruisblog.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-</div>
-
-</footer>
 
 </article>
       <footer id="main-footer" class="container main_footer">

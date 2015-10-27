@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Update Bits  &middot; Rui&#39;s Home Page</title>
+  <title>Print Numbers by Recursion  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,23 +14,23 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Bit Manipulation, ">
+<meta name="keywords" content="Recursion, ">
 
 
-<meta property="og:title" content="Update Bits  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Print Numbers by Recursion  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/22/update-bits/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-22T14:43:13-07:00" />
-<meta property="og:article:modified_time" content="2015-10-22T14:43:13-07:00" />
+<meta property="og:article:published_time" content="2015-10-26T16:33:13-07:00" />
+<meta property="og:article:modified_time" content="2015-10-26T16:33:13-07:00" />
 
   
     
-<meta property="og:article:tag" content="Bit Manipulation">
+<meta property="og:article:tag" content="Recursion">
     
   
 
@@ -38,9 +38,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Update Bits" />
+<meta name="twitter:title" content="Print Numbers by Recursion" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/22/update-bits/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -48,20 +48,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Update Bits",
+    "headline": "Print Numbers by Recursion",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-10-22",
+    "datePublished": "2015-10-26",
     "description": "",
-    "wordCount":  275 
+    "wordCount":  382 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/22/update-bits/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -206,20 +206,20 @@ Archive
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Update Bits
+  <h1>Print Numbers by Recursion
 </h1>
 
   <div class="metas">
-<time datetime="2015-10-22">22 Oct, 2015</time>
+<time datetime="2015-10-26">26 Oct, 2015</time>
 
 
   
   &middot; Read in about 2 min
-  &middot; (275 Words)
+  &middot; (382 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/bit-manipulation">Bit Manipulation; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/recursion">Recursion; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -235,63 +235,91 @@ Archive
   <div class="container content">
   
 
-<p>Given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e g , M becomes a substring of N located at i and starting at j).</p>
+<p>Print numbers from 1 to the largest number with <code>N</code> digits by recursion.</p>
 
 <h3 id="example">Example</h3>
 
-<p>Given N=<code>(10000000000)2</code>, M=<code>(10101)2</code>, i=<code>2</code>, j=<code>6</code>
-return N=<code>(10001010100)2</code></p>
+<p>Given <code>N = 1</code>, return <code>[1,2,3,4,5,6,7,8,9]</code>.</p>
+
+<p>Given <code>N = 2</code>, return <code>[1,2,3,4,5,6,7,8,9,10,11,12,...,99]</code>.</p>
 
 <h3 id="note">Note</h3>
 
-<p>In the function, the numbers N and M will given in decimal, you should also return a decimal number.</p>
+<p>It&rsquo;s pretty easy to do recursion like:</p>
+
+<pre><code>recursion(i) {
+    if i &gt; largest number:
+        return
+    results.add(i)
+    recursion(i + 1)
+}
+</code></pre>
+
+<p>However this cost a lot of recursion memory as the recursion depth maybe very large ($$10^n - 1$$). Can you do it in another way to recursive with at most N depth?</p>
 
 <h3 id="challenge">Challenge</h3>
 
-<p>Minimum number of operations?</p>
-
-<h3 id="clarification">Clarification</h3>
-
-<p>You can assume that the bits j through i have enough space to fit all of M. That is, if M = <code>10011</code>, you can assume that there are at least 5 bits between j and i. You would not, for example, have j=3 and i=2, because M could not fully fit between bit 3 and bit 2.</p>
+<p>Do it in recursion, not for-loop.</p>
 
 <h2 id="think">Think</h2>
 
 <ul>
-<li><p>Set a mask:</p>
-
-<pre><code>Position:   31 30 ..~.. j+1  j ..~.. i  i-1 ..~.. 0
-Bit Val:     1  1  ...   1   0  ...  0   1   ...  1
-</code></pre></li>
-
-<li><p>Use that mask to do <code>&amp;</code> with N, so that in the new N, the position i~j will be zero.</p></li>
-
-<li><p>Left shift <code>i</code> for M to make the position aligned.</p></li>
-
-<li><p>Do <code>|</code> for M and N, then get the final result.</p></li>
+<li>Think from bottom to top.</li>
+<li>Build the result list from number with one digits to N digits.</li>
+<li>Since we considering with digits as its deep, we have to set a loop to add the number in list on the new-generated base number (1 - 9 with following digits):</li>
 </ul>
+
+<pre><code>when zero digit, none;
+when one digit, new-generated base number is 1, add 1,2,...9;
+when two digit, new-generated base number is 10, add 10,20,...90;
+</code></pre>
+
+<ul>
+<li>Each time when having the new-generated base number, we need to pass through the original result list to fill the rest of number with beginning as new-generated base number.</li>
+</ul>
+
+<pre><code>when one digit, new-generated base number is 1, add 1,2,...9, but original result list has nothing. so just add itself;
+when two digit, new-generated base number is 10, when add 10, go back the original result list with &quot;1, 2, 3,..., 9&quot;, add them as 11, 12, 13, ..., 19, when add 20, go back the original result list with &quot;1, 2, 3,..., 9&quot;, add them as 21, 22, 23, ..., 29;
+so the same as for 30,..., 90, 100, ..., 900, ...
+</code></pre>
 
 <h2 id="solution">Solution</h2>
 
-<pre><code class="language-java">class Solution {
+<pre><code class="language-java">public class Solution {
     /**
-     *@param n, m: Two integer
-     *@param i, j: Two bit positions
-     *return: An integer
+     * @param n: An integer.
+     * return : An array storing 1 to the largest number with n digits.
      */
-    public int updateBits(int n, int m, int i, int j) {
+    public List&lt;Integer&gt; numbersByRecursion(int n) {
+        List&lt;Integer&gt; res = new ArrayList&lt;&gt;();
+        if(n &gt;= 0)
+            add(res, n);
+        return res;
+    }
+    
+    private int add(List&lt;Integer&gt; res, int n){
+        if(n == 0)
+            return 1;
         
-        int mask = 0;
-        for(int lfShift = 31; lfShift &gt; j; lfShift--) 
-            mask += (1&lt;&lt;lfShift);
-        
-        for(int lfShift = i - 1; lfShift &gt;= 0; lfShift--) 
-            mask += (1&lt;&lt;lfShift);
-        n &amp;= mask;
-        m &lt;&lt;= i;
-        return n|m;
+        int cur = add(res, n - 1);
+        int size = res.size();
+        for(int i = 1; i &lt;= 9; i ++) {
+            int digit = i * cur;
+            res.add(digit);
+            for(int j = 0; j &lt; size; j++) {
+                res.add(digit + res.get(j));
+            }
+        }
+        return cur * 10;
     }
 }
 </code></pre>
+
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+
+<p>Time: $$O(10^n - 1)$$</p>
+
+<p>Space: $$O(n)$$</p>
 
 </div>
 
@@ -303,15 +331,11 @@ Bit Val:     1  1  ...   1   0  ...  0   1   ...  1
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/10/22/analysis--on-hashmap-api-source-code/" title="Analysis  on HashMap API Source Code">
+    <a class="prev" href="http://xmruibi.github.io/2015/10/25/boggle-game/" title="Boggle Game">
       Earlier Article
     </a>
     
 
-    
-    <a class="next" href="http://xmruibi.github.io/2015/10/22/triangle-count/" title="Triangle Count">
-      Newer Article
-    </a>
     
 
   
