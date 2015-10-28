@@ -169,6 +169,65 @@ so the same as for 30,..., 90, 100, ..., 900, ...
     </item>
     
     <item>
+      <title>Boggle Game</title>
+      <link>http://xmruibi.github.io/2015/10/25/boggle-game/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/25/boggle-game/</guid>
+      <description>
+
+&lt;p&gt;Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;DFS on character board to do backtracking.&lt;/li&gt;
+&lt;li&gt;Searching the character for 8 directions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+
+    public List&amp;lt;String&amp;gt; findWords(HashSet&amp;lt;String&amp;gt; dict, char[][] board) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            for(int j = 0; j &amp;lt; board[i].length; j++) {
+                findUtil(res, dict, board, visited, &amp;quot;&amp;quot;, i, j);
+            }
+        }
+        return res;
+    }
+
+    private void findUtil(List&amp;lt;String&amp;gt; res, HashSet&amp;lt;String&amp;gt; dict, char[][] board, boolean[][] visited, String cur, int x, int y) {
+        visited[x][y] = true;
+        cur += board[x][y];
+
+        if(dict.contains(cur)) {
+            res.add(cur);
+            dict.remvoe(cur);
+            return;
+        }
+        
+        int[] xs = {1,1,1,0,0,-1,-1,-1};
+        int[] ys = {1,-1,0,1,-1,0,1,-1};
+        for(int i = 0; i &amp;lt; 8; i++) {
+            int nx = xs[i] + x;
+            int ny = ys[i] + y;
+            if(nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; board.length &amp;amp;&amp;amp; ny &amp;gt;= 0 &amp;amp;&amp;amp; ny &amp;lt; board[nx].length &amp;amp;&amp;amp; !visited[nx][ny])
+                findUtil(res, dict, board, visited, cur, nx, ny);
+        }
+        visited[x][y] = false;
+        cur = cur.substring(0, cur.length() - 1);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Convert Sorted List to Binary Search Tree</title>
       <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
       <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
@@ -224,65 +283,6 @@ so the same as for 30,..., 90, 100, ..., 900, ...
         root.right = sortedListToBST(right);
         return root;
     }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Boggle Game</title>
-      <link>http://xmruibi.github.io/2015/10/25/boggle-game/</link>
-      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/boggle-game/</guid>
-      <description>
-
-&lt;p&gt;Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;DFS on character board to do backtracking.&lt;/li&gt;
-&lt;li&gt;Searching the character for 8 directions.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-
-    public List&amp;lt;String&amp;gt; findWords(HashSet&amp;lt;String&amp;gt; dict, char[][] board) {
-        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        boolean[][] visited = new boolean[board.length][board[0].length];
-        for(int i = 0; i &amp;lt; board.length; i++) {
-            for(int j = 0; j &amp;lt; board[i].length; j++) {
-                findUtil(res, dict, board, visited, &amp;quot;&amp;quot;, i, j);
-            }
-        }
-        return res;
-    }
-
-    private void findUtil(List&amp;lt;String&amp;gt; res, HashSet&amp;lt;String&amp;gt; dict, char[][] board, boolean[][] visited, String cur, int x, int y) {
-        visited[x][y] = true;
-        cur += board[x][y];
-
-        if(dict.contains(cur)) {
-            res.add(cur);
-            dict.remvoe(cur);
-            return;
-        }
-        
-        int[] xs = {1,1,1,0,0,-1,-1,-1};
-        int[] ys = {1,-1,0,1,-1,0,1,-1};
-        for(int i = 0; i &amp;lt; 8; i++) {
-            int nx = xs[i] + x;
-            int ny = ys[i] + y;
-            if(nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; board.length &amp;amp;&amp;amp; ny &amp;gt;= 0 &amp;amp;&amp;amp; ny &amp;lt; board[nx].length &amp;amp;&amp;amp; !visited[nx][ny])
-                findUtil(res, dict, board, visited, cur, nx, ny);
-        }
-        visited[x][y] = false;
-        cur = cur.substring(0, cur.length() - 1);
-    }
-
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

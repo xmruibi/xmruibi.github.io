@@ -57,5 +57,64 @@ Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator 
 </description>
     </item>
     
+    <item>
+      <title>Iterator of Iterator</title>
+      <link>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</link>
+      <pubDate>Mon, 28 Sep 2015 10:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</guid>
+      <description>
+
+&lt;p&gt;Create an iterator of iterator, supporting any type in Java. The purpose is to iterate over the objects of the iterators.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;import java.util.*;
+
+public class Iterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
+    
+    private Iterator&amp;lt;T&amp;gt; current; // the current concrete iterator (small, detail)
+    private Iterator&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; cursor; // the cursor iterator which current iterator belong to (big, indexing)
+    
+    public Iterators(Iterable&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators) {
+        if (iterators == null) throw new IllegalArgumentException(&amp;quot;iterators is null&amp;quot;);
+        this.cursor = iterators.iterator();
+    }
+    
+    private Iterator findNext() {
+        while(cursor.hasNext()) {
+            current = cursor.next();
+            if(current.hasNext())
+                return current;
+        }
+        return null;
+    }
+    
+    @Override
+    public boolean hasNext() {
+        if(current == null || !current.hasNext())
+            current = findNext();
+        // make sure the current iterator has next
+        return (current != null &amp;amp;&amp;amp; current.hasNext());
+    }
+
+    @Override
+    public T next() {       
+        return current.next();
+    }
+
+    
+    @Override
+    public void remove() {
+        if (current != null) {
+            current.remove();
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>

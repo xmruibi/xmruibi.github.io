@@ -55,7 +55,7 @@
     },
     "datePublished": "2015-10-22",
     "description": "",
-    "wordCount":  1711 
+    "wordCount":  1788 
   }
 </script>
 
@@ -215,7 +215,7 @@ Archive
 
   
   &middot; Read in about 9 min
-  &middot; (1711 Words)
+  &middot; (1788 Words)
   <br>
   Tags: 
 
@@ -532,6 +532,32 @@ final V putVal(int hash, K key, V value) {
         int h;
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
     }
+</code></pre>
+
+<h2 id="resize-and-rehash">Resize and Rehash</h2>
+
+<pre><code class="language-java">final Node&lt;K,V&gt;[] resize() {
+    Node&lt;K, V&gt; newtab = new Node&lt;&gt;[(table.length &lt;&lt; 1)];
+    for(int i = 0; i &lt; table.length; i++){
+        Node&lt;K, V&gt; cur = table[i];
+        while(cur != null) {
+            Node&lt;K, V&gt; next = cur.next;
+            cur.next = null;
+            int newidx = cur.key.hashCode()%newtab.length;
+            Node&lt;K, V&gt; prev = newtab[newidx];
+            if(prev == null)
+                newtab[newidx] = cur;
+            else{
+                while(prev.next != null)
+                    prev = prev.next;
+                prev.next = cur;
+            }
+            cur = next;
+        }
+    }
+    table = newtab;
+    return newtab;
+}
 </code></pre>
 
 </div>

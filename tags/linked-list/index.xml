@@ -615,5 +615,82 @@ You may assume there are no cycles anywhere in the entire linked structure.&lt;/
 </description>
     </item>
     
+    <item>
+      <title>Flaten Multiple Level Linked List</title>
+      <link>http://xmruibi.github.io/2015/09/08/flaten-multiple-level-linked-list/</link>
+      <pubDate>Tue, 08 Sep 2015 23:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/09/08/flaten-multiple-level-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure, as shown in below figure.You are given the head of the first level of the list. Flatten the list so that all the nodes appear in a single-level linked list. You need to flatten the list in way that all nodes at first level should come first, then nodes of second level, and so on.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;	1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4
+		 |		   |
+		 5 —&amp;gt; 6 -&amp;gt; 7
+		 	  |    |
+		 	  8 -&amp;gt; 9
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;node-structure&#34;&gt;Node Structure&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Node{
+	int val;
+	Node next;
+	Node child;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution{
+    /**
+    * BFS with queue
+    * @param root Node 
+    **/
+    public Set&amp;lt;Integer&amp;gt; flatten(Node root) {
+
+        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        Set&amp;lt;Integer&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            Node root = queue.remove();
+            set.add(root.val);
+            if(root.next!=null &amp;amp;&amp;amp; !set.contains(root.next.val))
+                queue.offer(root.next);
+            if(root.child!=null &amp;amp;&amp;amp; !set.contains(root.child.val))
+                queue.offer(root.child);
+        }
+        return res
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>

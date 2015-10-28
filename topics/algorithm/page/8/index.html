@@ -243,6 +243,35 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/09/28/iterator-of-iterator/">Iterator of Iterator
+</a>
+</h2>
+
+  <time datetime="2015-09-28">28 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    Create an iterator of iterator, supporting any type in Java. The purpose is to iterate over the objects of the iterators. Solution import java.util.*; public class Iterators&lt;T&gt; implements Iterator&lt;T&gt; { private Iterator&lt;T&gt; current; // the current concrete iterator (small, detail) private Iterator&lt;Iterator&lt;T&gt;&gt; cursor; // the cursor iterator which current iterator belong to (big, indexing) public Iterators(Iterable&lt;Iterator&lt;T&gt;&gt; iterators) { if (iterators == null) throw new IllegalArgumentException(&quot;iterators is null&quot;); this.cursor = iterators.iterator();
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/09/28/iterator-of-iterator/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
   <h2><a href="http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/">Search In 2D Matrix II
 </a>
 </h2>
@@ -440,7 +469,7 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/09/08/subarray-sum-ii/">Subarray Sum II
+  <h2><a href="http://xmruibi.github.io/2015/09/08/flaten-multiple-level-linked-list/">Flaten Multiple Level Linked List
 </a>
 </h2>
 
@@ -451,7 +480,7 @@ Archive
   <p class="container content">
   
   
-    <p>Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.</p>
+    <p>Given a linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure, as shown in below figure.You are given the head of the first level of the list. Flatten the list so that all the nodes appear in a single-level linked list. You need to flatten the list in way that all nodes at first level should come first, then nodes of second level, and so on.</p>
 
   
 
@@ -460,39 +489,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/09/08/subarray-sum-ii/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/">Algorithm Questions Conclusion
-</a>
-</h2>
-
-  <time datetime="2015-08-11">11 Aug, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <h4 id="preface">Preface:</h4>
-
-<p>This is the collection of interview questions concluded by me, which is including questions from LeetCode, Cracking Code Interview, and Handwriting Coding Handbook.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/08/11/algorithm-questions-conclusion/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/09/08/flaten-multiple-level-linked-list/">Read more &rarr;</a>
 
 </div>
 
@@ -546,12 +543,16 @@ Archive
   8
 </a>
 
+<a href="http://xmruibi.github.io/topics/algorithm/page/9/">
+  9
+</a>
 
-<a class="disabled" aria-label="Next" href="#">
+
+<a aria-label="Next" href="http://xmruibi.github.io/topics/algorithm/page/9/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://xmruibi.github.io/topics/algorithm/page/8/">
+<a aria-label="Last" href="http://xmruibi.github.io/topics/algorithm/page/9/">
   <span aria-hidden="true">»»</span>
 </a>
 
