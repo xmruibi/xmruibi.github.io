@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Heap on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/heap/</link>
+    <description>Recent content in Heap on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sun, 18 Oct 2015 22:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/heap/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Iterator and Top N Element</title>
+      <link>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</link>
+      <pubDate>Sun, 18 Oct 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</guid>
+      <description>
+
+&lt;p&gt;Given a Iterator with next giving instances of Line class
+Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN)&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Line { 
+	String ip; 
+	String request; 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+	public List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN) {
+		Map&amp;lt;String, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		while(itertor.hasNext()) {
+			Line cur = iterator.next();
+			map.put(cur.ip, map.containsKey(cur.ip)? map.get(cur.ip) + 1 : 1);
+		}
+		PriorityQueue&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt;(){
+			@Override
+			public int compare(Map.Entry&amp;lt;String, Integer&amp;gt; o1, Map.Entry&amp;lt;String, Integer&amp;gt; o2){
+				return Integer.compare(o2.getValue(), o1.getValue());
+			}
+		});
+		for(Map.Entry&amp;lt;String, Integer&amp;gt; entry : map) {
+			heap.offer(entry);
+		}
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		while(topN &amp;gt; 0) {
+			res.add(heap.poll().getKey());
+		}
+		return res;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

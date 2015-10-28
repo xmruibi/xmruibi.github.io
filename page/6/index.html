@@ -177,11 +177,148 @@ Archive
     <h1>Rui&#39;s Home Page
 </h1>
 
-    <span>last update: <time datetime="2015-10-26T16:33:13-07:00">26 October at 4:33pm</time>
+    <span>last update: <time datetime="2015-10-27T13:10:29-07:00">27 October at 1:10pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">Segment Tree Modify
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
+
+<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">Segment Tree Build II
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
+
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a build method with a given array, so that we can create a corresponding segment tree with every node value represent the corresponding interval max value in the array, return the root of this segment tree.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-query/">Segment Tree Query
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>For an integer array (index from 0 to n-1, where n is the size of this array), in the corresponding SegmentTree, each node stores an extra attribute max to denote the maximum number in the interval of the array (index from start to end).</p>
+
+<p>Design a query method with three parameters root, start and end, find the maximum number in the interval [start, end] by the given root of segment tree.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/">Segment Tree Query II
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>For an array, we can build a SegmentTree for it, each node stores an extra attribute count to denote the number of elements in the the array which value is between interval start and end. (The array may not fully filled by elements)</p>
+
+<p>Design a query method with three parameters root, start and end, find the number of elements in the in array&rsquo;s interval [start, end] by the given root of value SegmentTree.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -206,40 +343,6 @@ Archive
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii/">Ugly Number II
-</a>
-</h2>
-
-  <time datetime="2015-10-18">18 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Write a program to find the n-th ugly number.</p>
-
-<p>Ugly numbers are positive numbers whose prime factors only include <code>2, 3, 5</code>. For example, <code>1, 2, 3, 4, 5, 6, 8, 9, 10, 12</code> is the sequence of the first <code>10</code> ugly numbers.</p>
-
-<p>Note that <code>1</code> is typically treated as an ugly number.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii/">Read more &rarr;</a>
 
 </div>
 
@@ -274,6 +377,40 @@ Archive
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/10/18/ugly-number/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii/">Ugly Number II
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>Write a program to find the n-th ugly number.</p>
+
+<p>Ugly numbers are positive numbers whose prime factors only include <code>2, 3, 5</code>. For example, <code>1, 2, 3, 4, 5, 6, 8, 9, 10, 12</code> is the sequence of the first <code>10</code> ugly numbers.</p>
+
+<p>Note that <code>1</code> is typically treated as an ugly number.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii/">Read more &rarr;</a>
 
 </div>
 
@@ -373,134 +510,6 @@ Archive
 </article>
 
   
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/">Swap Nodes in Pairs
-</a>
-</h2>
-
-  <time datetime="2015-10-17">17 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Given a linked list, swap every two adjacent nodes and return its head.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/17/n-queen-i/">N Queen I
-</a>
-</h2>
-
-  <time datetime="2015-10-17">17 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.</p>
-
-<p>Given an integer n, return all distinct solutions to the n-queens puzzle.</p>
-
-<p>Each solution contains a distinct board configuration of the n-queens&rsquo; placement, where &lsquo;Q&rsquo; and &lsquo;.&rsquo; both indicate a queen and an empty space respectively.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/17/n-queen-i/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/17/n-queen-ii/">N Queen II
-</a>
-</h2>
-
-  <time datetime="2015-10-17">17 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Follow up for N-Queens problem.</p>
-
-<p>Now, instead outputting board configurations, return the total number of distinct solutions.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/17/n-queen-ii/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/16/integer-to-roman/">Integer to Roman
-</a>
-</h2>
-
-  <time datetime="2015-10-16">16 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Given an integer, convert it to a roman numeral.</p>
-
-<p>The number is guaranteed to be within the range from <code>1</code> to <code>3999</code>.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/16/integer-to-roman/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
   
 <div class="container pagination">
   
@@ -551,12 +560,16 @@ Archive
   9
 </a>
 
+<a href="http://xmruibi.github.io/page/10/">
+  10
+</a>
+
 
 <a aria-label="Next" href="http://xmruibi.github.io/page/7/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://xmruibi.github.io/page/9/">
+<a aria-label="Last" href="http://xmruibi.github.io/page/10/">
   <span aria-hidden="true">»»</span>
 </a>
 

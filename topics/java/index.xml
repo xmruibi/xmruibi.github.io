@@ -666,6 +666,239 @@ As NoResultException is a RuntimeException this flaw heavily violates the Princi
     </item>
     
     <item>
+      <title>Spring Boot App with Elastic Search Indexing Service</title>
+      <link>http://xmruibi.github.io/code/ElasticSearch/</link>
+      <pubDate>Mon, 10 Aug 2015 23:56:15 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/code/ElasticSearch/</guid>
+      <description>
+
+&lt;p&gt;This article shows an example to build a bridge between Spring-Boot App and Elastic Search Indexing Service.&lt;/p&gt;
+
+&lt;h2 id=&#34;1-elastic-search-install&#34;&gt;1. Elastic Search Install&lt;/h2&gt;
+
+&lt;p&gt;Install elastic search is very easy&lt;/p&gt;
+
+&lt;h3 id=&#34;install-elastic-search&#34;&gt;Install Elastic Search&lt;/h3&gt;
+
+&lt;h4 id=&#34;start-elastic-search&#34;&gt;Start Elastic Search&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;    # windows: cd yourPath: service install
+                            service start
+                            service stop
+    # Mac: cd $ELASTIC_HOME: elasticsearch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;check-your-service-by-input-the-url-localhost-9200-in-your-browser&#34;&gt;Check your service by input the url &lt;code&gt;localhost:9200&lt;/code&gt; in your browser.&lt;/h4&gt;
+
+&lt;h4 id=&#34;cluster-name&#34;&gt;Cluster Name&lt;/h4&gt;
+
+&lt;p&gt;If cluster name is not &amp;laquo;elasticsearch&amp;raquo;, it may cause the run failed when your Java code trying to build elastic search instance. There should be an exception( NoNodeClientException: None of node configed) when your indexing the data.&lt;/p&gt;
+
+&lt;p&gt;Please change your cluster name into &amp;laquo;elasticsearch&amp;raquo; in your elasticsearch install path.
+ $ELASTIC_HOME/config/elasticsearch.yml : clustername = elasticsearch&lt;/p&gt;
+
+&lt;h2 id=&#34;2-creat-index-by-spring-data-elasticsearch-api&#34;&gt;2. Creat Index by Spring-data-elasticsearch API&lt;/h2&gt;
+
+&lt;p&gt;Here is a example from my project. It shows how I creat an index for music by Bulk method, which is provided by Elastic Java API.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Service
+public class MusicIndexingService {
+
+	private final static Logger logger = Logger
+			.getLogger(MusicIndexingService.class);
+
+	@Autowired	
+	private Client client ;
+	
+	private ObjectMapper mapper = new ObjectMapper();
+
+	/**
+	 * The bulk index method
+	 * @param musicCollection for index
+	 */
+	public void bulkIndex(List&amp;lt;IndexedMusic&amp;gt; musicCollection) {
+		client.delete(new DeleteRequest(&amp;quot;musics&amp;quot;));
+		logger.info(&amp;quot;Indexing bulk request of &amp;quot; + musicCollection.size()
+				+ &amp;quot; documents&amp;quot;);
+		BulkRequestBuilder bulkRequest = client.prepareBulk();
+		for (IndexedMusic music : musicCollection) {
+			String json = null;
+			try {
+				json = mapper.writeValueAsString(music);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+			bulkRequest.add(client.prepareIndex(&amp;quot;musics&amp;quot;, &amp;quot;music&amp;quot;,
+					UUID.randomUUID().toString()).setSource(json));
+		}
+		BulkResponse response = bulkRequest.execute().actionGet();
+		if (response.hasFailures()) {
+			throw new RuntimeException(
+					&amp;quot;there was an error indexing the bulk request of &amp;quot;
+							+ musicCollection.size() + &amp;quot; documents: &amp;quot; +response.buildFailureMessage());
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;## 3. Search the index:
+ Search a music by name.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+	 * This is keyword search method in comment contents field in music object
+	 * @param keyword
+	 * @return
+	 */
+	public List&amp;lt;Music&amp;gt; findMusic(String keyword) {
+		QueryBuilder matchquery = QueryBuilders.fuzzyLikeThisFieldQuery(
+				&amp;quot;commentContents&amp;quot;).likeText(keyword);
+		SearchRequestBuilder requestBuilder = client.prepareSearch(&amp;quot;musics&amp;quot;)
+				.setQuery(matchquery);
+		SearchResponse response = requestBuilder.execute().actionGet();
+		SearchHits hits = response.getHits();
+		List&amp;lt;String&amp;gt; musicIdsList = new ArrayList&amp;lt;String&amp;gt;();
+		Iterator&amp;lt;SearchHit&amp;gt; iterator = hits.iterator();
+		while (iterator.hasNext()) {
+			musicIdsList.add(iterator.next().getSource().get(&amp;quot;id&amp;quot;).toString());
+		}
+		return (List&amp;lt;Music&amp;gt;) musicRepository.findAll(musicIdsList);
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Architecture Design on Social Music Search project</title>
+      <link>http://xmruibi.github.io/code/SpringBoot/</link>
+      <pubDate>Sun, 09 Aug 2015 10:56:15 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/code/SpringBoot/</guid>
+      <description>
+
+&lt;h2 id=&#34;framework-why-spring-boot&#34;&gt;Framework: Why Spring Boot?&lt;/h2&gt;
+
+&lt;p&gt;Spring framework goes every where in current enterprise application. However, most of people are familiar with Spring MVC. Here I just want to introduce a new Spring Boot project. Hear what its official document said:
+&amp;gt; Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can &amp;laquo;just run&amp;raquo;.&lt;/p&gt;
+
+&lt;p&gt;Yes, unlike Spring MVC, the Spring Boot require less configuration and easier to deploy on remote virtual machine or cloud computing platform. Spring Boot has following features:&lt;/p&gt;
+
+&lt;h4 id=&#34;features&#34;&gt;Features&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create stand-alone Spring applications&lt;/li&gt;
+&lt;li&gt;Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files)&lt;/li&gt;
+&lt;li&gt;Provide opinionated &amp;lsquo;starter&amp;rsquo; POMs to simplify your Maven configuration&lt;/li&gt;
+&lt;li&gt;Automatically configure Spring whenever possible&lt;/li&gt;
+&lt;li&gt;Provide production-ready features such as metrics, health checks and externalized configuration&lt;/li&gt;
+&lt;li&gt;Absolutely no code generation and no requirement for XML configuration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;spring-boot-app-configuration&#34;&gt;Spring Boot App Configuration&lt;/h2&gt;
+
+&lt;p&gt;The Spring Boot requires some basic configuration and set up the bootstrap entrance:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;It doesn&amp;rsquo;t need &lt;code&gt;web.xml&lt;/code&gt; whic is common for Spring MVC;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Set up the bootstrap by Maven plugin.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Bootstrap Main function (Entrance of Spring Boot App): MusicSearchApplication;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Spring Configuration (config package)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ApplicationConfig
+```java
+@Configuration
+@PropertySource(&amp;laquo;classpath:application.properties&amp;raquo;) // point out the application.properties as configuration source
+public class ApplicationConfig {
+public @Bean LoggingEventListener mongoEventListener() {
+    return new LoggingEventListener();
+}&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;}
+&lt;code&gt;
+- WebMVCConfig
+&lt;/code&gt;
+@Configuration
+@ComponentScan({&amp;laquo;com.musicSearch.core.controller&amp;raquo;,&amp;laquo;com.musicSearch.core.service&amp;raquo;,&amp;laquo;com.musicSearch.core.domain&amp;raquo;}) // here is important to do component scan
+public class WebMVCConfig extends WebMvcConfigurerAdapter {
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController(&amp;laquo;/static&amp;raquo;)
+                .setViewName(&amp;laquo;forward:/index.html&amp;raquo;);
+        // point out the .css/.js or other static files target and default home page
+    }
+}
+&lt;code&gt;
+- ApplicationInitializer: Core entrance configuration
+&lt;/code&gt;java
+@Configuration
+@EnableAutoConfiguration
+@Import({ MongoDBConfig.class, ElasticSearchConfig.class,
+        ApplicationConfig.class, WebMVCConfig.class,
+        RepositoryRestMvcConfiguration.class })
+public class MusicSearchApplication extends SpringBootServletInitializer {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public static void main(String[] args) {
+    SpringApplication.run(MusicSearchApplication.class, args);
+}
+
+
+@Override
+protected SpringApplicationBuilder configure(
+        SpringApplicationBuilder application) {
+    return application.sources(MusicSearchApplication.class);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}
+```&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;design-detail&#34;&gt;Design Detail&lt;/h2&gt;
+
+&lt;p&gt;Here is how I design my Social Music Search project with Spring Boot:&lt;/p&gt;
+
+&lt;h3 id=&#34;restful-serivce-to-do-the-backend-and-frontend-communication&#34;&gt;RESTful Serivce to do the backend and frontend communication&lt;/h3&gt;
+
+&lt;h4 id=&#34;spring-data-rest&#34;&gt;Spring-Data-REST&lt;/h4&gt;
+
+&lt;p&gt;Based on Spring Boot as backend, I set up the RESTful interface by using Spring-Data-REST API:
+- Config: ApplicationConfig;
+- service;
+- controller;&lt;/p&gt;
+
+&lt;h3 id=&#34;non-sql-database-mongodb-to-be-the-database-solution&#34;&gt;Non-SQL database, MongoDB, to be the database solution&lt;/h3&gt;
+
+&lt;p&gt;Spring-Data-MongoDB&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;config: MongoDBConfig;&lt;/li&gt;
+&lt;li&gt;repository;&lt;/li&gt;
+&lt;li&gt;domain: Music, BulletComment, User, Genre&amp;hellip;;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;indexing-service&#34;&gt;Indexing Service&lt;/h3&gt;
+
+&lt;p&gt;Spring-Data-ElasticSearch&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;config: ElasticSearchConfig; (port:9300)&lt;/li&gt;
+&lt;li&gt;index.repository;&lt;/li&gt;
+&lt;li&gt;index.domain: Indexed Music;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Official Site&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>AccessControl</title>
       <link>http://xmruibi.github.io/2015/07/12/accesscontrol/</link>
       <pubDate>Sun, 12 Jul 2015 00:03:07 -0700</pubDate>

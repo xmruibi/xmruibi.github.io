@@ -33,12 +33,25 @@ Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator 
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
 	public List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN) {
-		HashMap&amp;lt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		Map&amp;lt;String, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
 		while(itertor.hasNext()) {
 			Line cur = iterator.next();
-
+			map.put(cur.ip, map.containsKey(cur.ip)? map.get(cur.ip) + 1 : 1);
 		}
-
+		PriorityQueue&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt;(){
+			@Override
+			public int compare(Map.Entry&amp;lt;String, Integer&amp;gt; o1, Map.Entry&amp;lt;String, Integer&amp;gt; o2){
+				return Integer.compare(o2.getValue(), o1.getValue());
+			}
+		});
+		for(Map.Entry&amp;lt;String, Integer&amp;gt; entry : map) {
+			heap.offer(entry);
+		}
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		while(topN &amp;gt; 0) {
+			res.add(heap.poll().getKey());
+		}
+		return res;
 	}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
