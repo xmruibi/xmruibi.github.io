@@ -138,6 +138,88 @@
     </item>
     
     <item>
+      <title>Iterator of 2-D Array</title>
+      <link>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</link>
+      <pubDate>Mon, 28 Sep 2015 10:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</guid>
+      <description>
+
+&lt;p&gt;Set up a iterator to iterate a 2-dimensional array.
+By given the following code, finish all class:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class DeepIterator{
+    
+    public DeepIterator(int[][] listOfLists){
+	    ...
+	}
+	
+	...
+	public static void main(String[] args) {
+        int[][] listOfLists = {
+          {},{},{1,2,3},{},{},{2,3,4}
+        };
+        DeepIterator it = new DeepIterator(listOfLists);
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Iterate the 2-D array by &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Record current element during &lt;code&gt;hasNext()&lt;/code&gt; function.&lt;/li&gt;
+&lt;li&gt;Check the row if it is null.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class DeepIterator{
+    int cur; // this is important
+    int row = 0, col = 0;
+
+    int[][] listOfLists;
+
+    public DeepIterator(int[][] listOfLists){
+        if(listOfLists == null)
+            throw new IllegalArgumentException(&amp;quot;Null Input&amp;quot;);
+        this.listOfLists = listOfLists;
+    }
+
+    public Integer next(){
+        return cur;
+    }
+
+    public boolean hasNext(){
+        // make sure the row is not null
+        while(row &amp;lt; listOfLists.length &amp;amp;&amp;amp; col &amp;gt;= listOfLists[row].length) {
+                row ++; col = 0;
+        }
+        if(row &amp;lt; listOfLists.length) {
+            cur = listOfLists[row][col++];
+            return true;
+        }else
+            return false;
+    }
+
+    public static void main(String[] args) {
+        int[][] listOfLists = {
+          {},{},{1,2,3},{},{},{2,3,4}
+        };
+        DeepIterator it = new DeepIterator(listOfLists);
+        while(it.hasNext()){
+          System.out.println(it.next());
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Search In 2D Matrix II</title>
       <link>http://xmruibi.github.io/2015/09/22/search-in-2d-matrix-ii/</link>
       <pubDate>Tue, 22 Sep 2015 13:35:30 -0700</pubDate>

@@ -55,7 +55,7 @@
     },
     "datePublished": "2015-10-21",
     "description": "",
-    "wordCount":  951 
+    "wordCount":  955 
   }
 </script>
 
@@ -215,7 +215,7 @@ Archive
 
   
   &middot; Read in about 5 min
-  &middot; (951 Words)
+  &middot; (955 Words)
   <br>
   Tags: 
 
@@ -237,19 +237,19 @@ Archive
 
 <p>This typical question in many interview&rsquo;s OO Design part; Design a chess game with object-oriented programming principle.</p>
 
-<h2 id="some-rules">Some Rules:</h2>
+<h2 id="description">Description</h2>
 
-<ul>
-<li>Player chooses piece to move.</li>
-<li>Piece makes legal move according to its own move rules.</li>
-<li>In addition to purely move-based rules, there&rsquo;s also capture logic, so a bishop cannot move from a1-h8 if there&rsquo;s a piece sitting on c3.</li>
-<li>If the player was previous under check and the move does not remove the check, it must be undone.</li>
-<li>If the move exposes check, it must be undone / disallowed.</li>
-<li>If player captures a piece, remove the piece (including en passant!)</li>
-<li>If the piece is a pawn reaching the back rank, promote it.</li>
-<li>If the move is a castling, set the new position of the rook accordingly. But a king and rook can only castle if they haven&rsquo;t moved, so you need to keep track of that. And if the king moves through a check to castle, that&rsquo;s disallowed, too.</li>
-<li>If the move results in a stalemate or checkmate, the game is over.</li>
-</ul>
+<p>Game is an object contains the single board and two players. It should has a function to run the entire game and make turn on each player. It also should has a method to accounce the win or lose.</p>
+
+<p>Board can be a singleton object and holds 8 times 8 two dimension array of Spot object.
+Every operation on piece should based on the board, like initial the piece, execute the step.</p>
+
+<p>In spot object, it holds the piece and piece can occupy this spot or spot release a piece.</p>
+
+<p>The piece object can be an abstract class that extended by different kinds like queen, king&hellip;
+In piece object, the color also need to be marked. In each concrete class, different kind of piece has different step approach. So there must haa a concrete method to check the step commond is valid.</p>
+
+<p>Player can hold some information about the color and the times of win or lost.</p>
 
 <h2 id="basic-object-design">Basic Object Design</h2>
 
@@ -606,7 +606,7 @@ public class King extends Piece{
     
 
     
-    <a class="next" href="http://xmruibi.github.io/2015/10/21/parking-lot/" title="Parking Lot">
+    <a class="next" href="http://xmruibi.github.io/2015/10/21/scramble-number-pair-calculator/" title="Scramble Number Pair Calculator">
       Newer Article
     </a>
     

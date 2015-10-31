@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Copy List with Random Pointer  &middot; Rui&#39;s Home Page</title>
+  <title>Iterator of 2-D Array  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,25 +14,25 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Linked List, Two Pointers, ">
+<meta name="keywords" content="Iterator, Matrix, ">
 
 
-<meta property="og:title" content="Copy List with Random Pointer  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Iterator of 2-D Array  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-25T20:13:13-07:00" />
-<meta property="og:article:modified_time" content="2015-10-25T20:13:13-07:00" />
+<meta property="og:article:published_time" content="2015-09-28T10:10:29-07:00" />
+<meta property="og:article:modified_time" content="2015-09-28T10:10:29-07:00" />
 
   
     
-<meta property="og:article:tag" content="Linked List">
+<meta property="og:article:tag" content="Iterator">
     
-<meta property="og:article:tag" content="Two Pointers">
+<meta property="og:article:tag" content="Matrix">
     
   
 
@@ -40,9 +40,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Copy List with Random Pointer" />
+<meta name="twitter:title" content="Iterator of 2-D Array" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -50,20 +50,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Copy List with Random Pointer",
+    "headline": "Iterator of 2-D Array",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-10-25",
+    "datePublished": "2015-09-28",
     "description": "",
-    "wordCount":  163 
+    "wordCount":  169 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -208,23 +208,23 @@ Archive
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Copy List with Random Pointer
+  <h1>Iterator of 2-D Array
 </h1>
 
   <div class="metas">
-<time datetime="2015-10-25">25 Oct, 2015</time>
+<time datetime="2015-09-28">28 Sep, 2015</time>
 
 
   
   &middot; Read in about 1 min
-  &middot; (163 Words)
+  &middot; (169 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/linked-list">Linked List; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/iterator">Iterator; </a> 
 
 
-<a class="label" href="http://xmruibi.github.io/tags/two-pointers">Two Pointers; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/matrix">Matrix; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -240,69 +240,74 @@ Archive
   <div class="container content">
   
 
-<p>Merge k sorted linked lists and return it as one sorted list.</p>
+<p>Set up a iterator to iterate a 2-dimensional array.
+By given the following code, finish all class:</p>
 
-<p>Analyze and describe its complexity.</p>
-
-<h3 id="example">Example</h3>
-
-<p>Given lists:</p>
-
-<pre><code>[
-  2-&gt;4-&gt;null,
-  null,
-  -1-&gt;null
-],
+<pre><code class="language-java">public class DeepIterator{
+    
+    public DeepIterator(int[][] listOfLists){
+	    ...
+	}
+	
+	...
+	public static void main(String[] args) {
+        int[][] listOfLists = {
+          {},{},{1,2,3},{},{},{2,3,4}
+        };
+        DeepIterator it = new DeepIterator(listOfLists);
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+    }
+}
 </code></pre>
-
-<p>return <code>-1-&gt;2-&gt;4-&gt;null</code>.</p>
 
 <h2 id="think">Think</h2>
 
 <ul>
-<li>Use a heap to receive element from linked list</li>
-<li>Tricky part:
-
-<ul>
-<li>Just entered k node in heap instead of pass all nodes in lists.</li>
-<li>When poll out element, it also need to push back the next node of polled node.</li>
-</ul></li>
+<li>Iterate the 2-D array by <code>x</code> and <code>y</code>.</li>
+<li>Record current element during <code>hasNext()</code> function.</li>
+<li>Check the row if it is null.</li>
 </ul>
 
 <h2 id="solution">Solution</h2>
 
-<pre><code class="language-java">public class Solution {
-    /**
-     * @param lists: a list of ListNode
-     * @return: The head of one sorted list.
-     */
-    public ListNode mergeKLists(List&lt;ListNode&gt; lists) {  
-        if(lists == null)
-            return null;
-        
-        PriorityQueue&lt;ListNode&gt; queue = new PriorityQueue&lt;ListNode&gt;(10, new Comparator&lt;ListNode&gt;(){
-            @Override
-            public int compare(ListNode o1, ListNode o2){
-                return Integer.compare(o1.val, o2.val);
-            }
-        });
-        // O(n) : n total nodes 
-        for(ListNode node : lists){
-            if(node != null)
-                queue.offer(node);
+<pre><code class="language-java">public class DeepIterator{
+    int cur; // this is important
+    int row = 0, col = 0;
+
+    int[][] listOfLists;
+
+    public DeepIterator(int[][] listOfLists){
+        if(listOfLists == null)
+            throw new IllegalArgumentException(&quot;Null Input&quot;);
+        this.listOfLists = listOfLists;
+    }
+
+    public Integer next(){
+        return cur;
+    }
+
+    public boolean hasNext(){
+        // make sure the row is not null
+        while(row &lt; listOfLists.length &amp;&amp; col &gt;= listOfLists[row].length) {
+                row ++; col = 0;
         }
-        
-        ListNode dummy = new ListNode(0);
-        ListNode pre = dummy;
-        while(!queue.isEmpty()){
-            ListNode cur = queue.remove();
-            if(cur.next != null)
-                queue.offer(cur.next);
-            pre.next = cur;
-            pre = cur;
+        if(row &lt; listOfLists.length) {
+            cur = listOfLists[row][col++];
+            return true;
+        }else
+            return false;
+    }
+
+    public static void main(String[] args) {
+        int[][] listOfLists = {
+          {},{},{1,2,3},{},{},{2,3,4}
+        };
+        DeepIterator it = new DeepIterator(listOfLists);
+        while(it.hasNext()){
+          System.out.println(it.next());
         }
-        
-        return dummy.next;
     }
 }
 </code></pre>
@@ -317,13 +322,13 @@ Archive
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/" title="Remove Nth Node From End of List">
+    <a class="prev" href="http://xmruibi.github.io/2015/09/28/iterator-of-iterator/" title="Iterator of Iterator">
       Earlier Article
     </a>
     
 
     
-    <a class="next" href="http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/" title="Remove Duplicates from Sorted List II">
+    <a class="next" href="http://xmruibi.github.io/2015/10/08/word-pattern/" title="Word Pattern">
       Newer Article
     </a>
     
@@ -416,16 +421,6 @@ Archive
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-69058903-1', 'auto');
-  ga('send', 'pageview');;
-</script>
-
-
-
-    
-  </body>
-</html>
-
-', 'auto');
   ga('send', 'pageview');;
 </script>
 

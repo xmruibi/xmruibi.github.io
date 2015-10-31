@@ -275,7 +275,7 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">Online Book Reader System
+  <h2><a href="http://xmruibi.github.io/2015/10/21/scramble-number-pair-calculator/">Scramble Number Pair Calculator
 </a>
 </h2>
 
@@ -286,7 +286,36 @@ Archive
   <p class="container content">
   
   
-    <p>This question comes from the book named &laquo;Cracking Code Interview&raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.</p>
+    Let a pair of distinct positive integers, (i, j), be considered &laquo;scrambled&raquo; if you can obtain j by reordering the digits of i. For example, (12345, 25341) is a scrambled pair, but (12345, 67890) is not. Given integers A and B with the same number of digits and no leading zeroes, how many distinct scrambled pairs (i, j) are there that satisfy: A &lt;= i &lt; j &lt;= B? For instance, if we let A = 10 and B = 99, the answer is 36: (12,21), (13,31), (14,41), (15,51), (16,61), (17,71), (18,81), (19,91), (23,32), (24,42), (25,52), (26,62), (27,72), (28,82), (29,92), (34,43), (35,53), (36,63), (37,73), (38,83), (39,93), (45,54), (46,64), (47,74), (48,84), (49,94), (56,65), (57,75), (58,85), (59,95), (67,76), (68,86), (69,96), (78,87), (79,97), (89,98) Think and Solution public class Test { public static void main(String[] args) { Scanner scanner = new Scanner(System.in); System.out.println(&quot;Input min range: &quot;); int min = scanner.nextInt(); System.out.println(&quot;Input max range: &quot;); int max = scanner.nextInt(); System.out.print(scrambleNumberCalculator(min, max)); Map&lt;Object,Object&gt; map = new HashMap(); } /** * Main function to do the scramble number pair calculation * @param minRange : minimum of range * @param maxRange : maximum of range * @return */ public static long scrambleNumberCalculator(int min, int max) { // the total scramble number set to avoid duplicate calculate Set&lt;Integer&gt; pairs = new HashSet&lt;&gt;(); // the result of pairs count; long cnt = 0; int[] range = new int[]{min, max}; for (int i = range[0]; i &lt;= range[1]; i++) { if (pairs.contains(i)) continue; Set&lt;Integer&gt; res = new HashSet&lt;&gt;(); List&lt;Integer&gt; list = convertDigitsList(i); permutation(res, list, range, 0, list.size()); cnt += combinationPair(res.size()); // res size equal to one means there is no pair for this number // for saving pairs space I don't add the number with no scramble pair.
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/21/scramble-number-pair-calculator/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/21/chess-game/">Chess Game
+</a>
+</h2>
+
+  <time datetime="2015-10-21">21 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>This typical question in many interview&rsquo;s OO Design part; Design a chess game with object-oriented programming principle.</p>
 
   
 
@@ -295,7 +324,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/10/21/chess-game/">Read more &rarr;</a>
 
 </div>
 
@@ -325,6 +354,36 @@ Archive
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">Online Book Reader System
+</a>
+</h2>
+
+  <time datetime="2015-10-21">21 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>This question comes from the book named &laquo;Cracking Code Interview&raquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">Read more &rarr;</a>
 
 </div>
 
@@ -418,66 +477,6 @@ next() and hasNext() queries run in O(1) time in average.</p>
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/">Find the Weak Connected Component in the Directed Graph
-</a>
-</h2>
-
-  <time datetime="2015-10-20">20 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Find the number Weak Connected Component in the directed graph. Each node in the graph contains a label and a list of its neighbors. (a connected set of a directed graph is a subgraph in which any two vertices are connected by direct edge path.)</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/20/digit-counts/">Digit Counts
-</a>
-</h2>
-
-  <time datetime="2015-10-20">20 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Count the number of k&rsquo;s between 0 and n. k can be 0 - 9.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/20/digit-counts/">Read more &rarr;</a>
 
 </div>
 
