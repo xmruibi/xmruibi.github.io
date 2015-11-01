@@ -3,8 +3,28 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-10-27T13:10:29-07:00</lastmod>
+    <lastmod>2015-10-31T10:10:29-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/31/even-iterator/</loc>
+    <lastmod>2015-10-31T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/31/jump-iterator/</loc>
+    <lastmod>2015-10-31T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/</loc>
+    <lastmod>2015-10-31T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/31/peeking-iterator/</loc>
+    <lastmod>2015-10-31T10:10:29-07:00</lastmod>
   </url>
   
   <url>
@@ -133,12 +153,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
@@ -163,12 +183,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/20/divide-two-integers/</loc>
+    <loc>http://xmruibi.github.io/2015/10/20/digit-counts/</loc>
     <lastmod>2015-10-20T10:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/20/digit-counts/</loc>
+    <loc>http://xmruibi.github.io/2015/10/20/divide-two-integers/</loc>
     <lastmod>2015-10-20T10:43:13-07:00</lastmod>
   </url>
   

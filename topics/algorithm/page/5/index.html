@@ -181,6 +181,127 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/lowest-common-ancestor/">Lowest Common Ancestor
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>Given the root and two nodes in a Binary Tree. Find the lowest common ancestor(LCA) of the two nodes.</p>
+
+<p>The lowest common ancestor is the node with largest depth which is the ancestor of both nodes.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/lowest-common-ancestor/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/">Iterator and Top N Element
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    Given a Iterator with next giving instances of Line class Design the function:List&lt;String&gt; get_top_ips(Iterator iterator, int topN) class Line { String ip; String request; } Solution public List&lt;String&gt; get_top_ips(Iterator iterator, int topN) { Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(); while(itertor.hasNext()) { Line cur = iterator.next(); map.put(cur.ip, map.containsKey(cur.ip)? map.get(cur.ip) + 1 : 1); } PriorityQueue&lt;Map.Entry&lt;String, Integer&gt;&gt; heap = new PriorityQueue&lt;&gt;(new Comparator&lt;Map.Entry&lt;String, Integer&gt;&gt;(){ @Override public int compare(Map.Entry&lt;String, Integer&gt; o1, Map.Entry&lt;String, Integer&gt; o2){
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/max-points-on-a-line/">Max Points on a Line
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/max-points-on-a-line/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/count-of-smaller-number/">Count of Smaller Number
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/count-of-smaller-number/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
   <h2><a href="http://xmruibi.github.io/2015/10/18/smallest-difference/">Smallest Difference
 </a>
 </h2>
@@ -379,132 +500,6 @@ Archive
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">Segment Tree Modify
-</a>
-</h2>
-
-  <time datetime="2015-10-18">18 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
-
-<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-query/">Segment Tree Query
-</a>
-</h2>
-
-  <time datetime="2015-10-18">18 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>For an integer array (index from 0 to n-1, where n is the size of this array), in the corresponding SegmentTree, each node stores an extra attribute max to denote the maximum number in the interval of the array (index from start to end).</p>
-
-<p>Design a query method with three parameters root, start and end, find the maximum number in the interval [start, end] by the given root of segment tree.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/">Segment Tree Query II
-</a>
-</h2>
-
-  <time datetime="2015-10-18">18 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>For an array, we can build a SegmentTree for it, each node stores an extra attribute count to denote the number of elements in the the array which value is between interval start and end. (The array may not fully filled by elements)</p>
-
-<p>Design a query method with three parameters root, start and end, find the number of elements in the in array&rsquo;s interval [start, end] by the given root of value SegmentTree.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/">Intersection of Two Linked Lists
-</a>
-</h2>
-
-  <time datetime="2015-10-18">18 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Write a program to find the node at which the intersection of two singly linked lists begins.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/">Read more &rarr;</a>
 
 </div>
 
