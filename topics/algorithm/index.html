@@ -192,7 +192,8 @@ Archive
   <p class="container content">
   
   
-    Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms By Complexity Time Complexity: $$O(N^2)$$ Bubble Sort Selection Sort Insertion Sort (min: $$O(N))$$ Time Complexity: $$O(Nlog_2N)$$ Quick Sort (Space Complexity: $$O(Nlog_2N)$$) Merge Sort (Space Complexity: $$O(N)$$) Heap Sort Time Complexity: $$O(N)$$ &amp;&amp; Space Complexity: $$O(N)$$ Bucket sort By Stable Stable Insertion sort Merge Sort Not Stable Bubble Sort Selection Sort Quick Sort Merge Sort Heap Sort Elementary Sort These are most basic sort methods with $$O(N^2)$$ time complexity.
+    <p>Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms</p>
+
   
 
 
@@ -221,7 +222,8 @@ Archive
   <p class="container content">
   
   
-    The followup question for Iterator of Iterators. But this time, the output is like up-down format. Example public class RotateIterators&lt;T&gt; implements Iterator&lt;T&gt; { public static void main(String[] args) { List&lt;Integer&gt; l1 = new ArrayList&lt;Integer&gt;(); l1.add(1); l1.add(4); l1.add(3); l1.add(8); l1.add(10); List&lt;Integer&gt; l2 = new ArrayList&lt;Integer&gt;(); l2.add(17); l2.add(12); List&lt;Integer&gt; l3 = new ArrayList&lt;Integer&gt;(); l3.add(3); l3.add(5); l3.add(14); List&lt;Iterator&lt;Integer&gt;&gt; list = new ArrayList&lt;&gt;(); list.add(l1.iterator()); list.add(l2.iterator()); list.add(l3.iterator()); RotateIterators rt = new RotateIterators&lt;&gt;(list); while(rt.hasNext()){ System.out.println(rt.next()); }
+    <p>The followup question for <code>Iterator of Iterators</code>. But this time, the output is like &lsquo;up-down&rsquo; format.</p>
+
   
 
 
@@ -250,7 +252,8 @@ Archive
   <p class="container content">
   
   
-    Implements an iterator only output the even number. Example public class EvenIterator implements Iterator&lt;Integer&gt; { public static void main(String[] args) { List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(); list.add(1); list.add(4); list.add(3); list.add(5); list.add(6); list.add(7); list.add(9); list.add(2); EvenIterator it = new EvenIterator(list.listIterator()); while(it.hasNext()){ System.out.println(it.next()); } } } Output 4 6 2 Solution public class EvenIterator implements Iterator&lt;Integer&gt; { Iterator&lt;Integer&gt; iterator; public EvenIterator(Iterator&lt;Integer&gt; iterator) { this.iterator = iterator; } @Override public boolean hasNext() {
+    <p>Implements an iterator only output the even number.</p>
+
   
 
 
@@ -308,7 +311,8 @@ Archive
   <p class="container content">
   
   
-    Implements an iterator in each output it print the number and skip the next one. Partial Code public class JumpIterator implements Iterator&lt;Integer&gt; { public static void main(String[] args) { List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(); list.add(1); list.add(4); list.add(3); list.add(5); list.add(6); list.add(7); list.add(2); JumpIterator it = new JumpIterator(list.listIterator()); while(it.hasNext()){ System.out.println(it.next()); } } } Output 1 3 6 2 Solution public class JumpIterator implements Iterator&lt;Integer&gt; { Iterator&lt;Integer&gt; iterator; public JumpIterator(Iterator&lt;Integer&gt; iterator) { this.iterator
+    <p>Implements an iterator in each output it print the number and skip the next one.</p>
+
   
 
 
@@ -337,7 +341,8 @@ Archive
   <p class="container content">
   
   
-    Given an Iterator class interface with methods: next() and hasNext(), design and implement a PeekingIterator that support the peek() operation &ndash; it essentially peek() at the element that will be returned by the next call to next(). Here is an example. Assume that the iterator is initialized to the beginning of the list: [1, 2, 3]. Call next() gets you 1, the first element in the list. Now you call peek() and it returns 2, the next element.
+    <p>Given an Iterator class interface with methods: <code>next()</code> and <code>hasNext()</code>, design and implement a PeekingIterator that support the peek() operation &ndash; it essentially <code>peek()</code> at the element that will be returned by the next call to <code>next()</code>.</p>
+
   
 
 

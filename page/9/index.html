@@ -419,7 +419,8 @@ Archive
   <p class="container content">
   
   
-    Create an iterator of iterator, supporting any type in Java. The purpose is to iterate over the objects of the iterators. Solution import java.util.*; public class Iterators&lt;T&gt; implements Iterator&lt;T&gt; { private Iterator&lt;T&gt; current; // the current concrete iterator (small, detail) private Iterator&lt;Iterator&lt;T&gt;&gt; cursor; // the cursor iterator which current iterator belong to (big, indexing) public Iterators(Iterable&lt;Iterator&lt;T&gt;&gt; iterators) { if (iterators == null) throw new IllegalArgumentException(&quot;iterators is null&quot;); this.cursor = iterators.iterator();
+    <p>Create an iterator of iterator, supporting any type in Java. The purpose is to iterate over the objects of the iterators.</p>
+
   
 
 
