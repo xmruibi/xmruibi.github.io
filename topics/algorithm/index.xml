@@ -9,8 +9,187 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 01 Nov 2015 20:33:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2015 09:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Sort Colors</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors/</guid>
+      <description>
+
+&lt;p&gt;Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.&lt;/p&gt;
+
+&lt;p&gt;Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.&lt;/p&gt;
+
+&lt;p&gt;Have you met this question in a real interview? Yes&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given [1, 0, 1, 2], return [0, 1, 1, 2].&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. First, iterate the array counting number of 0&amp;rsquo;s, 1&amp;rsquo;s, and 2&amp;rsquo;s, then overwrite array with total number of 0&amp;rsquo;s, then 1&amp;rsquo;s and followed by 2&amp;rsquo;s.&lt;/p&gt;
+
+&lt;p&gt;Could you come up with an one-pass algorithm using only constant space?&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Index mark O&amp;rsquo;s first position from head and 2&amp;rsquo;s first position from the rear.&lt;/li&gt;
+&lt;li&gt;Exchange the two values.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void sortColors(int[] nums) {
+    if(nums == null || nums.length == 0)
+        return;
+    int zero = 0;
+    int two = nums.length - 1;
+    for(int i = 0; i &amp;lt; nums.length; i++){
+        if(i &amp;gt; zero &amp;amp;&amp;amp; nums[i] == 0){
+            int tmp = nums[zero];
+            nums[zero++] = nums[i];
+            nums[i--] = tmp;
+        }else if(i &amp;lt; two &amp;amp;&amp;amp; nums[i] == 2){
+            int tmp = nums[two];
+            nums[two--] = nums[i];
+            nums[i--] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Colors II</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &amp;hellip; k.&lt;/p&gt;
+
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].&lt;/p&gt;
+
+&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h2 id=&#34;challenge&#34;&gt;Challenge&lt;/h2&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bucket Sort but space complexity with $O(k)$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        int[] bucket = new int[k];
+        for(int i : colors)
+            bucket[i - 1] ++;
+        int idx = 0, bidx = 0;
+        while(bidx &amp;lt; bucket.length) {
+            while(bucket[bidx] &amp;gt; 0) {
+                colors[idx++] = bidx+1;
+                bucket[bidx]--;
+            }
+            bidx++;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complex bucket sort with in-place counting&lt;/li&gt;
+&lt;li&gt;Get a value and find its index by &lt;code&gt;value - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If the target index has another value, exchange and set target index as &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If target index is counter, make it minus 1, e.g. &lt;code&gt;-2&lt;/code&gt; and set original index as &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Steps like following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 3   2   2   1   4
+
+
+ 2   2  -1   1   4
+
+
+ 2  -1  -1   1   4
+
+
+ 0  -2  -1   1   4
+
+
+-1  -2  -1   0   4
+
+
+-1  -2  -1  -1   0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Get back the result by counter value from rear to head&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     * @return: nothing
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        for(int i = 0; i &amp;lt; colors.length; i++){
+            if(colors[i] &amp;lt;= 0)
+                continue;
+            else{
+                int idx = colors[i] - 1;
+                if(colors[idx] &amp;gt; 0){
+                    colors[i--] = colors[idx];
+                    colors[idx] = -1;
+                }else{
+                    colors[i] = 0;
+                    colors[idx]--;
+                }
+            }
+        }
+        
+        int idx = colors.length - 1;
+        for(int i = k - 1; i &amp;gt;= 0; i--){
+            int cnt = -colors[i];
+            while(cnt-- &amp;gt; 0 &amp;amp;&amp;amp; idx &amp;gt;= 0) {
+                colors[idx--] = (i+1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Wiggle Sort</title>
@@ -32,15 +211,17 @@
 
 &lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
 
-&lt;p&gt;Base case. The first two elements $$A&lt;em&gt;0$$, $$A_1$$ satisfy the rules, and $$A&lt;/em&gt;{0}$$ is in its desired position.&lt;/p&gt;
+&lt;p&gt;Base case. The first two elements $A_0$, satisfy the rules, and  $A_0$ is in its desired position.&lt;/p&gt;
 
-&lt;p&gt;Suppose $$A&lt;em&gt;0$$, &amp;hellip;. $$A_k$$ satisfy the rules, and $$A_0$$, &amp;hellip;. $$A&lt;/em&gt;{k-1}$$ are in their desired positions. We want to show that when we consider the pair $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$, the rules are not violated, and the new k-th element will be in its desired position. Without loss of generality, assume that the k-th element should be higher than both of its neighbors. Two cases:&lt;/p&gt;
+&lt;p&gt;Suppose $A_0$ satisfy the rules, and $A_0$, &amp;hellip;. $A_{k-1}$ are in their desired positions. We want to show that when we consider the pair $A_{k}$ and $A_{k+1}$, the rules are not violated, and the new k-th element will be in its desired position. Without loss of generality, assume that the k-th element should be higher than both of its neighbors. Two cases:&lt;/p&gt;
 
-&lt;p&gt;1) $$A&lt;em&gt;{k}$$ &amp;gt; $$A&lt;/em&gt;{k+1}$$.
-We are good in this case. $$A_{k}$$ is its desired position, and no rules are violated so far.&lt;/p&gt;
+&lt;p&gt;1) $A_{k} &amp;gt; A_{k+1}$.&lt;/p&gt;
 
-&lt;p&gt;2) $$A&lt;em&gt;{k}$$ &amp;lt; $$A&lt;/em&gt;{k+1}$$.
-We swap $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$. Note that this does not violate $$A&lt;em&gt;{k-1}$$, since $$A&lt;/em&gt;{k-1}$$ &amp;lt;$$A&lt;em&gt;{k}$$&amp;lt; $$A&lt;/em&gt;{k+1}$$. And the new k-th element (previous $$A_{k+1}$$) satisfies the rules, and is in its desired position.&lt;/p&gt;
+&lt;p&gt;We are good in this case. $A_{k}$ is its desired position, and no rules are violated so far.&lt;/p&gt;
+
+&lt;p&gt;2) $A_{k} &amp;lt; A_{k+1}$.&lt;/p&gt;
+
+&lt;p&gt;We swap $A_{k}$ and $A_{k+1}$. Note that this does not violate $A_{k-1}$, since $A_{k-1} &amp;lt; A_{k}&amp;lt; A_{k+1}$. And the new k-th element (previous $A_{k+1}$) satisfies the rules, and is in its desired position.&lt;/p&gt;
 
 &lt;p&gt;So throughout the process, we do not violate any rules. The algorithm is correct.&lt;/p&gt;
 
@@ -75,21 +256,21 @@ We swap $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$. Note that this does not vi
 &lt;h2 id=&#34;by-complexity&#34;&gt;By Complexity&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Time Complexity: $$O(N^2)$$
+&lt;li&gt;Time Complexity: $O(N^2)$
 
 &lt;ul&gt;
 &lt;li&gt;Bubble Sort&lt;/li&gt;
 &lt;li&gt;Selection Sort&lt;/li&gt;
-&lt;li&gt;Insertion Sort (min: $$O(N))$$&lt;/li&gt;
+&lt;li&gt;Insertion Sort (min: $O(N))$&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Time Complexity: $$O(Nlog_2N)$$
+&lt;li&gt;Time Complexity: $O(Nlog_2N)$
 
 &lt;ul&gt;
-&lt;li&gt;Quick Sort (Space Complexity: $$O(Nlog_2N)$$)&lt;/li&gt;
-&lt;li&gt;Merge Sort (Space Complexity: $$O(N)$$)&lt;/li&gt;
+&lt;li&gt;Quick Sort (Space Complexity: $O(Nlog_2N)$)&lt;/li&gt;
+&lt;li&gt;Merge Sort (Space Complexity: $O(N)$)&lt;/li&gt;
 &lt;li&gt;Heap Sort&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Time Complexity: $$O(N)$$ &amp;amp;&amp;amp; Space Complexity: $$O(N)$$
+&lt;li&gt;Time Complexity: $O(N)$ &amp;amp;&amp;amp; Space Complexity: $O(N)$
 
 &lt;ul&gt;
 &lt;li&gt;Bucket sort&lt;/li&gt;
@@ -118,7 +299,7 @@ We swap $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$. Note that this does not vi
 
 &lt;h1 id=&#34;elementary-sort&#34;&gt;Elementary Sort&lt;/h1&gt;
 
-&lt;p&gt;These are most basic sort methods with $$O(N^2)$$ time complexity.&lt;/p&gt;
+&lt;p&gt;These are most basic sort methods with $O(N^2)$ time complexity.&lt;/p&gt;
 
 &lt;h2 id=&#34;bubble-sort&#34;&gt;Bubble Sort&lt;/h2&gt;
 
@@ -861,7 +1042,7 @@ class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($$10^n - 1$$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
+&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($10^n - 1$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
 
 &lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
 
@@ -1092,147 +1273,6 @@ Given &lt;code&gt;1-&amp;gt;1-&amp;gt;1-&amp;gt;2-&amp;gt;3&lt;/code&gt;, return
         }
         
         return dummy.next;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Copy List with Random Pointer</title>
-      <link>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</link>
-      <pubDate>Sun, 25 Oct 2015 20:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</guid>
-      <description>
-
-&lt;p&gt;Merge k sorted linked lists and return it as one sorted list.&lt;/p&gt;
-
-&lt;p&gt;Analyze and describe its complexity.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given lists:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[
-  2-&amp;gt;4-&amp;gt;null,
-  null,
-  -1-&amp;gt;null
-],
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;return &lt;code&gt;-1-&amp;gt;2-&amp;gt;4-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Use a heap to receive element from linked list&lt;/li&gt;
-&lt;li&gt;Tricky part:
-
-&lt;ul&gt;
-&lt;li&gt;Just entered k node in heap instead of pass all nodes in lists.&lt;/li&gt;
-&lt;li&gt;When poll out element, it also need to push back the next node of polled node.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param lists: a list of ListNode
-     * @return: The head of one sorted list.
-     */
-    public ListNode mergeKLists(List&amp;lt;ListNode&amp;gt; lists) {  
-        if(lists == null)
-            return null;
-        
-        PriorityQueue&amp;lt;ListNode&amp;gt; queue = new PriorityQueue&amp;lt;ListNode&amp;gt;(10, new Comparator&amp;lt;ListNode&amp;gt;(){
-            @Override
-            public int compare(ListNode o1, ListNode o2){
-                return Integer.compare(o1.val, o2.val);
-            }
-        });
-        // O(n) : n total nodes 
-        for(ListNode node : lists){
-            if(node != null)
-                queue.offer(node);
-        }
-        
-        ListNode dummy = new ListNode(0);
-        ListNode pre = dummy;
-        while(!queue.isEmpty()){
-            ListNode cur = queue.remove();
-            if(cur.next != null)
-                queue.offer(cur.next);
-            pre.next = cur;
-            pre = cur;
-        }
-        
-        return dummy.next;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Remove Nth Node From End of List</title>
-      <link>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</link>
-      <pubDate>Sun, 25 Oct 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</guid>
-      <description>
-
-&lt;p&gt;Given a linked list, remove the nth node from the end of list and return its head.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;null&lt;/code&gt;, and n = &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;After removing the second node from the end, the linked list becomes &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;5-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;The minimum number of nodes in list is n.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n) time&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical idea on runner and walker linked list question&lt;/li&gt;
-&lt;li&gt;Let runner node run for N step further than walker node.&lt;/li&gt;
-&lt;li&gt;Get the N + 1 th position from end of list.&lt;/li&gt;
-&lt;li&gt;Remove walker.next which is the target node.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param head: The first node of linked list.
-     * @param n: An integer.
-     * @return: The head of linked list.
-     */
-    ListNode removeNthFromEnd(ListNode head, int n) {
-        if(head==null)
-            return head;
-        ListNode runner = head;
-        ListNode pre = new ListNode(0);
-        pre.next = head;
-        ListNode walker = pre;
-        while(n&amp;gt;0&amp;amp;&amp;amp;runner!=null){
-            runner = runner.next;
-            n--;
-        }
-        while(runner!=null){
-            runner = runner.next;
-            walker = walker.next;
-        }
-        walker.next = walker.next.next;
-        return pre.next;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

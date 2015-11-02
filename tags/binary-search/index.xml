@@ -158,7 +158,7 @@
 
 &lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2&#34;&gt;1. Solution by Loop with O(n^2)&lt;/h3&gt;
+&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2&#34;&gt;1. Solution by Loop with $O(n^2)$&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;
 

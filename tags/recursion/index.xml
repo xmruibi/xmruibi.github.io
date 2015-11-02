@@ -40,7 +40,7 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($$10^n - 1$$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
+&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($10^n - 1$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
 
 &lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
 

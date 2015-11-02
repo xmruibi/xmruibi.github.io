@@ -20,7 +20,7 @@
       <guid>http://xmruibi.github.io/2015/09/11/fast-power/</guid>
       <description>
 
-&lt;p&gt;Calculate the $$ a^n \mod b $$  where a, b and n are all 32bit integers.&lt;/p&gt;
+&lt;p&gt;Calculate the $ a^n \mod b $  where a, b and n are all 32bit integers.&lt;/p&gt;
 
 &lt;h3 id=&#34;example&#34;&gt;Example:&lt;/h3&gt;
 
@@ -29,7 +29,7 @@
 
 &lt;h3 id=&#34;challenge&#34;&gt;Challenge:&lt;/h3&gt;
 
-&lt;p&gt;O(logn)&lt;/p&gt;
+&lt;p&gt;Time complexity: $O(logn)$&lt;/p&gt;
 
 &lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
 

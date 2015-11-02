@@ -177,11 +177,84 @@ Archive
     <h1>Rui&#39;s Home Page
 </h1>
 
-    <span>last update: <time datetime="2015-11-01T20:33:13-07:00">1 November at 8:33pm</time>
+    <span>last update: <time datetime="2015-11-02T09:10:29-07:00">2 November at 9:10am</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">Segment Tree Build II
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
+
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a build method with a given array, so that we can create a corresponding segment tree with every node value represent the corresponding interval max value in the array, return the root of this segment tree.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">Segment Tree Modify
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
+
+<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -437,70 +510,6 @@ Archive
 </article>
 
   
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/">Swap Nodes in Pairs
-</a>
-</h2>
-
-  <time datetime="2015-10-17">17 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Given a linked list, swap every two adjacent nodes and return its head.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/17/swap-nodes-in-pairs/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/17/n-queen-i/">N Queen I
-</a>
-</h2>
-
-  <time datetime="2015-10-17">17 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.</p>
-
-<p>Given an integer n, return all distinct solutions to the n-queens puzzle.</p>
-
-<p>Each solution contains a distinct board configuration of the n-queens&rsquo; placement, where &lsquo;Q&rsquo; and &lsquo;.&rsquo; both indicate a queen and an empty space respectively.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/17/n-queen-i/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
   
 <div class="container pagination">
   
@@ -619,6 +628,16 @@ Archive
 <script src="http://xmruibi.github.io/js/search.js"></script>
 
 
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
 
 
 <script src="http://xmruibi.github.io/js/highlight.pack.js"></script>
