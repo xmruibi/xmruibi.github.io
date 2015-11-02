@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Even Iterator  &middot; Rui&#39;s Home Page</title>
+  <title>Sort Algorithms Conclusion  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,23 +14,23 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Iterator, ">
+<meta name="keywords" content="Sort, ">
 
 
-<meta property="og:title" content="Even Iterator  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Sort Algorithms Conclusion  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/10/31/even-iterator/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-10-31T10:10:29-07:00" />
-<meta property="og:article:modified_time" content="2015-10-31T10:10:29-07:00" />
+<meta property="og:article:published_time" content="2015-11-01T16:13:13-07:00" />
+<meta property="og:article:modified_time" content="2015-11-01T16:13:13-07:00" />
 
   
     
-<meta property="og:article:tag" content="Iterator">
+<meta property="og:article:tag" content="Sort">
     
   
 
@@ -38,9 +38,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Even Iterator" />
+<meta name="twitter:title" content="Sort Algorithms Conclusion" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/31/even-iterator/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -48,20 +48,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Even Iterator",
+    "headline": "Sort Algorithms Conclusion",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-10-31",
+    "datePublished": "2015-11-01",
     "description": "",
-    "wordCount":  125 
+    "wordCount":  591 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/10/31/even-iterator/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -206,20 +206,20 @@ Archive
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Even Iterator
+  <h1>Sort Algorithms Conclusion
 </h1>
 
   <div class="metas">
-<time datetime="2015-10-31">31 Oct, 2015</time>
+<time datetime="2015-11-01">1 Nov, 2015</time>
 
 
   
-  &middot; Read in about 1 min
-  &middot; (125 Words)
+  &middot; Read in about 3 min
+  &middot; (591 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/iterator">Iterator; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/sort">Sort; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -235,65 +235,209 @@ Archive
   <div class="container content">
   
 
-<p>Implements an iterator only output the even number.</p>
+<p>Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms</p>
 
-<h3 id="example">Example</h3>
+<h2 id="by-complexity">By Complexity</h2>
 
-<pre><code class="language-java">public class EvenIterator implements Iterator&lt;Integer&gt; {
-    public static void main(String[] args) {
-		List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
-		list.add(1); list.add(4); list.add(3); list.add(5);
-		list.add(6); list.add(7); list.add(9); list.add(2);
-		EvenIterator it = new EvenIterator(list.listIterator());
-		while(it.hasNext()){
-			System.out.println(it.next());
-		}
-	}
+<ul>
+<li>Time Complexity: $$O(N^2)$$
+
+<ul>
+<li>Bubble Sort</li>
+<li>Selection Sort</li>
+<li>Insertion Sort (min: $$O(N))$$</li>
+</ul></li>
+<li>Time Complexity: $$O(Nlog_2N)$$
+
+<ul>
+<li>Quick Sort (Space Complexity: $$O(Nlog_2N)$$)</li>
+<li>Merge Sort (Space Complexity: $$O(N)$$)</li>
+<li>Heap Sort</li>
+</ul></li>
+<li>Time Complexity: $$O(N)$$ &amp;&amp; Space Complexity: $$O(N)$$
+
+<ul>
+<li>Bucket sort</li>
+</ul></li>
+</ul>
+
+<h2 id="by-stable">By Stable</h2>
+
+<ul>
+<li>Stable
+
+<ul>
+<li>Insertion sort</li>
+<li>Merge Sort</li>
+</ul></li>
+<li>Not Stable<br />
+
+<ul>
+<li>Bubble Sort</li>
+<li>Selection Sort</li>
+<li>Quick Sort</li>
+<li>Merge Sort</li>
+<li>Heap Sort</li>
+</ul></li>
+</ul>
+
+<h1 id="elementary-sort">Elementary Sort</h1>
+
+<p>These are most basic sort methods with $$O(N^2)$$ time complexity.</p>
+
+<h2 id="bubble-sort">Bubble Sort</h2>
+
+<h3 id="think">Think</h3>
+
+<ul>
+<li>Swap when the two adjacent elements is not in order</li>
+<li>Do a while loop until swap not happened in previous element order check</li>
+</ul>
+
+<h3 id="solution">Solution</h3>
+
+<pre><code class="language-java">public void bubbleSort(int[] arr){
+    boolean swap;
+    do{
+        swap = false;
+        for(int i = 0; i &lt; arr.length - 1; i++){
+            if(arr[i] &gt; arr[i + 1]){
+                int tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
+                swap = true;
+            }
+        }
+    }while(swap);
 }
 </code></pre>
 
-<h3 id="output">Output</h3>
+<h2 id="insertion-sort">Insertion Sort</h2>
 
-<pre><code>4
-6
-2
-</code></pre>
+<h3 id="think-1">Think</h3>
 
-<h2 id="solution">Solution</h2>
+<ul>
+<li>Get the target value from head of array</li>
+<li>Find its suitable position from 0 to its position</li>
+</ul>
 
-<pre><code class="language-java">public class EvenIterator implements Iterator&lt;Integer&gt; {
+<h3 id="solution-1">Solution</h3>
 
-    Iterator&lt;Integer&gt; iterator;
-
-    public EvenIterator(Iterator&lt;Integer&gt; iterator) {
-        this.iterator = iterator;
-    }
-
-    @Override
-    public boolean hasNext() {
-        return iterator.hasNext();
-    }
-
-    @Override
-    public Integer next() {
-        int res = 0;
-        while (iterator.hasNext() &amp;&amp; (res = iterator.next()) % 2 != 0)
-            ;
-        return res;
-    }
-
-    
-    public static void main(String[] args) {
-        List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
-        list.add(1); list.add(4);
-        list.add(3); list.add(5);
-        list.add(6); list.add(7);
-        list.add(9); list.add(2);
-        EvenIterator it = new EvenIterator(list.listIterator());
-        while(it.hasNext()){
-            System.out.println(it.next());
+<pre><code class="language-java">public void insertionSort(int[] arr){
+    for(int i = 1; i &lt; arr.length; i++){
+        for(int j = 0; j &lt; i; j++) {
+            if(arr[j] &gt; arr[i]) {
+                int tmp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = tmp;
+            }
         }
     }
+}
+</code></pre>
+
+<h2 id="selection-sort">Selection Sort</h2>
+
+<h3 id="think-2">Think</h3>
+
+<ul>
+<li>Get the target value from head of array</li>
+<li>Find the minimum element on the right of target, swap them if minimum less then target</li>
+</ul>
+
+<h3 id="solution-2">Solution</h3>
+
+<pre><code class="language-java">public void selectionSort(int[] arr){
+    for(int i = 0; i &lt; arr.length - 1; i++){
+        int min = i;
+        for(int j = i + 1; j &lt; arr.length; j++) {
+            if(arr[min] &gt; arr[j])
+                min = j;
+        }
+        if(i!=min) {
+            int tmp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+}
+</code></pre>
+
+<h1 id="advanced-sort">Advanced Sort</h1>
+
+<h2 id="merge-sort">Merge Sort</h2>
+
+<h3 id="think-3">Think</h3>
+
+<ul>
+<li>Divide and Conquer</li>
+<li>Recursion</li>
+</ul>
+
+<h3 id="solution-3">Solution</h3>
+
+<pre><code class="language-java">public void mergeSort(int[] arr, int left, int right){
+    if(left &gt;= right)
+        return;
+    int mid = left + ((right - left) &gt;&gt; 1);
+    mergeSort(arr, left, mid - 1);
+    mergeSort(arr, mid, right);
+    merge(arr, left, mid, right);
+}
+
+private void merge(int[] arr, int left, int mid, int right){
+    int[] newarr = new int[right - left + 1];
+  
+    for(int i = left; i &lt;= right; i++)
+        newarr[i - left] = arr[i];
+  
+    int l = 0;
+    int r = mid - left + 1;
+    for(int i = left; i &lt;= right; i++){
+        if(l &gt; mid - left)
+            arr[i] = newarr[r++];
+        else if(r &gt; right - left)
+            arr[i] = newarr[l++];
+        else
+            arr[i] = newarr[l] &lt; newarr[r]? newarr[l++] : newarr[r++];
+    }
+}
+</code></pre>
+
+<h2 id="quick-sort">Quick Sort</h2>
+
+<h3 id="think-4">Think</h3>
+
+<ul>
+<li>Set pivot (the rear of array or ) and consider it as a standard</li>
+<li>Pass the array and make the element less than pivot on the pivot&rsquo;s left and the element larger than pivot on the pivot&rsquo;s right;</li>
+</ul>
+
+<h3 id="solution-4">Solution</h3>
+
+<pre><code class="language-java">public void quickSort(int[] arr, int l, int r){
+    if(l &gt; r)
+        return;
+        
+    int pivot = pivot(arr, l, r);
+    quickSort(arr, l, pivot - 1);
+    quickSort(arr, pivot + 1, r);
+}
+
+
+private int pivot(int[] arr, int l, int r){
+    int pivot = arr[r];
+    int idx = l;
+    for(int i = l; i &lt; r; i++){
+        if(arr[i] &lt; pivot){
+            int tmp = arr[idx];
+            arr[idx++] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+    arr[r] = arr[idx];
+    arr[idx] = pivot;
+    return idx;
 }
 </code></pre>
 
@@ -307,15 +451,11 @@ Archive
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/" title="Iterator for Merging Sorted Stream">
+    <a class="prev" href="http://xmruibi.github.io/2015/11/01/rotate-iterator/" title="Rotate Iterator">
       Earlier Article
     </a>
     
 
-    
-    <a class="next" href="http://xmruibi.github.io/2015/11/01/rotate-iterator/" title="Rotate Iterator">
-      Newer Article
-    </a>
     
 
   

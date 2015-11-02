@@ -9,8 +9,111 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 17 Oct 2015 21:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2015 10:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Rotate Iterator</title>
+      <link>http://xmruibi.github.io/2015/11/01/rotate-iterator/</link>
+      <pubDate>Sun, 01 Nov 2015 10:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/01/rotate-iterator/</guid>
+      <description>
+
+&lt;p&gt;The followup question for Iterator of Iterators. But this time, the output is like up-down format.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateIterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
+    public static void main(String[] args) {
+        List&amp;lt;Integer&amp;gt; l1 = new ArrayList&amp;lt;Integer&amp;gt;();
+		l1.add(1);
+		l1.add(4);
+		l1.add(3);
+		l1.add(8);
+		l1.add(10);
+		List&amp;lt;Integer&amp;gt; l2 = new ArrayList&amp;lt;Integer&amp;gt;();
+		l2.add(17);
+		l2.add(12);
+
+		List&amp;lt;Integer&amp;gt; l3 = new ArrayList&amp;lt;Integer&amp;gt;();
+		l3.add(3);
+		l3.add(5);
+		l3.add(14);
+		List&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+		list.add(l1.iterator());
+		list.add(l2.iterator());
+		list.add(l3.iterator());
+		RotateIterators rt = new RotateIterators&amp;lt;&amp;gt;(list);
+		while(rt.hasNext()){
+			System.out.println(rt.next());
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;1
+17
+3
+4
+12
+5
+3
+14
+8
+10
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;hasNext()&lt;/code&gt; is only for checking the pointer is null or valid&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;next()&lt;/code&gt; should return the current value and also jump the pointer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateIterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
+    private Iterator&amp;lt;T&amp;gt; current; // the current concrete iterator (small, detail)
+    private List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators; // the cursor iterator which current iterator belong to (big, indexing)
+    private int listIdx;
+
+    public RotateIterators(List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators) {
+        if (iterators == null)
+            throw new IllegalArgumentException(&amp;quot;iterators is null&amp;quot;);
+        this.iterators = (List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt;) iterators;
+        this.current = iterators.get(listIdx = 0);
+    }
+
+    @Override
+    public boolean hasNext() {
+        int cntLmt = iterators.size(); // limit the loop, the max search limit is the size of iterators list
+        while (current == null || !current.hasNext() &amp;amp;&amp;amp; cntLmt &amp;gt; 0){
+            cntLmt--;
+            if (listIdx &amp;lt; iterators.size() - 1)
+                current = iterators.get(++listIdx);
+            else
+                current = iterators.get(listIdx = 0);   
+        }
+        return current.hasNext();
+    }
+
+    @Override
+    public T next() {
+        T res = current.next();
+        // current pointer should jump to next 
+        if (listIdx &amp;lt; iterators.size() - 1)
+            current = iterators.get(++listIdx);
+        else
+            current = iterators.get(listIdx = 0);   
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Submatrix Sum</title>

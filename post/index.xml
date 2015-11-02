@@ -9,8 +9,327 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 31 Oct 2015 10:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Sort Algorithms Conclusion</title>
+      <link>http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/</link>
+      <pubDate>Sun, 01 Nov 2015 16:13:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/</guid>
+      <description>
+
+&lt;p&gt;Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms&lt;/p&gt;
+
+&lt;h2 id=&#34;by-complexity&#34;&gt;By Complexity&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Time Complexity: $$O(N^2)$$
+
+&lt;ul&gt;
+&lt;li&gt;Bubble Sort&lt;/li&gt;
+&lt;li&gt;Selection Sort&lt;/li&gt;
+&lt;li&gt;Insertion Sort (min: $$O(N))$$&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(Nlog_2N)$$
+
+&lt;ul&gt;
+&lt;li&gt;Quick Sort (Space Complexity: $$O(Nlog_2N)$$)&lt;/li&gt;
+&lt;li&gt;Merge Sort (Space Complexity: $$O(N)$$)&lt;/li&gt;
+&lt;li&gt;Heap Sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(N)$$ &amp;amp;&amp;amp; Space Complexity: $$O(N)$$
+
+&lt;ul&gt;
+&lt;li&gt;Bucket sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;by-stable&#34;&gt;By Stable&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stable
+
+&lt;ul&gt;
+&lt;li&gt;Insertion sort&lt;/li&gt;
+&lt;li&gt;Merge Sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Not Stable&lt;br /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bubble Sort&lt;/li&gt;
+&lt;li&gt;Selection Sort&lt;/li&gt;
+&lt;li&gt;Quick Sort&lt;/li&gt;
+&lt;li&gt;Merge Sort&lt;/li&gt;
+&lt;li&gt;Heap Sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;elementary-sort&#34;&gt;Elementary Sort&lt;/h1&gt;
+
+&lt;p&gt;These are most basic sort methods with $$O(N^2)$$ time complexity.&lt;/p&gt;
+
+&lt;h2 id=&#34;bubble-sort&#34;&gt;Bubble Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Swap when the two adjacent elements is not in order&lt;/li&gt;
+&lt;li&gt;Do a while loop until swap not happened in previous element order check&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void bubbleSort(int[] arr){
+    boolean swap;
+    do{
+        swap = false;
+        for(int i = 0; i &amp;lt; arr.length - 1; i++){
+            if(arr[i] &amp;gt; arr[i + 1]){
+                int tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
+                swap = true;
+            }
+        }
+    }while(swap);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;insertion-sort&#34;&gt;Insertion Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the target value from head of array&lt;/li&gt;
+&lt;li&gt;Find its suitable position from 0 to its position&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void insertionSort(int[] arr){
+    for(int i = 1; i &amp;lt; arr.length; i++){
+        for(int j = 0; j &amp;lt; i; j++) {
+            if(arr[j] &amp;gt; arr[i]) {
+                int tmp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = tmp;
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;selection-sort&#34;&gt;Selection Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-2&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the target value from head of array&lt;/li&gt;
+&lt;li&gt;Find the minimum element on the right of target, swap them if minimum less then target&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void selectionSort(int[] arr){
+    for(int i = 0; i &amp;lt; arr.length - 1; i++){
+        int min = i;
+        for(int j = i + 1; j &amp;lt; arr.length; j++) {
+            if(arr[min] &amp;gt; arr[j])
+                min = j;
+        }
+        if(i!=min) {
+            int tmp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;advanced-sort&#34;&gt;Advanced Sort&lt;/h1&gt;
+
+&lt;h2 id=&#34;merge-sort&#34;&gt;Merge Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-3&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Divide and Conquer&lt;/li&gt;
+&lt;li&gt;Recursion&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void mergeSort(int[] arr, int left, int right){
+    if(left &amp;gt;= right)
+        return;
+    int mid = left + ((right - left) &amp;gt;&amp;gt; 1);
+    mergeSort(arr, left, mid - 1);
+    mergeSort(arr, mid, right);
+    merge(arr, left, mid, right);
+}
+
+private void merge(int[] arr, int left, int mid, int right){
+    int[] newarr = new int[right - left + 1];
+  
+    for(int i = left; i &amp;lt;= right; i++)
+        newarr[i - left] = arr[i];
+  
+    int l = 0;
+    int r = mid - left + 1;
+    for(int i = left; i &amp;lt;= right; i++){
+        if(l &amp;gt; mid - left)
+            arr[i] = newarr[r++];
+        else if(r &amp;gt; right - left)
+            arr[i] = newarr[l++];
+        else
+            arr[i] = newarr[l] &amp;lt; newarr[r]? newarr[l++] : newarr[r++];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;quick-sort&#34;&gt;Quick Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-4&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set pivot (the rear of array or ) and consider it as a standard&lt;/li&gt;
+&lt;li&gt;Pass the array and make the element less than pivot on the pivot&amp;rsquo;s left and the element larger than pivot on the pivot&amp;rsquo;s right;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-4&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void quickSort(int[] arr, int l, int r){
+    if(l &amp;gt; r)
+        return;
+        
+    int pivot = pivot(arr, l, r);
+    quickSort(arr, l, pivot - 1);
+    quickSort(arr, pivot + 1, r);
+}
+
+
+private int pivot(int[] arr, int l, int r){
+    int pivot = arr[r];
+    int idx = l;
+    for(int i = l; i &amp;lt; r; i++){
+        if(arr[i] &amp;lt; pivot){
+            int tmp = arr[idx];
+            arr[idx++] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+    arr[r] = arr[idx];
+    arr[idx] = pivot;
+    return idx;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rotate Iterator</title>
+      <link>http://xmruibi.github.io/2015/11/01/rotate-iterator/</link>
+      <pubDate>Sun, 01 Nov 2015 10:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/01/rotate-iterator/</guid>
+      <description>
+
+&lt;p&gt;The followup question for Iterator of Iterators. But this time, the output is like up-down format.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateIterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
+    public static void main(String[] args) {
+        List&amp;lt;Integer&amp;gt; l1 = new ArrayList&amp;lt;Integer&amp;gt;();
+		l1.add(1);
+		l1.add(4);
+		l1.add(3);
+		l1.add(8);
+		l1.add(10);
+		List&amp;lt;Integer&amp;gt; l2 = new ArrayList&amp;lt;Integer&amp;gt;();
+		l2.add(17);
+		l2.add(12);
+
+		List&amp;lt;Integer&amp;gt; l3 = new ArrayList&amp;lt;Integer&amp;gt;();
+		l3.add(3);
+		l3.add(5);
+		l3.add(14);
+		List&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+		list.add(l1.iterator());
+		list.add(l2.iterator());
+		list.add(l3.iterator());
+		RotateIterators rt = new RotateIterators&amp;lt;&amp;gt;(list);
+		while(rt.hasNext()){
+			System.out.println(rt.next());
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;1
+17
+3
+4
+12
+5
+3
+14
+8
+10
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;hasNext()&lt;/code&gt; is only for checking the pointer is null or valid&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;next()&lt;/code&gt; should return the current value and also jump the pointer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateIterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
+    private Iterator&amp;lt;T&amp;gt; current; // the current concrete iterator (small, detail)
+    private List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators; // the cursor iterator which current iterator belong to (big, indexing)
+    private int listIdx;
+
+    public RotateIterators(List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators) {
+        if (iterators == null)
+            throw new IllegalArgumentException(&amp;quot;iterators is null&amp;quot;);
+        this.iterators = (List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt;) iterators;
+        this.current = iterators.get(listIdx = 0);
+    }
+
+    @Override
+    public boolean hasNext() {
+        int cntLmt = iterators.size(); // limit the loop, the max search limit is the size of iterators list
+        while (current == null || !current.hasNext() &amp;amp;&amp;amp; cntLmt &amp;gt; 0){
+            cntLmt--;
+            if (listIdx &amp;lt; iterators.size() - 1)
+                current = iterators.get(++listIdx);
+            else
+                current = iterators.get(listIdx = 0);   
+        }
+        return current.hasNext();
+    }
+
+    @Override
+    public T next() {
+        T res = current.next();
+        // current pointer should jump to next 
+        if (listIdx &amp;lt; iterators.size() - 1)
+            current = iterators.get(++listIdx);
+        else
+            current = iterators.get(listIdx = 0);   
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Even Iterator</title>
@@ -924,154 +1243,6 @@ public class Solution {
             return 2;
         else
             return 0;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Insertion Sort for Linked List</title>
-      <link>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</link>
-      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</guid>
-      <description>
-
-&lt;p&gt;Sort a linked list using insertion sort.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given &lt;code&gt;1-&amp;gt;3-&amp;gt;2-&amp;gt;0-&amp;gt;null&lt;/code&gt;, return &lt;code&gt;0-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Pass nodes from head to end.&lt;/li&gt;
-&lt;li&gt;Once it get an element larger than its next one, do a swap.&lt;/li&gt;
-&lt;li&gt;Then return to the head and to do the passing again.&lt;/li&gt;
-&lt;li&gt;Loop until get all sorted.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param head: The first node of linked list.
-     * @return: The head of linked list.
-     */
-    public ListNode insertionSortList(ListNode head) {
-        if(head == null || head.next == null)
-            return head;
-            
-            ListNode dummy = new ListNode(0);
-            ListNode pre = dummy;
-            ListNode cur = head;
-            while(cur != null){
-                pre = dummy;
-                ListNode next = cur.next;
-                while(pre.next != null &amp;amp;&amp;amp; pre.next.val &amp;lt; cur.val)
-                    pre = pre.next;
-                cur.next = pre.next;
-                pre.next = cur;
-                cur = next;
-            }
-            
-            return dummy.next;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Reverse Nodes in k-Group</title>
-      <link>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</link>
-      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</guid>
-      <description>
-
-&lt;p&gt;Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.&lt;/p&gt;
-
-&lt;p&gt;If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.&lt;/p&gt;
-
-&lt;p&gt;You may not alter the values in the nodes, only nodes itself may be changed. Only constant memory is allowed.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given this linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;For k = &lt;code&gt;2&lt;/code&gt;, you should return: &lt;code&gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;3-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;For k = &lt;code&gt;3&lt;/code&gt;, you should return: &lt;code&gt;3-&amp;gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Consider the list like following:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;	
-	dummy(pre) -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Get the reversed segment:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt; when cnt % k == 0:
-
-		pre.next	  node  node.next
-		   |            |     |
-	pre -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
-
-		  last	  ----&amp;gt;	     end
-		    |		          |
-	pre -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
-			|     |	    
-		pre.next pre.next(final status)	
-			   \     \
-			      |  -&amp;gt; |     |
-				 cur   cur	 cur.next (final status)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param head a ListNode
-     * @param k an integer
-     * @return a ListNode
-     */
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null || head.next == null)
-            return head;
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode pre = dummy;
-        int cnt = 1;
-        ListNode front = head;
-        while(head != null) {
-            if(cnt % k == 0) {
-                pre = reverse(pre, head.next);
-                head = pre.next;
-            }else
-                head = head.next;
-            cnt++;
-        }
-        return dummy.next;
-    }
-    
-    private ListNode reverse(ListNode pre, ListNode end) {
-        ListNode last = pre.next, cur = last.next;
-        while(cur != end) {
-            last.next = cur.next;
-            cur.next = pre.next;
-            pre.next = cur;
-            cur = last.next;
-        }
-        return last;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
