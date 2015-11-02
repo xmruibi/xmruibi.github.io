@@ -9,8 +9,58 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 01 Nov 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Wiggle Sort</title>
+      <link>http://xmruibi.github.io/2015/11/01/wiggle-sort/</link>
+      <pubDate>Sun, 01 Nov 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/01/wiggle-sort/</guid>
+      <description>
+
+&lt;p&gt;Given an array, and re-arrange it to wiggle style in one pass.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;[1] &lt;code&gt;A0 &amp;gt;= A1 &amp;lt;= A2 &amp;gt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;[2] &lt;code&gt;A0 &amp;lt;= A1 &amp;gt;= A2 &amp;lt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Base case. The first two elements $$A&lt;em&gt;0$$, $$A_1$$ satisfy the rules, and $$A&lt;/em&gt;{0}$$ is in its desired position.&lt;/p&gt;
+
+&lt;p&gt;Suppose $$A&lt;em&gt;0$$, &amp;hellip;. $$A_k$$ satisfy the rules, and $$A_0$$, &amp;hellip;. $$A&lt;/em&gt;{k-1}$$ are in their desired positions. We want to show that when we consider the pair $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$, the rules are not violated, and the new k-th element will be in its desired position. Without loss of generality, assume that the k-th element should be higher than both of its neighbors. Two cases:&lt;/p&gt;
+
+&lt;p&gt;1) $$A&lt;em&gt;{k}$$ &amp;gt; $$A&lt;/em&gt;{k+1}$$.
+We are good in this case. $$A_{k}$$ is its desired position, and no rules are violated so far.&lt;/p&gt;
+
+&lt;p&gt;2) $$A&lt;em&gt;{k}$$ &amp;lt; $$A&lt;/em&gt;{k+1}$$.
+We swap $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$. Note that this does not violate $$A&lt;em&gt;{k-1}$$, since $$A&lt;/em&gt;{k-1}$$ &amp;lt;$$A&lt;em&gt;{k}$$&amp;lt; $$A&lt;/em&gt;{k+1}$$. And the new k-th element (previous $$A_{k+1}$$) satisfies the rules, and is in its desired position.&lt;/p&gt;
+
+&lt;p&gt;So throughout the process, we do not violate any rules. The algorithm is correct.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void wiggleSort(int[] arr, boolean swither){
+    int idx = 0;
+    while(idx &amp;lt; arr.length - 1){
+        if((switcher &amp;amp;&amp;amp; arr[idx] &amp;lt; arr[idx + 1])||(!switcher &amp;amp;&amp;amp; arr[idx] &amp;gt; arr[idx + 1])){
+            int tmp = arr[idx];
+            arr[idx] = arr[idx + 1];
+            arr[idx+1] = tmp;
+            switcher ^= true;
+        }
+      idx ++;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Sort Algorithms Conclusion</title>
@@ -612,6 +662,69 @@ public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
 }
 &lt;/code&gt;
 &lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Largest Number</title>
+      <link>http://xmruibi.github.io/2015/10/01/largest-number/</link>
+      <pubDate>Thu, 01 Oct 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/01/largest-number/</guid>
+      <description>
+
+&lt;p&gt;Given a list of non negative integers, arrange them such that they form the largest number.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;[3, 30, 34, 5, 9]&lt;/code&gt;, the largest formed number is &lt;code&gt;9534330&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The result may be very large, so you need to return a string instead of an integer.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort the elements in array by the rule of pair combination:
+
+&lt;ul&gt;
+&lt;li&gt;a, b -&amp;gt; &lt;code&gt;compare(ab, ba)&lt;/code&gt;;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;One pass the sorted array and make the largest number&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String largestNumber(int[] nums) {
+        if(num==null || num.length==0)
+            return &amp;quot;&amp;quot;;
+        
+        // customized sort method only can sort the object
+        // so here it should change to a String array
+        String[] Snum = new String[num.length];
+        for(int i=0;i&amp;lt;num.length;i++)
+            Snum[i] = num[i]+&amp;quot;&amp;quot;;
+    
+        Comparator&amp;lt;String&amp;gt; comp = new Comparator&amp;lt;String&amp;gt;(){
+            @Override
+            public int compare(String str1, String str2){
+                String s1 = str1+str2;
+                String s2 = str2+str1;
+                return s1.compareTo(s2);
+            }
+        };
+    
+        Arrays.sort(Snum,comp);
+        if(Snum[Snum.length-1].charAt(0)==&#39;0&#39;)
+            return &amp;quot;0&amp;quot;;
+    
+        StringBuilder sb = new StringBuilder();
+    
+        for(String s: Snum)
+            sb.insert(0, s);
+    
+        return sb.toString();
+    }
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

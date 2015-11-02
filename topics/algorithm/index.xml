@@ -9,8 +9,58 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 01 Nov 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Wiggle Sort</title>
+      <link>http://xmruibi.github.io/2015/11/01/wiggle-sort/</link>
+      <pubDate>Sun, 01 Nov 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/01/wiggle-sort/</guid>
+      <description>
+
+&lt;p&gt;Given an array, and re-arrange it to wiggle style in one pass.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;[1] &lt;code&gt;A0 &amp;gt;= A1 &amp;lt;= A2 &amp;gt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;[2] &lt;code&gt;A0 &amp;lt;= A1 &amp;gt;= A2 &amp;lt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Base case. The first two elements $$A&lt;em&gt;0$$, $$A_1$$ satisfy the rules, and $$A&lt;/em&gt;{0}$$ is in its desired position.&lt;/p&gt;
+
+&lt;p&gt;Suppose $$A&lt;em&gt;0$$, &amp;hellip;. $$A_k$$ satisfy the rules, and $$A_0$$, &amp;hellip;. $$A&lt;/em&gt;{k-1}$$ are in their desired positions. We want to show that when we consider the pair $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$, the rules are not violated, and the new k-th element will be in its desired position. Without loss of generality, assume that the k-th element should be higher than both of its neighbors. Two cases:&lt;/p&gt;
+
+&lt;p&gt;1) $$A&lt;em&gt;{k}$$ &amp;gt; $$A&lt;/em&gt;{k+1}$$.
+We are good in this case. $$A_{k}$$ is its desired position, and no rules are violated so far.&lt;/p&gt;
+
+&lt;p&gt;2) $$A&lt;em&gt;{k}$$ &amp;lt; $$A&lt;/em&gt;{k+1}$$.
+We swap $$A&lt;em&gt;{k}$$ and $$A&lt;/em&gt;{k+1}$$. Note that this does not violate $$A&lt;em&gt;{k-1}$$, since $$A&lt;/em&gt;{k-1}$$ &amp;lt;$$A&lt;em&gt;{k}$$&amp;lt; $$A&lt;/em&gt;{k+1}$$. And the new k-th element (previous $$A_{k+1}$$) satisfies the rules, and is in its desired position.&lt;/p&gt;
+
+&lt;p&gt;So throughout the process, we do not violate any rules. The algorithm is correct.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void wiggleSort(int[] arr, boolean swither){
+    int idx = 0;
+    while(idx &amp;lt; arr.length - 1){
+        if((switcher &amp;amp;&amp;amp; arr[idx] &amp;lt; arr[idx + 1])||(!switcher &amp;amp;&amp;amp; arr[idx] &amp;gt; arr[idx + 1])){
+            int tmp = arr[idx];
+            arr[idx] = arr[idx + 1];
+            arr[idx+1] = tmp;
+            switcher ^= true;
+        }
+      idx ++;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Sort Algorithms Conclusion</title>
@@ -605,6 +655,125 @@ class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
     </item>
     
     <item>
+      <title>Scramble Number Pair Calculator</title>
+      <link>http://xmruibi.github.io/2015/10/29/scramble-number-pair-calculator/</link>
+      <pubDate>Thu, 29 Oct 2015 15:14:18 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/10/29/scramble-number-pair-calculator/</guid>
+      <description>
+
+&lt;p&gt;Let a pair of distinct positive integers, (i, j), be considered &amp;laquo;scrambled&amp;raquo; if you can obtain j by reordering the digits of i.  For example, (12345, 25341) is a scrambled pair, but (12345, 67890) is not.&lt;/p&gt;
+
+&lt;p&gt;Given integers A and B with the same number of digits and no leading zeroes, how many distinct scrambled pairs (i, j) are there that satisfy: A &amp;lt;= i &amp;lt; j &amp;lt;= B?&lt;/p&gt;
+
+&lt;p&gt;For instance, if we let A = 10 and B = 99, the answer is 36:
+(12,21), (13,31), (14,41), (15,51), (16,61), (17,71), (18,81), (19,91), (23,32), (24,42), (25,52), (26,62), (27,72), (28,82), (29,92), (34,43), (35,53), (36,63), (37,73), (38,83), (39,93), (45,54), (46,64), (47,74), (48,84), (49,94), (56,65), (57,75), (58,85), (59,95), (67,76), (68,86), (69,96), (78,87), (79,97), (89,98)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-and-solution&#34;&gt;Think and Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Test {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(&amp;quot;Input min range: &amp;quot;);
+        int min = scanner.nextInt();
+        System.out.println(&amp;quot;Input max range: &amp;quot;);
+        int max = scanner.nextInt();
+        System.out.print(scrambleNumberCalculator(min, max));
+        Map&amp;lt;Object,Object&amp;gt;  map = new HashMap();
+        
+    }
+    
+    /**
+     * Main function to do the scramble number pair calculation
+     * @param minRange  : minimum of range 
+     * @param maxRange : maximum of range
+     * @return
+     */
+    public  static long scrambleNumberCalculator(int min, int max) {
+        // the total scramble number set to avoid duplicate calculate
+        Set&amp;lt;Integer&amp;gt; pairs = new HashSet&amp;lt;&amp;gt;();
+                
+        // the result of pairs count;
+        long cnt = 0;   
+        int[] range = new int[]{min, max};
+        for (int i = range[0]; i &amp;lt;= range[1]; i++) {
+            if (pairs.contains(i))
+                continue;
+            Set&amp;lt;Integer&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+            List&amp;lt;Integer&amp;gt; list = convertDigitsList(i);
+            permutation(res, list, range, 0, list.size());          
+            cnt += combinationPair(res.size());
+            // res size equal to one means there is no pair for this number
+            // for saving pairs space I don&#39;t add the number with no scramble pair.
+            if(res.size() &amp;gt; 1)
+                pairs.addAll(res);
+        }
+        // System.out.println(pairs);
+        return cnt;
+    }
+    
+    /**
+     * The function to check current number has how many scramble number and store it in a set,
+     * recursion without return value but values are recorded in permutation set
+     * 
+     * @param res: the permutation result storage as a set
+     * @param digits: the current number digits for permutation 
+     * @param range: the range of output val
+     * @param cur: current permutation value
+     * @param idx: current permutation index for digits list
+     */
+    private static void permutation(Set&amp;lt;Integer&amp;gt; res, List&amp;lt;Integer&amp;gt; digits, int[] range,
+            int cur, int idx) {
+        if (idx == 0) {
+            if (cur &amp;gt;= range[0] &amp;amp;&amp;amp; cur &amp;lt;= range[1])
+                res.add(cur);
+            return;
+        }
+        for (int i = 0; i &amp;lt; digits.size(); i++) {
+            // avoid the zero leading number
+            if (cur == 0 &amp;amp;&amp;amp; digits.get(i) == 0)
+                continue;
+            cur = cur * 10 + digits.get(i);
+            digits.remove(i);
+            permutation(res, digits, range, cur, idx - 1);
+            digits.add(i, cur % 10);
+            cur /= 10;
+        }
+    }
+
+    /**
+     * The function to count the pair amount in permutation set by just using the size of current scramble number set
+     * @param num: consider the large input I use long type here
+     * @return the amount of pair in current permutation set
+     */
+    private static long combinationPair(long num) {
+        long pairCnt = 0;
+        for (int i = 0; i &amp;lt; num - 1; i++)
+            for (int j = i + 1; j &amp;lt; num; j++)
+                pairCnt++;
+        return pairCnt;
+    }
+
+    /**
+     * The function to convert a number into a list with digits make the permutation more convenient
+     * @param num
+     * @return
+     */
+    private static List&amp;lt;Integer&amp;gt; convertDigitsList(int num) {
+        List&amp;lt;Integer&amp;gt; res = new LinkedList&amp;lt;&amp;gt;();
+        while (num &amp;gt; 0) {
+            res.add(0, num % 10);
+            num /= 10;
+        }
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Search Range in Binary Search Tree</title>
       <link>http://xmruibi.github.io/2015/10/27/search-range-in-binary-search-tree/</link>
       <pubDate>Tue, 27 Oct 2015 13:10:29 -0700</pubDate>
@@ -1064,185 +1233,6 @@ Given &lt;code&gt;1-&amp;gt;1-&amp;gt;1-&amp;gt;2-&amp;gt;3&lt;/code&gt;, return
         }
         walker.next = walker.next.next;
         return pre.next;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Copy List with Random Pointer</title>
-      <link>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</link>
-      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</guid>
-      <description>
-
-&lt;p&gt;A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.&lt;/p&gt;
-
-&lt;p&gt;Return a deep copy of the list.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Could you solve it with O(1) space?&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Three pass:
-
-&lt;ul&gt;
-&lt;li&gt;Clone every node and attach it right next of original node,&lt;/li&gt;
-&lt;li&gt;Copy the random pointer for clone node (the next of origianl node&amp;rsquo;s random pointer)&lt;/li&gt;
-&lt;li&gt;Cut down the original and clone one&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param head: The head of linked list with a random pointer.
-     * @return: A new head of a deep copy of the list.
-     */
-    public RandomListNode copyRandomList(RandomListNode head) {
-        // write your code here
-        if(head == null)
-            return null;
-        RandomListNode dummyHead = head;
-        while(head != null) {
-            RandomListNode clone = new RandomListNode(head.label);
-            RandomListNode next = head.next;
-            head.next = clone;
-            clone.next = next;
-            head = next;
-        }
-        head = dummyHead;
-        while(head != null) {
-            RandomListNode clone = head.next;
-            if(head.random != null)
-                clone.random = head.random.next;
-            head = clone.next;
-        }
-        head = dummyHead;
-        RandomListNode resHead = dummyHead.next;
-        while(head != null) {
-            RandomListNode clone = head.next;
-            head.next = clone.next;
-            head = head.next;
-            if(head != null)
-                clone.next = head.next;
-        }
-        
-        return resHead;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Expression Tree Build</title>
-      <link>http://xmruibi.github.io/2015/10/25/expression-tree-build/</link>
-      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/expression-tree-build/</guid>
-      <description>
-
-&lt;p&gt;The structure of Expression Tree is a binary tree to evaluate certain expressions. All leaves of the Expression Tree have an number string value. All non-leaves of the Expression Tree have an operator string value.&lt;/p&gt;
-
-&lt;p&gt;Now, given an expression array, build the expression tree of this expression, return the root of this expression tree.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For the expression &lt;code&gt;(2*6-(23+7)/(1+2))&lt;/code&gt; (which can be represented by &lt;code&gt;[&amp;quot;2&amp;quot; &amp;quot;*&amp;quot; &amp;quot;6&amp;quot; &amp;quot;-&amp;quot; &amp;quot;(&amp;quot; &amp;quot;23&amp;quot; &amp;quot;+&amp;quot; &amp;quot;7&amp;quot; &amp;quot;)&amp;quot; &amp;quot;/&amp;quot; &amp;quot;(&amp;quot; &amp;quot;1&amp;quot; &amp;quot;+&amp;quot; &amp;quot;2&amp;quot; &amp;quot;)&amp;quot;]&lt;/code&gt;). The expression tree will be like&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                 [ - ]
-             /          \
-        [ * ]              [ / ]
-      /     \           /         \
-    [ 2 ]  [ 6 ]      [ + ]        [ + ]
-                     /    \       /      \
-                   [ 23 ][ 7 ] [ 1 ]   [ 2 ] .
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After building the tree, you just need to return root node &lt;code&gt;[-]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;clarification&#34;&gt;Clarification&lt;/h3&gt;
-
-&lt;p&gt;A binary expression tree is a specific application of a binary tree to evaluate certain expressions. Two common types of expressions that a binary expression tree can represent are algebraic[1] and boolean. These trees can represent expressions that contain both unary and binary operators.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ExpressionTreeNode {
-    public String symbol;
-     public ExpressionTreeNode left, right;
-     public ExpressionTreeNode(String symbol) {
-        this.symbol = symbol;
-        this.left = this.right = null;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Two stacks, one is only for operator, another is for build the result tree.&lt;/li&gt;
-&lt;li&gt;The idea is similar with RPN.&lt;/li&gt;
-&lt;li&gt;One pass the expression array, when it get a operand, insert as new treenode in result tree, when it get a operator, insert as new treenode in operator tree and compare the priority, if the current is less than stack top element, build a new node with operator in stack top and two node from result tree as its right and left child, then insert back to result tree with this new node.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
-
-
-public class Solution {
-    /**
-     * @param expression: A string array
-     * @return: The root of expression tree
-     */
-    public ExpressionTreeNode build(String[] expression) {
-        Stack&amp;lt;ExpressionTreeNode&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
-        Stack&amp;lt;ExpressionTreeNode&amp;gt; data = new Stack&amp;lt;&amp;gt;();
-        for( int i = 0; i &amp;lt; expression.length; i++) {
-            String str = expression[i];
-            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
-                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek().symbol) &amp;gt;= operatorLevel(str)) {
-                    newNodeGtr(ops, data);
-                }
-                ops.push(new ExpressionTreeNode(str));
-            }else if(str.equals(&amp;quot;(&amp;quot;)){
-                ops.push(new ExpressionTreeNode(str));
-            }else if(str.equals(&amp;quot;)&amp;quot;)) {
-                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().symbol.equals(&amp;quot;(&amp;quot;))
-                    newNodeGtr(ops, data);
-                if(!ops.isEmpty()) 
-                    ops.pop(); // pop the &amp;quot;(&amp;quot;
-            }else
-                data.push(new ExpressionTreeNode(str));
-        }
-        
-        while(!ops.isEmpty())
-            newNodeGtr(ops, data);
-        
-        return data.isEmpty()? null : data.pop();
-    }
-    
-    private void newNodeGtr(Stack&amp;lt;ExpressionTreeNode&amp;gt; ops, Stack&amp;lt;ExpressionTreeNode&amp;gt; data) {
-        if(ops.isEmpty())
-            return;
-        ExpressionTreeNode node = ops.pop();
-        node.right = data.isEmpty() ? null : data.pop();
-        node.left = data.isEmpty() ? null : data.pop();
-        data.push(node);
-    }
-    
-    private int operatorLevel(String op) {
-        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
-            return 1;
-        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
-            return 2;
-        else
-            return 0;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-11-01T16:13:13-07:00</lastmod>
+    <lastmod>2015-11-01T20:33:13-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/01/wiggle-sort/</loc>
+    <lastmod>2015-11-01T20:33:13-07:00</lastmod>
   </url>
   
   <url>
@@ -35,6 +40,11 @@
   <url>
     <loc>http://xmruibi.github.io/2015/10/31/peeking-iterator/</loc>
     <lastmod>2015-10-31T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/29/scramble-number-pair-calculator/</loc>
+    <lastmod>2015-10-29T15:14:18-07:00</lastmod>
   </url>
   
   <url>
@@ -103,12 +113,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -153,22 +163,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/scramble-number-pair-calculator/</loc>
-    <lastmod>2015-10-21T15:14:18-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/21/chess-game/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
@@ -193,12 +198,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/20/digit-counts/</loc>
+    <loc>http://xmruibi.github.io/2015/10/20/divide-two-integers/</loc>
     <lastmod>2015-10-20T10:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/20/divide-two-integers/</loc>
+    <loc>http://xmruibi.github.io/2015/10/20/digit-counts/</loc>
     <lastmod>2015-10-20T10:43:13-07:00</lastmod>
   </url>
   
@@ -443,12 +448,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
-    <lastmod>2015-09-28T10:10:29-07:00</lastmod>
+    <loc>http://xmruibi.github.io/2015/10/01/largest-number/</loc>
+    <lastmod>2015-10-01T20:33:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
+    <lastmod>2015-09-28T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   

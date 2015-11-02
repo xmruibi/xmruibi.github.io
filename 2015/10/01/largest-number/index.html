@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Iterator of 2-D Array  &middot; Rui&#39;s Home Page</title>
+  <title>Largest Number  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,25 +14,23 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Iterator, Matrix, ">
+<meta name="keywords" content="Sort, ">
 
 
-<meta property="og:title" content="Iterator of 2-D Array  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Largest Number  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/01/largest-number/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-09-28T10:10:29-07:00" />
-<meta property="og:article:modified_time" content="2015-09-28T10:10:29-07:00" />
+<meta property="og:article:published_time" content="2015-10-01T20:33:13-07:00" />
+<meta property="og:article:modified_time" content="2015-10-01T20:33:13-07:00" />
 
   
     
-<meta property="og:article:tag" content="Iterator">
-    
-<meta property="og:article:tag" content="Matrix">
+<meta property="og:article:tag" content="Sort">
     
   
 
@@ -40,9 +38,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Iterator of 2-D Array" />
+<meta name="twitter:title" content="Largest Number" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/10/01/largest-number/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -50,20 +48,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Iterator of 2-D Array",
+    "headline": "Largest Number",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-09-28",
+    "datePublished": "2015-10-01",
     "description": "",
-    "wordCount":  169 
+    "wordCount":  156 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/10/01/largest-number/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -208,23 +206,20 @@ Archive
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Iterator of 2-D Array
+  <h1>Largest Number
 </h1>
 
   <div class="metas">
-<time datetime="2015-09-28">28 Sep, 2015</time>
+<time datetime="2015-10-01">1 Oct, 2015</time>
 
 
   
   &middot; Read in about 1 min
-  &middot; (169 Words)
+  &middot; (156 Words)
   <br>
   Tags: 
 
-<a class="label" href="http://xmruibi.github.io/tags/iterator">Iterator; </a> 
-
-
-<a class="label" href="http://xmruibi.github.io/tags/matrix">Matrix; </a> 
+<a class="label" href="http://xmruibi.github.io/tags/sort">Sort; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -240,76 +235,57 @@ Archive
   <div class="container content">
   
 
-<p>Set up a iterator to iterate a 2-dimensional array.
-By given the following code, finish all class:</p>
+<p>Given a list of non negative integers, arrange them such that they form the largest number.</p>
 
-<pre><code class="language-java">public class DeepIterator{
-    
-    public DeepIterator(int[][] listOfLists){
-	    ...
-	}
-	
-	...
-	public static void main(String[] args) {
-        int[][] listOfLists = {
-          {},{},{1,2,3},{},{},{2,3,4}
-        };
-        DeepIterator it = new DeepIterator(listOfLists);
-        while(it.hasNext()){
-            System.out.println(it.next());
-        }
-    }
-}
-</code></pre>
+<p>For example, given <code>[3, 30, 34, 5, 9]</code>, the largest formed number is <code>9534330</code>.</p>
+
+<h3 id="note">Note</h3>
+
+<p>The result may be very large, so you need to return a string instead of an integer.</p>
 
 <h2 id="think">Think</h2>
 
 <ul>
-<li>Iterate the 2-D array by <code>x</code> and <code>y</code>.</li>
-<li>Record current element during <code>hasNext()</code> function.</li>
-<li>Check the row if it is null.</li>
+<li>Sort the elements in array by the rule of pair combination:
+
+<ul>
+<li>a, b -&gt; <code>compare(ab, ba)</code>;</li>
+</ul></li>
+<li>One pass the sorted array and make the largest number</li>
 </ul>
 
 <h2 id="solution">Solution</h2>
 
-<pre><code class="language-java">public class DeepIterator{
-    int cur; // this is important
-    int row = 0, col = 0;
-
-    int[][] listOfLists;
-
-    public DeepIterator(int[][] listOfLists){
-        if(listOfLists == null)
-            throw new IllegalArgumentException(&quot;Null Input&quot;);
-        this.listOfLists = listOfLists;
-    }
-
-    public Integer next(){
-        return cur;
-    }
-
-    public boolean hasNext(){
-        // make sure the row is not null
-        while(row &lt; listOfLists.length &amp;&amp; col &gt;= listOfLists[row].length) {
-                row ++; col = 0;
-        }
-        if(row &lt; listOfLists.length) {
-            cur = listOfLists[row][col++];
-            return true;
-        }else
-            return false;
-    }
-
-    public static void main(String[] args) {
-        int[][] listOfLists = {
-          {},{},{1,2,3},{},{},{2,3,4}
+<pre><code class="language-java">    public String largestNumber(int[] nums) {
+        if(num==null || num.length==0)
+            return &quot;&quot;;
+        
+        // customized sort method only can sort the object
+        // so here it should change to a String array
+        String[] Snum = new String[num.length];
+        for(int i=0;i&lt;num.length;i++)
+            Snum[i] = num[i]+&quot;&quot;;
+    
+        Comparator&lt;String&gt; comp = new Comparator&lt;String&gt;(){
+            @Override
+            public int compare(String str1, String str2){
+                String s1 = str1+str2;
+                String s2 = str2+str1;
+                return s1.compareTo(s2);
+            }
         };
-        DeepIterator it = new DeepIterator(listOfLists);
-        while(it.hasNext()){
-          System.out.println(it.next());
-        }
+    
+        Arrays.sort(Snum,comp);
+        if(Snum[Snum.length-1].charAt(0)=='0')
+            return &quot;0&quot;;
+    
+        StringBuilder sb = new StringBuilder();
+    
+        for(String s: Snum)
+            sb.insert(0, s);
+    
+        return sb.toString();
     }
-}
 </code></pre>
 
 </div>
@@ -322,13 +298,13 @@ By given the following code, finish all class:</p>
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/09/28/iterator-of-iterator/" title="Iterator of Iterator">
+    <a class="prev" href="http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/" title="Iterator of 2-D Array">
       Earlier Article
     </a>
     
 
     
-    <a class="next" href="http://xmruibi.github.io/2015/10/01/largest-number/" title="Largest Number">
+    <a class="next" href="http://xmruibi.github.io/2015/10/08/word-pattern/" title="Word Pattern">
       Newer Article
     </a>
     
