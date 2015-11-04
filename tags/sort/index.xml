@@ -9,8 +9,137 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 02 Nov 2015 09:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2015 23:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Best Meeting Point</title>
+      <link>http://xmruibi.github.io/2015/11/03/best-meeting-point/</link>
+      <pubDate>Tue, 03 Nov 2015 23:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/03/best-meeting-point/</guid>
+      <description>
+
+&lt;p&gt;A group of two or more people wants to meet and minimize the total travel distance. You are given a 2D grid of values 0 or 1, where each 1 marks the home of someone in the group. The distance is calculated using Manhattan Distance, where distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|.&lt;/p&gt;
+
+&lt;p&gt;For example, given three people living at (0,0), (0,4), and (2,2):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        1 - 0 - 0 - 0 - 1
+        |   |   |   |   |
+        0 - 0 - 0 - 0 - 0
+        |   |   |   |   |
+        0 - 0 - 1 - 0 - 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The point (0,2) is an ideal meeting point, as the total travel
+distance of 2+2+2=6 is minimal. So return 6.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Find all &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; coordinate if value is &lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Each x value and y value should minus the median value so that it can get the distance to the median value.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int minTotalDistance(int[][] grid) {
+        if(grid == null || grid.length == 0)
+            return 0;
+        List&amp;lt;Integer&amp;gt; xlist = new ArrayList&amp;lt;&amp;gt;();
+        List&amp;lt;Integer&amp;gt; ylist = new ArrayList&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; grid.length; i++) {
+            for(int j = 0; j &amp;lt; grid[0].length; j++) {
+                if(grid[i][j] == 1) {
+                    xlist.add(i);
+                    ylist.add(j);
+                }
+            }
+        }
+        
+        int sum = 0;
+        // xlist doesn&#39;t need sort since it already sorted
+        for(Integer xval : xlist) 
+            sum += xval - xlist.get(xlist.size()/2);
+        // ylist need sort
+        Collections.sort(ylist)
+        for(Integer yval : ylist) 
+            sum += yval - ylist.get(ylist.size()/2);
+        
+        return sum;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Maximum Gap</title>
+      <link>http://xmruibi.github.io/2015/11/03/maximum-gap/</link>
+      <pubDate>Tue, 03 Nov 2015 23:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/03/maximum-gap/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array, find the maximum difference between the successive elements in its sorted form.&lt;/p&gt;
+
+&lt;p&gt;Try to solve it in linear time/space.&lt;/p&gt;
+
+&lt;p&gt;Return 0 if the array contains less than 2 elements.&lt;/p&gt;
+
+&lt;p&gt;You may assume all elements in the array are non-negative integers and fit in the 32-bit signed integer range.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the range of array elements&lt;/li&gt;
+&lt;li&gt;Setup the buckets size by $$(range \div len) + 1$$&lt;/li&gt;
+&lt;li&gt;Allocate two buckets for minimum and maximum in that bucket range&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maximumGap(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+            
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            min = Math.min(min, nums[i]);
+            max = Math.max(max, nums[i]);
+        }
+        
+        int range = max - min;
+        int bucketSize = range / nums.length + 1;
+        int[] mins = new int[num.length - 1];
+        int[] maxs = new int[num.length - 1];
+        for(int i = 0; i &amp;lt; nums.length; i++){
+            // skip the max or min value
+            if(i==min||i==max)
+                continue;
+            int idx = (nums[i] - min) / bucketSize;
+            mins = Math.min(mins[idx], nums[i]);
+            maxs = Math.min(maxs[idx], nums[i]);
+        }
+        
+        // compare the prev max bucket and current min bucket
+        int maxGap = Integer.MIN_VALUE;
+        int prev = min;
+        for(int i = 0; i &amp;lt; mins.length; i++) {
+            // empty bucket
+            if (mins[i] == Integer.MAX_VALUE &amp;amp;&amp;amp; maxs[i] == Integer.MIN_VALUE)
+                continue;
+            maxGap = Math.max(maxGap, mins[i] - prev);
+            prev = maxs[i];
+        }
+        maxGap = Math.max(maxGap, max - prev);
+        return maxGap;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Sort Colors</title>
