@@ -9,8 +9,117 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 03 Nov 2015 23:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 04 Nov 2015 13:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Increasing Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/</link>
+      <pubDate>Wed, 04 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array of integers, find the length of longest increasing sub-sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[10, 9, 2, 5, 3, 7, 101, 18]&lt;/code&gt;,
+The longest increasing sub-sequence is &lt;code&gt;[2, 3, 7, 101]&lt;/code&gt;, therefore the length is &lt;code&gt;4&lt;/code&gt;. Note that there may be more than one LIS combination, it is only necessary for you to return the length.&lt;/p&gt;
+
+&lt;p&gt;Your algorithm should run in $$O(n^2)$$ complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;Improve it to O(n log n) time complexity?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup one dimensional array to memorize the longest sub-sequence on each element&lt;/li&gt;
+&lt;li&gt;One pass on each element,&lt;/li&gt;
+&lt;li&gt;But it need to go through the previous indexes to check any elements less than current element and compare the maximum by &lt;code&gt;max(current, prev +1)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    public int longestIncreasingSubsequence(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        int max = 0;
+        for(int i = 0; i &amp;lt; nums.length; i ++) {
+            memo[i] = 1;
+            for(int j = 0; j &amp;lt; i; j++) {
+                if(nums[j] &amp;lt; nums[i]) {
+                    memo[i] = Math.max(memo[i], memo[j] + 1);
+                }
+                max = Math.max(memo[i], max);
+            }
+        }
+        return max;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup an array &lt;code&gt;table&lt;/code&gt; with the length of &lt;code&gt;nums&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;One pass on each element and initial max cursor is &lt;code&gt;0&lt;/code&gt; in &lt;code&gt;table&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace the element in &lt;code&gt;table&lt;/code&gt; is just larger than current passing element&lt;/li&gt;
+&lt;li&gt;If current element is largest, increase the cursor in &lt;code&gt;table&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Finally, the the cursor + 1 is the max length.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    public int longestIncreasingSubsequence(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        int max = 0;
+        memo[0] = nums[0];
+        for(int i = 1; i &amp;lt; nums.length; i++) {
+            if(nums[i] &amp;lt; memo[0])
+                memo[0] = nums[i];
+            else if(memo[max] &amp;lt;= nums[i])
+                memo[++max] = nums[i];
+            else{
+                int idx = findCeil(memo, max, nums[i]);
+                memo[idx] = nums[i];
+            }
+        }
+        return ++max;
+    }
+    
+    /**
+     * @param arr: the memo array
+     * @param right index: current max in the memo array
+     * @param val: target value
+     * @return: where should val put in memo array
+     */
+    private int findCeil(int[] arr, int r, int val){
+        int l = 0;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l)&amp;gt;&amp;gt;1);
+            if(arr[m] &amp;lt; val)
+                l = m;
+            else
+                r = m;
+        }
+        return r;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Best Meeting Point</title>
@@ -1077,53 +1186,6 @@ public class Solution {
 &lt;/code&gt;
 
 &lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Subarray Sum II</title>
-      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
-      <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
-      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;java&#34;&gt;
-public int subarraySumII(int[] A, int start, int end) {
-    int res = 0;
-        for(int i = 1; i &lt; A.length; i++)
-            A[i] += A[i - 1];
-        
-        Arrays.sort(A);
-        for(int i = 0; i &lt; A.length; i++) {
-            if(A[i] &gt;= start &amp;&amp; A[i] &lt;= end)
-                res++;
-            // start &lt;= A[i] - A[j] &lt;= end
-            // so the max bound and min bound of A[j] are following:
-            int max = A[i] - start;
-            int min = A[i] - end;
-            // max + 1 make sure the right bound of max value and also index problem
-            int range = findInsPos(A, max + 1) - findInsPos(A, min);
-            res += range;
-        }
-        return res;
-}
-private int findInsPos(int[] A, int value) {
-        int l = 0, r = A.length - 1;
-        
-        while(l &lt; r - 1) {
-            int m = l + ((r - l) &gt;&gt;1);
-            if(A[m] &lt; value)
-                l = m;
-            else
-                r = m;
-        }
-        if(A[l] &gt;= value)
-            return l;
-        else
-            return r;
-}
-&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

@@ -9,8 +9,925 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 03 Nov 2015 23:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Maximal Square</title>
+      <link>http://xmruibi.github.io/2015/11/05/maximal-square/</link>
+      <pubDate>Thu, 05 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/maximal-square/</guid>
+      <description>
+
+&lt;p&gt;Given a 2D binary matrix filled with 0&amp;rsquo;s and 1&amp;rsquo;s, find the largest square containing all 1&amp;rsquo;s and return its area.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, given the following matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    1 0 1 0 0
+    1 0 1 1 1
+    1 1 1 1 1
+    1 0 0 1 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use itself as memorized array (modifying value directly on matrix)&lt;/li&gt;
+&lt;li&gt;Ignore the top and left boundary&lt;/li&gt;
+&lt;li&gt;If current point &lt;code&gt;[i][j]&lt;/code&gt; is one, look up all three directions from &lt;code&gt;[i-1][j]&lt;/code&gt;, &lt;code&gt;[i-1][j-1]&lt;/code&gt; and &lt;code&gt;[i][j-1]&lt;/code&gt; are not zero, get the minimum value from them so that the value plus one is the maximum length of square on current point.&lt;/li&gt;
+&lt;li&gt;However, if one of three is zero, current point should keep zero or one&lt;/li&gt;
+&lt;li&gt;Set a max value to track the max length.&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t forget make a square on final max result, since that result is just for length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param matrix: a matrix of 0 and 1
+     * @return: an integer
+     */
+    public int maxSquare(int[][] matrix) {
+        if(matrix == null || matrix.length == 0)
+            return 0;
+        
+        int max = 0;
+        for(int i = 0; i &amp;lt; matrix.length; i++) {
+            for(int j = 0; j &amp;lt; matrix[i].length; j++) {
+                if(i != 0 &amp;amp;&amp;amp; j != 0 &amp;amp;&amp;amp; matrix[i][j]!=0 &amp;amp;&amp;amp; matrix[i-1][j] != 0 &amp;amp;&amp;amp; matrix[i][j-1] != 0 &amp;amp;&amp;amp; matrix[i-1][j-1] != 0) 
+                    matrix[i][j] = 1 + Math.min(matrix[i-1][j-1],Math.min(matrix[i-1][j],matrix[i][j-1]));
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        return max*max;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Palindrome Partitioning</title>
+      <link>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</link>
+      <pubDate>Thu, 05 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, partition s such that every substring of the partition is a palindrome.&lt;/p&gt;
+
+&lt;p&gt;Return all possible palindrome partitioning of &lt;code&gt;s&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;, return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set a boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
+&lt;li&gt;DFS to build up all palindrome partition solutions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s: A string
+     * @return: A list of lists of string
+     */
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; partition(String s) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(s == null || s.length() == 0)
+            return res;
+        // get palindrome boolean matrix [i][j] -&amp;gt; word(i, j) is palindrome
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
+            for(int j = i; j &amp;lt; s.length(); j++) 
+                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
+        
+        // setup dfs method     
+        helper(res, new ArrayList&amp;lt;String&amp;gt;(), memo, s, 0);
+        return res;
+    }
+    
+    private void helper(List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res, List&amp;lt;String&amp;gt; list, boolean[][] memo, String s, int idx) {
+        if(idx &amp;gt;= s.length()) {
+            res.add(new ArrayList&amp;lt;&amp;gt;(list));
+            return;
+        }
+        
+        for(int i = idx; i &amp;lt; s.length(); i++) {
+            if(memo[idx][i]) {
+                String substr = s.substring(idx,i+1);
+                list.add(substr);
+                helper(res, list, memo, s, i+1);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, cut s into some substrings such that every substring is a palindrome.&lt;/p&gt;
+
+&lt;p&gt;Return the &lt;strong&gt;minimum cuts&lt;/strong&gt; needed for a palindrome partitioning of s.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;For example, given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;,&lt;/p&gt;
+
+&lt;p&gt;Return 1 since the palindrome partitioning &lt;code&gt;[&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;]&lt;/code&gt; could be produced using 1 cut.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First step should be set up boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
+&lt;li&gt;Then we need to have a array &lt;code&gt;res[i]&lt;/code&gt; to memorize the minimum cut from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; position.&lt;/li&gt;
+&lt;li&gt;Initial the first element in memorized array  as &lt;code&gt;0&lt;/code&gt; (no cut needed)&lt;/li&gt;
+&lt;li&gt;Pass all position &lt;code&gt;i&lt;/code&gt; from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;length&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When at &lt;code&gt;i&lt;/code&gt; position, we should try &lt;code&gt;j&lt;/code&gt; reversely (avoid update) from &lt;code&gt;j = i&lt;/code&gt; to &lt;code&gt;j = 0&lt;/code&gt; and check if &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome, and &lt;code&gt;res[j]&lt;/code&gt; has valid minimum cut. Update &lt;code&gt;res[i]&lt;/code&gt; is necessary.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s a string
+     * @return an integer
+     */
+    public int minCut(String s) {
+        if( s == null || s.length() == 0)
+            return 0;
+        // step one: boolean matrix for check word segment is prlindrome or not
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
+            for(int j = i; j &amp;lt; s.length(); j++) 
+                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
+        // step two: cut[i] memorized the minimum cut from `1` to `i` position
+        int[] cut = new int[s.length() + 1];
+        cut[0] = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            cut[i + 1] = Integer.MAX_VALUE; 
+            for(int j = i; j &amp;gt;= 0; j --) {
+                cut[i + 1] = memo[j][i] &amp;amp;&amp;amp; cut[j] != Integer.MAX_VALUE ?  Math.min(cut[i+1], cut[j] + 1) : cut[i+1];
+            }
+        }
+        return cut[s.length()] - 1;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Coins in a Line</title>
+      <link>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</link>
+      <pubDate>Thu, 05 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first play will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;n = &lt;code&gt;1&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;3&lt;/code&gt;, return &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;4&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;5&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;challenge&#34;&gt;Challenge&lt;/h4&gt;
+
+&lt;p&gt;$O(n)$ time and $$O(1)$$ memory&lt;/p&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Only if the amount of coin is the multiply of &lt;code&gt;3&lt;/code&gt;, first player cannot win.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param n: an integer
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int n) {
+        return n%3!=0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;There are n coins with different value in a line. Two players take turns to take one or two coins from left side until there are no more coins left. The player who take the coins with the most value wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given values array A = &lt;code&gt;[1,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;h5 id=&#34;state&#34;&gt;State&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dp[i]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to the end&lt;/p&gt;
+
+&lt;h5 id=&#34;function&#34;&gt;Function&lt;/h5&gt;
+
+&lt;p&gt;Each time when iterate &lt;code&gt;i&lt;/code&gt;, we have two choice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;takes &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here are what we need to think:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;1.If we took &lt;code&gt;values[i]&lt;/code&gt;, opposite has two choice:  &lt;code&gt;values[i+1]&lt;/code&gt; or &lt;code&gt;values[i+1] + values[i+2]&lt;/code&gt; so the rest values for our own sides are &lt;code&gt;DP[i+2]&lt;/code&gt; or &lt;code&gt;DP[i+3]&lt;/code&gt;, however it should choose the minimum so that the opposite can get the maximum.&lt;/p&gt;
+
+&lt;p&gt;$$value1 = values[i] + min(DP[i+2], DP[i+3])$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;2.If we took  &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;$$value2 = values[i] + values[i+1] + min(DP[i+3], DP[i+4])$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;3.&lt;/p&gt;
+
+&lt;p&gt;$$dp[I] = max(value1, value2)$$&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &amp;lt;= 2) {
+            return true;
+        }
+        int dp[] = new int[values.length];
+        
+        dp[values.length-1] = values[values.length-1];
+        dp[values.length-2] = values[values.length-1] + values[values.length-2];
+        int total = dp[values.length-2];
+        
+        for(int i = values.length - 3; i &amp;gt;= 0; i--) {
+            total += values[i];
+            int value1 = values[i] + Math.min(dp[i+2], i+3&amp;lt;values.length?dp[i+3]:0);
+            int value2 = values[i] + values[i+1] + Math.min(i+3&amp;lt;values.length?dp[i+3]:0, i+4&amp;lt;values.length?dp[i+4]:0);
+            dp[i] = Math.max(value1, value2);
+        }
+        
+        return dp[0] &amp;gt; (total - dp[0]);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;There are n coins in a line. Two players take turns to take a coin from one of the ends of the line until there are no more coins left. The player with the larger amount of money wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example-2&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[3,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[1,20,4]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h4 id=&#34;challenge-1&#34;&gt;Challenge&lt;/h4&gt;
+
+&lt;p&gt;Follow Up Question: If &lt;code&gt;n&lt;/code&gt; is even. Is there any hacky algorithm that can decide whether first player will win or lose in $$O(1)$$ memory and $O(n)$ time?&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2&#34;&gt;Think&lt;/h3&gt;
+
+&lt;h5 id=&#34;state-1&#34;&gt;State&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dp[i][j]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sum[i][j]&lt;/code&gt; represent the sum value from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;function-1&#34;&gt;Function&lt;/h5&gt;
+
+&lt;p&gt;Each time when taken coins, we have two choice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;takes &lt;code&gt;values[j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$$dp[i][j]=max(values[i]+sum[i+1][j]-dp[i+1][j], values[j]+sum[i][j-1]-dp[i][j-1])$$&lt;/p&gt;
+
+&lt;p&gt;Since &lt;code&gt;values[i]+sum[i+1][j]&lt;/code&gt; or &lt;code&gt;values[j]+sum[i][j-1]&lt;/code&gt; equals to &lt;code&gt;sum[i][j]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So the equation can be $dp[i][j] = sum[i][j] - min(dp[i+1][j],dp[i][j-1])$&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-2&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &amp;lt;= 2) {
+            return true;
+        }
+        
+        int[][] dp = new int[values.length][values.length];
+        int[][] sum = new int[values.length][values.length];
+        // get the sum of i to j
+        for(int i = 0; i &amp;lt; values.length; i++){
+            for(int j  = i; j &amp;lt; values.length; j++) {
+                if(i == j)
+                    sum[i][j] = values[i];
+                else
+                    sum[i][j] = values[j] + sum[i][j-1];
+            }
+        }
+        
+        // to do the dp 
+        for(int i = values.length - 1; i &amp;gt;= 0; i--){
+            for(int j  = i; j &amp;lt; values.length; j++) {
+                if(i == j)
+                    dp[i][j] = values[i];
+                else
+                    dp[i][j] = sum[i][j] - Math.min(dp[i+1][j],dp[i][j-1]);
+            }
+        }
+        
+        return dp[0][values.length - 1] &amp;gt; sum[0][values.length - 1] - dp[0][values.length - 1];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Distinct Subsequences</title>
+      <link>http://xmruibi.github.io/2015/11/05/distinct-subsequences/</link>
+      <pubDate>Thu, 05 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/distinct-subsequences/</guid>
+      <description>
+
+&lt;p&gt;Given a string S and a string T, count the number of distinct subsequences of T in S.&lt;/p&gt;
+
+&lt;p&gt;A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, &amp;laquo;ACE&amp;raquo; is a subsequence of &amp;laquo;ABCDE&amp;raquo; while &amp;laquo;AEC&amp;raquo; is not).&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given S = &amp;laquo;rabbbit&amp;raquo;, T = &amp;laquo;rabbit&amp;raquo;, return 3.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it in $O(n^2)$ time and $O(n)$ memory.&lt;/p&gt;
+
+&lt;p&gt;$O(n^2)$ memory is also acceptable if you do not know how to optimize memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two sequence DP, setup 2-D array for memorizing&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp[i][j]&lt;/code&gt; means the distinct count when &lt;code&gt;S(1,i)&lt;/code&gt; and &lt;code&gt;T(1,j)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If S has non character &lt;code&gt;dp[0][j]&lt;/code&gt; should be 0, while T has non character &lt;code&gt;dp[i][0]&lt;/code&gt; should be 1.&lt;/li&gt;
+&lt;li&gt;Each time we add &lt;code&gt;S[i]&lt;/code&gt; on &lt;code&gt;dp[i-1][j]&lt;/code&gt;, iterate &lt;code&gt;j&lt;/code&gt; from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;len - 1&lt;/code&gt;, if &lt;code&gt;S[i] == T[j]&lt;/code&gt; we should look up the the result from &lt;code&gt;dp[i-1][j-1]&lt;/code&gt; and add it on &lt;code&gt;dp[i-1][j]&lt;/code&gt;, otherwise we add nothing.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param S, T: Two string.
+     * @return: Count the number of distinct subsequences
+     */
+    public int numDistinct(String S, String T) {
+        int[][] memo = new int[S.length() + 1][T.length() + 1];
+        for(int i = 0; i &amp;lt;= S.length(); i++) {
+            for(int j = 0; j &amp;lt;= T.length(); j++) {
+                if(i == 0)
+                    memo[i][j] = 0;
+                if(j == 0)
+                    memo[i][j] = 1;
+                else{
+                    memo[i][j] = memo[i-1][j] + (S.charAt(i-1) == T.charAt(j-1)) ? memo[i-1][j-1] : 0;
+                }
+            }
+        }
+        return memo[S.length()][T.length()];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Adjustment Cost</title>
+      <link>http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/</link>
+      <pubDate>Wed, 04 Nov 2015 17:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/</guid>
+      <description>
+
+&lt;p&gt;Given an integer array, adjust each integers so that the difference of every adjacent integers are not greater than a given number target.&lt;/p&gt;
+
+&lt;p&gt;If the array before adjustment is A, the array after adjustment is &lt;code&gt;B&lt;/code&gt;, you should minimize the sum of &lt;code&gt;|A[i]-B[i]|&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[1,4,2,3]&lt;/code&gt; and target = 1, one of the solutions is &lt;code&gt;[2,3,2,3]&lt;/code&gt;, the adjustment cost is 2 and it&amp;rsquo;s minimal.&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note
+You can assume each number in the array is a positive integer and not greater than &lt;code&gt;100&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is invisible condition on Note part: each number in the array is a positive integer and not greater than &lt;code&gt;100&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;So the above condition giving the memorized data structure a length on enumeration.&lt;/li&gt;
+&lt;li&gt;memo data should be &lt;code&gt;memo[arr.size() + 1][100]&lt;/code&gt;, which means the minimum cost on modify the ith num in A to &lt;code&gt;j&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Pass each element in input array&lt;/li&gt;
+&lt;li&gt;Then enumeration &lt;code&gt;j&lt;/code&gt; on 0 to 99, so that we can consider the previous number &lt;code&gt;p&lt;/code&gt; should inside the range between &lt;code&gt;j + target&lt;/code&gt; and &lt;code&gt;j-target&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;So the previous cost should be &lt;code&gt;memo[i-1][p]&lt;/code&gt;and for current, it should be &lt;code&gt;memo[i-1][p] + Math.abs(j-A.get(i-1))&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;After arrived the last element and got all possible cost, the minimum total cost should come from &lt;code&gt;memo[last element][i]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A: An integer array.
+     * @param target: An integer.
+     */
+    public int MinAdjustmentCost(ArrayList&amp;lt;Integer&amp;gt; A, int target) {
+        // the minimum cost on modify the ith num in A to j 
+        int[][] memo = new int[A.size() + 1][100];
+        
+        for(int i = 1; i &amp;lt;= A.size(); i++) {
+            // enumeration on 0 to 99 
+            for(int j=0; j&amp;lt;=99; j++) {
+                // initial the minimum cost on ith as the Integer.MAX
+                memo[i][j] = Integer.MAX_VALUE;
+                // get the range by target based on j 
+                int lowerRange = Math.max(0, j-target);
+                int upperRange = Math.min(99, j+target);
+                // p is the possible num based on previous index
+                // check all cost between current index on A and j
+                for (int p=lowerRange; p&amp;lt;=upperRange; p++) {
+                    
+                    memo[i][j] = Math.min(memo[i][j], memo[i-1][p]+Math.abs(j-A.get(i-1)));
+                }
+            }
+        }
+        int minCost = Integer.MAX_VALUE;
+        // check all minimum cost on index equal to A&#39;s last element
+        for(int i = 0; i &amp;lt;= 99; i++)
+            minCost = Math.min(minCost, memo[A.size()][i]);
+        return minCost;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Encode String</title>
+      <link>http://xmruibi.github.io/2015/11/04/encode-string/</link>
+      <pubDate>Wed, 04 Nov 2015 15:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/encode-string/</guid>
+      <description>
+
+&lt;p&gt;Given a String like &lt;code&gt;&amp;quot;ABBCCCC&amp;quot;&lt;/code&gt;, encode it to &lt;code&gt;A2B4C&lt;/code&gt;. Avoid to make the encode string larger than original string. Do it in-place! The repeat count should less than 10.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass the char array by reversed order so that it&amp;rsquo;s easier to modify the char to count number in-place&lt;/li&gt;
+&lt;li&gt;Index passing should from &lt;code&gt;len - 2&lt;/code&gt; to &lt;code&gt;-1&lt;/code&gt;, this is tricky part to avoid the case when index is zero cannot be count&lt;/li&gt;
+&lt;li&gt;The in-place modification index come from the &lt;code&gt;len - 1&lt;/code&gt;, rewrite the result char by this index&lt;/li&gt;
+&lt;li&gt;For the integer convert to character, it may need to use &lt;code&gt;Character.forDigit(count, 10)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For those rest char less than rewrite index, set them as null character &lt;code&gt;&amp;quot;\u0000&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+  public static void main(String[] args) {
+    String str = &amp;quot;ABC&amp;quot;;
+    inplaceEncode(str.toCharArray());
+  }
+  
+  public static void inplaceEncode(char[] chars){
+    int idx = chars.length - 1;
+    int count = 1;
+    for(int i = chars.length - 2; i &amp;gt;= -1; i--) {
+      if(i&amp;gt;=0 &amp;amp;&amp;amp; chars[i] == chars[i+1])
+        count++;
+      else {
+        char cur = chars[i+1];
+        if(count &amp;gt; 1){
+          chars[idx--] = cur;
+          chars[idx--] = Character.forDigit(count, 10);
+        }else
+          chars[idx--] = cur;
+        count = 1;
+      }
+    }
+    
+    // place the rest char position as null char
+    while(idx&amp;gt;=0)
+      chars[idx--] = &#39;\u0000&#39;;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/</link>
+      <pubDate>Wed, 04 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array of integers, find the length of longest increasing sub-sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[10, 9, 2, 5, 3, 7, 101, 18]&lt;/code&gt;,
+The longest increasing sub-sequence is &lt;code&gt;[2, 3, 7, 101]&lt;/code&gt;, therefore the length is &lt;code&gt;4&lt;/code&gt;. Note that there may be more than one LIS combination, it is only necessary for you to return the length.&lt;/p&gt;
+
+&lt;p&gt;Your algorithm should run in $$O(n^2)$$ complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;Improve it to O(n log n) time complexity?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup one dimensional array to memorize the longest sub-sequence on each element&lt;/li&gt;
+&lt;li&gt;One pass on each element,&lt;/li&gt;
+&lt;li&gt;But it need to go through the previous indexes to check any elements less than current element and compare the maximum by &lt;code&gt;max(current, prev +1)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    public int longestIncreasingSubsequence(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        int max = 0;
+        for(int i = 0; i &amp;lt; nums.length; i ++) {
+            memo[i] = 1;
+            for(int j = 0; j &amp;lt; i; j++) {
+                if(nums[j] &amp;lt; nums[i]) {
+                    memo[i] = Math.max(memo[i], memo[j] + 1);
+                }
+                max = Math.max(memo[i], max);
+            }
+        }
+        return max;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup an array &lt;code&gt;table&lt;/code&gt; with the length of &lt;code&gt;nums&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;One pass on each element and initial max cursor is &lt;code&gt;0&lt;/code&gt; in &lt;code&gt;table&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace the element in &lt;code&gt;table&lt;/code&gt; is just larger than current passing element&lt;/li&gt;
+&lt;li&gt;If current element is largest, increase the cursor in &lt;code&gt;table&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Finally, the the cursor + 1 is the max length.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    public int longestIncreasingSubsequence(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        int max = 0;
+        memo[0] = nums[0];
+        for(int i = 1; i &amp;lt; nums.length; i++) {
+            if(nums[i] &amp;lt; memo[0])
+                memo[0] = nums[i];
+            else if(memo[max] &amp;lt;= nums[i])
+                memo[++max] = nums[i];
+            else{
+                int idx = findCeil(memo, max, nums[i]);
+                memo[idx] = nums[i];
+            }
+        }
+        return ++max;
+    }
+    
+    /**
+     * @param arr: the memo array
+     * @param right index: current max in the memo array
+     * @param val: target value
+     * @return: where should val put in memo array
+     */
+    private int findCeil(int[] arr, int r, int val){
+        int l = 0;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l)&amp;gt;&amp;gt;1);
+            if(arr[m] &amp;lt; val)
+                l = m;
+            else
+                r = m;
+        }
+        return r;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Backpack</title>
+      <link>http://xmruibi.github.io/2015/11/04/backpack/</link>
+      <pubDate>Wed, 04 Nov 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/backpack/</guid>
+      <description>
+
+&lt;h1 id=&#34;backpack&#34;&gt;Backpack&lt;/h1&gt;
+
+&lt;p&gt;Given n items with size Ai, an integer m denotes the size of a backpack. How full you can fill this backpack?&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;If we have 4 items with size [2, 3, 5, 7], the backpack size is 11, we can select [2, 3, 5], so that the max size we can fill this backpack is 10. If the backpack size is 12. we can select [2, 3, 7] so that we can fulfill the backpack.&lt;/p&gt;
+
+&lt;p&gt;You function should return the max size we can fill in the given backpack.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You can not divide any item into small pieces.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n \times m)$ time and $O(m)$ memory.&lt;/p&gt;
+
+&lt;p&gt;$O(n \times m)$ memory is also acceptable if you do not know how to optimize memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup 2-D memorized array with length is &lt;code&gt;memo[items.length][bag size]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][S]&lt;/code&gt; means what size we can fill in when get first i items.&lt;/li&gt;
+&lt;li&gt;Then we should check from zero to &lt;code&gt;M&lt;/code&gt; size when got &lt;code&gt;i&lt;/code&gt;th items and evaluate the max size when taken or not taken current &lt;code&gt;i&lt;/code&gt;th item.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A: Given n items with size A[i]
+     * @return: The maximum size
+     */
+    public int backPack(int M, int[] A) {
+        int[][] bp = new int[N + 1][M + 1];
+
+        for (int i = 0; i &amp;lt; A.length; i++) {
+            for (int j = 0; j &amp;lt;= M; j++) {
+                if (A[i] &amp;gt; j) {
+                    bp[i + 1][j] = bp[i][j];
+                } else {
+                    bp[i + 1][j] = Math.max(bp[i][j], bp[i][j - A[i]] + A[i]);
+                }
+            }
+        }
+        return bp[N][M];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;backpack-ii&#34;&gt;Backpack II&lt;/h1&gt;
+
+&lt;p&gt;Given n items with size Ai and value Vi, and a backpack with size m. What&amp;rsquo;s the maximum value can you put into the backpack?&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given 4 items with size &lt;code&gt;[2, 3, 5, 7]&lt;/code&gt; and value &lt;code&gt;[1, 5, 2, 4]&lt;/code&gt;, and a backpack with size &lt;code&gt;10&lt;/code&gt;. The maximum value is &lt;code&gt;9&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note-1&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You cannot divide item into small pieces and the total size of items you choose should smaller or equal to m.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge-1&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n \times m)$ memory is acceptable, can you do it in $O(m)$ memory?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The same idea as the Backpack I.&lt;/li&gt;
+&lt;li&gt;But the value on memo array should be the value of items in bag&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A &amp;amp; V: Given n items with size A[i] and value V[i]
+     * @return: The maximum value
+     */
+    public int backPackII(int m, int[] A, int V[]) {
+        // write your code here
+        int[][] memo = new int[A.length+1][m+1];
+        
+         for(int i = 0; i &amp;lt; A.length; i++) {
+            for(int j = 0;j &amp;lt;= m; j++) {
+                if(j - A[i] &amp;gt;= 0)
+                    memo[i+1][j] = Math.max(memo[i][j], memo[i][j - A[i]] + V[i]); // add the value
+                else
+                    memo[i+1][j] = memo[i][j];
+            }
+        }
+        
+        return memo[A.length][m];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-space-optimized&#34;&gt;Think (Space Optimized)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1-D array with length of &lt;code&gt;m&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i]&lt;/code&gt; should be the max value with &lt;code&gt;i&lt;/code&gt; size items&lt;/li&gt;
+&lt;li&gt;NOTE: the iterate on size should be reversed, from &lt;code&gt;m&lt;/code&gt; to &lt;code&gt;0&lt;/code&gt; since the value come from &lt;code&gt;j - A[i]&lt;/code&gt; that can be updated if we look the previous index&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A &amp;amp; V: Given n items with size A[i] and value V[i]
+     * @return: The maximum value
+     */
+    public int backPackII(int m, int[] A, int V[]) {
+        // write your code here
+        int[] memo = new int[m+1];
+        
+         for(int i = 0; i &amp;lt; A.length; i++) {
+            for(int j = m; j &amp;gt;= 0; j--) { // lookup by reversed order
+                if(j - A[i] &amp;gt;= 0)
+                    memo[j] = Math.max(memo[j], memo[j - A[i]] + V[i]);
+            }
+        }
+        
+        int maxVal = 0;
+        for(int i = m; i &amp;gt;= 0; i--)
+            maxVal = Math.max(maxVal, memo[i]);
+        
+        return maxVal;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Common Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</link>
+      <pubDate>Wed, 04 Nov 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given two strings, find the longest common subsequence (LCS).&lt;/p&gt;
+
+&lt;p&gt;Your code should return the length of LCS.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;&amp;quot;ABCD&amp;quot;&lt;/code&gt; and &lt;code&gt;&amp;quot;EDCA&amp;quot;&lt;/code&gt;, the LCS is &lt;code&gt;&amp;quot;A&amp;quot;&lt;/code&gt; (or &lt;code&gt;&amp;quot;D&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;C&amp;quot;&lt;/code&gt;), return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;&amp;quot;ABCD&amp;quot;&lt;/code&gt; and &lt;code&gt;&amp;quot;EACB&amp;quot;&lt;/code&gt;, the LCS is &lt;code&gt;&amp;quot;AC&amp;quot;&lt;/code&gt;, return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Sequence problem should use 2-D array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;f[i][j]&lt;/code&gt; means that for &lt;code&gt;word1(1,i)&lt;/code&gt; and &lt;code&gt;word2(1,j)&lt;/code&gt; has the longest common subsequence&lt;/li&gt;
+&lt;li&gt;When &lt;code&gt;word1[i] == word2[j]&lt;/code&gt; it should consider &lt;code&gt;f[i][j]&lt;/code&gt;  with the value on &lt;code&gt;f[i-1][j-1]&lt;/code&gt; and plus one, otherwise &lt;code&gt;f[i][j]&lt;/code&gt; is max value from &lt;code&gt;f[i-1][j-1]&lt;/code&gt; or &lt;code&gt;f[i][j-1]&lt;/code&gt; or &lt;code&gt;f[i-1][j]&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Initialize &lt;code&gt;word1(0,0)&lt;/code&gt; or &lt;code&gt;word2(0,0)&lt;/code&gt; has no common substring with &lt;code&gt;word2(1,j)&lt;/code&gt; or &lt;code&gt;word1(1,i)&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A, B: Two strings.
+     * @return: The length of longest common subsequence of A and B.
+     */
+    public int longestCommonSubsequence(String A, String B) {
+        if(A == null || B == null)
+            return 0;
+        
+        int[][] memo = new int[A.length()+1][B.length()+1];
+        for(int i = 0; i &amp;lt;= A.length(); i ++) {
+            for(int j = 0; j &amp;lt;= B.length(); j ++) {
+                if(i == 0 || j == 0)
+                    memo[i][j] = 0;
+                else
+                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : Math.max(memo[i][j-1],memo[i-1][j]));
+            }
+        }
+        return memo[A.length()][B.length()];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Common Substring</title>
+      <link>http://xmruibi.github.io/2015/11/04/longest-common-substring/</link>
+      <pubDate>Wed, 04 Nov 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/longest-common-substring/</guid>
+      <description>
+
+&lt;p&gt;Given two strings, find the longest common substring. Return the length of it.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given A = &lt;code&gt;&amp;quot;ABCD&amp;quot;&lt;/code&gt;, B = &lt;code&gt;&amp;quot;CBCE&amp;quot;&lt;/code&gt;, return 2.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The characters in substring should occur continuously in original string. This is different with subsequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n \times m)$ time and memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Sequence problem should use 2-D array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;f[i][j]&lt;/code&gt; means that for &lt;code&gt;word1(1,i)&lt;/code&gt; and &lt;code&gt;word2(1,j)&lt;/code&gt; has the longest common substring&lt;/li&gt;
+&lt;li&gt;When &lt;code&gt;word1[i] == word2[j]&lt;/code&gt; it should consider &lt;code&gt;f[i][j]&lt;/code&gt;  with the value on &lt;code&gt;f[i-1][j-1]&lt;/code&gt; and plus one, otherwise &lt;code&gt;f[i][j]&lt;/code&gt; is zero.&lt;/li&gt;
+&lt;li&gt;Set a max value to update when necessary.&lt;/li&gt;
+&lt;li&gt;Initialize &lt;code&gt;word1(0,0)&lt;/code&gt; or &lt;code&gt;word2(0,0)&lt;/code&gt; has no common substring with &lt;code&gt;word2(1,j)&lt;/code&gt; or &lt;code&gt;word1(1,i)&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A, B: Two string.
+     * @return: the length of the longest common substring.
+     */
+    public int longestCommonSubstring(String A, String B) {
+ 
+        if(A == null || B == null)
+            return 0;
+        
+        int[][] memo = new int[A.length()+1][B.length()+1];
+        int max = 0;
+        for(int i = 0; i &amp;lt;= A.length(); i ++) {
+            for(int j = 0; j &amp;lt;= B.length(); j ++) {
+                if(i == 0 || j == 0)
+                    memo[i][j] = 0;
+                else
+                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : 0);
+                max = Math.max(max, memo[i][j]);
+            }
+        }
+        return max;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Best Meeting Point</title>
@@ -367,932 +1284,6 @@ distance of 2+2+2=6 is minimal. So return 6.&lt;/p&gt;
         }
       idx ++;
     }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sort Algorithms Conclusion</title>
-      <link>http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/</link>
-      <pubDate>Sun, 01 Nov 2015 16:13:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/</guid>
-      <description>
-
-&lt;p&gt;Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms&lt;/p&gt;
-
-&lt;h2 id=&#34;by-complexity&#34;&gt;By Complexity&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Time Complexity: $O(N^2)$
-
-&lt;ul&gt;
-&lt;li&gt;Bubble Sort&lt;/li&gt;
-&lt;li&gt;Selection Sort&lt;/li&gt;
-&lt;li&gt;Insertion Sort (min: $O(N))$&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Time Complexity: $O(Nlog_2N)$
-
-&lt;ul&gt;
-&lt;li&gt;Quick Sort (Space Complexity: $O(Nlog_2N)$)&lt;/li&gt;
-&lt;li&gt;Merge Sort (Space Complexity: $O(N)$)&lt;/li&gt;
-&lt;li&gt;Heap Sort&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Time Complexity: $O(N)$ &amp;amp;&amp;amp; Space Complexity: $O(N)$
-
-&lt;ul&gt;
-&lt;li&gt;Bucket sort&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;by-stable&#34;&gt;By Stable&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Stable
-
-&lt;ul&gt;
-&lt;li&gt;Insertion sort&lt;/li&gt;
-&lt;li&gt;Merge Sort&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Not Stable&lt;br /&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Bubble Sort&lt;/li&gt;
-&lt;li&gt;Selection Sort&lt;/li&gt;
-&lt;li&gt;Quick Sort&lt;/li&gt;
-&lt;li&gt;Merge Sort&lt;/li&gt;
-&lt;li&gt;Heap Sort&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;elementary-sort&#34;&gt;Elementary Sort&lt;/h1&gt;
-
-&lt;p&gt;These are most basic sort methods with $O(N^2)$ time complexity.&lt;/p&gt;
-
-&lt;h2 id=&#34;bubble-sort&#34;&gt;Bubble Sort&lt;/h2&gt;
-
-&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Swap when the two adjacent elements is not in order&lt;/li&gt;
-&lt;li&gt;Do a while loop until swap not happened in previous element order check&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void bubbleSort(int[] arr){
-    boolean swap;
-    do{
-        swap = false;
-        for(int i = 0; i &amp;lt; arr.length - 1; i++){
-            if(arr[i] &amp;gt; arr[i + 1]){
-                int tmp = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = tmp;
-                swap = true;
-            }
-        }
-    }while(swap);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;insertion-sort&#34;&gt;Insertion Sort&lt;/h2&gt;
-
-&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Get the target value from head of array&lt;/li&gt;
-&lt;li&gt;Find its suitable position from 0 to its position&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void insertionSort(int[] arr){
-    for(int i = 1; i &amp;lt; arr.length; i++){
-        for(int j = 0; j &amp;lt; i; j++) {
-            if(arr[j] &amp;gt; arr[i]) {
-                int tmp = arr[j];
-                arr[j] = arr[i];
-                arr[i] = tmp;
-            }
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;selection-sort&#34;&gt;Selection Sort&lt;/h2&gt;
-
-&lt;h3 id=&#34;think-2&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Get the target value from head of array&lt;/li&gt;
-&lt;li&gt;Find the minimum element on the right of target, swap them if minimum less then target&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-2&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void selectionSort(int[] arr){
-    for(int i = 0; i &amp;lt; arr.length - 1; i++){
-        int min = i;
-        for(int j = i + 1; j &amp;lt; arr.length; j++) {
-            if(arr[min] &amp;gt; arr[j])
-                min = j;
-        }
-        if(i!=min) {
-            int tmp = arr[min];
-            arr[min] = arr[i];
-            arr[i] = tmp;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;advanced-sort&#34;&gt;Advanced Sort&lt;/h1&gt;
-
-&lt;h2 id=&#34;merge-sort&#34;&gt;Merge Sort&lt;/h2&gt;
-
-&lt;h3 id=&#34;think-3&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Divide and Conquer&lt;/li&gt;
-&lt;li&gt;Recursion&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-3&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void mergeSort(int[] arr, int left, int right){
-    if(left &amp;gt;= right)
-        return;
-    int mid = left + ((right - left) &amp;gt;&amp;gt; 1);
-    mergeSort(arr, left, mid - 1);
-    mergeSort(arr, mid, right);
-    merge(arr, left, mid, right);
-}
-
-private void merge(int[] arr, int left, int mid, int right){
-    int[] newarr = new int[right - left + 1];
-  
-    for(int i = left; i &amp;lt;= right; i++)
-        newarr[i - left] = arr[i];
-  
-    int l = 0;
-    int r = mid - left + 1;
-    for(int i = left; i &amp;lt;= right; i++){
-        if(l &amp;gt; mid - left)
-            arr[i] = newarr[r++];
-        else if(r &amp;gt; right - left)
-            arr[i] = newarr[l++];
-        else
-            arr[i] = newarr[l] &amp;lt; newarr[r]? newarr[l++] : newarr[r++];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;quick-sort&#34;&gt;Quick Sort&lt;/h2&gt;
-
-&lt;h3 id=&#34;think-4&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set pivot (the rear of array or ) and consider it as a standard&lt;/li&gt;
-&lt;li&gt;Pass the array and make the element less than pivot on the pivot&amp;rsquo;s left and the element larger than pivot on the pivot&amp;rsquo;s right;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-4&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void quickSort(int[] arr, int l, int r){
-    if(l &amp;gt; r)
-        return;
-        
-    int pivot = pivot(arr, l, r);
-    quickSort(arr, l, pivot - 1);
-    quickSort(arr, pivot + 1, r);
-}
-
-
-private int pivot(int[] arr, int l, int r){
-    int pivot = arr[r];
-    int idx = l;
-    for(int i = l; i &amp;lt; r; i++){
-        if(arr[i] &amp;lt; pivot){
-            int tmp = arr[idx];
-            arr[idx++] = arr[i];
-            arr[i] = tmp;
-        }
-    }
-    arr[r] = arr[idx];
-    arr[idx] = pivot;
-    return idx;
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Rotate Iterator</title>
-      <link>http://xmruibi.github.io/2015/11/01/rotate-iterator/</link>
-      <pubDate>Sun, 01 Nov 2015 10:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/01/rotate-iterator/</guid>
-      <description>
-
-&lt;p&gt;The followup question for &lt;code&gt;Iterator of Iterators&lt;/code&gt;. But this time, the output is like &amp;lsquo;up-down&amp;rsquo; format.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateIterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
-    public static void main(String[] args) {
-        List&amp;lt;Integer&amp;gt; l1 = new ArrayList&amp;lt;Integer&amp;gt;();
-		l1.add(1);
-		l1.add(4);
-		l1.add(3);
-		l1.add(8);
-		l1.add(10);
-		List&amp;lt;Integer&amp;gt; l2 = new ArrayList&amp;lt;Integer&amp;gt;();
-		l2.add(17);
-		l2.add(12);
-
-		List&amp;lt;Integer&amp;gt; l3 = new ArrayList&amp;lt;Integer&amp;gt;();
-		l3.add(3);
-		l3.add(5);
-		l3.add(14);
-		List&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-		list.add(l1.iterator());
-		list.add(l2.iterator());
-		list.add(l3.iterator());
-		RotateIterators rt = new RotateIterators&amp;lt;&amp;gt;(list);
-		while(rt.hasNext()){
-			System.out.println(rt.next());
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;1
-17
-3
-4
-12
-5
-3
-14
-8
-10
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;hasNext()&lt;/code&gt; is only for checking the pointer is null or valid&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;next()&lt;/code&gt; should return the current value and also jump the pointer&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateIterators&amp;lt;T&amp;gt; implements Iterator&amp;lt;T&amp;gt; {
-    private Iterator&amp;lt;T&amp;gt; current; // the current concrete iterator (small, detail)
-    private List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators; // the cursor iterator which current iterator belong to (big, indexing)
-    private int listIdx;
-
-    public RotateIterators(List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt; iterators) {
-        if (iterators == null)
-            throw new IllegalArgumentException(&amp;quot;iterators is null&amp;quot;);
-        this.iterators = (List&amp;lt;Iterator&amp;lt;T&amp;gt;&amp;gt;) iterators;
-        this.current = iterators.get(listIdx = 0);
-    }
-
-    @Override
-    public boolean hasNext() {
-        int cntLmt = iterators.size(); // limit the loop, the max search limit is the size of iterators list
-        while (current == null || !current.hasNext() &amp;amp;&amp;amp; cntLmt &amp;gt; 0){
-            cntLmt--;
-            if (listIdx &amp;lt; iterators.size() - 1)
-                current = iterators.get(++listIdx);
-            else
-                current = iterators.get(listIdx = 0);   
-        }
-        return current.hasNext();
-    }
-
-    @Override
-    public T next() {
-        T res = current.next();
-        // current pointer should jump to next 
-        if (listIdx &amp;lt; iterators.size() - 1)
-            current = iterators.get(++listIdx);
-        else
-            current = iterators.get(listIdx = 0);   
-        return res;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Even Iterator</title>
-      <link>http://xmruibi.github.io/2015/10/31/even-iterator/</link>
-      <pubDate>Sat, 31 Oct 2015 10:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/31/even-iterator/</guid>
-      <description>
-
-&lt;p&gt;Implements an iterator only output the even number.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class EvenIterator implements Iterator&amp;lt;Integer&amp;gt; {
-    public static void main(String[] args) {
-		List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
-		list.add(1); list.add(4); list.add(3); list.add(5);
-		list.add(6); list.add(7); list.add(9); list.add(2);
-		EvenIterator it = new EvenIterator(list.listIterator());
-		while(it.hasNext()){
-			System.out.println(it.next());
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;4
-6
-2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class EvenIterator implements Iterator&amp;lt;Integer&amp;gt; {
-
-    Iterator&amp;lt;Integer&amp;gt; iterator;
-
-    public EvenIterator(Iterator&amp;lt;Integer&amp;gt; iterator) {
-        this.iterator = iterator;
-    }
-
-    @Override
-    public boolean hasNext() {
-        return iterator.hasNext();
-    }
-
-    @Override
-    public Integer next() {
-        int res = 0;
-        while (iterator.hasNext() &amp;amp;&amp;amp; (res = iterator.next()) % 2 != 0)
-            ;
-        return res;
-    }
-
-    
-    public static void main(String[] args) {
-        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
-        list.add(1); list.add(4);
-        list.add(3); list.add(5);
-        list.add(6); list.add(7);
-        list.add(9); list.add(2);
-        EvenIterator it = new EvenIterator(list.listIterator());
-        while(it.hasNext()){
-            System.out.println(it.next());
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Iterator for Merging Sorted Stream</title>
-      <link>http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/</link>
-      <pubDate>Sat, 31 Oct 2015 10:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/</guid>
-      <description>
-
-&lt;p&gt;Given a &lt;code&gt;Merge Sorted Stream&lt;/code&gt; class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: &lt;code&gt;hasNext()&lt;/code&gt;, &lt;code&gt;next()&lt;/code&gt;. Sorted Stream defines the stream read data by ascending order, so that in &lt;code&gt;Merge Sorted Stream&lt;/code&gt; when call &lt;code&gt;next()&lt;/code&gt; method, it will return values by ascending order. Pleas complete the following codes.&lt;/p&gt;
-
-&lt;h3 id=&#34;partital-code&#34;&gt;Partital Code&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SortedStream implments Iterator&amp;lt;Integer&amp;gt;{
-	List&amp;lt;Integer&amp;gt; content;
-	int cursor;
-	public SortedStream(List&amp;lt;Integer&amp;gt; content){
-		if(content == null)
-			throw new IllegalArgumentException(&amp;quot;Null Input&amp;quot;);
-		this.content = content;
-		this.cursor = 0;
-	}
-
-	public boolean hasNext(){return cursor &amp;lt; content.size();}
-
-	public int next(){return content.get(cursor++);}
-}
-
-class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
-    List&amp;lt;SortedStream&amp;gt; content;
-	SortedStream cursor;
-	public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){...}
-	
-	public boolean hasNext(){...};
-
-	public int next(){...};
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Merge Sorted data by Heap!&lt;/li&gt;
-&lt;li&gt;Peek Iterator&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
-    List&amp;lt;SortedStream&amp;gt; content;
-    PriorityQueue&amp;lt;Integer&amp;gt; minheap;
-    public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){
-        this.minheap = new PriorityQueue&amp;lt;&amp;gt;();
-        this.content = content;
-        for(SortedStream ss : content) {
-            if(ss != null &amp;amp;&amp;amp; ss.hasNext())
-                minheap.add(ss.next());
-        }
-    }
-    
-    public boolean hasNext() {
-        for (SortedStream ss : content) {
-            if (ss != null &amp;amp;&amp;amp; ss.hasNext())
-                minheap.add(ss.next());
-        }
-        return !minheap.isEmpty();
-    }
-
-    public int next(){
-        return minheap.poll();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jump Iterator</title>
-      <link>http://xmruibi.github.io/2015/10/31/jump-iterator/</link>
-      <pubDate>Sat, 31 Oct 2015 10:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/31/jump-iterator/</guid>
-      <description>
-
-&lt;p&gt;Implements an iterator in each output it print the number and skip the next one.&lt;/p&gt;
-
-&lt;h3 id=&#34;partial-code&#34;&gt;Partial Code&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class JumpIterator implements Iterator&amp;lt;Integer&amp;gt; {
-    public static void main(String[] args) {
-		List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
-		list.add(1); list.add(4);
-		list.add(3); list.add(5);
-		list.add(6); list.add(7);
-		list.add(2);
-		JumpIterator it = new JumpIterator(list.listIterator());
-		while(it.hasNext()){
-			System.out.println(it.next());
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;1
-3
-6
-2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class JumpIterator implements Iterator&amp;lt;Integer&amp;gt; {
-
-    Iterator&amp;lt;Integer&amp;gt; iterator;
-
-    public JumpIterator(Iterator&amp;lt;Integer&amp;gt; iterator) {
-        this.iterator = iterator;
-    }
-
-    @Override
-    public boolean hasNext() {
-        return iterator.hasNext();
-    }
-
-    @Override
-    public Integer next() {
-        int res = iterator.next();
-        if (iterator.hasNext())
-            iterator.next();
-        return res;
-    }
-
-    public static void main(String[] args) {
-        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
-        list.add(1); list.add(4);
-        list.add(3); list.add(5);
-        list.add(6); list.add(7);
-        list.add(2);
-        JumpIterator it = new JumpIterator(list.listIterator());
-        while(it.hasNext()){
-            System.out.println(it.next());
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Peeking Iterator</title>
-      <link>http://xmruibi.github.io/2015/10/31/peeking-iterator/</link>
-      <pubDate>Sat, 31 Oct 2015 10:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/31/peeking-iterator/</guid>
-      <description>
-
-&lt;p&gt;Given an Iterator class interface with methods: &lt;code&gt;next()&lt;/code&gt; and &lt;code&gt;hasNext()&lt;/code&gt;, design and implement a PeekingIterator that support the peek() operation &amp;ndash; it essentially &lt;code&gt;peek()&lt;/code&gt; at the element that will be returned by the next call to &lt;code&gt;next()&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Here is an example. Assume that the iterator is initialized to the beginning of the list: &lt;code&gt;[1, 2, 3]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Call &lt;code&gt;next()&lt;/code&gt; gets you 1, the first element in the list.&lt;/p&gt;
-
-&lt;p&gt;Now you call &lt;code&gt;peek()&lt;/code&gt; and it returns 2, the next element. Calling &lt;code&gt;next()&lt;/code&gt; after that still return 2.&lt;/p&gt;
-
-&lt;p&gt;You call &lt;code&gt;next()&lt;/code&gt;the final time and it returns 3, the last element. Calling &lt;code&gt;hasNext()&lt;/code&gt; after that should return false.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class PeekingIterator implements Iterator&amp;lt;Integer&amp;gt; {
-    
-    int cur;
-    Iterator&amp;lt;Integer&amp;gt; it;
-    public PeekingIterator(Iterator&amp;lt;Integer&amp;gt; iterator) {
-        this.it = iterator;
-        cur = it.hasNext() ? it.next() : null;
-    }
-
-    // Returns the next element in the iteration without advancing the iterator.
-    public Integer peek() {
-        return cur;
-    }
-
-    // hasNext() and next() should behave the same as in the Iterator interface.
-    // Override them if needed.
-    @Override
-    public Integer next() {
-        int res = curl
-        cur = it.next() ? it.next() : null;
-        return res;
-    }
-
-    @Override
-    public boolean hasNext() {
-        return it.hasNext();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Scramble Number Pair Calculator</title>
-      <link>http://xmruibi.github.io/2015/10/29/scramble-number-pair-calculator/</link>
-      <pubDate>Thu, 29 Oct 2015 15:14:18 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/29/scramble-number-pair-calculator/</guid>
-      <description>
-
-&lt;p&gt;Let a pair of distinct positive integers, (i, j), be considered &amp;laquo;scrambled&amp;raquo; if you can obtain j by reordering the digits of i.  For example, (12345, 25341) is a scrambled pair, but (12345, 67890) is not.&lt;/p&gt;
-
-&lt;p&gt;Given integers A and B with the same number of digits and no leading zeroes, how many distinct scrambled pairs (i, j) are there that satisfy: A &amp;lt;= i &amp;lt; j &amp;lt;= B?&lt;/p&gt;
-
-&lt;p&gt;For instance, if we let A = 10 and B = 99, the answer is 36:
-(12,21), (13,31), (14,41), (15,51), (16,61), (17,71), (18,81), (19,91), (23,32), (24,42), (25,52), (26,62), (27,72), (28,82), (29,92), (34,43), (35,53), (36,63), (37,73), (38,83), (39,93), (45,54), (46,64), (47,74), (48,84), (49,94), (56,65), (57,75), (58,85), (59,95), (67,76), (68,86), (69,96), (78,87), (79,97), (89,98)&lt;/p&gt;
-
-&lt;h2 id=&#34;think-and-solution&#34;&gt;Think and Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Test {
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(&amp;quot;Input min range: &amp;quot;);
-        int min = scanner.nextInt();
-        System.out.println(&amp;quot;Input max range: &amp;quot;);
-        int max = scanner.nextInt();
-        System.out.print(scrambleNumberCalculator(min, max));
-        Map&amp;lt;Object,Object&amp;gt;  map = new HashMap();
-        
-    }
-    
-    /**
-     * Main function to do the scramble number pair calculation
-     * @param minRange  : minimum of range 
-     * @param maxRange : maximum of range
-     * @return
-     */
-    public  static long scrambleNumberCalculator(int min, int max) {
-        // the total scramble number set to avoid duplicate calculate
-        Set&amp;lt;Integer&amp;gt; pairs = new HashSet&amp;lt;&amp;gt;();
-                
-        // the result of pairs count;
-        long cnt = 0;   
-        int[] range = new int[]{min, max};
-        for (int i = range[0]; i &amp;lt;= range[1]; i++) {
-            if (pairs.contains(i))
-                continue;
-            Set&amp;lt;Integer&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
-            List&amp;lt;Integer&amp;gt; list = convertDigitsList(i);
-            permutation(res, list, range, 0, list.size());          
-            cnt += combinationPair(res.size());
-            // res size equal to one means there is no pair for this number
-            // for saving pairs space I don&#39;t add the number with no scramble pair.
-            if(res.size() &amp;gt; 1)
-                pairs.addAll(res);
-        }
-        // System.out.println(pairs);
-        return cnt;
-    }
-    
-    /**
-     * The function to check current number has how many scramble number and store it in a set,
-     * recursion without return value but values are recorded in permutation set
-     * 
-     * @param res: the permutation result storage as a set
-     * @param digits: the current number digits for permutation 
-     * @param range: the range of output val
-     * @param cur: current permutation value
-     * @param idx: current permutation index for digits list
-     */
-    private static void permutation(Set&amp;lt;Integer&amp;gt; res, List&amp;lt;Integer&amp;gt; digits, int[] range,
-            int cur, int idx) {
-        if (idx == 0) {
-            if (cur &amp;gt;= range[0] &amp;amp;&amp;amp; cur &amp;lt;= range[1])
-                res.add(cur);
-            return;
-        }
-        for (int i = 0; i &amp;lt; digits.size(); i++) {
-            // avoid the zero leading number
-            if (cur == 0 &amp;amp;&amp;amp; digits.get(i) == 0)
-                continue;
-            cur = cur * 10 + digits.get(i);
-            digits.remove(i);
-            permutation(res, digits, range, cur, idx - 1);
-            digits.add(i, cur % 10);
-            cur /= 10;
-        }
-    }
-
-    /**
-     * The function to count the pair amount in permutation set by just using the size of current scramble number set
-     * @param num: consider the large input I use long type here
-     * @return the amount of pair in current permutation set
-     */
-    private static long combinationPair(long num) {
-        long pairCnt = 0;
-        for (int i = 0; i &amp;lt; num - 1; i++)
-            for (int j = i + 1; j &amp;lt; num; j++)
-                pairCnt++;
-        return pairCnt;
-    }
-
-    /**
-     * The function to convert a number into a list with digits make the permutation more convenient
-     * @param num
-     * @return
-     */
-    private static List&amp;lt;Integer&amp;gt; convertDigitsList(int num) {
-        List&amp;lt;Integer&amp;gt; res = new LinkedList&amp;lt;&amp;gt;();
-        while (num &amp;gt; 0) {
-            res.add(0, num % 10);
-            num /= 10;
-        }
-        return res;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Search Range in Binary Search Tree</title>
-      <link>http://xmruibi.github.io/2015/10/27/search-range-in-binary-search-tree/</link>
-      <pubDate>Tue, 27 Oct 2015 13:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/27/search-range-in-binary-search-tree/</guid>
-      <description>
-
-&lt;p&gt;Given two values k1 and k2 (where k1 &amp;lt; k2) and a root pointer to a Binary Search Tree. Find all the keys of tree in range k1 to k2. i.e. print all x such that k1&amp;lt;=x&amp;lt;=k2 and x is a key of given BST. Return all the keys in ascending order.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;If k1 = 10 and k2 = 22, then your function should return [12, 20, 22].&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    20
-   /  \
-  8   22
- / \
-4   12
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Recursion on each valid node.&lt;/li&gt;
-&lt;li&gt;For invalid node, if it is less than k1, check its right child, while if it is larger than k2, check its left child&lt;/li&gt;
-&lt;li&gt;Add the result from left and itself and right&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param root: The root of the binary search tree.
-     * @param k1 and k2: range k1 to k2.
-     * @return: Return all keys that k1&amp;lt;=key&amp;lt;=k2 in ascending order.
-     */
-    public ArrayList&amp;lt;Integer&amp;gt; searchRange(TreeNode root, int k1, int k2) {
-        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(root == null)
-            return res;
-        ArrayList&amp;lt;Integer&amp;gt; left = searchRange(root.left, k1, k2);
-        ArrayList&amp;lt;Integer&amp;gt; right = searchRange(root.right, k1, k2);
-        // current value is less than k1, check its right child
-        if(root.val &amp;lt; k1)
-            return right;
-        // current value is larger than k2, check its left child
-        if(root.val &amp;gt; k2)
-            return left;
-        // add left branch first then itself and then right branch
-        res.addAll(left);
-        res.add(root.val);
-        res.addAll(right);
-        return res;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Print Numbers by Recursion</title>
-      <link>http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/</link>
-      <pubDate>Mon, 26 Oct 2015 16:33:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/26/print-numbers-by-recursion/</guid>
-      <description>
-
-&lt;p&gt;Print numbers from 1 to the largest number with &lt;code&gt;N&lt;/code&gt; digits by recursion.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given &lt;code&gt;N = 1&lt;/code&gt;, return &lt;code&gt;[1,2,3,4,5,6,7,8,9]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Given &lt;code&gt;N = 2&lt;/code&gt;, return &lt;code&gt;[1,2,3,4,5,6,7,8,9,10,11,12,...,99]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;It&amp;rsquo;s pretty easy to do recursion like:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;recursion(i) {
-    if i &amp;gt; largest number:
-        return
-    results.add(i)
-    recursion(i + 1)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;However this cost a lot of recursion memory as the recursion depth maybe very large ($10^n - 1$). Can you do it in another way to recursive with at most N depth?&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Do it in recursion, not for-loop.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Think from bottom to top.&lt;/li&gt;
-&lt;li&gt;Build the result list from number with one digits to N digits.&lt;/li&gt;
-&lt;li&gt;Since we considering with digits as its deep, we have to set a loop to add the number in list on the new-generated base number (1 - 9 with following digits):&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;when zero digit, none;
-when one digit, new-generated base number is 1, add 1,2,...9;
-when two digit, new-generated base number is 10, add 10,20,...90;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Each time when having the new-generated base number, we need to pass through the original result list to fill the rest of number with beginning as new-generated base number.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;when one digit, new-generated base number is 1, add 1,2,...9, but original result list has nothing. so just add itself;
-when two digit, new-generated base number is 10, when add 10, go back the original result list with &amp;quot;1, 2, 3,..., 9&amp;quot;, add them as 11, 12, 13, ..., 19, when add 20, go back the original result list with &amp;quot;1, 2, 3,..., 9&amp;quot;, add them as 21, 22, 23, ..., 29;
-so the same as for 30,..., 90, 100, ..., 900, ...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param n: An integer.
-     * return : An array storing 1 to the largest number with n digits.
-     */
-    public List&amp;lt;Integer&amp;gt; numbersByRecursion(int n) {
-        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(n &amp;gt;= 0)
-            add(res, n);
-        return res;
-    }
-    
-    private int add(List&amp;lt;Integer&amp;gt; res, int n){
-        if(n == 0)
-            return 1;
-        
-        int cur = add(res, n - 1);
-        int size = res.size();
-        for(int i = 1; i &amp;lt;= 9; i ++) {
-            int digit = i * cur;
-            res.add(digit);
-            for(int j = 0; j &amp;lt; size; j++) {
-                res.add(digit + res.get(j));
-            }
-        }
-        return cur * 10;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis&#34;&gt;Complexity Analysis&lt;/h2&gt;
-
-&lt;p&gt;Time: $$O(10^n - 1)$$&lt;/p&gt;
-
-&lt;p&gt;Space: $$O(n)$$&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Boggle Game</title>
-      <link>http://xmruibi.github.io/2015/10/25/boggle-game/</link>
-      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/25/boggle-game/</guid>
-      <description>
-
-&lt;p&gt;Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;DFS on character board to do backtracking.&lt;/li&gt;
-&lt;li&gt;Searching the character for 8 directions.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-
-    public List&amp;lt;String&amp;gt; findWords(HashSet&amp;lt;String&amp;gt; dict, char[][] board) {
-        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        boolean[][] visited = new boolean[board.length][board[0].length];
-        for(int i = 0; i &amp;lt; board.length; i++) {
-            for(int j = 0; j &amp;lt; board[i].length; j++) {
-                findUtil(res, dict, board, visited, &amp;quot;&amp;quot;, i, j);
-            }
-        }
-        return res;
-    }
-
-    private void findUtil(List&amp;lt;String&amp;gt; res, HashSet&amp;lt;String&amp;gt; dict, char[][] board, boolean[][] visited, String cur, int x, int y) {
-        visited[x][y] = true;
-        cur += board[x][y];
-
-        if(dict.contains(cur)) {
-            res.add(cur);
-            dict.remvoe(cur);
-            return;
-        }
-        
-        int[] xs = {1,1,1,0,0,-1,-1,-1};
-        int[] ys = {1,-1,0,1,-1,0,1,-1};
-        for(int i = 0; i &amp;lt; 8; i++) {
-            int nx = xs[i] + x;
-            int ny = ys[i] + y;
-            if(nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; board.length &amp;amp;&amp;amp; ny &amp;gt;= 0 &amp;amp;&amp;amp; ny &amp;lt; board[nx].length &amp;amp;&amp;amp; !visited[nx][ny])
-                findUtil(res, dict, board, visited, cur, nx, ny);
-        }
-        visited[x][y] = false;
-        cur = cur.substring(0, cur.length() - 1);
-    }
-
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

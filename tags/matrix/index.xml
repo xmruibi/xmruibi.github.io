@@ -9,8 +9,65 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 01 Nov 2015 10:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Maximal Square</title>
+      <link>http://xmruibi.github.io/2015/11/05/maximal-square/</link>
+      <pubDate>Thu, 05 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/maximal-square/</guid>
+      <description>
+
+&lt;p&gt;Given a 2D binary matrix filled with 0&amp;rsquo;s and 1&amp;rsquo;s, find the largest square containing all 1&amp;rsquo;s and return its area.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, given the following matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    1 0 1 0 0
+    1 0 1 1 1
+    1 1 1 1 1
+    1 0 0 1 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use itself as memorized array (modifying value directly on matrix)&lt;/li&gt;
+&lt;li&gt;Ignore the top and left boundary&lt;/li&gt;
+&lt;li&gt;If current point &lt;code&gt;[i][j]&lt;/code&gt; is one, look up all three directions from &lt;code&gt;[i-1][j]&lt;/code&gt;, &lt;code&gt;[i-1][j-1]&lt;/code&gt; and &lt;code&gt;[i][j-1]&lt;/code&gt; are not zero, get the minimum value from them so that the value plus one is the maximum length of square on current point.&lt;/li&gt;
+&lt;li&gt;However, if one of three is zero, current point should keep zero or one&lt;/li&gt;
+&lt;li&gt;Set a max value to track the max length.&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t forget make a square on final max result, since that result is just for length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param matrix: a matrix of 0 and 1
+     * @return: an integer
+     */
+    public int maxSquare(int[][] matrix) {
+        if(matrix == null || matrix.length == 0)
+            return 0;
+        
+        int max = 0;
+        for(int i = 0; i &amp;lt; matrix.length; i++) {
+            for(int j = 0; j &amp;lt; matrix[i].length; j++) {
+                if(i != 0 &amp;amp;&amp;amp; j != 0 &amp;amp;&amp;amp; matrix[i][j]!=0 &amp;amp;&amp;amp; matrix[i-1][j] != 0 &amp;amp;&amp;amp; matrix[i][j-1] != 0 &amp;amp;&amp;amp; matrix[i-1][j-1] != 0) 
+                    matrix[i][j] = 1 + Math.min(matrix[i-1][j-1],Math.min(matrix[i-1][j],matrix[i][j-1]));
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        return max*max;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Rotate Iterator</title>

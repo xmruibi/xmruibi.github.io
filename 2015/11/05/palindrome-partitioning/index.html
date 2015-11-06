@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Palindrome Partitioning  &middot; Rui&#39;s Home Page</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="Dynamic Programming, String, Palindrome, ">
+
+
+<meta property="og:title" content="Palindrome Partitioning  &middot; Rui&#39;s Home Page ">
+<meta property="og:site_name" content="Rui&#39;s Home Page"/>
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-11-05T20:10:29-07:00" />
+<meta property="og:article:modified_time" content="2015-11-05T20:10:29-07:00" />
+
+  
+    
+<meta property="og:article:tag" content="Dynamic Programming">
+    
+<meta property="og:article:tag" content="String">
+    
+<meta property="og:article:tag" content="Palindrome">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="Palindrome Partitioning" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/" />
+<meta name="twitter:domain" content="http://xmruibi.github.io">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Palindrome Partitioning",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-11-05",
+    "description": "",
+    "wordCount":  502 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
+<link href="http://xmruibi.github.io/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.14" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+<link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+<link rel="stylesheet" href="http://xmruibi.github.io/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://xmruibi.github.io"> 
+  Geek Think
+
+</a> 
+
+</div>
+
+  
+<div class="container topline">
+  
+  A Thinker, A Coder, A Traveler
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+<a class="homelink" href="http://xmruibi.github.io">Home</a>
+
+
+  
+<a href="http://xmruibi.github.io/topics/algorithm" title="Discuss algorithm questions"
+
+>
+Algorithm
+
+</a>
+
+<a href="http://xmruibi.github.io/code" title="Show my projects"
+
+>
+Project
+
+</a>
+
+<a href="http://xmruibi.gitbooks.io/interview-preparation-notes/content/" title="about Interview Preparation"
+
+>
+My GitBook
+
+</a>
+
+<a href="http://xmruibi.github.io/life" title="Show my travels"
+
+>
+Travel
+
+</a>
+
+<a href="http://xmruibi.github.io/post" title="Show list of archived posts"
+
+>
+Archive
+
+</a>
+
+
+</nav>
+
+<div class="container nav primary no-print" style="position: relative;
+ margin-top: 2em;margin-bottom: 2em; ">
+<form role="search" id="search" action="/search">
+	<input id="page" name="p" value="1" type="hidden"/>
+	<input id="query" name="q" type="search" placeholder="Search">
+</form>
+ </div>
+<div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
+  
+<a href="http://xmruibi.github.io/about">About</a>
+
+<a href="http://xmruibi.github.io/tags" title="Show list of tags">Tags</a>
+
+<a href="http://xmruibi.github.io/topics" title="Show list of topics">Topics</a>
+
+
+</div>
+<div class="container nav secondary no-print" style="position: relative;
+ margin-bottom: 0em;">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:xmruibi@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/xmruibi">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+<a id="contact-link-linkedin" class="contact_link" href="fr.linkedin.com/in/ruibi">
+  <span class="fa fa-linkedin-square"></span><span>linkedin</span></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Palindrome Partitioning
+</h1>
+
+  <div class="metas">
+<time datetime="2015-11-05">5 Nov, 2015</time>
+
+
+  
+  &middot; Read in about 3 min
+  &middot; (502 Words)
+  <br>
+  Tags: 
+
+<a class="label" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/string">String; </a> 
+
+
+<a class="label" href="http://xmruibi.github.io/tags/palindrome">Palindrome; </a> 
+
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Topics: 
+
+<a class="label" href="http://xmruibi.github.io/topics/algorithm">Algorithm; </a> 
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<h2 id="problem-i">Problem I</h2>
+
+<p>Given a string s, partition s such that every substring of the partition is a palindrome.</p>
+
+<p>Return all possible palindrome partitioning of <code>s</code>.</p>
+
+<h4 id="example">Example</h4>
+
+<p>Given s = <code>&quot;aab&quot;</code>, return:</p>
+
+<pre><code>[
+  [&quot;aa&quot;,&quot;b&quot;],
+  [&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]
+]
+</code></pre>
+
+<h3 id="think">Think</h3>
+
+<ul>
+<li>Set a boolean matrix for check word segment is prlindrome or not. <code>[i][j]</code> -&gt; <code>word(i, j)</code> is palindrome</li>
+<li>DFS to build up all palindrome partition solutions.</li>
+</ul>
+
+<h3 id="solution">Solution</h3>
+
+<pre><code class="language-java">    /**
+     * @param s: A string
+     * @return: A list of lists of string
+     */
+    public List&lt;List&lt;String&gt;&gt; partition(String s) {
+        List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;();
+        if(s == null || s.length() == 0)
+            return res;
+        // get palindrome boolean matrix [i][j] -&gt; word(i, j) is palindrome
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &gt;= 0; i--) 
+            for(int j = i; j &lt; s.length(); j++) 
+                memo[i][j] |= (j - i &lt; 2 || memo[i+1][j-1]) &amp;&amp; s.charAt(i) == s.charAt(j);
+        
+        // setup dfs method     
+        helper(res, new ArrayList&lt;String&gt;(), memo, s, 0);
+        return res;
+    }
+    
+    private void helper(List&lt;List&lt;String&gt;&gt; res, List&lt;String&gt; list, boolean[][] memo, String s, int idx) {
+        if(idx &gt;= s.length()) {
+            res.add(new ArrayList&lt;&gt;(list));
+            return;
+        }
+        
+        for(int i = idx; i &lt; s.length(); i++) {
+            if(memo[idx][i]) {
+                String substr = s.substring(idx,i+1);
+                list.add(substr);
+                helper(res, list, memo, s, i+1);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+</code></pre>
+
+<h2 id="problem-ii">Problem II</h2>
+
+<p>Given a string s, cut s into some substrings such that every substring is a palindrome.</p>
+
+<p>Return the <strong>minimum cuts</strong> needed for a palindrome partitioning of s.</p>
+
+<h4 id="example-1">Example</h4>
+
+<p>For example, given s = <code>&quot;aab&quot;</code>,</p>
+
+<p>Return 1 since the palindrome partitioning <code>[&quot;aa&quot;,&quot;b&quot;]</code> could be produced using 1 cut.</p>
+
+<h3 id="think-1">Think</h3>
+
+<ul>
+<li>First step should be set up boolean matrix for check word segment is prlindrome or not. <code>[i][j]</code> -&gt; <code>word(i, j)</code> is palindrome</li>
+<li>Then we need to have a array <code>res[i]</code> to memorize the minimum cut from <code>1</code> to <code>i</code> position.</li>
+<li>Initial the first element in memorized array  as <code>0</code> (no cut needed)</li>
+<li>Pass all position <code>i</code> from <code>1</code> to <code>length</code></li>
+<li>When at <code>i</code> position, we should try <code>j</code> reversely (avoid update) from <code>j = i</code> to <code>j = 0</code> and check if <code>word(j, i-1)</code> is palindrome.</li>
+<li>If <code>word(j, i-1)</code> is palindrome, and <code>res[j]</code> has valid minimum cut. Update <code>res[i]</code> is necessary.</li>
+</ul>
+
+<h3 id="solution-1">Solution</h3>
+
+<pre><code class="language-java">    /**
+     * @param s a string
+     * @return an integer
+     */
+    public int minCut(String s) {
+        if( s == null || s.length() == 0)
+            return 0;
+        // step one: boolean matrix for check word segment is prlindrome or not
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &gt;= 0; i--) 
+            for(int j = i; j &lt; s.length(); j++) 
+                memo[i][j] |= (j - i &lt; 2 || memo[i+1][j-1]) &amp;&amp; s.charAt(i) == s.charAt(j);
+        // step two: cut[i] memorized the minimum cut from `1` to `i` position
+        int[] cut = new int[s.length() + 1];
+        cut[0] = 0;
+        for(int i = 0; i &lt; s.length(); i++) {
+            cut[i + 1] = Integer.MAX_VALUE; 
+            for(int j = i; j &gt;= 0; j --) {
+                cut[i + 1] = memo[j][i] &amp;&amp; cut[j] != Integer.MAX_VALUE ?  Math.min(cut[i+1], cut[j] + 1) : cut[i+1];
+            }
+        }
+        return cut[s.length()] - 1;
+    }
+</code></pre>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://xmruibi.github.io/2015/11/05/coins-in-a-line/" title="Coins in a Line">
+      Earlier Article
+    </a>
+    
+
+    
+    <a class="next" href="http://xmruibi.github.io/2015/11/05/maximal-square/" title="Maximal Square">
+      Newer Article
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    
+    
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//ruisblog.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+<a class="toplink" href="#">Go top</a>
+
+</div>
+<div class="container nav foot no-print">
+  
+
+  
+</div>
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Code with <i class='fa fa-heart'> Rui Bi</i>
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2015 Rui Bi.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    <script src="http://xmruibi.github.io/js/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/js/bootstrap.min.js"></script>
+<script src="http://xmruibi.github.io/js/bootstrap.js"></script>
+<script src="http://xmruibi.github.io/js/npm.js"></script>
+<script src="http://xmruibi.github.io/js/prism.js"></script>
+<script src="http://xmruibi.github.io/js/handlebars.js"></script>
+<script src="http://xmruibi.github.io/js/search.js"></script>
+
+
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+
+<script src="http://xmruibi.github.io/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+    Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69058903-1', 'auto');
+  ga('send', 'pageview');;
+</script>
+
+
+
+    
+  </body>
+</html>
+

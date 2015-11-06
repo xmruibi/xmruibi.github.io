@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Palindrome on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/palindrome/</link>
+    <description>Recent content in Palindrome on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/palindrome/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Palindrome Partitioning</title>
+      <link>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</link>
+      <pubDate>Thu, 05 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, partition s such that every substring of the partition is a palindrome.&lt;/p&gt;
+
+&lt;p&gt;Return all possible palindrome partitioning of &lt;code&gt;s&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;, return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set a boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
+&lt;li&gt;DFS to build up all palindrome partition solutions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s: A string
+     * @return: A list of lists of string
+     */
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; partition(String s) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(s == null || s.length() == 0)
+            return res;
+        // get palindrome boolean matrix [i][j] -&amp;gt; word(i, j) is palindrome
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
+            for(int j = i; j &amp;lt; s.length(); j++) 
+                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
+        
+        // setup dfs method     
+        helper(res, new ArrayList&amp;lt;String&amp;gt;(), memo, s, 0);
+        return res;
+    }
+    
+    private void helper(List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res, List&amp;lt;String&amp;gt; list, boolean[][] memo, String s, int idx) {
+        if(idx &amp;gt;= s.length()) {
+            res.add(new ArrayList&amp;lt;&amp;gt;(list));
+            return;
+        }
+        
+        for(int i = idx; i &amp;lt; s.length(); i++) {
+            if(memo[idx][i]) {
+                String substr = s.substring(idx,i+1);
+                list.add(substr);
+                helper(res, list, memo, s, i+1);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, cut s into some substrings such that every substring is a palindrome.&lt;/p&gt;
+
+&lt;p&gt;Return the &lt;strong&gt;minimum cuts&lt;/strong&gt; needed for a palindrome partitioning of s.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;For example, given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;,&lt;/p&gt;
+
+&lt;p&gt;Return 1 since the palindrome partitioning &lt;code&gt;[&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;]&lt;/code&gt; could be produced using 1 cut.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First step should be set up boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
+&lt;li&gt;Then we need to have a array &lt;code&gt;res[i]&lt;/code&gt; to memorize the minimum cut from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; position.&lt;/li&gt;
+&lt;li&gt;Initial the first element in memorized array  as &lt;code&gt;0&lt;/code&gt; (no cut needed)&lt;/li&gt;
+&lt;li&gt;Pass all position &lt;code&gt;i&lt;/code&gt; from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;length&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When at &lt;code&gt;i&lt;/code&gt; position, we should try &lt;code&gt;j&lt;/code&gt; reversely (avoid update) from &lt;code&gt;j = i&lt;/code&gt; to &lt;code&gt;j = 0&lt;/code&gt; and check if &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome, and &lt;code&gt;res[j]&lt;/code&gt; has valid minimum cut. Update &lt;code&gt;res[i]&lt;/code&gt; is necessary.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s a string
+     * @return an integer
+     */
+    public int minCut(String s) {
+        if( s == null || s.length() == 0)
+            return 0;
+        // step one: boolean matrix for check word segment is prlindrome or not
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
+            for(int j = i; j &amp;lt; s.length(); j++) 
+                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
+        // step two: cut[i] memorized the minimum cut from `1` to `i` position
+        int[] cut = new int[s.length() + 1];
+        cut[0] = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            cut[i + 1] = Integer.MAX_VALUE; 
+            for(int j = i; j &amp;gt;= 0; j --) {
+                cut[i + 1] = memo[j][i] &amp;amp;&amp;amp; cut[j] != Integer.MAX_VALUE ?  Math.min(cut[i+1], cut[j] + 1) : cut[i+1];
+            }
+        }
+        return cut[s.length()] - 1;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

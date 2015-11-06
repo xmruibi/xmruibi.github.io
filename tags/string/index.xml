@@ -9,8 +9,239 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 20 Oct 2015 19:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Palindrome Partitioning</title>
+      <link>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</link>
+      <pubDate>Thu, 05 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, partition s such that every substring of the partition is a palindrome.&lt;/p&gt;
+
+&lt;p&gt;Return all possible palindrome partitioning of &lt;code&gt;s&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;, return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set a boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
+&lt;li&gt;DFS to build up all palindrome partition solutions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s: A string
+     * @return: A list of lists of string
+     */
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; partition(String s) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(s == null || s.length() == 0)
+            return res;
+        // get palindrome boolean matrix [i][j] -&amp;gt; word(i, j) is palindrome
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
+            for(int j = i; j &amp;lt; s.length(); j++) 
+                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
+        
+        // setup dfs method     
+        helper(res, new ArrayList&amp;lt;String&amp;gt;(), memo, s, 0);
+        return res;
+    }
+    
+    private void helper(List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res, List&amp;lt;String&amp;gt; list, boolean[][] memo, String s, int idx) {
+        if(idx &amp;gt;= s.length()) {
+            res.add(new ArrayList&amp;lt;&amp;gt;(list));
+            return;
+        }
+        
+        for(int i = idx; i &amp;lt; s.length(); i++) {
+            if(memo[idx][i]) {
+                String substr = s.substring(idx,i+1);
+                list.add(substr);
+                helper(res, list, memo, s, i+1);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, cut s into some substrings such that every substring is a palindrome.&lt;/p&gt;
+
+&lt;p&gt;Return the &lt;strong&gt;minimum cuts&lt;/strong&gt; needed for a palindrome partitioning of s.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;For example, given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;,&lt;/p&gt;
+
+&lt;p&gt;Return 1 since the palindrome partitioning &lt;code&gt;[&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;]&lt;/code&gt; could be produced using 1 cut.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First step should be set up boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
+&lt;li&gt;Then we need to have a array &lt;code&gt;res[i]&lt;/code&gt; to memorize the minimum cut from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; position.&lt;/li&gt;
+&lt;li&gt;Initial the first element in memorized array  as &lt;code&gt;0&lt;/code&gt; (no cut needed)&lt;/li&gt;
+&lt;li&gt;Pass all position &lt;code&gt;i&lt;/code&gt; from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;length&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When at &lt;code&gt;i&lt;/code&gt; position, we should try &lt;code&gt;j&lt;/code&gt; reversely (avoid update) from &lt;code&gt;j = i&lt;/code&gt; to &lt;code&gt;j = 0&lt;/code&gt; and check if &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome, and &lt;code&gt;res[j]&lt;/code&gt; has valid minimum cut. Update &lt;code&gt;res[i]&lt;/code&gt; is necessary.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s a string
+     * @return an integer
+     */
+    public int minCut(String s) {
+        if( s == null || s.length() == 0)
+            return 0;
+        // step one: boolean matrix for check word segment is prlindrome or not
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
+            for(int j = i; j &amp;lt; s.length(); j++) 
+                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
+        // step two: cut[i] memorized the minimum cut from `1` to `i` position
+        int[] cut = new int[s.length() + 1];
+        cut[0] = 0;
+        for(int i = 0; i &amp;lt; s.length(); i++) {
+            cut[i + 1] = Integer.MAX_VALUE; 
+            for(int j = i; j &amp;gt;= 0; j --) {
+                cut[i + 1] = memo[j][i] &amp;amp;&amp;amp; cut[j] != Integer.MAX_VALUE ?  Math.min(cut[i+1], cut[j] + 1) : cut[i+1];
+            }
+        }
+        return cut[s.length()] - 1;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Distinct Subsequences</title>
+      <link>http://xmruibi.github.io/2015/11/05/distinct-subsequences/</link>
+      <pubDate>Thu, 05 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/distinct-subsequences/</guid>
+      <description>
+
+&lt;p&gt;Given a string S and a string T, count the number of distinct subsequences of T in S.&lt;/p&gt;
+
+&lt;p&gt;A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, &amp;laquo;ACE&amp;raquo; is a subsequence of &amp;laquo;ABCDE&amp;raquo; while &amp;laquo;AEC&amp;raquo; is not).&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given S = &amp;laquo;rabbbit&amp;raquo;, T = &amp;laquo;rabbit&amp;raquo;, return 3.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it in $O(n^2)$ time and $O(n)$ memory.&lt;/p&gt;
+
+&lt;p&gt;$O(n^2)$ memory is also acceptable if you do not know how to optimize memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two sequence DP, setup 2-D array for memorizing&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp[i][j]&lt;/code&gt; means the distinct count when &lt;code&gt;S(1,i)&lt;/code&gt; and &lt;code&gt;T(1,j)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If S has non character &lt;code&gt;dp[0][j]&lt;/code&gt; should be 0, while T has non character &lt;code&gt;dp[i][0]&lt;/code&gt; should be 1.&lt;/li&gt;
+&lt;li&gt;Each time we add &lt;code&gt;S[i]&lt;/code&gt; on &lt;code&gt;dp[i-1][j]&lt;/code&gt;, iterate &lt;code&gt;j&lt;/code&gt; from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;len - 1&lt;/code&gt;, if &lt;code&gt;S[i] == T[j]&lt;/code&gt; we should look up the the result from &lt;code&gt;dp[i-1][j-1]&lt;/code&gt; and add it on &lt;code&gt;dp[i-1][j]&lt;/code&gt;, otherwise we add nothing.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param S, T: Two string.
+     * @return: Count the number of distinct subsequences
+     */
+    public int numDistinct(String S, String T) {
+        int[][] memo = new int[S.length() + 1][T.length() + 1];
+        for(int i = 0; i &amp;lt;= S.length(); i++) {
+            for(int j = 0; j &amp;lt;= T.length(); j++) {
+                if(i == 0)
+                    memo[i][j] = 0;
+                if(j == 0)
+                    memo[i][j] = 1;
+                else{
+                    memo[i][j] = memo[i-1][j] + (S.charAt(i-1) == T.charAt(j-1)) ? memo[i-1][j-1] : 0;
+                }
+            }
+        }
+        return memo[S.length()][T.length()];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Encode String</title>
+      <link>http://xmruibi.github.io/2015/11/04/encode-string/</link>
+      <pubDate>Wed, 04 Nov 2015 15:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/encode-string/</guid>
+      <description>
+
+&lt;p&gt;Given a String like &lt;code&gt;&amp;quot;ABBCCCC&amp;quot;&lt;/code&gt;, encode it to &lt;code&gt;A2B4C&lt;/code&gt;. Avoid to make the encode string larger than original string. Do it in-place! The repeat count should less than 10.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass the char array by reversed order so that it&amp;rsquo;s easier to modify the char to count number in-place&lt;/li&gt;
+&lt;li&gt;Index passing should from &lt;code&gt;len - 2&lt;/code&gt; to &lt;code&gt;-1&lt;/code&gt;, this is tricky part to avoid the case when index is zero cannot be count&lt;/li&gt;
+&lt;li&gt;The in-place modification index come from the &lt;code&gt;len - 1&lt;/code&gt;, rewrite the result char by this index&lt;/li&gt;
+&lt;li&gt;For the integer convert to character, it may need to use &lt;code&gt;Character.forDigit(count, 10)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For those rest char less than rewrite index, set them as null character &lt;code&gt;&amp;quot;\u0000&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+  public static void main(String[] args) {
+    String str = &amp;quot;ABC&amp;quot;;
+    inplaceEncode(str.toCharArray());
+  }
+  
+  public static void inplaceEncode(char[] chars){
+    int idx = chars.length - 1;
+    int count = 1;
+    for(int i = chars.length - 2; i &amp;gt;= -1; i--) {
+      if(i&amp;gt;=0 &amp;amp;&amp;amp; chars[i] == chars[i+1])
+        count++;
+      else {
+        char cur = chars[i+1];
+        if(count &amp;gt; 1){
+          chars[idx--] = cur;
+          chars[idx--] = Character.forDigit(count, 10);
+        }else
+          chars[idx--] = cur;
+        count = 1;
+      }
+    }
+    
+    // place the rest char position as null char
+    while(idx&amp;gt;=0)
+      chars[idx--] = &#39;\u0000&#39;;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Interleaving String</title>

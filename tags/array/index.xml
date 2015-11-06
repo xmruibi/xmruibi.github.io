@@ -9,8 +9,274 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 02 Nov 2015 09:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2015 13:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/array/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Coins in a Line</title>
+      <link>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</link>
+      <pubDate>Thu, 05 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first play will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;n = &lt;code&gt;1&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;3&lt;/code&gt;, return &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;4&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;5&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;challenge&#34;&gt;Challenge&lt;/h4&gt;
+
+&lt;p&gt;$O(n)$ time and $$O(1)$$ memory&lt;/p&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Only if the amount of coin is the multiply of &lt;code&gt;3&lt;/code&gt;, first player cannot win.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param n: an integer
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int n) {
+        return n%3!=0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;There are n coins with different value in a line. Two players take turns to take one or two coins from left side until there are no more coins left. The player who take the coins with the most value wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given values array A = &lt;code&gt;[1,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;h5 id=&#34;state&#34;&gt;State&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dp[i]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to the end&lt;/p&gt;
+
+&lt;h5 id=&#34;function&#34;&gt;Function&lt;/h5&gt;
+
+&lt;p&gt;Each time when iterate &lt;code&gt;i&lt;/code&gt;, we have two choice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;takes &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here are what we need to think:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;1.If we took &lt;code&gt;values[i]&lt;/code&gt;, opposite has two choice:  &lt;code&gt;values[i+1]&lt;/code&gt; or &lt;code&gt;values[i+1] + values[i+2]&lt;/code&gt; so the rest values for our own sides are &lt;code&gt;DP[i+2]&lt;/code&gt; or &lt;code&gt;DP[i+3]&lt;/code&gt;, however it should choose the minimum so that the opposite can get the maximum.&lt;/p&gt;
+
+&lt;p&gt;$$value1 = values[i] + min(DP[i+2], DP[i+3])$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;2.If we took  &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;$$value2 = values[i] + values[i+1] + min(DP[i+3], DP[i+4])$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;3.&lt;/p&gt;
+
+&lt;p&gt;$$dp[I] = max(value1, value2)$$&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &amp;lt;= 2) {
+            return true;
+        }
+        int dp[] = new int[values.length];
+        
+        dp[values.length-1] = values[values.length-1];
+        dp[values.length-2] = values[values.length-1] + values[values.length-2];
+        int total = dp[values.length-2];
+        
+        for(int i = values.length - 3; i &amp;gt;= 0; i--) {
+            total += values[i];
+            int value1 = values[i] + Math.min(dp[i+2], i+3&amp;lt;values.length?dp[i+3]:0);
+            int value2 = values[i] + values[i+1] + Math.min(i+3&amp;lt;values.length?dp[i+3]:0, i+4&amp;lt;values.length?dp[i+4]:0);
+            dp[i] = Math.max(value1, value2);
+        }
+        
+        return dp[0] &amp;gt; (total - dp[0]);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;There are n coins in a line. Two players take turns to take a coin from one of the ends of the line until there are no more coins left. The player with the larger amount of money wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example-2&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[3,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[1,20,4]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h4 id=&#34;challenge-1&#34;&gt;Challenge&lt;/h4&gt;
+
+&lt;p&gt;Follow Up Question: If &lt;code&gt;n&lt;/code&gt; is even. Is there any hacky algorithm that can decide whether first player will win or lose in $$O(1)$$ memory and $O(n)$ time?&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2&#34;&gt;Think&lt;/h3&gt;
+
+&lt;h5 id=&#34;state-1&#34;&gt;State&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dp[i][j]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sum[i][j]&lt;/code&gt; represent the sum value from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;function-1&#34;&gt;Function&lt;/h5&gt;
+
+&lt;p&gt;Each time when taken coins, we have two choice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;takes &lt;code&gt;values[j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$$dp[i][j]=max(values[i]+sum[i+1][j]-dp[i+1][j], values[j]+sum[i][j-1]-dp[i][j-1])$$&lt;/p&gt;
+
+&lt;p&gt;Since &lt;code&gt;values[i]+sum[i+1][j]&lt;/code&gt; or &lt;code&gt;values[j]+sum[i][j-1]&lt;/code&gt; equals to &lt;code&gt;sum[i][j]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So the equation can be $dp[i][j] = sum[i][j] - min(dp[i+1][j],dp[i][j-1])$&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-2&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &amp;lt;= 2) {
+            return true;
+        }
+        
+        int[][] dp = new int[values.length][values.length];
+        int[][] sum = new int[values.length][values.length];
+        // get the sum of i to j
+        for(int i = 0; i &amp;lt; values.length; i++){
+            for(int j  = i; j &amp;lt; values.length; j++) {
+                if(i == j)
+                    sum[i][j] = values[i];
+                else
+                    sum[i][j] = values[j] + sum[i][j-1];
+            }
+        }
+        
+        // to do the dp 
+        for(int i = values.length - 1; i &amp;gt;= 0; i--){
+            for(int j  = i; j &amp;lt; values.length; j++) {
+                if(i == j)
+                    dp[i][j] = values[i];
+                else
+                    dp[i][j] = sum[i][j] - Math.min(dp[i+1][j],dp[i][j-1]);
+            }
+        }
+        
+        return dp[0][values.length - 1] &amp;gt; sum[0][values.length - 1] - dp[0][values.length - 1];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Adjustment Cost</title>
+      <link>http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/</link>
+      <pubDate>Wed, 04 Nov 2015 17:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/</guid>
+      <description>
+
+&lt;p&gt;Given an integer array, adjust each integers so that the difference of every adjacent integers are not greater than a given number target.&lt;/p&gt;
+
+&lt;p&gt;If the array before adjustment is A, the array after adjustment is &lt;code&gt;B&lt;/code&gt;, you should minimize the sum of &lt;code&gt;|A[i]-B[i]|&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[1,4,2,3]&lt;/code&gt; and target = 1, one of the solutions is &lt;code&gt;[2,3,2,3]&lt;/code&gt;, the adjustment cost is 2 and it&amp;rsquo;s minimal.&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note
+You can assume each number in the array is a positive integer and not greater than &lt;code&gt;100&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is invisible condition on Note part: each number in the array is a positive integer and not greater than &lt;code&gt;100&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;So the above condition giving the memorized data structure a length on enumeration.&lt;/li&gt;
+&lt;li&gt;memo data should be &lt;code&gt;memo[arr.size() + 1][100]&lt;/code&gt;, which means the minimum cost on modify the ith num in A to &lt;code&gt;j&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Pass each element in input array&lt;/li&gt;
+&lt;li&gt;Then enumeration &lt;code&gt;j&lt;/code&gt; on 0 to 99, so that we can consider the previous number &lt;code&gt;p&lt;/code&gt; should inside the range between &lt;code&gt;j + target&lt;/code&gt; and &lt;code&gt;j-target&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;So the previous cost should be &lt;code&gt;memo[i-1][p]&lt;/code&gt;and for current, it should be &lt;code&gt;memo[i-1][p] + Math.abs(j-A.get(i-1))&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;After arrived the last element and got all possible cost, the minimum total cost should come from &lt;code&gt;memo[last element][i]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A: An integer array.
+     * @param target: An integer.
+     */
+    public int MinAdjustmentCost(ArrayList&amp;lt;Integer&amp;gt; A, int target) {
+        // the minimum cost on modify the ith num in A to j 
+        int[][] memo = new int[A.size() + 1][100];
+        
+        for(int i = 1; i &amp;lt;= A.size(); i++) {
+            // enumeration on 0 to 99 
+            for(int j=0; j&amp;lt;=99; j++) {
+                // initial the minimum cost on ith as the Integer.MAX
+                memo[i][j] = Integer.MAX_VALUE;
+                // get the range by target based on j 
+                int lowerRange = Math.max(0, j-target);
+                int upperRange = Math.min(99, j+target);
+                // p is the possible num based on previous index
+                // check all cost between current index on A and j
+                for (int p=lowerRange; p&amp;lt;=upperRange; p++) {
+                    
+                    memo[i][j] = Math.min(memo[i][j], memo[i-1][p]+Math.abs(j-A.get(i-1)));
+                }
+            }
+        }
+        int minCost = Integer.MAX_VALUE;
+        // check all minimum cost on index equal to A&#39;s last element
+        for(int i = 0; i &amp;lt;= 99; i++)
+            minCost = Math.min(minCost, memo[A.size()][i]);
+        return minCost;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Sort Colors</title>

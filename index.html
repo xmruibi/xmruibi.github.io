@@ -177,7 +177,7 @@ Archive
     <h1>Rui&#39;s Home Page
 </h1>
 
-    <span>last update: <time datetime="2015-11-03T23:10:29-07:00">3 November at 11:10pm</time>
+    <span>last update: <time datetime="2015-11-05T20:10:29-07:00">5 November at 8:10pm</time>
 </span>
 
   </header>
@@ -185,18 +185,18 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/03/best-meeting-point/">Best Meeting Point
+  <h2><a href="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/">Palindrome Partitioning
 </a>
 </h2>
 
-  <time datetime="2015-11-03">3 Nov, 2015</time>
+  <time datetime="2015-11-05">5 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    A group of two or more people wants to meet and minimize the total travel distance. You are given a 2D grid of values 0 or 1, where each 1 marks the home of someone in the group. The distance is calculated using Manhattan Distance, where distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|. For example, given three people living at (0,0), (0,4), and (2,2): 1 - 0 - 0 - 0 - 1 | | | | | 0 - 0 - 0 - 0 - 0 | | | | | 0 - 0 - 1 - 0 - 0 The point (0,2) is an ideal meeting point, as the total travel distance of 2+2+2=6 is minimal.
+    Problem I Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s. Example Given s = &quot;aab&quot;, return: [ [&quot;aa&quot;,&quot;b&quot;], [&quot;a&quot;,&quot;a&quot;,&quot;b&quot;] ] Think Set a boolean matrix for check word segment is prlindrome or not. [i][j] -&gt; word(i, j) is palindrome DFS to build up all palindrome partition solutions. Solution /** * @param s: A string * @return: A list of lists of string */ public List&lt;List&lt;String&gt;&gt; partition(String s) { List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;(); if(s == null || s.length() == 0) return res; // get palindrome boolean matrix [i][j] -&gt; word(i, j) is palindrome boolean[][] memo = new boolean[s.length()][s.length()]; for(int i = s.length() - 1; i &gt;= 0; i--) for(int j = i; j &lt; s.length(); j++) memo[i][j] |= (j - i &lt; 2 || memo[i+1][j-1]) &amp;&amp; s.charAt(i) == s.charAt(j); // setup dfs method helper(res, new ArrayList&lt;String&gt;(), memo, s, 0); return res; } private void helper(List&lt;List&lt;String&gt;&gt; res, List&lt;String&gt; list, boolean[][] memo, String s, int idx) { if(idx &gt;= s.length()) { res.add(new ArrayList&lt;&gt;(list)); return; } for(int i = idx; i &lt; s.length(); i++) { if(memo[idx][i]) { String substr = s.substring(idx,i+1); list.add(substr); helper(res, list, memo, s, i+1); list.remove(list.size() - 1); } } } Problem II Given a string s, cut s into some substrings such that every substring is a palindrome.
   
 
 
@@ -204,7 +204,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/03/best-meeting-point/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/">Read more &rarr;</a>
 
 </div>
 
@@ -214,18 +214,18 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/03/maximum-gap/">Maximum Gap
+  <h2><a href="http://xmruibi.github.io/2015/11/05/maximal-square/">Maximal Square
 </a>
 </h2>
 
-  <time datetime="2015-11-03">3 Nov, 2015</time>
+  <time datetime="2015-11-05">5 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    Given an unsorted array, find the maximum difference between the successive elements in its sorted form. Try to solve it in linear time/space. Return 0 if the array contains less than 2 elements. You may assume all elements in the array are non-negative integers and fit in the 32-bit signed integer range. Think Get the range of array elements Setup the buckets size by $$(range \div len) + 1$$ Allocate
+    Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area. Example For example, given the following matrix: 1 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 0 0 1 0 Return 4. Think Use itself as memorized array (modifying value directly on matrix) Ignore the top and left boundary If current point [i][j] is one, look up all three directions from [i-1][j], [i-1][j-1] and [i][j-1] are not zero, get the minimum value from them so that the value plus one is the maximum length of square on current point.
   
 
 
@@ -233,7 +233,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/03/maximum-gap/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/05/maximal-square/">Read more &rarr;</a>
 
 </div>
 
@@ -243,18 +243,23 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/02/sort-colors/">Sort Colors
+  <h2><a href="http://xmruibi.github.io/2015/11/05/coins-in-a-line/">Coins in a Line
 </a>
 </h2>
 
-  <time datetime="2015-11-02">2 Nov, 2015</time>
+  <time datetime="2015-11-05">5 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue. Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively. Have you met this question in a real interview? Yes Example Given [1, 0, 1, 2], return [0, 1, 1, 2].
+    <h2 id="problem-i">Problem I</h2>
+
+<p>There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.</p>
+
+<p>Could you please decide the first play will win or lose?</p>
+
   
 
 
@@ -262,7 +267,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/02/sort-colors/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/05/coins-in-a-line/">Read more &rarr;</a>
 
 </div>
 
@@ -272,19 +277,18 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/02/sort-colors-ii/">Sort Colors II
+  <h2><a href="http://xmruibi.github.io/2015/11/05/distinct-subsequences/">Distinct Subsequences
 </a>
 </h2>
 
-  <time datetime="2015-11-02">2 Nov, 2015</time>
+  <time datetime="2015-11-05">5 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    <p>Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &hellip; k.</p>
-
+    Given a string S and a string T, count the number of distinct subsequences of T in S. A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, &laquo;ACE&raquo; is a subsequence of &laquo;ABCDE&raquo; while &laquo;AEC&raquo; is not). Example Given S = &laquo;rabbbit&raquo;, T = &laquo;rabbit&raquo;, return 3.
   
 
 
@@ -292,7 +296,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/02/sort-colors-ii/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/05/distinct-subsequences/">Read more &rarr;</a>
 
 </div>
 
@@ -302,18 +306,21 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/01/wiggle-sort/">Wiggle Sort
+  <h2><a href="http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/">Minimum Adjustment Cost
 </a>
 </h2>
 
-  <time datetime="2015-11-01">1 Nov, 2015</time>
+  <time datetime="2015-11-04">4 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    Given an array, and re-arrange it to wiggle style in one pass. Example [1] A0 &gt;= A1 &lt;= A2 &gt;= A3 .... .... An [2] A0 &lt;= A1 &gt;= A2 &lt;= A3 .... .... An Think Base case. The first two elements $A_0$, satisfy the rules, and $A_0$ is in its desired position. Suppose $A_0$ satisfy the rules, and $A_0$, &hellip;. $A_{k-1}$ are in their desired positions. We want to show that when we consider the pair $A_{k}$ and $A_{k+1}$, the rules are not violated, and the new k-th element will be in its desired position.
+    <p>Given an integer array, adjust each integers so that the difference of every adjacent integers are not greater than a given number target.</p>
+
+<p>If the array before adjustment is A, the array after adjustment is <code>B</code>, you should minimize the sum of <code>|A[i]-B[i]|</code></p>
+
   
 
 
@@ -321,7 +328,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/01/wiggle-sort/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/">Read more &rarr;</a>
 
 </div>
 
@@ -331,18 +338,18 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/">Sort Algorithms Conclusion
+  <h2><a href="http://xmruibi.github.io/2015/11/04/encode-string/">Encode String
 </a>
 </h2>
 
-  <time datetime="2015-11-01">1 Nov, 2015</time>
+  <time datetime="2015-11-04">4 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    <p>Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms</p>
+    <p>Given a String like <code>&quot;ABBCCCC&quot;</code>, encode it to <code>A2B4C</code>. Avoid to make the encode string larger than original string. Do it in-place! The repeat count should less than 10.</p>
 
   
 
@@ -351,7 +358,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/04/encode-string/">Read more &rarr;</a>
 
 </div>
 
@@ -361,19 +368,18 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/01/rotate-iterator/">Rotate Iterator
+  <h2><a href="http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/">Longest Increasing Subsequence
 </a>
 </h2>
 
-  <time datetime="2015-11-01">1 Nov, 2015</time>
+  <time datetime="2015-11-04">4 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    <p>The followup question for <code>Iterator of Iterators</code>. But this time, the output is like &lsquo;up-down&rsquo; format.</p>
-
+    Given an unsorted array of integers, find the length of longest increasing sub-sequence. Example Given [10, 9, 2, 5, 3, 7, 101, 18], The longest increasing sub-sequence is [2, 3, 7, 101], therefore the length is 4. Note that there may be more than one LIS combination, it is only necessary for you to return the length. Your algorithm should run in $$O(n^2)$$ complexity. Follow up Improve it to O(n log n) time complexity?
   
 
 
@@ -381,7 +387,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/01/rotate-iterator/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/">Read more &rarr;</a>
 
 </div>
 
@@ -391,18 +397,20 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/31/even-iterator/">Even Iterator
+  <h2><a href="http://xmruibi.github.io/2015/11/04/backpack/">Backpack
 </a>
 </h2>
 
-  <time datetime="2015-10-31">31 Oct, 2015</time>
+  <time datetime="2015-11-04">4 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    <p>Implements an iterator only output the even number.</p>
+    <h1 id="backpack">Backpack</h1>
+
+<p>Given n items with size Ai, an integer m denotes the size of a backpack. How full you can fill this backpack?</p>
 
   
 
@@ -411,7 +419,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/31/even-iterator/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/04/backpack/">Read more &rarr;</a>
 
 </div>
 
@@ -421,18 +429,20 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/31/jump-iterator/">Jump Iterator
+  <h2><a href="http://xmruibi.github.io/2015/11/04/longest-common-subsequence/">Longest Common Subsequence
 </a>
 </h2>
 
-  <time datetime="2015-10-31">31 Oct, 2015</time>
+  <time datetime="2015-11-04">4 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    <p>Implements an iterator in each output it print the number and skip the next one.</p>
+    <p>Given two strings, find the longest common subsequence (LCS).</p>
+
+<p>Your code should return the length of LCS.</p>
 
   
 
@@ -441,7 +451,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/31/jump-iterator/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/04/longest-common-subsequence/">Read more &rarr;</a>
 
 </div>
 
@@ -451,18 +461,18 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/">Iterator for Merging Sorted Stream
+  <h2><a href="http://xmruibi.github.io/2015/11/04/longest-common-substring/">Longest Common Substring
 </a>
 </h2>
 
-  <time datetime="2015-10-31">31 Oct, 2015</time>
+  <time datetime="2015-11-04">4 Nov, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    <p>Given a <code>Merge Sorted Stream</code> class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: <code>hasNext()</code>, <code>next()</code>. Sorted Stream defines the stream read data by ascending order, so that in <code>Merge Sorted Stream</code> when call <code>next()</code> method, it will return values by ascending order. Pleas complete the following codes.</p>
+    <p>Given two strings, find the longest common substring. Return the length of it.</p>
 
   
 
@@ -471,7 +481,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/11/04/longest-common-substring/">Read more &rarr;</a>
 
 </div>
 
@@ -541,12 +551,16 @@ Archive
   12
 </a>
 
+<a href="http://xmruibi.github.io/page/13/">
+  13
+</a>
+
 
 <a aria-label="Next" href="http://xmruibi.github.io/page/2/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://xmruibi.github.io/page/12/">
+<a aria-label="Last" href="http://xmruibi.github.io/page/13/">
   <span aria-hidden="true">»»</span>
 </a>
 

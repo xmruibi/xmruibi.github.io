@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Back Pack on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/back-pack/</link>
+    <description>Recent content in Back Pack on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Wed, 04 Nov 2015 09:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/back-pack/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Backpack</title>
+      <link>http://xmruibi.github.io/2015/11/04/backpack/</link>
+      <pubDate>Wed, 04 Nov 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/04/backpack/</guid>
+      <description>
+
+&lt;h1 id=&#34;backpack&#34;&gt;Backpack&lt;/h1&gt;
+
+&lt;p&gt;Given n items with size Ai, an integer m denotes the size of a backpack. How full you can fill this backpack?&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;If we have 4 items with size [2, 3, 5, 7], the backpack size is 11, we can select [2, 3, 5], so that the max size we can fill this backpack is 10. If the backpack size is 12. we can select [2, 3, 7] so that we can fulfill the backpack.&lt;/p&gt;
+
+&lt;p&gt;You function should return the max size we can fill in the given backpack.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You can not divide any item into small pieces.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n \times m)$ time and $O(m)$ memory.&lt;/p&gt;
+
+&lt;p&gt;$O(n \times m)$ memory is also acceptable if you do not know how to optimize memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup 2-D memorized array with length is &lt;code&gt;memo[items.length][bag size]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][S]&lt;/code&gt; means what size we can fill in when get first i items.&lt;/li&gt;
+&lt;li&gt;Then we should check from zero to &lt;code&gt;M&lt;/code&gt; size when got &lt;code&gt;i&lt;/code&gt;th items and evaluate the max size when taken or not taken current &lt;code&gt;i&lt;/code&gt;th item.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A: Given n items with size A[i]
+     * @return: The maximum size
+     */
+    public int backPack(int M, int[] A) {
+        int[][] bp = new int[N + 1][M + 1];
+
+        for (int i = 0; i &amp;lt; A.length; i++) {
+            for (int j = 0; j &amp;lt;= M; j++) {
+                if (A[i] &amp;gt; j) {
+                    bp[i + 1][j] = bp[i][j];
+                } else {
+                    bp[i + 1][j] = Math.max(bp[i][j], bp[i][j - A[i]] + A[i]);
+                }
+            }
+        }
+        return bp[N][M];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;backpack-ii&#34;&gt;Backpack II&lt;/h1&gt;
+
+&lt;p&gt;Given n items with size Ai and value Vi, and a backpack with size m. What&amp;rsquo;s the maximum value can you put into the backpack?&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given 4 items with size &lt;code&gt;[2, 3, 5, 7]&lt;/code&gt; and value &lt;code&gt;[1, 5, 2, 4]&lt;/code&gt;, and a backpack with size &lt;code&gt;10&lt;/code&gt;. The maximum value is &lt;code&gt;9&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note-1&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You cannot divide item into small pieces and the total size of items you choose should smaller or equal to m.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge-1&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n \times m)$ memory is acceptable, can you do it in $O(m)$ memory?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The same idea as the Backpack I.&lt;/li&gt;
+&lt;li&gt;But the value on memo array should be the value of items in bag&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A &amp;amp; V: Given n items with size A[i] and value V[i]
+     * @return: The maximum value
+     */
+    public int backPackII(int m, int[] A, int V[]) {
+        // write your code here
+        int[][] memo = new int[A.length+1][m+1];
+        
+         for(int i = 0; i &amp;lt; A.length; i++) {
+            for(int j = 0;j &amp;lt;= m; j++) {
+                if(j - A[i] &amp;gt;= 0)
+                    memo[i+1][j] = Math.max(memo[i][j], memo[i][j - A[i]] + V[i]); // add the value
+                else
+                    memo[i+1][j] = memo[i][j];
+            }
+        }
+        
+        return memo[A.length][m];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-space-optimized&#34;&gt;Think (Space Optimized)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1-D array with length of &lt;code&gt;m&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i]&lt;/code&gt; should be the max value with &lt;code&gt;i&lt;/code&gt; size items&lt;/li&gt;
+&lt;li&gt;NOTE: the iterate on size should be reversed, from &lt;code&gt;m&lt;/code&gt; to &lt;code&gt;0&lt;/code&gt; since the value come from &lt;code&gt;j - A[i]&lt;/code&gt; that can be updated if we look the previous index&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A &amp;amp; V: Given n items with size A[i] and value V[i]
+     * @return: The maximum value
+     */
+    public int backPackII(int m, int[] A, int V[]) {
+        // write your code here
+        int[] memo = new int[m+1];
+        
+         for(int i = 0; i &amp;lt; A.length; i++) {
+            for(int j = m; j &amp;gt;= 0; j--) { // lookup by reversed order
+                if(j - A[i] &amp;gt;= 0)
+                    memo[j] = Math.max(memo[j], memo[j - A[i]] + V[i]);
+            }
+        }
+        
+        int maxVal = 0;
+        for(int i = m; i &amp;gt;= 0; i--)
+            maxVal = Math.max(maxVal, memo[i]);
+        
+        return maxVal;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
