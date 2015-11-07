@@ -9,8 +9,180 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2015 22:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Scramble String</title>
+      <link>http://xmruibi.github.io/2015/11/06/scramble-string/</link>
+      <pubDate>Fri, 06 Nov 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/06/scramble-string/</guid>
+      <description>
+
+&lt;p&gt;Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively. Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.&lt;/p&gt;
+
+&lt;p&gt;Below is one possible representation of s1 = &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    great
+   /    \
+  gr    eat
+ / \    /  \
+g   r  e   at
+           / \
+          a   t
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To scramble the string, we may choose any non-leaf node and swap its two children.&lt;/p&gt;
+
+&lt;p&gt;For example, if we choose the node &amp;laquo;gr&amp;raquo; and swap its two children, it produces a scrambled string &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    rgeat
+   /    \
+  rg    eat
+ / \    /  \
+r   g  e   at
+           / \
+          a   t
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Similarly, if we continue to swap the children of nodes &amp;laquo;eat&amp;raquo; and &amp;laquo;at&amp;raquo;, it produces a scrambled string &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    rgtae
+   /    \
+  rg    tae
+ / \    /  \
+r   g  ta  e
+       / \
+      t   a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-dp-version&#34;&gt;Think - DP Version&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ignore two situations: both length not equal and the characters not the same&lt;/li&gt;
+&lt;li&gt;Two sequence but 3-D memorized array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][j][k]&lt;/code&gt; means state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string&lt;/li&gt;
+&lt;li&gt;Two conditions we can regard as scramble, for range of &lt;code&gt;word1(i -&amp;gt; i+k)&lt;/code&gt; or &lt;code&gt;word2(j -&amp;gt; j+k)&lt;/code&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + split&lt;/code&gt; (len = split) and &lt;code&gt;split + i -&amp;gt; i + k&lt;/code&gt; = &lt;code&gt;split + i -&amp;gt; j + k&lt;/code&gt; (len = k - split)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j + (k - split) -&amp;gt; j+k&lt;/code&gt; [len = split] and &lt;code&gt;i + split -&amp;gt; i+k&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + (k - split)&lt;/code&gt;(len = k - split)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Consider about the initialization:
+
+&lt;ul&gt;
+&lt;li&gt;for &lt;code&gt;k == 1&lt;/code&gt;, we only check if &lt;code&gt;word1[i] == word2[j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s1 A string
+     * @param s2 Another string
+     * @return whether s2 is a scrambled string of s1
+     */
+    public boolean isScramble(String s1, String s2) {
+        // check length
+        if(s1==null||s2==null||s1.length()!=s2.length())
+            return false;
+        // check anagram
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+        if (!Arrays.equals(c1, c2))
+			return false;
+			
+        if(s1.length() != s2.length())
+            return false;
+        int len = s1.length();
+        
+        // state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string
+        boolean[][][] memo = new boolean[len][len][len+1];
+        
+        // initial, only check if s1[i] == s2[j] 
+        for(int i=0;i&amp;lt;s1.length();i++)
+            for(int j=0;j&amp;lt;s2.length();j++)
+                memo[i][j][1] = (s1.charAt(i) == s2.charAt(j));
+                
+        for(int k = 2; k &amp;lt;= len; k++) {
+            
+            for(int i = 0; i &amp;lt;= len - k; i++) {
+                for(int j = 0; j &amp;lt;= len - k; j++) {
+                    // split point should start from 1 to k - 1
+                    for(int split = 1; split &amp;lt; k; split++) {
+                        memo[i][j][k] |= (memo[i][j][split]&amp;amp;&amp;amp;memo[i+split][j+split][k-split])||(memo[i][j+(k - split)][split]&amp;amp;&amp;amp;memo[i+split][j][k-split]);
+                    }
+                }
+            }
+        }
+        return memo[0][0][len];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Word Break</title>
+      <link>http://xmruibi.github.io/2015/11/06/word-break/</link>
+      <pubDate>Fri, 06 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/06/word-break/</guid>
+      <description>
+
+&lt;p&gt;Given a string s and a dictionary of words dict, determine if s can be break into a space-separated sequence of one or more dictionary words.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;lintcode&amp;quot;&lt;/code&gt;, dict = &lt;code&gt;[&amp;quot;lint&amp;quot;, &amp;quot;code&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Return true because &amp;laquo;lintcode&amp;raquo; can be break as &amp;laquo;lint code&amp;raquo;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One sequence DP, a 1-D boolean array.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i]&lt;/code&gt; means from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; has valid word break or not.&lt;/li&gt;
+&lt;li&gt;Tricky part is when we pass at &lt;code&gt;i&lt;/code&gt; position, we don&amp;rsquo;t need to use &lt;code&gt;j&lt;/code&gt; from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; for checking word existed in dictionary. We can use the length of word in dictionary as an length evaluation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s: A string s
+     * @param dict: A dictionary of words dict
+     */
+    public boolean wordBreak(String s, Set&amp;lt;String&amp;gt; dict) {
+    
+        if(s == null || s.length() == 0){
+            if(dict == null || dict.size() == 0)
+                return true;
+            return false;
+        }
+        
+        boolean[] memo = new boolean[s.length() + 1];
+        memo[0] = true;
+        for(int i = 1; i &amp;lt;= s.length(); i ++) {
+            for(String ss : dict){
+                int start = i - ss.length();
+                if( start &amp;gt;= 0 &amp;amp;&amp;amp; memo[start]){
+                    String str = s.substring(start, i);
+                    if(dict.contains(str))
+                         memo[i] = true;
+                }
+            }
+        }
+        return memo[s.length()];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Palindrome Partitioning</title>

@@ -181,6 +181,96 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/11/06/scramble-string/">Scramble String
+</a>
+</h2>
+
+  <time datetime="2015-11-06">6 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively. Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/11/06/scramble-string/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/11/06/word-break/">Word Break
+</a>
+</h2>
+
+  <time datetime="2015-11-06">6 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>Given a string s and a dictionary of words dict, determine if s can be break into a space-separated sequence of one or more dictionary words.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/11/06/word-break/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/11/06/house-robber/">House Robber
+</a>
+</h2>
+
+  <time datetime="2015-11-06">6 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and <strong>it will automatically contact the police if two adjacent houses were broken into on the same night</strong>.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/11/06/house-robber/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
   <h2><a href="http://xmruibi.github.io/2015/11/05/maximal-square/">Maximal Square
 </a>
 </h2>
@@ -192,7 +282,8 @@ Archive
   <p class="container content">
   
   
-    Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area. Example For example, given the following matrix: 1 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 0 0 1 0 Return 4. Think Use itself as memorized array (modifying value directly on matrix) Ignore the top and left boundary If current point [i][j] is one, look up all three directions from [i-1][j], [i-1][j-1] and [i][j-1] are not zero, get the minimum value from them so that the value plus one is the maximum length of square on current point.
+    <p>Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area.</p>
+
   
 
 
@@ -221,7 +312,12 @@ Archive
   <p class="container content">
   
   
-    Problem I Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s. Example Given s = &quot;aab&quot;, return: [ [&quot;aa&quot;,&quot;b&quot;], [&quot;a&quot;,&quot;a&quot;,&quot;b&quot;] ] Think Set a boolean matrix for check word segment is prlindrome or not. [i][j] -&gt; word(i, j) is palindrome DFS to build up all palindrome partition solutions. Solution /** * @param s: A string * @return: A list of lists of string */ public List&lt;List&lt;String&gt;&gt; partition(String s) { List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;(); if(s == null || s.length() == 0) return res; // get palindrome boolean matrix [i][j] -&gt; word(i, j) is palindrome boolean[][] memo = new boolean[s.length()][s.length()]; for(int i = s.length() - 1; i &gt;= 0; i--) for(int j = i; j &lt; s.length(); j++) memo[i][j] |= (j - i &lt; 2 || memo[i+1][j-1]) &amp;&amp; s.charAt(i) == s.charAt(j); // setup dfs method helper(res, new ArrayList&lt;String&gt;(), memo, s, 0); return res; } private void helper(List&lt;List&lt;String&gt;&gt; res, List&lt;String&gt; list, boolean[][] memo, String s, int idx) { if(idx &gt;= s.length()) { res.add(new ArrayList&lt;&gt;(list)); return; } for(int i = idx; i &lt; s.length(); i++) { if(memo[idx][i]) { String substr = s.substring(idx,i+1); list.add(substr); helper(res, list, memo, s, i+1); list.remove(list.size() - 1); } } } Problem II Given a string s, cut s into some substrings such that every substring is a palindrome.
+    <h2 id="problem-i">Problem I</h2>
+
+<p>Given a string s, partition s such that every substring of the partition is a palindrome.</p>
+
+<p>Return all possible palindrome partitioning of <code>s</code>.</p>
+
   
 
 
@@ -284,7 +380,10 @@ Archive
   <p class="container content">
   
   
-    Given a string S and a string T, count the number of distinct subsequences of T in S. A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, &laquo;ACE&raquo; is a subsequence of &laquo;ABCDE&raquo; while &laquo;AEC&raquo; is not). Example Given S = &laquo;rabbbit&raquo;, T = &laquo;rabbit&raquo;, return 3.
+    <p>Given a string S and a string T, count the number of distinct subsequences of T in S.</p>
+
+<p>A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, &laquo;ACE&raquo; is a subsequence of &laquo;ABCDE&raquo; while &laquo;AEC&raquo; is not).</p>
+
   
 
 
@@ -384,100 +483,6 @@ Archive
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/04/backpack/">Backpack
-</a>
-</h2>
-
-  <time datetime="2015-11-04">4 Nov, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <h1 id="backpack">Backpack</h1>
-
-<p>Given n items with size Ai, an integer m denotes the size of a backpack. How full you can fill this backpack?</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/04/backpack/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/04/longest-common-subsequence/">Longest Common Subsequence
-</a>
-</h2>
-
-  <time datetime="2015-11-04">4 Nov, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Given two strings, find the longest common subsequence (LCS).</p>
-
-<p>Your code should return the length of LCS.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/04/longest-common-subsequence/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/11/04/longest-common-substring/">Longest Common Substring
-</a>
-</h2>
-
-  <time datetime="2015-11-04">4 Nov, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Given two strings, find the longest common substring. Return the length of it.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/11/04/longest-common-substring/">Read more &rarr;</a>
 
 </div>
 

@@ -3,8 +3,23 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-11-05T20:10:29-07:00</lastmod>
+    <lastmod>2015-11-06T22:10:29-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/06/scramble-string/</loc>
+    <lastmod>2015-11-06T22:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/06/word-break/</loc>
+    <lastmod>2015-11-06T20:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/06/house-robber/</loc>
+    <lastmod>2015-11-06T13:10:29-07:00</lastmod>
   </url>
   
   <url>
@@ -183,12 +198,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -378,12 +393,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -423,12 +438,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/17/n-queen-i/</loc>
+    <loc>http://xmruibi.github.io/2015/10/17/n-queen-ii/</loc>
     <lastmod>2015-10-17T17:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/17/n-queen-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/17/n-queen-i/</loc>
     <lastmod>2015-10-17T17:10:29-07:00</lastmod>
   </url>
   
@@ -523,12 +538,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   

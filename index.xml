@@ -9,8 +9,267 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2015 22:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Scramble String</title>
+      <link>http://xmruibi.github.io/2015/11/06/scramble-string/</link>
+      <pubDate>Fri, 06 Nov 2015 22:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/06/scramble-string/</guid>
+      <description>
+
+&lt;p&gt;Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively. Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.&lt;/p&gt;
+
+&lt;p&gt;Below is one possible representation of s1 = &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    great
+   /    \
+  gr    eat
+ / \    /  \
+g   r  e   at
+           / \
+          a   t
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To scramble the string, we may choose any non-leaf node and swap its two children.&lt;/p&gt;
+
+&lt;p&gt;For example, if we choose the node &amp;laquo;gr&amp;raquo; and swap its two children, it produces a scrambled string &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    rgeat
+   /    \
+  rg    eat
+ / \    /  \
+r   g  e   at
+           / \
+          a   t
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Similarly, if we continue to swap the children of nodes &amp;laquo;eat&amp;raquo; and &amp;laquo;at&amp;raquo;, it produces a scrambled string &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    rgtae
+   /    \
+  rg    tae
+ / \    /  \
+r   g  ta  e
+       / \
+      t   a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-dp-version&#34;&gt;Think - DP Version&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ignore two situations: both length not equal and the characters not the same&lt;/li&gt;
+&lt;li&gt;Two sequence but 3-D memorized array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][j][k]&lt;/code&gt; means state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string&lt;/li&gt;
+&lt;li&gt;Two conditions we can regard as scramble, for range of &lt;code&gt;word1(i -&amp;gt; i+k)&lt;/code&gt; or &lt;code&gt;word2(j -&amp;gt; j+k)&lt;/code&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + split&lt;/code&gt; (len = split) and &lt;code&gt;split + i -&amp;gt; i + k&lt;/code&gt; = &lt;code&gt;split + i -&amp;gt; j + k&lt;/code&gt; (len = k - split)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j + (k - split) -&amp;gt; j+k&lt;/code&gt; [len = split] and &lt;code&gt;i + split -&amp;gt; i+k&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + (k - split)&lt;/code&gt;(len = k - split)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Consider about the initialization:
+
+&lt;ul&gt;
+&lt;li&gt;for &lt;code&gt;k == 1&lt;/code&gt;, we only check if &lt;code&gt;word1[i] == word2[j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s1 A string
+     * @param s2 Another string
+     * @return whether s2 is a scrambled string of s1
+     */
+    public boolean isScramble(String s1, String s2) {
+        // check length
+        if(s1==null||s2==null||s1.length()!=s2.length())
+            return false;
+        // check anagram
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+        if (!Arrays.equals(c1, c2))
+			return false;
+			
+        if(s1.length() != s2.length())
+            return false;
+        int len = s1.length();
+        
+        // state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string
+        boolean[][][] memo = new boolean[len][len][len+1];
+        
+        // initial, only check if s1[i] == s2[j] 
+        for(int i=0;i&amp;lt;s1.length();i++)
+            for(int j=0;j&amp;lt;s2.length();j++)
+                memo[i][j][1] = (s1.charAt(i) == s2.charAt(j));
+                
+        for(int k = 2; k &amp;lt;= len; k++) {
+            
+            for(int i = 0; i &amp;lt;= len - k; i++) {
+                for(int j = 0; j &amp;lt;= len - k; j++) {
+                    // split point should start from 1 to k - 1
+                    for(int split = 1; split &amp;lt; k; split++) {
+                        memo[i][j][k] |= (memo[i][j][split]&amp;amp;&amp;amp;memo[i+split][j+split][k-split])||(memo[i][j+(k - split)][split]&amp;amp;&amp;amp;memo[i+split][j][k-split]);
+                    }
+                }
+            }
+        }
+        return memo[0][0][len];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Word Break</title>
+      <link>http://xmruibi.github.io/2015/11/06/word-break/</link>
+      <pubDate>Fri, 06 Nov 2015 20:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/06/word-break/</guid>
+      <description>
+
+&lt;p&gt;Given a string s and a dictionary of words dict, determine if s can be break into a space-separated sequence of one or more dictionary words.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;lintcode&amp;quot;&lt;/code&gt;, dict = &lt;code&gt;[&amp;quot;lint&amp;quot;, &amp;quot;code&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Return true because &amp;laquo;lintcode&amp;raquo; can be break as &amp;laquo;lint code&amp;raquo;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One sequence DP, a 1-D boolean array.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i]&lt;/code&gt; means from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; has valid word break or not.&lt;/li&gt;
+&lt;li&gt;Tricky part is when we pass at &lt;code&gt;i&lt;/code&gt; position, we don&amp;rsquo;t need to use &lt;code&gt;j&lt;/code&gt; from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; for checking word existed in dictionary. We can use the length of word in dictionary as an length evaluation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s: A string s
+     * @param dict: A dictionary of words dict
+     */
+    public boolean wordBreak(String s, Set&amp;lt;String&amp;gt; dict) {
+    
+        if(s == null || s.length() == 0){
+            if(dict == null || dict.size() == 0)
+                return true;
+            return false;
+        }
+        
+        boolean[] memo = new boolean[s.length() + 1];
+        memo[0] = true;
+        for(int i = 1; i &amp;lt;= s.length(); i ++) {
+            for(String ss : dict){
+                int start = i - ss.length();
+                if( start &amp;gt;= 0 &amp;amp;&amp;amp; memo[start]){
+                    String str = s.substring(start, i);
+                    if(dict.contains(str))
+                         memo[i] = true;
+                }
+            }
+        }
+        return memo[s.length()];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>House Robber</title>
+      <link>http://xmruibi.github.io/2015/11/06/house-robber/</link>
+      <pubDate>Fri, 06 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/06/house-robber/</guid>
+      <description>
+
+&lt;p&gt;You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and &lt;strong&gt;it will automatically contact the police if two adjacent houses were broken into on the same night&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[3, 8, 4]&lt;/code&gt;, return 8.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n)$ time and $O(1)$ memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;When Rob meet a house, he has two choices: taken or not taken, but if he had stolen the previous house, it cannnot taken.&lt;/li&gt;
+&lt;li&gt;Set two variable: &lt;code&gt;include&lt;/code&gt; and &lt;code&gt;exclude&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;include&lt;/code&gt; means it has taken the previous house, while the &lt;code&gt;exclude&lt;/code&gt; means it didn&amp;rsquo;t take in previous house.&lt;/li&gt;
+&lt;li&gt;So each time we consider about the &lt;code&gt;exclude + cur_value&lt;/code&gt; and &lt;code&gt;include&lt;/code&gt;, the max of them should be new &lt;code&gt;include&lt;/code&gt; while the new &lt;code&gt;exclude&lt;/code&gt; come from the max value of original &lt;code&gt;include&lt;/code&gt; (last taken, current not taken) and original &lt;code&gt;exclude&lt;/code&gt; (not taken in both last and current house)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A: An array of non-negative integers.
+     * return: The maximum amount of money you can rob tonight
+     */
+    public long houseRobber(int[] A) {
+        if(A == null)
+            return 0L;
+        long exclude = 0L;
+        long include = 0L;
+        
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            long tmp = include;
+            include = Math.max(include, exclude + A[i]);
+            exclude = Math.max(tmp, exclude);
+        }
+        
+        return Math.max(include, exclude);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;follow-up&#34;&gt;Follow Up&lt;/h2&gt;
+
+&lt;p&gt;After robbing those houses on that street, the thief has found himself a new place for his thievery so that he will not get too much attention. This time, all houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, the security system for these houses remain the same as for those in the previous street.&lt;/p&gt;
+
+&lt;p&gt;Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The houses are in a cycle,so that when pick up the first element we cannot pick the last element because they are adjacent. So just seperate two parts for calculating: &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;last second element&lt;/code&gt;, and &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;last element&lt;/code&gt;, find the maximum from them.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int rob(int[] nums) {
+        if(nums==null||nums.length==0)
+            return 0;
+        if(nums.length==1)
+            return nums[0];
+        return Math.max(helper(0, nums.length-2, nums), helper(1,nums.length-1,nums));
+    }
+    
+    private int helper(int l, int r, int[] nums){
+        if(nums==null||nums.length==0)
+            return 0;
+        int incl = 0;
+        int excl = 0;
+        for(int i = l;i&amp;lt;=r;i++){
+            int tmp = incl;
+            incl = excl+nums[i];
+            excl = Math.max(excl, tmp);
+        }
+        return Math.max(incl, excl);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Palindrome Partitioning</title>
@@ -1054,237 +1313,6 @@ distance of 2+2+2=6 is minimal. So return 6.&lt;/p&gt;
         return maxGap;
     }
 
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sort Colors</title>
-      <link>http://xmruibi.github.io/2015/11/02/sort-colors/</link>
-      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/02/sort-colors/</guid>
-      <description>
-
-&lt;p&gt;Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.&lt;/p&gt;
-
-&lt;p&gt;Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.&lt;/p&gt;
-
-&lt;p&gt;Have you met this question in a real interview? Yes&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given [1, 0, 1, 2], return [0, 1, 1, 2].&lt;/p&gt;
-
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. First, iterate the array counting number of 0&amp;rsquo;s, 1&amp;rsquo;s, and 2&amp;rsquo;s, then overwrite array with total number of 0&amp;rsquo;s, then 1&amp;rsquo;s and followed by 2&amp;rsquo;s.&lt;/p&gt;
-
-&lt;p&gt;Could you come up with an one-pass algorithm using only constant space?&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Index mark O&amp;rsquo;s first position from head and 2&amp;rsquo;s first position from the rear.&lt;/li&gt;
-&lt;li&gt;Exchange the two values.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void sortColors(int[] nums) {
-    if(nums == null || nums.length == 0)
-        return;
-    int zero = 0;
-    int two = nums.length - 1;
-    for(int i = 0; i &amp;lt; nums.length; i++){
-        if(i &amp;gt; zero &amp;amp;&amp;amp; nums[i] == 0){
-            int tmp = nums[zero];
-            nums[zero++] = nums[i];
-            nums[i--] = tmp;
-        }else if(i &amp;lt; two &amp;amp;&amp;amp; nums[i] == 2){
-            int tmp = nums[two];
-            nums[two--] = nums[i];
-            nums[i--] = tmp;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sort Colors II</title>
-      <link>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</link>
-      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</guid>
-      <description>
-
-&lt;p&gt;Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &amp;hellip; k.&lt;/p&gt;
-
-&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
-
-&lt;p&gt;Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].&lt;/p&gt;
-
-&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;
-
-&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
-
-&lt;h2 id=&#34;challenge&#34;&gt;Challenge&lt;/h2&gt;
-
-&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Bucket Sort but space complexity with $O(k)$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param colors: A list of integer
-     * @param k: An integer
-     */
-    public void sortColors2(int[] colors, int k) {
-        if(colors == null || colors.length == 0)
-            return;
-        
-        int[] bucket = new int[k];
-        for(int i : colors)
-            bucket[i - 1] ++;
-        int idx = 0, bidx = 0;
-        while(bidx &amp;lt; bucket.length) {
-            while(bucket[bidx] &amp;gt; 0) {
-                colors[idx++] = bidx+1;
-                bucket[bidx]--;
-            }
-            bidx++;
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Complex bucket sort with in-place counting&lt;/li&gt;
-&lt;li&gt;Get a value and find its index by &lt;code&gt;value - 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;If the target index has another value, exchange and set target index as &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;If target index is counter, make it minus 1, e.g. &lt;code&gt;-2&lt;/code&gt; and set original index as &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Steps like following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; 3   2   2   1   4
-
-
- 2   2  -1   1   4
-
-
- 2  -1  -1   1   4
-
-
- 0  -2  -1   1   4
-
-
--1  -2  -1   0   4
-
-
--1  -2  -1  -1   0
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Get back the result by counter value from rear to head&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param colors: A list of integer
-     * @param k: An integer
-     * @return: nothing
-     */
-    public void sortColors2(int[] colors, int k) {
-        if(colors == null || colors.length == 0)
-            return;
-        
-        for(int i = 0; i &amp;lt; colors.length; i++){
-            if(colors[i] &amp;lt;= 0)
-                continue;
-            else{
-                int idx = colors[i] - 1;
-                if(colors[idx] &amp;gt; 0){
-                    colors[i--] = colors[idx];
-                    colors[idx] = -1;
-                }else{
-                    colors[i] = 0;
-                    colors[idx]--;
-                }
-            }
-        }
-        
-        int idx = colors.length - 1;
-        for(int i = k - 1; i &amp;gt;= 0; i--){
-            int cnt = -colors[i];
-            while(cnt-- &amp;gt; 0 &amp;amp;&amp;amp; idx &amp;gt;= 0) {
-                colors[idx--] = (i+1);
-            }
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Wiggle Sort</title>
-      <link>http://xmruibi.github.io/2015/11/01/wiggle-sort/</link>
-      <pubDate>Sun, 01 Nov 2015 20:33:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/01/wiggle-sort/</guid>
-      <description>
-
-&lt;p&gt;Given an array, and re-arrange it to wiggle style in one pass.&lt;/p&gt;
-
-&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;[1] &lt;code&gt;A0 &amp;gt;= A1 &amp;lt;= A2 &amp;gt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;[2] &lt;code&gt;A0 &amp;lt;= A1 &amp;gt;= A2 &amp;lt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;Base case. The first two elements $A_0$, satisfy the rules, and  $A_0$ is in its desired position.&lt;/p&gt;
-
-&lt;p&gt;Suppose $A_0$ satisfy the rules, and $A_0$, &amp;hellip;. $A_{k-1}$ are in their desired positions. We want to show that when we consider the pair $A_{k}$ and $A_{k+1}$, the rules are not violated, and the new k-th element will be in its desired position. Without loss of generality, assume that the k-th element should be higher than both of its neighbors. Two cases:&lt;/p&gt;
-
-&lt;p&gt;1) $A_{k} &amp;gt; A_{k+1}$.&lt;/p&gt;
-
-&lt;p&gt;We are good in this case. $A_{k}$ is its desired position, and no rules are violated so far.&lt;/p&gt;
-
-&lt;p&gt;2) $A_{k} &amp;lt; A_{k+1}$.&lt;/p&gt;
-
-&lt;p&gt;We swap $A_{k}$ and $A_{k+1}$. Note that this does not violate $A_{k-1}$, since $A_{k-1} &amp;lt; A_{k}&amp;lt; A_{k+1}$. And the new k-th element (previous $A_{k+1}$) satisfies the rules, and is in its desired position.&lt;/p&gt;
-
-&lt;p&gt;So throughout the process, we do not violate any rules. The algorithm is correct.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void wiggleSort(int[] arr, boolean swither){
-    int idx = 0;
-    while(idx &amp;lt; arr.length - 1){
-        if((switcher &amp;amp;&amp;amp; arr[idx] &amp;lt; arr[idx + 1])||(!switcher &amp;amp;&amp;amp; arr[idx] &amp;gt; arr[idx + 1])){
-            int tmp = arr[idx];
-            arr[idx] = arr[idx + 1];
-            arr[idx+1] = tmp;
-            switcher ^= true;
-        }
-      idx ++;
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
