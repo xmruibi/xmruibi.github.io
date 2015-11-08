@@ -9,8 +9,202 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 06 Nov 2015 22:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2015 19:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Maximum Subarray III</title>
+      <link>http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/</link>
+      <pubDate>Sat, 07 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum.&lt;/p&gt;
+
+&lt;p&gt;The number in each subarray should be contiguous.&lt;/p&gt;
+
+&lt;p&gt;Return the largest sum.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[-1,4,-2,3,-2,3]&lt;/code&gt;, k=&lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;8&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The subarray should contain at least one number&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;State: &lt;code&gt;memo[k][i]&lt;/code&gt; means the max subarray sum value from index 0 to i-1 with taken k subarrays&lt;/li&gt;
+&lt;li&gt;Since &lt;code&gt;k&lt;/code&gt; is the amount of subarray, so at least we have to take &lt;code&gt;k&lt;/code&gt; elements in array&lt;/li&gt;
+&lt;li&gt;Initilize with two case:
+
+&lt;ul&gt;
+&lt;li&gt;Taken first &lt;code&gt;k&lt;/code&gt; elements, each element is a subarray, so we only consider first kth element.&lt;/li&gt;
+&lt;li&gt;Taken only one subarray, with two cases: start from previous to current  or start from itself.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;For the rest of elements, consider two cases:
+
+&lt;ul&gt;
+&lt;li&gt;Taken from the previous element with no subarray amount increase (&lt;code&gt;memo[k][i-1] + current element&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Taken from current element but increase &lt;code&gt;k&lt;/code&gt; so &lt;code&gt;memo[k-1][n] + current element&lt;/code&gt;, however, here &lt;code&gt;n&lt;/code&gt; can be any number from  &lt;code&gt;k-1&lt;/code&gt; to &lt;code&gt;current index - 1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @param k: An integer denote to find k non-overlapping subarrays
+     * @return: An integer denote the sum of max k non-overlapping subarrays
+     */
+    public int maxSubArray(ArrayList&amp;lt;Integer&amp;gt; nums, int k) {
+        
+        // like backpack, memo[k][i] means the max value from index 0 to i-1 with taken k subarray 
+        int[][] memo = new int[k+1][nums.size()];
+        
+        // count previous kth num, which means the each item as a subarray
+        for(int i = 1; i&amp;lt;= k; i++) {
+            int sum = 0;
+            for(int j = 0; j &amp;lt; i; j++) {
+                sum += nums.get(j);
+            }
+            memo[i][i-1] = sum;
+        }
+        
+        // when k = 1, calculate the max value has two choices:
+        // 1) max value from previous index (also come from two choices) and current index
+        // 2) just start from current index
+        for(int i = 1; i &amp;lt; nums.size(); i++) {
+            memo[1][i] = Math.max(memo[1][i-1] + nums.get(i), nums.get(i));
+        }
+        
+        // also has two cases: 
+        // 1) continous get from previous index to current
+        // 2) not continuous but we have to scan each index between current and (k-1) position 
+        for(int subarr = 2; subarr &amp;lt;= k; subarr++) {
+            for(int j = subarr; j &amp;lt; nums.size(); j++) {
+                // 1) continous get so directly add current number
+                memo[subarr][j] =  memo[subarr][j-1] + nums.get(j);
+                // 2) resume in previous index from subarr - 2 (one more minus for index)
+                for(int s = subarr - 2; s &amp;lt; j; s++) {
+                    memo[subarr][j] = Math.max(memo[subarr][j], memo[subarr-1][s] + nums.get(j));
+                }
+            }
+        }
+        
+        // pass through all case from k-1 to array length
+        int max = Integer.MIN_VALUE;
+        for(int i = k-1; i &amp;lt; nums.size(); i++) {
+            max = Math.max(max, memo[k][i]);
+        }
+        return max;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Paint House</title>
+      <link>http://xmruibi.github.io/2015/11/07/paint-house/</link>
+      <pubDate>Sat, 07 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/07/paint-house/</guid>
+      <description>
+
+&lt;h2 id=&#34;paint-fence&#34;&gt;Paint Fence&lt;/h2&gt;
+
+&lt;p&gt;There is a fence with &lt;code&gt;n&lt;/code&gt; posts, each post can be painted with one of the &lt;code&gt;k&lt;/code&gt; colors.&lt;/p&gt;
+
+&lt;p&gt;You have to paint all the posts such that &lt;strong&gt;no more than two adjacent fence posts&lt;/strong&gt; have the same color.&lt;/p&gt;
+
+&lt;p&gt;Return the total number of ways you can paint the fence.&lt;/p&gt;
+
+&lt;h4 id=&#34;note&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;n&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; are non-negative integers.&lt;/p&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two cases:
+
+&lt;ul&gt;
+&lt;li&gt;If &lt;code&gt;[n-1] == [n]&lt;/code&gt;, &lt;code&gt;[n]&lt;/code&gt; has &lt;code&gt;1&lt;/code&gt; choices&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[n-1] != [n]&lt;/code&gt;, &lt;code&gt;[n]&lt;/code&gt; has &lt;code&gt;k-1&lt;/code&gt; choices with consider the result from both &lt;code&gt;[n-2] == [n-1]&lt;/code&gt; OR &lt;code&gt;[n-2] != [n-1]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int numWays(int n, int k) {  
+        if(n == 0 || k == 0)  
+            return 0;  
+        int same = k;
+        if(n == 1)
+            return same;
+        int noSame = k*(k-1);
+        for(int i = 2; i &amp;lt; n; i++) {
+            int tmp = noSame;
+            noSame = (same + noSame) * (k-1);
+            same = tmp * 1;
+        }
+        return noSame + same;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;paint-house&#34;&gt;Paint House&lt;/h2&gt;
+
+&lt;p&gt;There are a row of n houses, each house can be painted with one of the three colors: &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;blue&lt;/code&gt; or &lt;code&gt;green&lt;/code&gt;. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.&lt;/p&gt;
+
+&lt;p&gt;The cost of painting each house with a certain color is represented by a &lt;code&gt;n x 3&lt;/code&gt; cost matrix. For example, &lt;code&gt;costs[0][0]&lt;/code&gt; is the cost of painting house 0 with color red; &lt;code&gt;costs[1][2]&lt;/code&gt; is the cost of painting house 1 with color green, and so on&amp;hellip; Find the minimum cost to paint all houses.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up-2-colors-k-colors&#34;&gt;Follow Up: 2 Colors -&amp;gt; K Colors&lt;/h3&gt;
+
+&lt;p&gt;There are a row of n houses, each house can be painted with one of the k colors. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.&lt;/p&gt;
+
+&lt;p&gt;The cost of painting each house with a certain color is represented by a &lt;code&gt;n x k&lt;/code&gt; cost matrix. For example, &lt;code&gt;costs[0][0]&lt;/code&gt; is the cost of painting house 0 with color 0; &lt;code&gt;costs[1][2]&lt;/code&gt; is the cost of painting house 1 with color 2, and so on… Find the minimum cost to paint all houses.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Current paint only come from the previous different paint cost&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;minCost[i][j] = costs[i][j] + min(minCost[i-1][k])&lt;/code&gt; (k != j)&lt;/li&gt;
+&lt;li&gt;We can do it in-place, update the newest value on the original memorized array.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-general-for-two-cases-2-or-k-colors&#34;&gt;Solution (General for Two Cases: 2 or K colors)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt; public int minCost(int[][] costs) {
+    if (costs == null || costs.length == 0) 
+            return 0;
+    
+    for(int i = 1; i &amp;lt; costs.length; i++) {
+        for(int j = 0; j &amp;lt; costs[i].length; j++) {
+            int cur = Integer.MIN_VALUE;
+            for(int k = 0; j &amp;lt; costs[i].length; k++) {
+                if(k == j)
+                    continue;
+                cur = Math.max(cur, costs[i-1][k] + costs[i][j]);
+            }
+            costs[i][j] = cur;
+        }
+    }
+    
+    int max = 0;
+    for(int i = 0; i &amp;lt; costs[costs.length - 1].length; i++)
+        max = Math.max(max, costs[costs.length - 1][i]);
+    
+    return max;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Scramble String</title>
@@ -1184,135 +1378,6 @@ The longest increasing sub-sequence is &lt;code&gt;[2, 3, 7, 101]&lt;/code&gt;, 
         }
         return max;
     }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Best Meeting Point</title>
-      <link>http://xmruibi.github.io/2015/11/03/best-meeting-point/</link>
-      <pubDate>Tue, 03 Nov 2015 23:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/03/best-meeting-point/</guid>
-      <description>
-
-&lt;p&gt;A group of two or more people wants to meet and minimize the total travel distance. You are given a 2D grid of values 0 or 1, where each 1 marks the home of someone in the group. The distance is calculated using Manhattan Distance, where distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|.&lt;/p&gt;
-
-&lt;p&gt;For example, given three people living at (0,0), (0,4), and (2,2):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;        1 - 0 - 0 - 0 - 1
-        |   |   |   |   |
-        0 - 0 - 0 - 0 - 0
-        |   |   |   |   |
-        0 - 0 - 1 - 0 - 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The point (0,2) is an ideal meeting point, as the total travel
-distance of 2+2+2=6 is minimal. So return 6.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Find all &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; coordinate if value is &lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Each x value and y value should minus the median value so that it can get the distance to the median value.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    public int minTotalDistance(int[][] grid) {
-        if(grid == null || grid.length == 0)
-            return 0;
-        List&amp;lt;Integer&amp;gt; xlist = new ArrayList&amp;lt;&amp;gt;();
-        List&amp;lt;Integer&amp;gt; ylist = new ArrayList&amp;lt;&amp;gt;();
-        for(int i = 0; i &amp;lt; grid.length; i++) {
-            for(int j = 0; j &amp;lt; grid[0].length; j++) {
-                if(grid[i][j] == 1) {
-                    xlist.add(i);
-                    ylist.add(j);
-                }
-            }
-        }
-        
-        int sum = 0;
-        // xlist doesn&#39;t need sort since it already sorted
-        for(Integer xval : xlist) 
-            sum += xval - xlist.get(xlist.size()/2);
-        // ylist need sort
-        Collections.sort(ylist)
-        for(Integer yval : ylist) 
-            sum += yval - ylist.get(ylist.size()/2);
-        
-        return sum;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Maximum Gap</title>
-      <link>http://xmruibi.github.io/2015/11/03/maximum-gap/</link>
-      <pubDate>Tue, 03 Nov 2015 23:10:29 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/11/03/maximum-gap/</guid>
-      <description>
-
-&lt;p&gt;Given an unsorted array, find the maximum difference between the successive elements in its sorted form.&lt;/p&gt;
-
-&lt;p&gt;Try to solve it in linear time/space.&lt;/p&gt;
-
-&lt;p&gt;Return 0 if the array contains less than 2 elements.&lt;/p&gt;
-
-&lt;p&gt;You may assume all elements in the array are non-negative integers and fit in the 32-bit signed integer range.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Get the range of array elements&lt;/li&gt;
-&lt;li&gt;Setup the buckets size by $$(range \div len) + 1$$&lt;/li&gt;
-&lt;li&gt;Allocate two buckets for minimum and maximum in that bucket range&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maximumGap(int[] nums) {
-        if(nums == null || nums.length == 0)
-            return 0;
-            
-        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
-        for(int i = 0; i &amp;lt; nums.length; i++) {
-            min = Math.min(min, nums[i]);
-            max = Math.max(max, nums[i]);
-        }
-        
-        int range = max - min;
-        int bucketSize = range / nums.length + 1;
-        int[] mins = new int[num.length - 1];
-        int[] maxs = new int[num.length - 1];
-        for(int i = 0; i &amp;lt; nums.length; i++){
-            // skip the max or min value
-            if(i==min||i==max)
-                continue;
-            int idx = (nums[i] - min) / bucketSize;
-            mins = Math.min(mins[idx], nums[i]);
-            maxs = Math.min(maxs[idx], nums[i]);
-        }
-        
-        // compare the prev max bucket and current min bucket
-        int maxGap = Integer.MIN_VALUE;
-        int prev = min;
-        for(int i = 0; i &amp;lt; mins.length; i++) {
-            // empty bucket
-            if (mins[i] == Integer.MAX_VALUE &amp;amp;&amp;amp; maxs[i] == Integer.MIN_VALUE)
-                continue;
-            maxGap = Math.max(maxGap, mins[i] - prev);
-            prev = maxs[i];
-        }
-        maxGap = Math.max(maxGap, max - prev);
-        return maxGap;
-    }
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

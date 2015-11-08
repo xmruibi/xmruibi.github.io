@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Scramble String  &middot; Rui&#39;s Home Page</title>
+  <title>Maximum Subarray III  &middot; Rui&#39;s Home Page</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -14,25 +14,23 @@
 
 <meta name="description" content="" />
 
-<meta name="keywords" content="Dynamic Programming, String, ">
+<meta name="keywords" content="Dynamic Programming, ">
 
 
-<meta property="og:title" content="Scramble String  &middot; Rui&#39;s Home Page ">
+<meta property="og:title" content="Maximum Subarray III  &middot; Rui&#39;s Home Page ">
 <meta property="og:site_name" content="Rui&#39;s Home Page"/>
-<meta property="og:url" content="http://xmruibi.github.io/2015/11/06/scramble-string/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-11-06T22:10:29-07:00" />
-<meta property="og:article:modified_time" content="2015-11-06T22:10:29-07:00" />
+<meta property="og:article:published_time" content="2015-11-07T19:43:13-07:00" />
+<meta property="og:article:modified_time" content="2015-11-07T19:43:13-07:00" />
 
   
     
 <meta property="og:article:tag" content="Dynamic Programming">
-    
-<meta property="og:article:tag" content="String">
     
   
 
@@ -40,9 +38,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="Scramble String" />
+<meta name="twitter:title" content="Maximum Subarray III" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://xmruibi.github.io/2015/11/06/scramble-string/" />
+<meta name="twitter:url" content="http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/" />
 <meta name="twitter:domain" content="http://xmruibi.github.io">
   
 
@@ -50,20 +48,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Scramble String",
+    "headline": "Maximum Subarray III",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-11-06",
+    "datePublished": "2015-11-07",
     "description": "",
-    "wordCount":  479 
+    "wordCount":  452 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://xmruibi.github.io/2015/11/06/scramble-string/" />
+<link rel="canonical" href="http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xmruibi.github.io/touch-icon-144-precomposed.png">
 <link href="http://xmruibi.github.io/favicon.png" rel="icon">
@@ -208,23 +206,20 @@ Archive
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Scramble String
+  <h1>Maximum Subarray III
 </h1>
 
   <div class="metas">
-<time datetime="2015-11-06">6 Nov, 2015</time>
+<time datetime="2015-11-07">7 Nov, 2015</time>
 
 
   
   &middot; Read in about 3 min
-  &middot; (479 Words)
+  &middot; (452 Words)
   <br>
   Tags: 
 
 <a class="label" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming; </a> 
-
-
-<a class="label" href="http://xmruibi.github.io/tags/string">String; </a> 
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -240,110 +235,91 @@ Archive
   <div class="container content">
   
 
-<p>Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively. Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.</p>
+<p>Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum.</p>
 
-<p>Below is one possible representation of s1 = <code>&quot;great&quot;</code>:</p>
+<p>The number in each subarray should be contiguous.</p>
 
-<pre><code>    great
-   /    \
-  gr    eat
- / \    /  \
-g   r  e   at
-           / \
-          a   t
-</code></pre>
+<p>Return the largest sum.</p>
 
-<p>To scramble the string, we may choose any non-leaf node and swap its two children.</p>
+<h3 id="example">Example</h3>
 
-<p>For example, if we choose the node &laquo;gr&raquo; and swap its two children, it produces a scrambled string <code>&quot;rgeat&quot;</code>.</p>
+<p>Given <code>[-1,4,-2,3,-2,3]</code>, k=<code>2</code>, return <code>8</code></p>
 
-<pre><code>    rgeat
-   /    \
-  rg    eat
- / \    /  \
-r   g  e   at
-           / \
-          a   t
-</code></pre>
+<h3 id="note">Note</h3>
 
-<p>We say that <code>&quot;rgeat&quot;</code> is a scrambled string of <code>&quot;great&quot;</code>.</p>
+<p>The subarray should contain at least one number</p>
 
-<p>Similarly, if we continue to swap the children of nodes &laquo;eat&raquo; and &laquo;at&raquo;, it produces a scrambled string <code>&quot;rgtae&quot;</code>.</p>
-
-<pre><code>    rgtae
-   /    \
-  rg    tae
- / \    /  \
-r   g  ta  e
-       / \
-      t   a
-</code></pre>
-
-<p>We say that <code>&quot;rgtae&quot;</code> is a scrambled string of <code>&quot;great&quot;</code>.</p>
-
-<h2 id="think-dp-version">Think - DP Version</h2>
+<h2 id="think">Think</h2>
 
 <ul>
-<li>Ignore two situations: both length not equal and the characters not the same</li>
-<li>Two sequence but 3-D memorized array</li>
-<li><code>memo[i][j][k]</code> means state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string</li>
-<li>Two conditions we can regard as scramble, for range of <code>word1(i -&gt; i+k)</code> or <code>word2(j -&gt; j+k)</code>:
+<li>State: <code>memo[k][i]</code> means the max subarray sum value from index 0 to i-1 with taken k subarrays</li>
+<li>Since <code>k</code> is the amount of subarray, so at least we have to take <code>k</code> elements in array</li>
+<li>Initilize with two case:
 
 <ul>
-<li><code>i -&gt; i + split</code> = <code>j -&gt; j + split</code> (len = split) and <code>split + i -&gt; i + k</code> = <code>split + i -&gt; j + k</code> (len = k - split)</li>
-<li><code>i -&gt; i + split</code> = <code>j + (k - split) -&gt; j+k</code> [len = split] and <code>i + split -&gt; i+k</code> = <code>j -&gt; j + (k - split)</code>(len = k - split)</li>
+<li>Taken first <code>k</code> elements, each element is a subarray, so we only consider first kth element.</li>
+<li>Taken only one subarray, with two cases: start from previous to current  or start from itself.</li>
 </ul></li>
-<li>Consider about the initialization:
+<li>For the rest of elements, consider two cases:
 
 <ul>
-<li>for <code>k == 1</code>, we only check if <code>word1[i] == word2[j]</code></li>
+<li>Taken from the previous element with no subarray amount increase (<code>memo[k][i-1] + current element</code>)</li>
+<li>Taken from current element but increase <code>k</code> so <code>memo[k-1][n] + current element</code>, however, here <code>n</code> can be any number from  <code>k-1</code> to <code>current index - 1</code></li>
 </ul></li>
 </ul>
 
 <h2 id="solution">Solution</h2>
 
-<pre><code class="language-java">    /**
-     * @param s1 A string
-     * @param s2 Another string
-     * @return whether s2 is a scrambled string of s1
+<pre><code class="language-java">public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @param k: An integer denote to find k non-overlapping subarrays
+     * @return: An integer denote the sum of max k non-overlapping subarrays
      */
-    public boolean isScramble(String s1, String s2) {
-        // check length
-        if(s1==null||s2==null||s1.length()!=s2.length())
-            return false;
-        // check anagram
-        char[] c1 = s1.toCharArray();
-        char[] c2 = s2.toCharArray();
-        Arrays.sort(c1);
-        Arrays.sort(c2);
-        if (!Arrays.equals(c1, c2))
-			return false;
-			
-        if(s1.length() != s2.length())
-            return false;
-        int len = s1.length();
+    public int maxSubArray(ArrayList&lt;Integer&gt; nums, int k) {
         
-        // state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string
-        boolean[][][] memo = new boolean[len][len][len+1];
+        // like backpack, memo[k][i] means the max value from index 0 to i-1 with taken k subarray 
+        int[][] memo = new int[k+1][nums.size()];
         
-        // initial, only check if s1[i] == s2[j] 
-        for(int i=0;i&lt;s1.length();i++)
-            for(int j=0;j&lt;s2.length();j++)
-                memo[i][j][1] = (s1.charAt(i) == s2.charAt(j));
-                
-        for(int k = 2; k &lt;= len; k++) {
-            
-            for(int i = 0; i &lt;= len - k; i++) {
-                for(int j = 0; j &lt;= len - k; j++) {
-                    // split point should start from 1 to k - 1
-                    for(int split = 1; split &lt; k; split++) {
-                        memo[i][j][k] |= (memo[i][j][split]&amp;&amp;memo[i+split][j+split][k-split])||(memo[i][j+(k - split)][split]&amp;&amp;memo[i+split][j][k-split]);
-                    }
+        // count previous kth num, which means the each item as a subarray
+        for(int i = 1; i&lt;= k; i++) {
+            int sum = 0;
+            for(int j = 0; j &lt; i; j++) {
+                sum += nums.get(j);
+            }
+            memo[i][i-1] = sum;
+        }
+        
+        // when k = 1, calculate the max value has two choices:
+        // 1) max value from previous index (also come from two choices) and current index
+        // 2) just start from current index
+        for(int i = 1; i &lt; nums.size(); i++) {
+            memo[1][i] = Math.max(memo[1][i-1] + nums.get(i), nums.get(i));
+        }
+        
+        // also has two cases: 
+        // 1) continous get from previous index to current
+        // 2) not continuous but we have to scan each index between current and (k-1) position 
+        for(int subarr = 2; subarr &lt;= k; subarr++) {
+            for(int j = subarr; j &lt; nums.size(); j++) {
+                // 1) continous get so directly add current number
+                memo[subarr][j] =  memo[subarr][j-1] + nums.get(j);
+                // 2) resume in previous index from subarr - 2 (one more minus for index)
+                for(int s = subarr - 2; s &lt; j; s++) {
+                    memo[subarr][j] = Math.max(memo[subarr][j], memo[subarr-1][s] + nums.get(j));
                 }
             }
         }
-        return memo[0][0][len];
+        
+        // pass through all case from k-1 to array length
+        int max = Integer.MIN_VALUE;
+        for(int i = k-1; i &lt; nums.size(); i++) {
+            max = Math.max(max, memo[k][i]);
+        }
+        return max;
     }
+}
+
 </code></pre>
 
 </div>
@@ -356,15 +332,11 @@ r   g  ta  e
   
 
     
-    <a class="prev" href="http://xmruibi.github.io/2015/11/06/word-break/" title="Word Break">
+    <a class="prev" href="http://xmruibi.github.io/2015/11/07/paint-house/" title="Paint House">
       Earlier Article
     </a>
     
 
-    
-    <a class="next" href="http://xmruibi.github.io/2015/11/07/paint-house/" title="Paint House">
-      Newer Article
-    </a>
     
 
   

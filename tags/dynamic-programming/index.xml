@@ -9,8 +9,202 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 06 Nov 2015 22:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2015 19:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/dynamic-programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Maximum Subarray III</title>
+      <link>http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/</link>
+      <pubDate>Sat, 07 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum.&lt;/p&gt;
+
+&lt;p&gt;The number in each subarray should be contiguous.&lt;/p&gt;
+
+&lt;p&gt;Return the largest sum.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[-1,4,-2,3,-2,3]&lt;/code&gt;, k=&lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;8&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The subarray should contain at least one number&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;State: &lt;code&gt;memo[k][i]&lt;/code&gt; means the max subarray sum value from index 0 to i-1 with taken k subarrays&lt;/li&gt;
+&lt;li&gt;Since &lt;code&gt;k&lt;/code&gt; is the amount of subarray, so at least we have to take &lt;code&gt;k&lt;/code&gt; elements in array&lt;/li&gt;
+&lt;li&gt;Initilize with two case:
+
+&lt;ul&gt;
+&lt;li&gt;Taken first &lt;code&gt;k&lt;/code&gt; elements, each element is a subarray, so we only consider first kth element.&lt;/li&gt;
+&lt;li&gt;Taken only one subarray, with two cases: start from previous to current  or start from itself.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;For the rest of elements, consider two cases:
+
+&lt;ul&gt;
+&lt;li&gt;Taken from the previous element with no subarray amount increase (&lt;code&gt;memo[k][i-1] + current element&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Taken from current element but increase &lt;code&gt;k&lt;/code&gt; so &lt;code&gt;memo[k-1][n] + current element&lt;/code&gt;, however, here &lt;code&gt;n&lt;/code&gt; can be any number from  &lt;code&gt;k-1&lt;/code&gt; to &lt;code&gt;current index - 1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @param k: An integer denote to find k non-overlapping subarrays
+     * @return: An integer denote the sum of max k non-overlapping subarrays
+     */
+    public int maxSubArray(ArrayList&amp;lt;Integer&amp;gt; nums, int k) {
+        
+        // like backpack, memo[k][i] means the max value from index 0 to i-1 with taken k subarray 
+        int[][] memo = new int[k+1][nums.size()];
+        
+        // count previous kth num, which means the each item as a subarray
+        for(int i = 1; i&amp;lt;= k; i++) {
+            int sum = 0;
+            for(int j = 0; j &amp;lt; i; j++) {
+                sum += nums.get(j);
+            }
+            memo[i][i-1] = sum;
+        }
+        
+        // when k = 1, calculate the max value has two choices:
+        // 1) max value from previous index (also come from two choices) and current index
+        // 2) just start from current index
+        for(int i = 1; i &amp;lt; nums.size(); i++) {
+            memo[1][i] = Math.max(memo[1][i-1] + nums.get(i), nums.get(i));
+        }
+        
+        // also has two cases: 
+        // 1) continous get from previous index to current
+        // 2) not continuous but we have to scan each index between current and (k-1) position 
+        for(int subarr = 2; subarr &amp;lt;= k; subarr++) {
+            for(int j = subarr; j &amp;lt; nums.size(); j++) {
+                // 1) continous get so directly add current number
+                memo[subarr][j] =  memo[subarr][j-1] + nums.get(j);
+                // 2) resume in previous index from subarr - 2 (one more minus for index)
+                for(int s = subarr - 2; s &amp;lt; j; s++) {
+                    memo[subarr][j] = Math.max(memo[subarr][j], memo[subarr-1][s] + nums.get(j));
+                }
+            }
+        }
+        
+        // pass through all case from k-1 to array length
+        int max = Integer.MIN_VALUE;
+        for(int i = k-1; i &amp;lt; nums.size(); i++) {
+            max = Math.max(max, memo[k][i]);
+        }
+        return max;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Paint House</title>
+      <link>http://xmruibi.github.io/2015/11/07/paint-house/</link>
+      <pubDate>Sat, 07 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/07/paint-house/</guid>
+      <description>
+
+&lt;h2 id=&#34;paint-fence&#34;&gt;Paint Fence&lt;/h2&gt;
+
+&lt;p&gt;There is a fence with &lt;code&gt;n&lt;/code&gt; posts, each post can be painted with one of the &lt;code&gt;k&lt;/code&gt; colors.&lt;/p&gt;
+
+&lt;p&gt;You have to paint all the posts such that &lt;strong&gt;no more than two adjacent fence posts&lt;/strong&gt; have the same color.&lt;/p&gt;
+
+&lt;p&gt;Return the total number of ways you can paint the fence.&lt;/p&gt;
+
+&lt;h4 id=&#34;note&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;n&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; are non-negative integers.&lt;/p&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two cases:
+
+&lt;ul&gt;
+&lt;li&gt;If &lt;code&gt;[n-1] == [n]&lt;/code&gt;, &lt;code&gt;[n]&lt;/code&gt; has &lt;code&gt;1&lt;/code&gt; choices&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[n-1] != [n]&lt;/code&gt;, &lt;code&gt;[n]&lt;/code&gt; has &lt;code&gt;k-1&lt;/code&gt; choices with consider the result from both &lt;code&gt;[n-2] == [n-1]&lt;/code&gt; OR &lt;code&gt;[n-2] != [n-1]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int numWays(int n, int k) {  
+        if(n == 0 || k == 0)  
+            return 0;  
+        int same = k;
+        if(n == 1)
+            return same;
+        int noSame = k*(k-1);
+        for(int i = 2; i &amp;lt; n; i++) {
+            int tmp = noSame;
+            noSame = (same + noSame) * (k-1);
+            same = tmp * 1;
+        }
+        return noSame + same;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;paint-house&#34;&gt;Paint House&lt;/h2&gt;
+
+&lt;p&gt;There are a row of n houses, each house can be painted with one of the three colors: &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;blue&lt;/code&gt; or &lt;code&gt;green&lt;/code&gt;. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.&lt;/p&gt;
+
+&lt;p&gt;The cost of painting each house with a certain color is represented by a &lt;code&gt;n x 3&lt;/code&gt; cost matrix. For example, &lt;code&gt;costs[0][0]&lt;/code&gt; is the cost of painting house 0 with color red; &lt;code&gt;costs[1][2]&lt;/code&gt; is the cost of painting house 1 with color green, and so on&amp;hellip; Find the minimum cost to paint all houses.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up-2-colors-k-colors&#34;&gt;Follow Up: 2 Colors -&amp;gt; K Colors&lt;/h3&gt;
+
+&lt;p&gt;There are a row of n houses, each house can be painted with one of the k colors. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.&lt;/p&gt;
+
+&lt;p&gt;The cost of painting each house with a certain color is represented by a &lt;code&gt;n x k&lt;/code&gt; cost matrix. For example, &lt;code&gt;costs[0][0]&lt;/code&gt; is the cost of painting house 0 with color 0; &lt;code&gt;costs[1][2]&lt;/code&gt; is the cost of painting house 1 with color 2, and so on… Find the minimum cost to paint all houses.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Current paint only come from the previous different paint cost&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;minCost[i][j] = costs[i][j] + min(minCost[i-1][k])&lt;/code&gt; (k != j)&lt;/li&gt;
+&lt;li&gt;We can do it in-place, update the newest value on the original memorized array.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-general-for-two-cases-2-or-k-colors&#34;&gt;Solution (General for Two Cases: 2 or K colors)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt; public int minCost(int[][] costs) {
+    if (costs == null || costs.length == 0) 
+            return 0;
+    
+    for(int i = 1; i &amp;lt; costs.length; i++) {
+        for(int j = 0; j &amp;lt; costs[i].length; j++) {
+            int cur = Integer.MIN_VALUE;
+            for(int k = 0; j &amp;lt; costs[i].length; k++) {
+                if(k == j)
+                    continue;
+                cur = Math.max(cur, costs[i-1][k] + costs[i][j]);
+            }
+            costs[i][j] = cur;
+        }
+    }
+    
+    int max = 0;
+    for(int i = 0; i &amp;lt; costs[costs.length - 1].length; i++)
+        max = Math.max(max, costs[costs.length - 1][i]);
+    
+    return max;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Scramble String</title>
@@ -1201,105 +1395,6 @@ When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Ugly Number</title>
-      <link>http://xmruibi.github.io/2015/10/18/ugly-number/</link>
-      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/ugly-number/</guid>
-      <description>
-
-&lt;p&gt;Write a program to check whether a given number is an ugly number.&lt;/p&gt;
-
-&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;6, 8&lt;/code&gt; are ugly while &lt;code&gt;14&lt;/code&gt; is not ugly since it includes another prime factor &lt;code&gt;7&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Note that 1 is typically treated as an ugly number.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Make sure the value can be divided exactly by the divisor in array &lt;code&gt;2, 3, 5&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;So iterate the division while the value can be divided exactly, otherwise change another divisor from array.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    public boolean isUgly(int num) {
-        if(num&amp;lt;=0)
-            return false;
-        int[] factors = {2,3,5};
-        for(int i = factors.length - 1; i &amp;gt;= 0; i--) {
-            while(num % factors[i] == 0) {
-                num /= factors[i];
-            }
-        }
-        return num == 1;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Ugly Number II</title>
-      <link>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</link>
-      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
-      <author>xmruibi@gmail.com (Rui Bi)</author>
-      <guid>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</guid>
-      <description>
-
-&lt;p&gt;Write a program to find the n-th ugly number.&lt;/p&gt;
-
-&lt;p&gt;Ugly numbers are positive numbers whose prime factors only include &lt;code&gt;2, 3, 5&lt;/code&gt;. For example, &lt;code&gt;1, 2, 3, 4, 5, 6, 8, 9, 10, 12&lt;/code&gt; is the sequence of the first &lt;code&gt;10&lt;/code&gt; ugly numbers.&lt;/p&gt;
-
-&lt;p&gt;Note that &lt;code&gt;1&lt;/code&gt; is typically treated as an ugly number.&lt;/p&gt;
-
-&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Declare an array for ugly numbers:  ugly[150]&lt;/li&gt;
-&lt;li&gt;Initialize first ugly no:  ugly[1] = 1&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Initialize three array index variables t2, t3, t5 to point to
-1st element of the ugly array:
-    i2 = i3 = i5 = 1;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Initialize 3 choices for the next ugly no:
-     next_mulitple_of_2 = ugly[i2]*2;
-     next_mulitple_of_3 = ugly[i3]*3
-     next_mulitple_of_5 = ugly[i5]*5;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Choose the minimum from the aboved 3 choices as the next ugly number.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Check which choice and increase that index.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    public long nthUglyNumber(int k) {
-        long[] memo = new long[k + 1];
-            memo[1] = 1;
-            int t2 = 1, t3 = 1, t5 = 1;
-            for(int i = 2; i &amp;lt;= k; i++) {
-                memo[i] = Math.min(memo[t2]*2, Math.min(memo[t3]*3, memo[t5]*5));
-                if(memo[i] == memo[t2]*2)
-                    t2++;
-                if(memo[i] == memo[t3]*3)
-                    t3++;
-                if(memo[i] == memo[t5]*5)
-                    t5++;
-            }
-            return memo[k];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;```&lt;/p&gt;
 </description>
     </item>
     
