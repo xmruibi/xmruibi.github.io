@@ -119,9 +119,9 @@ Archive
 
 <div class="container nav primary no-print" style="position: relative;
  margin-top: 2em;margin-bottom: 2em; ">
-<form role="search" id="search" action="/search">
+<form role="search" id="search">
 	<input id="page" name="p" value="1" type="hidden"/>
-	<input id="query" name="q" type="search" placeholder="Search">
+	<input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
 </form>
  </div>
 <div class="container nav secondary no-print" style="position: relative; margin-top:20em;">
@@ -305,36 +305,6 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/interval-sum/">Interval Sum
-</a>
-</h2>
-
-  <time datetime="2015-10-18">18 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    <p>Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the sum number between index start and end in the given array, return the result list.</p>
-
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/interval-sum/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
   <h2><a href="http://xmruibi.github.io/2015/10/18/interval-sum-ii/">Interval Sum II
 </a>
 </h2>
@@ -370,7 +340,7 @@ Archive
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">Segment Tree Build
+  <h2><a href="http://xmruibi.github.io/2015/10/18/interval-sum/">Interval Sum
 </a>
 </h2>
 
@@ -381,18 +351,7 @@ Archive
   <p class="container content">
   
   
-    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
-
-<p>start and end are both integers, they should be assigned in following rules:</p>
-
-<ul>
-<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
-<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
-<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
-<li>if start equals to end, there will be no children for this node.</li>
-</ul>
-
-<p>Implement a <code>build</code> method with two parameters start and end, so that we can create a corresponding segment tree with every node has the correct start and end value, return the root of this segment tree.</p>
+    <p>Given an integer array (index from 0 to n-1, where n is the size of this array), and an query list. Each query has two integers [start, end]. For each query, calculate the sum number between index start and end in the given array, return the result list.</p>
 
   
 
@@ -401,7 +360,7 @@ Archive
 
 
   <div class="container readlink">
-  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">Read more &rarr;</a>
+  <a href="http://xmruibi.github.io/2015/10/18/interval-sum/">Read more &rarr;</a>
 
 </div>
 
@@ -443,6 +402,47 @@ Archive
 
   <div class="container readlink">
   <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">Segment Tree Build
+</a>
+</h2>
+
+  <time datetime="2015-10-18">18 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
+
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a <code>build</code> method with two parameters start and end, so that we can create a corresponding segment tree with every node has the correct start and end value, return the root of this segment tree.</p>
+
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">Read more &rarr;</a>
 
 </div>
 
@@ -667,7 +667,14 @@ Archive
   ga('send', 'pageview');;
 </script>
 
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
 
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
 
     
   </body>

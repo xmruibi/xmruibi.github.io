@@ -323,12 +323,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/19/permutation-sequence/</loc>
+    <loc>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</loc>
     <lastmod>2015-10-19T11:45:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/19/permutation-sequence/</loc>
     <lastmod>2015-10-19T11:45:13-07:00</lastmod>
   </url>
   
@@ -378,22 +378,22 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
-    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
-    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
+    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
