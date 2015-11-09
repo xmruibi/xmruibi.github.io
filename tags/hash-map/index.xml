@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hash Map on Rui&#39;s Home Page</title>
+    <link>http://xmruibi.github.io/tags/hash-map/</link>
+    <description>Recent content in Hash Map on Rui&#39;s Home Page</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
+    <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 09:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Group Shifted Strings</title>
+      <link>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</guid>
+      <description>
+
+&lt;p&gt;Given a string, we can “shift” each of its letter to its successive letter, for example: &lt;code&gt;“abc”&lt;/code&gt; -&amp;gt; &lt;code&gt;“bcd”&lt;/code&gt;. We can keep “shifting” which forms the sequence:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot; -&amp;gt; &amp;quot;bcd&amp;quot; -&amp;gt; ... -&amp;gt; &amp;quot;xyz&amp;quot;&lt;/code&gt;
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;given: [&amp;laquo;abc&amp;raquo;, &amp;laquo;bcd&amp;raquo;, &amp;laquo;acef&amp;raquo;, &amp;laquo;xyz&amp;raquo;, &amp;laquo;az&amp;raquo;, &amp;laquo;ba&amp;raquo;, &amp;laquo;a&amp;raquo;, &amp;laquo;z&amp;raquo;], Return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;abc&amp;quot;,&amp;quot;bcd&amp;quot;,&amp;quot;xyz&amp;quot;],
+  [&amp;quot;az&amp;quot;,&amp;quot;ba&amp;quot;],
+  [&amp;quot;acef&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;z&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##Note
+For the return value, each inner list’s elements must follow the lexicographic order.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is a regular pattern: if two words are shifted, the distance between two adjacent characters are the same.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    2   3        2   3
+    /\ /\        /\ /\
+   a  c  f - &amp;gt;  e  g  j 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;So all we need to do is figure out the distance between each character in each word and make these distance as a code to represent the word.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class GroupShiftedString {
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; groupStrings(String[] strings) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (String str : strings) {
+            String code = getCode(str);
+            List&amp;lt;String&amp;gt; val;
+            if (!map.containsKey(code)) {
+                val = new ArrayList&amp;lt;&amp;gt;();
+            } else {
+                val = map.get(code);
+            }
+            val.add(str);
+            map.put(code, val);
+        }
+
+        for (Map.Entry&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; entry : map.entrySet()) {
+            List&amp;lt;String&amp;gt; val = entry.getValue();
+            Collections.sort(val);
+            res.add(val);
+        }
+        return res;
+    }
+
+    private String getCode(String s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(&amp;quot;#&amp;quot;);
+        for (int i = 1; i &amp;lt; s.length(); i++) {
+            int tmp = ((s.charAt(i) - s.charAt(i - 1)) + 26) % 26;
+            sb.append(tmp).append(&amp;quot;#&amp;quot;);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shortest Word Distance</title>
+      <link>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</guid>
+      <description>
+
+&lt;p&gt;Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;“coding”&lt;/code&gt;, word2 = &lt;code&gt;“practice”&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The problem can be solved by one-pass of the array.&lt;/li&gt;
+&lt;li&gt;Iterate through the array, use two pointers pointing to the index of the word1 and word2, maintain the minimum distance.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2))
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I.The only difference is now you are given the list of words and your method will be called repeatedly many times with different parameters. How would you optimize it?
+Design a class which receives a list of words in the constructor, and implements a method that takes two words word1 and word2 and return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;practice&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.&lt;/li&gt;
+&lt;li&gt;Save the word and its indexes as key and value in constructor.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ShortestWordDistance {
+    // here is thread safe, since only constructor contains writing method
+    private final HashMap&amp;lt;String, List&amp;lt;Integer&amp;gt;&amp;gt; map;
+
+	public ShortestWordDistance(String[] words) {
+		map = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; words.length; i++) {
+			List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+			if (map.containsKey(words[i]))
+				list = map.get(words[i]);
+			list.add(i);
+			map.put(words[i], list);
+		}
+	}
+
+	public int shortestDistanceII(String word1, String word2) {
+		int min = Integer.MAX_VALUE;
+		if (!map.containsKey(word1) || !map.containsKey(word2))
+			return min;
+		for (int i : map.get(word1)) {
+			for (int j : map.get(word2)) {
+				min = Math.min(min, Math.abs(i - j));
+			}
+		}
+		return min;
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I. The only difference is &lt;strong&gt;now word1 could be the same as word2&lt;/strong&gt;.
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+word1 and word2 may be the same and they represent two individual words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-2&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Most code should remain the same as the Problem I. But need to deal with the situation that word1 and word2 are the same.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w1Idx&lt;/code&gt; always record the index when &lt;code&gt;word[i].equals(word1)&lt;/code&gt; but &lt;code&gt;w2Idx&lt;/code&gt; should be assigned as the value from &lt;code&gt;w1Idx&lt;/code&gt; when &lt;code&gt;word1 == word2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2)) // else if to avoid w2Idx be recorded whrn word1==word2
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1 &amp;amp;&amp;amp; w1Idx != w2Idx){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+			 if(word2.equals(word1))
+			    w2Idx = w1Idx; // update previous index record
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -3,8 +3,38 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-11-07T19:43:13-07:00</lastmod>
+    <lastmod>2015-11-09T20:33:13-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/factor-combinations/</loc>
+    <lastmod>2015-11-09T20:33:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/delete-digits/</loc>
+    <lastmod>2015-11-09T19:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/count-univalue-subtrees/</loc>
+    <lastmod>2015-11-09T13:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</loc>
+    <lastmod>2015-11-09T09:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</loc>
+    <lastmod>2015-11-09T09:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</loc>
+    <lastmod>2015-11-08T22:10:29-07:00</lastmod>
   </url>
   
   <url>
@@ -208,12 +238,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -263,12 +293,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
@@ -388,17 +418,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
-    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
+    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   

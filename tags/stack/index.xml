@@ -9,8 +9,88 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 25 Oct 2015 15:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 19:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/stack/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Delete Digits</title>
+      <link>http://xmruibi.github.io/2015/11/09/delete-digits/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/delete-digits/</guid>
+      <description>
+
+&lt;p&gt;Given string A representative a positive integer which has N digits, remove any k digits of the number, the remaining digits are arranged according to the original order to become a new positive integer.&lt;/p&gt;
+
+&lt;p&gt;Find the smallest integer after remove k digits.&lt;/p&gt;
+
+&lt;p&gt;N &amp;lt;= &lt;code&gt;240&lt;/code&gt; and k &amp;lt;= N,&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given an integer A = &lt;code&gt;&amp;quot;178542&amp;quot;&lt;/code&gt;, k = &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;return a string &lt;code&gt;&amp;quot;12&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup a Stack.&lt;/li&gt;
+&lt;li&gt;Iterate through input number&lt;/li&gt;
+&lt;li&gt;If current digit is less than the peek of stack, pop out the stack until the peek is not larger than current digit.&lt;/li&gt;
+&lt;li&gt;Push current digit&lt;/li&gt;
+&lt;li&gt;Limit the pop out times by K. That means the pop action is regarded as remove digit. So when the pop out times is not less than K, keep push the digit even if it is less than peek element.&lt;/li&gt;
+&lt;li&gt;Rebuild the output string by reading elements in stack.&lt;/li&gt;
+&lt;li&gt;Two corner case should be careful:
+
+&lt;ul&gt;
+&lt;li&gt;When the iterate through digits finished, the remove(pop out) counter still less than K, we should ignore the first  &lt;code&gt;k-count&lt;/code&gt; element in stack.&lt;/li&gt;
+&lt;li&gt;When the output result has the zero on first element, remove the zero.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     *@param A: A positive integer which has N digits, A is a string.
+     *@param k: Remove k digits.
+     *@return: A string
+     */
+    public String DeleteDigits(String A, int k) {
+        if(A == null || A.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // setup stack
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        // read digits from input string
+        int removeCnt = 0;
+        for(char c : A.toCharArray()) {
+            int cur = c - &#39;0&#39;;
+            // pop out the digit larger than current digit
+            while(!stack.isEmpty() &amp;amp;&amp;amp; removeCnt &amp;lt; k &amp;amp;&amp;amp; stack.peek() &amp;gt; cur) {
+                stack.pop();
+                removeCnt ++;
+            }
+            stack.push(cur);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()) {
+            // corner case one:
+            if(removeCnt &amp;lt; k) {
+                stack.pop();
+                removeCnt ++;
+            }else
+                sb.insert(0, &amp;quot;&amp;quot; + stack.pop());
+        }
+        // corner case two:
+        while(sb.charAt(0) == &#39;0&#39;)
+            sb.deleteCharAt(0);
+        
+        return sb.toString();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Expression Tree Build</title>

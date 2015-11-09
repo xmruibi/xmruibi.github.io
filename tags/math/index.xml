@@ -9,8 +9,103 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Factor Combinations</title>
+      <link>http://xmruibi.github.io/2015/11/09/factor-combinations/</link>
+      <pubDate>Mon, 09 Nov 2015 20:33:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/factor-combinations/</guid>
+      <description>
+
+&lt;p&gt;Numbers can be regarded as product of its factors. For example,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;8 = 2 x 2 x 2;
+  = 2 x 4.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Write a function that takes an integer n and return all possible combinations of its factors.&lt;/p&gt;
+
+&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Each combination’s factors must be sorted ascending, for example: The factors of &lt;code&gt;2&lt;/code&gt; and &lt;code&gt;6&lt;/code&gt; is &lt;code&gt;[2, 6]&lt;/code&gt;, not &lt;code&gt;[6, 2]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You may assume that n is always positive.&lt;/p&gt;
+
+&lt;p&gt;Factors should be greater than 1 and less than n.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;input: &lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;37&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 6], [2, 2, 3], [3, 4] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;32&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 16], [2, 2, 8], [2, 2, 2, 4], [2, 2, 2, 2, 2], [2, 4, 4], [4, 8] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For input value &lt;code&gt;n&lt;/code&gt;, it has possible factors start from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;Sqrt(n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For every factor, we also calculate its factors, like: &lt;code&gt;16 -&amp;gt; 2, 8 -&amp;gt; 2, 2, 4 -&amp;gt; 2, 2, 2, 2, 2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; getFactors(int n) {
+        // use hashset to avoid replicate
+        Set&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                // make sure the elements are sorted
+                Collections.sort(each);
+                res.add(each);
+            }
+        }
+        return  new ArrayList&amp;lt;&amp;gt;(res);
+    }
+
+    private List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; helper(int n) {
+        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        // add it self which is also a factor
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        list.add(n);
+        res.add(list);
+
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                res.add(each);
+            }
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Binary Representation</title>

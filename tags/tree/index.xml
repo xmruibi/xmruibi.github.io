@@ -9,8 +9,93 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 27 Oct 2015 13:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 13:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Count Univalue Subtrees</title>
+      <link>http://xmruibi.github.io/2015/11/09/count-univalue-subtrees/</link>
+      <pubDate>Mon, 09 Nov 2015 13:10:29 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/count-univalue-subtrees/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree, count the number of uni-value subtrees.&lt;/p&gt;
+
+&lt;p&gt;A Uni-value subtree means all nodes of the subtree have the same value.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example:&lt;/h3&gt;
+
+&lt;p&gt;Given binary tree,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    5
+   / \
+  1   5
+ / \   \
+5   5   5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical Tree problem with recursion idea&lt;/li&gt;
+&lt;li&gt;Four cases in recursion:
+
+&lt;ul&gt;
+&lt;li&gt;Leaf node: if true case and increase the counter&lt;/li&gt;
+&lt;li&gt;Node with on one child:
+
+&lt;ul&gt;
+&lt;li&gt;Left Only: check return value from left child and value of left child should be the same as current node.&lt;/li&gt;
+&lt;li&gt;Right Only: check return value from right child and value of right child should be the same as current node.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Node with two children: check return value from both side and both child node value should be the same as current node.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class CountUnivalueSubtrees {
+
+    public int countUnivalSubtrees(TreeNode root) {
+        if (root == null)
+            return 0;
+        int[] cnt = new int[1];
+        helper(root, cnt);
+        return cnt[0];
+    }
+
+    private boolean helper(TreeNode node, int[] cnt) {
+        if (node.left == null &amp;amp;&amp;amp; node.right == null) {
+            cnt[0]++;
+            return true;
+        } else if (node.left == null) {
+            if (helper(node.right, cnt) &amp;amp;&amp;amp; node.right.val == node.val) {
+                cnt[0]++;
+                return true;
+            } else
+                return false;
+        } else if (node.right == null) {
+            if (helper(node.left, cnt) &amp;amp;&amp;amp; node.left.val == node.val) {
+                cnt[0]++;
+                return true;
+            } else
+                return false;
+        } else {
+            if (helper(node.left, cnt) &amp;amp;&amp;amp; helper(node.right, cnt)
+                    &amp;amp;&amp;amp; node.left.val == node.val &amp;amp;&amp;amp; node.right.val == node.val) {
+                cnt[0]++;
+                return true;
+            } else
+                return false;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Search Range in Binary Search Tree</title>
