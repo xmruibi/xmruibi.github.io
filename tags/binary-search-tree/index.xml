@@ -9,8 +9,264 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 25 Oct 2015 20:33:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 10:23:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Closest Binary Search Tree Value</title>
+      <link>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</guid>
+      <description>
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;note&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;Given target value is a floating point.
+You are guaranteed to have only one unique value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClosestBSTValue {
+	double min = Double.MAX_VALUE;
+	TreeNode closest = null;
+
+	public int closestValue(TreeNode root, double target) {
+		if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+		helper(root, target);
+		return closest.val;
+	}
+
+	private void helper(TreeNode node, double target) {
+		if (node == null)
+			return;
+		if (Math.abs((double) node.val - target) &amp;lt; min) {
+			min = Math.abs((double) node.val - target);
+			closest = node;
+		}
+		
+		if((double) node.val &amp;gt; target) {
+			helper(node.left, target);
+		}else{
+			helper(node.right, target);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find &lt;strong&gt;k values&lt;/strong&gt; in the BST that are closest to the target.&lt;/p&gt;
+
+&lt;h4 id=&#34;note-1&#34;&gt;Note&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Given target value is a floating point.&lt;/li&gt;
+&lt;li&gt;You may assume &lt;code&gt;k&lt;/code&gt; is always valid, that is:&lt;code&gt;k ≤ total&lt;/code&gt; nodes.&lt;/li&gt;
+&lt;li&gt;You are guaranteed to have only one unique set of &lt;code&gt;k&lt;/code&gt; values in the BST that are closest to the target.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;follow-up&#34;&gt;Follow up&lt;/h4&gt;
+
+&lt;p&gt;Assume that the BST is balanced, could you solve it in less than $$O(n)$$ runtime (where n = total nodes)?&lt;/p&gt;
+
+&lt;h4 id=&#34;hint&#34;&gt;Hint&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider implement these two helper functions:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;getPredecessor(N)&lt;/code&gt;, which returns the next smaller node to N.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getSuccessor(N)&lt;/code&gt;, which returns the next larger node to N.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Try to assume that each node has a parent pointer, it makes the problem much easier.&lt;/li&gt;
+&lt;li&gt;Without parent pointer we just need to keep track of the path from the root to the current node using a stack.&lt;/li&gt;
+&lt;li&gt;You would need two stacks to track the path in finding predecessor and successor node separately.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think #1&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The straight-forward solution would be to use a &lt;strong&gt;heap&lt;/strong&gt;. We just treat the BST just as a usual array and do a in-order traverse. Then we compare the current element with the minimum element in the heap, the same as top k problem.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private PriorityQueue&amp;lt;Integer&amp;gt; minPQ;
+    private int count = 0;
+    public List&amp;lt;Integer&amp;gt; closestKValues(TreeNode root, double target, int k) {
+        minPQ = new PriorityQueue&amp;lt;;Integer&amp;gt;(k);
+        List&amp;lt;Integer&amp;gt; result = new ArrayList&amp;lt;Integer&amp;gt;();
+         
+        inorderTraverse(root, target, k);
+         
+        // Dump the pq into result list
+        for (Integer elem : minPQ) {
+            result.add(elem);
+        }
+         
+        return result;
+    }
+     
+    private void inorderTraverse(TreeNode root, double target, int k) {
+        if (root == null) {
+            return;
+        }
+         
+        inorderTraverse(root.left, target, k);
+         
+        if (count &amp;lt; k) {
+            minPQ.offer(root.val);
+        } else {
+            if (Math.abs((double) root.val - target) &amp;amp;lt; Math.abs((double) minPQ.peek() - target)) {
+                minPQ.poll();
+                minPQ.offer(root.val);
+            }
+        }
+        count++;
+         
+        inorderTraverse(root.right, target, k);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Verify Preorder Sequence in Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given an array of numbers, verify whether it is the correct preorder traversal sequence of a binary search tree.&lt;/p&gt;
+
+&lt;p&gt;You may assume each number in the sequence is unique.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;Could you do it using only constant space complexity?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The first element should be the root node.&lt;/li&gt;
+&lt;li&gt;Find the bound that all previous element are small than root value by checking the first larger element.&lt;/li&gt;
+&lt;li&gt;So the left of this bound should be the left tree of root, and the rest of it should be the right tree of root.&lt;/li&gt;
+&lt;li&gt;Check left and right recursively.&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(n^2)$$, Space Complexity: $$O(n)$$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorder(int[] preorder) {
+		if (preorder == null || preorder.length &amp;lt;= 1)
+			return true;
+		return helper(preorder, 0, preorder.length - 1);
+	}
+
+	private boolean helper(int[] preorder, int l, int r) {
+		int root = preorder[l];
+		int divide = l;
+		for (int i = l + 1; i &amp;lt;= r; i++) {
+			if (preorder[i] &amp;lt; root &amp;amp;&amp;amp; divide != l)
+				return false;
+			else if (preorder[i] &amp;gt; root &amp;amp;&amp;amp; divide != l)
+				divide = i;
+		}
+		return helper(preorder, l + 1, divide - 1)
+				&amp;amp;&amp;amp; helper(preorder, divide, r);
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Preorder in BST has a regular pattern:
+
+&lt;ul&gt;
+&lt;li&gt;When going to left node, it must be a descending order&lt;/li&gt;
+&lt;li&gt;When going to right node, it should be a ascending order&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Setting a stack, to store the previous path. Iterate throught the array:
+
+&lt;ul&gt;
+&lt;li&gt;When it getting smaller element make it just push into stack&lt;/li&gt;
+&lt;li&gt;When it find the larger element (larger than the peek of stack), pop the stack and set the minimum limit as the value of popped element.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(n)$$, Space Complexity: $$O(n)$$&lt;/li&gt;
+&lt;li&gt;For Example, 10 5 2 7 6 8 12 11 -&amp;gt; BST&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;          10
+        /    \
+      5       12
+     / \     /
+    2   7   11
+       / \
+      6   8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The procedure in Stack:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;10 -&amp;gt; 10 5 -&amp;gt; 10 5 2 -&amp;gt; 10 7 (min=5) -&amp;gt; 10 7 6 (min = 5) -&amp;gt; 10 8 (min = 7)
+-&amp;gt; 12 (min = 10) -&amp;gt; 12 11 (min = 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-2&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorderII(int[] preorder) {
+
+		Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;Integer&amp;gt;();
+		int min = Integer.MIN_VALUE;
+		for (int num : preorder) {
+			if (num &amp;lt; min)
+				return false;
+			while (!stack.isEmpty() &amp;amp;&amp;amp; num &amp;gt; stack.peek())
+				min = stack.pop();
+			stack.push(num);
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Optimized on the #2 solution&lt;/li&gt;
+&lt;li&gt;Use a pointer to replace the stack peek position.&lt;/li&gt;
+&lt;li&gt;指针模拟栈&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorderII(int[] preorder) {
+
+        int idx = -1;
+        int min = Integer.MIN_VALUE;
+        for (int num : preorder) {
+            if (num &amp;lt; min)
+                return false;
+            while (idx &amp;gt;= 0 &amp;amp;&amp;amp; num &amp;gt; preorder[idx]) {
+                min = preorder[idx--];
+            }
+            preorder[++idx] = num;
+        }
+        return true;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Convert Sorted List to Binary Search Tree</title>

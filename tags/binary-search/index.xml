@@ -9,8 +9,71 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 19:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>3Sum Smaller</title>
+      <link>http://xmruibi.github.io/2015/11/09/3sum-smaller/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/3sum-smaller/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n integers nums and a target, find the number of index triplets i, j, k with 0 &amp;lt;= i &amp;lt; j &amp;lt; k &amp;lt; n that satisfy the condition &lt;code&gt;nums[i]&lt;/code&gt; + &lt;code&gt;nums[j]&lt;/code&gt; + &lt;code&gt;nums[k]&lt;/code&gt; &amp;lt; &lt;code&gt;target&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;given nums = &lt;code&gt;[-2, 0, 1, 3]&lt;/code&gt;, and target = &lt;code&gt;2&lt;/code&gt;.
+Return 2. Because there are two triplets which sums are less than &lt;code&gt;2&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[-2, 0, 1]
+[-2, 0, 3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set iterate from rear.&lt;/li&gt;
+&lt;li&gt;One tricky pattern:
+
+&lt;ul&gt;
+&lt;li&gt;When &lt;code&gt;nums[l] + nums[r] +nums[i] &amp;lt; target&lt;/code&gt;, all for combinations like: &lt;code&gt;nums[l] + nums[r-1] +nums[i] &amp;lt; target&lt;/code&gt;, &lt;code&gt;nums[l] + nums[r-2] +nums[i] &amp;lt; target&lt;/code&gt;, &amp;hellip;, &lt;code&gt;nums[l] + nums[l+1] +nums[i] &amp;lt; target&lt;/code&gt; are workable.&lt;/li&gt;
+&lt;li&gt;So result counter should directly add the &lt;code&gt;r - l&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;All in all, two cases:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nums[l] + nums[r] +nums[i] &amp;lt; target&lt;/code&gt;, add the cnt and move the &lt;code&gt;l&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nums[l] + nums[r] +nums[i] &amp;gt;= target&lt;/code&gt;, just move the &lt;code&gt;r&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;It is not very similar like binary search but still has kinda idea inside.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static int threeSumSmaller(int[] nums, int target) {
+        if (nums == null || nums.length &amp;lt; 3) 
+            return 0;
+        Arrays.sort(nums);
+        int resCnt = 0;
+        for (int i = nums.length - 1; i &amp;gt; 1; i--) {
+            int one = nums[i];
+            int l = 0, r = i - 1;
+            while (l &amp;lt; r) {
+                if(one + nums[l] + nums[r] &amp;lt; target) {
+                    resCnt += (r - l);
+                    l++;
+                }else
+                    r--;
+            }
+        }
+        return resCnt;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Sqrt(x)</title>

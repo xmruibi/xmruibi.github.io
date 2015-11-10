@@ -9,8 +9,140 @@
     <managingEditor>xmruibi@gmail.com (Rui Bi)</managingEditor>
     <webMaster>xmruibi@gmail.com (Rui Bi)</webMaster>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2015 20:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 19:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/palindrome/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Palindrome Permutation</title>
+      <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      <author>xmruibi@gmail.com (Rui Bi)</author>
+      <guid>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a string, determine if a permutation of the string could form a palindrome.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;code&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;&amp;quot;carerac&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
+- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
+- If the length is odd. One and only one character could appear odd times.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean canPermutePalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		for (char c : s.toCharArray())
+			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+
+		int tolerent = 0;
+		for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+			if (entry.getValue() % 2 != 0) {
+				tolerent++;
+			}
+		}
+		if (s.length() % 2 != 0)
+			return tolerent == 1;
+		else
+			return tolerent == 0;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
+Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
+&lt;li&gt;Address the case when the length is odd
+
+&lt;ul&gt;
+&lt;li&gt;Record the character with odd frequency&lt;/li&gt;
+&lt;li&gt;Initialize the generation String with the Odd character&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
+        HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if (s == null || s.length() == 0)
+            return new ArrayList&amp;lt;String&amp;gt;(res);
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (char c : s.toCharArray())
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        
+        // check if it is odd length, increase the tolerance when it is odd length
+        int tolerent = 0;
+        if (s.length() % 2 != 0)
+            tolerent++;
+        
+        // record the odd item to set as the base of generate String
+        char odd = &#39;\u0000&#39;;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                if (tolerent &amp;gt; 0) {
+                    tolerent--;
+                    odd = entry.getKey(); // set it
+                } else
+                    return new ArrayList&amp;lt;String&amp;gt;(res);
+            }
+        }
+        // set the base String when the odd case
+        String cur = &amp;quot;&amp;quot;;
+        if (odd != &#39;\u0000&#39;) {
+            map.put(odd, map.get(odd) - 1);
+            if (map.get(odd) == 0)
+                map.remove(odd);
+            cur = &amp;quot;&amp;quot; + odd;
+        }
+        
+        // generate the palindrome
+        helper(res, map, cur, s);
+        return new ArrayList&amp;lt;String&amp;gt;(res);
+    }
+
+    private static void helper(Set&amp;lt;String&amp;gt; res,
+            HashMap&amp;lt;Character, Integer&amp;gt; map, String cur, String origin) {
+        if (map.size() == 0) {
+            res.add(new String(cur));
+            return;
+        }
+
+        for (int i = 0; i &amp;lt; origin.length(); i++) {
+            char c = origin.charAt(i);
+            if (!map.containsKey(c))
+                continue;
+            cur = (c + cur + c);
+            map.put(c, map.get(c) - 2);
+            if (map.get(c) == 0)
+                map.remove(c);
+            helper(res, map, cur, origin);
+            cur = cur.substring(1, cur.length() - 1);
+            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Palindrome Partitioning</title>

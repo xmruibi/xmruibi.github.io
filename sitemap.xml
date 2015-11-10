@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-11-09T20:33:13-07:00</lastmod>
+    <lastmod>2015-11-09T20:43:13-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/alien-dictionary/</loc>
+    <lastmod>2015-11-09T20:43:13-07:00</lastmod>
   </url>
   
   <url>
@@ -13,13 +18,38 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/11/09/3sum-smaller/</loc>
+    <lastmod>2015-11-09T19:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/11/09/delete-digits/</loc>
     <lastmod>2015-11-09T19:43:13-07:00</lastmod>
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</loc>
+    <lastmod>2015-11-09T19:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/graph-valid-tree/</loc>
+    <lastmod>2015-11-09T18:23:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/11/09/count-univalue-subtrees/</loc>
     <lastmod>2015-11-09T13:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</loc>
+    <lastmod>2015-11-09T10:23:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</loc>
+    <lastmod>2015-11-09T10:23:13-07:00</lastmod>
   </url>
   
   <url>
@@ -403,12 +433,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
