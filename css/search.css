@@ -17,7 +17,7 @@
 	background: #ededed url(http://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
 	border: solid 1px #ccc;
 	padding: 9px 10px 9px 32px;
-	width: 55px;
+	width: 45px;
 	
 	-webkit-border-radius: 10em;
 	-moz-border-radius: 10em;
@@ -28,7 +28,7 @@
 	transition: all .5s;
 }
 #search input[type=search]:focus {
-	width: 130px;
+	width: 200px;
 	background-color: #fff;
 	border-color: #66CC75;
 	

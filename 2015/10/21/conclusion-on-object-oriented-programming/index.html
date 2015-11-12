@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
     <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Conclusion on Object Oriented Programming" />
 <meta property="og:description" content="Principles Open - Close Open for extension but closed for modifications The design and writing of the code should be done in a way that new functionality should be added with minimum changes in the existing code. The design should be done in a way to allow the adding of new functionality as new classes, keeping as much as possible existing code unchanged. Example class ShapeEditor{ void drawShape(Shape s){ if (s.m_type==1) drawRectangle(s); else if (s.m_type==2) drawCircle(s); }; void drawRectangle(Shape s); void drawCircle(Shape s); } class Shape{} class Rectangle extends Shape{} class Circle extends Shape{} //---&gt; Every time if new shape added, we have to modify method in the editor class, which violates this rule!" />
 <meta property="og:type" content="article" />
@@ -63,7 +64,7 @@
 <header id="header">
   <div id="header-main" class="header-inner">
     <div class="outer">
-      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
       <nav id="main-nav">
           
           
@@ -200,7 +201,7 @@
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/object%20oriented%20programming">Object Oriented Programming</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/object-oriented-programming">Object Oriented Programming</a>
             
         </div>
     </div>
