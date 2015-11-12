@@ -517,8 +517,9 @@ Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator 
       <guid>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</guid>
       <description>
 
-&lt;p&gt;Set up a iterator to iterate a 2-dimensional array.
-By given the following code, finish all class:&lt;/p&gt;
+&lt;p&gt;Set up a iterator to iterate a 2-dimensional array.&lt;/p&gt;
+
+&lt;p&gt;By given the following code, finish all class:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class DeepIterator{
     

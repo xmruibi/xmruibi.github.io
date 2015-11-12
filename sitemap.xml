@@ -238,12 +238,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/expression-tree-build/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</loc>
     <lastmod>2015-10-25T15:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/expression-tree-build/</loc>
     <lastmod>2015-10-25T15:13:13-07:00</lastmod>
   </url>
   
@@ -433,11 +433,6 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
-    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
@@ -448,8 +443,8 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
-    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
+    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
@@ -458,7 +453,7 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -469,6 +464,11 @@
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
+    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   

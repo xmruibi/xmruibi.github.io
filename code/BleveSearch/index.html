@@ -8,13 +8,13 @@
     <meta name="author" content="Rui&#39;s Blog">
     
     
-    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
-    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
-    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
-    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
-    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
-    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
-    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
     <meta property="og:title" content="How to do the insite search in Hugo?" />
 <meta property="og:description" content="Since I tried to avoid using the Google tool, searching insite content in static site like Hugo seems a tough thing for me. However, I just found Bleeve Search, which is a great tool to assist the insite search. There are three steps to adding search to your site. First, you must build the index. Second, you must host the index. Third, you add a search page to your site. Building the Index Preparation: Check you have installed Go." />
 <meta property="og:type" content="article" />
@@ -43,7 +43,7 @@
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -63,7 +63,7 @@
 <header id="header">
   <div id="header-main" class="header-inner">
     <div class="outer">
-      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
       <nav id="main-nav">
           
           
@@ -194,19 +194,19 @@
         <div class="article-category">
             
             <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.iotopics/information%20retrieval">Information Retrieval</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/information%20retrieval">Information Retrieval</a>
             
             <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.iotopics/javascript">JavaScript</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/javascript">JavaScript</a>
             
         </div>
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.iotags/bleve%20search">Bleve Search</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/bleve%20search">Bleve Search</a>
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.iotags/configuration">Configuration</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/configuration">Configuration</a>
             
         </div>
     </div>
@@ -420,8 +420,8 @@ search.js is our custom code to bind everything together.</p>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
-<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
