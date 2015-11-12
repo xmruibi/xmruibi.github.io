@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Convert Expression to Polish Notation &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <meta property="og:title" content="Convert Expression to Polish Notation" />
+<meta property="og:description" content="Given an expression string array, return the Polish notation of this expression. (remove the parentheses) Polish notation, also known as Polish prefix notation or simply prefix notation, is a form of notation for logic, arithmetic, and algebra. Its distinguishing feature is that it places operators to the left of their operands. If the arity of the operators is fixed, the result is a syntax lacking parentheses or other brackets that can still be parsed without ambiguity." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/" />
+
+
+<meta property="og:updated_time" content="2015-10-25T10:13:13-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Convert Expression to Polish Notation">
+<meta itemprop="description" content="Given an expression string array, return the Polish notation of this expression. (remove the parentheses) Polish notation, also known as Polish prefix notation or simply prefix notation, is a form of notation for logic, arithmetic, and algebra. Its distinguishing feature is that it places operators to the left of their operands. If the arity of the operators is fixed, the result is a syntax lacking parentheses or other brackets that can still be parsed without ambiguity.">
+
+
+<meta itemprop="dateModified" content="2015-10-25T10:13:13-07:00" />
+<meta itemprop="wordCount" content="277">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Convert Expression to Polish Notation"/>
+<meta name="twitter:description" content="Given an expression string array, return the Polish notation of this expression. (remove the parentheses) Polish notation, also known as Polish prefix notation or simply prefix notation, is a form of notation for logic, arithmetic, and algebra. Its distinguishing feature is that it places operators to the left of their operands. If the arity of the operators is fixed, the result is a syntax lacking parentheses or other brackets that can still be parsed without ambiguity."/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/">
+    <h1 class="article-title" itemprop="name">
+        Convert Expression to Polish Notation
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-25 10:13:13 -0700 PDT" itemprop="datePublished">2015-10-25</time>
+            &middot;
+            277
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/polish%20notation">Polish Notation</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/expression">Expression</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/stack">Stack</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Given an expression string array, return the Polish notation of this expression. (remove the parentheses)</p>
+
+<blockquote>
+<p>Polish notation, also known as Polish prefix notation or simply prefix notation, is a form of notation for logic, arithmetic, and algebra. Its distinguishing feature is that it places operators to the left of their operands. If the arity of the operators is fixed, the result is a syntax lacking parentheses or other brackets that can still be parsed without ambiguity. The Polish logician Jan Łukasiewicz invented this notation in 1924 in order to simplify sentential logic.</p>
+</blockquote>
+
+<h3 id="example:d7447c9961a6f93964dc93aedc06eb81">Example</h3>
+
+<p>For the expression <code>[(5 − 6) * 7]</code> (which represented by <code>[&quot;(&quot;, &quot;5&quot;, &quot;−&quot;, &quot;6&quot;, &quot;)&quot;, &quot;*&quot;, &quot;7&quot;]</code>), the corresponding polish notation is <code>[* - 5 6 7]</code> (which the return value should be <code>[&quot;*&quot;, &quot;−&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;]</code>).</p>
+
+<h2 id="think:d7447c9961a6f93964dc93aedc06eb81">Think</h2>
+
+<ul>
+<li>The idea is not complext if you took the reverse polish notation question.</li>
+<li>Just two things changed:
+
+<ul>
+<li>Pass from rear to head;</li>
+<li>Every insertion is to the first index in result list</li>
+</ul></li>
+</ul>
+
+<h2 id="solution:d7447c9961a6f93964dc93aedc06eb81">Solution</h2>
+
+<pre><code class="language-java">public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The Polish notation of this expression
+     */
+    public ArrayList&lt;String&gt; convertToPN(String[] expression) {
+        
+        Stack&lt;String&gt; ops = new Stack&lt;&gt;();
+        ArrayList&lt;String&gt; res = new ArrayList&lt;&gt;();
+        for(int i = expression.length - 1; i &gt;= 0; i--) {
+            String str = expression[i];
+            if(str.equals(&quot;+&quot;) || str.equals(&quot;-&quot;) ||str.equals(&quot;*&quot;) ||str.equals(&quot;/&quot;)) {
+                while(!ops.isEmpty() &amp;&amp; operatorLevel(ops.peek()) &gt; operatorLevel(str))
+                    res.add(0, ops.pop());
+                ops.push(str);
+            }else if(str.equals(&quot;)&quot;)){
+                ops.push(str);
+            }else if(str.equals(&quot;(&quot;)) {
+                while(!ops.isEmpty() &amp;&amp; !ops.peek().equals(&quot;)&quot;))
+                    res.add(0, ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &quot;)&quot;
+            }else
+                res.add(0, str);
+        }
+        while(!ops.isEmpty())
+            res.add(0, ops.pop());
+        return res;
+    }
+    
+     private int operatorLevel(String op) {
+        if(op.equals(&quot;+&quot;) || op.equals(&quot;-&quot;)) 
+            return 1;
+        else if(op.equals(&quot;*&quot;) ||op.equals(&quot;/&quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/" data-id="d7447c9961a6f93964dc93aedc06eb81" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Convert Expression to Reverse Polish Notation</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Reverse Nodes in k-Group</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/10\/25\/convert-expression-to-polish-notation\/';
+    var disqus_title = 'Convert Expression to Polish Notation';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/10\/25\/convert-expression-to-polish-notation\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#example:d7447c9961a6f93964dc93aedc06eb81">Example</a></li>
+</ul></li>
+<li><a href="#think:d7447c9961a6f93964dc93aedc06eb81">Think</a></li>
+<li><a href="#solution:d7447c9961a6f93964dc93aedc06eb81">Solution</a></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015<br>
+      Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

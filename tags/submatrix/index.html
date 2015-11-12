@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Submatrix &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+      <link href="http://xmruibi.github.io/tags/submatrix/index.xml" rel="alternate" type="application/rss+xml" title="Geek Think" />
+      <link href="http://xmruibi.github.io/tags/submatrix/index.xml" rel="feed" type="application/rss+xml" title="Geek Think" />
+    
+    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <meta property="og:title" content="Submatrix" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://xmruibi.github.io/tags/submatrix/" />
+
+
+<meta property="og:updated_time" content="2015-10-17T21:43:13-07:00"/>
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Submatrix">
+<meta itemprop="description" content="">
+
+
+    
+</head>
+<body>
+<div class="container">
+ 
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+    <div class="outer">
+        <aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      <img id="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa.jpg?s=200">
+      <h2 id="name">Rui&#39;s Blog</h2>
+      <h3 id="title">A Thinker, A Programmer, A Traveller</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>California - Bay Area</span>
+
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        140
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        77
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="http://xmruibi.github.io/tags/submatrix/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+        <section id="main">
+            <section class="archives-wrap">
+                <div class="archive-category-wrap">
+                    <span class="archive-category">Submatrix</span>
+                </div>
+                <div class="archives">
+                    
+                    
+                        <article class="archive-article archive-type-post">
+    <div class="archive-article-inner">
+        
+        <header class="archive-article-header">
+            <h1 itemprop="name">
+                <a class="archive-article-title" href="http://xmruibi.github.io/2015/10/17/submatrix-sum/">Submatrix Sum</a>
+            </h1>
+            <div class="archive-article-date">
+                <i class="fa fa-calendar"></i>
+                <time datetime="2015-10-17 21:43:13 -0700 PDT" itemprop="datePublished">2015-10-17</time>
+            </div>
+        </header>
+    </div>
+</article>
+ 
+                    
+                </div>
+            </section>
+            
+
+<nav id="page-nav">
+
+</nav>
+
+        </section>
+        <aside id="sidebar">
+    
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Topics</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/algorithm">
+                    algorithm
+                </a>
+                <span class="category-list-count">123</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/cloud-computing">
+                    cloud-computing
+                </a>
+                <span class="category-list-count">4</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/design">
+                    design
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/devops">
+                    devops
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/information-retrieval">
+                    information-retrieval
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/java">
+                    java
+                </a>
+                <span class="category-list-count">6</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/machine-learning">
+                    machine-learning
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/restful">
+                    restful
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/travel">
+                    travel
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io/topics/web-development">
+                    web-development
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+    
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            
+            <li>
+                
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">
+                        Algorithm
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/09/alien-dictionary/" class="title">Alien Dictionary</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-09 20:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">
+                        Algorithm
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/09/factor-combinations/" class="title">Factor Combinations</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-09 20:33:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">
+                        Algorithm
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/09/3sum-smaller/" class="title">3Sum Smaller</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-09 19:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">
+                        Algorithm
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/09/delete-digits/" class="title">Delete Digits</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-09 19:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">
+                        Algorithm
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/09/palindrome-permutation/" class="title">Palindrome Permutation</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-09 19:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
+                    </p>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+    
+
+    
+
+
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+
+    </div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015<br>
+      Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

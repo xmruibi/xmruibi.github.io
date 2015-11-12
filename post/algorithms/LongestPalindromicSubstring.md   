@@ -1,0 +1,75 @@
++++
+date = "2015-10-22T14:43:13-07:00"
+levels = []
+tags = ["String", "Palindrome", "Dynamic Programming"]
+title = "Longest Palindromic Substring"
+topics = ["Algorithm"]
++++
+
+Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.
+<!--more-->
+
+### Example
+Given the string = `"abcdzdcab"`, return `"cdzdc"`.
+
+### Challenge
+O(n2) time is acceptable. Can you do it in O(n) time.
+
+## Think
+- One pass on each position in string characters, assume the axis of symmetry on each character or between two character:
+
+		    |						|
+	    c a b a c f     or     c a b a c f
+
+	
+- On each axis of symmetry we get the left and right pointers and make them move toward left or right
+
+        left right			 
+	       \ /                 
+	    c a b a c f 
+        
+        ...or...	    
+	    
+	        l r
+	        | |
+	    c a b a c f
+	   
+## Solution
+
+```java
+public class Solution {
+    /**
+     * @param s input string
+     * @return the longest palindromic substring
+     */
+    public String longestPalindrome(String s) {
+        if(s == null || s.length() == 0)
+            return "";
+        
+        String longest = "";
+        int maxLength = 0;
+        for(int i = 0; i < s.length()*2 - 1; i++){
+            int l = i / 2;
+            int r = i / 2;
+            if(i % 2 != 0)
+                r++;
+            String cur = palindrome(s, l , r);
+            if(cur.length() > maxLength) {
+                longest = cur;
+                maxLength = cur.length();
+            }
+        }
+        return longest;
+    }
+    
+    private String palindrome(String s, int l, int r) {
+        while(l>=0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            l--; r++;
+        }
+        return s.substring(l + 1, r);
+    }
+}
+```
+
+## Analysis
+One pass from 0 - $$len \times 2$$; inside the loop the palindromic substring search also costs a loop from l - r; So the total is O($$n^2$$);

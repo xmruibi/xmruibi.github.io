@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>How to Input and Output with Mongo DB Data on Hadoop Platform &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <meta property="og:title" content="How to Input and Output with Mongo DB Data on Hadoop Platform" />
+<meta property="og:description" content="In the previous article, I&rsquo;ve talked about how to distributed a Mongo DB database in multiple virtual machine. Here, I&rsquo;d like to discuss how we can make data stream between Mongo DB and Hadoop. In fact, the format from MongoDB cannot directly used in Hadoop Map Reduce function. You have to use Mongo Hadoop API to assist you for finishing this difficult connection between MongoDB and Hadoop.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/code/MongoDBwithHadoop/" />
+
+
+<meta property="og:updated_time" content="2015-04-16T12:56:15-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="How to Input and Output with Mongo DB Data on Hadoop Platform">
+<meta itemprop="description" content="In the previous article, I&rsquo;ve talked about how to distributed a Mongo DB database in multiple virtual machine. Here, I&rsquo;d like to discuss how we can make data stream between Mongo DB and Hadoop. In fact, the format from MongoDB cannot directly used in Hadoop Map Reduce function. You have to use Mongo Hadoop API to assist you for finishing this difficult connection between MongoDB and Hadoop.
+">
+
+
+<meta itemprop="dateModified" content="2015-04-16T12:56:15-07:00" />
+<meta itemprop="wordCount" content="789">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="How to Input and Output with Mongo DB Data on Hadoop Platform"/>
+<meta name="twitter:description" content="In the previous article, I&rsquo;ve talked about how to distributed a Mongo DB database in multiple virtual machine. Here, I&rsquo;d like to discuss how we can make data stream between Mongo DB and Hadoop. In fact, the format from MongoDB cannot directly used in Hadoop Map Reduce function. You have to use Mongo Hadoop API to assist you for finishing this difficult connection between MongoDB and Hadoop.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/MongoDBwithHadoop/">
+    <h1 class="article-title" itemprop="name">
+        How to Input and Output with Mongo DB Data on Hadoop Platform
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-04-16 12:56:15 -0700 PDT" itemprop="datePublished">2015-04-16</time>
+            &middot;
+            789
+            words
+            &middot;
+            4
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.iotopics/devops">DevOps</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.iotopics/cloud%20computing">Cloud Computing</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/hadoop">Hadoop</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/mongodb">MongoDB</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/configuration">Configuration</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>In the previous article, I&rsquo;ve talked about how to distributed a Mongo DB database in multiple virtual machine. Here, I&rsquo;d like to discuss how we can make data stream between Mongo DB and Hadoop. In fact, the format from MongoDB cannot directly used in Hadoop Map Reduce function. You have to use Mongo Hadoop API to assist you for finishing this difficult connection between MongoDB and Hadoop.</p>
+
+<h2 id="introduction:2f436210ad002633421227ccd5b7c970">Introduction</h2>
+
+<p>The MongoDB Connector for Hadoop is a plugin for Hadoop that provides the ability to use MongoDB as an input source and/or an output destination. The major advantage is that once the connector is implemented, the analytic power of Hadoop can be utilized with the MongoDB storage architecture.
+&gt; “The Connector presents MongoDB as a Hadoop-compatible file system allowing a MapReduce job to read from MongoDB directly without first copying it to HDFS, thereby eliminating the need to move Terabytes of data across the network. MapReduce jobs can pass queries as filters, so avoiding the need to scan entire collections, and can also take advantage of MongoDB’s rich indexing capabilities including geospatial, text-search, array, compound and sparse indexes”</p>
+
+<h2 id="procedure:2f436210ad002633421227ccd5b7c970">Procedure</h2>
+
+<p>Once we choose MongoDB as the I/O target, all of our I/O format needs to fit with MongoDB document format, thus we must use either JSON or BSON. So the entire procedure when Hadoop works with MongoDB is shown as follows:
+- Create MongoDB URL builder with multiple Mongos (Routers) as Database entrances
+- Set one MongoDB collection as input source with MongoDB URL builder
+- Use Hadoop as Map-Reduce computing framework.
+- Override Mapper class with BSON format as value in.
+- Override Reduce class addressing the BSON data and output the data with MongodbUpdateWritable format
+- Set another MongoDB collection as output destination  with MongoDB URL builder</p>
+
+<h2 id="talk-is-cheap-show-me-the-code:2f436210ad002633421227ccd5b7c970">Talk is cheap, show me the code!</h2>
+
+<h3 id="access-to-mongo-db:2f436210ad002633421227ccd5b7c970">Access to Mongo DB</h3>
+
+<p>By create MongoDB URL builder, the hadoop platform can detect the database position. However, we have multiple Mongo DB routers as Database entrances. So we just save our entry IP address as a list.</p>
+
+<pre><code class="language-java">private MongoClientURIBuilder ShardedDBURIBuilder() {
+		// mainly host
+		String mainHost = &quot;44XX.XXX.XXX.X01&quot;;
+
+		// set up the option entrances when the main one shut down
+		List&lt;ServerAddress&gt; serverSeeds;
+		MongoClient mongoClient = null;
+		serverSeeds = new ArrayList&lt;ServerAddress&gt;();
+		try {
+			serverSeeds.add(new ServerAddress(&quot;4XX.XXX.XXX.X02&quot;, 27017));
+			serverSeeds.add(new ServerAddress(&quot;4XX.XXX.XXX.X03&quot;, 27017));
+			mongoClient = new MongoClient(serverSeeds);
+			mongoClient.getMongoClientOptions();
+		} catch (UnknownHostException e) {
+			log.error(e + &quot;&quot; + e.getCause());
+		}
+
+		MongoClientURIBuilder uriBuilder = new MongoClientURIBuilder();
+		uriBuilder.addHost(mainHost, 27017);
+		uriBuilder.options(mongoClient.getMongoClientOptions());
+		return uriBuilder;
+}
+</code></pre>
+
+<p>Then we know where is the Mongo DB! But we still need to locate the collection in MongoDB and more detailed information. Here we go:</p>
+
+<pre><code class="language-java">MongoClientURIBuilder uriBuilder = ShardedDBURIBuilder();
+uriBuilder.collection(&quot;stock&quot;, &quot;symbols&quot;);
+MongoClientURI inputURI = uriBuilder.build();
+MongoConfigUtil.setInputURI(getConf(), inputURI);
+</code></pre>
+
+<h3 id="build-our-own-mapper-and-reducer:2f436210ad002633421227ccd5b7c970">Build our own mapper and reducer!</h3>
+
+<p>Here I use my project about stock information crawler as an example. Mapper read the stock symbol data from the MongoDB. Then it get a list of symbol name in mapper. The mapper has separated that list and the reducer should read different part of list and search the stock information according to the partial symbol name list.</p>
+
+<ul>
+<li>Override Mapper class with BSON format as value in.</li>
+</ul>
+
+<pre><code class="language-java">public class SymbolsMapper extends Mapper&lt;Object, BSONObject, Text, IntWritable&gt;{
+    @Override
+    public void map(Object key, BSONObject val, final Context context) 
+        throws IOException, InterruptedException {
+    	System.out.println(val.get(&quot;symbol&quot;)+&quot;  Mapper Getted!!&quot;);
+        context.write(new Text((val.get(&quot;symbol&quot;)).toString()), 
+        		new IntWritable(1));
+    }
+}
+</code></pre>
+
+<ul>
+<li>Override Reduce class addressing the BSON data and output the data with MongodbUpdateWritable format</li>
+</ul>
+
+<pre><code class="language-java">public class SymbolsReducer extends Reducer&lt;Text, IntWritable, NullWritable, MongoUpdateWritable&gt;{
+	
+    @Override
+    public void reduce(final Text pKey, final Iterable&lt;IntWritable&gt; pValues,
+                        final Context pContext )
+            throws IOException, InterruptedException{
+    	    
+        StockCrawler stockCrawler = new StockCrawler();
+        
+        // get symbol from keyIn 
+        Quote quote = stockCrawler.getHistQuotesBySymbol(pKey.toString());
+        if(quote==null||quote.getSymbolName()==null||quote.getHistorical_quotes()==null)
+        	return;
+        // get Quote info, set new id
+        BasicBSONObject query = new BasicBSONObject(&quot;_id&quot;, quote.getKey());
+       
+        // set symbol name and symbol quotes
+        BasicBSONObject stockQuote = new BasicBSONObject();
+        stockQuote.put(&quot;symbol&quot;, quote.getSymbolName());
+        ArrayList&lt;Object&gt; historical_quotes =  quote.getHistorical_quotes();
+        
+        BasicBSONObject update = new BasicBSONObject(&quot;$set&quot;, stockQuote);
+        update.append(&quot;$pushAll&quot;, new BasicBSONObject(&quot;historical_quotes&quot;, historical_quotes));
+        
+        pContext.write(null, new MongoUpdateWritable(query, update, true, false));
+    }
+}
+</code></pre>
+
+<h3 id="output-back-to-mongo-db:2f436210ad002633421227ccd5b7c970">Output back to Mongo DB</h3>
+
+<p>The output procedure is very simliar with the input one. But just the difference on the target collection in Mongo DB.</p>
+
+<pre><code class="language-java">MongoClientURI outputURI = uriBuilder.build();
+MongoConfigUtil.setOutputURI(getConf(), outputURI);
+</code></pre>
+
+<h3 id="the-overview-on-this-connector:2f436210ad002633421227ccd5b7c970">The overview on this connector:</h3>
+
+<pre><code class="language-java">public MongoMapredStockCrawler() {
+		setConf(new Configuration());
+
+		if (MongoTool.isMapRedV1()) {
+			MapredMongoConfigUtil.setInputFormat(getConf(),
+					com.mongodb.hadoop.mapred.MongoInputFormat.class);
+			MapredMongoConfigUtil.setOutputFormat(getConf(),
+					com.mongodb.hadoop.mapred.MongoOutputFormat.class);
+		} else {
+			MongoConfigUtil.setInputFormat(getConf(), MongoInputFormat.class);
+			MongoConfigUtil.setOutputFormat(getConf(), MongoOutputFormat.class);
+		}
+
+		MongoClientURIBuilder uriBuilder = ShardedDBURIBuilder();
+		uriBuilder.collection(&quot;stock&quot;, &quot;symbols&quot;);
+		MongoClientURI inputURI = uriBuilder.build();
+		uriBuilder.collection(&quot;stock&quot;, &quot;quotes&quot;);
+		MongoClientURI outputURI = uriBuilder.build();
+
+		MongoConfigUtil.setInputURI(getConf(), inputURI);
+		MongoConfigUtil.setOutputURI(getConf(), outputURI);
+
+		MongoConfigUtil.setMapper(getConf(), SymbolsMapper.class);
+		MongoConfigUtil.setReducer(getConf(), SymbolsReducer.class);
+
+		MongoConfigUtil.setMapperOutputKey(getConf(), Text.class);
+		MongoConfigUtil.setMapperOutputValue(getConf(), IntWritable.class);
+
+		MongoConfigUtil.setOutputKey(getConf(), IntWritable.class);
+		MongoConfigUtil.setOutputValue(getConf(), BSONWritable.class);
+	}
+</code></pre>
+
+<h2 id="conclusion:2f436210ad002633421227ccd5b7c970">Conclusion</h2>
+
+<p>This is very typical example when people need to read data from Mongo DB and process the data on Hadoop platform and then back the data to Mongo DB. Since there is very little instruction about this work, I just shared my idea on that.</p>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/MongoDBwithHadoop/" data-id="2f436210ad002633421227ccd5b7c970" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/MongoDBwithHadoop//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/code/DistributedMongoDB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Distributed MongoDB Configuration</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/code/SpringBoot/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Architecture Design on Social Music Search project</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/code\/MongoDBwithHadoop\/';
+    var disqus_title = 'How to Input and Output with Mongo DB Data on Hadoop Platform';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/code\/MongoDBwithHadoop\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#introduction:2f436210ad002633421227ccd5b7c970">Introduction</a></li>
+<li><a href="#procedure:2f436210ad002633421227ccd5b7c970">Procedure</a></li>
+<li><a href="#talk-is-cheap-show-me-the-code:2f436210ad002633421227ccd5b7c970">Talk is cheap, show me the code!</a>
+<ul>
+<li><a href="#access-to-mongo-db:2f436210ad002633421227ccd5b7c970">Access to Mongo DB</a></li>
+<li><a href="#build-our-own-mapper-and-reducer:2f436210ad002633421227ccd5b7c970">Build our own mapper and reducer!</a></li>
+<li><a href="#output-back-to-mongo-db:2f436210ad002633421227ccd5b7c970">Output back to Mongo DB</a></li>
+<li><a href="#the-overview-on-this-connector:2f436210ad002633421227ccd5b7c970">The overview on this connector:</a></li>
+</ul></li>
+<li><a href="#conclusion:2f436210ad002633421227ccd5b7c970">Conclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015<br>
+      Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

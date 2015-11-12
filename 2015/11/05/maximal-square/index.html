@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Maximal Square &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <meta property="og:title" content="Maximal Square" />
+<meta property="og:description" content="Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/05/maximal-square/" />
+
+
+<meta property="og:updated_time" content="2015-11-05T20:10:29-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Maximal Square">
+<meta itemprop="description" content="Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area.
+">
+
+
+<meta itemprop="dateModified" content="2015-11-05T20:10:29-07:00" />
+<meta itemprop="wordCount" content="233">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Maximal Square"/>
+<meta name="twitter:description" content="Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/05/maximal-square/">
+    <h1 class="article-title" itemprop="name">
+        Maximal Square
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-05 20:10:29 -0700 -0700" itemprop="datePublished">2015-11-05</time>
+            &middot;
+            233
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.iotopics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/dynamic%20programming">Dynamic Programming</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/matrix">Matrix</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Given a 2D binary matrix filled with 0&rsquo;s and 1&rsquo;s, find the largest square containing all 1&rsquo;s and return its area.</p>
+
+<h3 id="example:ec66fcdae0b3d39c08565d7dda8d8c5b">Example</h3>
+
+<p>For example, given the following matrix:</p>
+
+<pre><code>    1 0 1 0 0
+    1 0 1 1 1
+    1 1 1 1 1
+    1 0 0 1 0
+</code></pre>
+
+<p>Return <code>4</code>.</p>
+
+<h2 id="think:ec66fcdae0b3d39c08565d7dda8d8c5b">Think</h2>
+
+<ul>
+<li>Use itself as memorized array (modifying value directly on matrix)</li>
+<li>Ignore the top and left boundary</li>
+<li>If current point <code>[i][j]</code> is one, look up all three directions from <code>[i-1][j]</code>, <code>[i-1][j-1]</code> and <code>[i][j-1]</code> are not zero, get the minimum value from them so that the value plus one is the maximum length of square on current point.</li>
+<li>However, if one of three is zero, current point should keep zero or one</li>
+<li>Set a max value to track the max length.</li>
+<li>Don&rsquo;t forget make a square on final max result, since that result is just for length</li>
+</ul>
+
+<h2 id="solution:ec66fcdae0b3d39c08565d7dda8d8c5b">Solution</h2>
+
+<pre><code class="language-java">    /**
+     * @param matrix: a matrix of 0 and 1
+     * @return: an integer
+     */
+    public int maxSquare(int[][] matrix) {
+        if(matrix == null || matrix.length == 0)
+            return 0;
+        
+        int max = 0;
+        for(int i = 0; i &lt; matrix.length; i++) {
+            for(int j = 0; j &lt; matrix[i].length; j++) {
+                if(i != 0 &amp;&amp; j != 0 &amp;&amp; matrix[i][j]!=0 &amp;&amp; matrix[i-1][j] != 0 &amp;&amp; matrix[i][j-1] != 0 &amp;&amp; matrix[i-1][j-1] != 0) 
+                    matrix[i][j] = 1 + Math.min(matrix[i-1][j-1],Math.min(matrix[i-1][j],matrix[i][j-1]));
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        return max*max;
+    }
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/05/maximal-square/" data-id="ec66fcdae0b3d39c08565d7dda8d8c5b" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/05/maximal-square//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Palindrome Partitioning</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/11/06/house-robber/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">House Robber</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/05\/maximal-square\/';
+    var disqus_title = 'Maximal Square';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/05\/maximal-square\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#example:ec66fcdae0b3d39c08565d7dda8d8c5b">Example</a></li>
+</ul></li>
+<li><a href="#think:ec66fcdae0b3d39c08565d7dda8d8c5b">Think</a></li>
+<li><a href="#solution:ec66fcdae0b3d39c08565d7dda8d8c5b">Solution</a></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015<br>
+      Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1671 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Geek Think</title>
+    <link>http://xmruibi.github.io/post/</link>
+    <description>Recent content in Posts on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 20:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Alien Dictionary</title>
+      <link>http://xmruibi.github.io/2015/11/09/alien-dictionary/</link>
+      <pubDate>Mon, 09 Nov 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/alien-dictionary/</guid>
+      <description>
+
+&lt;p&gt;There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following words in dictionary,
+&lt;code&gt;[
+  &amp;quot;wrt&amp;quot;,
+  &amp;quot;wrf&amp;quot;,
+  &amp;quot;er&amp;quot;,
+  &amp;quot;ett&amp;quot;,
+  &amp;quot;rftt&amp;quot;
+]&lt;/code&gt;
+The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Note&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You may assume all letters are in lowercase.&lt;/li&gt;
+&lt;li&gt;If the order is invalid, return an empty string.&lt;/li&gt;
+&lt;li&gt;There may be multiple valid order of letters, return any one of them is fine.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical topological problem&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static String alienOrder(String[] words) {
+        // build up the node map, find node according to the char
+        HashMap&amp;lt;Character, Node&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        // iterate through all provided words
+        for (String str : words) {
+            // read each word and learn their order
+            map.put(str.charAt(0),
+                    map.containsKey(str.charAt(0)) ? map.get(str.charAt(0))
+                            : new Node(str.charAt(0)));
+            for (int i = 1; i &amp;lt; str.length(); i++) {
+                char cur = str.charAt(i);
+                // ignore the adjacent equal characters
+                if(cur == str.charAt(i-1))
+                    continue;
+                Node node = map.containsKey(cur) ? map.get(cur) : new Node(cur);
+                Node prev = map.get(str.charAt(i - 1));
+                // make current node indegree plus one only if the previous node doesn&#39;t have current node in its neighborhood list 
+                if (!prev.neighbors.contains(node) ) {
+                    node.indegree++;
+                    map.get(str.charAt(i - 1)).neighbors.add(node);
+                }
+                map.put(cur, node);
+            }
+        }
+
+        // find the node with zero indegree
+        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for (Node node : map.values())
+            if (node.indegree == 0)
+                queue.offer(node);
+        // build the final string,
+        StringBuilder sb = new StringBuilder();
+        // each time pop the node with zero indegree 
+        // reduce their neighbor&#39;s indegree and push node when it has zero indegree
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            sb.append(node.c);
+            map.remove(node.c);
+            for (Node nb : node.neighbors) {
+                nb.indegree--;
+                if (nb.indegree == 0 &amp;amp;&amp;amp; map.containsKey(nb.c))
+                    queue.offer(nb);
+            }
+        }
+        // if map has any entry means the cycle existed
+        if (map.size() &amp;gt; 0)
+            return &amp;quot;&amp;quot;;
+
+        return sb.toString();
+    }
+
+    private static class Node {
+        char c;
+        int indegree;
+        List&amp;lt;Node&amp;gt; neighbors;
+
+        public Node(char c) {
+            this.c = c;
+            this.indegree = 0;
+            this.neighbors = new ArrayList&amp;lt;&amp;gt;();
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Factor Combinations</title>
+      <link>http://xmruibi.github.io/2015/11/09/factor-combinations/</link>
+      <pubDate>Mon, 09 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/factor-combinations/</guid>
+      <description>
+
+&lt;p&gt;Numbers can be regarded as product of its factors. For example,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;8 = 2 x 2 x 2;
+  = 2 x 4.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Write a function that takes an integer n and return all possible combinations of its factors.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Each combination’s factors must be sorted ascending, for example: The factors of &lt;code&gt;2&lt;/code&gt; and &lt;code&gt;6&lt;/code&gt; is &lt;code&gt;[2, 6]&lt;/code&gt;, not &lt;code&gt;[6, 2]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You may assume that n is always positive.&lt;/p&gt;
+
+&lt;p&gt;Factors should be greater than 1 and less than n.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;input: &lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;37&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 6], [2, 2, 3], [3, 4] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;32&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 16], [2, 2, 8], [2, 2, 2, 4], [2, 2, 2, 2, 2], [2, 4, 4], [4, 8] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For input value &lt;code&gt;n&lt;/code&gt;, it has possible factors start from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;Sqrt(n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For every factor, we also calculate its factors, like: &lt;code&gt;16 -&amp;gt; 2, 8 -&amp;gt; 2, 2, 4 -&amp;gt; 2, 2, 2, 2, 2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; getFactors(int n) {
+        // use hashset to avoid replicate
+        Set&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                // make sure the elements are sorted
+                Collections.sort(each);
+                res.add(each);
+            }
+        }
+        return  new ArrayList&amp;lt;&amp;gt;(res);
+    }
+
+    private List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; helper(int n) {
+        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        // add it self which is also a factor
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        list.add(n);
+        res.add(list);
+
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                res.add(each);
+            }
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>3Sum Smaller</title>
+      <link>http://xmruibi.github.io/2015/11/09/3sum-smaller/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/3sum-smaller/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n integers nums and a target, find the number of index triplets i, j, k with 0 &amp;lt;= i &amp;lt; j &amp;lt; k &amp;lt; n that satisfy the condition &lt;code&gt;nums[i]&lt;/code&gt; + &lt;code&gt;nums[j]&lt;/code&gt; + &lt;code&gt;nums[k]&lt;/code&gt; &amp;lt; &lt;code&gt;target&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;example:ebe05d1f7e0fa5966fe3547434f35f35&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;given nums = &lt;code&gt;[-2, 0, 1, 3]&lt;/code&gt;, and target = &lt;code&gt;2&lt;/code&gt;.
+Return 2. Because there are two triplets which sums are less than &lt;code&gt;2&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[-2, 0, 1]
+[-2, 0, 3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:ebe05d1f7e0fa5966fe3547434f35f35&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set iterate from rear.&lt;/li&gt;
+&lt;li&gt;One tricky pattern:
+
+&lt;ul&gt;
+&lt;li&gt;When &lt;code&gt;nums[l] + nums[r] +nums[i] &amp;lt; target&lt;/code&gt;, all for combinations like: &lt;code&gt;nums[l] + nums[r-1] +nums[i] &amp;lt; target&lt;/code&gt;, &lt;code&gt;nums[l] + nums[r-2] +nums[i] &amp;lt; target&lt;/code&gt;, &amp;hellip;, &lt;code&gt;nums[l] + nums[l+1] +nums[i] &amp;lt; target&lt;/code&gt; are workable.&lt;/li&gt;
+&lt;li&gt;So result counter should directly add the &lt;code&gt;r - l&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;All in all, two cases:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nums[l] + nums[r] +nums[i] &amp;lt; target&lt;/code&gt;, add the cnt and move the &lt;code&gt;l&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nums[l] + nums[r] +nums[i] &amp;gt;= target&lt;/code&gt;, just move the &lt;code&gt;r&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;It is not very similar like binary search but still has kinda idea inside.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ebe05d1f7e0fa5966fe3547434f35f35&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static int threeSumSmaller(int[] nums, int target) {
+        if (nums == null || nums.length &amp;lt; 3) 
+            return 0;
+        Arrays.sort(nums);
+        int resCnt = 0;
+        for (int i = nums.length - 1; i &amp;gt; 1; i--) {
+            int one = nums[i];
+            int l = 0, r = i - 1;
+            while (l &amp;lt; r) {
+                if(one + nums[l] + nums[r] &amp;lt; target) {
+                    resCnt += (r - l);
+                    l++;
+                }else
+                    r--;
+            }
+        }
+        return resCnt;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Delete Digits</title>
+      <link>http://xmruibi.github.io/2015/11/09/delete-digits/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/delete-digits/</guid>
+      <description>
+
+&lt;p&gt;Given string A representative a positive integer which has N digits, remove any k digits of the number, the remaining digits are arranged according to the original order to become a new positive integer.&lt;/p&gt;
+
+&lt;p&gt;Find the smallest integer after remove k digits.&lt;/p&gt;
+
+&lt;p&gt;N &amp;lt;= &lt;code&gt;240&lt;/code&gt; and k &amp;lt;= N,&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given an integer A = &lt;code&gt;&amp;quot;178542&amp;quot;&lt;/code&gt;, k = &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;return a string &lt;code&gt;&amp;quot;12&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup a Stack.&lt;/li&gt;
+&lt;li&gt;Iterate through input number&lt;/li&gt;
+&lt;li&gt;If current digit is less than the peek of stack, pop out the stack until the peek is not larger than current digit.&lt;/li&gt;
+&lt;li&gt;Push current digit&lt;/li&gt;
+&lt;li&gt;Limit the pop out times by K. That means the pop action is regarded as remove digit. So when the pop out times is not less than K, keep push the digit even if it is less than peek element.&lt;/li&gt;
+&lt;li&gt;Rebuild the output string by reading elements in stack.&lt;/li&gt;
+&lt;li&gt;Two corner case should be careful:
+
+&lt;ul&gt;
+&lt;li&gt;When the iterate through digits finished, the remove(pop out) counter still less than K, we should ignore the first  &lt;code&gt;k-count&lt;/code&gt; element in stack.&lt;/li&gt;
+&lt;li&gt;When the output result has the zero on first element, remove the zero.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     *@param A: A positive integer which has N digits, A is a string.
+     *@param k: Remove k digits.
+     *@return: A string
+     */
+    public String DeleteDigits(String A, int k) {
+        if(A == null || A.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // setup stack
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        // read digits from input string
+        int removeCnt = 0;
+        for(char c : A.toCharArray()) {
+            int cur = c - &#39;0&#39;;
+            // pop out the digit larger than current digit
+            while(!stack.isEmpty() &amp;amp;&amp;amp; removeCnt &amp;lt; k &amp;amp;&amp;amp; stack.peek() &amp;gt; cur) {
+                stack.pop();
+                removeCnt ++;
+            }
+            stack.push(cur);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()) {
+            // corner case one:
+            if(removeCnt &amp;lt; k) {
+                stack.pop();
+                removeCnt ++;
+            }else
+                sb.insert(0, &amp;quot;&amp;quot; + stack.pop());
+        }
+        // corner case two:
+        while(sb.charAt(0) == &#39;0&#39;)
+            sb.deleteCharAt(0);
+        
+        return sb.toString();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Palindrome Permutation</title>
+      <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a string, determine if a permutation of the string could form a palindrome.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;example:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;code&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;&amp;quot;carerac&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
+- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
+- If the length is odd. One and only one character could appear odd times.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean canPermutePalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		for (char c : s.toCharArray())
+			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+
+		int tolerent = 0;
+		for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+			if (entry.getValue() % 2 != 0) {
+				tolerent++;
+			}
+		}
+		if (s.length() % 2 != 0)
+			return tolerent == 1;
+		else
+			return tolerent == 0;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
+Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
+&lt;li&gt;Address the case when the length is odd
+
+&lt;ul&gt;
+&lt;li&gt;Record the character with odd frequency&lt;/li&gt;
+&lt;li&gt;Initialize the generation String with the Odd character&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
+        HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if (s == null || s.length() == 0)
+            return new ArrayList&amp;lt;String&amp;gt;(res);
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (char c : s.toCharArray())
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        
+        // check if it is odd length, increase the tolerance when it is odd length
+        int tolerent = 0;
+        if (s.length() % 2 != 0)
+            tolerent++;
+        
+        // record the odd item to set as the base of generate String
+        char odd = &#39;\u0000&#39;;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                if (tolerent &amp;gt; 0) {
+                    tolerent--;
+                    odd = entry.getKey(); // set it
+                } else
+                    return new ArrayList&amp;lt;String&amp;gt;(res);
+            }
+        }
+        // set the base String when the odd case
+        String cur = &amp;quot;&amp;quot;;
+        if (odd != &#39;\u0000&#39;) {
+            map.put(odd, map.get(odd) - 1);
+            if (map.get(odd) == 0)
+                map.remove(odd);
+            cur = &amp;quot;&amp;quot; + odd;
+        }
+        
+        // generate the palindrome
+        helper(res, map, cur, s);
+        return new ArrayList&amp;lt;String&amp;gt;(res);
+    }
+
+    private static void helper(Set&amp;lt;String&amp;gt; res,
+            HashMap&amp;lt;Character, Integer&amp;gt; map, String cur, String origin) {
+        if (map.size() == 0) {
+            res.add(new String(cur));
+            return;
+        }
+
+        for (int i = 0; i &amp;lt; origin.length(); i++) {
+            char c = origin.charAt(i);
+            if (!map.containsKey(c))
+                continue;
+            cur = (c + cur + c);
+            map.put(c, map.get(c) - 2);
+            if (map.get(c) == 0)
+                map.remove(c);
+            helper(res, map, cur, origin);
+            cur = cur.substring(1, cur.length() - 1);
+            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Graph Valid Tree</title>
+      <link>http://xmruibi.github.io/2015/11/09/graph-valid-tree/</link>
+      <pubDate>Mon, 09 Nov 2015 18:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/graph-valid-tree/</guid>
+      <description>
+
+&lt;p&gt;Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes), write a function to check whether these edges make up a valid tree.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:194499d790c6736e277a571e18e70b4f&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given n = &lt;code&gt;5&lt;/code&gt; and edges = &lt;code&gt;[[0, 1], [0, 2], [0, 3], [1, 4]]&lt;/code&gt;, return true.
+Given n = &lt;code&gt;5&lt;/code&gt; and edges = &lt;code&gt;[[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:194499d790c6736e277a571e18e70b4f&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;h5 id=&#34;the-definition-of-tree-on-wikipedia:194499d790c6736e277a571e18e70b4f&#34;&gt;The definition of tree on Wikipedia:&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;a tree is an undirected graph in which any two vertices are connected by exactly one path. In other words, any connected graph without simple cycles is a tree.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h6 id=&#34;note-you-can-assume-that-no-duplicate-edges-will-appear-in-edges-since-all-edges-are-undirected-0-1-is-the-same-as-1-0-and-thus-will-not-appear-together-inedges:194499d790c6736e277a571e18e70b4f&#34;&gt;Note: You can assume that no duplicate edges will appear in edges. Since all edges are undirected, &lt;code&gt;[0, 1]&lt;/code&gt; is the same as &lt;code&gt;[1, 0]&lt;/code&gt; and thus will not appear together inedges.&lt;/h6&gt;
+
+&lt;h2 id=&#34;think:194499d790c6736e277a571e18e70b4f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Given n = &lt;code&gt;5&lt;/code&gt; and edges = &lt;code&gt;[[0, 1], [1, 2], [3, 4]]&lt;/code&gt;, what should your return? Is this case a valid tree?&lt;/p&gt;
+
+&lt;p&gt;No, isolate node shouldn&amp;rsquo;t be allowed.&lt;/p&gt;
+
+&lt;p&gt;Design a Node class:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    private class Node {
+		int val;
+		List&amp;lt;Integer&amp;gt; neighbors;
+
+		public Node(int val) {
+			this.val = val;
+			this.neighbors = new ArrayList&amp;lt;&amp;gt;();
+		}
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-bfs:194499d790c6736e277a571e18e70b4f&#34;&gt;Solution #BFS&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean validTree(int n, int[][] edges) {
+		Node[] nodes = new Node[n];
+		for (int i = 0; i &amp;lt; nodes.length; i++)
+			nodes[i] = new Node(i);
+		for (int[] edge : edges) {
+			nodes[edge[0]].neighbors.add(edge[1]);
+			nodes[edge[1]].neighbors.add(edge[0]);
+		}
+
+		boolean[] visited = new boolean[n];
+		Queue&amp;lt;Integer&amp;gt; queue = new LinkedList&amp;lt;Integer&amp;gt;();
+		queue.offer(0);
+
+		while (!queue.isEmpty()) {
+			int vertexId = queue.poll();
+			// touch the cycle
+			if (visited[vertexId]) 
+				return false;
+			
+			visited[vertexId] = true;
+			for (int neighbor : nodes[vertexId].neighbors) {
+				if (!visited[neighbor])
+					queue.offer(neighbor);
+			}
+		}
+
+		// Check the isolate
+		for (boolean v : visited) {
+			if (!v)
+				return false;
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-dfs:194499d790c6736e277a571e18e70b4f&#34;&gt;Solution #DFS&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean validTreeDFS(int n, int[][] edges) {
+        Node[] nodes = new Node[n];
+        for (int i = 0; i &amp;lt; nodes.length; i++)
+            nodes[i] = new Node(i);
+        for (int[] edge : edges) {
+            nodes[edge[0]].neighbors.add(edge[1]);
+            nodes[edge[1]].neighbors.add(edge[0]);
+        }
+
+        // all node should connected from zero
+        boolean[] visited = new boolean[n];
+        if (!dfsHelper(nodes, visited, 0, -1))
+            return false;
+        
+        // Check the isolate
+        for (boolean v : visited) {
+            if (!v)
+                return false;
+        }
+        return true;
+    }
+
+    private boolean dfsHelper(Node[] nodes, boolean[] visited, int idx,
+            int parentIdx) {
+        if (visited[idx])
+            return false;
+        visited[idx] = true;
+        for (int i = 0; i &amp;lt; nodes[idx].neighbors.size(); i++) {
+            if (nodes[idx].neighbors.get(i) == parentIdx)
+                continue;
+            if (!dfsHelper(nodes, visited, nodes[idx].neighbors.get(i), idx))
+                return false;
+        }
+        return true;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Count Univalue Subtrees</title>
+      <link>http://xmruibi.github.io/2015/11/09/count-univalue-subtrees/</link>
+      <pubDate>Mon, 09 Nov 2015 13:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/count-univalue-subtrees/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree, count the number of uni-value subtrees.&lt;/p&gt;
+
+&lt;p&gt;A Uni-value subtree means all nodes of the subtree have the same value.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:6e3952f24014398a5ad72c420669f6a7&#34;&gt;Example:&lt;/h3&gt;
+
+&lt;p&gt;Given binary tree,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    5
+   / \
+  1   5
+ / \   \
+5   5   5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:6e3952f24014398a5ad72c420669f6a7&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical Tree problem with recursion idea&lt;/li&gt;
+&lt;li&gt;Four cases in recursion:
+
+&lt;ul&gt;
+&lt;li&gt;Leaf node: if true case and increase the counter&lt;/li&gt;
+&lt;li&gt;Node with on one child:
+
+&lt;ul&gt;
+&lt;li&gt;Left Only: check return value from left child and value of left child should be the same as current node.&lt;/li&gt;
+&lt;li&gt;Right Only: check return value from right child and value of right child should be the same as current node.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Node with two children: check return value from both side and both child node value should be the same as current node.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:6e3952f24014398a5ad72c420669f6a7&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class CountUnivalueSubtrees {
+
+    public int countUnivalSubtrees(TreeNode root) {
+        if (root == null)
+            return 0;
+        int[] cnt = new int[1];
+        helper(root, cnt);
+        return cnt[0];
+    }
+
+    private boolean helper(TreeNode node, int[] cnt) {
+        if (node.left == null &amp;amp;&amp;amp; node.right == null) {
+            cnt[0]++;
+            return true;
+        } else if (node.left == null) {
+            if (helper(node.right, cnt) &amp;amp;&amp;amp; node.right.val == node.val) {
+                cnt[0]++;
+                return true;
+            } else
+                return false;
+        } else if (node.right == null) {
+            if (helper(node.left, cnt) &amp;amp;&amp;amp; node.left.val == node.val) {
+                cnt[0]++;
+                return true;
+            } else
+                return false;
+        } else {
+            if (helper(node.left, cnt) &amp;amp;&amp;amp; helper(node.right, cnt)
+                    &amp;amp;&amp;amp; node.left.val == node.val &amp;amp;&amp;amp; node.right.val == node.val) {
+                cnt[0]++;
+                return true;
+            } else
+                return false;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Closest Binary Search Tree Value</title>
+      <link>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</guid>
+      <description>
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;note:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;Given target value is a floating point.
+You are guaranteed to have only one unique value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClosestBSTValue {
+	double min = Double.MAX_VALUE;
+	TreeNode closest = null;
+
+	public int closestValue(TreeNode root, double target) {
+		if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+		helper(root, target);
+		return closest.val;
+	}
+
+	private void helper(TreeNode node, double target) {
+		if (node == null)
+			return;
+		if (Math.abs((double) node.val - target) &amp;lt; min) {
+			min = Math.abs((double) node.val - target);
+			closest = node;
+		}
+		
+		if((double) node.val &amp;gt; target) {
+			helper(node.left, target);
+		}else{
+			helper(node.right, target);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find &lt;strong&gt;k values&lt;/strong&gt; in the BST that are closest to the target.&lt;/p&gt;
+
+&lt;h4 id=&#34;note-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Given target value is a floating point.&lt;/li&gt;
+&lt;li&gt;You may assume &lt;code&gt;k&lt;/code&gt; is always valid, that is:&lt;code&gt;k ≤ total&lt;/code&gt; nodes.&lt;/li&gt;
+&lt;li&gt;You are guaranteed to have only one unique set of &lt;code&gt;k&lt;/code&gt; values in the BST that are closest to the target.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;follow-up:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Follow up&lt;/h4&gt;
+
+&lt;p&gt;Assume that the BST is balanced, could you solve it in less than $$O(n)$$ runtime (where n = total nodes)?&lt;/p&gt;
+
+&lt;h4 id=&#34;hint:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Hint&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider implement these two helper functions:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;getPredecessor(N)&lt;/code&gt;, which returns the next smaller node to N.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getSuccessor(N)&lt;/code&gt;, which returns the next larger node to N.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Try to assume that each node has a parent pointer, it makes the problem much easier.&lt;/li&gt;
+&lt;li&gt;Without parent pointer we just need to keep track of the path from the root to the current node using a stack.&lt;/li&gt;
+&lt;li&gt;You would need two stacks to track the path in finding predecessor and successor node separately.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;think-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Think #1&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The straight-forward solution would be to use a &lt;strong&gt;heap&lt;/strong&gt;. We just treat the BST just as a usual array and do a in-order traverse. Then we compare the current element with the minimum element in the heap, the same as top k problem.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution #1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private PriorityQueue&amp;lt;Integer&amp;gt; minPQ;
+    private int count = 0;
+    public List&amp;lt;Integer&amp;gt; closestKValues(TreeNode root, double target, int k) {
+        minPQ = new PriorityQueue&amp;lt;;Integer&amp;gt;(k);
+        List&amp;lt;Integer&amp;gt; result = new ArrayList&amp;lt;Integer&amp;gt;();
+         
+        inorderTraverse(root, target, k);
+         
+        // Dump the pq into result list
+        for (Integer elem : minPQ) {
+            result.add(elem);
+        }
+         
+        return result;
+    }
+     
+    private void inorderTraverse(TreeNode root, double target, int k) {
+        if (root == null) {
+            return;
+        }
+         
+        inorderTraverse(root.left, target, k);
+         
+        if (count &amp;lt; k) {
+            minPQ.offer(root.val);
+        } else {
+            if (Math.abs((double) root.val - target) &amp;amp;lt; Math.abs((double) minPQ.peek() - target)) {
+                minPQ.poll();
+                minPQ.offer(root.val);
+            }
+        }
+        count++;
+         
+        inorderTraverse(root.right, target, k);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Verify Preorder Sequence in Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given an array of numbers, verify whether it is the correct preorder traversal sequence of a binary search tree.&lt;/p&gt;
+
+&lt;p&gt;You may assume each number in the sequence is unique.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;Could you do it using only constant space complexity?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The first element should be the root node.&lt;/li&gt;
+&lt;li&gt;Find the bound that all previous element are small than root value by checking the first larger element.&lt;/li&gt;
+&lt;li&gt;So the left of this bound should be the left tree of root, and the rest of it should be the right tree of root.&lt;/li&gt;
+&lt;li&gt;Check left and right recursively.&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(n^2)$$, Space Complexity: $$O(n)$$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorder(int[] preorder) {
+		if (preorder == null || preorder.length &amp;lt;= 1)
+			return true;
+		return helper(preorder, 0, preorder.length - 1);
+	}
+
+	private boolean helper(int[] preorder, int l, int r) {
+		int root = preorder[l];
+		int divide = l;
+		for (int i = l + 1; i &amp;lt;= r; i++) {
+			if (preorder[i] &amp;lt; root &amp;amp;&amp;amp; divide != l)
+				return false;
+			else if (preorder[i] &amp;gt; root &amp;amp;&amp;amp; divide != l)
+				divide = i;
+		}
+		return helper(preorder, l + 1, divide - 1)
+				&amp;amp;&amp;amp; helper(preorder, divide, r);
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Preorder in BST has a regular pattern:
+
+&lt;ul&gt;
+&lt;li&gt;When going to left node, it must be a descending order&lt;/li&gt;
+&lt;li&gt;When going to right node, it should be a ascending order&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Setting a stack, to store the previous path. Iterate throught the array:
+
+&lt;ul&gt;
+&lt;li&gt;When it getting smaller element make it just push into stack&lt;/li&gt;
+&lt;li&gt;When it find the larger element (larger than the peek of stack), pop the stack and set the minimum limit as the value of popped element.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(n)$$, Space Complexity: $$O(n)$$&lt;/li&gt;
+&lt;li&gt;For Example, 10 5 2 7 6 8 12 11 -&amp;gt; BST&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;          10
+        /    \
+      5       12
+     / \     /
+    2   7   11
+       / \
+      6   8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The procedure in Stack:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;10 -&amp;gt; 10 5 -&amp;gt; 10 5 2 -&amp;gt; 10 7 (min=5) -&amp;gt; 10 7 6 (min = 5) -&amp;gt; 10 8 (min = 7)
+-&amp;gt; 12 (min = 10) -&amp;gt; 12 11 (min = 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-2:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorderII(int[] preorder) {
+
+		Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;Integer&amp;gt;();
+		int min = Integer.MIN_VALUE;
+		for (int num : preorder) {
+			if (num &amp;lt; min)
+				return false;
+			while (!stack.isEmpty() &amp;amp;&amp;amp; num &amp;gt; stack.peek())
+				min = stack.pop();
+			stack.push(num);
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Optimized on the #2 solution&lt;/li&gt;
+&lt;li&gt;Use a pointer to replace the stack peek position.&lt;/li&gt;
+&lt;li&gt;指针模拟栈&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorderII(int[] preorder) {
+
+        int idx = -1;
+        int min = Integer.MIN_VALUE;
+        for (int num : preorder) {
+            if (num &amp;lt; min)
+                return false;
+            while (idx &amp;gt;= 0 &amp;amp;&amp;amp; num &amp;gt; preorder[idx]) {
+                min = preorder[idx--];
+            }
+            preorder[++idx] = num;
+        }
+        return true;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Group Shifted Strings</title>
+      <link>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</guid>
+      <description>
+
+&lt;p&gt;Given a string, we can “shift” each of its letter to its successive letter, for example: &lt;code&gt;“abc”&lt;/code&gt; -&amp;gt; &lt;code&gt;“bcd”&lt;/code&gt;. We can keep “shifting” which forms the sequence:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot; -&amp;gt; &amp;quot;bcd&amp;quot; -&amp;gt; ... -&amp;gt; &amp;quot;xyz&amp;quot;&lt;/code&gt;
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;given: [&amp;ldquo;abc&amp;rdquo;, &amp;ldquo;bcd&amp;rdquo;, &amp;ldquo;acef&amp;rdquo;, &amp;ldquo;xyz&amp;rdquo;, &amp;ldquo;az&amp;rdquo;, &amp;ldquo;ba&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;z&amp;rdquo;], Return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;abc&amp;quot;,&amp;quot;bcd&amp;quot;,&amp;quot;xyz&amp;quot;],
+  [&amp;quot;az&amp;quot;,&amp;quot;ba&amp;quot;],
+  [&amp;quot;acef&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;z&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##Note
+For the return value, each inner list’s elements must follow the lexicographic order.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is a regular pattern: if two words are shifted, the distance between two adjacent characters are the same.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    2   3        2   3
+    /\ /\        /\ /\
+   a  c  f - &amp;gt;  e  g  j 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;So all we need to do is figure out the distance between each character in each word and make these distance as a code to represent the word.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class GroupShiftedString {
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; groupStrings(String[] strings) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (String str : strings) {
+            String code = getCode(str);
+            List&amp;lt;String&amp;gt; val;
+            if (!map.containsKey(code)) {
+                val = new ArrayList&amp;lt;&amp;gt;();
+            } else {
+                val = map.get(code);
+            }
+            val.add(str);
+            map.put(code, val);
+        }
+
+        for (Map.Entry&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; entry : map.entrySet()) {
+            List&amp;lt;String&amp;gt; val = entry.getValue();
+            Collections.sort(val);
+            res.add(val);
+        }
+        return res;
+    }
+
+    private String getCode(String s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(&amp;quot;#&amp;quot;);
+        for (int i = 1; i &amp;lt; s.length(); i++) {
+            int tmp = ((s.charAt(i) - s.charAt(i - 1)) + 26) % 26;
+            sb.append(tmp).append(&amp;quot;#&amp;quot;);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shortest Word Distance</title>
+      <link>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</guid>
+      <description>
+
+&lt;p&gt;Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h3 id=&#34;example:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;“coding”&lt;/code&gt;, word2 = &lt;code&gt;“practice”&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The problem can be solved by one-pass of the array.&lt;/li&gt;
+&lt;li&gt;Iterate through the array, use two pointers pointing to the index of the word1 and word2, maintain the minimum distance.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2))
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I.The only difference is now you are given the list of words and your method will be called repeatedly many times with different parameters. How would you optimize it?
+Design a class which receives a list of words in the constructor, and implements a method that takes two words word1 and word2 and return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;practice&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.&lt;/li&gt;
+&lt;li&gt;Save the word and its indexes as key and value in constructor.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ShortestWordDistance {
+    // here is thread safe, since only constructor contains writing method
+    private final HashMap&amp;lt;String, List&amp;lt;Integer&amp;gt;&amp;gt; map;
+
+	public ShortestWordDistance(String[] words) {
+		map = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; words.length; i++) {
+			List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+			if (map.containsKey(words[i]))
+				list = map.get(words[i]);
+			list.add(i);
+			map.put(words[i], list);
+		}
+	}
+
+	public int shortestDistanceII(String word1, String word2) {
+		int min = Integer.MAX_VALUE;
+		if (!map.containsKey(word1) || !map.containsKey(word2))
+			return min;
+		for (int i : map.get(word1)) {
+			for (int j : map.get(word2)) {
+				min = Math.min(min, Math.abs(i - j));
+			}
+		}
+		return min;
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I. The only difference is &lt;strong&gt;now word1 could be the same as word2&lt;/strong&gt;.
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+word1 and word2 may be the same and they represent two individual words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Most code should remain the same as the Problem I. But need to deal with the situation that word1 and word2 are the same.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w1Idx&lt;/code&gt; always record the index when &lt;code&gt;word[i].equals(word1)&lt;/code&gt; but &lt;code&gt;w2Idx&lt;/code&gt; should be assigned as the value from &lt;code&gt;w1Idx&lt;/code&gt; when &lt;code&gt;word1 == word2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2)) // else if to avoid w2Idx be recorded whrn word1==word2
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1 &amp;amp;&amp;amp; w1Idx != w2Idx){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+			 if(word2.equals(word1))
+			    w2Idx = w1Idx; // update previous index record
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Strobogrammatic Number</title>
+      <link>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</link>
+      <pubDate>Sun, 08 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</guid>
+      <description>
+
+&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;Write a function to determine if a number is strobogrammatic. The number is represented as a string.&lt;/p&gt;
+
+&lt;p&gt;For example, the numbers &lt;code&gt;&amp;quot;69&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;88&amp;quot;&lt;/code&gt;, and &lt;code&gt;&amp;quot;818&amp;quot;&lt;/code&gt; are all strobogrammatic.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Strobogrammatic {
+	public boolean isStrobogrammatic(String num) {
+		if (num == null || num.length() == 0)
+			return true;
+		int l = 0, r = num.length() - 1;
+		while (l &amp;lt; r) {
+			if (isEqual(num.charAt(l), num.charAt(r))) {
+				l++;
+				r--;
+			} else
+				return false;
+		}
+		return true;
+	}
+
+	private boolean isEqual(char l, char r) {
+		if ((l == &#39;9&#39; &amp;amp;&amp;amp; r == &#39;6&#39;) || (l == &#39;6&#39; &amp;amp;&amp;amp; r == &#39;9&#39;)
+				|| (l == &#39;1&#39; &amp;amp;&amp;amp; r == &#39;1&#39;) || (l == &#39;8&#39; &amp;amp;&amp;amp; r == &#39;8&#39;)
+				|| (l == &#39;0&#39; &amp;amp;&amp;amp; r == &#39;0&#39;))
+			return true;
+		else
+			return false;
+	}
+	
+    // Use HashMap
+	public boolean isStrobogrammatic(String num) {
+        if(num == null || num.length() == 0) {
+            return true;
+        }
+         
+        Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;0&#39;, &#39;0&#39;);
+        map.put(&#39;1&#39;, &#39;1&#39;);
+        map.put(&#39;8&#39;, &#39;8&#39;);
+        map.put(&#39;6&#39;, &#39;9&#39;);
+        map.put(&#39;9&#39;, &#39;6&#39;);
+         
+        int lo = 0;
+        int hi = num.length() - 1;
+         
+        while (lo &amp;lt;= hi) {
+            char c1 = num.charAt(lo);
+            char c2 = num.charAt(hi);
+             
+            if (!map.containsKey(c1) || map.get(c1) != c2) {
+                return false;
+            }
+             
+            lo++;
+            hi--;
+        }
+         
+        return true;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down). Find all strobogrammatic numbers that are of length = n.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Given n = 2, return &lt;code&gt;[&amp;quot;11&amp;quot;,&amp;quot;69&amp;quot;,&amp;quot;88&amp;quot;,&amp;quot;96&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical backtracking to generate something question&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static List&amp;lt;String&amp;gt; findStrobogrammatic(int n) {
+        Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;0&#39;, &#39;0&#39;);
+        map.put(&#39;1&#39;, &#39;1&#39;);
+        map.put(&#39;8&#39;, &#39;8&#39;);
+        map.put(&#39;6&#39;, &#39;9&#39;);
+        map.put(&#39;9&#39;, &#39;6&#39;);
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        // two cases: even or odd
+        if(n%2==0)
+        		generate(res, map, &amp;quot;&amp;quot;, n);
+        else{
+            // the central digit can be any number
+        	for(int i = 0; i &amp;lt;= 9; i++)
+        		generate(res, map, &amp;quot;&amp;quot;+i, n);
+        }
+        return res;
+	}
+	
+	private static void generate(List&amp;lt;String&amp;gt; res, Map&amp;lt;Character, Character&amp;gt; map, String cur, int n) {
+		if(cur.length() == n) {
+			res.add(new String(cur));
+			return;
+		}
+		
+		for(Map.Entry&amp;lt;Character, Character&amp;gt; entry : map.entrySet()) {
+			String origin = new String(cur);
+			cur = entry.getKey() + cur + entry.getValue();
+			generate(res, map, cur, n);
+			cur = origin;
+		}
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).&lt;/p&gt;
+
+&lt;p&gt;Write a function to count the total strobogrammatic numbers that exist in the range of low &amp;lt;= num &amp;lt;= high.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given low = &amp;ldquo;50&amp;rdquo;, high = &amp;ldquo;100&amp;rdquo;, return 3. Because 69, 88, and 96 are three strobogrammatic numbers.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Because the range might be a large number, the low and high numbers are represented as string.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-2:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static int strobogrammaticInRange(String low, String high) {
+		Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		map.put(&#39;0&#39;, &#39;0&#39;);
+		map.put(&#39;1&#39;, &#39;1&#39;);
+		map.put(&#39;8&#39;, &#39;8&#39;);
+		map.put(&#39;6&#39;, &#39;9&#39;);
+		map.put(&#39;9&#39;, &#39;6&#39;);
+		int[] cnt = new int[1];
+		for (int n = low.length(); n &amp;lt;= high.length(); n++) {
+			if (n % 2 == 0)
+				generateII(cnt, map, &amp;quot;&amp;quot;, n, low, high);
+			else {
+				for (int i = 0; i &amp;lt;= 9; i++)
+					generateII(cnt, map, &amp;quot;&amp;quot; + i, n, low, high);
+			}
+		}
+		return cnt[0];
+	}
+
+	private static void generateII(int[] cnt,
+			Map&amp;lt;Character, Character&amp;gt; map, String cur, int n, String low,
+			String high) {
+		if (cur.length() == n) {
+			if (cur.charAt(0) != &#39;0&#39; &amp;amp;&amp;amp; compare(low, cur) &amp;lt; 0
+					&amp;amp;&amp;amp; compare(cur, high) &amp;lt; 0)
+				cnt[0]++;
+			return;
+		}
+
+		for (Map.Entry&amp;lt;Character, Character&amp;gt; entry : map.entrySet()) {
+			String origin = new String(cur);
+			cur = entry.getKey() + cur + entry.getValue();
+			generateII(cnt, map, cur, n, low, high);
+			cur = origin;
+		}
+	}
+
+	private static int compare(String s1, String s2) {
+		return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Maximum Subarray III</title>
+      <link>http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/</link>
+      <pubDate>Sat, 07 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum.&lt;/p&gt;
+
+&lt;p&gt;The number in each subarray should be contiguous.&lt;/p&gt;
+
+&lt;p&gt;Return the largest sum.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:2e2858aca2ee4005ca49c4e241c8e7cd&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[-1,4,-2,3,-2,3]&lt;/code&gt;, k=&lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;8&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:2e2858aca2ee4005ca49c4e241c8e7cd&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The subarray should contain at least one number&lt;/p&gt;
+
+&lt;h2 id=&#34;think:2e2858aca2ee4005ca49c4e241c8e7cd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;State: &lt;code&gt;memo[k][i]&lt;/code&gt; means the max subarray sum value from index 0 to i-1 with taken k subarrays&lt;/li&gt;
+&lt;li&gt;Since &lt;code&gt;k&lt;/code&gt; is the amount of subarray, so at least we have to take &lt;code&gt;k&lt;/code&gt; elements in array&lt;/li&gt;
+&lt;li&gt;Initilize with two case:
+
+&lt;ul&gt;
+&lt;li&gt;Taken first &lt;code&gt;k&lt;/code&gt; elements, each element is a subarray, so we only consider first kth element.&lt;/li&gt;
+&lt;li&gt;Taken only one subarray, with two cases: start from previous to current  or start from itself.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;For the rest of elements, consider two cases:
+
+&lt;ul&gt;
+&lt;li&gt;Taken from the previous element with no subarray amount increase (&lt;code&gt;memo[k][i-1] + current element&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Taken from current element but increase &lt;code&gt;k&lt;/code&gt; so &lt;code&gt;memo[k-1][n] + current element&lt;/code&gt;, however, here &lt;code&gt;n&lt;/code&gt; can be any number from  &lt;code&gt;k-1&lt;/code&gt; to &lt;code&gt;current index - 1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:2e2858aca2ee4005ca49c4e241c8e7cd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @param k: An integer denote to find k non-overlapping subarrays
+     * @return: An integer denote the sum of max k non-overlapping subarrays
+     */
+    public int maxSubArray(ArrayList&amp;lt;Integer&amp;gt; nums, int k) {
+        
+        // like backpack, memo[k][i] means the max value from index 0 to i-1 with taken k subarray 
+        int[][] memo = new int[k+1][nums.size()];
+        
+        // count previous kth num, which means the each item as a subarray
+        for(int i = 1; i&amp;lt;= k; i++) {
+            int sum = 0;
+            for(int j = 0; j &amp;lt; i; j++) {
+                sum += nums.get(j);
+            }
+            memo[i][i-1] = sum;
+        }
+        
+        // when k = 1, calculate the max value has two choices:
+        // 1) max value from previous index (also come from two choices) and current index
+        // 2) just start from current index
+        for(int i = 1; i &amp;lt; nums.size(); i++) {
+            memo[1][i] = Math.max(memo[1][i-1] + nums.get(i), nums.get(i));
+        }
+        
+        // also has two cases: 
+        // 1) continous get from previous index to current
+        // 2) not continuous but we have to scan each index between current and (k-1) position 
+        for(int subarr = 2; subarr &amp;lt;= k; subarr++) {
+            for(int j = subarr; j &amp;lt; nums.size(); j++) {
+                // 1) continous get so directly add current number
+                memo[subarr][j] =  memo[subarr][j-1] + nums.get(j);
+                // 2) resume in previous index from subarr - 2 (one more minus for index)
+                for(int s = subarr - 2; s &amp;lt; j; s++) {
+                    memo[subarr][j] = Math.max(memo[subarr][j], memo[subarr-1][s] + nums.get(j));
+                }
+            }
+        }
+        
+        // pass through all case from k-1 to array length
+        int max = Integer.MIN_VALUE;
+        for(int i = k-1; i &amp;lt; nums.size(); i++) {
+            max = Math.max(max, memo[k][i]);
+        }
+        return max;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Paint House</title>
+      <link>http://xmruibi.github.io/2015/11/07/paint-house/</link>
+      <pubDate>Sat, 07 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/07/paint-house/</guid>
+      <description>
+
+&lt;h2 id=&#34;paint-fence:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Paint Fence&lt;/h2&gt;
+
+&lt;p&gt;There is a fence with &lt;code&gt;n&lt;/code&gt; posts, each post can be painted with one of the &lt;code&gt;k&lt;/code&gt; colors.&lt;/p&gt;
+
+&lt;p&gt;You have to paint all the posts such that &lt;strong&gt;no more than two adjacent fence posts&lt;/strong&gt; have the same color.&lt;/p&gt;
+
+&lt;p&gt;Return the total number of ways you can paint the fence.&lt;/p&gt;
+
+&lt;h4 id=&#34;note:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;n&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; are non-negative integers.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two cases:
+
+&lt;ul&gt;
+&lt;li&gt;If &lt;code&gt;[n-1] == [n]&lt;/code&gt;, &lt;code&gt;[n]&lt;/code&gt; has &lt;code&gt;1&lt;/code&gt; choices&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[n-1] != [n]&lt;/code&gt;, &lt;code&gt;[n]&lt;/code&gt; has &lt;code&gt;k-1&lt;/code&gt; choices with consider the result from both &lt;code&gt;[n-2] == [n-1]&lt;/code&gt; OR &lt;code&gt;[n-2] != [n-1]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int numWays(int n, int k) {  
+        if(n == 0 || k == 0)  
+            return 0;  
+        int same = k;
+        if(n == 1)
+            return same;
+        int noSame = k*(k-1);
+        for(int i = 2; i &amp;lt; n; i++) {
+            int tmp = noSame;
+            noSame = (same + noSame) * (k-1);
+            same = tmp * 1;
+        }
+        return noSame + same;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;paint-house:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Paint House&lt;/h2&gt;
+
+&lt;p&gt;There are a row of n houses, each house can be painted with one of the three colors: &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;blue&lt;/code&gt; or &lt;code&gt;green&lt;/code&gt;. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.&lt;/p&gt;
+
+&lt;p&gt;The cost of painting each house with a certain color is represented by a &lt;code&gt;n x 3&lt;/code&gt; cost matrix. For example, &lt;code&gt;costs[0][0]&lt;/code&gt; is the cost of painting house 0 with color red; &lt;code&gt;costs[1][2]&lt;/code&gt; is the cost of painting house 1 with color green, and so on&amp;hellip; Find the minimum cost to paint all houses.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up-2-colors-k-colors:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Follow Up: 2 Colors -&amp;gt; K Colors&lt;/h3&gt;
+
+&lt;p&gt;There are a row of n houses, each house can be painted with one of the k colors. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.&lt;/p&gt;
+
+&lt;p&gt;The cost of painting each house with a certain color is represented by a &lt;code&gt;n x k&lt;/code&gt; cost matrix. For example, &lt;code&gt;costs[0][0]&lt;/code&gt; is the cost of painting house 0 with color 0; &lt;code&gt;costs[1][2]&lt;/code&gt; is the cost of painting house 1 with color 2, and so on… Find the minimum cost to paint all houses.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Current paint only come from the previous different paint cost&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;minCost[i][j] = costs[i][j] + min(minCost[i-1][k])&lt;/code&gt; (k != j)&lt;/li&gt;
+&lt;li&gt;We can do it in-place, update the newest value on the original memorized array.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-general-for-two-cases-2-or-k-colors:cc86ed23e0035ad62437326fa9e0b9d3&#34;&gt;Solution (General for Two Cases: 2 or K colors)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt; public int minCost(int[][] costs) {
+    if (costs == null || costs.length == 0) 
+            return 0;
+    
+    for(int i = 1; i &amp;lt; costs.length; i++) {
+        for(int j = 0; j &amp;lt; costs[i].length; j++) {
+            int cur = Integer.MIN_VALUE;
+            for(int k = 0; j &amp;lt; costs[i].length; k++) {
+                if(k == j)
+                    continue;
+                cur = Math.max(cur, costs[i-1][k] + costs[i][j]);
+            }
+            costs[i][j] = cur;
+        }
+    }
+    
+    int max = 0;
+    for(int i = 0; i &amp;lt; costs[costs.length - 1].length; i++)
+        max = Math.max(max, costs[costs.length - 1][i]);
+    
+    return max;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Scramble String</title>
+      <link>http://xmruibi.github.io/2015/11/06/scramble-string/</link>
+      <pubDate>Fri, 06 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/06/scramble-string/</guid>
+      <description>
+
+&lt;p&gt;Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively. Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.&lt;/p&gt;
+
+&lt;p&gt;Below is one possible representation of s1 = &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    great
+   /    \
+  gr    eat
+ / \    /  \
+g   r  e   at
+           / \
+          a   t
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To scramble the string, we may choose any non-leaf node and swap its two children.&lt;/p&gt;
+
+&lt;p&gt;For example, if we choose the node &amp;ldquo;gr&amp;rdquo; and swap its two children, it produces a scrambled string &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    rgeat
+   /    \
+  rg    eat
+ / \    /  \
+r   g  e   at
+           / \
+          a   t
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Similarly, if we continue to swap the children of nodes &amp;ldquo;eat&amp;rdquo; and &amp;ldquo;at&amp;rdquo;, it produces a scrambled string &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    rgtae
+   /    \
+  rg    tae
+ / \    /  \
+r   g  ta  e
+       / \
+      t   a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-dp-version:06af7d24c7f42b4e652908bf9fda0e87&#34;&gt;Think - DP Version&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ignore two situations: both length not equal and the characters not the same&lt;/li&gt;
+&lt;li&gt;Two sequence but 3-D memorized array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memo[i][j][k]&lt;/code&gt; means state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string&lt;/li&gt;
+&lt;li&gt;Two conditions we can regard as scramble, for range of &lt;code&gt;word1(i -&amp;gt; i+k)&lt;/code&gt; or &lt;code&gt;word2(j -&amp;gt; j+k)&lt;/code&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + split&lt;/code&gt; (len = split) and &lt;code&gt;split + i -&amp;gt; i + k&lt;/code&gt; = &lt;code&gt;split + i -&amp;gt; j + k&lt;/code&gt; (len = k - split)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j + (k - split) -&amp;gt; j+k&lt;/code&gt; [len = split] and &lt;code&gt;i + split -&amp;gt; i+k&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + (k - split)&lt;/code&gt;(len = k - split)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Consider about the initialization:
+
+&lt;ul&gt;
+&lt;li&gt;for &lt;code&gt;k == 1&lt;/code&gt;, we only check if &lt;code&gt;word1[i] == word2[j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:06af7d24c7f42b4e652908bf9fda0e87&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param s1 A string
+     * @param s2 Another string
+     * @return whether s2 is a scrambled string of s1
+     */
+    public boolean isScramble(String s1, String s2) {
+        // check length
+        if(s1==null||s2==null||s1.length()!=s2.length())
+            return false;
+        // check anagram
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+        if (!Arrays.equals(c1, c2))
+			return false;
+			
+        if(s1.length() != s2.length())
+            return false;
+        int len = s1.length();
+        
+        // state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string
+        boolean[][][] memo = new boolean[len][len][len+1];
+        
+        // initial, only check if s1[i] == s2[j] 
+        for(int i=0;i&amp;lt;s1.length();i++)
+            for(int j=0;j&amp;lt;s2.length();j++)
+                memo[i][j][1] = (s1.charAt(i) == s2.charAt(j));
+                
+        for(int k = 2; k &amp;lt;= len; k++) {
+            
+            for(int i = 0; i &amp;lt;= len - k; i++) {
+                for(int j = 0; j &amp;lt;= len - k; j++) {
+                    // split point should start from 1 to k - 1
+                    for(int split = 1; split &amp;lt; k; split++) {
+                        memo[i][j][k] |= (memo[i][j][split]&amp;amp;&amp;amp;memo[i+split][j+split][k-split])||(memo[i][j+(k - split)][split]&amp;amp;&amp;amp;memo[i+split][j][k-split]);
+                    }
+                }
+            }
+        }
+        return memo[0][0][len];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>How to build a Hugo Site like this site? &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <meta property="og:title" content="How to build a Hugo Site like this site?" />
+<meta property="og:description" content="This is how I build this site and the instruction for people who wanna use Hugo to build static site as Github Personal Page.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/code/HugoSiteConstruction/" />
+
+
+<meta property="og:updated_time" content="2015-10-12T23:33:07-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="How to build a Hugo Site like this site?">
+<meta itemprop="description" content="This is how I build this site and the instruction for people who wanna use Hugo to build static site as Github Personal Page.
+">
+
+
+<meta itemprop="dateModified" content="2015-10-12T23:33:07-07:00" />
+<meta itemprop="wordCount" content="954">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="How to build a Hugo Site like this site?"/>
+<meta name="twitter:description" content="This is how I build this site and the instruction for people who wanna use Hugo to build static site as Github Personal Page.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/HugoSiteConstruction/">
+    <h1 class="article-title" itemprop="name">
+        How to build a Hugo Site like this site?
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-12 23:33:07 -0700 PDT" itemprop="datePublished">2015-10-12</time>
+            &middot;
+            954
+            words
+            &middot;
+            5
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.iotopics/web%20development">Web Development</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/hugo">Hugo</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/go">Go</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/javascript">JavaScript</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/markdown">Markdown</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.iotags/website%20construction">Website Construction</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>This is how I build this site and the instruction for people who wanna use <a href="http://gohugo.io/">Hugo</a> to build static site as Github Personal Page.</p>
+
+<h2 id="what-is-hugo:4e08273fc1c961309839f3ac585050a5">What is Hugo?</h2>
+
+<blockquote>
+<p>Hugo is a general-purpose website framework. Technically speaking, Hugo is a static site generator.</p>
+</blockquote>
+
+<p>Yes, Hugo is a kind of static site generator. Unlike the WordPress, Ghost, or Drupal, static web site doesn&rsquo;t need to generate the page content when it received any request. So that means all pages should be set up once the site is built. Here is one more instruction for <a href="https://www.udemy.com/build-static-sites-in-seconds-with-hugo/">Hugo</a></p>
+
+<h2 id="what-should-you-learn:4e08273fc1c961309839f3ac585050a5">What should you learn?</h2>
+
+<p>Hugo is built by Go language. Why use the Go? Author <a href="http://spf13.com">Steve Francia</a> said:</p>
+
+<blockquote>
+<p>I looked at existing static site generators like Jekyll, Middleman and nanoc. All had complicated dependencies to install and took far longer to render my blog with hundreds of posts than I felt was acceptable. I wanted a framework to be able to get rapid feedback while making changes to the templates, and the 5+-minute render times was just too slow. In general, they were also very blog minded and didn’t have the ability to have different content types and flexible URLs.</p>
+
+<p>I wanted to develop a fast and full-featured website framework without dependencies. The Go language seemed to have all of the features I needed in a language. I began developing Hugo in Go and fell in love with the language. I hope you will enjoy using (and contributing to) Hugo as much as I have writing it.</p>
+</blockquote>
+
+<p>Another thing you must know is MarkDown language, which is for writing your article. Please see the introduction of <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a></p>
+
+<h2 id="start-you-hugo-journey:4e08273fc1c961309839f3ac585050a5">Start you Hugo journey!</h2>
+
+<p>Install by <code>brew</code>! What? You don&rsquo;t know that? Do the following:</p>
+
+<pre><code>$ ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+
+<p>Check you <code>brew</code> has updated!</p>
+
+<pre><code>$ brew update
+</code></pre>
+
+<p>Make sure your <code>brew</code> has lastest <code>hugo</code> version</p>
+
+<pre><code>$ brew info hugo
+hugo: stable 0.14 (bottled), HEAD
+</code></pre>
+
+<p>Then start install <code>hugo</code>!</p>
+
+<pre><code>$ brew install hugo
+</code></pre>
+
+<p>Well done! Finished! You&rsquo;ve install Hugo! But&hellip;wait&hellip;How to build a site?</p>
+
+<p>Let&rsquo;s go!</p>
+
+<pre><code>$ hugo new site yourFolder/siteFileName
+$ cd /thatPath
+
+</code></pre>
+
+<p>Then you&rsquo;ll see the Hugo structure like this!</p>
+
+<pre><code> ▸ archetypes/ 
+ ▸ content/
+ ▸ layouts/
+ ▸ static/
+   config.toml
+
+</code></pre>
+
+<p><code>config.toml</code> that is most important thing! That guides your configuration globally for your site, includes <code>baseurl</code>, <code>title</code>, <code>copyright</code>&hellip;.</p>
+
+<p>For other folders:</p>
+
+<ul>
+<li>archetypes：for content type! make your rules for new generate .md content.</li>
+<li>content：for your articles. stores all your articles by using markdown format!</li>
+<li>layouts：for layout pattern. decide how your site showing structure. You can make your html as modules here.</li>
+<li>static：includes css, js, fonts, media.</li>
+</ul>
+
+<p>So easy!</p>
+
+<p>Make a new article? Try this!</p>
+
+<pre><code>$ hugo new /post/yourArticle.md
+</code></pre>
+
+<p>That will generate a <code>post</code> folder in your <code>content</code> folder and also a <code>yourArticle.md</code> file!</p>
+
+<p>Try do write some thing in your article!</p>
+
+<pre><code>+++
+date = &quot;2015-02-01T18:19:54+08:00&quot;
+draft = true
+title = &quot;about&quot;
+
++++
+
+#About Me!
+
+ - experience one
+ - experience two
+</code></pre>
+
+<p><code>+++</code> means the format for <code>.toml</code> format. You can also use <code>---</code> for <code>.yaml</code> format.</p>
+
+<h2 id="themes-for-hugo:4e08273fc1c961309839f3ac585050a5">Themes for Hugo</h2>
+
+<p>However, there is nothing can show in your site. Because you don&rsquo;t have the skin of your site! What is skin? That is the themes for Hugo! Theme for Hugo like the website template. That decides what your site look like! Hugo is convenient because your can easily to change your theme for entire site!</p>
+
+<p>Let&rsquo;s make a folder in your site root directory and go inside it!</p>
+
+<pre><code>$ mkdir themes
+$ cd themes
+</code></pre>
+
+<p>I used the <code>hyde-y</code> as my theme. You can download it by:</p>
+
+<pre><code>$ git clone https://github.com/enten/hyde-y
+</code></pre>
+
+<p>Then you&rsquo;ll see a <code>themes/hyde-y</code> folder, which contains similar structure like your site folder!</p>
+
+<p>You also can get more themes from <a href="http://themes.gohugo.io/">here</a>.</p>
+
+<p>However, you still not have linked your site and this theme! Back to the root path in your site folder, get the <code>config.toml</code> and add this:</p>
+
+<pre><code># Theme to use (located in /themes/THEMENAME/)
+theme = &quot;hyde-y&quot;
+
+</code></pre>
+
+<p>It seems everything finished! Let&rsquo;s try it!</p>
+
+<pre><code>$ hugo server -w
+</code></pre>
+
+<p>Then open <code>http://localhost:1313</code>, we will see your site!</p>
+
+<h2 id="add-more-function:4e08273fc1c961309839f3ac585050a5">Add more function!</h2>
+
+<h3 id="comment-for-your-article:4e08273fc1c961309839f3ac585050a5">Comment for your article</h3>
+
+<p><a href="https://disqus.com/">Disqus</a> is default supported by Hugo! Did you see that in <code>yourSite/themes/hyde-y/layouts/partials/modules/disqus.html</code>? That is internal html module for show disqus comment below your article! However, you need to register your Disqus account! And set your disqus short name in your <code>config.toml</code> file!</p>
+
+<pre><code># Enable Disqus integration
+disqusShortname = &quot;yourShortName&quot;
+</code></pre>
+
+<p>How to get your short name? Go your setting in Disqus profile home page and try <code>add disqus to your site</code>, then follow the guide!</p>
+
+<p>Wait&hellip; Doesn&rsquo;t see the disqus module during using <code>localhost:1313</code>?</p>
+
+<p>Go your  <code>yourSite/themes/hyde-y/layouts/partials/modules/disqus.html</code> file, comment the following lines:</p>
+
+<pre><code>    // if (window.location.hostname == &quot;localhost&quot;)
+    //   return;
+</code></pre>
+
+<p>Well you got it!</p>
+
+<h3 id="push-on-github-home-page:4e08273fc1c961309839f3ac585050a5">Push on Github Home Page</h3>
+
+<ol>
+<li><p>Create repo for <code>your-username.github.io</code>. Note that the repo name should be your username of your github. Only by this way you can make it as your personal home page.</p></li>
+
+<li><p>Enter your project directory.</p></li>
+</ol>
+
+<p><code>cd workspace/yourProject</code></p>
+
+<ol>
+<li><p>Remove your <code>public</code> folder under this directory. <code>rm -rf public</code></p></li>
+
+<li><p>Initilize this directory as github repo <code>git init</code></p></li>
+
+<li><p>Make <code>public/</code> directory sync with .github.io</p></li>
+</ol>
+
+<p><code>git submodule add git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git public</code></p>
+
+<ol>
+<li>Create a file &lsquo;deploy.sh&rsquo; under the your project dir and copy the following:</li>
+</ol>
+
+<pre><code>#!/bin/bash
+echo -e &quot;\033[0;32mDeploying updates to GitHub...\033[0m&quot;
+
+msg=&quot;rebuilding site `date`&quot;
+if [ $# -eq 1 ]
+  then msg=&quot;$1&quot;
+fi
+
+# Push Hugo content 
+git add -A
+git commit -m &quot;$msg&quot;
+git push origin master
+
+
+# Build the project. 
+hugo # if using a theme, replace by `hugo -t &lt;yourtheme&gt;`
+
+# Go To Public folder
+cd public
+# Add changes to git.
+git add -A
+
+# Commit changes.
+
+git commit -m &quot;$msg&quot;
+
+# Push source and build repos.
+git push origin master
+
+# Come Back
+cd ..
+</code></pre>
+
+<ol>
+<li>Run the above .sh file
+<code>./deploy.sh</code></li>
+</ol>
+
+<h3 id="try-more-i-ll-be-back-soon:4e08273fc1c961309839f3ac585050a5">Try more? I&rsquo;ll be back soon!</h3>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/HugoSiteConstruction/" data-id="4e08273fc1c961309839f3ac585050a5" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/HugoSiteConstruction//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/code/BleveSearch/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">How to do the insite search in Hugo?</div>
+    </a>
+    
+
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/code\/HugoSiteConstruction\/';
+    var disqus_title = 'How to build a Hugo Site like this site?';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/code\/HugoSiteConstruction\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#what-is-hugo:4e08273fc1c961309839f3ac585050a5">What is Hugo?</a></li>
+<li><a href="#what-should-you-learn:4e08273fc1c961309839f3ac585050a5">What should you learn?</a></li>
+<li><a href="#start-you-hugo-journey:4e08273fc1c961309839f3ac585050a5">Start you Hugo journey!</a></li>
+<li><a href="#themes-for-hugo:4e08273fc1c961309839f3ac585050a5">Themes for Hugo</a></li>
+<li><a href="#add-more-function:4e08273fc1c961309839f3ac585050a5">Add more function!</a>
+<ul>
+<li><a href="#comment-for-your-article:4e08273fc1c961309839f3ac585050a5">Comment for your article</a></li>
+<li><a href="#push-on-github-home-page:4e08273fc1c961309839f3ac585050a5">Push on Github Home Page</a></li>
+<li><a href="#try-more-i-ll-be-back-soon:4e08273fc1c961309839f3ac585050a5">Try more? I&rsquo;ll be back soon!</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015<br>
+      Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

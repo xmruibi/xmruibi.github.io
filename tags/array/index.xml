@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Array on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/array/</link>
+    <description>Recent content in Array on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Fri, 06 Nov 2015 13:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/array/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>House Robber</title>
+      <link>http://xmruibi.github.io/2015/11/06/house-robber/</link>
+      <pubDate>Fri, 06 Nov 2015 13:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/06/house-robber/</guid>
+      <description>
+
+&lt;p&gt;You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and &lt;strong&gt;it will automatically contact the police if two adjacent houses were broken into on the same night&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[3, 8, 4]&lt;/code&gt;, return 8.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;$O(n)$ time and $O(1)$ memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;When Rob meet a house, he has two choices: taken or not taken, but if he had stolen the previous house, it cannnot taken.&lt;/li&gt;
+&lt;li&gt;Set two variable: &lt;code&gt;include&lt;/code&gt; and &lt;code&gt;exclude&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;include&lt;/code&gt; means it has taken the previous house, while the &lt;code&gt;exclude&lt;/code&gt; means it didn&amp;rsquo;t take in previous house.&lt;/li&gt;
+&lt;li&gt;So each time we consider about the &lt;code&gt;exclude + cur_value&lt;/code&gt; and &lt;code&gt;include&lt;/code&gt;, the max of them should be new &lt;code&gt;include&lt;/code&gt; while the new &lt;code&gt;exclude&lt;/code&gt; come from the max value of original &lt;code&gt;include&lt;/code&gt; (last taken, current not taken) and original &lt;code&gt;exclude&lt;/code&gt; (not taken in both last and current house)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A: An array of non-negative integers.
+     * return: The maximum amount of money you can rob tonight
+     */
+    public long houseRobber(int[] A) {
+        if(A == null)
+            return 0L;
+        long exclude = 0L;
+        long include = 0L;
+        
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            long tmp = include;
+            include = Math.max(include, exclude + A[i]);
+            exclude = Math.max(tmp, exclude);
+        }
+        
+        return Math.max(include, exclude);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;follow-up:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Follow Up&lt;/h2&gt;
+
+&lt;p&gt;After robbing those houses on that street, the thief has found himself a new place for his thievery so that he will not get too much attention. This time, all houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, the security system for these houses remain the same as for those in the previous street.&lt;/p&gt;
+
+&lt;p&gt;Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The houses are in a cycle,so that when pick up the first element we cannot pick the last element because they are adjacent. So just seperate two parts for calculating: &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;last second element&lt;/code&gt;, and &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;last element&lt;/code&gt;, find the maximum from them.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-1:42c51eb58b3d0e3a2ea215cbd70d5181&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int rob(int[] nums) {
+        if(nums==null||nums.length==0)
+            return 0;
+        if(nums.length==1)
+            return nums[0];
+        return Math.max(helper(0, nums.length-2, nums), helper(1,nums.length-1,nums));
+    }
+    
+    private int helper(int l, int r, int[] nums){
+        if(nums==null||nums.length==0)
+            return 0;
+        int incl = 0;
+        int excl = 0;
+        for(int i = l;i&amp;lt;=r;i++){
+            int tmp = incl;
+            incl = excl+nums[i];
+            excl = Math.max(excl, tmp);
+        }
+        return Math.max(incl, excl);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Coins in a Line</title>
+      <link>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</link>
+      <pubDate>Thu, 05 Nov 2015 13:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first play will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;n = &lt;code&gt;1&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;3&lt;/code&gt;, return &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;4&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;n = &lt;code&gt;5&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;challenge:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Challenge&lt;/h4&gt;
+
+&lt;p&gt;$O(n)$ time and $$O(1)$$ memory&lt;/p&gt;
+
+&lt;h3 id=&#34;think:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Only if the amount of coin is the multiply of &lt;code&gt;3&lt;/code&gt;, first player cannot win.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param n: an integer
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int n) {
+        return n%3!=0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;There are n coins with different value in a line. Two players take turns to take one or two coins from left side until there are no more coins left. The player who take the coins with the most value wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given values array A = &lt;code&gt;[1,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Think&lt;/h3&gt;
+
+&lt;h5 id=&#34;state:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;State&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dp[i]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to the end&lt;/p&gt;
+
+&lt;h5 id=&#34;function:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Function&lt;/h5&gt;
+
+&lt;p&gt;Each time when iterate &lt;code&gt;i&lt;/code&gt;, we have two choice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;takes &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here are what we need to think:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;1.If we took &lt;code&gt;values[i]&lt;/code&gt;, opposite has two choice:  &lt;code&gt;values[i+1]&lt;/code&gt; or &lt;code&gt;values[i+1] + values[i+2]&lt;/code&gt; so the rest values for our own sides are &lt;code&gt;DP[i+2]&lt;/code&gt; or &lt;code&gt;DP[i+3]&lt;/code&gt;, however it should choose the minimum so that the opposite can get the maximum.&lt;/p&gt;
+
+&lt;p&gt;$$value1 = values[i] + min(DP[i+2], DP[i+3])$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;2.If we took  &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;$$value2 = values[i] + values[i+1] + min(DP[i+3], DP[i+4])$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;3.&lt;/p&gt;
+
+&lt;p&gt;$$dp[I] = max(value1, value2)$$&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &amp;lt;= 2) {
+            return true;
+        }
+        int dp[] = new int[values.length];
+        
+        dp[values.length-1] = values[values.length-1];
+        dp[values.length-2] = values[values.length-1] + values[values.length-2];
+        int total = dp[values.length-2];
+        
+        for(int i = values.length - 3; i &amp;gt;= 0; i--) {
+            total += values[i];
+            int value1 = values[i] + Math.min(dp[i+2], i+3&amp;lt;values.length?dp[i+3]:0);
+            int value2 = values[i] + values[i+1] + Math.min(i+3&amp;lt;values.length?dp[i+3]:0, i+4&amp;lt;values.length?dp[i+4]:0);
+            dp[i] = Math.max(value1, value2);
+        }
+        
+        return dp[0] &amp;gt; (total - dp[0]);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;There are n coins in a line. Two players take turns to take a coin from one of the ends of the line until there are no more coins left. The player with the larger amount of money wins.&lt;/p&gt;
+
+&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
+
+&lt;h4 id=&#34;example-2:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[3,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return true.&lt;/p&gt;
+
+&lt;p&gt;Given array A = &lt;code&gt;[1,20,4]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h4 id=&#34;challenge-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Challenge&lt;/h4&gt;
+
+&lt;p&gt;Follow Up Question: If &lt;code&gt;n&lt;/code&gt; is even. Is there any hacky algorithm that can decide whether first player will win or lose in $$O(1)$$ memory and $O(n)$ time?&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Think&lt;/h3&gt;
+
+&lt;h5 id=&#34;state-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;State&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dp[i][j]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sum[i][j]&lt;/code&gt; represent the sum value from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;function-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Function&lt;/h5&gt;
+
+&lt;p&gt;Each time when taken coins, we have two choice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;takes &lt;code&gt;values[j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$$dp[i][j]=max(values[i]+sum[i+1][j]-dp[i+1][j], values[j]+sum[i][j-1]-dp[i][j-1])$$&lt;/p&gt;
+
+&lt;p&gt;Since &lt;code&gt;values[i]+sum[i+1][j]&lt;/code&gt; or &lt;code&gt;values[j]+sum[i][j-1]&lt;/code&gt; equals to &lt;code&gt;sum[i][j]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So the equation can be $dp[i][j] = sum[i][j] - min(dp[i+1][j],dp[i][j-1])$&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-2:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &amp;lt;= 2) {
+            return true;
+        }
+        
+        int[][] dp = new int[values.length][values.length];
+        int[][] sum = new int[values.length][values.length];
+        // get the sum of i to j
+        for(int i = 0; i &amp;lt; values.length; i++){
+            for(int j  = i; j &amp;lt; values.length; j++) {
+                if(i == j)
+                    sum[i][j] = values[i];
+                else
+                    sum[i][j] = values[j] + sum[i][j-1];
+            }
+        }
+        
+        // to do the dp 
+        for(int i = values.length - 1; i &amp;gt;= 0; i--){
+            for(int j  = i; j &amp;lt; values.length; j++) {
+                if(i == j)
+                    dp[i][j] = values[i];
+                else
+                    dp[i][j] = sum[i][j] - Math.min(dp[i+1][j],dp[i][j-1]);
+            }
+        }
+        
+        return dp[0][values.length - 1] &amp;gt; sum[0][values.length - 1] - dp[0][values.length - 1];
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Adjustment Cost</title>
+      <link>http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/</link>
+      <pubDate>Wed, 04 Nov 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/04/minimum-adjustment-cost/</guid>
+      <description>
+
+&lt;p&gt;Given an integer array, adjust each integers so that the difference of every adjacent integers are not greater than a given number target.&lt;/p&gt;
+
+&lt;p&gt;If the array before adjustment is A, the array after adjustment is &lt;code&gt;B&lt;/code&gt;, you should minimize the sum of &lt;code&gt;|A[i]-B[i]|&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;example:fef08796d6332d5577bb4ec050c22c2e&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[1,4,2,3]&lt;/code&gt; and target = 1, one of the solutions is &lt;code&gt;[2,3,2,3]&lt;/code&gt;, the adjustment cost is 2 and it&amp;rsquo;s minimal.&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note
+You can assume each number in the array is a positive integer and not greater than &lt;code&gt;100&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:fef08796d6332d5577bb4ec050c22c2e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is invisible condition on Note part: each number in the array is a positive integer and not greater than &lt;code&gt;100&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;So the above condition giving the memorized data structure a length on enumeration.&lt;/li&gt;
+&lt;li&gt;memo data should be &lt;code&gt;memo[arr.size() + 1][100]&lt;/code&gt;, which means the minimum cost on modify the ith num in A to &lt;code&gt;j&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Pass each element in input array&lt;/li&gt;
+&lt;li&gt;Then enumeration &lt;code&gt;j&lt;/code&gt; on 0 to 99, so that we can consider the previous number &lt;code&gt;p&lt;/code&gt; should inside the range between &lt;code&gt;j + target&lt;/code&gt; and &lt;code&gt;j-target&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;So the previous cost should be &lt;code&gt;memo[i-1][p]&lt;/code&gt;and for current, it should be &lt;code&gt;memo[i-1][p] + Math.abs(j-A.get(i-1))&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;After arrived the last element and got all possible cost, the minimum total cost should come from &lt;code&gt;memo[last element][i]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:fef08796d6332d5577bb4ec050c22c2e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param A: An integer array.
+     * @param target: An integer.
+     */
+    public int MinAdjustmentCost(ArrayList&amp;lt;Integer&amp;gt; A, int target) {
+        // the minimum cost on modify the ith num in A to j 
+        int[][] memo = new int[A.size() + 1][100];
+        
+        for(int i = 1; i &amp;lt;= A.size(); i++) {
+            // enumeration on 0 to 99 
+            for(int j=0; j&amp;lt;=99; j++) {
+                // initial the minimum cost on ith as the Integer.MAX
+                memo[i][j] = Integer.MAX_VALUE;
+                // get the range by target based on j 
+                int lowerRange = Math.max(0, j-target);
+                int upperRange = Math.min(99, j+target);
+                // p is the possible num based on previous index
+                // check all cost between current index on A and j
+                for (int p=lowerRange; p&amp;lt;=upperRange; p++) {
+                    
+                    memo[i][j] = Math.min(memo[i][j], memo[i-1][p]+Math.abs(j-A.get(i-1)));
+                }
+            }
+        }
+        int minCost = Integer.MAX_VALUE;
+        // check all minimum cost on index equal to A&#39;s last element
+        for(int i = 0; i &amp;lt;= 99; i++)
+            minCost = Math.min(minCost, memo[A.size()][i]);
+        return minCost;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Colors</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors/</guid>
+      <description>
+
+&lt;p&gt;Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.&lt;/p&gt;
+
+&lt;p&gt;Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.&lt;/p&gt;
+
+&lt;p&gt;Have you met this question in a real interview? Yes&lt;/p&gt;
+
+&lt;h3 id=&#34;example:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given [1, 0, 1, 2], return [0, 1, 1, 2].&lt;/p&gt;
+
+&lt;h3 id=&#34;note:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. First, iterate the array counting number of 0&amp;rsquo;s, 1&amp;rsquo;s, and 2&amp;rsquo;s, then overwrite array with total number of 0&amp;rsquo;s, then 1&amp;rsquo;s and followed by 2&amp;rsquo;s.&lt;/p&gt;
+
+&lt;p&gt;Could you come up with an one-pass algorithm using only constant space?&lt;/p&gt;
+
+&lt;h2 id=&#34;think:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Index mark O&amp;rsquo;s first position from head and 2&amp;rsquo;s first position from the rear.&lt;/li&gt;
+&lt;li&gt;Exchange the two values.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void sortColors(int[] nums) {
+    if(nums == null || nums.length == 0)
+        return;
+    int zero = 0;
+    int two = nums.length - 1;
+    for(int i = 0; i &amp;lt; nums.length; i++){
+        if(i &amp;gt; zero &amp;amp;&amp;amp; nums[i] == 0){
+            int tmp = nums[zero];
+            nums[zero++] = nums[i];
+            nums[i--] = tmp;
+        }else if(i &amp;lt; two &amp;amp;&amp;amp; nums[i] == 2){
+            int tmp = nums[two];
+            nums[two--] = nums[i];
+            nums[i--] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Colors II</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &amp;hellip; k.&lt;/p&gt;
+
+&lt;h2 id=&#34;example:db5a7066fa348a409152342e618d2b60&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].&lt;/p&gt;
+
+&lt;h2 id=&#34;note:db5a7066fa348a409152342e618d2b60&#34;&gt;Note&lt;/h2&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h2 id=&#34;challenge:db5a7066fa348a409152342e618d2b60&#34;&gt;Challenge&lt;/h2&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bucket Sort but space complexity with $O(k)$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        int[] bucket = new int[k];
+        for(int i : colors)
+            bucket[i - 1] ++;
+        int idx = 0, bidx = 0;
+        while(bidx &amp;lt; bucket.length) {
+            while(bucket[bidx] &amp;gt; 0) {
+                colors[idx++] = bidx+1;
+                bucket[bidx]--;
+            }
+            bidx++;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complex bucket sort with in-place counting&lt;/li&gt;
+&lt;li&gt;Get a value and find its index by &lt;code&gt;value - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If the target index has another value, exchange and set target index as &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If target index is counter, make it minus 1, e.g. &lt;code&gt;-2&lt;/code&gt; and set original index as &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Steps like following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 3   2   2   1   4
+
+
+ 2   2  -1   1   4
+
+
+ 2  -1  -1   1   4
+
+
+ 0  -2  -1   1   4
+
+
+-1  -2  -1   0   4
+
+
+-1  -2  -1  -1   0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Get back the result by counter value from rear to head&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     * @return: nothing
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        for(int i = 0; i &amp;lt; colors.length; i++){
+            if(colors[i] &amp;lt;= 0)
+                continue;
+            else{
+                int idx = colors[i] - 1;
+                if(colors[idx] &amp;gt; 0){
+                    colors[i--] = colors[idx];
+                    colors[idx] = -1;
+                }else{
+                    colors[i] = 0;
+                    colors[idx]--;
+                }
+            }
+        }
+        
+        int idx = colors.length - 1;
+        for(int i = k - 1; i &amp;gt;= 0; i--){
+            int cnt = -colors[i];
+            while(cnt-- &amp;gt; 0 &amp;amp;&amp;amp; idx &amp;gt;= 0) {
+                colors[idx--] = (i+1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>k Sum II</title>
+      <link>http://xmruibi.github.io/2015/10/22/k-sum-ii/</link>
+      <pubDate>Thu, 22 Oct 2015 15:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/22/k-sum-ii/</guid>
+      <description>
+
+&lt;p&gt;Given n unique integers, number k (1&amp;lt;=k&amp;lt;=n)  and target. Find all possible k integers where their sum is target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:061c80c4c7f75cc3811df2aeec3f34d3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given [1,2,3,4], k=2, target=5, [1,4] and [2,3] are possible solutions.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:061c80c4c7f75cc3811df2aeec3f34d3&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Unlike the k Sum I, here we need to get the each solution which can achieve the &lt;code&gt;target&lt;/code&gt; within &lt;code&gt;k&lt;/code&gt; num. Since the solution should be shown in the result, the dynamic programming cannot be used. Thus, the backtracking should be the only way.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:061c80c4c7f75cc3811df2aeec3f34d3&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A: an integer array.
+     * @param k: a positive integer (k &amp;lt;= length(A))
+     * @param target: a integer
+     * @return a list of lists of integer 
+     */ 
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; kSumII(int A[], int k, int target) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), A , k, target, 0);
+        return res;
+    }
+    
+    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; cur, int[] A, int k, int target, int idx) {
+        if(target &amp;lt; 0 || k &amp;lt; 0)
+            return;
+            
+        if(target == 0 &amp;amp;&amp;amp; k == 0) {
+            res.add(new ArrayList&amp;lt;&amp;gt;(cur));
+            return;
+        }
+        
+        for(int i = idx; i &amp;lt; A.length; i++) {
+            cur.add(A[i]);
+            helper(res, cur, A, k - 1, target - A[i], i + 1);
+            cur.remove(cur.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Triangle Count</title>
+      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
+
+&lt;h3 id=&#34;example:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[3,4,6]
+[3,6,7]
+[4,6,7]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
+[4(1),4(2),4(4)]
+[4(1),4(3),4(4)]
+[4(2),4(3),4(4)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort&lt;/li&gt;
+&lt;li&gt;Binary Search&lt;/li&gt;
+&lt;li&gt;But how to define driven condition? (Tricky Part)
+
+&lt;ul&gt;
+&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param S: A list of integers
+     * @return: An integer
+     */
+    public int triangleCount(int S[]) {
+        if(S == null || S.length == 0)
+            return 0;
+        int cnt = 0;
+        Arrays.sort(S);
+        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
+            int cur = S[i];
+            int l = 0, r = i - 1;
+            while(l &amp;lt; r) {
+                if(S[l] + S[r] &amp;gt; S[i]) {
+                    cnt += (r - l); // keypoint!
+                    r--;
+                }else 
+                    l++;
+            }
+        }
+        return cnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Number of Airplanes in the Sky</title>
+      <link>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</link>
+      <pubDate>Mon, 19 Oct 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</guid>
+      <description>
+
+&lt;p&gt;Given an interval list which are flying and landing time of the flight. How many airplanes are on the sky at most?&lt;/p&gt;
+
+&lt;h3 id=&#34;example:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For interval list &lt;code&gt;[[1,10],[2,3],[5,8],[4,7]]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If landing and flying happens at the same time, we consider landing should happen at first.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Array Method (Naive):
+
+&lt;ul&gt;
+&lt;li&gt;Use an integer array to count segment occurence.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     * Array Method:
+     * @param intervals: An interval array
+     * @return: Count of airplanes are in the sky.
+     */
+    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
+        
+        // find the min and max value in interval list;
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for(Interval interval : airplanes) {
+            min = Math.min(min, interval.start);
+            max = Math.max(max, interval.end);
+        }
+
+        int maxCnt = 0;
+        int[] segment = new int[max - min + 1];
+        for(Interval interval : airplanes) {
+            for(int i = interval.start; i &amp;lt; interval.end; i++) {
+                segment[i - min]++;
+                maxCnt = Math.max(maxCnt, segment[i - min]);
+            }
+        }
+        return maxCnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Customized Structure:
+
+&lt;ul&gt;
+&lt;li&gt;Point Class: mark &lt;code&gt;int time&lt;/code&gt; and (&lt;code&gt;boolean start/end&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Mark those Points ordered by time.&lt;/li&gt;
+&lt;li&gt;One pass all points and count increase when touch start but decrease when end;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     * Point Method:
+     * @param intervals: An interval array
+     * @return: Count of airplanes are in the sky.
+     */
+    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
+
+    	// create a list with point class
+    	List&amp;lt;Point&amp;gt; points = new ArrayList&amp;lt;&amp;gt;();
+    	for(Interval interval : airplanes) {
+    		points.add(new Point(interval.start, 1));
+    		points.add(new Point(interval.end, 0));
+    	}
+
+    	// sort
+    	Collections.sort(points, new Comparator&amp;lt;Point&amp;gt;(){
+    	    @Override
+    	    public int compare(Point p1, Point p2) {
+    	         if(p1.time == p2.time) return p1.flag - p2.flag;
+                 else return p1.time - p2.time;
+    	    }
+    	});
+
+    	// one pass for count
+    	int count = 0;
+    	int max = 0; // record the peak count;
+    	for(Point p : points) {
+    		if(p.flag == 1)
+    			count++;
+    		else
+    			count--;
+    		max = Math.max(max, count);
+    	}
+
+    	return max;
+	}
+
+	private class Point{
+		int time;
+		int flag;
+		public Point(int time, int flag) {
+			this.time = time;
+			this.flag = flag;
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Complexity Analysis:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Array Method (Naive):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Two pass and one of pass has one more inner loop (segment size: k): o(n + n*k) -&amp;gt; O(n^2);
+An array to store occurence frequence: Space: O(n);&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator and Top N Element</title>
+      <link>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</link>
+      <pubDate>Sun, 18 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</guid>
+      <description>
+
+&lt;p&gt;Given a Iterator with next giving instances of Line class
+Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN)&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Line { 
+	String ip; 
+	String request; 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:e7d3af666f82f503d1c6dba97391692a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+	public List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN) {
+		Map&amp;lt;String, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		while(itertor.hasNext()) {
+			Line cur = iterator.next();
+			map.put(cur.ip, map.containsKey(cur.ip)? map.get(cur.ip) + 1 : 1);
+		}
+		PriorityQueue&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt;(){
+			@Override
+			public int compare(Map.Entry&amp;lt;String, Integer&amp;gt; o1, Map.Entry&amp;lt;String, Integer&amp;gt; o2){
+				return Integer.compare(o2.getValue(), o1.getValue());
+			}
+		});
+		for(Map.Entry&amp;lt;String, Integer&amp;gt; entry : map) {
+			heap.offer(entry);
+		}
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		while(topN &amp;gt; 0) {
+			res.add(heap.poll().getKey());
+		}
+		return res;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>N Queen I</title>
+      <link>http://xmruibi.github.io/2015/10/17/n-queen-i/</link>
+      <pubDate>Sat, 17 Oct 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/17/n-queen-i/</guid>
+      <description>
+
+&lt;p&gt;The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.&lt;/p&gt;
+
+&lt;p&gt;Given an integer n, return all distinct solutions to the n-queens puzzle.&lt;/p&gt;
+
+&lt;p&gt;Each solution contains a distinct board configuration of the n-queens&amp;rsquo; placement, where &amp;lsquo;Q&amp;rsquo; and &amp;lsquo;.&amp;rsquo; both indicate a queen and an empty space respectively.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:e3e639c63f954205f552ff514d76c69b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;There exist two distinct solutions to the 4-queens puzzle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+
+    [&amp;quot;.Q..&amp;quot;, // Solution 1
+
+     &amp;quot;...Q&amp;quot;,
+
+     &amp;quot;Q...&amp;quot;,
+
+     &amp;quot;..Q.&amp;quot;],
+
+    [&amp;quot;..Q.&amp;quot;, // Solution 2
+
+     &amp;quot;Q...&amp;quot;,
+
+     &amp;quot;...Q&amp;quot;,
+
+     &amp;quot;.Q..&amp;quot;]
+
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:e3e639c63f954205f552ff514d76c69b&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use one diamension int array to represent board: index -&amp;gt; num, value -&amp;gt; col;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * Get all distinct N-Queen solutions
+     * @param n: The number of queens
+     * @return: All distinct solutions
+     * For example, A string &#39;...Q&#39; shows a queen on forth position
+     */
+    ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; solveNQueens(int n) {
+        ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        int[] board = new int[n]; 
+        recursion(res, board, 0);
+        return res;
+    }
+    
+    
+    private void recursion(ArrayList&amp;lt;ArrayList&amp;lt;String&amp;gt;&amp;gt; res, int[] board, int row) {
+        if(row == board.length) {
+            // encode the board from 1-d array to string list
+            ArrayList&amp;lt;String&amp;gt; cur = new ArrayList&amp;lt;&amp;gt;();
+            for(int i = 0 ; i &amp;lt; board.length; i++){
+                StringBuilder sb = new StringBuilder();
+                for(int j = 0 ; j &amp;lt; board.length; j++) {
+                    if(j == board[i])
+                        sb.append(&amp;quot;Q&amp;quot;);
+                    else
+                        sb.append(&amp;quot;.&amp;quot;);
+                }
+                cur.add(sb.toString());
+            }
+            res.add(cur);
+            return;
+        }
+        // recursion
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            board[row] = i;
+            if(isSafe(board, row))
+                recursion(res, board, row+1);
+        }
+            
+    }
+    
+    /**
+    * Check the current board is safe.
+    */
+    private boolean isSafe(int[] board, int row) {
+        for(int i = 0; i &amp;lt; row; i++) {
+            // difference on col value shouldn&#39;t equal to the difference on row value;
+            if((board[i]==board[row]) || (Math.abs(i - row) == Math.abs(board[i] - board[row])))
+                return false;
+        }
+        return true;
+    }
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>N Queen II</title>
+      <link>http://xmruibi.github.io/2015/10/17/n-queen-ii/</link>
+      <pubDate>Sat, 17 Oct 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/17/n-queen-ii/</guid>
+      <description>&lt;p&gt;Follow up for N-Queens problem.&lt;/p&gt;
+
+&lt;p&gt;Now, instead outputting board configurations, return the total number of distinct solutions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /**
+     * Calculate the total number of distinct N-Queen solutions.
+     * @param n: The number of queens.
+     * @return: The total number of distinct solutions.
+     */
+    private int solutions = 0;
+    public int totalNQueens(int n) {
+        //write your code here
+        int[] board = new int[n]; 
+        recursion(board, 0);
+        return solutions;
+    }
+    
+    private void recursion(int[] board, int row) {
+        // when valid solution found
+        if(row == board.length) {
+            solutions++;
+            return;
+        }
+        // recursion
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            board[row] = i;
+            if(isSafe(board, row))
+                recursion(board, row+1);
+        }
+            
+    }
+    
+    private boolean isSafe(int[] board, int row) {
+        for(int i = 0; i &amp;lt; row; i++) {
+            if((board[i]==board[row]) || (Math.abs(i - row) == Math.abs(board[i] - board[row])))
+                return false;
+        }
+        return true;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Closest Number</title>
+      <link>http://xmruibi.github.io/2015/10/12/closest-number/</link>
+      <pubDate>Mon, 12 Oct 2015 21:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/12/closest-number/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array, find out the most closest two elements in this array. Output&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:f7debca91406b310c625fc342b2e0a9b&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort is important here! You must think about sort first. Since other may may cost&lt;/li&gt;
+&lt;li&gt;Then the gap between adjacent elements are the&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
+    ArrayList&lt;int[]&gt; res = new ArrayList&lt;&gt;();
+    if(arr == null || arr.length == 0)
+        return res;
+    Arrays.sort(arr);
+
+    int mindiff = Integer.MAX_VALUE;
+    for(int i = 1; i &lt; arr.length; i++) {
+        int curdiff = arr[i] - arr[i - 1];
+        if(curdiff &gt;= mindiff) {
+            if(curdiff &gt; mindiff)
+                res.clear();
+            int[] cres = new int[]{arr[i - 1], arr[i]};
+            res.add(cres);
+        }
+    }
+    return res;
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>License Plate Number Combination</title>
+      <link>http://xmruibi.github.io/2015/10/08/license-plate-number-combination/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/08/license-plate-number-combination/</guid>
+      <description>
+
+&lt;p&gt;Given some rules on License plate number:
+- Seven digits;
+- First three should be Alphabet;
+- Adjacent number shouldn&amp;rsquo;t be the same;
+- Last four can be alphbet or number;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:6157580cfb3615f277a7fec78525f8a6&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public List&amp;lt;String&amp;gt; plateNumberCombination() {
+    List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+    combinatioUtil(res, &amp;quot;&amp;quot;, 0, 7);
+    return res; 
+}
+
+private void combinatioUtil(List&amp;lt;String&amp;gt; res, String cur, int idx, int limit) {
+    if(cur.length() &amp;gt; 1 &amp;amp;&amp;amp; cur.charAt(cur.length() - 1) == cur.charAt(cur.length() - 2))
+        return;
+
+    if(cur.length() == limit) {
+        res.add(new String(cur));
+        return;
+    }
+    if(idx &amp;gt; 3) {
+        for(int i = 0; i &amp;lt;= 9; i++) {
+            cur += &amp;quot;&amp;quot; + i;
+            combinatioUtil(res, cur, idx + 1, limit);
+            cur = cur.substring(0, cur.length() - 1);
+        }
+    } 
+
+    for(int i = 0; i &amp;lt; 26; i++) {
+        cur += (char)(&#39;a&#39;+i);
+        combinatioUtil(res, cur, idx + 1, limit);
+        cur = cur.substring(0, cur.length() - 1);
+    }
+    for(int i = 0; i &amp;lt; 26; i++) {
+        cur += (char)(&#39;A&#39;+i);
+        combinatioUtil(res, cur, idx + 1, limit);
+        cur = cur.substring(0, cur.length() - 1);
+    }
+}
+
+private boolean isNumber(char c) {
+    return c &amp;lt;= &#39;9&#39; &amp;amp;&amp;amp; c &amp;gt;= &#39;0&#39;;
+}
+
+private boolean isAlphabet(char c) {
+    return (c &amp;lt;= &#39;z&#39; &amp;amp;&amp;amp; c &amp;gt;= &#39;a&#39;) || ( &amp;lt;= &#39;Z&#39; &amp;amp;&amp;amp; c &amp;gt;= &#39;A&#39;);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Partition Array</title>
+      <link>http://xmruibi.github.io/2015/10/08/partition-array/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/08/partition-array/</guid>
+      <description>&lt;p&gt;Given an array &lt;code&gt;nums&lt;/code&gt; of integers and an int &lt;code&gt;k&lt;/code&gt;, partition the array (i.e move the elements in &amp;ldquo;nums&amp;rdquo;) such that:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;All elements &amp;lt; k are moved to the left&lt;/li&gt;
+&lt;li&gt;All elements &amp;gt;= k are moved to the right&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Return the partitioning index, i.e the first index i nums[i] &amp;gt;= k.&lt;/p&gt;
+
+&lt;p&gt;Solution:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical index rotate two pointer problem, looks like the idea of quick sort .&lt;/li&gt;
+&lt;li&gt;Set an index &lt;code&gt;pivot&lt;/code&gt; for marking the real position of element less than &lt;code&gt;k&lt;/code&gt; during pass the orginal array.&lt;/li&gt;
+&lt;li&gt;Once the current passing index &lt;code&gt;i&lt;/code&gt; hits the element less than &lt;code&gt;k&lt;/code&gt;, we do the swap with &lt;code&gt;pivot&lt;/code&gt; and &lt;code&gt;i&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Make sure the &lt;code&gt;pivot&lt;/code&gt; should add 1 after swap since the marked position is increase for next one.&lt;/li&gt;
+&lt;li&gt;However in new &lt;code&gt;pivot&lt;/code&gt; position we not sure the element&amp;rsquo;s value, so&amp;hellip; we need to check in next procedure.&lt;/li&gt;
+&lt;li&gt;Make sure the &lt;code&gt;i&lt;/code&gt; position decrease 1, because we just did a swap and we need to check the new &lt;code&gt;i&lt;/code&gt; is less than &amp;lsquo;k&amp;rsquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /** 
+     *@param nums: The integer array you should partition
+     *@param k: As description
+     *return: The index after partition
+     */
+    public int partitionArray(int[] nums, int k) {
+        if(nums == null || nums.length == 0)
+            return 0;
+            
+        int pivot = 0;
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            if(i &amp;gt; pivot &amp;amp;&amp;amp; nums[i] &amp;lt; k) {
+                int tmp = nums[pivot];
+                nums[pivot++] = nums[i];
+                nums[i--] = tmp;
+            }
+        }
+        // this is just for corner case when the last element still less than k
+        if(nums[nums.length - 1] &amp;lt; k)
+            return nums.length;
+        return pivot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Subsets I &amp; II</title>
+      <link>http://xmruibi.github.io/2015/10/08/subsets-i--ii/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/08/subsets-i--ii/</guid>
+      <description>
+
+&lt;p&gt;Given a set of distinct integers, return all possible subsets.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4252bf8f97315f21664e67301a9bfa40&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;If S = &lt;code&gt;[1,2,3]&lt;/code&gt;, a solution is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;note:4252bf8f97315f21664e67301a9bfa40&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Elements in a subset must be in non-descending order.&lt;/p&gt;
+
+&lt;p&gt;For Question I: The solution set must not contain duplicate subsets.
+For Question II: The solution set may contain duplicate subsets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Question I：
+public class Solution {
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; subsets(int[] num) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt;();
+        if(num == null || num.length == 0) {
+            return result;
+        }
+        ArrayList&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
+        Arrays.sort(num);  
+        subsetsHelper(result, list, num, 0);
+
+        return result;
+    }
+
+
+    private void subsetsHelper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result,
+        ArrayList&amp;lt;Integer&amp;gt; list, int[] num, int pos) {
+
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+
+        for (int i = pos; i &amp;lt; num.length; i++) {
+            list.add(num[i]);
+            subsetsHelper(result, list, num, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+
+
+// Question II:
+public class Solution {
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; subsetsWithDup(ArrayList&amp;lt;Integer&amp;gt; num) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt;();
+        if(num == null || num.size() == 0) {
+            return result;
+        }
+        ArrayList&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
+        Collections.sort(num);  
+        subsetsHelper(result, list, num, 0);
+
+        return result;
+    }
+
+
+    private void subsetsHelper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result,
+        ArrayList&amp;lt;Integer&amp;gt; list, ArrayList&amp;lt;Integer&amp;gt; num, int pos) {
+
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+
+        for (int i = pos; i &amp;lt; num.size(); i++) {
+            if(i &amp;gt; pos &amp;amp;&amp;amp; num.get(i) == num.get(i-1))
+                continue;
+            list.add(num.get(i));
+            subsetsHelper(result, list, num, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

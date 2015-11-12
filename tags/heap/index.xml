@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Heap on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/heap/</link>
+    <description>Recent content in Heap on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 10:23:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/heap/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Closest Binary Search Tree Value</title>
+      <link>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</guid>
+      <description>
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;note:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;Given target value is a floating point.
+You are guaranteed to have only one unique value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClosestBSTValue {
+	double min = Double.MAX_VALUE;
+	TreeNode closest = null;
+
+	public int closestValue(TreeNode root, double target) {
+		if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+		helper(root, target);
+		return closest.val;
+	}
+
+	private void helper(TreeNode node, double target) {
+		if (node == null)
+			return;
+		if (Math.abs((double) node.val - target) &amp;lt; min) {
+			min = Math.abs((double) node.val - target);
+			closest = node;
+		}
+		
+		if((double) node.val &amp;gt; target) {
+			helper(node.left, target);
+		}else{
+			helper(node.right, target);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find &lt;strong&gt;k values&lt;/strong&gt; in the BST that are closest to the target.&lt;/p&gt;
+
+&lt;h4 id=&#34;note-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Given target value is a floating point.&lt;/li&gt;
+&lt;li&gt;You may assume &lt;code&gt;k&lt;/code&gt; is always valid, that is:&lt;code&gt;k ≤ total&lt;/code&gt; nodes.&lt;/li&gt;
+&lt;li&gt;You are guaranteed to have only one unique set of &lt;code&gt;k&lt;/code&gt; values in the BST that are closest to the target.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;follow-up:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Follow up&lt;/h4&gt;
+
+&lt;p&gt;Assume that the BST is balanced, could you solve it in less than $$O(n)$$ runtime (where n = total nodes)?&lt;/p&gt;
+
+&lt;h4 id=&#34;hint:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Hint&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider implement these two helper functions:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;getPredecessor(N)&lt;/code&gt;, which returns the next smaller node to N.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getSuccessor(N)&lt;/code&gt;, which returns the next larger node to N.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Try to assume that each node has a parent pointer, it makes the problem much easier.&lt;/li&gt;
+&lt;li&gt;Without parent pointer we just need to keep track of the path from the root to the current node using a stack.&lt;/li&gt;
+&lt;li&gt;You would need two stacks to track the path in finding predecessor and successor node separately.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;think-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Think #1&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The straight-forward solution would be to use a &lt;strong&gt;heap&lt;/strong&gt;. We just treat the BST just as a usual array and do a in-order traverse. Then we compare the current element with the minimum element in the heap, the same as top k problem.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution #1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private PriorityQueue&amp;lt;Integer&amp;gt; minPQ;
+    private int count = 0;
+    public List&amp;lt;Integer&amp;gt; closestKValues(TreeNode root, double target, int k) {
+        minPQ = new PriorityQueue&amp;lt;;Integer&amp;gt;(k);
+        List&amp;lt;Integer&amp;gt; result = new ArrayList&amp;lt;Integer&amp;gt;();
+         
+        inorderTraverse(root, target, k);
+         
+        // Dump the pq into result list
+        for (Integer elem : minPQ) {
+            result.add(elem);
+        }
+         
+        return result;
+    }
+     
+    private void inorderTraverse(TreeNode root, double target, int k) {
+        if (root == null) {
+            return;
+        }
+         
+        inorderTraverse(root.left, target, k);
+         
+        if (count &amp;lt; k) {
+            minPQ.offer(root.val);
+        } else {
+            if (Math.abs((double) root.val - target) &amp;amp;lt; Math.abs((double) minPQ.peek() - target)) {
+                minPQ.poll();
+                minPQ.offer(root.val);
+            }
+        }
+        count++;
+         
+        inorderTraverse(root.right, target, k);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator and Top N Element</title>
+      <link>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</link>
+      <pubDate>Sun, 18 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</guid>
+      <description>
+
+&lt;p&gt;Given a Iterator with next giving instances of Line class
+Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN)&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Line { 
+	String ip; 
+	String request; 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:e7d3af666f82f503d1c6dba97391692a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+	public List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN) {
+		Map&amp;lt;String, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		while(itertor.hasNext()) {
+			Line cur = iterator.next();
+			map.put(cur.ip, map.containsKey(cur.ip)? map.get(cur.ip) + 1 : 1);
+		}
+		PriorityQueue&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt;(){
+			@Override
+			public int compare(Map.Entry&amp;lt;String, Integer&amp;gt; o1, Map.Entry&amp;lt;String, Integer&amp;gt; o2){
+				return Integer.compare(o2.getValue(), o1.getValue());
+			}
+		});
+		for(Map.Entry&amp;lt;String, Integer&amp;gt; entry : map) {
+			heap.offer(entry);
+		}
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		while(topN &amp;gt; 0) {
+			res.add(heap.poll().getKey());
+		}
+		return res;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

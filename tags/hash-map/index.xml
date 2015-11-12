@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hash Map on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/hash-map/</link>
+    <description>Recent content in Hash Map on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 20:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Alien Dictionary</title>
+      <link>http://xmruibi.github.io/2015/11/09/alien-dictionary/</link>
+      <pubDate>Mon, 09 Nov 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/alien-dictionary/</guid>
+      <description>
+
+&lt;p&gt;There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following words in dictionary,
+&lt;code&gt;[
+  &amp;quot;wrt&amp;quot;,
+  &amp;quot;wrf&amp;quot;,
+  &amp;quot;er&amp;quot;,
+  &amp;quot;ett&amp;quot;,
+  &amp;quot;rftt&amp;quot;
+]&lt;/code&gt;
+The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Note&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You may assume all letters are in lowercase.&lt;/li&gt;
+&lt;li&gt;If the order is invalid, return an empty string.&lt;/li&gt;
+&lt;li&gt;There may be multiple valid order of letters, return any one of them is fine.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical topological problem&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static String alienOrder(String[] words) {
+        // build up the node map, find node according to the char
+        HashMap&amp;lt;Character, Node&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        // iterate through all provided words
+        for (String str : words) {
+            // read each word and learn their order
+            map.put(str.charAt(0),
+                    map.containsKey(str.charAt(0)) ? map.get(str.charAt(0))
+                            : new Node(str.charAt(0)));
+            for (int i = 1; i &amp;lt; str.length(); i++) {
+                char cur = str.charAt(i);
+                // ignore the adjacent equal characters
+                if(cur == str.charAt(i-1))
+                    continue;
+                Node node = map.containsKey(cur) ? map.get(cur) : new Node(cur);
+                Node prev = map.get(str.charAt(i - 1));
+                // make current node indegree plus one only if the previous node doesn&#39;t have current node in its neighborhood list 
+                if (!prev.neighbors.contains(node) ) {
+                    node.indegree++;
+                    map.get(str.charAt(i - 1)).neighbors.add(node);
+                }
+                map.put(cur, node);
+            }
+        }
+
+        // find the node with zero indegree
+        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for (Node node : map.values())
+            if (node.indegree == 0)
+                queue.offer(node);
+        // build the final string,
+        StringBuilder sb = new StringBuilder();
+        // each time pop the node with zero indegree 
+        // reduce their neighbor&#39;s indegree and push node when it has zero indegree
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            sb.append(node.c);
+            map.remove(node.c);
+            for (Node nb : node.neighbors) {
+                nb.indegree--;
+                if (nb.indegree == 0 &amp;amp;&amp;amp; map.containsKey(nb.c))
+                    queue.offer(nb);
+            }
+        }
+        // if map has any entry means the cycle existed
+        if (map.size() &amp;gt; 0)
+            return &amp;quot;&amp;quot;;
+
+        return sb.toString();
+    }
+
+    private static class Node {
+        char c;
+        int indegree;
+        List&amp;lt;Node&amp;gt; neighbors;
+
+        public Node(char c) {
+            this.c = c;
+            this.indegree = 0;
+            this.neighbors = new ArrayList&amp;lt;&amp;gt;();
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Palindrome Permutation</title>
+      <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a string, determine if a permutation of the string could form a palindrome.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;example:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;code&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;&amp;quot;carerac&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
+- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
+- If the length is odd. One and only one character could appear odd times.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean canPermutePalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		for (char c : s.toCharArray())
+			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+
+		int tolerent = 0;
+		for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+			if (entry.getValue() % 2 != 0) {
+				tolerent++;
+			}
+		}
+		if (s.length() % 2 != 0)
+			return tolerent == 1;
+		else
+			return tolerent == 0;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
+Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
+&lt;li&gt;Address the case when the length is odd
+
+&lt;ul&gt;
+&lt;li&gt;Record the character with odd frequency&lt;/li&gt;
+&lt;li&gt;Initialize the generation String with the Odd character&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
+        HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if (s == null || s.length() == 0)
+            return new ArrayList&amp;lt;String&amp;gt;(res);
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (char c : s.toCharArray())
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        
+        // check if it is odd length, increase the tolerance when it is odd length
+        int tolerent = 0;
+        if (s.length() % 2 != 0)
+            tolerent++;
+        
+        // record the odd item to set as the base of generate String
+        char odd = &#39;\u0000&#39;;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                if (tolerent &amp;gt; 0) {
+                    tolerent--;
+                    odd = entry.getKey(); // set it
+                } else
+                    return new ArrayList&amp;lt;String&amp;gt;(res);
+            }
+        }
+        // set the base String when the odd case
+        String cur = &amp;quot;&amp;quot;;
+        if (odd != &#39;\u0000&#39;) {
+            map.put(odd, map.get(odd) - 1);
+            if (map.get(odd) == 0)
+                map.remove(odd);
+            cur = &amp;quot;&amp;quot; + odd;
+        }
+        
+        // generate the palindrome
+        helper(res, map, cur, s);
+        return new ArrayList&amp;lt;String&amp;gt;(res);
+    }
+
+    private static void helper(Set&amp;lt;String&amp;gt; res,
+            HashMap&amp;lt;Character, Integer&amp;gt; map, String cur, String origin) {
+        if (map.size() == 0) {
+            res.add(new String(cur));
+            return;
+        }
+
+        for (int i = 0; i &amp;lt; origin.length(); i++) {
+            char c = origin.charAt(i);
+            if (!map.containsKey(c))
+                continue;
+            cur = (c + cur + c);
+            map.put(c, map.get(c) - 2);
+            if (map.get(c) == 0)
+                map.remove(c);
+            helper(res, map, cur, origin);
+            cur = cur.substring(1, cur.length() - 1);
+            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Group Shifted Strings</title>
+      <link>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</guid>
+      <description>
+
+&lt;p&gt;Given a string, we can “shift” each of its letter to its successive letter, for example: &lt;code&gt;“abc”&lt;/code&gt; -&amp;gt; &lt;code&gt;“bcd”&lt;/code&gt;. We can keep “shifting” which forms the sequence:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot; -&amp;gt; &amp;quot;bcd&amp;quot; -&amp;gt; ... -&amp;gt; &amp;quot;xyz&amp;quot;&lt;/code&gt;
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;given: [&amp;ldquo;abc&amp;rdquo;, &amp;ldquo;bcd&amp;rdquo;, &amp;ldquo;acef&amp;rdquo;, &amp;ldquo;xyz&amp;rdquo;, &amp;ldquo;az&amp;rdquo;, &amp;ldquo;ba&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;z&amp;rdquo;], Return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;abc&amp;quot;,&amp;quot;bcd&amp;quot;,&amp;quot;xyz&amp;quot;],
+  [&amp;quot;az&amp;quot;,&amp;quot;ba&amp;quot;],
+  [&amp;quot;acef&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;z&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##Note
+For the return value, each inner list’s elements must follow the lexicographic order.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is a regular pattern: if two words are shifted, the distance between two adjacent characters are the same.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    2   3        2   3
+    /\ /\        /\ /\
+   a  c  f - &amp;gt;  e  g  j 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;So all we need to do is figure out the distance between each character in each word and make these distance as a code to represent the word.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class GroupShiftedString {
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; groupStrings(String[] strings) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (String str : strings) {
+            String code = getCode(str);
+            List&amp;lt;String&amp;gt; val;
+            if (!map.containsKey(code)) {
+                val = new ArrayList&amp;lt;&amp;gt;();
+            } else {
+                val = map.get(code);
+            }
+            val.add(str);
+            map.put(code, val);
+        }
+
+        for (Map.Entry&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; entry : map.entrySet()) {
+            List&amp;lt;String&amp;gt; val = entry.getValue();
+            Collections.sort(val);
+            res.add(val);
+        }
+        return res;
+    }
+
+    private String getCode(String s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(&amp;quot;#&amp;quot;);
+        for (int i = 1; i &amp;lt; s.length(); i++) {
+            int tmp = ((s.charAt(i) - s.charAt(i - 1)) + 26) % 26;
+            sb.append(tmp).append(&amp;quot;#&amp;quot;);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shortest Word Distance</title>
+      <link>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</guid>
+      <description>
+
+&lt;p&gt;Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h3 id=&#34;example:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;“coding”&lt;/code&gt;, word2 = &lt;code&gt;“practice”&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The problem can be solved by one-pass of the array.&lt;/li&gt;
+&lt;li&gt;Iterate through the array, use two pointers pointing to the index of the word1 and word2, maintain the minimum distance.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2))
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I.The only difference is now you are given the list of words and your method will be called repeatedly many times with different parameters. How would you optimize it?
+Design a class which receives a list of words in the constructor, and implements a method that takes two words word1 and word2 and return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;practice&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.&lt;/li&gt;
+&lt;li&gt;Save the word and its indexes as key and value in constructor.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ShortestWordDistance {
+    // here is thread safe, since only constructor contains writing method
+    private final HashMap&amp;lt;String, List&amp;lt;Integer&amp;gt;&amp;gt; map;
+
+	public ShortestWordDistance(String[] words) {
+		map = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; words.length; i++) {
+			List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+			if (map.containsKey(words[i]))
+				list = map.get(words[i]);
+			list.add(i);
+			map.put(words[i], list);
+		}
+	}
+
+	public int shortestDistanceII(String word1, String word2) {
+		int min = Integer.MAX_VALUE;
+		if (!map.containsKey(word1) || !map.containsKey(word2))
+			return min;
+		for (int i : map.get(word1)) {
+			for (int j : map.get(word2)) {
+				min = Math.min(min, Math.abs(i - j));
+			}
+		}
+		return min;
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I. The only difference is &lt;strong&gt;now word1 could be the same as word2&lt;/strong&gt;.
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+word1 and word2 may be the same and they represent two individual words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Most code should remain the same as the Problem I. But need to deal with the situation that word1 and word2 are the same.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w1Idx&lt;/code&gt; always record the index when &lt;code&gt;word[i].equals(word1)&lt;/code&gt; but &lt;code&gt;w2Idx&lt;/code&gt; should be assigned as the value from &lt;code&gt;w1Idx&lt;/code&gt; when &lt;code&gt;word1 == word2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2)) // else if to avoid w2Idx be recorded whrn word1==word2
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1 &amp;amp;&amp;amp; w1Idx != w2Idx){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+			 if(word2.equals(word1))
+			    w2Idx = w1Idx; // update previous index record
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

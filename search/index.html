@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Search Results &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.iofavicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io/apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iocss/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.iofancybox/jquery.fancybox.css">
+    <meta property="og:title" content="Search Results" />
+<meta property="og:description" content="&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- Oops&hellip; This function still under construction! Everything is fine, just need a VPS to store the article index! Learn about Hugo insite search? Please see Bleeve Search. {{#hasMultiplePages}}Page {{page}} of {{/hasMultiplePages}} {{total_hits}} results ({{searchTime}}) {{#hits}} {{fields.title}} {{roundScore}} {{fields.author}} on {{fields.date}} {{#fragments}} {{#content}} {{{.}}} {{/content}} {{/fragments}} {{/hits}} Refine Results {{#each facets}} {{@key}} {{#each terms}} {{term}} ({{count}}) {{/each}} {{#each date_ranges}} {{name}} ({{count}}) {{/each}} {{/each}} {{#hasMultiplePages}} {{#notOnFirstPage}} &laquo; {{/notOnFirstPage}} {{#validPages}} {{index}} {{/validPages}} {{#notOnLastPage}} &raquo; {{/notOnLastPage}} {{/hasMultiplePages}} Your search - {{userQuery}} - did not match any documents." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/search/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Search Results">
+<meta itemprop="description" content="&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- Oops&hellip; This function still under construction! Everything is fine, just need a VPS to store the article index! Learn about Hugo insite search? Please see Bleeve Search. {{#hasMultiplePages}}Page {{page}} of {{/hasMultiplePages}} {{total_hits}} results ({{searchTime}}) {{#hits}} {{fields.title}} {{roundScore}} {{fields.author}} on {{fields.date}} {{#fragments}} {{#content}} {{{.}}} {{/content}} {{/fragments}} {{/hits}} Refine Results {{#each facets}} {{@key}} {{#each terms}} {{term}} ({{count}}) {{/each}} {{#each date_ranges}} {{name}} ({{count}}) {{/each}} {{/each}} {{#hasMultiplePages}} {{#notOnFirstPage}} &laquo; {{/notOnFirstPage}} {{#validPages}} {{index}} {{/validPages}} {{#notOnLastPage}} &raquo; {{/notOnLastPage}} {{/hasMultiplePages}} Your search - {{userQuery}} - did not match any documents.">
+
+
+
+<meta itemprop="wordCount" content="88">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,classical-problem,classification,collaborative-search-engine,combination,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,cloud-computing,design,devops,information-retrieval,java,javascript,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Search Results"/>
+<meta name="twitter:description" content="&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- Oops&hellip; This function still under construction! Everything is fine, just need a VPS to store the article index! Learn about Hugo insite search? Please see Bleeve Search. {{#hasMultiplePages}}Page {{page}} of {{/hasMultiplePages}} {{total_hits}} results ({{searchTime}}) {{#hits}} {{fields.title}} {{roundScore}} {{fields.author}} on {{fields.date}} {{#fragments}} {{#content}} {{{.}}} {{/content}} {{/fragments}} {{/hits}} Refine Results {{#each facets}} {{@key}} {{#each terms}} {{term}} ({{count}}) {{/each}} {{#each date_ranges}} {{name}} ({{count}}) {{/each}} {{/each}} {{#hasMultiplePages}} {{#notOnFirstPage}} &laquo; {{/notOnFirstPage}} {{#validPages}} {{index}} {{/validPages}} {{#notOnLastPage}} &raquo; {{/notOnLastPage}} {{/hasMultiplePages}} Your search - {{userQuery}} - did not match any documents."/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.iocss/images/logo.png')"></i><span class="site-title">Geek Think</span></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/search/">
+    <h1 class="article-title" itemprop="name">
+        Search Results
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" itemprop="datePublished">0001-01-01</time>
+            &middot;
+            88
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+        </div>
+            <div class="article-category">                
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<form method="GET"  role="search" id="search" action="/search">
+<div class="row">
+    <!-- search form -->
+
+    <div class="col-md-12">
+            <div id="custom-search-input">
+                <div class="input-group col-md-6 col-md-offset-3">
+                    <input id="page" name="p" value="1" type="hidden"/>
+                    <input id="query" name="q" type="search" placeholder="Refine" />
+                </div>
+            </div>
+    </div>
+    <!-- search results -->
+    <div id="searchResultsArea" class="col-md-12"></div>
+</div>
+</form>
+
+<h2 id="toc_0:4953bf99d7018c161b1b361cb25f1331">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-</h2>
+
+<h2 id="oops-this-function-still-under-construction:4953bf99d7018c161b1b361cb25f1331">Oops&hellip; This function still under construction!</h2>
+
+<p>Everything is fine, just need a VPS to store the article index!</p>
+
+<p>Learn about Hugo insite search?</p>
+
+<p>Please see <a href="https://github.com/blevesearch/hugoidx">Bleeve Search</a>.</p>
+
+<script id="searchResultsTmpl" type="text/x-handlebars-template">
+
+    <h5>
+        {{#hasMultiplePages}}Page {{page}} of {{/hasMultiplePages}}
+        {{total_hits}} results ({{searchTime}})
+    </h5>
+
+    <div class="col-md-8">
+    {{#hits}}
+        <div>
+            <b>
+                <a class="resultLink" href="{{id}}">{{fields.title}}</a>
+            </b>
+                     
+            <span class="badge pull-right">{{roundScore}}</span>
+                    
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    <b>{{fields.author}}</b> on {{fields.date}}
+                </div>
+
+                <div class="panel-body">
+                    {{#fragments}}
+                        <div>
+                            {{#content}}
+                                <div>{{{.}}}</div>
+                            {{/content}}
+                        </div>
+                    {{/fragments}}
+                </div>
+
+            </div>
+        </div>
+    {{/hits}}
+    </div>
+
+    <div class="col-md-3 col-md-offset-1">
+        <h3>Refine Results</h3>
+        {{#each facets}}
+            <div class="panel panel-default">
+                <div class="panel-heading"><b>{{@key}}</b></div>
+                <div class="panel-body">
+                    {{#each terms}}
+                    <div class="checkbox">
+                      <label>
+                        <input name="f{{@../key}}" type="checkbox" value="{{term}}" onclick="toggleFilter('{{@../key}}','{{term}}',event);" {{checked isChecked}}>
+                        {{term}} ({{count}})
+                      </label>
+                    </div>
+                    {{/each}}
+                    {{#each date_ranges}}
+                    <div class="checkbox">
+                      <label>
+                        <input name="f{{@../key}}" type="checkbox" value="{{name}}" onclick="toggleFilter('{{@../key}}','{{name}}',event);" {{checked isChecked}}>
+                        {{name}} ({{count}})
+                      </label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+
+
+    {{#hasMultiplePages}}
+        <div class="col-md-4 col-md-offset-4">
+            <ul class="pagination">
+                {{#notOnFirstPage}}
+                    <li>
+                        <a onclick="jumpToPage({{prevPage}})" href="">&laquo;</a>
+
+                {{/notOnFirstPage}}
+
+                {{#validPages}}
+                    <li class="{{clazz}}">
+                        <a href="" onclick="jumpToPage({{index}}, event)">{{index}}</a>
+                    </li>
+                {{/validPages}}
+                
+                {{#notOnLastPage}}
+                    <li>
+                        <a onclick="jumpToPage(nextPage)" href="">&raquo;</a>
+                    </li>
+                {{/notOnLastPage}}
+            </ul>
+        </div>
+    {{/hasMultiplePages}}
+</script>
+<script id="noHitsTmpl" type="text/x-handlebars-template">
+    <h5>Your search - {{userQuery}} - did not match any documents.</h5>
+</script>
+<script id="searchErrorTmpl" type="text/x-handlebars-template">
+    <h5>Error executing search: {{msg}}</h5>
+</script>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/search/" data-id="4953bf99d7018c161b1b361cb25f1331" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/search//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+
+    
+    <a href="http://xmruibi.github.io/license/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title"></div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/search\/';
+    var disqus_title = 'Search Results';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/search\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#toc_0:4953bf99d7018c161b1b361cb25f1331">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-</a></li>
+<li><a href="#oops-this-function-still-under-construction:4953bf99d7018c161b1b361cb25f1331">Oops&hellip; This function still under construction!</a></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015<br>
+      Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.iofancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.iojs/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

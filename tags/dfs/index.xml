@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dfs on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/dfs/</link>
+    <description>Recent content in Dfs on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 18:23:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/dfs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Graph Valid Tree</title>
+      <link>http://xmruibi.github.io/2015/11/09/graph-valid-tree/</link>
+      <pubDate>Mon, 09 Nov 2015 18:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/graph-valid-tree/</guid>
+      <description>
+
+&lt;p&gt;Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes), write a function to check whether these edges make up a valid tree.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:194499d790c6736e277a571e18e70b4f&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given n = &lt;code&gt;5&lt;/code&gt; and edges = &lt;code&gt;[[0, 1], [0, 2], [0, 3], [1, 4]]&lt;/code&gt;, return true.
+Given n = &lt;code&gt;5&lt;/code&gt; and edges = &lt;code&gt;[[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]&lt;/code&gt;, return false.&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:194499d790c6736e277a571e18e70b4f&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;h5 id=&#34;the-definition-of-tree-on-wikipedia:194499d790c6736e277a571e18e70b4f&#34;&gt;The definition of tree on Wikipedia:&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;a tree is an undirected graph in which any two vertices are connected by exactly one path. In other words, any connected graph without simple cycles is a tree.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h6 id=&#34;note-you-can-assume-that-no-duplicate-edges-will-appear-in-edges-since-all-edges-are-undirected-0-1-is-the-same-as-1-0-and-thus-will-not-appear-together-inedges:194499d790c6736e277a571e18e70b4f&#34;&gt;Note: You can assume that no duplicate edges will appear in edges. Since all edges are undirected, &lt;code&gt;[0, 1]&lt;/code&gt; is the same as &lt;code&gt;[1, 0]&lt;/code&gt; and thus will not appear together inedges.&lt;/h6&gt;
+
+&lt;h2 id=&#34;think:194499d790c6736e277a571e18e70b4f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Given n = &lt;code&gt;5&lt;/code&gt; and edges = &lt;code&gt;[[0, 1], [1, 2], [3, 4]]&lt;/code&gt;, what should your return? Is this case a valid tree?&lt;/p&gt;
+
+&lt;p&gt;No, isolate node shouldn&amp;rsquo;t be allowed.&lt;/p&gt;
+
+&lt;p&gt;Design a Node class:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    private class Node {
+		int val;
+		List&amp;lt;Integer&amp;gt; neighbors;
+
+		public Node(int val) {
+			this.val = val;
+			this.neighbors = new ArrayList&amp;lt;&amp;gt;();
+		}
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-bfs:194499d790c6736e277a571e18e70b4f&#34;&gt;Solution #BFS&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean validTree(int n, int[][] edges) {
+		Node[] nodes = new Node[n];
+		for (int i = 0; i &amp;lt; nodes.length; i++)
+			nodes[i] = new Node(i);
+		for (int[] edge : edges) {
+			nodes[edge[0]].neighbors.add(edge[1]);
+			nodes[edge[1]].neighbors.add(edge[0]);
+		}
+
+		boolean[] visited = new boolean[n];
+		Queue&amp;lt;Integer&amp;gt; queue = new LinkedList&amp;lt;Integer&amp;gt;();
+		queue.offer(0);
+
+		while (!queue.isEmpty()) {
+			int vertexId = queue.poll();
+			// touch the cycle
+			if (visited[vertexId]) 
+				return false;
+			
+			visited[vertexId] = true;
+			for (int neighbor : nodes[vertexId].neighbors) {
+				if (!visited[neighbor])
+					queue.offer(neighbor);
+			}
+		}
+
+		// Check the isolate
+		for (boolean v : visited) {
+			if (!v)
+				return false;
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-dfs:194499d790c6736e277a571e18e70b4f&#34;&gt;Solution #DFS&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean validTreeDFS(int n, int[][] edges) {
+        Node[] nodes = new Node[n];
+        for (int i = 0; i &amp;lt; nodes.length; i++)
+            nodes[i] = new Node(i);
+        for (int[] edge : edges) {
+            nodes[edge[0]].neighbors.add(edge[1]);
+            nodes[edge[1]].neighbors.add(edge[0]);
+        }
+
+        // all node should connected from zero
+        boolean[] visited = new boolean[n];
+        if (!dfsHelper(nodes, visited, 0, -1))
+            return false;
+        
+        // Check the isolate
+        for (boolean v : visited) {
+            if (!v)
+                return false;
+        }
+        return true;
+    }
+
+    private boolean dfsHelper(Node[] nodes, boolean[] visited, int idx,
+            int parentIdx) {
+        if (visited[idx])
+            return false;
+        visited[idx] = true;
+        for (int i = 0; i &amp;lt; nodes[idx].neighbors.size(); i++) {
+            if (nodes[idx].neighbors.get(i) == parentIdx)
+                continue;
+            if (!dfsHelper(nodes, visited, nodes[idx].neighbors.get(i), idx))
+                return false;
+        }
+        return true;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Boggle Game</title>
+      <link>http://xmruibi.github.io/2015/10/25/boggle-game/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/boggle-game/</guid>
+      <description>
+
+&lt;p&gt;Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:2f4b37296a213552305b81233c8b6afa&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;DFS on character board to do backtracking.&lt;/li&gt;
+&lt;li&gt;Searching the character for 8 directions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:2f4b37296a213552305b81233c8b6afa&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+
+    public List&amp;lt;String&amp;gt; findWords(HashSet&amp;lt;String&amp;gt; dict, char[][] board) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            for(int j = 0; j &amp;lt; board[i].length; j++) {
+                findUtil(res, dict, board, visited, &amp;quot;&amp;quot;, i, j);
+            }
+        }
+        return res;
+    }
+
+    private void findUtil(List&amp;lt;String&amp;gt; res, HashSet&amp;lt;String&amp;gt; dict, char[][] board, boolean[][] visited, String cur, int x, int y) {
+        visited[x][y] = true;
+        cur += board[x][y];
+
+        if(dict.contains(cur)) {
+            res.add(cur);
+            dict.remvoe(cur);
+            return;
+        }
+        
+        int[] xs = {1,1,1,0,0,-1,-1,-1};
+        int[] ys = {1,-1,0,1,-1,0,1,-1};
+        for(int i = 0; i &amp;lt; 8; i++) {
+            int nx = xs[i] + x;
+            int ny = ys[i] + y;
+            if(nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; board.length &amp;amp;&amp;amp; ny &amp;gt;= 0 &amp;amp;&amp;amp; ny &amp;lt; board[nx].length &amp;amp;&amp;amp; !visited[nx][ny])
+                findUtil(res, dict, board, visited, cur, nx, ny);
+        }
+        visited[x][y] = false;
+        cur = cur.substring(0, cur.length() - 1);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Continuous Subsequence II</title>
+      <link>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</link>
+      <pubDate>Fri, 16 Oct 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer matrix (with row size n, column size m)，find the longest increasing continuous subsequence in this matrix. (The definition of the longest increasing continuous subsequence here can start at any row or column and go up/down/right/left any direction).&lt;/p&gt;
+
+&lt;h3 id=&#34;example:9321d1328289f6728c3ab40424379af8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1 ,2 ,3 ,4 ,5],
+  [16,17,24,23,6],
+  [15,18,25,22,7],
+  [14,19,20,21,8],
+  [13,12,11,10,9]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;25&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:9321d1328289f6728c3ab40424379af8&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(nm) time and memory.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:9321d1328289f6728c3ab40424379af8&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is great question with DFS, Dynamic Problem and Subsequence idea.&lt;/li&gt;
+&lt;li&gt;The idea is also simple. Recursively search by DFS while we can do some memorized stuff.&lt;/li&gt;
+&lt;li&gt;Each time we figure out the maximum length with reversed increasing sequence from each element in matrix.&lt;/li&gt;
+&lt;li&gt;Note that the searching is by decreasing way.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A an integer matrix
+     * @return  an integer
+     */
+    // memorized the local maximum length
+    int[][] memo;
+
+    boolean[] visited;
+    int n ,m;
+
+    // stepping way for dfs
+    int[] dx = {1,-1,0,0}; 
+    int[] dy = {0,0,1,-1};
+
+    public int longestIncreasingContinuousSubsequenceII(int[][] A) {
+        if(A.length == 0)
+            return 0;
+        n = A.length;
+        m  = A[0].length;
+        
+        memo = new int[n][m];
+        visited = new boolean[n*m];
+        
+        int res = 0;
+        for(int i = 0; i &amp;lt; n; i++) {
+            for(int j = 0; j &amp;lt; m; j++) { 
+                memo[i][j] = helper(i, j, A);
+                res = Math.max(res, memo[i][j]);
+            }
+        }
+        return res;
+    }
+    
+    private int helper(int x, int y, int[][] A) {
+        // once it touched the visited element, return that value
+        if(visited[x * m + y])
+            return memo[x][y];
+        
+        int res = 1; 
+        for(int i = 0; i &amp;lt; 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0&amp;lt;= nx &amp;amp;&amp;amp; nx &amp;lt; n &amp;amp;&amp;amp; 0&amp;lt;= ny &amp;amp;&amp;amp; ny &amp;lt; m ) {
+                // this is tricky point, we search by decreasing
+                if( A[x][y] &amp;gt; A[nx][ny]) 
+                    res = Math.max(res,  helper(nx, ny, A) + 1);
+            }
+        }
+        visited[x * m + y] = true;
+        memo[x][y] = res;
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Route Between Two Nodes in Directed Graph</title>
+      <link>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</link>
+      <pubDate>Sun, 11 Oct 2015 15:14:18 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/11/route-between-two-nodes-in-directed-graph/</guid>
+      <description>
+
+&lt;p&gt;Given a directed graph, design an algorithm to find out whether there is a route between two nodes.&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:8b5cccba779597a5ebdb3da6cea8fb3e&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Most typical Graph algorithm question!&lt;/li&gt;
+&lt;li&gt;Try two ways: DFS, BFS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+   /**
+     * @param graph: A list of Directed graph node
+     * @param s: the starting Directed graph node
+     * @param t: the terminal Directed graph node
+     * @return: a boolean value
+     */
+     
+     // BFS
+     public boolean hasRoute(ArrayList&lt;DirectedGraphNode&gt; graph, 
+                            DirectedGraphNode s, DirectedGraphNode t) {
+        
+        if(s == t)
+            return true;
+
+        Queue&lt;DirectedGraphNode&gt; queue = new LinkedList&lt;&gt;();
+        queue.offer(s);
+        graph.remove(s);
+        while(!queue.isEmpty()) {
+            DirectedGraphNode cur = queue.remove();
+            graph.remove(cur);
+            for(DirectedGraphNode next : cur.neighbors) {
+                if(!graph.contains(next))
+                    continue;
+                if(next == t)
+                    return true;
+                queue.offer(next);
+            }
+        }
+        return false;
+    }
+     
+     
+    // DFS
+    public boolean hasRoute(ArrayList&lt;DirectedGraphNode&gt; graph, 
+                            DirectedGraphNode s, DirectedGraphNode t) {
+        // write your code here
+        if(s == t)
+            return true;
+            
+        graph.remove(s);
+        for(DirectedGraphNode next : s.neighbors) {
+            if(!graph.contains(next))
+                    continue;
+            if(hasRoute(graph, next, t))
+                return true;
+        }
+        graph.add(s);
+        return false;
+    }
+}
+
+
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Flaten Multiple Level Linked List</title>
+      <link>http://xmruibi.github.io/2015/09/08/flaten-multiple-level-linked-list/</link>
+      <pubDate>Tue, 08 Sep 2015 23:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/09/08/flaten-multiple-level-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure, as shown in below figure.You are given the head of the first level of the list. Flatten the list so that all the nodes appear in a single-level linked list. You need to flatten the list in way that all nodes at first level should come first, then nodes of second level, and so on.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;	1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4
+		 |		   |
+		 5 —&amp;gt; 6 -&amp;gt; 7
+		 	  |    |
+		 	  8 -&amp;gt; 9
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;node-structure:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Node Structure&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Node{
+	int val;
+	Node next;
+	Node child;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution{
+    /**
+    * BFS with queue
+    * @param root Node 
+    **/
+    public Set&amp;lt;Integer&amp;gt; flatten(Node root) {
+
+        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        Set&amp;lt;Integer&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            Node root = queue.remove();
+            set.add(root.val);
+            if(root.next!=null &amp;amp;&amp;amp; !set.contains(root.next.val))
+                queue.offer(root.next);
+            if(root.child!=null &amp;amp;&amp;amp; !set.contains(root.child.val))
+                queue.offer(root.child);
+        }
+        return res
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
