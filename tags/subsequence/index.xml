@@ -7,8 +7,78 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2015 13:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/subsequence/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Consecutive Sequence in Binary Tree</title>
+      <link>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</link>
+      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree, find the length of the longest consecutive sequence path.&lt;/p&gt;
+
+&lt;p&gt;The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The longest consecutive path need to be from parent to child (cannot be the reverse).&lt;/p&gt;
+
+&lt;h3 id=&#34;example:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;   1
+    \
+     3
+    / \
+   2   4
+        \
+         5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Longest consecutive sequence path is &lt;code&gt;3-4-5&lt;/code&gt;, so return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   2
+    \
+     3
+    / 
+   2    
+  / 
+ 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Longest consecutive sequence path is &lt;code&gt;2-3&lt;/code&gt;, not &lt;code&gt;3-2-1&lt;/code&gt;, so return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Simple recursion way&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class LCSinBT {
+    int maxLength = 1;
+
+    public int longestConsecutive(TreeNode root) {
+        if(root == null)
+            return 0;
+        helper(root, 1);
+        return maxLength;
+    }
+
+    private void helper(TreeNode node, int length) {
+        if (node.left == null &amp;amp;&amp;amp; node.right == null) {
+            maxLength = Math.max(length, maxLength);
+            return;
+        }
+
+        if (node.left != null &amp;amp;&amp;amp; node.left.val == node.val + 1)
+            helper(node.left, length + 1);
+        if (node.right != null &amp;amp;&amp;amp; node.right.val == node.val + 1)
+            helper(node.right, length + 1);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Distinct Subsequences</title>

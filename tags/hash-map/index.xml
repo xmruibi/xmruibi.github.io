@@ -7,8 +7,101 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 09 Nov 2015 20:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Unique Word Abbreviation</title>
+      <link>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</guid>
+      <description>
+
+&lt;p&gt;An abbreviation of a word follows the form &lt;code&gt;&amp;lt;first letter&amp;gt;&amp;lt;number&amp;gt;&amp;lt;last letter&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples of word abbreviations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    a) it                      --&amp;gt; it    (no abbreviation)
+    
+         1
+    b) d|o|g                   --&amp;gt; d1g
+    
+                  1    1  1
+         1---5----0----5--8
+    c) i|nternationalizatio|n  --&amp;gt; i18n
+    
+                  1
+         1---5----0
+    d) l|ocalizatio|n          --&amp;gt; l10n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word&amp;rsquo;s abbreviation is unique if no other word from the dictionary has the same abbreviation.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a71989791a51f811869cd70e5706cbbe&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dictionary = [ &amp;ldquo;deer&amp;rdquo;, &amp;ldquo;door&amp;rdquo;, &amp;ldquo;cake&amp;rdquo;, &amp;ldquo;card&amp;rdquo; ]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;dear&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cart&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt; ;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cane&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;make&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a71989791a51f811869cd70e5706cbbe&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save dictionary words in a set&lt;/li&gt;
+&lt;li&gt;Save the abbreviation from dictionary word to a HashMap.&lt;/li&gt;
+&lt;li&gt;HashMap has the key with abbreviation and value with the original word&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;isUnique(word)&lt;/code&gt; by make abbreviation from that word and compare with the hashmap&lt;/li&gt;
+&lt;li&gt;If hashmap doesn&amp;rsquo;t contain that word, return true.&lt;/li&gt;
+&lt;li&gt;If hashmap contains that word, we should compare if the word is equal to the word saved in hashmap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a71989791a51f811869cd70e5706cbbe&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class UniqueWordAbbreviation {
+
+	Set&amp;lt;String&amp;gt; dict = new HashSet&amp;lt;&amp;gt;(); // keep the dictionary has unique words
+	Map&amp;lt;String, String&amp;gt; abbrDict = new HashMap&amp;lt;&amp;gt;();
+
+	public UniqueWordAbbreviation(String[] dictionary) {
+		for (String str : dictionary) {
+			if (dict.contains(str))
+				continue;
+			String abbr = makeAbbr(str);
+			if (!abbrDict.containsKey(abbr))
+				abbrDict.put(abbr, str);
+			else
+				abbrDict.put(abbr, &amp;quot;&amp;quot;);
+			dict.add(str);
+		}
+	}
+
+	public boolean isUnique(String word) {
+		String abbr = makeAbbr(word);
+		if (abbrDict.containsKey(abbr))
+			return word.equals(abbrDict.get(abbr));
+		return true;
+	}
+
+    private String makeAbbr(String str) {
+		if (str == null || str.length() &amp;lt;= 2)
+			return str;
+		int mid = str.length() - 2;
+		StringBuilder sb = new StringBuilder();
+		sb.append(str.charAt(0));
+		sb.append(mid);
+		sb.append(str.charAt(str.length() - 1));
+		return sb.toString();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Alien Dictionary</title>

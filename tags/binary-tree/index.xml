@@ -7,8 +7,175 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 09 Nov 2015 10:23:13 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Consecutive Sequence in Binary Tree</title>
+      <link>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</link>
+      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree, find the length of the longest consecutive sequence path.&lt;/p&gt;
+
+&lt;p&gt;The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The longest consecutive path need to be from parent to child (cannot be the reverse).&lt;/p&gt;
+
+&lt;h3 id=&#34;example:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;   1
+    \
+     3
+    / \
+   2   4
+        \
+         5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Longest consecutive sequence path is &lt;code&gt;3-4-5&lt;/code&gt;, so return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   2
+    \
+     3
+    / 
+   2    
+  / 
+ 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Longest consecutive sequence path is &lt;code&gt;2-3&lt;/code&gt;, not &lt;code&gt;3-2-1&lt;/code&gt;, so return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Simple recursion way&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class LCSinBT {
+    int maxLength = 1;
+
+    public int longestConsecutive(TreeNode root) {
+        if(root == null)
+            return 0;
+        helper(root, 1);
+        return maxLength;
+    }
+
+    private void helper(TreeNode node, int length) {
+        if (node.left == null &amp;amp;&amp;amp; node.right == null) {
+            maxLength = Math.max(length, maxLength);
+            return;
+        }
+
+        if (node.left != null &amp;amp;&amp;amp; node.left.val == node.val + 1)
+            helper(node.left, length + 1);
+        if (node.right != null &amp;amp;&amp;amp; node.right.val == node.val + 1)
+            helper(node.right, length + 1);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Serialize and Deserialize Binary Tree</title>
+      <link>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</link>
+      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</guid>
+      <description>
+
+&lt;p&gt;Design an algorithm and write code to serialize and deserialize a binary tree. Writing the tree to a file is called &amp;lsquo;serialization&amp;rsquo; and reading back from the file to reconstruct the exact same binary tree is &amp;lsquo;deserialization&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;There is no limit of how you deserialize or serialize a binary tree, you only need to make sure you can serialize a binary tree to a string and deserialize this string to the original structure.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;An example of testdata: Binary tree &lt;code&gt;{3,9,20,#,#,15,7}&lt;/code&gt;, denote the following structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  3
+ / \
+9  20
+  /  \
+ 15   7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Our data serialization use bfs traversal. This is just for when you got wrong answer and want to debug the input.&lt;/p&gt;
+
+&lt;p&gt;You can use other method to do serializaiton and deserialization.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BFS with queue&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     * This method will be invoked first, you should design your own algorithm 
+     * to serialize a binary tree which denote by a root node to a string which
+     * can be easily deserialized by your own &amp;quot;deserialize&amp;quot; method later.
+     */
+    public String serialize(TreeNode root) {
+        if (root == null)
+            return &amp;quot;#&amp;quot;;
+        
+        // write your code here
+        StringBuilder sb = new StringBuilder();
+        Queue&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            TreeNode node = queue.remove();
+            if(node == null) {
+                sb.append(&amp;quot;#,&amp;quot;);
+            }else {
+                sb.append(node.val+&amp;quot;,&amp;quot;);
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
+    
+    /**
+     * This method will be invoked second, the argument data is what exactly
+     * you serialized at method &amp;quot;serialize&amp;quot;, that means the data is not given by
+     * system, it&#39;s given by your own serialize method. So the format of data is
+     * designed by yourself, and deserialize it here as you serialize it in 
+     * &amp;quot;serialize&amp;quot; method.
+     */
+    public TreeNode deserialize(String data) {
+        if (data == null || data.length() == 0 || data.equals(&amp;quot;#&amp;quot;))
+            return null;
+        // write your code here
+        String[] strs = data.split(&amp;quot;,&amp;quot;);
+        Queue&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        queue.offer(new TreeNode(Integer.parseInt(strs[0])));
+        TreeNode root = queue.peek();
+        int idx = 1;
+        while(idx &amp;lt; strs.length) {
+            TreeNode node = queue.remove();
+            node.left = strs[idx].equals(&amp;quot;#&amp;quot;)? null : new TreeNode(Integer.parseInt(strs[idx]));
+            idx++;
+            node.right = strs[idx].equals(&amp;quot;#&amp;quot;)? null : new TreeNode(Integer.parseInt(strs[idx]));
+            idx++;
+            if(node.left!=null)
+                queue.offer(node.left);
+            if(node.right!=null)
+                queue.offer(node.right);
+        }
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Closest Binary Search Tree Value</title>

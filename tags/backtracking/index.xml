@@ -7,8 +7,163 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 08 Nov 2015 22:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/backtracking/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Expression Add Operators</title>
+      <link>http://xmruibi.github.io/2015/11/12/expression-add-operators/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/expression-add-operators/</guid>
+      <description>
+
+&lt;p&gt;Given a string that contains only digits 0-9 and a target value, return all possibilities to add binary operators (not unary) +, -, or * between the digits so they evaluate to the target value.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;, 6 -&amp;gt; [&amp;quot;1+2+3&amp;quot;, &amp;quot;1*2*3&amp;quot;] 
+&amp;quot;232&amp;quot;, 8 -&amp;gt; [&amp;quot;2*3+2&amp;quot;, &amp;quot;2+3*2&amp;quot;]
+&amp;quot;105&amp;quot;, 5 -&amp;gt; [&amp;quot;1*0+5&amp;quot;,&amp;quot;10-5&amp;quot;]
+&amp;quot;00&amp;quot;, 0 -&amp;gt; [&amp;quot;0+0&amp;quot;, &amp;quot;0-0&amp;quot;, &amp;quot;0*0&amp;quot;]
+&amp;quot;3456237490&amp;quot;, 9191 -&amp;gt; []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;This problem has a lot of edge cases to be considered:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;overflow: we use a long type once it is larger than Integer.MAX_VALUE or minimum, we get over it.&lt;/li&gt;
+&lt;li&gt;0 sequence: because we can&amp;rsquo;t have numbers with multiple digits started with zero, we have to deal with it too.&lt;/li&gt;
+&lt;li&gt;a little trick is that we should save the value that is to be multiplied in the next recursion.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;solution:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+
+    public List&amp;lt;String&amp;gt; addOperators(String num, int target) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        helper(res, &amp;quot;&amp;quot;, num, 0, target, 0L, 0L);
+        return res;
+    }
+    
+    private void helper(List&amp;lt;String&amp;gt; res, String cur, String num, int idx, int target, long preVal, long nextVal) {
+       if(idx == num.length()) {
+            if(preVal == target)
+                res.add(new String(cur));
+            return;
+       }
+       
+       for(int i = idx; i &amp;lt; num.length(); i++) {
+           if(i != idx &amp;amp;&amp;amp; num.charAt(idx) == &#39;0&#39;) break;
+           String sbstr = num.substring(idx, i+1);
+           long curVal = Long.parseLong(sbstr);
+           if(idx == 0)
+                helper(res, sbstr, num, i+1, target, curVal, curVal);
+           else {
+               helper(res, cur + &amp;quot;+&amp;quot; + curVal, num, i+1, target, preVal + curVal,  curVal);
+               helper(res, cur + &amp;quot;-&amp;quot; + curVal, num, i+1, target, preVal - curVal, 0 - curVal);
+               helper(res, cur + &amp;quot;*&amp;quot; + curVal, num, i+1, target, preVal - nextVal + nextVal * curVal, nextVal * curVal);
+           }
+       }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Flip Game I/II</title>
+      <link>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</link>
+      <pubDate>Wed, 11 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</guid>
+      <description>
+
+&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.
+Write a function to compute all possible states of the string after one valid move.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, after one move, it may become one of the following states:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  &amp;quot;--++&amp;quot;,
+  &amp;quot;+--+&amp;quot;,
+  &amp;quot;++--&amp;quot;
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If there is no valid move, return an empty list &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Only consecutive &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; can be flipped.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; generatePossibleNextMoves(String s) {
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		if (s == null || s.length() &amp;lt; 2) {
+            return res;
+        }
+		for (int i = 1; i &amp;lt; s.length(); i++) {
+			StringBuilder sb = new StringBuilder(s);
+			if (s.charAt(i) == &#39;+&#39; &amp;amp;&amp;amp; s.charAt(i - 1) == s.charAt(i)) {
+				sb.insert(i - 1, &#39;-&#39;);
+				sb.insert(i, &#39;-&#39;);
+			}
+			res.add(sb.toString());
+		}
+		return res;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.&lt;/p&gt;
+
+&lt;p&gt;Write a function to determine if the starting player can guarantee a win.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, return true. The starting player can guarantee a win by flipping the middle &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; to become &lt;code&gt;&amp;quot;+--+&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;follow:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Follow&lt;/h4&gt;
+
+&lt;p&gt;Derive your algorithm&amp;rsquo;s run-time complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Backtracking seems to be the only feasible solution to this problem.&lt;/li&gt;
+&lt;li&gt;We can basically try every possible move for the first player (P1), and recursively check if the second player has any chance to win.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static boolean canWin(String s) {
+		return winHelper(s.toCharArray());
+	}
+
+	private static boolean winHelper(char[] chars) {
+		for (int i = 1; i &amp;lt; chars.length; i++) {
+			if (chars[i] == &#39;+&#39; &amp;amp;&amp;amp; chars[i] == chars[i - 1]) {
+				chars[i - 1] = &#39;-&#39;;
+				chars[i] = &#39;-&#39;;
+			// if sencond player have chance to win
+				boolean win = !winHelper(chars);
+				chars[i - 1] = &#39;+&#39;;
+				chars[i] = &#39;+&#39;;
+				if (win) 
+                    return true;
+			}
+		}
+		return false;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Strobogrammatic Number</title>

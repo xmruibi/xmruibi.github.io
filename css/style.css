@@ -925,18 +925,43 @@ a.article-title:hover {
   padding: 10px 0;
 }
 .article-entry blockquote {
+
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.4em;
+  font-size: 1.2em;
   margin: 1.6em 20px;
-  text-align: center;
+  text-align: left;
 }
+.article-entry blockquote ::before{
+  content:"\201C";
+  left:0;
+  top: 0;
+  font-family:georgia,serif;
+  font-size:2em;
+  line-height:.9;
+  color:rgba(0,0,0,.3)
+}
+
+.article-entry blockquote ::after{
+  content:"\201D";
+  right:0;
+  top: 0;
+  font-family:georgia,serif;
+  font-size:2em;
+  line-height:.1;
+  color:rgba(0,0,0,.3)
+}
+
 .article-entry blockquote footer {
   font-size: 14px;
   margin: 1.6em 0;
   font-family: "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
+  color:rgba(0,0,0,.7)
 }
+
+
+
 .article-entry blockquote footer cite:before {
-  content: "â€”";
+  content: "\2014 \0020";
   padding: 0 0.5em;
 }
 .article-entry .pullquote {

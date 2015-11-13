@@ -7,8 +7,177 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 08 Oct 2015 22:10:29 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/complex-implement/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Integer to English Words</title>
+      <link>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</guid>
+      <description>
+
+&lt;p&gt;Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;123&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Hundred Twenty Three&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12345&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;Twelve Thousand Three Hundred Forty Five&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;1234567&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;There are many edge cases. What are some good test cases? Does your code work with input such as &lt;code&gt;0&lt;/code&gt; ? Or &lt;code&gt;1000010&lt;/code&gt;? (middle chunk is zero and should not be printed out)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The regular pattern in English word to count number is splitting by &lt;code&gt;1000&lt;/code&gt;, so set each &lt;code&gt;000.&lt;/code&gt; by &lt;code&gt;&amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Be aware to number less than &lt;code&gt;20&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private final String[] lessThan20 = {&amp;quot;&amp;quot;, &amp;quot;One &amp;quot;, &amp;quot;Two &amp;quot;, &amp;quot;Three &amp;quot;, &amp;quot;Four &amp;quot;, &amp;quot;Five &amp;quot;, &amp;quot;Six &amp;quot;, &amp;quot;Seven &amp;quot;, &amp;quot;Eight &amp;quot;, &amp;quot;Nine &amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Eleven &amp;quot;, &amp;quot;Twelve &amp;quot;, &amp;quot;Thirteen &amp;quot;, &amp;quot;Fourteen &amp;quot;, &amp;quot;Fifteen &amp;quot;, &amp;quot;Sixteen &amp;quot;, &amp;quot;Seventeen &amp;quot;, &amp;quot;Eighteen &amp;quot;, &amp;quot;Nineteen &amp;quot;};
+    private final String[] tens = {&amp;quot;&amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Twenty &amp;quot;, &amp;quot;Thirty &amp;quot;, &amp;quot;Forty &amp;quot;, &amp;quot;Fifty &amp;quot;, &amp;quot;Sixty &amp;quot;, &amp;quot;Seventy &amp;quot;, &amp;quot;Eighty &amp;quot;, &amp;quot;Ninety &amp;quot;};
+    private final String[] thousands = {&amp;quot;&amp;quot;, &amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;};
+
+    public String numberToWords(int num) {
+        if (num == 0)
+            return &amp;quot;Zero&amp;quot;;
+        int i = 0;
+        String words = &amp;quot;&amp;quot;;
+        
+        while(num &amp;gt; 0) {
+            if (num % 1000 != 0)
+                words = eachThousand(num % 1000)+ thousands[i] + words;
+            num /= 1000;
+            i++;
+        }
+        return words.trim();
+    }
+    
+    private String eachThousand(int each) {
+        StringBuilder sb = new StringBuilder();
+        if(each / 100 &amp;gt; 0) {
+            sb.append(lessThan20[each / 100] + &amp;quot;Hundred &amp;quot;);
+        }
+        int ten = each % 100;
+        if(ten &amp;gt;= 20) {
+            sb.append(tens[ten/10]);
+            sb.append(lessThan20[ten%10]);
+        }else {
+            sb.append(lessThan20[ten]);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unique Word Abbreviation</title>
+      <link>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</guid>
+      <description>
+
+&lt;p&gt;An abbreviation of a word follows the form &lt;code&gt;&amp;lt;first letter&amp;gt;&amp;lt;number&amp;gt;&amp;lt;last letter&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples of word abbreviations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    a) it                      --&amp;gt; it    (no abbreviation)
+    
+         1
+    b) d|o|g                   --&amp;gt; d1g
+    
+                  1    1  1
+         1---5----0----5--8
+    c) i|nternationalizatio|n  --&amp;gt; i18n
+    
+                  1
+         1---5----0
+    d) l|ocalizatio|n          --&amp;gt; l10n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word&amp;rsquo;s abbreviation is unique if no other word from the dictionary has the same abbreviation.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a71989791a51f811869cd70e5706cbbe&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dictionary = [ &amp;ldquo;deer&amp;rdquo;, &amp;ldquo;door&amp;rdquo;, &amp;ldquo;cake&amp;rdquo;, &amp;ldquo;card&amp;rdquo; ]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;dear&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cart&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt; ;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cane&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;make&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a71989791a51f811869cd70e5706cbbe&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save dictionary words in a set&lt;/li&gt;
+&lt;li&gt;Save the abbreviation from dictionary word to a HashMap.&lt;/li&gt;
+&lt;li&gt;HashMap has the key with abbreviation and value with the original word&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;isUnique(word)&lt;/code&gt; by make abbreviation from that word and compare with the hashmap&lt;/li&gt;
+&lt;li&gt;If hashmap doesn&amp;rsquo;t contain that word, return true.&lt;/li&gt;
+&lt;li&gt;If hashmap contains that word, we should compare if the word is equal to the word saved in hashmap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a71989791a51f811869cd70e5706cbbe&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class UniqueWordAbbreviation {
+
+	Set&amp;lt;String&amp;gt; dict = new HashSet&amp;lt;&amp;gt;(); // keep the dictionary has unique words
+	Map&amp;lt;String, String&amp;gt; abbrDict = new HashMap&amp;lt;&amp;gt;();
+
+	public UniqueWordAbbreviation(String[] dictionary) {
+		for (String str : dictionary) {
+			if (dict.contains(str))
+				continue;
+			String abbr = makeAbbr(str);
+			if (!abbrDict.containsKey(abbr))
+				abbrDict.put(abbr, str);
+			else
+				abbrDict.put(abbr, &amp;quot;&amp;quot;);
+			dict.add(str);
+		}
+	}
+
+	public boolean isUnique(String word) {
+		String abbr = makeAbbr(word);
+		if (abbrDict.containsKey(abbr))
+			return word.equals(abbrDict.get(abbr));
+		return true;
+	}
+
+    private String makeAbbr(String str) {
+		if (str == null || str.length() &amp;lt;= 2)
+			return str;
+		int mid = str.length() - 2;
+		StringBuilder sb = new StringBuilder();
+		sb.append(str.charAt(0));
+		sb.append(mid);
+		sb.append(str.charAt(str.length() - 1));
+		return sb.toString();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Minimum Window Substring</title>

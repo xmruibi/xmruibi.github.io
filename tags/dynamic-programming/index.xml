@@ -7,8 +7,104 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 07 Nov 2015 19:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2015 10:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/dynamic-programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Nim Game</title>
+      <link>http://xmruibi.github.io/2015/11/11/nim-game/</link>
+      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/nim-game/</guid>
+      <description>
+
+&lt;p&gt;You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.&lt;/p&gt;
+
+&lt;p&gt;Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.&lt;/p&gt;
+
+&lt;p&gt;For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;p&gt;If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the Coin in A Line I&lt;/li&gt;
+&lt;li&gt;The death number will be the multiply of &lt;code&gt;the max amount your can taken +1&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;So just check if the total amount is the multiply of &lt;code&gt;4&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;proof:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Proof:&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;the base case: when &lt;code&gt;n&lt;/code&gt; = &lt;code&gt;4&lt;/code&gt;, as suggested by the hint from the problem, no matter which number that that first player, the second player would always be able to pick the remaining number.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;For &lt;code&gt;1 x 4&lt;/code&gt; &amp;lt; &lt;code&gt;n&lt;/code&gt; &amp;lt; &lt;code&gt;2 x 4&lt;/code&gt;, (&lt;code&gt;n&lt;/code&gt; = &lt;code&gt;5, 6, 7&lt;/code&gt;), the first player can reduce the initial number into 4 accordingly, which will leave the death number 4 to the second player. i.e. The numbers &lt;code&gt;5, 6, 7&lt;/code&gt; are winning numbers for any player who got it first.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Now to the beginning of the next cycle, n = 8, no matter which number that the first player picks, it would always leave the winning numbers (5, 6, 7) to the second player. Therefore, &lt;code&gt;8 % 4 == 0&lt;/code&gt;, again is a death number.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Following the second case, for numbers between &lt;code&gt;(2 x 4 = 8)&lt;/code&gt; and &lt;code&gt;(3 x 4=12)&lt;/code&gt;, which are &lt;code&gt;9&lt;/code&gt;,&lt;code&gt;10&lt;/code&gt;, &lt;code&gt;11&lt;/code&gt;, are winning numbers for the first player again, because the first player can always reduce the number into the death number 8.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;solution:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean canWinNim(int n) {
+        return n%4 != 0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Query Range Sum on Array</title>
+      <link>http://xmruibi.github.io/2015/11/11/query-range-sum-on-array/</link>
+      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/query-range-sum-on-array/</guid>
+      <description>
+
+&lt;p&gt;Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Example:&lt;/h3&gt;
+
+&lt;p&gt;Given nums = [-2, 0, 3, -5, 2, -1]&lt;/p&gt;
+
+&lt;p&gt;sumRange(0, 2) -&amp;gt; 1
+sumRange(2, 5) -&amp;gt; -1
+sumRange(0, 5) -&amp;gt; -3
+Note:
+You may assume that the array does not change.
+There are many calls to sumRange function.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save the prefix sum in extra array.&lt;/li&gt;
+&lt;li&gt;Be aware to the &lt;code&gt;sum[0]&lt;/code&gt; means nothing before the first element of input array &lt;code&gt;nums&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;return the the difference on prefix index &lt;code&gt;[high] - [low - 1]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NumArray {
+    int[] sum;
+    
+    public NumArray(int[] nums) {
+        sum = new int[nums.length + 1];
+        for(int i = 1; i &amp;lt;= nums.length; i++) {
+            sum[i] = nums[i-1] + sum[i-1];
+        }
+    }
+
+    public int sumRange(int i, int j) {
+        return sum[j+1]-sum[i];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Maximum Subarray III</title>
@@ -1262,136 +1358,6 @@ The longest increasing sub-sequence is &lt;code&gt;[2, 3, 7, 101]&lt;/code&gt;, 
         }
         return memo[A.length()][B.length()];
     }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Longest Common Substring</title>
-      <link>http://xmruibi.github.io/2015/11/04/longest-common-substring/</link>
-      <pubDate>Wed, 04 Nov 2015 09:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/04/longest-common-substring/</guid>
-      <description>
-
-&lt;p&gt;Given two strings, find the longest common substring. Return the length of it.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:d5a48a5f53a76620679235addb0b3387&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given A = &lt;code&gt;&amp;quot;ABCD&amp;quot;&lt;/code&gt;, B = &lt;code&gt;&amp;quot;CBCE&amp;quot;&lt;/code&gt;, return 2.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:d5a48a5f53a76620679235addb0b3387&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;The characters in substring should occur continuously in original string. This is different with subsequence.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge:d5a48a5f53a76620679235addb0b3387&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;$O(n \times m)$ time and memory.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:d5a48a5f53a76620679235addb0b3387&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Two Sequence problem should use 2-D array&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;f[i][j]&lt;/code&gt; means that for &lt;code&gt;word1(1,i)&lt;/code&gt; and &lt;code&gt;word2(1,j)&lt;/code&gt; has the longest common substring&lt;/li&gt;
-&lt;li&gt;When &lt;code&gt;word1[i] == word2[j]&lt;/code&gt; it should consider &lt;code&gt;f[i][j]&lt;/code&gt;  with the value on &lt;code&gt;f[i-1][j-1]&lt;/code&gt; and plus one, otherwise &lt;code&gt;f[i][j]&lt;/code&gt; is zero.&lt;/li&gt;
-&lt;li&gt;Set a max value to update when necessary.&lt;/li&gt;
-&lt;li&gt;Initialize &lt;code&gt;word1(0,0)&lt;/code&gt; or &lt;code&gt;word2(0,0)&lt;/code&gt; has no common substring with &lt;code&gt;word2(1,j)&lt;/code&gt; or &lt;code&gt;word1(1,i)&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:d5a48a5f53a76620679235addb0b3387&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param A, B: Two string.
-     * @return: the length of the longest common substring.
-     */
-    public int longestCommonSubstring(String A, String B) {
- 
-        if(A == null || B == null)
-            return 0;
-        
-        int[][] memo = new int[A.length()+1][B.length()+1];
-        int max = 0;
-        for(int i = 0; i &amp;lt;= A.length(); i ++) {
-            for(int j = 0; j &amp;lt;= B.length(); j ++) {
-                if(i == 0 || j == 0)
-                    memo[i][j] = 0;
-                else
-                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : 0);
-                max = Math.max(max, memo[i][j]);
-            }
-        }
-        return max;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Interleaving String</title>
-      <link>http://xmruibi.github.io/2015/10/20/interleaving-string/</link>
-      <pubDate>Tue, 20 Oct 2015 19:13:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/20/interleaving-string/</guid>
-      <description>
-
-&lt;p&gt;Given three strings: s1, s2, s3, determine whether s3 is formed by the interleaving of s1 and s2.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:7d3b495498f05a566b13a1ad91ea470e&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For s1 = &lt;code&gt;&amp;quot;aabcc&amp;quot;&lt;/code&gt;, s2 = &lt;code&gt;&amp;quot;dbbca&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;When s3 = &lt;code&gt;&amp;quot;aadbbcbcac&amp;quot;&lt;/code&gt;, return true.
-When s3 = &lt;code&gt;&amp;quot;aadbbbaccc&amp;quot;&lt;/code&gt;, return false.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge:7d3b495498f05a566b13a1ad91ea470e&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n2) time or better&lt;/p&gt;
-
-&lt;h2 id=&#34;think:7d3b495498f05a566b13a1ad91ea470e&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical dynamic programming with subsequence problem.&lt;/li&gt;
-&lt;li&gt;Set up a 2-D dp boolean table to memorized:
-
-&lt;ul&gt;
-&lt;li&gt;Initial: memo[0][0] = true;&lt;/li&gt;
-&lt;li&gt;two conditions: s1 find matched or s2 find matched;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;memo[i][j] = ( i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i - 1][j]) || (s2.charAt(j - 1) == s3.charAt(i + j - 1) &amp;amp;&amp;amp; memo[i][j - 1])&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:7d3b495498f05a566b13a1ad91ea470e&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * Determine whether s3 is formed by interleaving of s1 and s2.
-     * @param s1, s2, s3: As description.
-     * @return: true or false.
-     */
-    public boolean isInterleave(String s1, String s2, String s3) {
-
-        if(s1 == null || s2 == null)
-            return false;
-        if(s1.length() + s2.length() != s3.length())
-            return false;
-            
-        boolean[][] memo = new boolean[s1.length() + 1][s2.length() + 1];
-        for(int i = 0; i &amp;lt;= s1.length(); i++) {
-            for(int j = 0; j &amp;lt;= s2.length(); j++) {
-                if(i == 0 &amp;amp;&amp;amp; j == 0)
-                    memo[i][j] = true;
-                else{
-                    if(i &amp;gt; 0 &amp;amp;&amp;amp; s1.charAt(i - 1) == s3.charAt(i + j - 1))
-                        memo[i][j] = memo[i - 1][j];
-                    if(j &amp;gt; 0 &amp;amp;&amp;amp;s2.charAt(j - 1) == s3.charAt(i + j - 1))
-                        memo[i][j] |= memo[i][j - 1];
-                }
-            }
-        }
-        
-        return memo[s1.length()][s2.length()];
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
