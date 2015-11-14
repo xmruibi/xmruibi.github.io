@@ -7,8 +7,1071 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Constant Time Random Picker</title>
+      <link>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</link>
+      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</guid>
+      <description>
+
+&lt;p&gt;Design a data structure that supports insert, delete, search and getRandom in constant time.&lt;/p&gt;
+
+&lt;p&gt;Design a data structure that supports following operations in Θ(1) time.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;insert(x)&lt;/code&gt;: Inserts an item x to the data structure if not already present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;remove(x)&lt;/code&gt;: Removes an item x from the data structure if present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;search(x)&lt;/code&gt;: Searches an item x in the data structure.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getRandom()&lt;/code&gt;: Returns a random element from current set of elements&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;We can use hashing to support first 3 operations in Θ(1) time. How to do the 4th operation? The idea is to use a resizable array (ArrayList in Java, vector in C) together with hashing. Resizable arrays support insert in Θ(1) amortized time complexity. To implement getRandom(), we can simply pick a random number from 0 to size-1 (size is number of current elements) and return the element at that index. The hash map stores array values as keys and array indexes as values.&lt;/p&gt;
+
+&lt;p&gt;Following are detailed operations.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;insert(x)&lt;/li&gt;
+&lt;li&gt;Check if x is already present by doing a hash map lookup.&lt;/li&gt;
+&lt;li&gt;If not present, then insert it at the end of the array.&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add in hash table also, x is added as key and last array index as index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;remove(x)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check if x is present by doing a hash map lookup.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If present, then find its index and remove it from hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swap the last element with this element in array and remove the last element.
+Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update index of last element in hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;getRandom()&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Generate a random number from 0 to last index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Return the array element at the randomly generated index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;search(x)
+Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
+	
+	private final ArrayList&amp;lt;Integer&amp;gt; arr;
+	private final HashMap&amp;lt;Integer, Integer&amp;gt; map; // value - index
+    Random r;
+	
+	public ConstantTimeRandomPicker() {
+		this.arr = new ArrayList&amp;lt;Integer&amp;gt;();
+		this.map = new HashMap&amp;lt;Integer, Integer&amp;gt;();
+	}
+	
+	public void add(int val) {
+		arr.add(val);
+		map.put(arr.size() - 1, val);
+	}
+	
+	public void remove(int val) {
+		remove(map.get(val), val);
+	}
+	
+	public void removeRandom() {
+		int val = arr.get(r.nextInt(arr.size()));
+		remove(map.get(val), val);
+	}
+	
+	public int getRandom() {
+		return arr.get(r.nextInt(arr.size()));
+	}
+	
+	public int search(int val) {
+		return arr.get(map.get(val));
+	}
+
+	private void remove(int idx, int val) {
+		
+		// swap with the last element
+		int last = arr.get(arr.size() - 1);
+		// put the last element to the current index
+		arr.set(idx, last);
+		// remove the last element
+		arr.remove(arr.size() - 1);
+				
+		// update the last element&#39;s index in hashmap
+		map.put(last, idx);		
+		// remove the removal value
+		map.remove(val);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Intervals and Covered Length</title>
+      <link>http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/</link>
+      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/</guid>
+      <description>
+
+&lt;p&gt;Design a structrue can get interval pair and a function which can return the total cover length.&lt;/p&gt;
+
+&lt;h2 id=&#34;partial-code:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Partial Code&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;interface Intervals {
+
+	/**
+	 * Adds an interval [from, to] into internal structure.
+	 */
+	void addInterval(int from, int to);
+
+	/**
+	 * Returns a total length covered by intervals. If several intervals
+	 * intersect, intersection should be counted only once. Example:
+	 *
+	 * addInterval(3, 6) addInterval(8, 9) addInterval(1, 5)
+	 *
+	 * getTotalCoveredLength() -&amp;gt; 6 i.e. [1,5] and [3,6] intersect and give a
+	 * total covered interval [1,6] [1,6] and [8,9] don&#39;t intersect so total
+	 * covered length is a sum for both intervals, that is 6.
+	 *
+	 * _________ ___ ____________
+	 *
+	 * 0 1 2 3 4 5 6 7 8 9 10
+	 *
+	 */
+	int getTotalCoveredLength();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class IntervalProblem implements Intervals {
+
+    private class Interval {
+        int from, to;
+
+        public Interval(int from, int to) {
+            this.from = from;
+            this.to = to;
+        }
+    }
+
+    List&amp;lt;Interval&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+
+    @Override
+    public void addInterval(int start, int end) {
+        if (list.size() == 0) {
+            list.add(new Interval(start, end));
+            return;
+        }       
+
+        ListIterator&amp;lt;Interval&amp;gt; li = list.listIterator();
+
+        while(li.hasNext()){
+            Interval itv = li.next();
+            if(start &amp;lt;= itv.to){
+                if(end &amp;lt; itv.from){ //newInterval does not overlap with current itv, time to insert
+                    li.remove();
+                    li.add(new Interval(start, end));
+                    li.add(itv);
+                    return;
+                }
+                // still some overlap so compare start &amp;amp; end
+                start = Math.min(start, itv.from);
+                end = Math.max(end, itv.to);
+                li.remove();
+            }
+        }
+        list.add(new Interval(start, end));
+    }
+
+    @Override
+    public int getTotalCoveredLength() {
+        if (list.size() == 0) 
+            return 0;
+        int sum = 0;
+        for (int i = 0; i &amp;lt; list.size(); i++) {
+            sum += (list.get(i).to - list.get(i).from);
+        }
+        return sum;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>K Nearest Points</title>
+      <link>http://xmruibi.github.io/2015/11/13/k-nearest-points/</link>
+      <pubDate>Fri, 13 Nov 2015 23:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/k-nearest-points/</guid>
+      <description>
+
+&lt;p&gt;Find K nearest Points by given the central point. Complete the class design for Point as implementing Comparable interface.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Comparable interface and Max heap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class KNearestPoints {
+
+    // finding k nearest neighbor from the original point using a MAX heap, each
+    // time if the dist is less than the MAX we put it into the q.
+    public Collection&amp;lt;Point&amp;gt; getClosestPoints(Collection&amp;lt;Point&amp;gt; points, int k) {
+        PriorityQueue&amp;lt;Point&amp;gt; queue = new PriorityQueue&amp;lt;Point&amp;gt;(k);
+        int i = 0;
+        for(Point p:points) {
+            if(i &amp;lt; k) {
+                queue.add(p);
+            }else{
+                if(p.compareTo(queue.peek()) &amp;lt; 0) {
+                    queue.poll();
+                    queue.offer(p);
+                }
+            }
+            i++;
+        }
+        return queue;
+    }
+}
+
+class Point implements Comparable&amp;lt;Point&amp;gt; {
+    final int x, y;
+    final double dist;
+
+    public Point(int x, int y, Point origin) {
+        this.x = x;
+        this.y = y;
+        this.dist = Math.hypot(x - origin.x, y - origin.y);
+    }
+
+    @Override
+    public int compareTo(Point o) {
+        return Double.compare(this.dist, o.dist);
+    }
+
+    @Override
+    public String toString() {
+        return &amp;quot;x: &amp;quot; + x + &amp;quot; y: &amp;quot; + y;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Text File Iterator</title>
+      <link>http://xmruibi.github.io/2015/11/13/text-file-iterator/</link>
+      <pubDate>Fri, 13 Nov 2015 20:40:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/text-file-iterator/</guid>
+      <description>
+
+&lt;p&gt;Implement a (Java) Iterable object that iterates lines one by one from a text file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** A reference to a file. */
+public class TextFile implements Iterable&amp;lt;String&amp;gt; {
+  public TextFile(String fileName) { 
+  	// please implement this
+  }
+  /** Begin reading the file, line by line. The returned Iterator.next() will return a line. */ 
+  @Override
+  public Iterator&amp;lt;String&amp;gt; iterator() { 
+  	// please implement this
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-1:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Keep maintain a BufferedReader&lt;/li&gt;
+&lt;li&gt;The tricky part is the hasNext function, we should not use checking &lt;code&gt;br.readline() != null&lt;/code&gt; in this function, since it will cause the line skipping.&lt;/li&gt;
+&lt;li&gt;So notice the &lt;code&gt;mark()&lt;/code&gt; and &lt;code&gt;reset()&lt;/code&gt; method in bufferedreader.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TextFileIterator implements Iterable&amp;lt;String&amp;gt; {
+
+	private final BufferedReader br;
+
+	public TextFileIterator(String path) throws FileNotFoundException {
+		br = new BufferedReader(new InputStreamReader(new FileInputStream(
+				new File(path))));
+
+	}
+
+	public Iterator&amp;lt;String&amp;gt; iterator() {
+		return new Iterator&amp;lt;String&amp;gt;() {
+			@Override
+			public boolean hasNext() {
+				try {
+					br.mark(1);
+					if (br.read() &amp;lt; 0) 
+						return false;					
+					br.reset();
+					return true;
+				} catch (IOException e) {
+					return false;
+				}
+			}
+
+			@Override
+			public String next() {
+				try {
+					return br.readLine();
+				} catch (IOException e) {
+					return null;
+				}
+			}
+		};
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Scanner&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TextFileIterator implements Iterable&amp;lt;String&amp;gt; {
+
+	private final Scanner sc;
+	
+	public TextFileIterator(String path) throws FileNotFoundException {
+			sc = new Scanner(new File(path));
+	}
+
+	public Iterator&amp;lt;String&amp;gt; iterator() {
+		return new Iterator&amp;lt;String&amp;gt;() {
+			@Override
+			public boolean hasNext() {
+				return sc.hasNext();
+			}
+
+			@Override
+			public String next() {
+				return sc.nextLine();
+			}
+		};
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Zigzag Iterator</title>
+      <link>http://xmruibi.github.io/2015/11/13/zigzag-iterator/</link>
+      <pubDate>Fri, 13 Nov 2015 20:40:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/zigzag-iterator/</guid>
+      <description>
+
+&lt;p&gt;Given two 1d vectors, implement an iterator to return their elements alternately.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:c39b4a8138ca1f78be5fe1b3f188b037&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given two 1d vectors:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;v1&lt;/code&gt; = &lt;code&gt;[1, 2]&lt;/code&gt;
+&lt;code&gt;v2&lt;/code&gt; = &lt;code&gt;[3, 4, 5, 6]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: &lt;code&gt;[1, 3, 2, 4, 5, 6]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up:c39b4a8138ca1f78be5fe1b3f188b037&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;What if you are given k 1d vectors? How well can your code be extended to such cases?&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reverse a Stack using Recursion</title>
+      <link>http://xmruibi.github.io/2015/11/13/reverse-a-stack-using-recursion/</link>
+      <pubDate>Fri, 13 Nov 2015 20:39:16 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/reverse-a-stack-using-recursion/</guid>
+      <description>
+
+&lt;p&gt;Reverse a stack using recursion.&lt;/p&gt;
+
+&lt;p&gt;You are not allowed to use loop constructs like while, for..etc, and you can only use the following ADT functions on Stack S:
+- &lt;code&gt;isEmpty(S)&lt;/code&gt;
+- &lt;code&gt;push(S)&lt;/code&gt;
+- &lt;code&gt;pop(S)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:67652d66ff3aed8bc58d000794c76ecc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Very very trick problem&lt;/li&gt;
+&lt;li&gt;The idea of the solution is to hold all values in Function Call Stack until the stack becomes empty. When the stack becomes empty, insert all held items one by one at the bottom of the stack.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:67652d66ff3aed8bc58d000794c76ecc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static void recrusion(Stack&amp;lt;Integer&amp;gt; stack) {
+        if (stack.isEmpty())
+            return;
+        int tmp = stack.pop();
+        recrusion(stack);
+        helper(stack, tmp);
+    }
+
+    private static void helper(Stack&amp;lt;Integer&amp;gt; stack, int val) {
+        if (stack.isEmpty())
+            stack.push(val);
+        else {
+            int tmp = stack.pop();
+            helper(stack, val);
+            stack.push(tmp);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Implementation</title>
+      <link>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</link>
+      <pubDate>Fri, 13 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</guid>
+      <description>
+
+&lt;p&gt;Finish a implementation for a interface where it store some data and returns true if there is any pair of numbers in the internal data structure which have sum @param val, and false otherwise.&lt;/p&gt;
+
+&lt;h3 id=&#34;given-code:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Given Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface TwoSum {
+    /**
+     * Stores @param input in an internal data structure.
+     */
+    void store(int input);
+    /**
+     * Returns true if there is any pair of numbers in the internal data structure which
+     * have sum @param val, and false otherwise.
+     * For example, if the numbers 1, -2, 3, and 6 had been stored,
+     * the method should return true for 4, -1, and 9, but false for 10, 5, and 0
+     */
+    boolean test(int val);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Sum problem has two way to solve
+
+&lt;ul&gt;
+&lt;li&gt;Sort strategy (O(nlogn) time, O(1) space);&lt;/li&gt;
+&lt;li&gt;Set strategy (O(n) time, O(n) space);&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumProblem implements TwoSum{
+    
+    // thread not safe, use CopyOnWriteArrayList&amp;lt;E&amp;gt; for thread safe
+    List&amp;lt;Integer&amp;gt; list; 
+    // save the previous data for unnecessary duplicate computation
+    HashSet&amp;lt;Integer&amp;gt; set;
+    
+    public TwoSumProblem() {
+        list = new ArrayList&amp;lt;&amp;gt;();
+        set = new HashSet&amp;lt;&amp;gt;();
+    }
+    
+    @Override
+    public void store(int input) {
+        list.add(input);    
+    }
+
+    @Override
+    public boolean test(int val) {
+        if(set.contains(val))
+            return true;
+        return checkTwoSum(val);
+    }
+
+    // sort strategy (O(nlogn) time, O(1) space)
+    private boolean checkTwoSum(int target){
+        Collections.sort(list);
+        int l = 0, r = list.size() - 1;
+        while(l &amp;lt; r) {
+            int sum = list.get(l) + list.get(r);
+            if(sum == target){
+                set.add(target);
+                return true;
+            }else if(sum &amp;lt; target)
+                l++;
+            else
+                r--;
+        }
+        return false;
+    }
+
+    // set strategy (O(n) time, O(n) space)
+    private boolean checkTwoSumII(int target){
+         int len = list.size();
+           Set&amp;lt;Integer&amp;gt; mem = new HashSet();
+            for(int i = 0; i &amp;lt; len; i++){
+                if ( mem.contains(target - list.get(i)) 
+                        return true;
+               else 
+                    mem.add(list.get(i));
+            }
+            return false;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Level Order with Position Preserved</title>
+      <link>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</guid>
+      <description>
+
+&lt;p&gt;Given a Tree, each node contains one digit value, print each level in a format with relative position preserved.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;       eg.           1
+                   /   \
+                 2      4
+                  \       \
+                  3        7
+    output:
+                   1
+               2      4
+                 3      7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Tricky part is we should know the depth firstly. So that we can know how many space should be reserved in final line. Since the each line should preserved as most the length with the node&amp;rsquo;s amount in full tree of that depth.&lt;/li&gt;
+&lt;li&gt;The length of each line should be the $2^{depth} - 1$&lt;/li&gt;
+&lt;li&gt;Recursively to set the node value in the middle of left and right range.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TreeLevelOrder {
+	public List&amp;lt;String&amp;gt; printLevelwithSpacePreserved(TreeNode root) {
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		int depth = getDepth(root);
+		int len = (int) Math.pow(2, depth) - 1;
+		List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; space = new ArrayList&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; depth; i++) {
+			List&amp;lt;Character&amp;gt; line = new ArrayList&amp;lt;&amp;gt;();
+			for(int j = 0; j &amp;lt; len; j++)
+				line.add(&#39; &#39;);
+			space.add(line);
+		}
+		levelOrderRecrusion(space, root, 0, len - 1, 0);
+		for (List&amp;lt;Character&amp;gt; cs : space) {
+			StringBuilder sb = new StringBuilder();
+			for (char c : cs)
+				sb.append(c);
+			res.add(sb.toString());
+		}
+		return res;
+	}
+
+	private void levelOrderRecrusion(List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; res, TreeNode node,
+			int l, int r, int lv) {
+		if (node == null)
+			return;
+		List&amp;lt;Character&amp;gt; line = res.get(lv);
+		int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+		line.set(m, (char) (node.val + &#39;0&#39;));
+		levelOrderRecrusion(res, node.left, l, m - 1, lv + 1);
+		levelOrderRecrusion(res, node.right, m + 1, r, lv + 1);
+	}
+
+	private int getDepth(TreeNode node) {
+		if (node == null)
+			return 0;
+		return 1 + Math.max(getDepth(node.left), getDepth(node.right));
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Middle Index Stack</title>
+      <link>http://xmruibi.github.io/2015/11/13/middle-index-stack/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/middle-index-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack with operations on middle element.&lt;/p&gt;
+
+&lt;p&gt;How to implement a stack which will support following operations in O(1) time complexity?
+1) push() which adds an element to the top of stack.
+2) pop() which removes an element from top of stack.
+3) findMiddle() which will return middle element of the stack.
+4) deleteMiddle() which will delete the middle element.
+Push and pop are standard stack operations.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The important question is, whether to use a linked list or array for implementation of stack?
+- The key of this question is to design an doubly linked list to deal with those required functions.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MidStack implements MyStack{
+    int size;
+    Node top;
+    Node mid;
+    
+    public MidStack() {
+        int size = 0;
+        top = mid = null;
+    }
+    @Override
+    public void push(int val) {
+        Node newNode = new Node(val);
+        if(top == null) {
+            top = newNode;
+            mid = top;
+        }else{
+            top.next = newNode;
+            newNode.prev = top;
+            top = newNode;
+            if(size % 2 ==0)
+                mid = mid.next;
+        }
+        size++;
+    }
+    @Override
+    public int pop() {
+        int pop = top.val;
+        top = top.prev;
+        top.next = null;
+        if(size % 2 !=0)
+            mid = mid.prev;
+        size--;
+        return pop;
+    }
+    @Override
+    public int findMiddle() {
+        return mid.val;
+    }
+    @Override
+    public void deleteMiddle() {
+        if(size &amp;lt;= 2) {
+            mid = top;
+            top.prev = null;
+            size--;
+            return;
+        }
+            
+        mid.next.prev = mid.prev;
+        mid.prev.next = mid.next;
+        mid = mid.prev;
+        size--;
+    }
+    
+    public static void main(String[] args) {
+        MidStack stack = new MidStack();
+        stack.push(1);stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        stack.deleteMiddle();
+        stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+    }
+}
+
+interface MyStack{
+    public void push(int val);
+    public int pop();
+    public int findMiddle();
+    public void deleteMiddle();
+}
+class Node{
+    int val;
+    Node prev, next;
+    public Node(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Second Minimum in Tournament Tree</title>
+      <link>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a tournament tree try to find the second minimum value. Here the tournament tree is represented by a tree with node has the minimum value of children.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;By given the following tree, it should return &lt;code&gt;5&lt;/code&gt; as the second minimum value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                2
+              /   \
+            2      7
+          /  \     |  \
+         5    2    8   7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This a full tree and each root is the min value of two children&lt;/li&gt;
+&lt;li&gt;Each time we only concern the subtree root has the value equal to the root and record another child&amp;rsquo;s value as the candidate of second minimum.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TournamentTree {
+    static int secMin = Integer.MAX_VALUE;
+
+    // the given tree is a minimum value tree
+    public static int getSecMin(TreeNode root) {
+        if (root == null)
+            throw new IllegalArgumentException(&amp;quot;Illeagal Input!&amp;quot;);
+        
+        if (root.left == null &amp;amp;&amp;amp; root.right == null)
+            return secMin;
+        
+        if (root.left.val == root.val) {
+            secMin = Math.min(secMin, root.right.val);
+            return getSecMin(root.left);
+        } else {
+            secMin = Math.min(secMin, root.left.val);
+            return getSecMin(root.right);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Valid Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
+      <description>
+
+&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question focus on thinking about all of corner case
+
+&lt;ol&gt;
+&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
+&lt;li&gt;space before the number&lt;/li&gt;
+&lt;li&gt;invalid character before / after the number&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
+&lt;li&gt;space after the number&lt;/li&gt;
+&lt;li&gt;decimal checker&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
+		if(s == null)
+			return false;
+        boolean eFlagAllow = true; // switcher for &#39;e&#39; or &#39;E&#39;
+        boolean decimal = true; // switcher for &#39;.&#39;
+        boolean hasNum = false; // make sure it contains number
+        int cursor = 0;
+        // skip previous space.
+        while(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39; &#39;)
+            cursor++;
+            
+        // check the sign, only one position allow for &#39;-&#39;
+        if(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39;-&#39;)
+            cursor++;
+            
+        while(cursor &amp;lt; s.length()) {
+            char cur = s.charAt(cursor);
+            // if has number 
+            if(cur &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; cur &amp;lt;= &#39;9&#39;){
+                if(!hasNum)
+                    hasNum = true;
+            }else if((cur == &#39;e&#39; || cur == &#39;E&#39;) &amp;amp;&amp;amp; eFlagAllow &amp;amp;&amp;amp; hasNum) { 
+                // previous position should contain the number first 
+                eFlagAllow = false; // turn off the e/E switcher
+            }else if(cur == &#39;.&#39; &amp;amp;&amp;amp; decimal) {
+                // turn off the decimal switcher
+                decimal = false;
+            }else if(cur != &#39; &#39;) // not allow the char except the space
+                return false;
+            cursor ++;
+        }
+        
+        return cursor == s.length() &amp;amp;&amp;amp; hasNum;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Nested List</title>
+      <link>http://xmruibi.github.io/2015/11/13/nested-list/</link>
+      <pubDate>Fri, 13 Nov 2015 13:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/nested-list/</guid>
+      <description>
+
+&lt;p&gt;Given a nested list of integers, returns the sum of all integers in the list weighted by their depth.&lt;/p&gt;
+
+&lt;h3 id=&#34;partial-code:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Partial Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** 
+ * This is the interface that represents nested lists. 
+ * You should not implement it, or speculate about its implementation. 
+ */ 
+public interface NestedInteger { 
+    // Returns true if this NestedInteger holds a single integer, rather than a nested list 
+    public boolean isInteger(); 
+
+    // Returns the single integer that this NestedInteger holds, if it holds a single integer 
+    // Returns null if this NestedInteger holds a nested list 
+    public Integer getInteger(); 
+
+    // Returns the nested list that this NestedInteger holds, if it holds a nested list 
+    // Returns null if this NestedInteger holds a single integer 
+    public List getList(); 
+}
+
+public class Solution {
+	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
+        //Implement this function
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;example:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the list &lt;code&gt;{{1,1},2,{1,1}}&lt;/code&gt; the function should return &lt;code&gt;10&lt;/code&gt; (four 1&amp;rsquo;s at depth 2, one 2 at depth 1);
+Given the list &lt;code&gt;{1,{4,{6}}}&lt;/code&gt; the function should return &lt;code&gt;27&lt;/code&gt; (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3);&lt;/p&gt;
+
+&lt;h2 id=&#34;think:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Recursion with DFS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
+		return dfsHelper(input, 1);
+    }
+
+    private int dfsHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
+    	int sum = 0;
+    	for(NestedInteger cur : input) {
+    		if(cur.isInteger())
+    			sum += (cur.getInteger() * depth);
+    		else
+    			sum += dfsHelper(cur.getList(), depth + 1);
+    	}
+    	return sum;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;followup-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #1&lt;/h2&gt;
+
+&lt;p&gt;Get the sum by reversed level.&lt;/p&gt;
+
+&lt;h4 id=&#34;think-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Should get depth at first and then recursively reduce the depth for DFS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static int reversedDepthSum(List&amp;lt;NestedInteger&amp;gt; input) {
+		int depth = getDepth(input);
+		return dfsReverseHelper(input, depth);
+	}
+
+	private static int dfsReverseHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
+		int sum = 0;
+		for (NestedInteger cur : input) {
+			if (cur.isInteger())
+				sum += (cur.getInteger() * depth);
+			else
+				sum += dfsReverseHelper(cur.getList(), depth - 1);
+		}
+		return sum;
+	}
+	
+	private static int getDepth(List&amp;lt;NestedInteger&amp;gt; input) {
+		int depth = 0;
+		for (NestedInteger cur : input) {
+			if (!cur.isInteger())
+				depth = Math.max(depth, getDepth(cur.getList()));
+		}
+		return depth + 1;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;followup-2:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #2&lt;/h2&gt;
+
+&lt;p&gt;Implement the Nested Integer interface&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NestedIntImpl implements NestedInteger {
+	Object obj;
+
+	public NestedIntegerImpl(Object obj) {
+		this.obj = obj;
+	}
+
+	@Override
+	public boolean isInteger() {	
+		return obj instanceof Integer;
+	}
+
+	@Override
+	public Integer getInteger() {
+		if(obj instanceof Integer)
+			return (Integer)obj;
+		return null;
+	}
+
+	@Override
+	public List&amp;lt;NestedInteger&amp;gt; getList() {
+		if(obj instanceof List)
+			return (List&amp;lt;NestedInteger&amp;gt;)obj;
+		return null;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Braces Check</title>
+      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
+      <description>
+
+&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Parenthese check problem three way to solve.
+
+&lt;ul&gt;
+&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
+&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
+    public boolean matched(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        int cnt = 0;
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            if(s.charAt(idx) == &#39;(&#39;)
+                cnt++;
+            else if(s.charAt(idx) == &#39;)&#39;) {
+                if(cnt &amp;lt;= 0) 
+                    return false;
+                cnt--;
+            }
+        }
+        return cnt == 0;
+    }
+
+    // 
+    public boolean matchedII(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            char c = s.charAt(idx);
+            if(map.containsKey(c))
+                stack.push(c);
+            else if(map.values().contains(c)){
+                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
+                    return false;
+            }
+        }
+        return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Expression Add Operators</title>
@@ -164,970 +1227,6 @@
 		}
 		return right;
 	}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Find the Duplicate Number</title>
-      <link>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</link>
-      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</guid>
-      <description>
-
-&lt;p&gt;Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:51072b7754d767e44ab1a140653d075f&#34;&gt;Note&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;You must not modify the array (assume the array is read only).&lt;/li&gt;
-&lt;li&gt;You must use only constant, O(1) extra space.&lt;/li&gt;
-&lt;li&gt;Your runtime complexity should be less than $$O(n^2)$$.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There is only one duplicate number in the array, but it could be repeated more than once.&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1:51072b7754d767e44ab1a140653d075f&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;h5 id=&#34;pigeonhole-principle:51072b7754d767e44ab1a140653d075f&#34;&gt;Pigeonhole Principle&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Split the array into two pieces by the middle point.&lt;/li&gt;
-&lt;li&gt;NOTE: an array nums containing &lt;code&gt;n + 1&lt;/code&gt; integers where each integer is between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;n&lt;/code&gt; (inclusive).&lt;/li&gt;
-&lt;li&gt;Let&amp;rsquo;s say if there is &lt;code&gt;10&lt;/code&gt; elements in array. The index of middle point is &lt;code&gt;4&lt;/code&gt;. Check the all elements and count how many element has the value less or equal to that index. If the counter larger than index value and according to Pigeonhole Priciple,  that means there must have number duplicated in the first half of searching range. So next time we search the first half. Otherwise, we check the last half part.&lt;/li&gt;
-&lt;li&gt;NOTICE: each time we decrease the search range but still check the number in entire array.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:51072b7754d767e44ab1a140653d075f&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int findDuplicate(int[] nums) {
-        int l = 0, r = nums.length - 1;
-        while(l &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            int cnt = 0;
-            for(int i : nums)
-                if(i &amp;lt;= m)
-                    cnt++;
-            if(cnt &amp;lt;= m)
-                l = m + 1;
-            else
-                r = m;
-        }
-        return l;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Integer to English Words</title>
-      <link>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</link>
-      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</guid>
-      <description>
-
-&lt;p&gt;Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;123&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Hundred Twenty Three&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;12345&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;Twelve Thousand Three Hundred Forty Five&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;1234567&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;hint:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Hint&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;There are many edge cases. What are some good test cases? Does your code work with input such as &lt;code&gt;0&lt;/code&gt; ? Or &lt;code&gt;1000010&lt;/code&gt;? (middle chunk is zero and should not be printed out)&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;think:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The regular pattern in English word to count number is splitting by &lt;code&gt;1000&lt;/code&gt;, so set each &lt;code&gt;000.&lt;/code&gt; by &lt;code&gt;&amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Be aware to number less than &lt;code&gt;20&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    private final String[] lessThan20 = {&amp;quot;&amp;quot;, &amp;quot;One &amp;quot;, &amp;quot;Two &amp;quot;, &amp;quot;Three &amp;quot;, &amp;quot;Four &amp;quot;, &amp;quot;Five &amp;quot;, &amp;quot;Six &amp;quot;, &amp;quot;Seven &amp;quot;, &amp;quot;Eight &amp;quot;, &amp;quot;Nine &amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Eleven &amp;quot;, &amp;quot;Twelve &amp;quot;, &amp;quot;Thirteen &amp;quot;, &amp;quot;Fourteen &amp;quot;, &amp;quot;Fifteen &amp;quot;, &amp;quot;Sixteen &amp;quot;, &amp;quot;Seventeen &amp;quot;, &amp;quot;Eighteen &amp;quot;, &amp;quot;Nineteen &amp;quot;};
-    private final String[] tens = {&amp;quot;&amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Twenty &amp;quot;, &amp;quot;Thirty &amp;quot;, &amp;quot;Forty &amp;quot;, &amp;quot;Fifty &amp;quot;, &amp;quot;Sixty &amp;quot;, &amp;quot;Seventy &amp;quot;, &amp;quot;Eighty &amp;quot;, &amp;quot;Ninety &amp;quot;};
-    private final String[] thousands = {&amp;quot;&amp;quot;, &amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;};
-
-    public String numberToWords(int num) {
-        if (num == 0)
-            return &amp;quot;Zero&amp;quot;;
-        int i = 0;
-        String words = &amp;quot;&amp;quot;;
-        
-        while(num &amp;gt; 0) {
-            if (num % 1000 != 0)
-                words = eachThousand(num % 1000)+ thousands[i] + words;
-            num /= 1000;
-            i++;
-        }
-        return words.trim();
-    }
-    
-    private String eachThousand(int each) {
-        StringBuilder sb = new StringBuilder();
-        if(each / 100 &amp;gt; 0) {
-            sb.append(lessThan20[each / 100] + &amp;quot;Hundred &amp;quot;);
-        }
-        int ten = each % 100;
-        if(ten &amp;gt;= 20) {
-            sb.append(tens[ten/10]);
-            sb.append(lessThan20[ten%10]);
-        }else {
-            sb.append(lessThan20[ten]);
-        }
-        return sb.toString();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Unique Word Abbreviation</title>
-      <link>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</link>
-      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</guid>
-      <description>
-
-&lt;p&gt;An abbreviation of a word follows the form &lt;code&gt;&amp;lt;first letter&amp;gt;&amp;lt;number&amp;gt;&amp;lt;last letter&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Below are some examples of word abbreviations:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    a) it                      --&amp;gt; it    (no abbreviation)
-    
-         1
-    b) d|o|g                   --&amp;gt; d1g
-    
-                  1    1  1
-         1---5----0----5--8
-    c) i|nternationalizatio|n  --&amp;gt; i18n
-    
-                  1
-         1---5----0
-    d) l|ocalizatio|n          --&amp;gt; l10n
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word&amp;rsquo;s abbreviation is unique if no other word from the dictionary has the same abbreviation.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:a71989791a51f811869cd70e5706cbbe&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given dictionary = [ &amp;ldquo;deer&amp;rdquo;, &amp;ldquo;door&amp;rdquo;, &amp;ldquo;cake&amp;rdquo;, &amp;ldquo;card&amp;rdquo; ]&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;dear&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cart&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt; ;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cane&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;make&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:a71989791a51f811869cd70e5706cbbe&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Save dictionary words in a set&lt;/li&gt;
-&lt;li&gt;Save the abbreviation from dictionary word to a HashMap.&lt;/li&gt;
-&lt;li&gt;HashMap has the key with abbreviation and value with the original word&lt;/li&gt;
-&lt;li&gt;check &lt;code&gt;isUnique(word)&lt;/code&gt; by make abbreviation from that word and compare with the hashmap&lt;/li&gt;
-&lt;li&gt;If hashmap doesn&amp;rsquo;t contain that word, return true.&lt;/li&gt;
-&lt;li&gt;If hashmap contains that word, we should compare if the word is equal to the word saved in hashmap.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:a71989791a51f811869cd70e5706cbbe&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class UniqueWordAbbreviation {
-
-	Set&amp;lt;String&amp;gt; dict = new HashSet&amp;lt;&amp;gt;(); // keep the dictionary has unique words
-	Map&amp;lt;String, String&amp;gt; abbrDict = new HashMap&amp;lt;&amp;gt;();
-
-	public UniqueWordAbbreviation(String[] dictionary) {
-		for (String str : dictionary) {
-			if (dict.contains(str))
-				continue;
-			String abbr = makeAbbr(str);
-			if (!abbrDict.containsKey(abbr))
-				abbrDict.put(abbr, str);
-			else
-				abbrDict.put(abbr, &amp;quot;&amp;quot;);
-			dict.add(str);
-		}
-	}
-
-	public boolean isUnique(String word) {
-		String abbr = makeAbbr(word);
-		if (abbrDict.containsKey(abbr))
-			return word.equals(abbrDict.get(abbr));
-		return true;
-	}
-
-    private String makeAbbr(String str) {
-		if (str == null || str.length() &amp;lt;= 2)
-			return str;
-		int mid = str.length() - 2;
-		StringBuilder sb = new StringBuilder();
-		sb.append(str.charAt(0));
-		sb.append(mid);
-		sb.append(str.charAt(str.length() - 1));
-		return sb.toString();
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Flip Game I/II</title>
-      <link>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</link>
-      <pubDate>Wed, 11 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</guid>
-      <description>
-
-&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.
-Write a function to compute all possible states of the string after one valid move.&lt;/p&gt;
-
-&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, after one move, it may become one of the following states:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[
-  &amp;quot;--++&amp;quot;,
-  &amp;quot;+--+&amp;quot;,
-  &amp;quot;++--&amp;quot;
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If there is no valid move, return an empty list &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Only consecutive &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; can be flipped.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; generatePossibleNextMoves(String s) {
-		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-		if (s == null || s.length() &amp;lt; 2) {
-            return res;
-        }
-		for (int i = 1; i &amp;lt; s.length(); i++) {
-			StringBuilder sb = new StringBuilder(s);
-			if (s.charAt(i) == &#39;+&#39; &amp;amp;&amp;amp; s.charAt(i - 1) == s.charAt(i)) {
-				sb.insert(i - 1, &#39;-&#39;);
-				sb.insert(i, &#39;-&#39;);
-			}
-			res.add(sb.toString());
-		}
-		return res;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-ii:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.&lt;/p&gt;
-
-&lt;p&gt;Write a function to determine if the starting player can guarantee a win.&lt;/p&gt;
-
-&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, return true. The starting player can guarantee a win by flipping the middle &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; to become &lt;code&gt;&amp;quot;+--+&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;follow:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Follow&lt;/h4&gt;
-
-&lt;p&gt;Derive your algorithm&amp;rsquo;s run-time complexity.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Backtracking seems to be the only feasible solution to this problem.&lt;/li&gt;
-&lt;li&gt;We can basically try every possible move for the first player (P1), and recursively check if the second player has any chance to win.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static boolean canWin(String s) {
-		return winHelper(s.toCharArray());
-	}
-
-	private static boolean winHelper(char[] chars) {
-		for (int i = 1; i &amp;lt; chars.length; i++) {
-			if (chars[i] == &#39;+&#39; &amp;amp;&amp;amp; chars[i] == chars[i - 1]) {
-				chars[i - 1] = &#39;-&#39;;
-				chars[i] = &#39;-&#39;;
-			// if sencond player have chance to win
-				boolean win = !winHelper(chars);
-				chars[i - 1] = &#39;+&#39;;
-				chars[i] = &#39;+&#39;;
-				if (win) 
-                    return true;
-			}
-		}
-		return false;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>H-Index</title>
-      <link>http://xmruibi.github.io/2015/11/11/h-index/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/h-index/</guid>
-      <description>
-
-&lt;p&gt;Given an array of citations (each citation is a non-negative integer) of a researcher, write a function to compute the researcher&amp;rsquo;s h-index.&lt;/p&gt;
-
-&lt;p&gt;According to the definition of h-index on Wikipedia: &amp;ldquo;A scientist has index h if h of his/her N papers have at least h citations each, and the other N − h papers have no more than h citations each.&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;For example, given citations = &lt;code&gt;[3, 0, 6, 1, 5]&lt;/code&gt;, which means the researcher has &lt;code&gt;5&lt;/code&gt; papers in total and each of them had received &lt;code&gt;3, 0, 6, 1, 5&lt;/code&gt; citations respectively. Since the researcher has &lt;code&gt;3&lt;/code&gt; papers with at least &lt;code&gt;3&lt;/code&gt; citations each and the remaining two with no more than &lt;code&gt;3&lt;/code&gt; citations each, his h-index is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If there are several possible values for h, the maximum one is taken as the h-index.&lt;/p&gt;
-
-&lt;h3 id=&#34;hint:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Hint&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;An easy approach is to sort the array first.&lt;/li&gt;
-&lt;li&gt;What are the possible values of h-index?&lt;/li&gt;
-&lt;li&gt;A faster approach is to use extra space.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;think-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort first (takes $$O(n \times log{n})$$)&lt;/li&gt;
-&lt;li&gt;Set a &lt;code&gt;h&lt;/code&gt; variable, increase &lt;code&gt;h&lt;/code&gt; to &lt;code&gt;length - currentIdx&lt;/code&gt; when current element&amp;rsquo;s value is equals or larger than &lt;code&gt;length - currentIdx&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
-        if(citations == null || citations.length == 0)
-            return 0;
-        Arrays.sort(citations);
-        int h = 0;
-        for(int i = 0; i &amp;lt; citations.length; i++) {
-            if(citations[i] &amp;gt;= citations.length - i)
-                h = Math.max(h, citations.length - i);
-        }
-        return h;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Extra Space&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
-        if(citations == null || citations.length == 0)
-            return 0;
-        int[] memo = new int[citations.length + 1];
-        for(int i = 0; i &amp;lt; citations.length; i++) {
-            if(citations[i] &amp;gt;= memo.length)
-                memo[memo.length - 1] ++;
-            else
-                memo[citations[i]]++;
-        }
-
-        for(int i = memo.length - 1; i &amp;gt;= 0; i--) {
-            if(i &amp;lt; memo.length - 1)
-                memo[i] += memo[i+1];
-            if(memo[i] &amp;gt;= i)
-                return i;
-        }
-        return 0;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #3&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort and Binary Search&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #3&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
-        if(citations == null || citations.length == 0)
-            return 0;
-        int l = 0, r = citations.length - 1;
-        while(l + 1 &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if(citations[m] == citations.length - m)
-                return citations.length - m;
-            else if(citations[m] &amp;lt; citations.length - m)
-                l = m;
-            else
-                r = m;
-        }
-        if(citations[l] &amp;gt;= citations.length - l)
-            return citations.length - l;   // this is larger
-        if(citations[r] &amp;gt;= citations.length - r)
-            return citations.length - r;
-    
-        return 0;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Move Zeroes</title>
-      <link>http://xmruibi.github.io/2015/11/11/move-zeroes/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/move-zeroes/</guid>
-      <description>
-
-&lt;p&gt;Given an array nums, write a function to move all 0&amp;rsquo;s to the end of it while maintaining the relative order of the non-zero elements.&lt;/p&gt;
-
-&lt;p&gt;For example, given nums = &lt;code&gt;[0, 1, 0, 3, 12]&lt;/code&gt;, after calling your function, nums should be &lt;code&gt;[1, 3, 12, 0, 0]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;You must do this in-place without making a copy of the array.
-Minimize the total number of operations.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Mark an index for nonzero element&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public void moveZeroes(int[] nums) {
-        int nonzeroIdx = 0;
-        int idx = 0;
-        while(idx &amp;lt; nums.length) {
-            if(idx &amp;gt;= nonzeroIdx &amp;amp;&amp;amp; nums[idx] != 0) {
-                int tmp = nums[idx];
-                nums[idx--] = nums[nonzeroIdx];
-                nums[nonzeroIdx++] = tmp;
-            }
-            idx++;
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Nim Game</title>
-      <link>http://xmruibi.github.io/2015/11/11/nim-game/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/nim-game/</guid>
-      <description>
-
-&lt;p&gt;You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.&lt;/p&gt;
-
-&lt;p&gt;Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.&lt;/p&gt;
-
-&lt;p&gt;For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.&lt;/p&gt;
-
-&lt;h3 id=&#34;hint:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Hint&lt;/h3&gt;
-
-&lt;p&gt;If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?&lt;/p&gt;
-
-&lt;h2 id=&#34;think:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Similar with the Coin in A Line I&lt;/li&gt;
-&lt;li&gt;The death number will be the multiply of &lt;code&gt;the max amount your can taken +1&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;So just check if the total amount is the multiply of &lt;code&gt;4&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;proof:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Proof:&lt;/h4&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;the base case: when &lt;code&gt;n&lt;/code&gt; = &lt;code&gt;4&lt;/code&gt;, as suggested by the hint from the problem, no matter which number that that first player, the second player would always be able to pick the remaining number.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;For &lt;code&gt;1 x 4&lt;/code&gt; &amp;lt; &lt;code&gt;n&lt;/code&gt; &amp;lt; &lt;code&gt;2 x 4&lt;/code&gt;, (&lt;code&gt;n&lt;/code&gt; = &lt;code&gt;5, 6, 7&lt;/code&gt;), the first player can reduce the initial number into 4 accordingly, which will leave the death number 4 to the second player. i.e. The numbers &lt;code&gt;5, 6, 7&lt;/code&gt; are winning numbers for any player who got it first.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Now to the beginning of the next cycle, n = 8, no matter which number that the first player picks, it would always leave the winning numbers (5, 6, 7) to the second player. Therefore, &lt;code&gt;8 % 4 == 0&lt;/code&gt;, again is a death number.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Following the second case, for numbers between &lt;code&gt;(2 x 4 = 8)&lt;/code&gt; and &lt;code&gt;(3 x 4=12)&lt;/code&gt;, which are &lt;code&gt;9&lt;/code&gt;,&lt;code&gt;10&lt;/code&gt;, &lt;code&gt;11&lt;/code&gt;, are winning numbers for the first player again, because the first player can always reduce the number into the death number 8.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;solution:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean canWinNim(int n) {
-        return n%4 != 0;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Query Range Sum on Array</title>
-      <link>http://xmruibi.github.io/2015/11/11/query-range-sum-on-array/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/query-range-sum-on-array/</guid>
-      <description>
-
-&lt;p&gt;Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Example:&lt;/h3&gt;
-
-&lt;p&gt;Given nums = [-2, 0, 3, -5, 2, -1]&lt;/p&gt;
-
-&lt;p&gt;sumRange(0, 2) -&amp;gt; 1
-sumRange(2, 5) -&amp;gt; -1
-sumRange(0, 5) -&amp;gt; -3
-Note:
-You may assume that the array does not change.
-There are many calls to sumRange function.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Save the prefix sum in extra array.&lt;/li&gt;
-&lt;li&gt;Be aware to the &lt;code&gt;sum[0]&lt;/code&gt; means nothing before the first element of input array &lt;code&gt;nums&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;return the the difference on prefix index &lt;code&gt;[high] - [low - 1]&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NumArray {
-    int[] sum;
-    
-    public NumArray(int[] nums) {
-        sum = new int[nums.length + 1];
-        for(int i = 1; i &amp;lt;= nums.length; i++) {
-            sum[i] = nums[i-1] + sum[i-1];
-        }
-    }
-
-    public int sumRange(int i, int j) {
-        return sum[j+1]-sum[i];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Walls and Gates</title>
-      <link>http://xmruibi.github.io/2015/11/11/walls-and-gates/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/walls-and-gates/</guid>
-      <description>
-
-&lt;p&gt;You are given a m x n 2D grid initialized with these three possible values.&lt;/p&gt;
-
-&lt;p&gt;-1 - A wall or an obstacle.
-0 - A gate.
-INF - Infinity means an empty room. We use the value 231 - 1 = 2147483647 to represent INF as you may assume that the distance to a gate is less than 2147483647.&lt;/p&gt;
-
-&lt;p&gt;Fill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with INF.
-For example, given the 2D grid:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    INF  -1  0  INF
-    INF INF INF  -1
-    INF  -1 INF  -1
-      0  -1 INF INF
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After running your function, the 2D grid should be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    3  -1   0   1
-    2   2   1  -1
-    1  -1   2  -1
-    0  -1   3   4
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:462b13a16adabd0b713df96bb174b231&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;It is very classic backtracking problem.&lt;/li&gt;
-&lt;li&gt;We can start from each gate (0 point), and searching for its neighbors.&lt;/li&gt;
-&lt;li&gt;We can either use DFS or BFS solution.&lt;/li&gt;
-&lt;li&gt;Here I gave the BFS solution&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:462b13a16adabd0b713df96bb174b231&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static void wallsAndGates(int[][] rooms) {
-        for (int i = 0; i &amp;lt; rooms.length; i++) {
-            for (int j = 0; j &amp;lt; rooms[i].length; j++) {
-                if (rooms[i][j] == 0)
-                    bfs(rooms, i, j, i, j, 0);
-            }
-        }
-    }
-
-    private static void bfs(int[][] rooms, int x, int y, int px, int py,
-            int level) {
-
-        if (rooms[x][y] &amp;gt;= 0) {
-            if (rooms[x][y] &amp;lt; level)
-                return;
-            rooms[x][y] = level;
-        } else
-            return;
-
-        int[] xs = { -1, 0, 0, 1 };
-        int[] ys = { 0, 1, -1, 0 };
-        for (int i = 0; i &amp;lt; 4; i++) {
-            int nx = xs[i] + x;
-            int ny = ys[i] + y;
-            if (nx &amp;lt; 0 || nx &amp;gt;= rooms.length || ny &amp;lt; 0
-                    || ny &amp;gt;= rooms[nx].length || (nx == px &amp;amp;&amp;amp; ny == py))
-                continue;
-            bfs(rooms, nx, ny, x, y, level + 1);
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Bull and Cows</title>
-      <link>http://xmruibi.github.io/2015/11/10/bull-and-cows/</link>
-      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/10/bull-and-cows/</guid>
-      <description>
-
-&lt;p&gt;You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called &lt;code&gt;&amp;quot;bulls&amp;quot;&lt;/code&gt;) and how many digits match the secret number but locate in the wrong position (called &lt;code&gt;&amp;quot;cows&amp;quot;&lt;/code&gt;). Your friend will use successive guesses and hints to eventually derive the secret number.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;Secret number:  &amp;quot;1807&amp;quot;
-Friend&#39;s guess: &amp;quot;7810&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;1&lt;/code&gt; bull and &lt;code&gt;3&lt;/code&gt; cows. (The bull is &lt;code&gt;8&lt;/code&gt;, the cows are &lt;code&gt;0&lt;/code&gt;, &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;7&lt;/code&gt;.)&lt;/p&gt;
-
-&lt;p&gt;Write a function to return a hint according to the secret number and friend&amp;rsquo;s guess, use &lt;code&gt;A&lt;/code&gt; to indicate the bulls and &lt;code&gt;B&lt;/code&gt; to indicate the cows. In the above example, your function should return &lt;code&gt;&amp;quot;1A3B&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Please note that both secret number and friend&amp;rsquo;s guess may contain duplicate digits, for example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Secret number:  &amp;quot;1123&amp;quot;
-Friend&#39;s guess: &amp;quot;0111&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In this case, the 1st 1 in friend&amp;rsquo;s &lt;code&gt;guess&lt;/code&gt; is a bull, the 2nd or 3rd 1 is a cow, and your function should return &lt;code&gt;&amp;quot;1A1B&amp;quot;&lt;/code&gt;.
-You may assume that the secret number and your friend&amp;rsquo;s guess only contain digits, and their lengths are always equal.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;It&amp;rsquo;s pretty tricky to think about one pass solution without HashMap.&lt;br /&gt;
-Here are some pattern we should notice.
-    1. Every character in string is number &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;9&lt;/code&gt;
-    2. Number in &lt;code&gt;guess&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; should also be recorded during the pass
-    3. Avoid duplicate is tough&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Solve it by set a int array with length of 10 for counting&lt;/li&gt;
-&lt;li&gt;meet a number in &lt;code&gt;guess&lt;/code&gt; do a minus on &lt;code&gt;arr[guess_digit]&lt;/code&gt; while meet a number in &lt;code&gt;secrett&lt;/code&gt; do a addition on &lt;code&gt;arr[secret_digit]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;check &lt;code&gt;arr[secret_digit]&lt;/code&gt; if it is negative, which means that number should existed in &lt;code&gt;guess&lt;/code&gt; number&lt;/li&gt;
-&lt;li&gt;check &lt;code&gt;arr[guess_digit]&lt;/code&gt; if it is negative, which means that number should existed in &lt;code&gt;secret&lt;/code&gt; number&lt;/li&gt;
-&lt;li&gt;when iteration on number is the same from &lt;code&gt;guess&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; numbers, that should be the &lt;code&gt;bull&lt;/code&gt; but without any modification on counting array.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String getHint(String secret, String guess) {
-        int cntA = 0;
-        int cntB = 0;
-        int[] valIdx = new int[10];
-        for(int i = 0; i &amp;lt; secret.length(); i++) {
-            int sIdx = secret.charAt(i) - &#39;0&#39;;
-            int gIdx = guess.charAt(i) - &#39;0&#39;;
-            if(gIdx == sIdx)
-                cntA++;
-            else{ 
-                if(valIdx[sIdx] &amp;lt; 0) 
-                    cntB++;
-                if(valIdx[gIdx] &amp;gt; 0) 
-                    cntB++;
-            }
-            valIdx[sIdx]++;
-            valIdx[gIdx]--;
-        }
-        return &amp;quot;&amp;quot; + cntA + &amp;quot;A&amp;quot; + cntB + &amp;quot;B&amp;quot;;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Encode and Decode String</title>
-      <link>http://xmruibi.github.io/2015/11/10/encode-and-decode-string/</link>
-      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/10/encode-and-decode-string/</guid>
-      <description>
-
-&lt;p&gt;Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.&lt;/p&gt;
-
-&lt;p&gt;Machine 1 (sender) has the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public String encode(String[] strs) {
-  // ... your code
-  return encoded_string;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Machine 2 (receiver) has the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public String[] decode(String s) {
-  //... your code
-  return strs;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So Machine 1 does:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String encoded_string = encode(strs);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;and Machine 2 does:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String[] strs2 = decode(encoded_string);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;strs2&lt;/code&gt; in Machine 2 should be the same as &lt;code&gt;strs&lt;/code&gt; in Machine 1.&lt;/p&gt;
-
-&lt;p&gt;Implement the encode and decode methods.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:784b24ea42273a6937579e186ff79201&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;The string may contain any possible characters out of 256 valid ascii characters. Your algorithm should be generalized enough to work on any possible characters.&lt;/p&gt;
-
-&lt;p&gt;Do not use class &lt;strong&gt;member / global / static variables&lt;/strong&gt; to store states. Your encode and decode algorithms should be &lt;strong&gt;stateless&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Do not rely on any library method such as eval or serialize methods. You should implement your own encode/decode algorithm.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:784b24ea42273a6937579e186ff79201&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;In theoretic way, there should be nothing can do separation for Strings&lt;/li&gt;
-&lt;li&gt;So just make the encode as adding the length of word and &amp;ldquo;#&amp;rdquo; before the word&lt;/li&gt;
-&lt;li&gt;Decode function should be carefully designed&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:784b24ea42273a6937579e186ff79201&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class EncodeDecodeString {
-	public String encode(List&amp;lt;String&amp;gt; strs) {
-		StringBuilder sb = new StringBuilder();
-		for (String str : strs) {
-			sb.append(str.length());
-			sb.append(&amp;quot;#&amp;quot;);
-			sb.append(str);
-		}
-
-		return sb.toString();
-	}
-
-	public List&amp;lt;String&amp;gt; decode(String str) {
-		List&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-		int strlen = 0;
-		for (int i = 0; i &amp;lt; str.length(); i++) {
-			char cur = str.charAt(i);
-			if (cur == &#39;#&#39; &amp;amp;&amp;amp; strlen &amp;gt; 0) {
-				StringBuilder sb = new StringBuilder();
-				while (strlen &amp;gt; 0 &amp;amp;&amp;amp; i &amp;lt; str.length()) {
-					sb.append(str.charAt(++i));
-					strlen--;
-				}
-				list.add(sb.toString());
-			} else
-				strlen = strlen * 10 + (cur - &#39;0&#39;);
-		}
-		return list;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Longest Consecutive Sequence in Binary Tree</title>
-      <link>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</link>
-      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</guid>
-      <description>
-
-&lt;p&gt;Given a binary tree, find the length of the longest consecutive sequence path.&lt;/p&gt;
-
-&lt;p&gt;The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The longest consecutive path need to be from parent to child (cannot be the reverse).&lt;/p&gt;
-
-&lt;h3 id=&#34;example:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;   1
-    \
-     3
-    / \
-   2   4
-        \
-         5
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Longest consecutive sequence path is &lt;code&gt;3-4-5&lt;/code&gt;, so return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   2
-    \
-     3
-    / 
-   2    
-  / 
- 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Longest consecutive sequence path is &lt;code&gt;2-3&lt;/code&gt;, not &lt;code&gt;3-2-1&lt;/code&gt;, so return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Simple recursion way&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:f4d2713bdb95d33d1243cf1747e6b427&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class LCSinBT {
-    int maxLength = 1;
-
-    public int longestConsecutive(TreeNode root) {
-        if(root == null)
-            return 0;
-        helper(root, 1);
-        return maxLength;
-    }
-
-    private void helper(TreeNode node, int length) {
-        if (node.left == null &amp;amp;&amp;amp; node.right == null) {
-            maxLength = Math.max(length, maxLength);
-            return;
-        }
-
-        if (node.left != null &amp;amp;&amp;amp; node.left.val == node.val + 1)
-            helper(node.left, length + 1);
-        if (node.right != null &amp;amp;&amp;amp; node.right.val == node.val + 1)
-            helper(node.right, length + 1);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Serialize and Deserialize Binary Tree</title>
-      <link>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</link>
-      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</guid>
-      <description>
-
-&lt;p&gt;Design an algorithm and write code to serialize and deserialize a binary tree. Writing the tree to a file is called &amp;lsquo;serialization&amp;rsquo; and reading back from the file to reconstruct the exact same binary tree is &amp;lsquo;deserialization&amp;rsquo;.&lt;/p&gt;
-
-&lt;p&gt;There is no limit of how you deserialize or serialize a binary tree, you only need to make sure you can serialize a binary tree to a string and deserialize this string to the original structure.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;An example of testdata: Binary tree &lt;code&gt;{3,9,20,#,#,15,7}&lt;/code&gt;, denote the following structure:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  3
- / \
-9  20
-  /  \
- 15   7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Our data serialization use bfs traversal. This is just for when you got wrong answer and want to debug the input.&lt;/p&gt;
-
-&lt;p&gt;You can use other method to do serializaiton and deserialization.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;BFS with queue&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    /**
-     * This method will be invoked first, you should design your own algorithm 
-     * to serialize a binary tree which denote by a root node to a string which
-     * can be easily deserialized by your own &amp;quot;deserialize&amp;quot; method later.
-     */
-    public String serialize(TreeNode root) {
-        if (root == null)
-            return &amp;quot;#&amp;quot;;
-        
-        // write your code here
-        StringBuilder sb = new StringBuilder();
-        Queue&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
-        queue.offer(root);
-        while(!queue.isEmpty()) {
-            TreeNode node = queue.remove();
-            if(node == null) {
-                sb.append(&amp;quot;#,&amp;quot;);
-            }else {
-                sb.append(node.val+&amp;quot;,&amp;quot;);
-                queue.offer(node.left);
-                queue.offer(node.right);
-            }
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        return sb.toString();
-    }
-    
-    /**
-     * This method will be invoked second, the argument data is what exactly
-     * you serialized at method &amp;quot;serialize&amp;quot;, that means the data is not given by
-     * system, it&#39;s given by your own serialize method. So the format of data is
-     * designed by yourself, and deserialize it here as you serialize it in 
-     * &amp;quot;serialize&amp;quot; method.
-     */
-    public TreeNode deserialize(String data) {
-        if (data == null || data.length() == 0 || data.equals(&amp;quot;#&amp;quot;))
-            return null;
-        // write your code here
-        String[] strs = data.split(&amp;quot;,&amp;quot;);
-        Queue&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
-        queue.offer(new TreeNode(Integer.parseInt(strs[0])));
-        TreeNode root = queue.peek();
-        int idx = 1;
-        while(idx &amp;lt; strs.length) {
-            TreeNode node = queue.remove();
-            node.left = strs[idx].equals(&amp;quot;#&amp;quot;)? null : new TreeNode(Integer.parseInt(strs[idx]));
-            idx++;
-            node.right = strs[idx].equals(&amp;quot;#&amp;quot;)? null : new TreeNode(Integer.parseInt(strs[idx]));
-            idx++;
-            if(node.left!=null)
-                queue.offer(node.left);
-            if(node.right!=null)
-                queue.offer(node.right);
-        }
-        return root;
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

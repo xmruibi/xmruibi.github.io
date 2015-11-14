@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google on Geek Think</title>
+    <link>http://localhost:1313/topics/google/</link>
+    <description>Recent content in Google on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/topics/google/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Constant Time Random Picker</title>
+      <link>http://localhost:1313/2015/11/14/constant-time-random-picker/</link>
+      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
+      
+      <guid>http://localhost:1313/2015/11/14/constant-time-random-picker/</guid>
+      <description>
+
+&lt;p&gt;Design a data structure that supports insert, delete, search and getRandom in constant time.&lt;/p&gt;
+
+&lt;p&gt;Design a data structure that supports following operations in Θ(1) time.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;insert(x)&lt;/code&gt;: Inserts an item x to the data structure if not already present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;remove(x)&lt;/code&gt;: Removes an item x from the data structure if present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;search(x)&lt;/code&gt;: Searches an item x in the data structure.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getRandom()&lt;/code&gt;: Returns a random element from current set of elements&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;We can use hashing to support first 3 operations in Θ(1) time. How to do the 4th operation? The idea is to use a resizable array (ArrayList in Java, vector in C) together with hashing. Resizable arrays support insert in Θ(1) amortized time complexity. To implement getRandom(), we can simply pick a random number from 0 to size-1 (size is number of current elements) and return the element at that index. The hash map stores array values as keys and array indexes as values.&lt;/p&gt;
+
+&lt;p&gt;Following are detailed operations.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;insert(x)&lt;/li&gt;
+&lt;li&gt;Check if x is already present by doing a hash map lookup.&lt;/li&gt;
+&lt;li&gt;If not present, then insert it at the end of the array.&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add in hash table also, x is added as key and last array index as index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;remove(x)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check if x is present by doing a hash map lookup.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If present, then find its index and remove it from hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swap the last element with this element in array and remove the last element.
+Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update index of last element in hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;getRandom()&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Generate a random number from 0 to last index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Return the array element at the randomly generated index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;search(x)
+Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
+	
+	private final ArrayList&amp;lt;Integer&amp;gt; arr;
+	private final HashMap&amp;lt;Integer, Integer&amp;gt; map; // value - index
+    Random r;
+	
+	public ConstantTimeRandomPicker() {
+		this.arr = new ArrayList&amp;lt;Integer&amp;gt;();
+		this.map = new HashMap&amp;lt;Integer, Integer&amp;gt;();
+	}
+	
+	public void add(int val) {
+		arr.add(val);
+		map.put(arr.size() - 1, val);
+	}
+	
+	public void remove(int val) {
+		remove(map.get(val), val);
+	}
+	
+	public void removeRandom() {
+		int val = arr.get(r.nextInt(arr.size()));
+		remove(map.get(val), val);
+	}
+	
+	public int getRandom() {
+		return arr.get(r.nextInt(arr.size()));
+	}
+	
+	public int search(int val) {
+		return arr.get(map.get(val));
+	}
+
+	private void remove(int idx, int val) {
+		
+		// swap with the last element
+		int last = arr.get(arr.size() - 1);
+		// put the last element to the current index
+		arr.set(idx, last);
+		// remove the last element
+		arr.remove(arr.size() - 1);
+				
+		// update the last element&#39;s index in hashmap
+		map.put(last, idx);		
+		// remove the removal value
+		map.remove(val);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

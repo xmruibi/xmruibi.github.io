@@ -7,8 +7,188 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 09 Nov 2015 19:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2015 17:50:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/stack/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Middle Index Stack</title>
+      <link>http://xmruibi.github.io/2015/11/13/middle-index-stack/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/middle-index-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack with operations on middle element.&lt;/p&gt;
+
+&lt;p&gt;How to implement a stack which will support following operations in O(1) time complexity?
+1) push() which adds an element to the top of stack.
+2) pop() which removes an element from top of stack.
+3) findMiddle() which will return middle element of the stack.
+4) deleteMiddle() which will delete the middle element.
+Push and pop are standard stack operations.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The important question is, whether to use a linked list or array for implementation of stack?
+- The key of this question is to design an doubly linked list to deal with those required functions.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MidStack implements MyStack{
+    int size;
+    Node top;
+    Node mid;
+    
+    public MidStack() {
+        int size = 0;
+        top = mid = null;
+    }
+    @Override
+    public void push(int val) {
+        Node newNode = new Node(val);
+        if(top == null) {
+            top = newNode;
+            mid = top;
+        }else{
+            top.next = newNode;
+            newNode.prev = top;
+            top = newNode;
+            if(size % 2 ==0)
+                mid = mid.next;
+        }
+        size++;
+    }
+    @Override
+    public int pop() {
+        int pop = top.val;
+        top = top.prev;
+        top.next = null;
+        if(size % 2 !=0)
+            mid = mid.prev;
+        size--;
+        return pop;
+    }
+    @Override
+    public int findMiddle() {
+        return mid.val;
+    }
+    @Override
+    public void deleteMiddle() {
+        if(size &amp;lt;= 2) {
+            mid = top;
+            top.prev = null;
+            size--;
+            return;
+        }
+            
+        mid.next.prev = mid.prev;
+        mid.prev.next = mid.next;
+        mid = mid.prev;
+        size--;
+    }
+    
+    public static void main(String[] args) {
+        MidStack stack = new MidStack();
+        stack.push(1);stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        stack.deleteMiddle();
+        stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+    }
+}
+
+interface MyStack{
+    public void push(int val);
+    public int pop();
+    public int findMiddle();
+    public void deleteMiddle();
+}
+class Node{
+    int val;
+    Node prev, next;
+    public Node(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Braces Check</title>
+      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
+      <description>
+
+&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Parenthese check problem three way to solve.
+
+&lt;ul&gt;
+&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
+&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
+    public boolean matched(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        int cnt = 0;
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            if(s.charAt(idx) == &#39;(&#39;)
+                cnt++;
+            else if(s.charAt(idx) == &#39;)&#39;) {
+                if(cnt &amp;lt;= 0) 
+                    return false;
+                cnt--;
+            }
+        }
+        return cnt == 0;
+    }
+
+    // 
+    public boolean matchedII(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            char c = s.charAt(idx);
+            if(map.containsKey(c))
+                stack.push(c);
+            else if(map.values().contains(c)){
+                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
+                    return false;
+            }
+        }
+        return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Delete Digits</title>

@@ -7,8 +7,155 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Valid Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
+      <description>
+
+&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question focus on thinking about all of corner case
+
+&lt;ol&gt;
+&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
+&lt;li&gt;space before the number&lt;/li&gt;
+&lt;li&gt;invalid character before / after the number&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
+&lt;li&gt;space after the number&lt;/li&gt;
+&lt;li&gt;decimal checker&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
+		if(s == null)
+			return false;
+        boolean eFlagAllow = true; // switcher for &#39;e&#39; or &#39;E&#39;
+        boolean decimal = true; // switcher for &#39;.&#39;
+        boolean hasNum = false; // make sure it contains number
+        int cursor = 0;
+        // skip previous space.
+        while(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39; &#39;)
+            cursor++;
+            
+        // check the sign, only one position allow for &#39;-&#39;
+        if(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39;-&#39;)
+            cursor++;
+            
+        while(cursor &amp;lt; s.length()) {
+            char cur = s.charAt(cursor);
+            // if has number 
+            if(cur &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; cur &amp;lt;= &#39;9&#39;){
+                if(!hasNum)
+                    hasNum = true;
+            }else if((cur == &#39;e&#39; || cur == &#39;E&#39;) &amp;amp;&amp;amp; eFlagAllow &amp;amp;&amp;amp; hasNum) { 
+                // previous position should contain the number first 
+                eFlagAllow = false; // turn off the e/E switcher
+            }else if(cur == &#39;.&#39; &amp;amp;&amp;amp; decimal) {
+                // turn off the decimal switcher
+                decimal = false;
+            }else if(cur != &#39; &#39;) // not allow the char except the space
+                return false;
+            cursor ++;
+        }
+        
+        return cursor == s.length() &amp;amp;&amp;amp; hasNum;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Braces Check</title>
+      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
+      <description>
+
+&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Parenthese check problem three way to solve.
+
+&lt;ul&gt;
+&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
+&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
+    public boolean matched(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        int cnt = 0;
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            if(s.charAt(idx) == &#39;(&#39;)
+                cnt++;
+            else if(s.charAt(idx) == &#39;)&#39;) {
+                if(cnt &amp;lt;= 0) 
+                    return false;
+                cnt--;
+            }
+        }
+        return cnt == 0;
+    }
+
+    // 
+    public boolean matchedII(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            char c = s.charAt(idx);
+            if(map.containsKey(c))
+                stack.push(c);
+            else if(map.values().contains(c)){
+                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
+                    return false;
+            }
+        }
+        return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Expression Add Operators</title>
@@ -1334,183 +1481,6 @@ r   g  ta  e
             }
         }
         return memo[0][0][len];
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Word Break</title>
-      <link>http://xmruibi.github.io/2015/11/06/word-break/</link>
-      <pubDate>Fri, 06 Nov 2015 20:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/06/word-break/</guid>
-      <description>
-
-&lt;p&gt;Given a string s and a dictionary of words dict, determine if s can be break into a space-separated sequence of one or more dictionary words.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:88ed7e05b647bf99414349e135279c91&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given s = &lt;code&gt;&amp;quot;lintcode&amp;quot;&lt;/code&gt;, dict = &lt;code&gt;[&amp;quot;lint&amp;quot;, &amp;quot;code&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Return true because &amp;ldquo;lintcode&amp;rdquo; can be break as &amp;ldquo;lint code&amp;rdquo;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:88ed7e05b647bf99414349e135279c91&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;One sequence DP, a 1-D boolean array.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;memo[i]&lt;/code&gt; means from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; has valid word break or not.&lt;/li&gt;
-&lt;li&gt;Tricky part is when we pass at &lt;code&gt;i&lt;/code&gt; position, we don&amp;rsquo;t need to use &lt;code&gt;j&lt;/code&gt; from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; for checking word existed in dictionary. We can use the length of word in dictionary as an length evaluation.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:88ed7e05b647bf99414349e135279c91&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param s: A string s
-     * @param dict: A dictionary of words dict
-     */
-    public boolean wordBreak(String s, Set&amp;lt;String&amp;gt; dict) {
-    
-        if(s == null || s.length() == 0){
-            if(dict == null || dict.size() == 0)
-                return true;
-            return false;
-        }
-        
-        boolean[] memo = new boolean[s.length() + 1];
-        memo[0] = true;
-        for(int i = 1; i &amp;lt;= s.length(); i ++) {
-            for(String ss : dict){
-                int start = i - ss.length();
-                if( start &amp;gt;= 0 &amp;amp;&amp;amp; memo[start]){
-                    String str = s.substring(start, i);
-                    if(dict.contains(str))
-                         memo[i] = true;
-                }
-            }
-        }
-        return memo[s.length()];
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Palindrome Partitioning</title>
-      <link>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</link>
-      <pubDate>Thu, 05 Nov 2015 20:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/05/palindrome-partitioning/</guid>
-      <description>
-
-&lt;h2 id=&#34;problem-i:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Problem I&lt;/h2&gt;
-
-&lt;p&gt;Given a string s, partition s such that every substring of the partition is a palindrome.&lt;/p&gt;
-
-&lt;p&gt;Return all possible palindrome partitioning of &lt;code&gt;s&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;example:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;, return:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[
-  [&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;],
-  [&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;think:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set a boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
-&lt;li&gt;DFS to build up all palindrome partition solutions.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param s: A string
-     * @return: A list of lists of string
-     */
-    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; partition(String s) {
-        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        if(s == null || s.length() == 0)
-            return res;
-        // get palindrome boolean matrix [i][j] -&amp;gt; word(i, j) is palindrome
-        boolean[][] memo = new boolean[s.length()][s.length()];
-        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
-            for(int j = i; j &amp;lt; s.length(); j++) 
-                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
-        
-        // setup dfs method     
-        helper(res, new ArrayList&amp;lt;String&amp;gt;(), memo, s, 0);
-        return res;
-    }
-    
-    private void helper(List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res, List&amp;lt;String&amp;gt; list, boolean[][] memo, String s, int idx) {
-        if(idx &amp;gt;= s.length()) {
-            res.add(new ArrayList&amp;lt;&amp;gt;(list));
-            return;
-        }
-        
-        for(int i = idx; i &amp;lt; s.length(); i++) {
-            if(memo[idx][i]) {
-                String substr = s.substring(idx,i+1);
-                list.add(substr);
-                helper(res, list, memo, s, i+1);
-                list.remove(list.size() - 1);
-            }
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-ii:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;Given a string s, cut s into some substrings such that every substring is a palindrome.&lt;/p&gt;
-
-&lt;p&gt;Return the &lt;strong&gt;minimum cuts&lt;/strong&gt; needed for a palindrome partitioning of s.&lt;/p&gt;
-
-&lt;h4 id=&#34;example-1:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;For example, given s = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;,&lt;/p&gt;
-
-&lt;p&gt;Return 1 since the palindrome partitioning &lt;code&gt;[&amp;quot;aa&amp;quot;,&amp;quot;b&amp;quot;]&lt;/code&gt; could be produced using 1 cut.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-1:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;First step should be set up boolean matrix for check word segment is prlindrome or not. &lt;code&gt;[i][j]&lt;/code&gt; -&amp;gt; &lt;code&gt;word(i, j)&lt;/code&gt; is palindrome&lt;/li&gt;
-&lt;li&gt;Then we need to have a array &lt;code&gt;res[i]&lt;/code&gt; to memorize the minimum cut from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;i&lt;/code&gt; position.&lt;/li&gt;
-&lt;li&gt;Initial the first element in memorized array  as &lt;code&gt;0&lt;/code&gt; (no cut needed)&lt;/li&gt;
-&lt;li&gt;Pass all position &lt;code&gt;i&lt;/code&gt; from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;length&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;When at &lt;code&gt;i&lt;/code&gt; position, we should try &lt;code&gt;j&lt;/code&gt; reversely (avoid update) from &lt;code&gt;j = i&lt;/code&gt; to &lt;code&gt;j = 0&lt;/code&gt; and check if &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome.&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;word(j, i-1)&lt;/code&gt; is palindrome, and &lt;code&gt;res[j]&lt;/code&gt; has valid minimum cut. Update &lt;code&gt;res[i]&lt;/code&gt; is necessary.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:2ee5f05a1809556cd252a86cf11291ce&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param s a string
-     * @return an integer
-     */
-    public int minCut(String s) {
-        if( s == null || s.length() == 0)
-            return 0;
-        // step one: boolean matrix for check word segment is prlindrome or not
-        boolean[][] memo = new boolean[s.length()][s.length()];
-        for(int i = s.length() - 1; i &amp;gt;= 0; i--) 
-            for(int j = i; j &amp;lt; s.length(); j++) 
-                memo[i][j] |= (j - i &amp;lt; 2 || memo[i+1][j-1]) &amp;amp;&amp;amp; s.charAt(i) == s.charAt(j);
-        // step two: cut[i] memorized the minimum cut from `1` to `i` position
-        int[] cut = new int[s.length() + 1];
-        cut[0] = 0;
-        for(int i = 0; i &amp;lt; s.length(); i++) {
-            cut[i + 1] = Integer.MAX_VALUE; 
-            for(int j = i; j &amp;gt;= 0; j --) {
-                cut[i + 1] = memo[j][i] &amp;amp;&amp;amp; cut[j] != Integer.MAX_VALUE ?  Math.min(cut[i+1], cut[j] + 1) : cut[i+1];
-            }
-        }
-        return cut[s.length()] - 1;
     }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

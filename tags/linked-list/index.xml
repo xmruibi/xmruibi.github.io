@@ -7,8 +7,118 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 25 Oct 2015 20:33:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2015 17:50:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/linked-list/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Middle Index Stack</title>
+      <link>http://xmruibi.github.io/2015/11/13/middle-index-stack/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/middle-index-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack with operations on middle element.&lt;/p&gt;
+
+&lt;p&gt;How to implement a stack which will support following operations in O(1) time complexity?
+1) push() which adds an element to the top of stack.
+2) pop() which removes an element from top of stack.
+3) findMiddle() which will return middle element of the stack.
+4) deleteMiddle() which will delete the middle element.
+Push and pop are standard stack operations.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The important question is, whether to use a linked list or array for implementation of stack?
+- The key of this question is to design an doubly linked list to deal with those required functions.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MidStack implements MyStack{
+    int size;
+    Node top;
+    Node mid;
+    
+    public MidStack() {
+        int size = 0;
+        top = mid = null;
+    }
+    @Override
+    public void push(int val) {
+        Node newNode = new Node(val);
+        if(top == null) {
+            top = newNode;
+            mid = top;
+        }else{
+            top.next = newNode;
+            newNode.prev = top;
+            top = newNode;
+            if(size % 2 ==0)
+                mid = mid.next;
+        }
+        size++;
+    }
+    @Override
+    public int pop() {
+        int pop = top.val;
+        top = top.prev;
+        top.next = null;
+        if(size % 2 !=0)
+            mid = mid.prev;
+        size--;
+        return pop;
+    }
+    @Override
+    public int findMiddle() {
+        return mid.val;
+    }
+    @Override
+    public void deleteMiddle() {
+        if(size &amp;lt;= 2) {
+            mid = top;
+            top.prev = null;
+            size--;
+            return;
+        }
+            
+        mid.next.prev = mid.prev;
+        mid.prev.next = mid.next;
+        mid = mid.prev;
+        size--;
+    }
+    
+    public static void main(String[] args) {
+        MidStack stack = new MidStack();
+        stack.push(1);stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        stack.deleteMiddle();
+        stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+    }
+}
+
+interface MyStack{
+    public void push(int val);
+    public int pop();
+    public int findMiddle();
+    public void deleteMiddle();
+}
+class Node{
+    int val;
+    Node prev, next;
+    public Node(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Convert Sorted List to Binary Search Tree</title>

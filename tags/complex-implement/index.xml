@@ -7,8 +7,85 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2015 16:13:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/complex-implement/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Valid Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
+      <description>
+
+&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question focus on thinking about all of corner case
+
+&lt;ol&gt;
+&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
+&lt;li&gt;space before the number&lt;/li&gt;
+&lt;li&gt;invalid character before / after the number&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
+&lt;li&gt;space after the number&lt;/li&gt;
+&lt;li&gt;decimal checker&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
+		if(s == null)
+			return false;
+        boolean eFlagAllow = true; // switcher for &#39;e&#39; or &#39;E&#39;
+        boolean decimal = true; // switcher for &#39;.&#39;
+        boolean hasNum = false; // make sure it contains number
+        int cursor = 0;
+        // skip previous space.
+        while(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39; &#39;)
+            cursor++;
+            
+        // check the sign, only one position allow for &#39;-&#39;
+        if(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39;-&#39;)
+            cursor++;
+            
+        while(cursor &amp;lt; s.length()) {
+            char cur = s.charAt(cursor);
+            // if has number 
+            if(cur &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; cur &amp;lt;= &#39;9&#39;){
+                if(!hasNum)
+                    hasNum = true;
+            }else if((cur == &#39;e&#39; || cur == &#39;E&#39;) &amp;amp;&amp;amp; eFlagAllow &amp;amp;&amp;amp; hasNum) { 
+                // previous position should contain the number first 
+                eFlagAllow = false; // turn off the e/E switcher
+            }else if(cur == &#39;.&#39; &amp;amp;&amp;amp; decimal) {
+                // turn off the decimal switcher
+                decimal = false;
+            }else if(cur != &#39; &#39;) // not allow the char except the space
+                return false;
+            cursor ++;
+        }
+        
+        return cursor == s.length() &amp;amp;&amp;amp; hasNum;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Integer to English Words</title>

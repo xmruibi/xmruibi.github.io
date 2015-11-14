@@ -7,8 +7,183 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Mon, 09 Nov 2015 20:33:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2015 20:39:16 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/recursion/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Reverse a Stack using Recursion</title>
+      <link>http://xmruibi.github.io/2015/11/13/reverse-a-stack-using-recursion/</link>
+      <pubDate>Fri, 13 Nov 2015 20:39:16 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/reverse-a-stack-using-recursion/</guid>
+      <description>
+
+&lt;p&gt;Reverse a stack using recursion.&lt;/p&gt;
+
+&lt;p&gt;You are not allowed to use loop constructs like while, for..etc, and you can only use the following ADT functions on Stack S:
+- &lt;code&gt;isEmpty(S)&lt;/code&gt;
+- &lt;code&gt;push(S)&lt;/code&gt;
+- &lt;code&gt;pop(S)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:67652d66ff3aed8bc58d000794c76ecc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Very very trick problem&lt;/li&gt;
+&lt;li&gt;The idea of the solution is to hold all values in Function Call Stack until the stack becomes empty. When the stack becomes empty, insert all held items one by one at the bottom of the stack.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:67652d66ff3aed8bc58d000794c76ecc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static void recrusion(Stack&amp;lt;Integer&amp;gt; stack) {
+        if (stack.isEmpty())
+            return;
+        int tmp = stack.pop();
+        recrusion(stack);
+        helper(stack, tmp);
+    }
+
+    private static void helper(Stack&amp;lt;Integer&amp;gt; stack, int val) {
+        if (stack.isEmpty())
+            stack.push(val);
+        else {
+            int tmp = stack.pop();
+            helper(stack, val);
+            stack.push(tmp);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Level Order with Position Preserved</title>
+      <link>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</guid>
+      <description>
+
+&lt;p&gt;Given a Tree, each node contains one digit value, print each level in a format with relative position preserved.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;       eg.           1
+                   /   \
+                 2      4
+                  \       \
+                  3        7
+    output:
+                   1
+               2      4
+                 3      7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Tricky part is we should know the depth firstly. So that we can know how many space should be reserved in final line. Since the each line should preserved as most the length with the node&amp;rsquo;s amount in full tree of that depth.&lt;/li&gt;
+&lt;li&gt;The length of each line should be the $2^{depth} - 1$&lt;/li&gt;
+&lt;li&gt;Recursively to set the node value in the middle of left and right range.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TreeLevelOrder {
+	public List&amp;lt;String&amp;gt; printLevelwithSpacePreserved(TreeNode root) {
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		int depth = getDepth(root);
+		int len = (int) Math.pow(2, depth) - 1;
+		List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; space = new ArrayList&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; depth; i++) {
+			List&amp;lt;Character&amp;gt; line = new ArrayList&amp;lt;&amp;gt;();
+			for(int j = 0; j &amp;lt; len; j++)
+				line.add(&#39; &#39;);
+			space.add(line);
+		}
+		levelOrderRecrusion(space, root, 0, len - 1, 0);
+		for (List&amp;lt;Character&amp;gt; cs : space) {
+			StringBuilder sb = new StringBuilder();
+			for (char c : cs)
+				sb.append(c);
+			res.add(sb.toString());
+		}
+		return res;
+	}
+
+	private void levelOrderRecrusion(List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; res, TreeNode node,
+			int l, int r, int lv) {
+		if (node == null)
+			return;
+		List&amp;lt;Character&amp;gt; line = res.get(lv);
+		int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+		line.set(m, (char) (node.val + &#39;0&#39;));
+		levelOrderRecrusion(res, node.left, l, m - 1, lv + 1);
+		levelOrderRecrusion(res, node.right, m + 1, r, lv + 1);
+	}
+
+	private int getDepth(TreeNode node) {
+		if (node == null)
+			return 0;
+		return 1 + Math.max(getDepth(node.left), getDepth(node.right));
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Second Minimum in Tournament Tree</title>
+      <link>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a tournament tree try to find the second minimum value. Here the tournament tree is represented by a tree with node has the minimum value of children.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;By given the following tree, it should return &lt;code&gt;5&lt;/code&gt; as the second minimum value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                2
+              /   \
+            2      7
+          /  \     |  \
+         5    2    8   7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This a full tree and each root is the min value of two children&lt;/li&gt;
+&lt;li&gt;Each time we only concern the subtree root has the value equal to the root and record another child&amp;rsquo;s value as the candidate of second minimum.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TournamentTree {
+    static int secMin = Integer.MAX_VALUE;
+
+    // the given tree is a minimum value tree
+    public static int getSecMin(TreeNode root) {
+        if (root == null)
+            throw new IllegalArgumentException(&amp;quot;Illeagal Input!&amp;quot;);
+        
+        if (root.left == null &amp;amp;&amp;amp; root.right == null)
+            return secMin;
+        
+        if (root.left.val == root.val) {
+            secMin = Math.min(secMin, root.right.val);
+            return getSecMin(root.left);
+        } else {
+            secMin = Math.min(secMin, root.left.val);
+            return getSecMin(root.right);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Factor Combinations</title>

@@ -7,8 +7,252 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/array/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Constant Time Random Picker</title>
+      <link>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</link>
+      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</guid>
+      <description>
+
+&lt;p&gt;Design a data structure that supports insert, delete, search and getRandom in constant time.&lt;/p&gt;
+
+&lt;p&gt;Design a data structure that supports following operations in Θ(1) time.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;insert(x)&lt;/code&gt;: Inserts an item x to the data structure if not already present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;remove(x)&lt;/code&gt;: Removes an item x from the data structure if present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;search(x)&lt;/code&gt;: Searches an item x in the data structure.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getRandom()&lt;/code&gt;: Returns a random element from current set of elements&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;We can use hashing to support first 3 operations in Θ(1) time. How to do the 4th operation? The idea is to use a resizable array (ArrayList in Java, vector in C) together with hashing. Resizable arrays support insert in Θ(1) amortized time complexity. To implement getRandom(), we can simply pick a random number from 0 to size-1 (size is number of current elements) and return the element at that index. The hash map stores array values as keys and array indexes as values.&lt;/p&gt;
+
+&lt;p&gt;Following are detailed operations.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;insert(x)&lt;/li&gt;
+&lt;li&gt;Check if x is already present by doing a hash map lookup.&lt;/li&gt;
+&lt;li&gt;If not present, then insert it at the end of the array.&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add in hash table also, x is added as key and last array index as index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;remove(x)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check if x is present by doing a hash map lookup.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If present, then find its index and remove it from hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swap the last element with this element in array and remove the last element.
+Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update index of last element in hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;getRandom()&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Generate a random number from 0 to last index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Return the array element at the randomly generated index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;search(x)
+Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
+	
+	private final ArrayList&amp;lt;Integer&amp;gt; arr;
+	private final HashMap&amp;lt;Integer, Integer&amp;gt; map; // value - index
+    Random r;
+	
+	public ConstantTimeRandomPicker() {
+		this.arr = new ArrayList&amp;lt;Integer&amp;gt;();
+		this.map = new HashMap&amp;lt;Integer, Integer&amp;gt;();
+	}
+	
+	public void add(int val) {
+		arr.add(val);
+		map.put(arr.size() - 1, val);
+	}
+	
+	public void remove(int val) {
+		remove(map.get(val), val);
+	}
+	
+	public void removeRandom() {
+		int val = arr.get(r.nextInt(arr.size()));
+		remove(map.get(val), val);
+	}
+	
+	public int getRandom() {
+		return arr.get(r.nextInt(arr.size()));
+	}
+	
+	public int search(int val) {
+		return arr.get(map.get(val));
+	}
+
+	private void remove(int idx, int val) {
+		
+		// swap with the last element
+		int last = arr.get(arr.size() - 1);
+		// put the last element to the current index
+		arr.set(idx, last);
+		// remove the last element
+		arr.remove(arr.size() - 1);
+				
+		// update the last element&#39;s index in hashmap
+		map.put(last, idx);		
+		// remove the removal value
+		map.remove(val);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Nested List</title>
+      <link>http://xmruibi.github.io/2015/11/13/nested-list/</link>
+      <pubDate>Fri, 13 Nov 2015 13:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/nested-list/</guid>
+      <description>
+
+&lt;p&gt;Given a nested list of integers, returns the sum of all integers in the list weighted by their depth.&lt;/p&gt;
+
+&lt;h3 id=&#34;partial-code:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Partial Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** 
+ * This is the interface that represents nested lists. 
+ * You should not implement it, or speculate about its implementation. 
+ */ 
+public interface NestedInteger { 
+    // Returns true if this NestedInteger holds a single integer, rather than a nested list 
+    public boolean isInteger(); 
+
+    // Returns the single integer that this NestedInteger holds, if it holds a single integer 
+    // Returns null if this NestedInteger holds a nested list 
+    public Integer getInteger(); 
+
+    // Returns the nested list that this NestedInteger holds, if it holds a nested list 
+    // Returns null if this NestedInteger holds a single integer 
+    public List getList(); 
+}
+
+public class Solution {
+	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
+        //Implement this function
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;example:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the list &lt;code&gt;{{1,1},2,{1,1}}&lt;/code&gt; the function should return &lt;code&gt;10&lt;/code&gt; (four 1&amp;rsquo;s at depth 2, one 2 at depth 1);
+Given the list &lt;code&gt;{1,{4,{6}}}&lt;/code&gt; the function should return &lt;code&gt;27&lt;/code&gt; (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3);&lt;/p&gt;
+
+&lt;h2 id=&#34;think:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Recursion with DFS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
+		return dfsHelper(input, 1);
+    }
+
+    private int dfsHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
+    	int sum = 0;
+    	for(NestedInteger cur : input) {
+    		if(cur.isInteger())
+    			sum += (cur.getInteger() * depth);
+    		else
+    			sum += dfsHelper(cur.getList(), depth + 1);
+    	}
+    	return sum;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;followup-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #1&lt;/h2&gt;
+
+&lt;p&gt;Get the sum by reversed level.&lt;/p&gt;
+
+&lt;h4 id=&#34;think-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Should get depth at first and then recursively reduce the depth for DFS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static int reversedDepthSum(List&amp;lt;NestedInteger&amp;gt; input) {
+		int depth = getDepth(input);
+		return dfsReverseHelper(input, depth);
+	}
+
+	private static int dfsReverseHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
+		int sum = 0;
+		for (NestedInteger cur : input) {
+			if (cur.isInteger())
+				sum += (cur.getInteger() * depth);
+			else
+				sum += dfsReverseHelper(cur.getList(), depth - 1);
+		}
+		return sum;
+	}
+	
+	private static int getDepth(List&amp;lt;NestedInteger&amp;gt; input) {
+		int depth = 0;
+		for (NestedInteger cur : input) {
+			if (!cur.isInteger())
+				depth = Math.max(depth, getDepth(cur.getList()));
+		}
+		return depth + 1;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;followup-2:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #2&lt;/h2&gt;
+
+&lt;p&gt;Implement the Nested Integer interface&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NestedIntImpl implements NestedInteger {
+	Object obj;
+
+	public NestedIntegerImpl(Object obj) {
+		this.obj = obj;
+	}
+
+	@Override
+	public boolean isInteger() {	
+		return obj instanceof Integer;
+	}
+
+	@Override
+	public Integer getInteger() {
+		if(obj instanceof Integer)
+			return (Integer)obj;
+		return null;
+	}
+
+	@Override
+	public List&amp;lt;NestedInteger&amp;gt; getList() {
+		if(obj instanceof List)
+			return (List&amp;lt;NestedInteger&amp;gt;)obj;
+		return null;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Find the Celebrity</title>
@@ -1080,183 +1324,6 @@ You can assume each number in the array is a positive integer and not greater th
         return cnt;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Number of Airplanes in the Sky</title>
-      <link>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</link>
-      <pubDate>Mon, 19 Oct 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/</guid>
-      <description>
-
-&lt;p&gt;Given an interval list which are flying and landing time of the flight. How many airplanes are on the sky at most?&lt;/p&gt;
-
-&lt;h3 id=&#34;example:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For interval list &lt;code&gt;[[1,10],[2,3],[5,8],[4,7]]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;note:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If landing and flying happens at the same time, we consider landing should happen at first.&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Array Method (Naive):
-
-&lt;ul&gt;
-&lt;li&gt;Use an integer array to count segment occurence.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    /**
-     * Array Method:
-     * @param intervals: An interval array
-     * @return: Count of airplanes are in the sky.
-     */
-    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
-        
-        // find the min and max value in interval list;
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-        for(Interval interval : airplanes) {
-            min = Math.min(min, interval.start);
-            max = Math.max(max, interval.end);
-        }
-
-        int maxCnt = 0;
-        int[] segment = new int[max - min + 1];
-        for(Interval interval : airplanes) {
-            for(int i = interval.start; i &amp;lt; interval.end; i++) {
-                segment[i - min]++;
-                maxCnt = Math.max(maxCnt, segment[i - min]);
-            }
-        }
-        return maxCnt;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Customized Structure:
-
-&lt;ul&gt;
-&lt;li&gt;Point Class: mark &lt;code&gt;int time&lt;/code&gt; and (&lt;code&gt;boolean start/end&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Mark those Points ordered by time.&lt;/li&gt;
-&lt;li&gt;One pass all points and count increase when touch start but decrease when end;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-    /**
-     * Point Method:
-     * @param intervals: An interval array
-     * @return: Count of airplanes are in the sky.
-     */
-    public int countOfAirplanes(List&amp;lt;Interval&amp;gt; airplanes) { 
-
-    	// create a list with point class
-    	List&amp;lt;Point&amp;gt; points = new ArrayList&amp;lt;&amp;gt;();
-    	for(Interval interval : airplanes) {
-    		points.add(new Point(interval.start, 1));
-    		points.add(new Point(interval.end, 0));
-    	}
-
-    	// sort
-    	Collections.sort(points, new Comparator&amp;lt;Point&amp;gt;(){
-    	    @Override
-    	    public int compare(Point p1, Point p2) {
-    	         if(p1.time == p2.time) return p1.flag - p2.flag;
-                 else return p1.time - p2.time;
-    	    }
-    	});
-
-    	// one pass for count
-    	int count = 0;
-    	int max = 0; // record the peak count;
-    	for(Point p : points) {
-    		if(p.flag == 1)
-    			count++;
-    		else
-    			count--;
-    		max = Math.max(max, count);
-    	}
-
-    	return max;
-	}
-
-	private class Point{
-		int time;
-		int flag;
-		public Point(int time, int flag) {
-			this.time = time;
-			this.flag = flag;
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis:2060271ba0a7d92e954462b72c6bb62d&#34;&gt;Complexity Analysis:&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Array Method (Naive):&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Two pass and one of pass has one more inner loop (segment size: k): o(n + n*k) -&amp;gt; O(n^2);
-An array to store occurence frequence: Space: O(n);&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Iterator and Top N Element</title>
-      <link>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</link>
-      <pubDate>Sun, 18 Oct 2015 22:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/18/iterator-and-top-n-element/</guid>
-      <description>
-
-&lt;p&gt;Given a Iterator with next giving instances of Line class
-Design the function:&lt;code&gt;List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN)&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Line { 
-	String ip; 
-	String request; 
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution:e7d3af666f82f503d1c6dba97391692a&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
-	public List&amp;lt;String&amp;gt; get_top_ips(Iterator iterator, int topN) {
-		Map&amp;lt;String, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-		while(itertor.hasNext()) {
-			Line cur = iterator.next();
-			map.put(cur.ip, map.containsKey(cur.ip)? map.get(cur.ip) + 1 : 1);
-		}
-		PriorityQueue&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Map.Entry&amp;lt;String, Integer&amp;gt;&amp;gt;(){
-			@Override
-			public int compare(Map.Entry&amp;lt;String, Integer&amp;gt; o1, Map.Entry&amp;lt;String, Integer&amp;gt; o2){
-				return Integer.compare(o2.getValue(), o1.getValue());
-			}
-		});
-		for(Map.Entry&amp;lt;String, Integer&amp;gt; entry : map) {
-			heap.offer(entry);
-		}
-		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-		while(topN &amp;gt; 0) {
-			res.add(heap.poll().getKey());
-		}
-		return res;
-	}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
