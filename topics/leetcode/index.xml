@@ -7,8 +7,491 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 20:40:29 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Isomorphic Pair</title>
+      <link>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</guid>
+      <description>
+
+&lt;p&gt;Given two words as Strings, determine if they are isomorphic. Two words are called isomorphic if the letters in one word can be remapped to get the second word. Remapping a letter means replacing all occurrences of it with another letter while the ordering of the letters remains unchanged. No two letters may map to the same letter, but a letter may map to itself.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Hashmap for mapping A-B and B-A.&lt;/li&gt;
+&lt;li&gt;make sure both mapping are correct if any character appear in its corresponding mapping.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicString(String str1, String str2) {
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; mapAB = new HashMap&amp;lt;&amp;gt;();
+		HashMap&amp;lt;Character, Character&amp;gt; mapBA = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; str1.length(); i++) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (!mapAB.containsKey(a) &amp;amp;&amp;amp; !mapBA.containsKey(b)) {
+				mapAB.put(a, b);
+				mapBA.put(b, a);
+			} else {
+				if (mapAB.containsKey(a) &amp;amp;&amp;amp; mapAB.get(a) != b)
+					return false;
+				if (mapBA.containsKey(b) &amp;amp;&amp;amp; mapBA.get(b) != a)
+					return false;
+			}
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One Hashmap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicStringII(String str1, String str2) {
+		if ((str1 == null &amp;amp;&amp;amp; str2 == null)
+				|| (str1.length() == 0 &amp;amp;&amp;amp; str2.length() == 0)
+				|| str1.equals(str2))
+			return true;
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		int i = 0;
+		while (i &amp;lt; str1.length()) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (map.containsKey(a)) {
+				if (map.get(a) != b)
+					return false;
+			} else {
+				if (map.containsValue(b))
+					return false;
+				map.put(a, b);
+			}
+			i++;
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integer Array with 512 length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean isIsomorphic(String s1, String s2) {
+        int[] m = new int[512];
+        for (int i = 0; i &amp;lt; s1.length(); i++) {
+            if (m[s1.charAt(i)] != m[s2.charAt(i)+256]) 
+                return false;
+            m[s1.charAt(i)] = m[s2.charAt(i)+256] = i+1;
+        }
+        return true;	
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Maximum Subarray of Sum / Product</title>
+      <link>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</guid>
+      <description>
+
+&lt;p&gt;Find the contiguous subarray within an array (containing at least one number) which has the largest sum.&lt;/p&gt;
+
+&lt;p&gt;For example, given the array &lt;code&gt;[−2,1,−3,4,−1,2,1,−5,4]&lt;/code&gt;,
+the contiguous subarray &lt;code&gt;[4,−1,2,1]&lt;/code&gt; has the largest sum = &lt;code&gt;6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+		int curSum = 0;
+		for (int i = 0; i &amp;lt; arr.length; i++) {
+			curSum += arr[i];
+			maxSum = Math.max(maxSum, curSum);
+			if (curSum &amp;lt; 0)
+				curSum = 0;
+		}
+		return maxSum;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-record-index:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution #Record Index&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+		int curSum = 0;
+		int prev = 0, l = 0, r = 0;
+		for (int i = 0; i &amp;lt; arr.length; i++) {
+			curSum += arr[i];
+			if(curSum &amp;gt; maxSum) {
+				maxSum = curSum;
+				l = prev;
+				r = i;
+			}
+			if (curSum &amp;lt; 0) {
+				curSum = 0;
+				prev = i + 1;
+			}
+		}
+		return new int[]{l, r};
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Find the contiguous subarray within an array (containing at least one number) which has the largest product.&lt;/p&gt;
+
+&lt;p&gt;For example, given the array &lt;code&gt;[2,3,-2,4]&lt;/code&gt;,
+the contiguous subarray &lt;code&gt;[2,3]&lt;/code&gt; has the largest product = &lt;code&gt;6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-1:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maxProduct(int[] nums) {
+        int glMax = Integer.MIN_VALUE;
+        
+        int localMin = 1; // record the current max
+        int localMax = 1; // record the current min, since the negative number multiply with current number may leads to next product as the positive max
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            int tmp = localMax;
+            localMax = Math.max(localMax*nums[i], Math.max(localMin*nums[i], nums[i]));
+            localMin = Math.min(tmp*nums[i], Math.min(localMin*nums[i], nums[i]));
+            glMax = Math.max(glMax, localMax);
+        }
+        
+        return glMax;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Binary Tree Upside Down</title>
+      <link>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</link>
+      <pubDate>Sat, 14 Nov 2015 15:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a binary tree &lt;code&gt;{1,2,3,4,5}&lt;/code&gt;,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     1
+    / \
+   2   3
+  / \
+ 4   5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return the root of the binary tree &lt;code&gt;[4,5,2,#,#,3,1]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     4
+    / \
+   5   2
+      / \
+     3   1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mark the parent node &lt;code&gt;parent&lt;/code&gt; from next right node position.&lt;/li&gt;
+&lt;li&gt;Mark the current right child &lt;code&gt;node.right&lt;/code&gt; from next left &lt;code&gt;left&lt;/code&gt; node position&lt;/li&gt;
+&lt;li&gt;Mark the next iteration node &lt;code&gt;next&lt;/code&gt; by current left child &lt;code&gt;node.left&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace the current node&amp;rsquo;s left child as the recorded &lt;code&gt;right&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace the current node&amp;rsquo;s right child as the recorded &lt;code&gt;parent&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace current iteration node by &lt;code&gt;next&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-iterative:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Solution #Iterative&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public TreeNode UpsideDownBinaryTree(TreeNode node) {  
+        TreeNode parent = null, right = null;
+		while(node != null) {
+			TreeNode next = node.left;
+			node.left = right;						
+			right = node.right;
+			node.right = parent;
+			parent = node;
+			node = next;
+		}
+		return parent;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Solution #Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static TreeNode upsideDown(TreeNode node) {
+        if(node == null)
+            return node;
+        TreeNode root = node, left = node.left, right = node.right;
+        if(left != null) {
+            TreeNode newroot = upsideDown(node.left);
+            left.left = right;
+            left.right = root;
+            return newroot;
+        }
+        return node;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Course Schedule I/II</title>
+      <link>http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;There are a total of n courses you have to take, labeled from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;n - 1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: &lt;code&gt;[0,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?&lt;/p&gt;
+
+&lt;p&gt;For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0],[0,1]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-topological-sort:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Solution #Topological Sort&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap&amp;lt;Integer, Course&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&amp;lt;Course&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0;
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&amp;lt;Course&amp;gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&amp;lt;&amp;gt;();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.&lt;/p&gt;
+
+&lt;p&gt;There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.&lt;/p&gt;
+
+&lt;h4 id=&#34;example:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Example&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course &lt;code&gt;1&lt;/code&gt; you should have finished course &lt;code&gt;0&lt;/code&gt;. So the correct course order is &lt;code&gt;[0,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;4, [[1,0],[2,0],[3,1],[3,2]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 4 courses to take. To take course &lt;code&gt;3&lt;/code&gt; you should have finished both courses &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt;. Both courses &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt; should be taken after you finished course 0. So one correct course order is &lt;code&gt;[0,1,2,3]&lt;/code&gt;. Another correct ordering is &lt;code&gt;[0,2,1,3]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-topological-sort-1:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Solution #Topological Sort&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        if(prerequisites == null || prerequisites.length == 0)
+            return new int[0];
+            
+        HashMap&amp;lt;Integer, Course&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&amp;lt;Course&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        int[] res = new int[numCourses];
+        int index = 0;
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            res[index++] = cur.idx;
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0 ? res : new int[0];
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&amp;lt;Course&amp;gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&amp;lt;&amp;gt;();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Repeated DNA Sequences</title>
+      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
+      <description>
+
+&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
+
+&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
+&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
+&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
+&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
+&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;O(n) time complexity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
+        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if(s==null||s.length()==0)
+            return new ArrayList(res);
+        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
+       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
+        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
+        int hashCode = 0;
+        for(int i=0;i&amp;lt;s.length();i++){
+            if(i&amp;gt;9) // remove first 
+                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
+            hashCode = 4*hashCode + dict.get(s.charAt(i));
+            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
+                res.add(s.substring(i-9,i+1));
+        }
+        return new ArrayList(res);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Product of Array Except Self</title>
+      <link>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</link>
+      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</guid>
+      <description>
+
+&lt;p&gt;Given an array of &lt;code&gt;n&lt;/code&gt; integers where &lt;code&gt;n&lt;/code&gt; &amp;gt; 1, nums, return an array output such that &lt;code&gt;output[i]&lt;/code&gt; is equal to the product of all the elements of nums except &lt;code&gt;nums[i]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Solve it &lt;strong&gt;without division&lt;/strong&gt; and in &lt;code&gt;O(n)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;[1,2,3,4]&lt;/code&gt;, return &lt;code&gt;[24,12,8,6]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Follow up:
+Could you solve it with constant space complexity? (Note: The &lt;strong&gt;output array does not count&lt;/strong&gt; as extra space for the purpose of space complexity analysis.)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;$$O(n)$$ Space and Two pass, recording the left part or right part product.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] productExceptSelf(int[] input) {
+        int[] res = new int[input.length];
+        int tmp = 1;
+        for (int i = 0; i &amp;lt; input.length; i++) {
+            res[i] = tmp;
+            tmp *= input[i];
+        }
+        tmp = 1;
+        for (int i = input.length - 1; i &amp;gt;= 0; i--) {
+            res[i] *= tmp;
+            tmp *= input[i];
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Zigzag Iterator</title>
@@ -687,382 +1170,6 @@ Write a function to compute all possible states of the string after one valid mo
     
         return 0;
     }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Move Zeroes</title>
-      <link>http://xmruibi.github.io/2015/11/11/move-zeroes/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/move-zeroes/</guid>
-      <description>
-
-&lt;p&gt;Given an array nums, write a function to move all 0&amp;rsquo;s to the end of it while maintaining the relative order of the non-zero elements.&lt;/p&gt;
-
-&lt;p&gt;For example, given nums = &lt;code&gt;[0, 1, 0, 3, 12]&lt;/code&gt;, after calling your function, nums should be &lt;code&gt;[1, 3, 12, 0, 0]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;You must do this in-place without making a copy of the array.
-Minimize the total number of operations.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Mark an index for nonzero element&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public void moveZeroes(int[] nums) {
-        int nonzeroIdx = 0;
-        int idx = 0;
-        while(idx &amp;lt; nums.length) {
-            if(idx &amp;gt;= nonzeroIdx &amp;amp;&amp;amp; nums[idx] != 0) {
-                int tmp = nums[idx];
-                nums[idx--] = nums[nonzeroIdx];
-                nums[nonzeroIdx++] = tmp;
-            }
-            idx++;
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Nim Game</title>
-      <link>http://xmruibi.github.io/2015/11/11/nim-game/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/nim-game/</guid>
-      <description>
-
-&lt;p&gt;You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.&lt;/p&gt;
-
-&lt;p&gt;Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.&lt;/p&gt;
-
-&lt;p&gt;For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.&lt;/p&gt;
-
-&lt;h3 id=&#34;hint:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Hint&lt;/h3&gt;
-
-&lt;p&gt;If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?&lt;/p&gt;
-
-&lt;h2 id=&#34;think:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Similar with the Coin in A Line I&lt;/li&gt;
-&lt;li&gt;The death number will be the multiply of &lt;code&gt;the max amount your can taken +1&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;So just check if the total amount is the multiply of &lt;code&gt;4&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;proof:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Proof:&lt;/h4&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;the base case: when &lt;code&gt;n&lt;/code&gt; = &lt;code&gt;4&lt;/code&gt;, as suggested by the hint from the problem, no matter which number that that first player, the second player would always be able to pick the remaining number.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;For &lt;code&gt;1 x 4&lt;/code&gt; &amp;lt; &lt;code&gt;n&lt;/code&gt; &amp;lt; &lt;code&gt;2 x 4&lt;/code&gt;, (&lt;code&gt;n&lt;/code&gt; = &lt;code&gt;5, 6, 7&lt;/code&gt;), the first player can reduce the initial number into 4 accordingly, which will leave the death number 4 to the second player. i.e. The numbers &lt;code&gt;5, 6, 7&lt;/code&gt; are winning numbers for any player who got it first.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Now to the beginning of the next cycle, n = 8, no matter which number that the first player picks, it would always leave the winning numbers (5, 6, 7) to the second player. Therefore, &lt;code&gt;8 % 4 == 0&lt;/code&gt;, again is a death number.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Following the second case, for numbers between &lt;code&gt;(2 x 4 = 8)&lt;/code&gt; and &lt;code&gt;(3 x 4=12)&lt;/code&gt;, which are &lt;code&gt;9&lt;/code&gt;,&lt;code&gt;10&lt;/code&gt;, &lt;code&gt;11&lt;/code&gt;, are winning numbers for the first player again, because the first player can always reduce the number into the death number 8.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;solution:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean canWinNim(int n) {
-        return n%4 != 0;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Query Range Sum on Array</title>
-      <link>http://xmruibi.github.io/2015/11/11/query-range-sum-on-array/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/query-range-sum-on-array/</guid>
-      <description>
-
-&lt;p&gt;Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Example:&lt;/h3&gt;
-
-&lt;p&gt;Given nums = [-2, 0, 3, -5, 2, -1]&lt;/p&gt;
-
-&lt;p&gt;sumRange(0, 2) -&amp;gt; 1
-sumRange(2, 5) -&amp;gt; -1
-sumRange(0, 5) -&amp;gt; -3
-Note:
-You may assume that the array does not change.
-There are many calls to sumRange function.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Save the prefix sum in extra array.&lt;/li&gt;
-&lt;li&gt;Be aware to the &lt;code&gt;sum[0]&lt;/code&gt; means nothing before the first element of input array &lt;code&gt;nums&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;return the the difference on prefix index &lt;code&gt;[high] - [low - 1]&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:26e685b3d16b25a213adc00d0a48995a&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NumArray {
-    int[] sum;
-    
-    public NumArray(int[] nums) {
-        sum = new int[nums.length + 1];
-        for(int i = 1; i &amp;lt;= nums.length; i++) {
-            sum[i] = nums[i-1] + sum[i-1];
-        }
-    }
-
-    public int sumRange(int i, int j) {
-        return sum[j+1]-sum[i];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Walls and Gates</title>
-      <link>http://xmruibi.github.io/2015/11/11/walls-and-gates/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/walls-and-gates/</guid>
-      <description>
-
-&lt;p&gt;You are given a m x n 2D grid initialized with these three possible values.&lt;/p&gt;
-
-&lt;p&gt;-1 - A wall or an obstacle.
-0 - A gate.
-INF - Infinity means an empty room. We use the value 231 - 1 = 2147483647 to represent INF as you may assume that the distance to a gate is less than 2147483647.&lt;/p&gt;
-
-&lt;p&gt;Fill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with INF.
-For example, given the 2D grid:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    INF  -1  0  INF
-    INF INF INF  -1
-    INF  -1 INF  -1
-      0  -1 INF INF
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After running your function, the 2D grid should be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    3  -1   0   1
-    2   2   1  -1
-    1  -1   2  -1
-    0  -1   3   4
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:462b13a16adabd0b713df96bb174b231&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;It is very classic backtracking problem.&lt;/li&gt;
-&lt;li&gt;We can start from each gate (0 point), and searching for its neighbors.&lt;/li&gt;
-&lt;li&gt;We can either use DFS or BFS solution.&lt;/li&gt;
-&lt;li&gt;Here I gave the BFS solution&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:462b13a16adabd0b713df96bb174b231&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static void wallsAndGates(int[][] rooms) {
-        for (int i = 0; i &amp;lt; rooms.length; i++) {
-            for (int j = 0; j &amp;lt; rooms[i].length; j++) {
-                if (rooms[i][j] == 0)
-                    bfs(rooms, i, j, i, j, 0);
-            }
-        }
-    }
-
-    private static void bfs(int[][] rooms, int x, int y, int px, int py,
-            int level) {
-
-        if (rooms[x][y] &amp;gt;= 0) {
-            if (rooms[x][y] &amp;lt; level)
-                return;
-            rooms[x][y] = level;
-        } else
-            return;
-
-        int[] xs = { -1, 0, 0, 1 };
-        int[] ys = { 0, 1, -1, 0 };
-        for (int i = 0; i &amp;lt; 4; i++) {
-            int nx = xs[i] + x;
-            int ny = ys[i] + y;
-            if (nx &amp;lt; 0 || nx &amp;gt;= rooms.length || ny &amp;lt; 0
-                    || ny &amp;gt;= rooms[nx].length || (nx == px &amp;amp;&amp;amp; ny == py))
-                continue;
-            bfs(rooms, nx, ny, x, y, level + 1);
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Bull and Cows</title>
-      <link>http://xmruibi.github.io/2015/11/10/bull-and-cows/</link>
-      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/10/bull-and-cows/</guid>
-      <description>
-
-&lt;p&gt;You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called &lt;code&gt;&amp;quot;bulls&amp;quot;&lt;/code&gt;) and how many digits match the secret number but locate in the wrong position (called &lt;code&gt;&amp;quot;cows&amp;quot;&lt;/code&gt;). Your friend will use successive guesses and hints to eventually derive the secret number.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;Secret number:  &amp;quot;1807&amp;quot;
-Friend&#39;s guess: &amp;quot;7810&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;1&lt;/code&gt; bull and &lt;code&gt;3&lt;/code&gt; cows. (The bull is &lt;code&gt;8&lt;/code&gt;, the cows are &lt;code&gt;0&lt;/code&gt;, &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;7&lt;/code&gt;.)&lt;/p&gt;
-
-&lt;p&gt;Write a function to return a hint according to the secret number and friend&amp;rsquo;s guess, use &lt;code&gt;A&lt;/code&gt; to indicate the bulls and &lt;code&gt;B&lt;/code&gt; to indicate the cows. In the above example, your function should return &lt;code&gt;&amp;quot;1A3B&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Please note that both secret number and friend&amp;rsquo;s guess may contain duplicate digits, for example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Secret number:  &amp;quot;1123&amp;quot;
-Friend&#39;s guess: &amp;quot;0111&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In this case, the 1st 1 in friend&amp;rsquo;s &lt;code&gt;guess&lt;/code&gt; is a bull, the 2nd or 3rd 1 is a cow, and your function should return &lt;code&gt;&amp;quot;1A1B&amp;quot;&lt;/code&gt;.
-You may assume that the secret number and your friend&amp;rsquo;s guess only contain digits, and their lengths are always equal.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;It&amp;rsquo;s pretty tricky to think about one pass solution without HashMap.&lt;br /&gt;
-Here are some pattern we should notice.
-    1. Every character in string is number &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;9&lt;/code&gt;
-    2. Number in &lt;code&gt;guess&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; should also be recorded during the pass
-    3. Avoid duplicate is tough&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Solve it by set a int array with length of 10 for counting&lt;/li&gt;
-&lt;li&gt;meet a number in &lt;code&gt;guess&lt;/code&gt; do a minus on &lt;code&gt;arr[guess_digit]&lt;/code&gt; while meet a number in &lt;code&gt;secrett&lt;/code&gt; do a addition on &lt;code&gt;arr[secret_digit]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;check &lt;code&gt;arr[secret_digit]&lt;/code&gt; if it is negative, which means that number should existed in &lt;code&gt;guess&lt;/code&gt; number&lt;/li&gt;
-&lt;li&gt;check &lt;code&gt;arr[guess_digit]&lt;/code&gt; if it is negative, which means that number should existed in &lt;code&gt;secret&lt;/code&gt; number&lt;/li&gt;
-&lt;li&gt;when iteration on number is the same from &lt;code&gt;guess&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; numbers, that should be the &lt;code&gt;bull&lt;/code&gt; but without any modification on counting array.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String getHint(String secret, String guess) {
-        int cntA = 0;
-        int cntB = 0;
-        int[] valIdx = new int[10];
-        for(int i = 0; i &amp;lt; secret.length(); i++) {
-            int sIdx = secret.charAt(i) - &#39;0&#39;;
-            int gIdx = guess.charAt(i) - &#39;0&#39;;
-            if(gIdx == sIdx)
-                cntA++;
-            else{ 
-                if(valIdx[sIdx] &amp;lt; 0) 
-                    cntB++;
-                if(valIdx[gIdx] &amp;gt; 0) 
-                    cntB++;
-            }
-            valIdx[sIdx]++;
-            valIdx[gIdx]--;
-        }
-        return &amp;quot;&amp;quot; + cntA + &amp;quot;A&amp;quot; + cntB + &amp;quot;B&amp;quot;;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Encode and Decode String</title>
-      <link>http://xmruibi.github.io/2015/11/10/encode-and-decode-string/</link>
-      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/10/encode-and-decode-string/</guid>
-      <description>
-
-&lt;p&gt;Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.&lt;/p&gt;
-
-&lt;p&gt;Machine 1 (sender) has the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public String encode(String[] strs) {
-  // ... your code
-  return encoded_string;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Machine 2 (receiver) has the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public String[] decode(String s) {
-  //... your code
-  return strs;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So Machine 1 does:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String encoded_string = encode(strs);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;and Machine 2 does:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String[] strs2 = decode(encoded_string);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;strs2&lt;/code&gt; in Machine 2 should be the same as &lt;code&gt;strs&lt;/code&gt; in Machine 1.&lt;/p&gt;
-
-&lt;p&gt;Implement the encode and decode methods.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:784b24ea42273a6937579e186ff79201&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;The string may contain any possible characters out of 256 valid ascii characters. Your algorithm should be generalized enough to work on any possible characters.&lt;/p&gt;
-
-&lt;p&gt;Do not use class &lt;strong&gt;member / global / static variables&lt;/strong&gt; to store states. Your encode and decode algorithms should be &lt;strong&gt;stateless&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Do not rely on any library method such as eval or serialize methods. You should implement your own encode/decode algorithm.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:784b24ea42273a6937579e186ff79201&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;In theoretic way, there should be nothing can do separation for Strings&lt;/li&gt;
-&lt;li&gt;So just make the encode as adding the length of word and &amp;ldquo;#&amp;rdquo; before the word&lt;/li&gt;
-&lt;li&gt;Decode function should be carefully designed&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:784b24ea42273a6937579e186ff79201&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class EncodeDecodeString {
-	public String encode(List&amp;lt;String&amp;gt; strs) {
-		StringBuilder sb = new StringBuilder();
-		for (String str : strs) {
-			sb.append(str.length());
-			sb.append(&amp;quot;#&amp;quot;);
-			sb.append(str);
-		}
-
-		return sb.toString();
-	}
-
-	public List&amp;lt;String&amp;gt; decode(String str) {
-		List&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-		int strlen = 0;
-		for (int i = 0; i &amp;lt; str.length(); i++) {
-			char cur = str.charAt(i);
-			if (cur == &#39;#&#39; &amp;amp;&amp;amp; strlen &amp;gt; 0) {
-				StringBuilder sb = new StringBuilder();
-				while (strlen &amp;gt; 0 &amp;amp;&amp;amp; i &amp;lt; str.length()) {
-					sb.append(str.charAt(++i));
-					strlen--;
-				}
-				list.add(sb.toString());
-			} else
-				strlen = strlen * 10 + (cur - &#39;0&#39;);
-		}
-		return list;
-	}
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

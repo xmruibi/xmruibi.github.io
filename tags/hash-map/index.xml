@@ -7,8 +7,59 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 13:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Repeated DNA Sequences</title>
+      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
+      <description>
+
+&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
+
+&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
+&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
+&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
+&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
+&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;O(n) time complexity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
+        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if(s==null||s.length()==0)
+            return new ArrayList(res);
+        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
+       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
+        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
+        int hashCode = 0;
+        for(int i=0;i&amp;lt;s.length();i++){
+            if(i&amp;gt;9) // remove first 
+                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
+            hashCode = 4*hashCode + dict.get(s.charAt(i));
+            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
+                res.add(s.substring(i-9,i+1));
+        }
+        return new ArrayList(res);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Constant Time Random Picker</title>
@@ -63,7 +114,7 @@ Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;
 Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;solution-1:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution #1&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
 	
@@ -761,13 +812,13 @@ Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;co
 
 &lt;ul&gt;
 &lt;li&gt;Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.&lt;/li&gt;
-&lt;li&gt;Save the word and its indexes as key and value in constructor.&lt;/li&gt;
+&lt;li&gt;Preprocess the list and save the word and its indexes as key and value in constructor.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&#34;solution-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ShortestWordDistance {
-    // here is thread safe, since only constructor contains writing method
+  
     private final HashMap&amp;lt;String, List&amp;lt;Integer&amp;gt;&amp;gt; map;
 
 	public ShortestWordDistance(String[] words) {
@@ -836,6 +887,8 @@ Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;co
 		 return min;
 	 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;follow-up:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Follow Up&lt;/h2&gt;
 </description>
     </item>
     

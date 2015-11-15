@@ -7,8 +7,205 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Find Valid IP Address in a File</title>
+      <link>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</guid>
+      <description>
+
+&lt;p&gt;Given a file with many lines of Strings, find those valid IP address from them.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ed817a74e0c3a1097fc0cfb76d5d85e1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ValidIPAddress {
+
+    public List&amp;lt;String&amp;gt; findValidIPAddr(String filePath) throws IOException {
+        List&amp;lt;String&amp;gt; addresses = new ArrayList&amp;lt;&amp;gt;();
+        Scanner sc = new Scanner(new File(filePath));
+        while (sc.hasNext()) {
+            String line = sc.next();
+            if(validIP(line))
+                addresses.add(line);
+        }
+        return addresses;
+    }
+
+    private boolean validIP(String str) {
+        try {
+            String[] parts = str.split(&amp;quot;.&amp;quot;);
+            // check segment length;
+            if (parts.length != 4 || str.endsWith(&amp;quot;.&amp;quot;))
+                return false;
+
+            // check each segment valid or not
+            for (int i = 0; i &amp;lt; parts.length; i++) {
+                String s = parts[i];
+                int val = Integer.parseInt(s);
+                if ((s.charAt(0) == &#39;0&#39;) || (val &amp;lt; 0 || val &amp;gt; 255)
+                        || (i == 0 &amp;amp;&amp;amp; val == 0))
+                    return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Isomorphic Pair</title>
+      <link>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</guid>
+      <description>
+
+&lt;p&gt;Given two words as Strings, determine if they are isomorphic. Two words are called isomorphic if the letters in one word can be remapped to get the second word. Remapping a letter means replacing all occurrences of it with another letter while the ordering of the letters remains unchanged. No two letters may map to the same letter, but a letter may map to itself.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Hashmap for mapping A-B and B-A.&lt;/li&gt;
+&lt;li&gt;make sure both mapping are correct if any character appear in its corresponding mapping.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicString(String str1, String str2) {
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; mapAB = new HashMap&amp;lt;&amp;gt;();
+		HashMap&amp;lt;Character, Character&amp;gt; mapBA = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; str1.length(); i++) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (!mapAB.containsKey(a) &amp;amp;&amp;amp; !mapBA.containsKey(b)) {
+				mapAB.put(a, b);
+				mapBA.put(b, a);
+			} else {
+				if (mapAB.containsKey(a) &amp;amp;&amp;amp; mapAB.get(a) != b)
+					return false;
+				if (mapBA.containsKey(b) &amp;amp;&amp;amp; mapBA.get(b) != a)
+					return false;
+			}
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One Hashmap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicStringII(String str1, String str2) {
+		if ((str1 == null &amp;amp;&amp;amp; str2 == null)
+				|| (str1.length() == 0 &amp;amp;&amp;amp; str2.length() == 0)
+				|| str1.equals(str2))
+			return true;
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		int i = 0;
+		while (i &amp;lt; str1.length()) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (map.containsKey(a)) {
+				if (map.get(a) != b)
+					return false;
+			} else {
+				if (map.containsValue(b))
+					return false;
+				map.put(a, b);
+			}
+			i++;
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integer Array with 512 length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean isIsomorphic(String s1, String s2) {
+        int[] m = new int[512];
+        for (int i = 0; i &amp;lt; s1.length(); i++) {
+            if (m[s1.charAt(i)] != m[s2.charAt(i)+256]) 
+                return false;
+            m[s1.charAt(i)] = m[s2.charAt(i)+256] = i+1;
+        }
+        return true;	
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Repeated DNA Sequences</title>
+      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
+      <description>
+
+&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
+
+&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
+&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
+&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
+&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
+&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;O(n) time complexity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
+        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if(s==null||s.length()==0)
+            return new ArrayList(res);
+        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
+       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
+        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
+        int hashCode = 0;
+        for(int i=0;i&amp;lt;s.length();i++){
+            if(i&amp;gt;9) // remove first 
+                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
+            hashCode = 4*hashCode + dict.get(s.charAt(i));
+            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
+                res.add(s.substring(i-9,i+1));
+        }
+        return new ArrayList(res);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Valid Number</title>
@@ -1039,449 +1236,6 @@ For the return value, each inner list’s elements must follow the lexicographic
         return sb.toString();
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Shortest Word Distance</title>
-      <link>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</link>
-      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</guid>
-      <description>
-
-&lt;p&gt;Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.&lt;/p&gt;
-
-&lt;h2 id=&#34;problem-i:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem I&lt;/h2&gt;
-
-&lt;h3 id=&#34;example:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
-Given word1 = &lt;code&gt;“coding”&lt;/code&gt;, word2 = &lt;code&gt;“practice”&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
-Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.&lt;/p&gt;
-
-&lt;h3 id=&#34;think:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The problem can be solved by one-pass of the array.&lt;/li&gt;
-&lt;li&gt;Iterate through the array, use two pointers pointing to the index of the word1 and word2, maintain the minimum distance.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
-		 if(words == null)
-		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
-		 int w1Idx = -1, w2Idx = -1;
-		 int min = Integer.MAX_VALUE;
-		 for(int i = 0; i &amp;lt; words.length; i++) {
-			 if(words[i].equals(word1))
-				 w1Idx = i;
-			 else if(words[i].equals(word2))
-				 w2Idx = i;
-			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1){
-				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
-			 }
-		 }
-		 return min;
-	 }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-ii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;This is a follow up of Problem I.The only difference is now you are given the list of words and your method will be called repeatedly many times with different parameters. How would you optimize it?
-Design a class which receives a list of words in the constructor, and implements a method that takes two words word1 and word2 and return the shortest distance between these two words in the list.&lt;/p&gt;
-
-&lt;h3 id=&#34;example-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
-
-&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
-Given word1 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;practice&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
-Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.&lt;/li&gt;
-&lt;li&gt;Save the word and its indexes as key and value in constructor.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ShortestWordDistance {
-    // here is thread safe, since only constructor contains writing method
-    private final HashMap&amp;lt;String, List&amp;lt;Integer&amp;gt;&amp;gt; map;
-
-	public ShortestWordDistance(String[] words) {
-		map = new HashMap&amp;lt;&amp;gt;();
-		for (int i = 0; i &amp;lt; words.length; i++) {
-			List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-			if (map.containsKey(words[i]))
-				list = map.get(words[i]);
-			list.add(i);
-			map.put(words[i], list);
-		}
-	}
-
-	public int shortestDistanceII(String word1, String word2) {
-		int min = Integer.MAX_VALUE;
-		if (!map.containsKey(word1) || !map.containsKey(word2))
-			return min;
-		for (int i : map.get(word1)) {
-			for (int j : map.get(word2)) {
-				min = Math.min(min, Math.abs(i - j));
-			}
-		}
-		return min;
-	}
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-iii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem III&lt;/h2&gt;
-
-&lt;p&gt;This is a follow up of Problem I. The only difference is &lt;strong&gt;now word1 could be the same as word2&lt;/strong&gt;.
-Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
-word1 and word2 may be the same and they represent two individual words in the list.&lt;/p&gt;
-
-&lt;h3 id=&#34;example-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
-
-&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
-Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.
-Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Most code should remain the same as the Problem I. But need to deal with the situation that word1 and word2 are the same.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;w1Idx&lt;/code&gt; always record the index when &lt;code&gt;word[i].equals(word1)&lt;/code&gt; but &lt;code&gt;w2Idx&lt;/code&gt; should be assigned as the value from &lt;code&gt;w1Idx&lt;/code&gt; when &lt;code&gt;word1 == word2&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
-		 if(words == null)
-		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
-		 int w1Idx = -1, w2Idx = -1;
-		 int min = Integer.MAX_VALUE;
-		 for(int i = 0; i &amp;lt; words.length; i++) {
-			 if(words[i].equals(word1))
-				 w1Idx = i;
-			 else if(words[i].equals(word2)) // else if to avoid w2Idx be recorded whrn word1==word2
-				 w2Idx = i;
-			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1 &amp;amp;&amp;amp; w1Idx != w2Idx){
-				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
-			 }
-			 if(word2.equals(word1))
-			    w2Idx = w1Idx; // update previous index record
-		 }
-		 return min;
-	 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Strobogrammatic Number</title>
-      <link>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</link>
-      <pubDate>Sun, 08 Nov 2015 22:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</guid>
-      <description>
-
-&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).&lt;/p&gt;
-
-&lt;h2 id=&#34;problem-i:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem I&lt;/h2&gt;
-
-&lt;p&gt;Write a function to determine if a number is strobogrammatic. The number is represented as a string.&lt;/p&gt;
-
-&lt;p&gt;For example, the numbers &lt;code&gt;&amp;quot;69&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;88&amp;quot;&lt;/code&gt;, and &lt;code&gt;&amp;quot;818&amp;quot;&lt;/code&gt; are all strobogrammatic.&lt;/p&gt;
-
-&lt;h3 id=&#34;solution:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Strobogrammatic {
-	public boolean isStrobogrammatic(String num) {
-		if (num == null || num.length() == 0)
-			return true;
-		int l = 0, r = num.length() - 1;
-		while (l &amp;lt; r) {
-			if (isEqual(num.charAt(l), num.charAt(r))) {
-				l++;
-				r--;
-			} else
-				return false;
-		}
-		return true;
-	}
-
-	private boolean isEqual(char l, char r) {
-		if ((l == &#39;9&#39; &amp;amp;&amp;amp; r == &#39;6&#39;) || (l == &#39;6&#39; &amp;amp;&amp;amp; r == &#39;9&#39;)
-				|| (l == &#39;1&#39; &amp;amp;&amp;amp; r == &#39;1&#39;) || (l == &#39;8&#39; &amp;amp;&amp;amp; r == &#39;8&#39;)
-				|| (l == &#39;0&#39; &amp;amp;&amp;amp; r == &#39;0&#39;))
-			return true;
-		else
-			return false;
-	}
-	
-    // Use HashMap
-	public boolean isStrobogrammatic(String num) {
-        if(num == null || num.length() == 0) {
-            return true;
-        }
-         
-        Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        map.put(&#39;0&#39;, &#39;0&#39;);
-        map.put(&#39;1&#39;, &#39;1&#39;);
-        map.put(&#39;8&#39;, &#39;8&#39;);
-        map.put(&#39;6&#39;, &#39;9&#39;);
-        map.put(&#39;9&#39;, &#39;6&#39;);
-         
-        int lo = 0;
-        int hi = num.length() - 1;
-         
-        while (lo &amp;lt;= hi) {
-            char c1 = num.charAt(lo);
-            char c2 = num.charAt(hi);
-             
-            if (!map.containsKey(c1) || map.get(c1) != c2) {
-                return false;
-            }
-             
-            lo++;
-            hi--;
-        }
-         
-        return true;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-ii:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down). Find all strobogrammatic numbers that are of length = n.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Example,&lt;/h3&gt;
-
-&lt;p&gt;Given n = 2, return &lt;code&gt;[&amp;quot;11&amp;quot;,&amp;quot;69&amp;quot;,&amp;quot;88&amp;quot;,&amp;quot;96&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical backtracking to generate something question&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static List&amp;lt;String&amp;gt; findStrobogrammatic(int n) {
-        Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        map.put(&#39;0&#39;, &#39;0&#39;);
-        map.put(&#39;1&#39;, &#39;1&#39;);
-        map.put(&#39;8&#39;, &#39;8&#39;);
-        map.put(&#39;6&#39;, &#39;9&#39;);
-        map.put(&#39;9&#39;, &#39;6&#39;);
-        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        // two cases: even or odd
-        if(n%2==0)
-        		generate(res, map, &amp;quot;&amp;quot;, n);
-        else{
-            // the central digit can be any number
-        	for(int i = 0; i &amp;lt;= 9; i++)
-        		generate(res, map, &amp;quot;&amp;quot;+i, n);
-        }
-        return res;
-	}
-	
-	private static void generate(List&amp;lt;String&amp;gt; res, Map&amp;lt;Character, Character&amp;gt; map, String cur, int n) {
-		if(cur.length() == n) {
-			res.add(new String(cur));
-			return;
-		}
-		
-		for(Map.Entry&amp;lt;Character, Character&amp;gt; entry : map.entrySet()) {
-			String origin = new String(cur);
-			cur = entry.getKey() + cur + entry.getValue();
-			generate(res, map, cur, n);
-			cur = origin;
-		}
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-iii:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem III&lt;/h2&gt;
-
-&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).&lt;/p&gt;
-
-&lt;p&gt;Write a function to count the total strobogrammatic numbers that exist in the range of low &amp;lt;= num &amp;lt;= high.&lt;/p&gt;
-
-&lt;h3 id=&#34;example-1:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given low = &amp;ldquo;50&amp;rdquo;, high = &amp;ldquo;100&amp;rdquo;, return 3. Because 69, 88, and 96 are three strobogrammatic numbers.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;Because the range might be a large number, the low and high numbers are represented as string.&lt;/p&gt;
-
-&lt;h3 id=&#34;solution-2:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static int strobogrammaticInRange(String low, String high) {
-		Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-		map.put(&#39;0&#39;, &#39;0&#39;);
-		map.put(&#39;1&#39;, &#39;1&#39;);
-		map.put(&#39;8&#39;, &#39;8&#39;);
-		map.put(&#39;6&#39;, &#39;9&#39;);
-		map.put(&#39;9&#39;, &#39;6&#39;);
-		int[] cnt = new int[1];
-		for (int n = low.length(); n &amp;lt;= high.length(); n++) {
-			if (n % 2 == 0)
-				generateII(cnt, map, &amp;quot;&amp;quot;, n, low, high);
-			else {
-				for (int i = 0; i &amp;lt;= 9; i++)
-					generateII(cnt, map, &amp;quot;&amp;quot; + i, n, low, high);
-			}
-		}
-		return cnt[0];
-	}
-
-	private static void generateII(int[] cnt,
-			Map&amp;lt;Character, Character&amp;gt; map, String cur, int n, String low,
-			String high) {
-		if (cur.length() == n) {
-			if (cur.charAt(0) != &#39;0&#39; &amp;amp;&amp;amp; compare(low, cur) &amp;lt; 0
-					&amp;amp;&amp;amp; compare(cur, high) &amp;lt; 0)
-				cnt[0]++;
-			return;
-		}
-
-		for (Map.Entry&amp;lt;Character, Character&amp;gt; entry : map.entrySet()) {
-			String origin = new String(cur);
-			cur = entry.getKey() + cur + entry.getValue();
-			generateII(cnt, map, cur, n, low, high);
-			cur = origin;
-		}
-	}
-
-	private static int compare(String s1, String s2) {
-		return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
-	}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Scramble String</title>
-      <link>http://xmruibi.github.io/2015/11/06/scramble-string/</link>
-      <pubDate>Fri, 06 Nov 2015 22:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/06/scramble-string/</guid>
-      <description>
-
-&lt;p&gt;Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively. Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.&lt;/p&gt;
-
-&lt;p&gt;Below is one possible representation of s1 = &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    great
-   /    \
-  gr    eat
- / \    /  \
-g   r  e   at
-           / \
-          a   t
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To scramble the string, we may choose any non-leaf node and swap its two children.&lt;/p&gt;
-
-&lt;p&gt;For example, if we choose the node &amp;ldquo;gr&amp;rdquo; and swap its two children, it produces a scrambled string &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    rgeat
-   /    \
-  rg    eat
- / \    /  \
-r   g  e   at
-           / \
-          a   t
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgeat&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Similarly, if we continue to swap the children of nodes &amp;ldquo;eat&amp;rdquo; and &amp;ldquo;at&amp;rdquo;, it produces a scrambled string &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    rgtae
-   /    \
-  rg    tae
- / \    /  \
-r   g  ta  e
-       / \
-      t   a
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We say that &lt;code&gt;&amp;quot;rgtae&amp;quot;&lt;/code&gt; is a scrambled string of &lt;code&gt;&amp;quot;great&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think-dp-version:06af7d24c7f42b4e652908bf9fda0e87&#34;&gt;Think - DP Version&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Ignore two situations: both length not equal and the characters not the same&lt;/li&gt;
-&lt;li&gt;Two sequence but 3-D memorized array&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;memo[i][j][k]&lt;/code&gt; means state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string&lt;/li&gt;
-&lt;li&gt;Two conditions we can regard as scramble, for range of &lt;code&gt;word1(i -&amp;gt; i+k)&lt;/code&gt; or &lt;code&gt;word2(j -&amp;gt; j+k)&lt;/code&gt;:
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + split&lt;/code&gt; (len = split) and &lt;code&gt;split + i -&amp;gt; i + k&lt;/code&gt; = &lt;code&gt;split + i -&amp;gt; j + k&lt;/code&gt; (len = k - split)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;i -&amp;gt; i + split&lt;/code&gt; = &lt;code&gt;j + (k - split) -&amp;gt; j+k&lt;/code&gt; [len = split] and &lt;code&gt;i + split -&amp;gt; i+k&lt;/code&gt; = &lt;code&gt;j -&amp;gt; j + (k - split)&lt;/code&gt;(len = k - split)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Consider about the initialization:
-
-&lt;ul&gt;
-&lt;li&gt;for &lt;code&gt;k == 1&lt;/code&gt;, we only check if &lt;code&gt;word1[i] == word2[j]&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:06af7d24c7f42b4e652908bf9fda0e87&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param s1 A string
-     * @param s2 Another string
-     * @return whether s2 is a scrambled string of s1
-     */
-    public boolean isScramble(String s1, String s2) {
-        // check length
-        if(s1==null||s2==null||s1.length()!=s2.length())
-            return false;
-        // check anagram
-        char[] c1 = s1.toCharArray();
-        char[] c2 = s2.toCharArray();
-        Arrays.sort(c1);
-        Arrays.sort(c2);
-        if (!Arrays.equals(c1, c2))
-			return false;
-			
-        if(s1.length() != s2.length())
-            return false;
-        int len = s1.length();
-        
-        // state: for s1.substring(i, i + k) and s2.substring(j, j + k), if they are scramble string
-        boolean[][][] memo = new boolean[len][len][len+1];
-        
-        // initial, only check if s1[i] == s2[j] 
-        for(int i=0;i&amp;lt;s1.length();i++)
-            for(int j=0;j&amp;lt;s2.length();j++)
-                memo[i][j][1] = (s1.charAt(i) == s2.charAt(j));
-                
-        for(int k = 2; k &amp;lt;= len; k++) {
-            
-            for(int i = 0; i &amp;lt;= len - k; i++) {
-                for(int j = 0; j &amp;lt;= len - k; j++) {
-                    // split point should start from 1 to k - 1
-                    for(int split = 1; split &amp;lt; k; split++) {
-                        memo[i][j][k] |= (memo[i][j][split]&amp;amp;&amp;amp;memo[i+split][j+split][k-split])||(memo[i][j+(k - split)][split]&amp;amp;&amp;amp;memo[i+split][j][k-split]);
-                    }
-                }
-            }
-        }
-        return memo[0][0][len];
-    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

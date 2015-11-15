@@ -7,8 +7,64 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 12 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 10:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/backtracking/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Can I Win</title>
+      <link>http://xmruibi.github.io/2015/11/14/can-i-win/</link>
+      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/can-i-win/</guid>
+      <description>
+
+&lt;p&gt;Given an array of positive integers and two players. In each turn, one player picks up one number and if the sum of all the picked up numbers is greater than a target number, the player wins. Write a program &lt;code&gt;canIWin()&lt;/code&gt; to print the result.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:20042e86952d9768f73636e75bf69c3b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question is pretty tricky.&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s not just choose the largest number in number pool. Instead of, for each turn, player has two choice:
+
+&lt;ul&gt;
+&lt;li&gt;If current pool has number can just make the sum larger than target, pick that number&lt;/li&gt;
+&lt;li&gt;If not number can added to make the sum exceed target, try to make current pick with the minimum number from the pool.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:20042e86952d9768f73636e75bf69c3b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        public static Result canIWin(int[] nums, int target) {
+                if (target &amp;lt;= 0)
+                        return Result.Lose;
+                // first iterate - find any number larger than remain target, or check
+                // all number in pool has taken
+                boolean hasNum = false;
+                for (int num : nums) {
+                        if (num &amp;gt;= target)
+                                return Result.Win;
+                        else if (num &amp;gt; 0)
+                                hasNum = true;
+                }
+                if (!hasNum)
+                        return Result.Draw;
+                for (int i = 0; i &amp;lt; nums.length; i++) {
+                        if (nums[i] &amp;gt; 0) {
+                                int data = nums[i];
+                                nums[i] = -1;
+                                Result rivalResult = canIWin(nums, target - data);
+                                if (rivalResult == Result.Win)
+                                        return Result.Lose;
+                                if (rivalResult == Result.Lose)
+                                        return Result.Win;
+                                nums[i] = data;
+                        }
+                }
+                return Result.Draw;
+        }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Expression Add Operators</title>

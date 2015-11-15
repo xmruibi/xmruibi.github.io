@@ -7,8 +7,662 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Balanced Point in Array</title>
+      <link>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</guid>
+      <description>
+
+&lt;p&gt;Balanced index of an array is an index such that the sum of elements at lower indexes is equal to the sum of elements at higher indexes.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;In an arrya A:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A[0] = -7, A[1] = 1, A[2] = 5, A[3] = 2, A[4] = -4, A[5] = 3, A[6]=0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;3&lt;/code&gt; is an Balanced index, because: &lt;code&gt;A[0] + A[1] + A[2] = A[4] + A[5] + A[6]&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;6&lt;/code&gt; is also an Balanced index, because sum of zero elements is zero, i.e., &lt;code&gt;A[0] + A[1] + A[2] + A[3] + A[4] + A[5]=0&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;7&lt;/code&gt; is not an Balanced index, because it is not a valid index of array A.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Write a function int &lt;code&gt;balancedPoint(int[] arr)&lt;/code&gt;; that given a sequence arr[] of size n, returns an Balanced index (if any) or -1 if no Balanced indexes exist.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The idea is to get total sum of array first. Then Iterate through the array and keep updating the left sum which is initialized as zero. In the loop, we can get right sum by subtracting the elements one by one.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1) Initialize leftsum  as 0
+2) Get the total sum of the array as sum
+3) Iterate through the array and for each index i, do following.
+    a)  Update sum to get the right sum.  
+           sum = sum - arr[i] 
+       // sum is now right sum
+    b) If leftsum is equal to sum, then return current index. 
+    c) leftsum = leftsum + arr[i] // update leftsum for next iteration.
+4) return -1 // If we come out of loop without returning then
+             // there is no equilibrium index
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// find all balance point in an array return balanced index
+	public List&amp;lt;Integer&amp;gt; findBalancedPoint(int[] arr) {
+		int leftsum = 0, rightsum = 0;
+		List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+
+		for (int i = 0; i &amp;lt; arr.length; i++) 
+			leftsum += arr[i];
+		
+		for (int i = arr.length - 1; i&amp;gt;=0; i--) {
+			leftsum -= arr[i];
+			if(leftsum == rightsum)
+				res.add(i);
+			rightsum+=arr[i];
+		}
+		return -1;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Isomorphic Pair</title>
+      <link>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</guid>
+      <description>
+
+&lt;p&gt;Given two words as Strings, determine if they are isomorphic. Two words are called isomorphic if the letters in one word can be remapped to get the second word. Remapping a letter means replacing all occurrences of it with another letter while the ordering of the letters remains unchanged. No two letters may map to the same letter, but a letter may map to itself.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Hashmap for mapping A-B and B-A.&lt;/li&gt;
+&lt;li&gt;make sure both mapping are correct if any character appear in its corresponding mapping.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicString(String str1, String str2) {
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; mapAB = new HashMap&amp;lt;&amp;gt;();
+		HashMap&amp;lt;Character, Character&amp;gt; mapBA = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; str1.length(); i++) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (!mapAB.containsKey(a) &amp;amp;&amp;amp; !mapBA.containsKey(b)) {
+				mapAB.put(a, b);
+				mapBA.put(b, a);
+			} else {
+				if (mapAB.containsKey(a) &amp;amp;&amp;amp; mapAB.get(a) != b)
+					return false;
+				if (mapBA.containsKey(b) &amp;amp;&amp;amp; mapBA.get(b) != a)
+					return false;
+			}
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One Hashmap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicStringII(String str1, String str2) {
+		if ((str1 == null &amp;amp;&amp;amp; str2 == null)
+				|| (str1.length() == 0 &amp;amp;&amp;amp; str2.length() == 0)
+				|| str1.equals(str2))
+			return true;
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		int i = 0;
+		while (i &amp;lt; str1.length()) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (map.containsKey(a)) {
+				if (map.get(a) != b)
+					return false;
+			} else {
+				if (map.containsValue(b))
+					return false;
+				map.put(a, b);
+			}
+			i++;
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integer Array with 512 length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean isIsomorphic(String s1, String s2) {
+        int[] m = new int[512];
+        for (int i = 0; i &amp;lt; s1.length(); i++) {
+            if (m[s1.charAt(i)] != m[s2.charAt(i)+256]) 
+                return false;
+            m[s1.charAt(i)] = m[s2.charAt(i)+256] = i+1;
+        }
+        return true;	
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find Valid IP Address in a File</title>
+      <link>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</guid>
+      <description>
+
+&lt;p&gt;Given a file with many lines of Strings, find those valid IP address from them.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ed817a74e0c3a1097fc0cfb76d5d85e1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ValidIPAddress {
+
+    public List&amp;lt;String&amp;gt; findValidIPAddr(String filePath) throws IOException {
+        List&amp;lt;String&amp;gt; addresses = new ArrayList&amp;lt;&amp;gt;();
+        Scanner sc = new Scanner(new File(filePath));
+        while (sc.hasNext()) {
+            String line = sc.next();
+            if(validIP(line))
+                addresses.add(line);
+        }
+        return addresses;
+    }
+
+    private boolean validIP(String str) {
+        try {
+            String[] parts = str.split(&amp;quot;.&amp;quot;);
+            // check segment length;
+            if (parts.length != 4 || str.endsWith(&amp;quot;.&amp;quot;))
+                return false;
+
+            // check each segment valid or not
+            for (int i = 0; i &amp;lt; parts.length; i++) {
+                String s = parts[i];
+                int val = Integer.parseInt(s);
+                if ((s.charAt(0) == &#39;0&#39;) || (val &amp;lt; 0 || val &amp;gt; 255)
+                        || (i == 0 &amp;amp;&amp;amp; val == 0))
+                    return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Maximum Subarray of Sum / Product</title>
+      <link>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</guid>
+      <description>
+
+&lt;p&gt;Find the contiguous subarray within an array (containing at least one number) which has the largest sum.&lt;/p&gt;
+
+&lt;p&gt;For example, given the array &lt;code&gt;[−2,1,−3,4,−1,2,1,−5,4]&lt;/code&gt;,
+the contiguous subarray &lt;code&gt;[4,−1,2,1]&lt;/code&gt; has the largest sum = &lt;code&gt;6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+		int curSum = 0;
+		for (int i = 0; i &amp;lt; arr.length; i++) {
+			curSum += arr[i];
+			maxSum = Math.max(maxSum, curSum);
+			if (curSum &amp;lt; 0)
+				curSum = 0;
+		}
+		return maxSum;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-record-index:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution #Record Index&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+		int curSum = 0;
+		int prev = 0, l = 0, r = 0;
+		for (int i = 0; i &amp;lt; arr.length; i++) {
+			curSum += arr[i];
+			if(curSum &amp;gt; maxSum) {
+				maxSum = curSum;
+				l = prev;
+				r = i;
+			}
+			if (curSum &amp;lt; 0) {
+				curSum = 0;
+				prev = i + 1;
+			}
+		}
+		return new int[]{l, r};
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Find the contiguous subarray within an array (containing at least one number) which has the largest product.&lt;/p&gt;
+
+&lt;p&gt;For example, given the array &lt;code&gt;[2,3,-2,4]&lt;/code&gt;,
+the contiguous subarray &lt;code&gt;[2,3]&lt;/code&gt; has the largest product = &lt;code&gt;6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-1:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maxProduct(int[] nums) {
+        int glMax = Integer.MIN_VALUE;
+        
+        int localMin = 1; // record the current max
+        int localMax = 1; // record the current min, since the negative number multiply with current number may leads to next product as the positive max
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            int tmp = localMax;
+            localMax = Math.max(localMax*nums[i], Math.max(localMin*nums[i], nums[i]));
+            localMin = Math.min(tmp*nums[i], Math.min(localMin*nums[i], nums[i]));
+            glMax = Math.max(glMax, localMax);
+        }
+        
+        return glMax;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Binary Tree Upside Down</title>
+      <link>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</link>
+      <pubDate>Sat, 14 Nov 2015 15:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a binary tree &lt;code&gt;{1,2,3,4,5}&lt;/code&gt;,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     1
+    / \
+   2   3
+  / \
+ 4   5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return the root of the binary tree &lt;code&gt;[4,5,2,#,#,3,1]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     4
+    / \
+   5   2
+      / \
+     3   1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mark the parent node &lt;code&gt;parent&lt;/code&gt; from next right node position.&lt;/li&gt;
+&lt;li&gt;Mark the current right child &lt;code&gt;node.right&lt;/code&gt; from next left &lt;code&gt;left&lt;/code&gt; node position&lt;/li&gt;
+&lt;li&gt;Mark the next iteration node &lt;code&gt;next&lt;/code&gt; by current left child &lt;code&gt;node.left&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace the current node&amp;rsquo;s left child as the recorded &lt;code&gt;right&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace the current node&amp;rsquo;s right child as the recorded &lt;code&gt;parent&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace current iteration node by &lt;code&gt;next&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-iterative:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Solution #Iterative&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public TreeNode UpsideDownBinaryTree(TreeNode node) {  
+        TreeNode parent = null, right = null;
+		while(node != null) {
+			TreeNode next = node.left;
+			node.left = right;						
+			right = node.right;
+			node.right = parent;
+			parent = node;
+			node = next;
+		}
+		return parent;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Solution #Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static TreeNode upsideDown(TreeNode node) {
+        if(node == null)
+            return node;
+        TreeNode root = node, left = node.left, right = node.right;
+        if(left != null) {
+            TreeNode newroot = upsideDown(node.left);
+            left.left = right;
+            left.right = root;
+            return newroot;
+        }
+        return node;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Course Schedule I/II</title>
+      <link>http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;There are a total of n courses you have to take, labeled from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;n - 1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: &lt;code&gt;[0,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?&lt;/p&gt;
+
+&lt;p&gt;For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0],[0,1]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-topological-sort:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Solution #Topological Sort&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap&amp;lt;Integer, Course&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&amp;lt;Course&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0;
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&amp;lt;Course&amp;gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&amp;lt;&amp;gt;();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.&lt;/p&gt;
+
+&lt;p&gt;There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.&lt;/p&gt;
+
+&lt;h4 id=&#34;example:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Example&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course &lt;code&gt;1&lt;/code&gt; you should have finished course &lt;code&gt;0&lt;/code&gt;. So the correct course order is &lt;code&gt;[0,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;4, [[1,0],[2,0],[3,1],[3,2]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 4 courses to take. To take course &lt;code&gt;3&lt;/code&gt; you should have finished both courses &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt;. Both courses &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt; should be taken after you finished course 0. So one correct course order is &lt;code&gt;[0,1,2,3]&lt;/code&gt;. Another correct ordering is &lt;code&gt;[0,2,1,3]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-topological-sort-1:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Solution #Topological Sort&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        if(prerequisites == null || prerequisites.length == 0)
+            return new int[0];
+            
+        HashMap&amp;lt;Integer, Course&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&amp;lt;Course&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        int[] res = new int[numCourses];
+        int index = 0;
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            res[index++] = cur.idx;
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0 ? res : new int[0];
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&amp;lt;Course&amp;gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&amp;lt;&amp;gt;();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Repeated DNA Sequences</title>
+      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
+      <description>
+
+&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
+
+&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
+&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
+&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
+&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
+&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;O(n) time complexity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
+        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if(s==null||s.length()==0)
+            return new ArrayList(res);
+        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
+       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
+        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
+        int hashCode = 0;
+        for(int i=0;i&amp;lt;s.length();i++){
+            if(i&amp;gt;9) // remove first 
+                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
+            hashCode = 4*hashCode + dict.get(s.charAt(i));
+            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
+                res.add(s.substring(i-9,i+1));
+        }
+        return new ArrayList(res);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Can I Win</title>
+      <link>http://xmruibi.github.io/2015/11/14/can-i-win/</link>
+      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/can-i-win/</guid>
+      <description>
+
+&lt;p&gt;Given an array of positive integers and two players. In each turn, one player picks up one number and if the sum of all the picked up numbers is greater than a target number, the player wins. Write a program &lt;code&gt;canIWin()&lt;/code&gt; to print the result.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:20042e86952d9768f73636e75bf69c3b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question is pretty tricky.&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s not just choose the largest number in number pool. Instead of, for each turn, player has two choice:
+
+&lt;ul&gt;
+&lt;li&gt;If current pool has number can just make the sum larger than target, pick that number&lt;/li&gt;
+&lt;li&gt;If not number can added to make the sum exceed target, try to make current pick with the minimum number from the pool.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:20042e86952d9768f73636e75bf69c3b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        public static Result canIWin(int[] nums, int target) {
+                if (target &amp;lt;= 0)
+                        return Result.Lose;
+                // first iterate - find any number larger than remain target, or check
+                // all number in pool has taken
+                boolean hasNum = false;
+                for (int num : nums) {
+                        if (num &amp;gt;= target)
+                                return Result.Win;
+                        else if (num &amp;gt; 0)
+                                hasNum = true;
+                }
+                if (!hasNum)
+                        return Result.Draw;
+                for (int i = 0; i &amp;lt; nums.length; i++) {
+                        if (nums[i] &amp;gt; 0) {
+                                int data = nums[i];
+                                nums[i] = -1;
+                                Result rivalResult = canIWin(nums, target - data);
+                                if (rivalResult == Result.Win)
+                                        return Result.Lose;
+                                if (rivalResult == Result.Lose)
+                                        return Result.Win;
+                                nums[i] = data;
+                        }
+                }
+                return Result.Draw;
+        }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Product of Array Except Self</title>
+      <link>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</link>
+      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</guid>
+      <description>
+
+&lt;p&gt;Given an array of &lt;code&gt;n&lt;/code&gt; integers where &lt;code&gt;n&lt;/code&gt; &amp;gt; 1, nums, return an array output such that &lt;code&gt;output[i]&lt;/code&gt; is equal to the product of all the elements of nums except &lt;code&gt;nums[i]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Solve it &lt;strong&gt;without division&lt;/strong&gt; and in &lt;code&gt;O(n)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;[1,2,3,4]&lt;/code&gt;, return &lt;code&gt;[24,12,8,6]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Follow up:
+Could you solve it with constant space complexity? (Note: The &lt;strong&gt;output array does not count&lt;/strong&gt; as extra space for the purpose of space complexity analysis.)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;$$O(n)$$ Space and Two pass, recording the left part or right part product.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] productExceptSelf(int[] input) {
+        int[] res = new int[input.length];
+        int tmp = 1;
+        for (int i = 0; i &amp;lt; input.length; i++) {
+            res[i] = tmp;
+            tmp *= input[i];
+        }
+        tmp = 1;
+        for (int i = input.length - 1; i &amp;gt;= 0; i--) {
+            res[i] *= tmp;
+            tmp *= input[i];
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Constant Time Random Picker</title>
@@ -63,7 +717,7 @@ Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;
 Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;solution-1:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution #1&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
 	
@@ -447,847 +1101,6 @@ public class TextFile implements Iterable&amp;lt;String&amp;gt; {
             stack.push(tmp);
         }
     }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Two Sum Implementation</title>
-      <link>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</link>
-      <pubDate>Fri, 13 Nov 2015 19:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</guid>
-      <description>
-
-&lt;p&gt;Finish a implementation for a interface where it store some data and returns true if there is any pair of numbers in the internal data structure which have sum @param val, and false otherwise.&lt;/p&gt;
-
-&lt;h3 id=&#34;given-code:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Given Code&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface TwoSum {
-    /**
-     * Stores @param input in an internal data structure.
-     */
-    void store(int input);
-    /**
-     * Returns true if there is any pair of numbers in the internal data structure which
-     * have sum @param val, and false otherwise.
-     * For example, if the numbers 1, -2, 3, and 6 had been stored,
-     * the method should return true for 4, -1, and 9, but false for 10, 5, and 0
-     */
-    boolean test(int val);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Two Sum problem has two way to solve
-
-&lt;ul&gt;
-&lt;li&gt;Sort strategy (O(nlogn) time, O(1) space);&lt;/li&gt;
-&lt;li&gt;Set strategy (O(n) time, O(n) space);&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumProblem implements TwoSum{
-    
-    // thread not safe, use CopyOnWriteArrayList&amp;lt;E&amp;gt; for thread safe
-    List&amp;lt;Integer&amp;gt; list; 
-    // save the previous data for unnecessary duplicate computation
-    HashSet&amp;lt;Integer&amp;gt; set;
-    
-    public TwoSumProblem() {
-        list = new ArrayList&amp;lt;&amp;gt;();
-        set = new HashSet&amp;lt;&amp;gt;();
-    }
-    
-    @Override
-    public void store(int input) {
-        list.add(input);    
-    }
-
-    @Override
-    public boolean test(int val) {
-        if(set.contains(val))
-            return true;
-        return checkTwoSum(val);
-    }
-
-    // sort strategy (O(nlogn) time, O(1) space)
-    private boolean checkTwoSum(int target){
-        Collections.sort(list);
-        int l = 0, r = list.size() - 1;
-        while(l &amp;lt; r) {
-            int sum = list.get(l) + list.get(r);
-            if(sum == target){
-                set.add(target);
-                return true;
-            }else if(sum &amp;lt; target)
-                l++;
-            else
-                r--;
-        }
-        return false;
-    }
-
-    // set strategy (O(n) time, O(n) space)
-    private boolean checkTwoSumII(int target){
-         int len = list.size();
-           Set&amp;lt;Integer&amp;gt; mem = new HashSet();
-            for(int i = 0; i &amp;lt; len; i++){
-                if ( mem.contains(target - list.get(i)) 
-                        return true;
-               else 
-                    mem.add(list.get(i));
-            }
-            return false;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Level Order with Position Preserved</title>
-      <link>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</link>
-      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</guid>
-      <description>
-
-&lt;p&gt;Given a Tree, each node contains one digit value, print each level in a format with relative position preserved.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;       eg.           1
-                   /   \
-                 2      4
-                  \       \
-                  3        7
-    output:
-                   1
-               2      4
-                 3      7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Tricky part is we should know the depth firstly. So that we can know how many space should be reserved in final line. Since the each line should preserved as most the length with the node&amp;rsquo;s amount in full tree of that depth.&lt;/li&gt;
-&lt;li&gt;The length of each line should be the $2^{depth} - 1$&lt;/li&gt;
-&lt;li&gt;Recursively to set the node value in the middle of left and right range.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TreeLevelOrder {
-	public List&amp;lt;String&amp;gt; printLevelwithSpacePreserved(TreeNode root) {
-		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-		int depth = getDepth(root);
-		int len = (int) Math.pow(2, depth) - 1;
-		List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; space = new ArrayList&amp;lt;&amp;gt;();
-		for (int i = 0; i &amp;lt; depth; i++) {
-			List&amp;lt;Character&amp;gt; line = new ArrayList&amp;lt;&amp;gt;();
-			for(int j = 0; j &amp;lt; len; j++)
-				line.add(&#39; &#39;);
-			space.add(line);
-		}
-		levelOrderRecrusion(space, root, 0, len - 1, 0);
-		for (List&amp;lt;Character&amp;gt; cs : space) {
-			StringBuilder sb = new StringBuilder();
-			for (char c : cs)
-				sb.append(c);
-			res.add(sb.toString());
-		}
-		return res;
-	}
-
-	private void levelOrderRecrusion(List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; res, TreeNode node,
-			int l, int r, int lv) {
-		if (node == null)
-			return;
-		List&amp;lt;Character&amp;gt; line = res.get(lv);
-		int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-		line.set(m, (char) (node.val + &#39;0&#39;));
-		levelOrderRecrusion(res, node.left, l, m - 1, lv + 1);
-		levelOrderRecrusion(res, node.right, m + 1, r, lv + 1);
-	}
-
-	private int getDepth(TreeNode node) {
-		if (node == null)
-			return 0;
-		return 1 + Math.max(getDepth(node.left), getDepth(node.right));
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Middle Index Stack</title>
-      <link>http://xmruibi.github.io/2015/11/13/middle-index-stack/</link>
-      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/middle-index-stack/</guid>
-      <description>
-
-&lt;p&gt;Design a stack with operations on middle element.&lt;/p&gt;
-
-&lt;p&gt;How to implement a stack which will support following operations in O(1) time complexity?
-1) push() which adds an element to the top of stack.
-2) pop() which removes an element from top of stack.
-3) findMiddle() which will return middle element of the stack.
-4) deleteMiddle() which will delete the middle element.
-Push and pop are standard stack operations.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;The important question is, whether to use a linked list or array for implementation of stack?
-- The key of this question is to design an doubly linked list to deal with those required functions.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MidStack implements MyStack{
-    int size;
-    Node top;
-    Node mid;
-    
-    public MidStack() {
-        int size = 0;
-        top = mid = null;
-    }
-    @Override
-    public void push(int val) {
-        Node newNode = new Node(val);
-        if(top == null) {
-            top = newNode;
-            mid = top;
-        }else{
-            top.next = newNode;
-            newNode.prev = top;
-            top = newNode;
-            if(size % 2 ==0)
-                mid = mid.next;
-        }
-        size++;
-    }
-    @Override
-    public int pop() {
-        int pop = top.val;
-        top = top.prev;
-        top.next = null;
-        if(size % 2 !=0)
-            mid = mid.prev;
-        size--;
-        return pop;
-    }
-    @Override
-    public int findMiddle() {
-        return mid.val;
-    }
-    @Override
-    public void deleteMiddle() {
-        if(size &amp;lt;= 2) {
-            mid = top;
-            top.prev = null;
-            size--;
-            return;
-        }
-            
-        mid.next.prev = mid.prev;
-        mid.prev.next = mid.next;
-        mid = mid.prev;
-        size--;
-    }
-    
-    public static void main(String[] args) {
-        MidStack stack = new MidStack();
-        stack.push(1);stack.push(2);
-        stack.push(3);stack.push(4);    
-        System.out.println(stack.pop());
-        System.out.println(stack.findMiddle());
-        stack.deleteMiddle();
-        stack.push(2);
-        stack.push(3);stack.push(4);    
-        System.out.println(stack.findMiddle());
-        System.out.println(stack.pop());
-        System.out.println(stack.findMiddle());
-        System.out.println(stack.pop());
-    }
-}
-
-interface MyStack{
-    public void push(int val);
-    public int pop();
-    public int findMiddle();
-    public void deleteMiddle();
-}
-class Node{
-    int val;
-    Node prev, next;
-    public Node(int val) {
-        this.val = val;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The Second Minimum in Tournament Tree</title>
-      <link>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</link>
-      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</guid>
-      <description>
-
-&lt;p&gt;Given a tournament tree try to find the second minimum value. Here the tournament tree is represented by a tree with node has the minimum value of children.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;By given the following tree, it should return &lt;code&gt;5&lt;/code&gt; as the second minimum value.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                2
-              /   \
-            2      7
-          /  \     |  \
-         5    2    8   7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;This a full tree and each root is the min value of two children&lt;/li&gt;
-&lt;li&gt;Each time we only concern the subtree root has the value equal to the root and record another child&amp;rsquo;s value as the candidate of second minimum.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TournamentTree {
-    static int secMin = Integer.MAX_VALUE;
-
-    // the given tree is a minimum value tree
-    public static int getSecMin(TreeNode root) {
-        if (root == null)
-            throw new IllegalArgumentException(&amp;quot;Illeagal Input!&amp;quot;);
-        
-        if (root.left == null &amp;amp;&amp;amp; root.right == null)
-            return secMin;
-        
-        if (root.left.val == root.val) {
-            secMin = Math.min(secMin, root.right.val);
-            return getSecMin(root.left);
-        } else {
-            secMin = Math.min(secMin, root.left.val);
-            return getSecMin(root.right);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Valid Number</title>
-      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
-      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
-      <description>
-
-&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;This question focus on thinking about all of corner case
-
-&lt;ol&gt;
-&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
-&lt;li&gt;space before the number&lt;/li&gt;
-&lt;li&gt;invalid character before / after the number&lt;/li&gt;
-&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
-&lt;li&gt;space after the number&lt;/li&gt;
-&lt;li&gt;decimal checker&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
-		if(s == null)
-			return false;
-        boolean eFlagAllow = true; // switcher for &#39;e&#39; or &#39;E&#39;
-        boolean decimal = true; // switcher for &#39;.&#39;
-        boolean hasNum = false; // make sure it contains number
-        int cursor = 0;
-        // skip previous space.
-        while(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39; &#39;)
-            cursor++;
-            
-        // check the sign, only one position allow for &#39;-&#39;
-        if(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39;-&#39;)
-            cursor++;
-            
-        while(cursor &amp;lt; s.length()) {
-            char cur = s.charAt(cursor);
-            // if has number 
-            if(cur &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; cur &amp;lt;= &#39;9&#39;){
-                if(!hasNum)
-                    hasNum = true;
-            }else if((cur == &#39;e&#39; || cur == &#39;E&#39;) &amp;amp;&amp;amp; eFlagAllow &amp;amp;&amp;amp; hasNum) { 
-                // previous position should contain the number first 
-                eFlagAllow = false; // turn off the e/E switcher
-            }else if(cur == &#39;.&#39; &amp;amp;&amp;amp; decimal) {
-                // turn off the decimal switcher
-                decimal = false;
-            }else if(cur != &#39; &#39;) // not allow the char except the space
-                return false;
-            cursor ++;
-        }
-        
-        return cursor == s.length() &amp;amp;&amp;amp; hasNum;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Nested List</title>
-      <link>http://xmruibi.github.io/2015/11/13/nested-list/</link>
-      <pubDate>Fri, 13 Nov 2015 13:13:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/nested-list/</guid>
-      <description>
-
-&lt;p&gt;Given a nested list of integers, returns the sum of all integers in the list weighted by their depth.&lt;/p&gt;
-
-&lt;h3 id=&#34;partial-code:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Partial Code&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** 
- * This is the interface that represents nested lists. 
- * You should not implement it, or speculate about its implementation. 
- */ 
-public interface NestedInteger { 
-    // Returns true if this NestedInteger holds a single integer, rather than a nested list 
-    public boolean isInteger(); 
-
-    // Returns the single integer that this NestedInteger holds, if it holds a single integer 
-    // Returns null if this NestedInteger holds a nested list 
-    public Integer getInteger(); 
-
-    // Returns the nested list that this NestedInteger holds, if it holds a nested list 
-    // Returns null if this NestedInteger holds a single integer 
-    public List getList(); 
-}
-
-public class Solution {
-	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
-        //Implement this function
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;example:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given the list &lt;code&gt;{{1,1},2,{1,1}}&lt;/code&gt; the function should return &lt;code&gt;10&lt;/code&gt; (four 1&amp;rsquo;s at depth 2, one 2 at depth 1);
-Given the list &lt;code&gt;{1,{4,{6}}}&lt;/code&gt; the function should return &lt;code&gt;27&lt;/code&gt; (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3);&lt;/p&gt;
-
-&lt;h2 id=&#34;think:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Recursion with DFS&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
-		return dfsHelper(input, 1);
-    }
-
-    private int dfsHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
-    	int sum = 0;
-    	for(NestedInteger cur : input) {
-    		if(cur.isInteger())
-    			sum += (cur.getInteger() * depth);
-    		else
-    			sum += dfsHelper(cur.getList(), depth + 1);
-    	}
-    	return sum;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;followup-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #1&lt;/h2&gt;
-
-&lt;p&gt;Get the sum by reversed level.&lt;/p&gt;
-
-&lt;h4 id=&#34;think-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Should get depth at first and then recursively reduce the depth for DFS&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static int reversedDepthSum(List&amp;lt;NestedInteger&amp;gt; input) {
-		int depth = getDepth(input);
-		return dfsReverseHelper(input, depth);
-	}
-
-	private static int dfsReverseHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
-		int sum = 0;
-		for (NestedInteger cur : input) {
-			if (cur.isInteger())
-				sum += (cur.getInteger() * depth);
-			else
-				sum += dfsReverseHelper(cur.getList(), depth - 1);
-		}
-		return sum;
-	}
-	
-	private static int getDepth(List&amp;lt;NestedInteger&amp;gt; input) {
-		int depth = 0;
-		for (NestedInteger cur : input) {
-			if (!cur.isInteger())
-				depth = Math.max(depth, getDepth(cur.getList()));
-		}
-		return depth + 1;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;followup-2:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #2&lt;/h2&gt;
-
-&lt;p&gt;Implement the Nested Integer interface&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NestedIntImpl implements NestedInteger {
-	Object obj;
-
-	public NestedIntegerImpl(Object obj) {
-		this.obj = obj;
-	}
-
-	@Override
-	public boolean isInteger() {	
-		return obj instanceof Integer;
-	}
-
-	@Override
-	public Integer getInteger() {
-		if(obj instanceof Integer)
-			return (Integer)obj;
-		return null;
-	}
-
-	@Override
-	public List&amp;lt;NestedInteger&amp;gt; getList() {
-		if(obj instanceof List)
-			return (List&amp;lt;NestedInteger&amp;gt;)obj;
-		return null;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Braces Check</title>
-      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
-      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
-      <description>
-
-&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
-
-&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
-&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
-&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Parenthese check problem three way to solve.
-
-&lt;ul&gt;
-&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
-&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
-    public boolean matched(String s) {
-        if(s == null || s.length() == 0)
-            return true;
-        int cnt = 0;
-        int idx = 0;
-        while(idx &amp;lt; s.length()) {
-            if(s.charAt(idx) == &#39;(&#39;)
-                cnt++;
-            else if(s.charAt(idx) == &#39;)&#39;) {
-                if(cnt &amp;lt;= 0) 
-                    return false;
-                cnt--;
-            }
-        }
-        return cnt == 0;
-    }
-
-    // 
-    public boolean matchedII(String s) {
-        if(s == null || s.length() == 0)
-            return true;
-        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
-        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
-        int idx = 0;
-        while(idx &amp;lt; s.length()) {
-            char c = s.charAt(idx);
-            if(map.containsKey(c))
-                stack.push(c);
-            else if(map.values().contains(c)){
-                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
-                    return false;
-            }
-        }
-        return stack.isEmpty()
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Hadoop Review</title>
-      <link>http://xmruibi.github.io/code/reviewHadoop/</link>
-      <pubDate>Thu, 12 Nov 2015 22:56:15 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/code/reviewHadoop/</guid>
-      <description>
-
-&lt;h2 id=&#34;what-is-hadoop:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;What is Hadoop&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;An open-source software framework for storage and large-scale processing of data-sets on clusters of commodity hardware&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/xmruibi/Sketchboard/master/hadoopInfra.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;physical-hardware-level:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Physical Hardware Level&lt;/h2&gt;
-
-&lt;p&gt;This is the hardware part of the infrastructure.&lt;/p&gt;
-
-&lt;h3 id=&#34;cluster:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Cluster&lt;/h3&gt;
-
-&lt;p&gt;Cluster is the set of host machines (nodes). Nodes may be partitioned in racks.&lt;/p&gt;
-
-&lt;h2 id=&#34;hardware-management-level:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Hardware Management Level&lt;/h2&gt;
-
-&lt;p&gt;This level contains the functions for manipulate the physical resources, management on data resources and static storage for data resources.&lt;/p&gt;
-
-&lt;h3 id=&#34;yarn:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;YARN&lt;/h3&gt;
-
-&lt;p&gt;YARN Infrastructure (Yet Another Resource Negotiator) is to do the Computational Resources Allocation. We can also regard it as a data operating system.&lt;/p&gt;
-
-&lt;h5 id=&#34;resource-manager-one-per-cluster-is-the-master:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;&lt;strong&gt;Resource Manager&lt;/strong&gt; (one per cluster) is the master.&lt;/h5&gt;
-
-&lt;p&gt;Knows how many resources they have.
-- Scheduler
-- Heartbeat Monitor&lt;/p&gt;
-
-&lt;h5 id=&#34;node-manager-many-per-cluster-is-the-slave-of-the-infrastructure:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;&lt;strong&gt;Node Manager&lt;/strong&gt; (many per cluster) is the slave of the infrastructure.&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Heartbeat Sender&lt;/em&gt;&lt;br /&gt;
-Periodically, it sends an heartbeat to the Resource Manager.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Container Management&lt;/em&gt;&lt;br /&gt;
-A fraction of the NM capacity and it is used by the client for running a program.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;hdfs:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;HDFS&lt;/h3&gt;
-
-&lt;p&gt;File System for providing permanent, reliable and distributed storage. This is typically used for storing inputs and output (but not intermediate ones).&lt;/p&gt;
-
-&lt;h3 id=&#34;storage:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Storage&lt;/h3&gt;
-
-&lt;p&gt;Alternative storage solutions. For instance, Database (like &lt;strong&gt;MongoDB&lt;/strong&gt;) or Simple Storage Service (S3).&lt;/p&gt;
-
-&lt;h2 id=&#34;software-level-map-reduce:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Software Level (Map Reduce)&lt;/h2&gt;
-
-&lt;p&gt;This level mainly focus on the data processing by implementing the &lt;strong&gt;MapReduce&lt;/strong&gt; paradigm.&lt;/p&gt;
-
-&lt;h3 id=&#34;before-mapreduce-job:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Before MapReduce Job&lt;/h3&gt;
-
-&lt;p&gt;When a client submits an application, several kinds of information are provided to the YARN infrastucture. In particular:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Configuration:&lt;br /&gt;
-This may be partial (some parameters are not specified by the user) and in this case the default values are used for the job. Notice that these default values may be the ones chosen by a Hadoop provider like Amanzon.&lt;/li&gt;
-&lt;li&gt;Java Implementation:
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;map()&lt;/code&gt; implementation&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;combiner()&lt;/code&gt; implementation&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;reduce()&lt;/code&gt; implementation&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Input/Output information:
-
-&lt;ul&gt;
-&lt;li&gt;Input URL:&lt;br /&gt;
-Is the input directory on HDFS? On DB? How many files?&lt;/li&gt;
-&lt;li&gt;Output URL:&lt;br /&gt;
-Where will we store the output? On HDFS? On DB?&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;interaction-between-mapreduce-framework-and-yarn-infrastructure:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Interaction between MapReduce Framework and YARN Infrastructure&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/hadoop/MR-Yarn.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;overview-of-map-reduce-function:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Overview of Map Reduce function&lt;/h3&gt;
-
-&lt;p&gt;It is organized as a “map” function which transform a piece of data into some number of key/value pairs. Each of these elements will then be sorted by their key and reach to the same node, where a “reduce” function is use to merge the values (of the same key) into a single result.&lt;/p&gt;
-
-&lt;h3 id=&#34;mapper:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Mapper&lt;/h3&gt;
-
-&lt;p&gt;Mapper maps input key/value pairs to a set of intermediate key/value pairs.&lt;/p&gt;
-
-&lt;p&gt;Maps are the individual tasks that transform input records into intermediate records. The transformed intermediate records do not need to be of the same type as the input records. A given input pair may map to zero or many output pairs.&lt;/p&gt;
-
-&lt;p&gt;The following comes from one of Chinese blog:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;在map task执行时，它的输入数据来源于HDFS的block，当然在MapReduce概念中，map task只读取split。Split与block的对应关系可能是多对一，默认是一对一。在WordCount例子里，假设map的输入数据都是像“aaa”这样的字符串。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在经过mapper的运行后，我们得知mapper的输出是这样一个key/value对： key是“aaa”， value是数值1。因为当前map端只做加1的操作，在reduce task里才去合并结果集。前面我们知道这个job有3个reduce task，到底当前的“aaa”应该交由哪个reduce去做呢，是需要现在决定的。&lt;/p&gt;
-
-&lt;p&gt;MapReduce提供Partitioner接口，它的作用就是根据key或value及reduce的数量来决定当前的这对输出数据最终应该交由哪个reduce task处理。默认对key hash后再以reduce task数量取模。默认的取模方式只是为了平均reduce的处理能力，如果用户自己对Partitioner有需求，可以订制并设置到job上。&lt;/p&gt;
-
-&lt;p&gt;在我们的例子中，“aaa”经过Partitioner后返回0，也就是这对值应当交由第一个reducer来处理。接下来，需要将数据写入内存缓冲区中，缓冲区的作用是批量收集map结果，减少磁盘IO的影响。我们的key/value对以及Partition的结果都会被写入缓冲区。当然写入之前，key与value值都会被序列化成字节数组。&lt;/p&gt;
-
-&lt;p&gt;整个内存缓冲区就是一个字节数组，它的字节索引及key/value存储结构我没有研究过。如果有朋友对它有研究，那么请大致描述下它的细节吧。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;这个内存缓冲区是有大小限制的，默认是100MB。当map task的输出结果很多时，就可能会撑爆内存，所以需要在一定条件下将缓冲区中的数据临时写入磁盘，然后重新利用这块缓冲区。这个从内存往磁盘写数据的过程被称为Spill，中文可译为溢写，字面意思很直观。这个溢写是由单独线程来完成，不影响往缓冲区写map结果的线程。溢写线程启动时不应该阻止map的结果输出，所以整个缓冲区有个溢写的比例spill.percent。这个比例默认是0.8，也就是当缓冲区的数据已经达到阈值（buffer size * spill percent = 100MB * 0.8 = 80MB），溢写线程启动，锁定这80MB的内存，执行溢写过程。Map task的输出结果还可以往剩下的20MB内存中写，互不影响。当溢写线程启动后，需要对这80MB空间内的key做排序(Sort)。排序是MapReduce模型默认的行为，这里的排序也是对序列化的字节做的排序。&lt;/p&gt;
-
-&lt;p&gt;在这里我们可以想想，因为map task的输出是需要发送到不同的reduce端去，而内存缓冲区没有对将发送到相同reduce端的数据做合并，那么这种合并应该是体现是磁盘文件中的。从官方图上也可以看到写到磁盘中的溢写文件是对不同的reduce端的数值做过合并。所以溢写过程一个很重要的细节在于，如果有很多个key/value对需要发送到某个reduce端去，那么需要将这些key/value值拼接到一块，减少与partition相关的索引记录。&lt;/p&gt;
-
-&lt;p&gt;在针对每个reduce端而合并数据时，有些数据可能像这样：“aaa”/1， “aaa”/1。对于WordCount例子，就是简单地统计单词出现的次数，如果在同一个map task的结果中有很多个像“aaa”一样出现多次的key，我们就应该把它们的值合并到一块，这个过程叫reduce也叫combine。但MapReduce的术语中，reduce只指reduce端执行从多个map task取数据做计算的过程。除reduce外，非正式地合并数据只能算做combine了。其实大家知道的，MapReduce中将Combiner等同于Reducer。&lt;/p&gt;
-
-&lt;p&gt;如果client设置过Combiner，那么现在就是使用Combiner的时候了。将有相同key的key/value对的value加起来，减少溢写到磁盘的数据量。Combiner会优化MapReduce的中间结果，所以它在整个模型中会多次使用。那哪些场景才能使用Combiner呢？从这里分析，Combiner的输出是Reducer的输入，Combiner绝不能改变最终的计算结果。所以从我的想法来看，Combiner只应该用于那种Reduce的输入key/value与输出key/value类型完全一致，且不影响最终结果的场景。比如累加，最大值等。Combiner的使用一定得慎重，如果用好，它对job执行效率有帮助，反之会影响reduce的最终结果。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;每次溢写会在磁盘上生成一个溢写文件，如果map的输出结果真的很大，有多次这样的溢写发生，磁盘上相应的就会有多个溢写文件存在。当map task真正完成时，内存缓冲区中的数据也全部溢写到磁盘中形成一个溢写文件。最终磁盘中会至少有一个这样的溢写文件存在(如果map的输出结果很少，当map执行完成时，只会产生一个溢写文件)，因为最终的文件只有一个，所以需要将这些溢写文件归并到一起，这个过程就叫做Merge。Merge是怎样的？如前面的例子，“aaa”从某个map task读取过来时值是5，从另外一个map 读取时值是8，因为它们有相同的key，所以得merge成group。什么是group。对于“aaa”就是像这样的：{“aaa”, [5, 8, 2, …]}，数组中的值就是从不同溢写文件中读取出来的，然后再把这些值加起来。请注意，因为merge是将多个溢写文件合并到一个文件，所以可能也有相同的key存在，在这个过程中如果client设置过Combiner，也会使用Combiner来合并相同的key。&lt;br /&gt;
-至此，map端的所有工作都已结束，最终生成的这个文件也存放在TaskTracker够得着的某个本地目录内。每个reduce task不断地通过RPC从JobTracker那里获取map task是否完成的信息，如果reduce task得到通知，获知某台TaskTracker上的map task执行完成，Shuffle的后半段过程开始启动。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;简单地说，reduce task在执行之前的工作就是不断地拉取当前job里每个map task的最终结果，然后对从不同地方拉取过来的数据不断地做merge，也最终形成一个文件作为reduce task的输入文件。&lt;/p&gt;
-
-&lt;h3 id=&#34;reducer:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Reducer&lt;/h3&gt;
-
-&lt;p&gt;Reducer reduces a set of intermediate values which share a key to a smaller set of values.&lt;/p&gt;
-
-&lt;p&gt;The following comes from one of Chinese blog:
-Reducer真正运行之前，所有的时间都是在拉取数据，做merge，且不断重复地在做。如前面的方式一样，下面我也分段地描述reduce 端的Shuffle细节：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Copy过程，简单地拉取数据。Reduce进程启动一些数据copy线程(Fetcher)，通过HTTP方式请求map task所在的TaskTracker获取map task的输出文件。因为map task早已结束，这些文件就归TaskTracker管理在本地磁盘中。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Merge阶段。这里的merge如map端的merge动作，只是数组中存放的是不同map端copy来的数值。Copy过来的数据会先放入内存缓冲区中，这里的缓冲区大小要比map端的更为灵活，它基于JVM的heap size设置，因为Shuffle阶段Reducer不运行，所以应该把绝大部分的内存都给Shuffle用。这里需要强调的是，merge有三种形式：1)内存到内存  2)内存到磁盘  3)磁盘到磁盘。默认情况下第一种形式不启用，让人比较困惑，是吧。当内存中的数据量到达一定阈值，就启动内存到磁盘的merge。与map 端类似，这也是溢写的过程，这个过程中如果你设置有Combiner，也是会启用的，然后在磁盘中生成了众多的溢写文件。第二种merge方式一直在运行，直到没有map端的数据时才结束，然后启动第三种磁盘到磁盘的merge方式生成最终的那个文件。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Reducer的输入文件。不断地merge后，最后会生成一个“最终文件”。为什么加引号？因为这个文件可能存在于磁盘上，也可能存在于内存中。对我们来说，当然希望它存放于内存中，直接作为Reducer的输入，但默认情况下，这个文件是存放于磁盘中的。当Reducer的输入文件已定，整个Shuffle才最终结束。然后就是Reducer执行，把结果放到HDFS上。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;procedure:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Procedure&lt;/h3&gt;
-
-&lt;h5 id=&#34;my-handwriting-procedure-about-how-mapreduce-works:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;My handwriting procedure about how MapReduce works.&lt;/h5&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/xmruibi/Sketchboard/master/map_reduce.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;reference:1ab7c30e2318f3df73a6c51ffa4b4d04&#34;&gt;Reference&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://4.bp.blogspot.com/_j6mB7TMmJJY/SS0CEJLklnI/AAAAAAAAAGQ/ogPGJ3WYpt4/s1600-h/P4.png&#34;&gt;Map Reduce Procedure Model&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://langyu.iteye.com/blog/992916&#34;&gt;MapReduce:详解Shuffle过程&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hadoop.apache.org/docs/r2.6.1/index.html&#34;&gt;Hadoop Official Site&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Expression Add Operators</title>
-      <link>http://xmruibi.github.io/2015/11/12/expression-add-operators/</link>
-      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/12/expression-add-operators/</guid>
-      <description>
-
-&lt;p&gt;Given a string that contains only digits 0-9 and a target value, return all possibilities to add binary operators (not unary) +, -, or * between the digits so they evaluate to the target value.&lt;/p&gt;
-
-&lt;h3 id=&#34;examples:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Examples&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;, 6 -&amp;gt; [&amp;quot;1+2+3&amp;quot;, &amp;quot;1*2*3&amp;quot;] 
-&amp;quot;232&amp;quot;, 8 -&amp;gt; [&amp;quot;2*3+2&amp;quot;, &amp;quot;2+3*2&amp;quot;]
-&amp;quot;105&amp;quot;, 5 -&amp;gt; [&amp;quot;1*0+5&amp;quot;,&amp;quot;10-5&amp;quot;]
-&amp;quot;00&amp;quot;, 0 -&amp;gt; [&amp;quot;0+0&amp;quot;, &amp;quot;0-0&amp;quot;, &amp;quot;0*0&amp;quot;]
-&amp;quot;3456237490&amp;quot;, 9191 -&amp;gt; []
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;This problem has a lot of edge cases to be considered:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;overflow: we use a long type once it is larger than Integer.MAX_VALUE or minimum, we get over it.&lt;/li&gt;
-&lt;li&gt;0 sequence: because we can&amp;rsquo;t have numbers with multiple digits started with zero, we have to deal with it too.&lt;/li&gt;
-&lt;li&gt;a little trick is that we should save the value that is to be multiplied in the next recursion.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;solution:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
-
-    public List&amp;lt;String&amp;gt; addOperators(String num, int target) {
-        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        helper(res, &amp;quot;&amp;quot;, num, 0, target, 0L, 0L);
-        return res;
-    }
-    
-    private void helper(List&amp;lt;String&amp;gt; res, String cur, String num, int idx, int target, long preVal, long nextVal) {
-       if(idx == num.length()) {
-            if(preVal == target)
-                res.add(new String(cur));
-            return;
-       }
-       
-       for(int i = idx; i &amp;lt; num.length(); i++) {
-           if(i != idx &amp;amp;&amp;amp; num.charAt(idx) == &#39;0&#39;) break;
-           String sbstr = num.substring(idx, i+1);
-           long curVal = Long.parseLong(sbstr);
-           if(idx == 0)
-                helper(res, sbstr, num, i+1, target, curVal, curVal);
-           else {
-               helper(res, cur + &amp;quot;+&amp;quot; + curVal, num, i+1, target, preVal + curVal,  curVal);
-               helper(res, cur + &amp;quot;-&amp;quot; + curVal, num, i+1, target, preVal - curVal, 0 - curVal);
-               helper(res, cur + &amp;quot;*&amp;quot; + curVal, num, i+1, target, preVal - nextVal + nextVal * curVal, nextVal * curVal);
-           }
-       }
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

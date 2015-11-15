@@ -7,8 +7,83 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 10 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 15:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Binary Tree Upside Down</title>
+      <link>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</link>
+      <pubDate>Sat, 14 Nov 2015 15:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</guid>
+      <description>
+
+&lt;p&gt;Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given a binary tree &lt;code&gt;{1,2,3,4,5}&lt;/code&gt;,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     1
+    / \
+   2   3
+  / \
+ 4   5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return the root of the binary tree &lt;code&gt;[4,5,2,#,#,3,1]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     4
+    / \
+   5   2
+      / \
+     3   1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mark the parent node &lt;code&gt;parent&lt;/code&gt; from next right node position.&lt;/li&gt;
+&lt;li&gt;Mark the current right child &lt;code&gt;node.right&lt;/code&gt; from next left &lt;code&gt;left&lt;/code&gt; node position&lt;/li&gt;
+&lt;li&gt;Mark the next iteration node &lt;code&gt;next&lt;/code&gt; by current left child &lt;code&gt;node.left&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace the current node&amp;rsquo;s left child as the recorded &lt;code&gt;right&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace the current node&amp;rsquo;s right child as the recorded &lt;code&gt;parent&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace current iteration node by &lt;code&gt;next&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-iterative:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Solution #Iterative&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public TreeNode UpsideDownBinaryTree(TreeNode node) {  
+        TreeNode parent = null, right = null;
+		while(node != null) {
+			TreeNode next = node.left;
+			node.left = right;						
+			right = node.right;
+			node.right = parent;
+			parent = node;
+			node = next;
+		}
+		return parent;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:33643332a2ae687d0e663b807ba8b06f&#34;&gt;Solution #Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static TreeNode upsideDown(TreeNode node) {
+        if(node == null)
+            return node;
+        TreeNode root = node, left = node.left, right = node.right;
+        if(left != null) {
+            TreeNode newroot = upsideDown(node.left);
+            left.left = right;
+            left.right = root;
+            return newroot;
+        }
+        return node;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Longest Consecutive Sequence in Binary Tree</title>

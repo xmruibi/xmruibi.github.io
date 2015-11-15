@@ -7,8 +7,191 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/array/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Balanced Point in Array</title>
+      <link>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</guid>
+      <description>
+
+&lt;p&gt;Balanced index of an array is an index such that the sum of elements at lower indexes is equal to the sum of elements at higher indexes.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;In an arrya A:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A[0] = -7, A[1] = 1, A[2] = 5, A[3] = 2, A[4] = -4, A[5] = 3, A[6]=0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;3&lt;/code&gt; is an Balanced index, because: &lt;code&gt;A[0] + A[1] + A[2] = A[4] + A[5] + A[6]&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;6&lt;/code&gt; is also an Balanced index, because sum of zero elements is zero, i.e., &lt;code&gt;A[0] + A[1] + A[2] + A[3] + A[4] + A[5]=0&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;7&lt;/code&gt; is not an Balanced index, because it is not a valid index of array A.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Write a function int &lt;code&gt;balancedPoint(int[] arr)&lt;/code&gt;; that given a sequence arr[] of size n, returns an Balanced index (if any) or -1 if no Balanced indexes exist.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The idea is to get total sum of array first. Then Iterate through the array and keep updating the left sum which is initialized as zero. In the loop, we can get right sum by subtracting the elements one by one.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1) Initialize leftsum  as 0
+2) Get the total sum of the array as sum
+3) Iterate through the array and for each index i, do following.
+    a)  Update sum to get the right sum.  
+           sum = sum - arr[i] 
+       // sum is now right sum
+    b) If leftsum is equal to sum, then return current index. 
+    c) leftsum = leftsum + arr[i] // update leftsum for next iteration.
+4) return -1 // If we come out of loop without returning then
+             // there is no equilibrium index
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// find all balance point in an array return balanced index
+	public List&amp;lt;Integer&amp;gt; findBalancedPoint(int[] arr) {
+		int leftsum = 0, rightsum = 0;
+		List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+
+		for (int i = 0; i &amp;lt; arr.length; i++) 
+			leftsum += arr[i];
+		
+		for (int i = arr.length - 1; i&amp;gt;=0; i--) {
+			leftsum -= arr[i];
+			if(leftsum == rightsum)
+				res.add(i);
+			rightsum+=arr[i];
+		}
+		return -1;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Maximum Subarray of Sum / Product</title>
+      <link>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</guid>
+      <description>
+
+&lt;p&gt;Find the contiguous subarray within an array (containing at least one number) which has the largest sum.&lt;/p&gt;
+
+&lt;p&gt;For example, given the array &lt;code&gt;[−2,1,−3,4,−1,2,1,−5,4]&lt;/code&gt;,
+the contiguous subarray &lt;code&gt;[4,−1,2,1]&lt;/code&gt; has the largest sum = &lt;code&gt;6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+		int curSum = 0;
+		for (int i = 0; i &amp;lt; arr.length; i++) {
+			curSum += arr[i];
+			maxSum = Math.max(maxSum, curSum);
+			if (curSum &amp;lt; 0)
+				curSum = 0;
+		}
+		return maxSum;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-record-index:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution #Record Index&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+		int curSum = 0;
+		int prev = 0, l = 0, r = 0;
+		for (int i = 0; i &amp;lt; arr.length; i++) {
+			curSum += arr[i];
+			if(curSum &amp;gt; maxSum) {
+				maxSum = curSum;
+				l = prev;
+				r = i;
+			}
+			if (curSum &amp;lt; 0) {
+				curSum = 0;
+				prev = i + 1;
+			}
+		}
+		return new int[]{l, r};
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Find the contiguous subarray within an array (containing at least one number) which has the largest product.&lt;/p&gt;
+
+&lt;p&gt;For example, given the array &lt;code&gt;[2,3,-2,4]&lt;/code&gt;,
+the contiguous subarray &lt;code&gt;[2,3]&lt;/code&gt; has the largest product = &lt;code&gt;6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-1:f78387a942b57f331cbfb70191f2872a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maxProduct(int[] nums) {
+        int glMax = Integer.MIN_VALUE;
+        
+        int localMin = 1; // record the current max
+        int localMax = 1; // record the current min, since the negative number multiply with current number may leads to next product as the positive max
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            int tmp = localMax;
+            localMax = Math.max(localMax*nums[i], Math.max(localMin*nums[i], nums[i]));
+            localMin = Math.min(tmp*nums[i], Math.min(localMin*nums[i], nums[i]));
+            glMax = Math.max(glMax, localMax);
+        }
+        
+        return glMax;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Product of Array Except Self</title>
+      <link>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</link>
+      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</guid>
+      <description>
+
+&lt;p&gt;Given an array of &lt;code&gt;n&lt;/code&gt; integers where &lt;code&gt;n&lt;/code&gt; &amp;gt; 1, nums, return an array output such that &lt;code&gt;output[i]&lt;/code&gt; is equal to the product of all the elements of nums except &lt;code&gt;nums[i]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Solve it &lt;strong&gt;without division&lt;/strong&gt; and in &lt;code&gt;O(n)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;[1,2,3,4]&lt;/code&gt;, return &lt;code&gt;[24,12,8,6]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Follow up:
+Could you solve it with constant space complexity? (Note: The &lt;strong&gt;output array does not count&lt;/strong&gt; as extra space for the purpose of space complexity analysis.)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;$$O(n)$$ Space and Two pass, recording the left part or right part product.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] productExceptSelf(int[] input) {
+        int[] res = new int[input.length];
+        int tmp = 1;
+        for (int i = 0; i &amp;lt; input.length; i++) {
+            res[i] = tmp;
+            tmp *= input[i];
+        }
+        tmp = 1;
+        for (int i = input.length - 1; i &amp;gt;= 0; i--) {
+            res[i] *= tmp;
+            tmp *= input[i];
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Constant Time Random Picker</title>
@@ -63,7 +246,7 @@ Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;
 Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;solution-1:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution #1&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
 	
@@ -1075,253 +1258,6 @@ You can assume each number in the array is a positive integer and not greater th
             nums[two--] = nums[i];
             nums[i--] = tmp;
         }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sort Colors II</title>
-      <link>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</link>
-      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</guid>
-      <description>
-
-&lt;p&gt;Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &amp;hellip; k.&lt;/p&gt;
-
-&lt;h2 id=&#34;example:db5a7066fa348a409152342e618d2b60&#34;&gt;Example&lt;/h2&gt;
-
-&lt;p&gt;Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].&lt;/p&gt;
-
-&lt;h2 id=&#34;note:db5a7066fa348a409152342e618d2b60&#34;&gt;Note&lt;/h2&gt;
-
-&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
-
-&lt;h2 id=&#34;challenge:db5a7066fa348a409152342e618d2b60&#34;&gt;Challenge&lt;/h2&gt;
-
-&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Bucket Sort but space complexity with $O(k)$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param colors: A list of integer
-     * @param k: An integer
-     */
-    public void sortColors2(int[] colors, int k) {
-        if(colors == null || colors.length == 0)
-            return;
-        
-        int[] bucket = new int[k];
-        for(int i : colors)
-            bucket[i - 1] ++;
-        int idx = 0, bidx = 0;
-        while(bidx &amp;lt; bucket.length) {
-            while(bucket[bidx] &amp;gt; 0) {
-                colors[idx++] = bidx+1;
-                bucket[bidx]--;
-            }
-            bidx++;
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Complex bucket sort with in-place counting&lt;/li&gt;
-&lt;li&gt;Get a value and find its index by &lt;code&gt;value - 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;If the target index has another value, exchange and set target index as &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;If target index is counter, make it minus 1, e.g. &lt;code&gt;-2&lt;/code&gt; and set original index as &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Steps like following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; 3   2   2   1   4
-
-
- 2   2  -1   1   4
-
-
- 2  -1  -1   1   4
-
-
- 0  -2  -1   1   4
-
-
--1  -2  -1   0   4
-
-
--1  -2  -1  -1   0
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Get back the result by counter value from rear to head&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param colors: A list of integer
-     * @param k: An integer
-     * @return: nothing
-     */
-    public void sortColors2(int[] colors, int k) {
-        if(colors == null || colors.length == 0)
-            return;
-        
-        for(int i = 0; i &amp;lt; colors.length; i++){
-            if(colors[i] &amp;lt;= 0)
-                continue;
-            else{
-                int idx = colors[i] - 1;
-                if(colors[idx] &amp;gt; 0){
-                    colors[i--] = colors[idx];
-                    colors[idx] = -1;
-                }else{
-                    colors[i] = 0;
-                    colors[idx]--;
-                }
-            }
-        }
-        
-        int idx = colors.length - 1;
-        for(int i = k - 1; i &amp;gt;= 0; i--){
-            int cnt = -colors[i];
-            while(cnt-- &amp;gt; 0 &amp;amp;&amp;amp; idx &amp;gt;= 0) {
-                colors[idx--] = (i+1);
-            }
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>k Sum II</title>
-      <link>http://xmruibi.github.io/2015/10/22/k-sum-ii/</link>
-      <pubDate>Thu, 22 Oct 2015 15:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/22/k-sum-ii/</guid>
-      <description>
-
-&lt;p&gt;Given n unique integers, number k (1&amp;lt;=k&amp;lt;=n)  and target. Find all possible k integers where their sum is target.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:061c80c4c7f75cc3811df2aeec3f34d3&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given [1,2,3,4], k=2, target=5, [1,4] and [2,3] are possible solutions.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:061c80c4c7f75cc3811df2aeec3f34d3&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;Unlike the k Sum I, here we need to get the each solution which can achieve the &lt;code&gt;target&lt;/code&gt; within &lt;code&gt;k&lt;/code&gt; num. Since the solution should be shown in the result, the dynamic programming cannot be used. Thus, the backtracking should be the only way.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:061c80c4c7f75cc3811df2aeec3f34d3&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param A: an integer array.
-     * @param k: a positive integer (k &amp;lt;= length(A))
-     * @param target: a integer
-     * @return a list of lists of integer 
-     */ 
-    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; kSumII(int A[], int k, int target) {
-        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), A , k, target, 0);
-        return res;
-    }
-    
-    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; cur, int[] A, int k, int target, int idx) {
-        if(target &amp;lt; 0 || k &amp;lt; 0)
-            return;
-            
-        if(target == 0 &amp;amp;&amp;amp; k == 0) {
-            res.add(new ArrayList&amp;lt;&amp;gt;(cur));
-            return;
-        }
-        
-        for(int i = idx; i &amp;lt; A.length; i++) {
-            cur.add(A[i]);
-            helper(res, cur, A, k - 1, target - A[i], i + 1);
-            cur.remove(cur.size() - 1);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Triangle Count</title>
-      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
-      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
-      <description>
-
-&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
-
-&lt;h3 id=&#34;example:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[3,4,6]
-[3,6,7]
-[4,6,7]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
-[4(1),4(2),4(4)]
-[4(1),4(3),4(4)]
-[4(2),4(3),4(4)]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort&lt;/li&gt;
-&lt;li&gt;Binary Search&lt;/li&gt;
-&lt;li&gt;But how to define driven condition? (Tricky Part)
-
-&lt;ul&gt;
-&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
-&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param S: A list of integers
-     * @return: An integer
-     */
-    public int triangleCount(int S[]) {
-        if(S == null || S.length == 0)
-            return 0;
-        int cnt = 0;
-        Arrays.sort(S);
-        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
-            int cur = S[i];
-            int l = 0, r = i - 1;
-            while(l &amp;lt; r) {
-                if(S[l] + S[r] &amp;gt; S[i]) {
-                    cnt += (r - l); // keypoint!
-                    r--;
-                }else 
-                    l++;
-            }
-        }
-        return cnt;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

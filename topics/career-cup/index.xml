@@ -7,8 +7,179 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/career-cup/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Balanced Point in Array</title>
+      <link>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</guid>
+      <description>
+
+&lt;p&gt;Balanced index of an array is an index such that the sum of elements at lower indexes is equal to the sum of elements at higher indexes.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;In an arrya A:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A[0] = -7, A[1] = 1, A[2] = 5, A[3] = 2, A[4] = -4, A[5] = 3, A[6]=0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;3&lt;/code&gt; is an Balanced index, because: &lt;code&gt;A[0] + A[1] + A[2] = A[4] + A[5] + A[6]&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;6&lt;/code&gt; is also an Balanced index, because sum of zero elements is zero, i.e., &lt;code&gt;A[0] + A[1] + A[2] + A[3] + A[4] + A[5]=0&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;7&lt;/code&gt; is not an Balanced index, because it is not a valid index of array A.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Write a function int &lt;code&gt;balancedPoint(int[] arr)&lt;/code&gt;; that given a sequence arr[] of size n, returns an Balanced index (if any) or -1 if no Balanced indexes exist.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The idea is to get total sum of array first. Then Iterate through the array and keep updating the left sum which is initialized as zero. In the loop, we can get right sum by subtracting the elements one by one.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1) Initialize leftsum  as 0
+2) Get the total sum of the array as sum
+3) Iterate through the array and for each index i, do following.
+    a)  Update sum to get the right sum.  
+           sum = sum - arr[i] 
+       // sum is now right sum
+    b) If leftsum is equal to sum, then return current index. 
+    c) leftsum = leftsum + arr[i] // update leftsum for next iteration.
+4) return -1 // If we come out of loop without returning then
+             // there is no equilibrium index
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:4e2c86d4518587f1b252aab20ac5c10d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// find all balance point in an array return balanced index
+	public List&amp;lt;Integer&amp;gt; findBalancedPoint(int[] arr) {
+		int leftsum = 0, rightsum = 0;
+		List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+
+		for (int i = 0; i &amp;lt; arr.length; i++) 
+			leftsum += arr[i];
+		
+		for (int i = arr.length - 1; i&amp;gt;=0; i--) {
+			leftsum -= arr[i];
+			if(leftsum == rightsum)
+				res.add(i);
+			rightsum+=arr[i];
+		}
+		return -1;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find Valid IP Address in a File</title>
+      <link>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</guid>
+      <description>
+
+&lt;p&gt;Given a file with many lines of Strings, find those valid IP address from them.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ed817a74e0c3a1097fc0cfb76d5d85e1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ValidIPAddress {
+
+    public List&amp;lt;String&amp;gt; findValidIPAddr(String filePath) throws IOException {
+        List&amp;lt;String&amp;gt; addresses = new ArrayList&amp;lt;&amp;gt;();
+        Scanner sc = new Scanner(new File(filePath));
+        while (sc.hasNext()) {
+            String line = sc.next();
+            if(validIP(line))
+                addresses.add(line);
+        }
+        return addresses;
+    }
+
+    private boolean validIP(String str) {
+        try {
+            String[] parts = str.split(&amp;quot;.&amp;quot;);
+            // check segment length;
+            if (parts.length != 4 || str.endsWith(&amp;quot;.&amp;quot;))
+                return false;
+
+            // check each segment valid or not
+            for (int i = 0; i &amp;lt; parts.length; i++) {
+                String s = parts[i];
+                int val = Integer.parseInt(s);
+                if ((s.charAt(0) == &#39;0&#39;) || (val &amp;lt; 0 || val &amp;gt; 255)
+                        || (i == 0 &amp;amp;&amp;amp; val == 0))
+                    return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Can I Win</title>
+      <link>http://xmruibi.github.io/2015/11/14/can-i-win/</link>
+      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/can-i-win/</guid>
+      <description>
+
+&lt;p&gt;Given an array of positive integers and two players. In each turn, one player picks up one number and if the sum of all the picked up numbers is greater than a target number, the player wins. Write a program &lt;code&gt;canIWin()&lt;/code&gt; to print the result.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:20042e86952d9768f73636e75bf69c3b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question is pretty tricky.&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s not just choose the largest number in number pool. Instead of, for each turn, player has two choice:
+
+&lt;ul&gt;
+&lt;li&gt;If current pool has number can just make the sum larger than target, pick that number&lt;/li&gt;
+&lt;li&gt;If not number can added to make the sum exceed target, try to make current pick with the minimum number from the pool.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:20042e86952d9768f73636e75bf69c3b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        public static Result canIWin(int[] nums, int target) {
+                if (target &amp;lt;= 0)
+                        return Result.Lose;
+                // first iterate - find any number larger than remain target, or check
+                // all number in pool has taken
+                boolean hasNum = false;
+                for (int num : nums) {
+                        if (num &amp;gt;= target)
+                                return Result.Win;
+                        else if (num &amp;gt; 0)
+                                hasNum = true;
+                }
+                if (!hasNum)
+                        return Result.Draw;
+                for (int i = 0; i &amp;lt; nums.length; i++) {
+                        if (nums[i] &amp;gt; 0) {
+                                int data = nums[i];
+                                nums[i] = -1;
+                                Result rivalResult = canIWin(nums, target - data);
+                                if (rivalResult == Result.Win)
+                                        return Result.Lose;
+                                if (rivalResult == Result.Lose)
+                                        return Result.Win;
+                                nums[i] = data;
+                        }
+                }
+                return Result.Draw;
+        }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Constant Time Random Picker</title>
@@ -63,7 +234,7 @@ Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;
 Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;solution:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;solution-1:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution #1&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
 	
@@ -966,6 +1137,80 @@ Given the list &lt;code&gt;{1,{4,{6}}}&lt;/code&gt; the function should return &
             }
         }
         return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find Next Sparse Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</guid>
+      <description>
+
+&lt;p&gt;A number is Sparse if there are no two adjacent 1s in its binary representation. For example 5 (binary representation: 101) is sparse, but 6 (binary representation: 110) is not sparse.&lt;/p&gt;
+
+&lt;p&gt;Given a number x, find the smallest Sparse number which greater than or equal to x.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;Input: x = 6
+Output: Next Sparse Number is 8
+
+Input: x = 4
+Output: Next Sparse Number is 4
+
+Input: x = 38
+Output: Next Sparse Number is 40
+
+Input: x = 44
+Output: Next Sparse Number is 64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;p&gt;An Efficient Solution come from &lt;a href=&#34;http://www.geeksforgeeks.org/given-a-number-find-next-sparse-number/&#34;&gt;Geeksforgeek&lt;/a&gt; can solve this problem without checking all numbers on by one. Below are steps.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1) Find binary of the given number and store it in a 
+   boolean array.
+2) Initialize last_finalized bit position as 0.
+2) Start traversing the binary from least significant bit.
+    a) If we get two adjacent 1&#39;s such that next (or third) 
+       bit is not 1, then 
+          (i)  Make all bits after this 1 to last finalized
+               bit (including last finalized) as 0. 
+          (ii) Update last finalized bit as next bit. 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example, let binary representation be &lt;code&gt;01010001011101&lt;/code&gt;, we change it to &lt;code&gt;01010001100000&lt;/code&gt; (all bits after highlighted 11 are set to 0). Again two 1’s are adjacent, so change binary representation to &lt;code&gt;01010010000000&lt;/code&gt;. This is our final answer.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static long sparseNum(long num) {
+        // record the original number as boolean array which contains least significant bit (LSB)
+        boolean[] bits = new boolean[64];
+        int shift = 0;
+        // num (like 13) -&amp;gt; reversed { true, false, true, true}
+        while (shift &amp;lt; 64)
+            bits[shift] = ((num &amp;gt;&amp;gt; shift++) &amp;amp; 1) == 1;
+        // The position till which all bits are finalized
+        int last_final = 0;
+        // search from low digit
+        for (int i = 1; i &amp;lt; 63; i++) {
+            // find two adjacent 1&#39;s such that next bits[i+1] is not 1
+            if (bits[i] &amp;amp;&amp;amp; bits[i - 1] &amp;amp;&amp;amp; !bits[i + 1]) {
+                for(int j = last_final; j &amp;lt;= i; j++)
+                    bits[j] = false;
+                bits[i+1] = true;
+                last_final = i+1;
+            }
+        }
+        long res = 0L;
+        while(shift &amp;gt; 0) 
+            res += ((bits[--shift]?1:0)&amp;lt;&amp;lt;shift);
+        return res;
     }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

@@ -7,8 +7,82 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 22 Oct 2015 14:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2015 10:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/bit-manipulation/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Find Next Sparse Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</guid>
+      <description>
+
+&lt;p&gt;A number is Sparse if there are no two adjacent 1s in its binary representation. For example 5 (binary representation: 101) is sparse, but 6 (binary representation: 110) is not sparse.&lt;/p&gt;
+
+&lt;p&gt;Given a number x, find the smallest Sparse number which greater than or equal to x.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;Input: x = 6
+Output: Next Sparse Number is 8
+
+Input: x = 4
+Output: Next Sparse Number is 4
+
+Input: x = 38
+Output: Next Sparse Number is 40
+
+Input: x = 44
+Output: Next Sparse Number is 64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;p&gt;An Efficient Solution come from &lt;a href=&#34;http://www.geeksforgeeks.org/given-a-number-find-next-sparse-number/&#34;&gt;Geeksforgeek&lt;/a&gt; can solve this problem without checking all numbers on by one. Below are steps.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1) Find binary of the given number and store it in a 
+   boolean array.
+2) Initialize last_finalized bit position as 0.
+2) Start traversing the binary from least significant bit.
+    a) If we get two adjacent 1&#39;s such that next (or third) 
+       bit is not 1, then 
+          (i)  Make all bits after this 1 to last finalized
+               bit (including last finalized) as 0. 
+          (ii) Update last finalized bit as next bit. 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example, let binary representation be &lt;code&gt;01010001011101&lt;/code&gt;, we change it to &lt;code&gt;01010001100000&lt;/code&gt; (all bits after highlighted 11 are set to 0). Again two 1’s are adjacent, so change binary representation to &lt;code&gt;01010010000000&lt;/code&gt;. This is our final answer.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static long sparseNum(long num) {
+        // record the original number as boolean array which contains least significant bit (LSB)
+        boolean[] bits = new boolean[64];
+        int shift = 0;
+        // num (like 13) -&amp;gt; reversed { true, false, true, true}
+        while (shift &amp;lt; 64)
+            bits[shift] = ((num &amp;gt;&amp;gt; shift++) &amp;amp; 1) == 1;
+        // The position till which all bits are finalized
+        int last_final = 0;
+        // search from low digit
+        for (int i = 1; i &amp;lt; 63; i++) {
+            // find two adjacent 1&#39;s such that next bits[i+1] is not 1
+            if (bits[i] &amp;amp;&amp;amp; bits[i - 1] &amp;amp;&amp;amp; !bits[i + 1]) {
+                for(int j = last_final; j &amp;lt;= i; j++)
+                    bits[j] = false;
+                bits[i+1] = true;
+                last_final = i+1;
+            }
+        }
+        long res = 0L;
+        while(shift &amp;gt; 0) 
+            res += ((bits[--shift]?1:0)&amp;lt;&amp;lt;shift);
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Update Bits</title>

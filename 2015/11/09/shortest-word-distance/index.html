@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-09T09:43:13-07:00" />
-<meta itemprop="wordCount" content="607">
+<meta itemprop="wordCount" content="602">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-09 09:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
             &middot;
-            607
+            602
             words
             &middot;
             3
@@ -275,13 +275,13 @@ Given word1 = <code>&quot;makes&quot;</code>, word2 = <code>&quot;coding&quot;</
 
 <ul>
 <li>Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.</li>
-<li>Save the word and its indexes as key and value in constructor.</li>
+<li>Preprocess the list and save the word and its indexes as key and value in constructor.</li>
 </ul>
 
 <h3 id="solution-1:8309a21fb22c54b8cd96e2f12923a3c6">Solution</h3>
 
 <pre><code class="language-java">public class ShortestWordDistance {
-    // here is thread safe, since only constructor contains writing method
+  
     private final HashMap&lt;String, List&lt;Integer&gt;&gt; map;
 
 	public ShortestWordDistance(String[] words) {
@@ -350,6 +350,8 @@ Given word1 = <code>&quot;makes&quot;</code>, word2 = <code>&quot;makes&quot;</c
 		 return min;
 	 }
 </code></pre>
+
+<h2 id="follow-up:8309a21fb22c54b8cd96e2f12923a3c6">Follow Up</h2>
 
             </div>
             <footer class="article-footer">
@@ -439,6 +441,7 @@ Given word1 = <code>&quot;makes&quot;</code>, word2 = <code>&quot;makes&quot;</c
 <li><a href="#think-2:8309a21fb22c54b8cd96e2f12923a3c6">Think</a></li>
 <li><a href="#solution-2:8309a21fb22c54b8cd96e2f12923a3c6">Solution</a></li>
 </ul></li>
+<li><a href="#follow-up:8309a21fb22c54b8cd96e2f12923a3c6">Follow Up</a></li>
 </ul></li>
 </ul>
 </nav>
