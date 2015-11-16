@@ -447,6 +447,59 @@
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b&#34;&gt;Think # With Parent Node&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;With Parent node we don&amp;rsquo;t need the root node.&lt;/li&gt;
+&lt;li&gt;Get the depth of each node.&lt;/li&gt;
+&lt;li&gt;Then look like we find the intersectin of two linked list.&lt;/li&gt;
+&lt;li&gt;Find the intersection.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b&#34;&gt;Solution # With Parent Node&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A and B: two nodes in a Binary.
+     * @return: Return the least common ancestor(LCA) of the two nodes.
+     */
+    public TreeNode lowestCommonAncestor(TreeNode A, TreeNode B) {
+        int adepth = getDepth(A);
+        int bdepth = getDepth(B);
+        // make two length equal
+        while(adepth &amp;gt; bdepth) {
+            A = A.parent;
+            adepth--;
+        }
+        while(adepth &amp;lt; bdepth) {
+            B = B.parent;
+            bdepth--;
+        }
+        // find intersection
+        while(A != B) {
+            if(A == B)
+                return A;
+            A = A.parent;
+            B = B.parent;
+        }
+        return null;
+    }
+
+    private int getDepth(TreeNode node){
+        if(node == null)
+            return 0;
+        return 1 + getDepth(node.parent);
+    }
+}
+class TreeNode{
+    int val;
+    TreeNode parent, left, right;
+    public TreeNode(int val){
+        this.val = val;
+}
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

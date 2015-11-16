@@ -40,11 +40,11 @@
 
 
 <meta itemprop="dateModified" content="2015-11-09T20:33:13-07:00" />
-<meta itemprop="wordCount" content="329">
+<meta itemprop="wordCount" content="332">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -186,7 +186,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-09 20:33:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
             &middot;
-            329
+            332
             words
             &middot;
             2
@@ -258,6 +258,7 @@
 <h2 id="think:d3fa2271d6e080f445f18820b36a73ed">Think</h2>
 
 <ul>
+<li>Typical DFS idea.</li>
 <li>For input value <code>n</code>, it has possible factors start from <code>2</code> to <code>Sqrt(n)</code></li>
 <li>For every factor, we also calculate its factors, like: <code>16 -&gt; 2, 8 -&gt; 2, 2, 4 -&gt; 2, 2, 2, 2, 2</code></li>
 <li>Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list</li>

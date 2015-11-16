@@ -7,8 +7,67 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Wed, 11 Nov 2015 10:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 14:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/dynamic-programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Palindromic Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</link>
+      <pubDate>Sun, 15 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &lt;code&gt;“BBABCBCAB”&lt;/code&gt;, then the output should be 7 as &lt;code&gt;“BABCBAB”&lt;/code&gt; is the longest palindromic subseuqnce in it. &lt;code&gt;“BBBBB”&lt;/code&gt; and &lt;code&gt;“BBCBB”&lt;/code&gt; are also palindromic subsequences of the given sequence, but not the longest ones.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-dynamic-programming:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution #Dynamic Programming&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static int longestSubsequence(String str) {
+		// memo[len][i] represent from index &#39;i&#39; with length &#39;len&#39; has how many
+		// palindromic subsequence
+		int[][] memo = new int[str.length() + 1][str.length() + 1];
+
+		// initial len with 1 as 1, since for every index it has 1 len
+		// palindromic subsequence
+		for (int i = 0; i &amp;lt; str.length(); i++)
+			memo[1][i] = 1;
+
+		// iterate the str with different length setting
+		for (int len = 2; len &amp;lt;= str.length(); len++) {
+			for (int i = 0; i &amp;lt;= str.length() - len; i++) {
+				int tar = i + len - 1;
+				if (len == 2 &amp;amp;&amp;amp; str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2;
+				else if (str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2 + memo[len - 2][i + 1];
+				else
+					memo[len][i] = Math.max(memo[len - 1][i],
+							memo[len - 1][i + 1]);
+			}
+		}
+		return memo[str.length()][0];
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution # Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int calculateRecursive(char str[],int start,int len){
+        if(len == 1){
+            return 1;
+        }
+        if(len ==0){
+            return 0;
+        }
+        if(str[start] == str[start+len-1]){
+            return 2 + calculateRecursive(str,start+1,len-2);
+        }else{
+            return Math.max(calculateRecursive(str, start+1, len-1), calculateRecursive(str, start, len-1));
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Nim Game</title>
@@ -1305,58 +1364,6 @@ The longest increasing sub-sequence is &lt;code&gt;[2, 3, 7, 101]&lt;/code&gt;, 
             maxVal = Math.max(maxVal, memo[i]);
         
         return maxVal;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Longest Common Subsequence</title>
-      <link>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</link>
-      <pubDate>Wed, 04 Nov 2015 09:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</guid>
-      <description>
-
-&lt;p&gt;Given two strings, find the longest common subsequence (LCS).&lt;/p&gt;
-
-&lt;p&gt;Your code should return the length of LCS.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:34286b9d5ba8900d36310c150a894525&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For &lt;code&gt;&amp;quot;ABCD&amp;quot;&lt;/code&gt; and &lt;code&gt;&amp;quot;EDCA&amp;quot;&lt;/code&gt;, the LCS is &lt;code&gt;&amp;quot;A&amp;quot;&lt;/code&gt; (or &lt;code&gt;&amp;quot;D&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;C&amp;quot;&lt;/code&gt;), return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;For &lt;code&gt;&amp;quot;ABCD&amp;quot;&lt;/code&gt; and &lt;code&gt;&amp;quot;EACB&amp;quot;&lt;/code&gt;, the LCS is &lt;code&gt;&amp;quot;AC&amp;quot;&lt;/code&gt;, return &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:34286b9d5ba8900d36310c150a894525&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Two Sequence problem should use 2-D array&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;f[i][j]&lt;/code&gt; means that for &lt;code&gt;word1(1,i)&lt;/code&gt; and &lt;code&gt;word2(1,j)&lt;/code&gt; has the longest common subsequence&lt;/li&gt;
-&lt;li&gt;When &lt;code&gt;word1[i] == word2[j]&lt;/code&gt; it should consider &lt;code&gt;f[i][j]&lt;/code&gt;  with the value on &lt;code&gt;f[i-1][j-1]&lt;/code&gt; and plus one, otherwise &lt;code&gt;f[i][j]&lt;/code&gt; is max value from &lt;code&gt;f[i-1][j-1]&lt;/code&gt; or &lt;code&gt;f[i][j-1]&lt;/code&gt; or &lt;code&gt;f[i-1][j]&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Initialize &lt;code&gt;word1(0,0)&lt;/code&gt; or &lt;code&gt;word2(0,0)&lt;/code&gt; has no common substring with &lt;code&gt;word2(1,j)&lt;/code&gt; or &lt;code&gt;word1(1,i)&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:34286b9d5ba8900d36310c150a894525&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param A, B: Two strings.
-     * @return: The length of longest common subsequence of A and B.
-     */
-    public int longestCommonSubsequence(String A, String B) {
-        if(A == null || B == null)
-            return 0;
-        
-        int[][] memo = new int[A.length()+1][B.length()+1];
-        for(int i = 0; i &amp;lt;= A.length(); i ++) {
-            for(int j = 0; j &amp;lt;= B.length(); j ++) {
-                if(i == 0 || j == 0)
-                    memo[i][j] = 0;
-                else
-                    memo[i][j] = (A.charAt(i-1) == B.charAt(j-1) ? memo[i-1][j-1] + 1 : Math.max(memo[i][j-1],memo[i-1][j]));
-            }
-        }
-        return memo[A.length()][B.length()];
     }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

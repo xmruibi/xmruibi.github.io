@@ -7,8 +7,618 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Compact Tree Builder</title>
+      <link>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</link>
+      <pubDate>Sun, 15 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</guid>
+      <description>
+
+&lt;p&gt;Given a root of a binary tree. Transform it in a way that each node(except probably one) would either have N or 0 children.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   * A               A                 A                         A
+     *  |               |                 |_B                       |_B
+     *  |_B             |_B                  |_C                    |
+     *     |            |  |                    |_D                 |_C
+     *     |            |  |_D                     |_E              |
+     *     |            |  |                          |_F           |_D
+     *     |_C          |  |_E                           |_G        |
+     *     | |_D        |    |_H                            |_H     |_E
+     *     |    |_F     |                                           |
+     *     |            |_C                                         |_F
+     *     |_E            |                                         |
+     *       |_G          |_F                                       |_G
+     *       |            |                                         |
+     *       |_H          |_G                                       |_H
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BFS entire tree into a queue.&lt;/li&gt;
+&lt;li&gt;Read that queue and build posssible children according to the limit and add it into the root.&lt;/li&gt;
+&lt;li&gt;Record the next root in another queue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static CTree compact(TreeNode node, int limit) {
+
+		// bfs the original tree into a queue
+		List&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		queue.add(node);
+		int idx = 0;
+		while (idx &amp;lt; queue.size()) {
+			TreeNode cur = queue.get(idx++);
+			if (cur.left != null)
+				queue.add(cur.left);
+			if (cur.right != null)
+				queue.add(cur.right);
+		}
+		// get the root for final return
+		CTree root = new CTree(queue.remove(0).val);
+		// build a queue for store the new type tree
+		Queue&amp;lt;CTree&amp;gt; helperQueue = new LinkedList&amp;lt;&amp;gt;();
+		helperQueue.add(root);
+		while (!queue.isEmpty()) {
+			CTree cRoot = helperQueue.remove();
+			// build the children for current CTree
+			int curLv = 0; // make sure the amount of children
+			List&amp;lt;CTree&amp;gt; nexlv = new ArrayList&amp;lt;&amp;gt;();
+			while (curLv &amp;lt; limit &amp;amp;&amp;amp; !queue.isEmpty()) {
+				nexlv.add(new CTree(queue.remove(0).val));
+				helperQueue.offer(nexlv.get(curLv++));
+			}			
+			cRoot.nodes = nexlv;
+		}	
+		return root;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert BST to Sorted Doubly-Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</link>
+      <pubDate>Sun, 15 Nov 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a Binary Tree (BT), convert it to a Doubly Linked List(DLL) In-Place. The left and right pointers in nodes are to be used as previous and next pointers respectively in converted DLL. The order of nodes in DLL must be same as Inorder of the given Binary Tree. The first node of Inorder traversal (left most node in BT) must be head node of the DLL.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:9391617169eedec55b65d518b5c0a515&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Inorder traversal&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-stack:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Stack&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static Node convertBST2DoublyLinkedList(Node root) {
+		Node dummy = new Node(0);
+		Node prev = dummy;
+		java.util.Stack&amp;lt;Node&amp;gt; stack = new java.util.Stack&amp;lt;&amp;gt;();
+
+		do {
+			while (root != null) {
+				stack.push(root);
+				root = root.prev;
+			}
+			Node cur = stack.pop();
+			prev.next = cur;
+			cur.prev = prev;
+			prev = prev.next;
+			if (cur.next != null)
+				root = cur.next;
+			else
+				root = null;
+		} while (!stack.isEmpty() || root != null);
+
+		return dummy.next;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursion:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Recursion&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    static Node dummy = new Node(0);
+    static Node pre = dummy;
+
+    private static Node convertII(Node root) {
+        if (root == null)
+            return root;
+        Node prev = convertII(root.prev);
+        pre.next = root;
+        root.prev = pre;
+        pre = root;
+        Node next = convertII(root.next);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Palindromic Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</link>
+      <pubDate>Sun, 15 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &lt;code&gt;“BBABCBCAB”&lt;/code&gt;, then the output should be 7 as &lt;code&gt;“BABCBAB”&lt;/code&gt; is the longest palindromic subseuqnce in it. &lt;code&gt;“BBBBB”&lt;/code&gt; and &lt;code&gt;“BBCBB”&lt;/code&gt; are also palindromic subsequences of the given sequence, but not the longest ones.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-dynamic-programming:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution #Dynamic Programming&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static int longestSubsequence(String str) {
+		// memo[len][i] represent from index &#39;i&#39; with length &#39;len&#39; has how many
+		// palindromic subsequence
+		int[][] memo = new int[str.length() + 1][str.length() + 1];
+
+		// initial len with 1 as 1, since for every index it has 1 len
+		// palindromic subsequence
+		for (int i = 0; i &amp;lt; str.length(); i++)
+			memo[1][i] = 1;
+
+		// iterate the str with different length setting
+		for (int len = 2; len &amp;lt;= str.length(); len++) {
+			for (int i = 0; i &amp;lt;= str.length() - len; i++) {
+				int tar = i + len - 1;
+				if (len == 2 &amp;amp;&amp;amp; str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2;
+				else if (str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2 + memo[len - 2][i + 1];
+				else
+					memo[len][i] = Math.max(memo[len - 1][i],
+							memo[len - 1][i + 1]);
+			}
+		}
+		return memo[str.length()][0];
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution # Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int calculateRecursive(char str[],int start,int len){
+        if(len == 1){
+            return 1;
+        }
+        if(len ==0){
+            return 0;
+        }
+        if(str[start] == str[start+len-1]){
+            return 2 + calculateRecursive(str,start+1,len-2);
+        }else{
+            return Math.max(calculateRecursive(str, start+1, len-1), calculateRecursive(str, start, len-1));
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pow() and Sqrt()</title>
+      <link>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</link>
+      <pubDate>Sun, 15 Nov 2015 13:11:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</guid>
+      <description>
+
+&lt;p&gt;Write function to get the power &lt;code&gt;n&lt;/code&gt; of &lt;code&gt;x&lt;/code&gt; and the square root of &lt;code&gt;x&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-pow:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Pow&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// basic  
+	public float pow(float x, int n) {
+	    if(n==0)
+            return 1.0;
+		if (n == 1)
+			return x;
+		if (n % 2 == 0)
+			return pow(x, n / 2) * pow(x, n / 2);
+		else
+			return x * pow(x, n / 2) * pow(x, n / 2);
+	}
+
+	// improved
+	public double pow(double x, int n) {
+        if(n==0)
+            return 1.0;
+        boolean neg = false;
+        if(n&amp;lt;0)
+            neg = true;
+        double res = 1.0;
+        while(n != 0){
+            if(n%2 != 0){
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return neg?1.0/res:res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-sqrt:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Sqrt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public float sqrt(float n) {
+        float low = 0, high = n;
+        float mid = low + (high - low) / 2;
+        while (Math.abs(mid * mid - n) &amp;gt; 0.00001) {
+            if (mid * mid &amp;lt; n)
+                low = mid;
+            else if (mid * mid &amp;gt; n)
+                high = mid;
+            mid = low + (high - low) / 2;
+        }
+        return mid;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Points on a Line</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</link>
+      <pubDate>Sun, 15 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</guid>
+      <description>
+
+&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Represent line by ratio. Compare point to point by a nested two loop.&lt;/li&gt;
+&lt;li&gt;Think about four cases:
+
+&lt;ul&gt;
+&lt;li&gt;Same point, count the same point amount&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;normal case &lt;code&gt;(y1 - y2)/(x1 - x2)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxPointOnAline {
+
+    public int getMaxLine(List&amp;lt;FloatPoint&amp;gt; points) {
+        if (points == null || points.size() == 0)
+            return 0;
+
+        int max = 0;
+        for (int i = 0; i &amp;lt; points.size(); i++) {
+            FloatPoint cur = points.get(i);
+            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int same = 0, localMax = 1;
+            for (int j = i + 1; j &amp;lt; points.size(); j++) {
+                FloatPoint tar = points.get(j);
+                if (cur.x == tar.x &amp;amp;&amp;amp; cur.y == tar.y) {
+                    same++;
+                }else if (cur.x == tar.x) {
+                    double maxr = Double.MAX_VALUE;
+                    map.put(maxr, map.containsKey(maxr) ? map.get(maxr) + 1 : 2);
+                } else if (cur.y == tar.y) {
+                    map.put(0.0, map.containsKey(0.0) ? map.get(0.0) + 1 : 2);
+                } else {
+                    double ratio = (cur.y - tar.y) / (cur.x - tar.x);
+                    map.put(ratio, map.containsKey(ratio) ? map.get(ratio) + 1
+                            : 2);
+                }
+            }
+            for (Map.Entry&amp;lt;Double, Integer&amp;gt; entry : map.entrySet())
+                localMax = Math.max(localMax, entry.getValue());
+            max = Math.max(localMax + same, max);
+        }
+        return max;
+    }
+}
+
+class FloatPoint {
+    float x, y; // float may not suitable for accurate computation
+
+    public FloatPoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Stack</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-stack/</link>
+      <pubDate>Sun, 15 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack, which makes the following function, try to reduce the time compaxity less than &lt;code&gt;O(n)&lt;/code&gt;
+- &lt;code&gt;pop()&lt;/code&gt; pop the top of stack
+- &lt;code&gt;push()&lt;/code&gt; push a element into stack
+- &lt;code&gt;peek()&lt;/code&gt; peek the top of stack
+- &lt;code&gt;peekMax()&lt;/code&gt; peek the max element of stack
+- &lt;code&gt;popMax()&lt;/code&gt; pop the max element of stack&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typically, we can think about using one stacks and one heap. One of value, one of tracking the max stack.&lt;/li&gt;
+&lt;li&gt;The most tricky part is pop max function. Make the node removal in O(n) should use the doubly linked list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxStack {
+    Stack elem = new Stack();
+    PriorityQueue&amp;lt;ListNode&amp;gt; heap = new PriorityQueue&amp;lt;ListNode&amp;gt;((o1,o2) -&amp;gt; Integer.compare(o2.val, o1.val));
+    
+    // take O(logn): the depth of heap tree 
+    public void push(int val) {
+        ListNode newnode = new ListNode(val);
+        heap.add(newnode); 
+        elem.push(newnode);
+    }
+    
+    // take O(logn): the depth of heap tree 
+    public void pop() {
+        ListNode remove = elem.pop();
+        heap.remove(remove); 
+    }
+    
+    // O(1) time
+    public int peek() {
+        return elem.peek().val;
+    }
+
+    // O(1) time
+    public int peekMax() {
+        return heap.peek().val; 
+    }
+
+    // take O(logn): the depth of heap tree 
+    public void popMax() {
+        ListNode node = heap.poll(); 
+        elem.remove(node);
+    }
+
+    public static void main(String[] args) {
+        MaxStack ms = new MaxStack();
+        ms.push(1);
+        ms.push(3);
+        ms.push(2);
+        System.out.println(ms.peekMax()); // == 3
+        ms.popMax();
+        System.out.println(ms.peekMax()); // == 2
+        ms.push(4);
+        ms.push(8);
+        ms.pop();
+        System.out.println(ms.peekMax()); // == 4
+    }
+}
+
+class Stack {
+    ListNode head, rear;
+
+    public Stack() {
+        head = new ListNode(0);
+        rear = new ListNode(0);
+        head.next = rear;
+        rear.prev = head;
+    }
+
+    public void push(ListNode newnode) {
+        rear.prev.next = newnode;
+        newnode.prev = rear.prev;
+        newnode.next = rear;
+        rear.prev = newnode;
+    }
+
+    public ListNode pop() {
+        if (isEmpty())
+            return null;
+        ListNode remove = rear.prev;
+        rear.prev = remove.prev;
+        remove.prev.next = rear;
+        return remove;
+    }
+
+    public ListNode peek() {
+        if (isEmpty())
+            return null;
+        ListNode peek = rear.prev;
+        return peek;
+    }
+
+    public void remove(ListNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public boolean isEmpty() {
+        return head.next == rear;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode prev, next;
+
+    public ListNode(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator for Merging Sorted Stream</title>
+      <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</guid>
+      <description>
+
+&lt;p&gt;Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: &lt;code&gt;1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2&lt;/code&gt; -&amp;gt; &lt;code&gt;2, ,4, 6, 8&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:c20097de2cc12809c8a9177ae4edd63e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class HopIterator&amp;lt;E&amp;gt; implements Iterator&amp;lt;E&amp;gt; {
+	int hop;
+	Iterator&amp;lt;E&amp;gt; itr;
+
+	public HopIterator(Collection&amp;lt;E&amp;gt; list, int hop) {
+		this.itr = list.iterator();
+		this.hop = hop;
+	}
+
+	@Override
+	public boolean hasNext() {
+		int k = 1;
+		while (k &amp;lt; hop &amp;amp;&amp;amp; itr.hasNext()) {
+			k++;
+			itr.next();
+		}
+		return k == hop &amp;amp;&amp;amp; itr.hasNext();
+	}
+
+	@Override
+	public E next() {
+		return itr.next();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator for Merging Sorted Stream</title>
+      <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</guid>
+      <description>
+
+&lt;p&gt;Given a &lt;code&gt;Merge Sorted Stream&lt;/code&gt; class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: &lt;code&gt;hasNext()&lt;/code&gt;, &lt;code&gt;next()&lt;/code&gt;. Sorted Stream defines the stream read data by ascending order, so that in &lt;code&gt;Merge Sorted Stream&lt;/code&gt; when call &lt;code&gt;next()&lt;/code&gt; method, it will return values by ascending order. Pleas complete the following codes.&lt;/p&gt;
+
+&lt;h3 id=&#34;partital-code:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Partital Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SortedStream implments Iterator&amp;lt;Integer&amp;gt;{
+	List&amp;lt;Integer&amp;gt; content;
+	int cursor;
+	public SortedStream(List&amp;lt;Integer&amp;gt; content){
+		if(content == null)
+			throw new IllegalArgumentException(&amp;quot;Null Input&amp;quot;);
+		this.content = content;
+		this.cursor = 0;
+	}
+
+	public boolean hasNext(){return cursor &amp;lt; content.size();}
+
+	public int next(){return content.get(cursor++);}
+}
+
+class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
+    List&amp;lt;SortedStream&amp;gt; content;
+	SortedStream cursor;
+	public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){...}
+	
+	public boolean hasNext(){...};
+
+	public int next(){...};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Implement a new wrapper class for original iterator class and make it comparable.&lt;/li&gt;
+&lt;li&gt;The new wrapper class is just like peek iterator, and implement &lt;code&gt;compareTo()&lt;/code&gt; method with comparing the peek element.&lt;/li&gt;
+&lt;li&gt;Put all new iterator class in a minheap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MergeKSortedIterator implements Iterable&amp;lt;Integer&amp;gt; {
+
+    Collection&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; listOfItr;
+
+    public MergeKSortedIterator(Collection&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; lists) {
+        this.listOfItr = lists;
+    }
+
+    @Override
+    public Iterator&amp;lt;Integer&amp;gt; iterator() {
+        Queue&amp;lt;NewIterator&amp;gt; minHeap = new PriorityQueue&amp;lt;NewIterator&amp;gt;(
+                listOfItr.size());
+        for (Iterator&amp;lt;Integer&amp;gt; it : listOfItr)
+            minHeap.add(new NewIterator(it));
+
+        return new Iterator&amp;lt;Integer&amp;gt;() {
+            @Override
+            public boolean hasNext() {
+                return !minHeap.isEmpty();
+            }
+
+            @Override
+            public Integer next() {
+                NewIterator pop = minHeap.poll();
+                int res = pop.next();
+                if (pop.hasNext()) {
+                    minHeap.add(pop);
+                }
+                return res;
+            }
+
+        };
+    }
+
+    class NewIterator implements Comparable&amp;lt;NewIterator&amp;gt;, Iterator&amp;lt;Integer&amp;gt; {
+        Integer cur;
+        Iterator&amp;lt;Integer&amp;gt; itr;
+
+        public NewIterator(Iterator&amp;lt;Integer&amp;gt; itr) {
+            this.itr = itr;
+            cur = itr.hasNext() ? itr.next() : null;
+        }
+
+        @Override
+        public int compareTo(NewIterator o) {
+            return Integer.compare(this.peek(), o.peek());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cur != null;
+        }
+
+        @Override
+        public Integer next() {
+            int res = cur;
+            cur = itr.hasNext() ? itr.next() : null;
+            return res;
+        }
+
+        public Integer peek() {
+            return cur;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Balanced Point in Array</title>
@@ -297,6 +907,79 @@ the contiguous subarray &lt;code&gt;[2,3]&lt;/code&gt; has the largest product =
     </item>
     
     <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Binary Tree Upside Down</title>
       <link>http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/</link>
       <pubDate>Sat, 14 Nov 2015 15:43:13 -0700</pubDate>
@@ -510,597 +1193,6 @@ class Course{
         this.nexts = new ArrayList&amp;lt;&amp;gt;();
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Repeated DNA Sequences</title>
-      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
-      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
-      <description>
-
-&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
-
-&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
-&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
-&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
-&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
-&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;O(n) time complexity&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
-        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
-        if(s==null||s.length()==0)
-            return new ArrayList(res);
-        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
-        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
-       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
-        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
-        int hashCode = 0;
-        for(int i=0;i&amp;lt;s.length();i++){
-            if(i&amp;gt;9) // remove first 
-                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
-            hashCode = 4*hashCode + dict.get(s.charAt(i));
-            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
-                res.add(s.substring(i-9,i+1));
-        }
-        return new ArrayList(res);
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Can I Win</title>
-      <link>http://xmruibi.github.io/2015/11/14/can-i-win/</link>
-      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/14/can-i-win/</guid>
-      <description>
-
-&lt;p&gt;Given an array of positive integers and two players. In each turn, one player picks up one number and if the sum of all the picked up numbers is greater than a target number, the player wins. Write a program &lt;code&gt;canIWin()&lt;/code&gt; to print the result.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:20042e86952d9768f73636e75bf69c3b&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;This question is pretty tricky.&lt;/li&gt;
-&lt;li&gt;It&amp;rsquo;s not just choose the largest number in number pool. Instead of, for each turn, player has two choice:
-
-&lt;ul&gt;
-&lt;li&gt;If current pool has number can just make the sum larger than target, pick that number&lt;/li&gt;
-&lt;li&gt;If not number can added to make the sum exceed target, try to make current pick with the minimum number from the pool.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:20042e86952d9768f73636e75bf69c3b&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        public static Result canIWin(int[] nums, int target) {
-                if (target &amp;lt;= 0)
-                        return Result.Lose;
-                // first iterate - find any number larger than remain target, or check
-                // all number in pool has taken
-                boolean hasNum = false;
-                for (int num : nums) {
-                        if (num &amp;gt;= target)
-                                return Result.Win;
-                        else if (num &amp;gt; 0)
-                                hasNum = true;
-                }
-                if (!hasNum)
-                        return Result.Draw;
-                for (int i = 0; i &amp;lt; nums.length; i++) {
-                        if (nums[i] &amp;gt; 0) {
-                                int data = nums[i];
-                                nums[i] = -1;
-                                Result rivalResult = canIWin(nums, target - data);
-                                if (rivalResult == Result.Win)
-                                        return Result.Lose;
-                                if (rivalResult == Result.Lose)
-                                        return Result.Win;
-                                nums[i] = data;
-                        }
-                }
-                return Result.Draw;
-        }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Product of Array Except Self</title>
-      <link>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</link>
-      <pubDate>Sat, 14 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/14/product-of-array-except-self/</guid>
-      <description>
-
-&lt;p&gt;Given an array of &lt;code&gt;n&lt;/code&gt; integers where &lt;code&gt;n&lt;/code&gt; &amp;gt; 1, nums, return an array output such that &lt;code&gt;output[i]&lt;/code&gt; is equal to the product of all the elements of nums except &lt;code&gt;nums[i]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Solve it &lt;strong&gt;without division&lt;/strong&gt; and in &lt;code&gt;O(n)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;For example, given &lt;code&gt;[1,2,3,4]&lt;/code&gt;, return &lt;code&gt;[24,12,8,6]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Follow up:
-Could you solve it with constant space complexity? (Note: The &lt;strong&gt;output array does not count&lt;/strong&gt; as extra space for the purpose of space complexity analysis.)&lt;/p&gt;
-
-&lt;h2 id=&#34;think-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;$$O(n)$$ Space and Two pass, recording the left part or right part product.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:475ac2d302270bdb12a33bec7e726fb7&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int[] productExceptSelf(int[] input) {
-        int[] res = new int[input.length];
-        int tmp = 1;
-        for (int i = 0; i &amp;lt; input.length; i++) {
-            res[i] = tmp;
-            tmp *= input[i];
-        }
-        tmp = 1;
-        for (int i = input.length - 1; i &amp;gt;= 0; i--) {
-            res[i] *= tmp;
-            tmp *= input[i];
-        }
-        return res;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Constant Time Random Picker</title>
-      <link>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</link>
-      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</guid>
-      <description>
-
-&lt;p&gt;Design a data structure that supports insert, delete, search and getRandom in constant time.&lt;/p&gt;
-
-&lt;p&gt;Design a data structure that supports following operations in Θ(1) time.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;insert(x)&lt;/code&gt;: Inserts an item x to the data structure if not already present.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;remove(x)&lt;/code&gt;: Removes an item x from the data structure if present.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;search(x)&lt;/code&gt;: Searches an item x in the data structure.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;getRandom()&lt;/code&gt;: Returns a random element from current set of elements&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;think:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;We can use hashing to support first 3 operations in Θ(1) time. How to do the 4th operation? The idea is to use a resizable array (ArrayList in Java, vector in C) together with hashing. Resizable arrays support insert in Θ(1) amortized time complexity. To implement getRandom(), we can simply pick a random number from 0 to size-1 (size is number of current elements) and return the element at that index. The hash map stores array values as keys and array indexes as values.&lt;/p&gt;
-
-&lt;p&gt;Following are detailed operations.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;insert(x)&lt;/li&gt;
-&lt;li&gt;Check if x is already present by doing a hash map lookup.&lt;/li&gt;
-&lt;li&gt;If not present, then insert it at the end of the array.&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Add in hash table also, x is added as key and last array index as index.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;remove(x)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Check if x is present by doing a hash map lookup.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;If present, then find its index and remove it from hash map.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Swap the last element with this element in array and remove the last element.
-Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Update index of last element in hash map.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;getRandom()&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Generate a random number from 0 to last index.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Return the array element at the randomly generated index.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;search(x)
-Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
-	
-	private final ArrayList&amp;lt;Integer&amp;gt; arr;
-	private final HashMap&amp;lt;Integer, Integer&amp;gt; map; // value - index
-    Random r;
-	
-	public ConstantTimeRandomPicker() {
-		this.arr = new ArrayList&amp;lt;Integer&amp;gt;();
-		this.map = new HashMap&amp;lt;Integer, Integer&amp;gt;();
-	}
-	
-	public void add(int val) {
-		arr.add(val);
-		map.put(arr.size() - 1, val);
-	}
-	
-	public void remove(int val) {
-		remove(map.get(val), val);
-	}
-	
-	public void removeRandom() {
-		int val = arr.get(r.nextInt(arr.size()));
-		remove(map.get(val), val);
-	}
-	
-	public int getRandom() {
-		return arr.get(r.nextInt(arr.size()));
-	}
-	
-	public int search(int val) {
-		return arr.get(map.get(val));
-	}
-
-	private void remove(int idx, int val) {
-		
-		// swap with the last element
-		int last = arr.get(arr.size() - 1);
-		// put the last element to the current index
-		arr.set(idx, last);
-		// remove the last element
-		arr.remove(arr.size() - 1);
-				
-		// update the last element&#39;s index in hashmap
-		map.put(last, idx);		
-		// remove the removal value
-		map.remove(val);
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Intervals and Covered Length</title>
-      <link>http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/</link>
-      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/</guid>
-      <description>
-
-&lt;p&gt;Design a structrue can get interval pair and a function which can return the total cover length.&lt;/p&gt;
-
-&lt;h2 id=&#34;partial-code:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Partial Code&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;interface Intervals {
-
-	/**
-	 * Adds an interval [from, to] into internal structure.
-	 */
-	void addInterval(int from, int to);
-
-	/**
-	 * Returns a total length covered by intervals. If several intervals
-	 * intersect, intersection should be counted only once. Example:
-	 *
-	 * addInterval(3, 6) addInterval(8, 9) addInterval(1, 5)
-	 *
-	 * getTotalCoveredLength() -&amp;gt; 6 i.e. [1,5] and [3,6] intersect and give a
-	 * total covered interval [1,6] [1,6] and [8,9] don&#39;t intersect so total
-	 * covered length is a sum for both intervals, that is 6.
-	 *
-	 * _________ ___ ____________
-	 *
-	 * 0 1 2 3 4 5 6 7 8 9 10
-	 *
-	 */
-	int getTotalCoveredLength();
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;solution:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class IntervalProblem implements Intervals {
-
-    private class Interval {
-        int from, to;
-
-        public Interval(int from, int to) {
-            this.from = from;
-            this.to = to;
-        }
-    }
-
-    List&amp;lt;Interval&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-
-    @Override
-    public void addInterval(int start, int end) {
-        if (list.size() == 0) {
-            list.add(new Interval(start, end));
-            return;
-        }       
-
-        ListIterator&amp;lt;Interval&amp;gt; li = list.listIterator();
-
-        while(li.hasNext()){
-            Interval itv = li.next();
-            if(start &amp;lt;= itv.to){
-                if(end &amp;lt; itv.from){ //newInterval does not overlap with current itv, time to insert
-                    li.remove();
-                    li.add(new Interval(start, end));
-                    li.add(itv);
-                    return;
-                }
-                // still some overlap so compare start &amp;amp; end
-                start = Math.min(start, itv.from);
-                end = Math.max(end, itv.to);
-                li.remove();
-            }
-        }
-        list.add(new Interval(start, end));
-    }
-
-    @Override
-    public int getTotalCoveredLength() {
-        if (list.size() == 0) 
-            return 0;
-        int sum = 0;
-        for (int i = 0; i &amp;lt; list.size(); i++) {
-            sum += (list.get(i).to - list.get(i).from);
-        }
-        return sum;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>K Nearest Points</title>
-      <link>http://xmruibi.github.io/2015/11/13/k-nearest-points/</link>
-      <pubDate>Fri, 13 Nov 2015 23:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/k-nearest-points/</guid>
-      <description>
-
-&lt;p&gt;Find K nearest Points by given the central point. Complete the class design for Point as implementing Comparable interface.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Comparable interface and Max heap&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class KNearestPoints {
-
-    // finding k nearest neighbor from the original point using a MAX heap, each
-    // time if the dist is less than the MAX we put it into the q.
-    public Collection&amp;lt;Point&amp;gt; getClosestPoints(Collection&amp;lt;Point&amp;gt; points, int k) {
-        PriorityQueue&amp;lt;Point&amp;gt; queue = new PriorityQueue&amp;lt;Point&amp;gt;(k);
-        int i = 0;
-        for(Point p:points) {
-            if(i &amp;lt; k) {
-                queue.add(p);
-            }else{
-                if(p.compareTo(queue.peek()) &amp;lt; 0) {
-                    queue.poll();
-                    queue.offer(p);
-                }
-            }
-            i++;
-        }
-        return queue;
-    }
-}
-
-class Point implements Comparable&amp;lt;Point&amp;gt; {
-    final int x, y;
-    final double dist;
-
-    public Point(int x, int y, Point origin) {
-        this.x = x;
-        this.y = y;
-        this.dist = Math.hypot(x - origin.x, y - origin.y);
-    }
-
-    @Override
-    public int compareTo(Point o) {
-        return Double.compare(this.dist, o.dist);
-    }
-
-    @Override
-    public String toString() {
-        return &amp;quot;x: &amp;quot; + x + &amp;quot; y: &amp;quot; + y;
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Text File Iterator</title>
-      <link>http://xmruibi.github.io/2015/11/13/text-file-iterator/</link>
-      <pubDate>Fri, 13 Nov 2015 20:40:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/text-file-iterator/</guid>
-      <description>
-
-&lt;p&gt;Implement a (Java) Iterable object that iterates lines one by one from a text file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** A reference to a file. */
-public class TextFile implements Iterable&amp;lt;String&amp;gt; {
-  public TextFile(String fileName) { 
-  	// please implement this
-  }
-  /** Begin reading the file, line by line. The returned Iterator.next() will return a line. */ 
-  @Override
-  public Iterator&amp;lt;String&amp;gt; iterator() { 
-  	// please implement this
-  }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-1:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Keep maintain a BufferedReader&lt;/li&gt;
-&lt;li&gt;The tricky part is the hasNext function, we should not use checking &lt;code&gt;br.readline() != null&lt;/code&gt; in this function, since it will cause the line skipping.&lt;/li&gt;
-&lt;li&gt;So notice the &lt;code&gt;mark()&lt;/code&gt; and &lt;code&gt;reset()&lt;/code&gt; method in bufferedreader.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TextFileIterator implements Iterable&amp;lt;String&amp;gt; {
-
-	private final BufferedReader br;
-
-	public TextFileIterator(String path) throws FileNotFoundException {
-		br = new BufferedReader(new InputStreamReader(new FileInputStream(
-				new File(path))));
-
-	}
-
-	public Iterator&amp;lt;String&amp;gt; iterator() {
-		return new Iterator&amp;lt;String&amp;gt;() {
-			@Override
-			public boolean hasNext() {
-				try {
-					br.mark(1);
-					if (br.read() &amp;lt; 0) 
-						return false;					
-					br.reset();
-					return true;
-				} catch (IOException e) {
-					return false;
-				}
-			}
-
-			@Override
-			public String next() {
-				try {
-					return br.readLine();
-				} catch (IOException e) {
-					return null;
-				}
-			}
-		};
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Scanner&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2:c8747d864080a32ac128d8a7bbaf43e1&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TextFileIterator implements Iterable&amp;lt;String&amp;gt; {
-
-	private final Scanner sc;
-	
-	public TextFileIterator(String path) throws FileNotFoundException {
-			sc = new Scanner(new File(path));
-	}
-
-	public Iterator&amp;lt;String&amp;gt; iterator() {
-		return new Iterator&amp;lt;String&amp;gt;() {
-			@Override
-			public boolean hasNext() {
-				return sc.hasNext();
-			}
-
-			@Override
-			public String next() {
-				return sc.nextLine();
-			}
-		};
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Zigzag Iterator</title>
-      <link>http://xmruibi.github.io/2015/11/13/zigzag-iterator/</link>
-      <pubDate>Fri, 13 Nov 2015 20:40:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/zigzag-iterator/</guid>
-      <description>
-
-&lt;p&gt;Given two 1d vectors, implement an iterator to return their elements alternately.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:c39b4a8138ca1f78be5fe1b3f188b037&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given two 1d vectors:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;v1&lt;/code&gt; = &lt;code&gt;[1, 2]&lt;/code&gt;
-&lt;code&gt;v2&lt;/code&gt; = &lt;code&gt;[3, 4, 5, 6]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: &lt;code&gt;[1, 3, 2, 4, 5, 6]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;follow-up:c39b4a8138ca1f78be5fe1b3f188b037&#34;&gt;Follow up&lt;/h3&gt;
-
-&lt;p&gt;What if you are given k 1d vectors? How well can your code be extended to such cases?&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Reverse a Stack using Recursion</title>
-      <link>http://xmruibi.github.io/2015/11/13/reverse-a-stack-using-recursion/</link>
-      <pubDate>Fri, 13 Nov 2015 20:39:16 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/reverse-a-stack-using-recursion/</guid>
-      <description>
-
-&lt;p&gt;Reverse a stack using recursion.&lt;/p&gt;
-
-&lt;p&gt;You are not allowed to use loop constructs like while, for..etc, and you can only use the following ADT functions on Stack S:
-- &lt;code&gt;isEmpty(S)&lt;/code&gt;
-- &lt;code&gt;push(S)&lt;/code&gt;
-- &lt;code&gt;pop(S)&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:67652d66ff3aed8bc58d000794c76ecc&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Very very trick problem&lt;/li&gt;
-&lt;li&gt;The idea of the solution is to hold all values in Function Call Stack until the stack becomes empty. When the stack becomes empty, insert all held items one by one at the bottom of the stack.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:67652d66ff3aed8bc58d000794c76ecc&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static void recrusion(Stack&amp;lt;Integer&amp;gt; stack) {
-        if (stack.isEmpty())
-            return;
-        int tmp = stack.pop();
-        recrusion(stack);
-        helper(stack, tmp);
-    }
-
-    private static void helper(Stack&amp;lt;Integer&amp;gt; stack, int val) {
-        if (stack.isEmpty())
-            stack.push(val);
-        else {
-            int tmp = stack.pop();
-            helper(stack, val);
-            stack.push(tmp);
-        }
-    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

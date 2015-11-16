@@ -7,8 +7,69 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 19:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 13:11:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Pow() and Sqrt()</title>
+      <link>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</link>
+      <pubDate>Sun, 15 Nov 2015 13:11:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</guid>
+      <description>
+
+&lt;p&gt;Write function to get the power &lt;code&gt;n&lt;/code&gt; of &lt;code&gt;x&lt;/code&gt; and the square root of &lt;code&gt;x&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-pow:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Pow&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// basic  
+	public float pow(float x, int n) {
+	    if(n==0)
+            return 1.0;
+		if (n == 1)
+			return x;
+		if (n % 2 == 0)
+			return pow(x, n / 2) * pow(x, n / 2);
+		else
+			return x * pow(x, n / 2) * pow(x, n / 2);
+	}
+
+	// improved
+	public double pow(double x, int n) {
+        if(n==0)
+            return 1.0;
+        boolean neg = false;
+        if(n&amp;lt;0)
+            neg = true;
+        double res = 1.0;
+        while(n != 0){
+            if(n%2 != 0){
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return neg?1.0/res:res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-sqrt:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Sqrt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public float sqrt(float n) {
+        float low = 0, high = n;
+        float mid = low + (high - low) / 2;
+        while (Math.abs(mid * mid - n) &amp;gt; 0.00001) {
+            if (mid * mid &amp;lt; n)
+                low = mid;
+            else if (mid * mid &amp;gt; n)
+                high = mid;
+            mid = low + (high - low) / 2;
+        }
+        return mid;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Two Sum Implementation</title>

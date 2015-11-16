@@ -7,8 +7,69 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 13:11:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Pow() and Sqrt()</title>
+      <link>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</link>
+      <pubDate>Sun, 15 Nov 2015 13:11:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</guid>
+      <description>
+
+&lt;p&gt;Write function to get the power &lt;code&gt;n&lt;/code&gt; of &lt;code&gt;x&lt;/code&gt; and the square root of &lt;code&gt;x&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-pow:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Pow&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// basic  
+	public float pow(float x, int n) {
+	    if(n==0)
+            return 1.0;
+		if (n == 1)
+			return x;
+		if (n % 2 == 0)
+			return pow(x, n / 2) * pow(x, n / 2);
+		else
+			return x * pow(x, n / 2) * pow(x, n / 2);
+	}
+
+	// improved
+	public double pow(double x, int n) {
+        if(n==0)
+            return 1.0;
+        boolean neg = false;
+        if(n&amp;lt;0)
+            neg = true;
+        double res = 1.0;
+        while(n != 0){
+            if(n%2 != 0){
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return neg?1.0/res:res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-sqrt:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Sqrt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public float sqrt(float n) {
+        float low = 0, high = n;
+        float mid = low + (high - low) / 2;
+        while (Math.abs(mid * mid - n) &amp;gt; 0.00001) {
+            if (mid * mid &amp;lt; n)
+                low = mid;
+            else if (mid * mid &amp;gt; n)
+                high = mid;
+            mid = low + (high - low) / 2;
+        }
+        return mid;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Isomorphic Pair</title>
@@ -177,6 +238,79 @@ the contiguous subarray &lt;code&gt;[2,3]&lt;/code&gt; has the largest product =
         
         return glMax;
     }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -970,206 +1104,6 @@ Could you solve it with constant space complexity? (Note: The &lt;strong&gt;outp
 		return sb.toString();
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Flip Game I/II</title>
-      <link>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</link>
-      <pubDate>Wed, 11 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</guid>
-      <description>
-
-&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.
-Write a function to compute all possible states of the string after one valid move.&lt;/p&gt;
-
-&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, after one move, it may become one of the following states:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[
-  &amp;quot;--++&amp;quot;,
-  &amp;quot;+--+&amp;quot;,
-  &amp;quot;++--&amp;quot;
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If there is no valid move, return an empty list &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Only consecutive &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; can be flipped.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; generatePossibleNextMoves(String s) {
-		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-		if (s == null || s.length() &amp;lt; 2) {
-            return res;
-        }
-		for (int i = 1; i &amp;lt; s.length(); i++) {
-			StringBuilder sb = new StringBuilder(s);
-			if (s.charAt(i) == &#39;+&#39; &amp;amp;&amp;amp; s.charAt(i - 1) == s.charAt(i)) {
-				sb.insert(i - 1, &#39;-&#39;);
-				sb.insert(i, &#39;-&#39;);
-			}
-			res.add(sb.toString());
-		}
-		return res;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-ii:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.&lt;/p&gt;
-
-&lt;p&gt;Write a function to determine if the starting player can guarantee a win.&lt;/p&gt;
-
-&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, return true. The starting player can guarantee a win by flipping the middle &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; to become &lt;code&gt;&amp;quot;+--+&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;follow:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Follow&lt;/h4&gt;
-
-&lt;p&gt;Derive your algorithm&amp;rsquo;s run-time complexity.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Backtracking seems to be the only feasible solution to this problem.&lt;/li&gt;
-&lt;li&gt;We can basically try every possible move for the first player (P1), and recursively check if the second player has any chance to win.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static boolean canWin(String s) {
-		return winHelper(s.toCharArray());
-	}
-
-	private static boolean winHelper(char[] chars) {
-		for (int i = 1; i &amp;lt; chars.length; i++) {
-			if (chars[i] == &#39;+&#39; &amp;amp;&amp;amp; chars[i] == chars[i - 1]) {
-				chars[i - 1] = &#39;-&#39;;
-				chars[i] = &#39;-&#39;;
-			// if sencond player have chance to win
-				boolean win = !winHelper(chars);
-				chars[i - 1] = &#39;+&#39;;
-				chars[i] = &#39;+&#39;;
-				if (win) 
-                    return true;
-			}
-		}
-		return false;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>H-Index</title>
-      <link>http://xmruibi.github.io/2015/11/11/h-index/</link>
-      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/11/h-index/</guid>
-      <description>
-
-&lt;p&gt;Given an array of citations (each citation is a non-negative integer) of a researcher, write a function to compute the researcher&amp;rsquo;s h-index.&lt;/p&gt;
-
-&lt;p&gt;According to the definition of h-index on Wikipedia: &amp;ldquo;A scientist has index h if h of his/her N papers have at least h citations each, and the other N − h papers have no more than h citations each.&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;For example, given citations = &lt;code&gt;[3, 0, 6, 1, 5]&lt;/code&gt;, which means the researcher has &lt;code&gt;5&lt;/code&gt; papers in total and each of them had received &lt;code&gt;3, 0, 6, 1, 5&lt;/code&gt; citations respectively. Since the researcher has &lt;code&gt;3&lt;/code&gt; papers with at least &lt;code&gt;3&lt;/code&gt; citations each and the remaining two with no more than &lt;code&gt;3&lt;/code&gt; citations each, his h-index is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If there are several possible values for h, the maximum one is taken as the h-index.&lt;/p&gt;
-
-&lt;h3 id=&#34;hint:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Hint&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;An easy approach is to sort the array first.&lt;/li&gt;
-&lt;li&gt;What are the possible values of h-index?&lt;/li&gt;
-&lt;li&gt;A faster approach is to use extra space.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;think-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort first (takes $$O(n \times log{n})$$)&lt;/li&gt;
-&lt;li&gt;Set a &lt;code&gt;h&lt;/code&gt; variable, increase &lt;code&gt;h&lt;/code&gt; to &lt;code&gt;length - currentIdx&lt;/code&gt; when current element&amp;rsquo;s value is equals or larger than &lt;code&gt;length - currentIdx&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
-        if(citations == null || citations.length == 0)
-            return 0;
-        Arrays.sort(citations);
-        int h = 0;
-        for(int i = 0; i &amp;lt; citations.length; i++) {
-            if(citations[i] &amp;gt;= citations.length - i)
-                h = Math.max(h, citations.length - i);
-        }
-        return h;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #2&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Extra Space&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
-        if(citations == null || citations.length == 0)
-            return 0;
-        int[] memo = new int[citations.length + 1];
-        for(int i = 0; i &amp;lt; citations.length; i++) {
-            if(citations[i] &amp;gt;= memo.length)
-                memo[memo.length - 1] ++;
-            else
-                memo[citations[i]]++;
-        }
-
-        for(int i = memo.length - 1; i &amp;gt;= 0; i--) {
-            if(i &amp;lt; memo.length - 1)
-                memo[i] += memo[i+1];
-            if(memo[i] &amp;gt;= i)
-                return i;
-        }
-        return 0;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #3&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sort and Binary Search&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #3&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
-        if(citations == null || citations.length == 0)
-            return 0;
-        int l = 0, r = citations.length - 1;
-        while(l + 1 &amp;lt; r) {
-            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-            if(citations[m] == citations.length - m)
-                return citations.length - m;
-            else if(citations[m] &amp;lt; citations.length - m)
-                l = m;
-            else
-                r = m;
-        }
-        if(citations[l] &amp;gt;= citations.length - l)
-            return citations.length - l;   // this is larger
-        if(citations[r] &amp;gt;= citations.length - r)
-            return citations.length - r;
-    
-        return 0;
-    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

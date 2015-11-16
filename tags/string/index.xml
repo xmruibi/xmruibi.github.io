@@ -7,8 +7,67 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 14:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Palindromic Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</link>
+      <pubDate>Sun, 15 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &lt;code&gt;“BBABCBCAB”&lt;/code&gt;, then the output should be 7 as &lt;code&gt;“BABCBAB”&lt;/code&gt; is the longest palindromic subseuqnce in it. &lt;code&gt;“BBBBB”&lt;/code&gt; and &lt;code&gt;“BBCBB”&lt;/code&gt; are also palindromic subsequences of the given sequence, but not the longest ones.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-dynamic-programming:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution #Dynamic Programming&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static int longestSubsequence(String str) {
+		// memo[len][i] represent from index &#39;i&#39; with length &#39;len&#39; has how many
+		// palindromic subsequence
+		int[][] memo = new int[str.length() + 1][str.length() + 1];
+
+		// initial len with 1 as 1, since for every index it has 1 len
+		// palindromic subsequence
+		for (int i = 0; i &amp;lt; str.length(); i++)
+			memo[1][i] = 1;
+
+		// iterate the str with different length setting
+		for (int len = 2; len &amp;lt;= str.length(); len++) {
+			for (int i = 0; i &amp;lt;= str.length() - len; i++) {
+				int tar = i + len - 1;
+				if (len == 2 &amp;amp;&amp;amp; str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2;
+				else if (str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2 + memo[len - 2][i + 1];
+				else
+					memo[len][i] = Math.max(memo[len - 1][i],
+							memo[len - 1][i + 1]);
+			}
+		}
+		return memo[str.length()][0];
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution # Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int calculateRecursive(char str[],int start,int len){
+        if(len == 1){
+            return 1;
+        }
+        if(len ==0){
+            return 0;
+        }
+        if(str[start] == str[start+len-1]){
+            return 2 + calculateRecursive(str,start+1,len-2);
+        }else{
+            return Math.max(calculateRecursive(str, start+1, len-1), calculateRecursive(str, start, len-1));
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Find Valid IP Address in a File</title>
@@ -152,6 +211,79 @@
         }
         return true;	
     }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -1021,221 +1153,6 @@ The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&
         
         return sb.toString();
     }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Palindrome Permutation</title>
-      <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
-      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</guid>
-      <description>
-
-&lt;p&gt;Given a string, determine if a permutation of the string could form a palindrome.&lt;/p&gt;
-
-&lt;h2 id=&#34;problem-i:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem I&lt;/h2&gt;
-
-&lt;h4 id=&#34;example:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;code&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;&amp;quot;carerac&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
-
-&lt;p&gt;The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
-- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
-- If the length is odd. One and only one character could appear odd times.&lt;/p&gt;
-
-&lt;h3 id=&#34;solution:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean canPermutePalindrome(String s) {
-		if (s == null || s.length() == 0)
-			return true;
-		HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-		for (char c : s.toCharArray())
-			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
-
-		int tolerent = 0;
-		for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
-			if (entry.getValue() % 2 != 0) {
-				tolerent++;
-			}
-		}
-		if (s.length() % 2 != 0)
-			return tolerent == 1;
-		else
-			return tolerent == 0;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;problem-ii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
-
-&lt;h4 id=&#34;example-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
-Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
-&lt;li&gt;Address the case when the length is odd
-
-&lt;ul&gt;
-&lt;li&gt;Record the character with odd frequency&lt;/li&gt;
-&lt;li&gt;Initialize the generation String with the Odd character&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
-        HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
-        if (s == null || s.length() == 0)
-            return new ArrayList&amp;lt;String&amp;gt;(res);
-        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        for (char c : s.toCharArray())
-            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
-        
-        // check if it is odd length, increase the tolerance when it is odd length
-        int tolerent = 0;
-        if (s.length() % 2 != 0)
-            tolerent++;
-        
-        // record the odd item to set as the base of generate String
-        char odd = &#39;\u0000&#39;;
-        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
-            if (entry.getValue() % 2 != 0) {
-                if (tolerent &amp;gt; 0) {
-                    tolerent--;
-                    odd = entry.getKey(); // set it
-                } else
-                    return new ArrayList&amp;lt;String&amp;gt;(res);
-            }
-        }
-        // set the base String when the odd case
-        String cur = &amp;quot;&amp;quot;;
-        if (odd != &#39;\u0000&#39;) {
-            map.put(odd, map.get(odd) - 1);
-            if (map.get(odd) == 0)
-                map.remove(odd);
-            cur = &amp;quot;&amp;quot; + odd;
-        }
-        
-        // generate the palindrome
-        helper(res, map, cur, s);
-        return new ArrayList&amp;lt;String&amp;gt;(res);
-    }
-
-    private static void helper(Set&amp;lt;String&amp;gt; res,
-            HashMap&amp;lt;Character, Integer&amp;gt; map, String cur, String origin) {
-        if (map.size() == 0) {
-            res.add(new String(cur));
-            return;
-        }
-
-        for (int i = 0; i &amp;lt; origin.length(); i++) {
-            char c = origin.charAt(i);
-            if (!map.containsKey(c))
-                continue;
-            cur = (c + cur + c);
-            map.put(c, map.get(c) - 2);
-            if (map.get(c) == 0)
-                map.remove(c);
-            helper(res, map, cur, origin);
-            cur = cur.substring(1, cur.length() - 1);
-            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Group Shifted Strings</title>
-      <link>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</link>
-      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</guid>
-      <description>
-
-&lt;p&gt;Given a string, we can “shift” each of its letter to its successive letter, for example: &lt;code&gt;“abc”&lt;/code&gt; -&amp;gt; &lt;code&gt;“bcd”&lt;/code&gt;. We can keep “shifting” which forms the sequence:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot; -&amp;gt; &amp;quot;bcd&amp;quot; -&amp;gt; ... -&amp;gt; &amp;quot;xyz&amp;quot;&lt;/code&gt;
-Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Example,&lt;/h3&gt;
-
-&lt;p&gt;given: [&amp;ldquo;abc&amp;rdquo;, &amp;ldquo;bcd&amp;rdquo;, &amp;ldquo;acef&amp;rdquo;, &amp;ldquo;xyz&amp;rdquo;, &amp;ldquo;az&amp;rdquo;, &amp;ldquo;ba&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;z&amp;rdquo;], Return:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[
-  [&amp;quot;abc&amp;quot;,&amp;quot;bcd&amp;quot;,&amp;quot;xyz&amp;quot;],
-  [&amp;quot;az&amp;quot;,&amp;quot;ba&amp;quot;],
-  [&amp;quot;acef&amp;quot;],
-  [&amp;quot;a&amp;quot;,&amp;quot;z&amp;quot;]
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;##Note
-For the return value, each inner list’s elements must follow the lexicographic order.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;There is a regular pattern: if two words are shifted, the distance between two adjacent characters are the same.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;    2   3        2   3
-    /\ /\        /\ /\
-   a  c  f - &amp;gt;  e  g  j 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;So all we need to do is figure out the distance between each character in each word and make these distance as a code to represent the word.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class GroupShiftedString {
-    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; groupStrings(String[] strings) {
-        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        for (String str : strings) {
-            String code = getCode(str);
-            List&amp;lt;String&amp;gt; val;
-            if (!map.containsKey(code)) {
-                val = new ArrayList&amp;lt;&amp;gt;();
-            } else {
-                val = map.get(code);
-            }
-            val.add(str);
-            map.put(code, val);
-        }
-
-        for (Map.Entry&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; entry : map.entrySet()) {
-            List&amp;lt;String&amp;gt; val = entry.getValue();
-            Collections.sort(val);
-            res.add(val);
-        }
-        return res;
-    }
-
-    private String getCode(String s) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(&amp;quot;#&amp;quot;);
-        for (int i = 1; i &amp;lt; s.length(); i++) {
-            int tmp = ((s.charAt(i) - s.charAt(i - 1)) + 26) % 26;
-            sb.append(tmp).append(&amp;quot;#&amp;quot;);
-        }
-        return sb.toString();
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

@@ -7,8 +7,80 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Wed, 11 Nov 2015 10:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 12:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Max Points on a Line</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</link>
+      <pubDate>Sun, 15 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</guid>
+      <description>
+
+&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Represent line by ratio. Compare point to point by a nested two loop.&lt;/li&gt;
+&lt;li&gt;Think about four cases:
+
+&lt;ul&gt;
+&lt;li&gt;Same point, count the same point amount&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;normal case &lt;code&gt;(y1 - y2)/(x1 - x2)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxPointOnAline {
+
+    public int getMaxLine(List&amp;lt;FloatPoint&amp;gt; points) {
+        if (points == null || points.size() == 0)
+            return 0;
+
+        int max = 0;
+        for (int i = 0; i &amp;lt; points.size(); i++) {
+            FloatPoint cur = points.get(i);
+            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int same = 0, localMax = 1;
+            for (int j = i + 1; j &amp;lt; points.size(); j++) {
+                FloatPoint tar = points.get(j);
+                if (cur.x == tar.x &amp;amp;&amp;amp; cur.y == tar.y) {
+                    same++;
+                }else if (cur.x == tar.x) {
+                    double maxr = Double.MAX_VALUE;
+                    map.put(maxr, map.containsKey(maxr) ? map.get(maxr) + 1 : 2);
+                } else if (cur.y == tar.y) {
+                    map.put(0.0, map.containsKey(0.0) ? map.get(0.0) + 1 : 2);
+                } else {
+                    double ratio = (cur.y - tar.y) / (cur.x - tar.x);
+                    map.put(ratio, map.containsKey(ratio) ? map.get(ratio) + 1
+                            : 2);
+                }
+            }
+            for (Map.Entry&amp;lt;Double, Integer&amp;gt; entry : map.entrySet())
+                localMax = Math.max(localMax, entry.getValue());
+            max = Math.max(localMax + same, max);
+        }
+        return max;
+    }
+}
+
+class FloatPoint {
+    float x, y; // float may not suitable for accurate computation
+
+    public FloatPoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Walls and Gates</title>

@@ -7,8 +7,440 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/career-cup/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Compact Tree Builder</title>
+      <link>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</link>
+      <pubDate>Sun, 15 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</guid>
+      <description>
+
+&lt;p&gt;Given a root of a binary tree. Transform it in a way that each node(except probably one) would either have N or 0 children.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   * A               A                 A                         A
+     *  |               |                 |_B                       |_B
+     *  |_B             |_B                  |_C                    |
+     *     |            |  |                    |_D                 |_C
+     *     |            |  |_D                     |_E              |
+     *     |            |  |                          |_F           |_D
+     *     |_C          |  |_E                           |_G        |
+     *     | |_D        |    |_H                            |_H     |_E
+     *     |    |_F     |                                           |
+     *     |            |_C                                         |_F
+     *     |_E            |                                         |
+     *       |_G          |_F                                       |_G
+     *       |            |                                         |
+     *       |_H          |_G                                       |_H
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BFS entire tree into a queue.&lt;/li&gt;
+&lt;li&gt;Read that queue and build posssible children according to the limit and add it into the root.&lt;/li&gt;
+&lt;li&gt;Record the next root in another queue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static CTree compact(TreeNode node, int limit) {
+
+		// bfs the original tree into a queue
+		List&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		queue.add(node);
+		int idx = 0;
+		while (idx &amp;lt; queue.size()) {
+			TreeNode cur = queue.get(idx++);
+			if (cur.left != null)
+				queue.add(cur.left);
+			if (cur.right != null)
+				queue.add(cur.right);
+		}
+		// get the root for final return
+		CTree root = new CTree(queue.remove(0).val);
+		// build a queue for store the new type tree
+		Queue&amp;lt;CTree&amp;gt; helperQueue = new LinkedList&amp;lt;&amp;gt;();
+		helperQueue.add(root);
+		while (!queue.isEmpty()) {
+			CTree cRoot = helperQueue.remove();
+			// build the children for current CTree
+			int curLv = 0; // make sure the amount of children
+			List&amp;lt;CTree&amp;gt; nexlv = new ArrayList&amp;lt;&amp;gt;();
+			while (curLv &amp;lt; limit &amp;amp;&amp;amp; !queue.isEmpty()) {
+				nexlv.add(new CTree(queue.remove(0).val));
+				helperQueue.offer(nexlv.get(curLv++));
+			}			
+			cRoot.nodes = nexlv;
+		}	
+		return root;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert BST to Sorted Doubly-Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</link>
+      <pubDate>Sun, 15 Nov 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a Binary Tree (BT), convert it to a Doubly Linked List(DLL) In-Place. The left and right pointers in nodes are to be used as previous and next pointers respectively in converted DLL. The order of nodes in DLL must be same as Inorder of the given Binary Tree. The first node of Inorder traversal (left most node in BT) must be head node of the DLL.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:9391617169eedec55b65d518b5c0a515&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Inorder traversal&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-stack:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Stack&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static Node convertBST2DoublyLinkedList(Node root) {
+		Node dummy = new Node(0);
+		Node prev = dummy;
+		java.util.Stack&amp;lt;Node&amp;gt; stack = new java.util.Stack&amp;lt;&amp;gt;();
+
+		do {
+			while (root != null) {
+				stack.push(root);
+				root = root.prev;
+			}
+			Node cur = stack.pop();
+			prev.next = cur;
+			cur.prev = prev;
+			prev = prev.next;
+			if (cur.next != null)
+				root = cur.next;
+			else
+				root = null;
+		} while (!stack.isEmpty() || root != null);
+
+		return dummy.next;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursion:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Recursion&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    static Node dummy = new Node(0);
+    static Node pre = dummy;
+
+    private static Node convertII(Node root) {
+        if (root == null)
+            return root;
+        Node prev = convertII(root.prev);
+        pre.next = root;
+        root.prev = pre;
+        pre = root;
+        Node next = convertII(root.next);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Palindromic Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</link>
+      <pubDate>Sun, 15 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &lt;code&gt;“BBABCBCAB”&lt;/code&gt;, then the output should be 7 as &lt;code&gt;“BABCBAB”&lt;/code&gt; is the longest palindromic subseuqnce in it. &lt;code&gt;“BBBBB”&lt;/code&gt; and &lt;code&gt;“BBCBB”&lt;/code&gt; are also palindromic subsequences of the given sequence, but not the longest ones.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-dynamic-programming:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution #Dynamic Programming&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static int longestSubsequence(String str) {
+		// memo[len][i] represent from index &#39;i&#39; with length &#39;len&#39; has how many
+		// palindromic subsequence
+		int[][] memo = new int[str.length() + 1][str.length() + 1];
+
+		// initial len with 1 as 1, since for every index it has 1 len
+		// palindromic subsequence
+		for (int i = 0; i &amp;lt; str.length(); i++)
+			memo[1][i] = 1;
+
+		// iterate the str with different length setting
+		for (int len = 2; len &amp;lt;= str.length(); len++) {
+			for (int i = 0; i &amp;lt;= str.length() - len; i++) {
+				int tar = i + len - 1;
+				if (len == 2 &amp;amp;&amp;amp; str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2;
+				else if (str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2 + memo[len - 2][i + 1];
+				else
+					memo[len][i] = Math.max(memo[len - 1][i],
+							memo[len - 1][i + 1]);
+			}
+		}
+		return memo[str.length()][0];
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution # Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int calculateRecursive(char str[],int start,int len){
+        if(len == 1){
+            return 1;
+        }
+        if(len ==0){
+            return 0;
+        }
+        if(str[start] == str[start+len-1]){
+            return 2 + calculateRecursive(str,start+1,len-2);
+        }else{
+            return Math.max(calculateRecursive(str, start+1, len-1), calculateRecursive(str, start, len-1));
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Points on a Line</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</link>
+      <pubDate>Sun, 15 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</guid>
+      <description>
+
+&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Represent line by ratio. Compare point to point by a nested two loop.&lt;/li&gt;
+&lt;li&gt;Think about four cases:
+
+&lt;ul&gt;
+&lt;li&gt;Same point, count the same point amount&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;normal case &lt;code&gt;(y1 - y2)/(x1 - x2)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxPointOnAline {
+
+    public int getMaxLine(List&amp;lt;FloatPoint&amp;gt; points) {
+        if (points == null || points.size() == 0)
+            return 0;
+
+        int max = 0;
+        for (int i = 0; i &amp;lt; points.size(); i++) {
+            FloatPoint cur = points.get(i);
+            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int same = 0, localMax = 1;
+            for (int j = i + 1; j &amp;lt; points.size(); j++) {
+                FloatPoint tar = points.get(j);
+                if (cur.x == tar.x &amp;amp;&amp;amp; cur.y == tar.y) {
+                    same++;
+                }else if (cur.x == tar.x) {
+                    double maxr = Double.MAX_VALUE;
+                    map.put(maxr, map.containsKey(maxr) ? map.get(maxr) + 1 : 2);
+                } else if (cur.y == tar.y) {
+                    map.put(0.0, map.containsKey(0.0) ? map.get(0.0) + 1 : 2);
+                } else {
+                    double ratio = (cur.y - tar.y) / (cur.x - tar.x);
+                    map.put(ratio, map.containsKey(ratio) ? map.get(ratio) + 1
+                            : 2);
+                }
+            }
+            for (Map.Entry&amp;lt;Double, Integer&amp;gt; entry : map.entrySet())
+                localMax = Math.max(localMax, entry.getValue());
+            max = Math.max(localMax + same, max);
+        }
+        return max;
+    }
+}
+
+class FloatPoint {
+    float x, y; // float may not suitable for accurate computation
+
+    public FloatPoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Stack</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-stack/</link>
+      <pubDate>Sun, 15 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack, which makes the following function, try to reduce the time compaxity less than &lt;code&gt;O(n)&lt;/code&gt;
+- &lt;code&gt;pop()&lt;/code&gt; pop the top of stack
+- &lt;code&gt;push()&lt;/code&gt; push a element into stack
+- &lt;code&gt;peek()&lt;/code&gt; peek the top of stack
+- &lt;code&gt;peekMax()&lt;/code&gt; peek the max element of stack
+- &lt;code&gt;popMax()&lt;/code&gt; pop the max element of stack&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typically, we can think about using one stacks and one heap. One of value, one of tracking the max stack.&lt;/li&gt;
+&lt;li&gt;The most tricky part is pop max function. Make the node removal in O(n) should use the doubly linked list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxStack {
+    Stack elem = new Stack();
+    PriorityQueue&amp;lt;ListNode&amp;gt; heap = new PriorityQueue&amp;lt;ListNode&amp;gt;((o1,o2) -&amp;gt; Integer.compare(o2.val, o1.val));
+    
+    // take O(logn): the depth of heap tree 
+    public void push(int val) {
+        ListNode newnode = new ListNode(val);
+        heap.add(newnode); 
+        elem.push(newnode);
+    }
+    
+    // take O(logn): the depth of heap tree 
+    public void pop() {
+        ListNode remove = elem.pop();
+        heap.remove(remove); 
+    }
+    
+    // O(1) time
+    public int peek() {
+        return elem.peek().val;
+    }
+
+    // O(1) time
+    public int peekMax() {
+        return heap.peek().val; 
+    }
+
+    // take O(logn): the depth of heap tree 
+    public void popMax() {
+        ListNode node = heap.poll(); 
+        elem.remove(node);
+    }
+
+    public static void main(String[] args) {
+        MaxStack ms = new MaxStack();
+        ms.push(1);
+        ms.push(3);
+        ms.push(2);
+        System.out.println(ms.peekMax()); // == 3
+        ms.popMax();
+        System.out.println(ms.peekMax()); // == 2
+        ms.push(4);
+        ms.push(8);
+        ms.pop();
+        System.out.println(ms.peekMax()); // == 4
+    }
+}
+
+class Stack {
+    ListNode head, rear;
+
+    public Stack() {
+        head = new ListNode(0);
+        rear = new ListNode(0);
+        head.next = rear;
+        rear.prev = head;
+    }
+
+    public void push(ListNode newnode) {
+        rear.prev.next = newnode;
+        newnode.prev = rear.prev;
+        newnode.next = rear;
+        rear.prev = newnode;
+    }
+
+    public ListNode pop() {
+        if (isEmpty())
+            return null;
+        ListNode remove = rear.prev;
+        rear.prev = remove.prev;
+        remove.prev.next = rear;
+        return remove;
+    }
+
+    public ListNode peek() {
+        if (isEmpty())
+            return null;
+        ListNode peek = rear.prev;
+        return peek;
+    }
+
+    public void remove(ListNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public boolean isEmpty() {
+        return head.next == rear;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode prev, next;
+
+    public ListNode(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator for Merging Sorted Stream</title>
+      <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</guid>
+      <description>
+
+&lt;p&gt;Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: &lt;code&gt;1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2&lt;/code&gt; -&amp;gt; &lt;code&gt;2, ,4, 6, 8&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:c20097de2cc12809c8a9177ae4edd63e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class HopIterator&amp;lt;E&amp;gt; implements Iterator&amp;lt;E&amp;gt; {
+	int hop;
+	Iterator&amp;lt;E&amp;gt; itr;
+
+	public HopIterator(Collection&amp;lt;E&amp;gt; list, int hop) {
+		this.itr = list.iterator();
+		this.hop = hop;
+	}
+
+	@Override
+	public boolean hasNext() {
+		int k = 1;
+		while (k &amp;lt; hop &amp;amp;&amp;amp; itr.hasNext()) {
+			k++;
+			itr.next();
+		}
+		return k == hop &amp;amp;&amp;amp; itr.hasNext();
+	}
+
+	@Override
+	public E next() {
+		return itr.next();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Balanced Point in Array</title>
@@ -691,527 +1123,6 @@ public class TextFile implements Iterable&amp;lt;String&amp;gt; {
             return false;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Level Order with Position Preserved</title>
-      <link>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</link>
-      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/</guid>
-      <description>
-
-&lt;p&gt;Given a Tree, each node contains one digit value, print each level in a format with relative position preserved.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;       eg.           1
-                   /   \
-                 2      4
-                  \       \
-                  3        7
-    output:
-                   1
-               2      4
-                 3      7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Tricky part is we should know the depth firstly. So that we can know how many space should be reserved in final line. Since the each line should preserved as most the length with the node&amp;rsquo;s amount in full tree of that depth.&lt;/li&gt;
-&lt;li&gt;The length of each line should be the $2^{depth} - 1$&lt;/li&gt;
-&lt;li&gt;Recursively to set the node value in the middle of left and right range.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:2d2b69a30dfde4d7f80bc31959b14b6c&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TreeLevelOrder {
-	public List&amp;lt;String&amp;gt; printLevelwithSpacePreserved(TreeNode root) {
-		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-		int depth = getDepth(root);
-		int len = (int) Math.pow(2, depth) - 1;
-		List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; space = new ArrayList&amp;lt;&amp;gt;();
-		for (int i = 0; i &amp;lt; depth; i++) {
-			List&amp;lt;Character&amp;gt; line = new ArrayList&amp;lt;&amp;gt;();
-			for(int j = 0; j &amp;lt; len; j++)
-				line.add(&#39; &#39;);
-			space.add(line);
-		}
-		levelOrderRecrusion(space, root, 0, len - 1, 0);
-		for (List&amp;lt;Character&amp;gt; cs : space) {
-			StringBuilder sb = new StringBuilder();
-			for (char c : cs)
-				sb.append(c);
-			res.add(sb.toString());
-		}
-		return res;
-	}
-
-	private void levelOrderRecrusion(List&amp;lt;List&amp;lt;Character&amp;gt;&amp;gt; res, TreeNode node,
-			int l, int r, int lv) {
-		if (node == null)
-			return;
-		List&amp;lt;Character&amp;gt; line = res.get(lv);
-		int m = l + ((r - l) &amp;gt;&amp;gt; 1);
-		line.set(m, (char) (node.val + &#39;0&#39;));
-		levelOrderRecrusion(res, node.left, l, m - 1, lv + 1);
-		levelOrderRecrusion(res, node.right, m + 1, r, lv + 1);
-	}
-
-	private int getDepth(TreeNode node) {
-		if (node == null)
-			return 0;
-		return 1 + Math.max(getDepth(node.left), getDepth(node.right));
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Middle Index Stack</title>
-      <link>http://xmruibi.github.io/2015/11/13/middle-index-stack/</link>
-      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/middle-index-stack/</guid>
-      <description>
-
-&lt;p&gt;Design a stack with operations on middle element.&lt;/p&gt;
-
-&lt;p&gt;How to implement a stack which will support following operations in O(1) time complexity?
-1) push() which adds an element to the top of stack.
-2) pop() which removes an element from top of stack.
-3) findMiddle() which will return middle element of the stack.
-4) deleteMiddle() which will delete the middle element.
-Push and pop are standard stack operations.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;The important question is, whether to use a linked list or array for implementation of stack?
-- The key of this question is to design an doubly linked list to deal with those required functions.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MidStack implements MyStack{
-    int size;
-    Node top;
-    Node mid;
-    
-    public MidStack() {
-        int size = 0;
-        top = mid = null;
-    }
-    @Override
-    public void push(int val) {
-        Node newNode = new Node(val);
-        if(top == null) {
-            top = newNode;
-            mid = top;
-        }else{
-            top.next = newNode;
-            newNode.prev = top;
-            top = newNode;
-            if(size % 2 ==0)
-                mid = mid.next;
-        }
-        size++;
-    }
-    @Override
-    public int pop() {
-        int pop = top.val;
-        top = top.prev;
-        top.next = null;
-        if(size % 2 !=0)
-            mid = mid.prev;
-        size--;
-        return pop;
-    }
-    @Override
-    public int findMiddle() {
-        return mid.val;
-    }
-    @Override
-    public void deleteMiddle() {
-        if(size &amp;lt;= 2) {
-            mid = top;
-            top.prev = null;
-            size--;
-            return;
-        }
-            
-        mid.next.prev = mid.prev;
-        mid.prev.next = mid.next;
-        mid = mid.prev;
-        size--;
-    }
-    
-    public static void main(String[] args) {
-        MidStack stack = new MidStack();
-        stack.push(1);stack.push(2);
-        stack.push(3);stack.push(4);    
-        System.out.println(stack.pop());
-        System.out.println(stack.findMiddle());
-        stack.deleteMiddle();
-        stack.push(2);
-        stack.push(3);stack.push(4);    
-        System.out.println(stack.findMiddle());
-        System.out.println(stack.pop());
-        System.out.println(stack.findMiddle());
-        System.out.println(stack.pop());
-    }
-}
-
-interface MyStack{
-    public void push(int val);
-    public int pop();
-    public int findMiddle();
-    public void deleteMiddle();
-}
-class Node{
-    int val;
-    Node prev, next;
-    public Node(int val) {
-        this.val = val;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The Second Minimum in Tournament Tree</title>
-      <link>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</link>
-      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/</guid>
-      <description>
-
-&lt;p&gt;Given a tournament tree try to find the second minimum value. Here the tournament tree is represented by a tree with node has the minimum value of children.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;By given the following tree, it should return &lt;code&gt;5&lt;/code&gt; as the second minimum value.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;                2
-              /   \
-            2      7
-          /  \     |  \
-         5    2    8   7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;This a full tree and each root is the min value of two children&lt;/li&gt;
-&lt;li&gt;Each time we only concern the subtree root has the value equal to the root and record another child&amp;rsquo;s value as the candidate of second minimum.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:87bd1bfcb3ac65273c0a27e5e481ef2e&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TournamentTree {
-    static int secMin = Integer.MAX_VALUE;
-
-    // the given tree is a minimum value tree
-    public static int getSecMin(TreeNode root) {
-        if (root == null)
-            throw new IllegalArgumentException(&amp;quot;Illeagal Input!&amp;quot;);
-        
-        if (root.left == null &amp;amp;&amp;amp; root.right == null)
-            return secMin;
-        
-        if (root.left.val == root.val) {
-            secMin = Math.min(secMin, root.right.val);
-            return getSecMin(root.left);
-        } else {
-            secMin = Math.min(secMin, root.left.val);
-            return getSecMin(root.right);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Nested List</title>
-      <link>http://xmruibi.github.io/2015/11/13/nested-list/</link>
-      <pubDate>Fri, 13 Nov 2015 13:13:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/nested-list/</guid>
-      <description>
-
-&lt;p&gt;Given a nested list of integers, returns the sum of all integers in the list weighted by their depth.&lt;/p&gt;
-
-&lt;h3 id=&#34;partial-code:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Partial Code&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** 
- * This is the interface that represents nested lists. 
- * You should not implement it, or speculate about its implementation. 
- */ 
-public interface NestedInteger { 
-    // Returns true if this NestedInteger holds a single integer, rather than a nested list 
-    public boolean isInteger(); 
-
-    // Returns the single integer that this NestedInteger holds, if it holds a single integer 
-    // Returns null if this NestedInteger holds a nested list 
-    public Integer getInteger(); 
-
-    // Returns the nested list that this NestedInteger holds, if it holds a nested list 
-    // Returns null if this NestedInteger holds a single integer 
-    public List getList(); 
-}
-
-public class Solution {
-	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
-        //Implement this function
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;example:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given the list &lt;code&gt;{{1,1},2,{1,1}}&lt;/code&gt; the function should return &lt;code&gt;10&lt;/code&gt; (four 1&amp;rsquo;s at depth 2, one 2 at depth 1);
-Given the list &lt;code&gt;{1,{4,{6}}}&lt;/code&gt; the function should return &lt;code&gt;27&lt;/code&gt; (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3);&lt;/p&gt;
-
-&lt;h2 id=&#34;think:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Recursion with DFS&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-	public int depthSum(List&amp;lt;NestedInteger&amp;gt; input) {
-		return dfsHelper(input, 1);
-    }
-
-    private int dfsHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
-    	int sum = 0;
-    	for(NestedInteger cur : input) {
-    		if(cur.isInteger())
-    			sum += (cur.getInteger() * depth);
-    		else
-    			sum += dfsHelper(cur.getList(), depth + 1);
-    	}
-    	return sum;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;followup-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #1&lt;/h2&gt;
-
-&lt;p&gt;Get the sum by reversed level.&lt;/p&gt;
-
-&lt;h4 id=&#34;think-1:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Think&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Should get depth at first and then recursively reduce the depth for DFS&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static int reversedDepthSum(List&amp;lt;NestedInteger&amp;gt; input) {
-		int depth = getDepth(input);
-		return dfsReverseHelper(input, depth);
-	}
-
-	private static int dfsReverseHelper(List&amp;lt;NestedInteger&amp;gt; input, int depth) {
-		int sum = 0;
-		for (NestedInteger cur : input) {
-			if (cur.isInteger())
-				sum += (cur.getInteger() * depth);
-			else
-				sum += dfsReverseHelper(cur.getList(), depth - 1);
-		}
-		return sum;
-	}
-	
-	private static int getDepth(List&amp;lt;NestedInteger&amp;gt; input) {
-		int depth = 0;
-		for (NestedInteger cur : input) {
-			if (!cur.isInteger())
-				depth = Math.max(depth, getDepth(cur.getList()));
-		}
-		return depth + 1;
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;followup-2:cd5432d5a5299bdbe44a28444996274a&#34;&gt;Followup #2&lt;/h2&gt;
-
-&lt;p&gt;Implement the Nested Integer interface&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class NestedIntImpl implements NestedInteger {
-	Object obj;
-
-	public NestedIntegerImpl(Object obj) {
-		this.obj = obj;
-	}
-
-	@Override
-	public boolean isInteger() {	
-		return obj instanceof Integer;
-	}
-
-	@Override
-	public Integer getInteger() {
-		if(obj instanceof Integer)
-			return (Integer)obj;
-		return null;
-	}
-
-	@Override
-	public List&amp;lt;NestedInteger&amp;gt; getList() {
-		if(obj instanceof List)
-			return (List&amp;lt;NestedInteger&amp;gt;)obj;
-		return null;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Braces Check</title>
-      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
-      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
-      <description>
-
-&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
-
-&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
-&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
-&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Parenthese check problem three way to solve.
-
-&lt;ul&gt;
-&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
-&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
-    public boolean matched(String s) {
-        if(s == null || s.length() == 0)
-            return true;
-        int cnt = 0;
-        int idx = 0;
-        while(idx &amp;lt; s.length()) {
-            if(s.charAt(idx) == &#39;(&#39;)
-                cnt++;
-            else if(s.charAt(idx) == &#39;)&#39;) {
-                if(cnt &amp;lt;= 0) 
-                    return false;
-                cnt--;
-            }
-        }
-        return cnt == 0;
-    }
-
-    // 
-    public boolean matchedII(String s) {
-        if(s == null || s.length() == 0)
-            return true;
-        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
-        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
-        int idx = 0;
-        while(idx &amp;lt; s.length()) {
-            char c = s.charAt(idx);
-            if(map.containsKey(c))
-                stack.push(c);
-            else if(map.values().contains(c)){
-                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
-                    return false;
-            }
-        }
-        return stack.isEmpty()
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Find Next Sparse Number</title>
-      <link>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</link>
-      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</guid>
-      <description>
-
-&lt;p&gt;A number is Sparse if there are no two adjacent 1s in its binary representation. For example 5 (binary representation: 101) is sparse, but 6 (binary representation: 110) is not sparse.&lt;/p&gt;
-
-&lt;p&gt;Given a number x, find the smallest Sparse number which greater than or equal to x.&lt;/p&gt;
-
-&lt;h3 id=&#34;examples:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Examples&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;Input: x = 6
-Output: Next Sparse Number is 8
-
-Input: x = 4
-Output: Next Sparse Number is 4
-
-Input: x = 38
-Output: Next Sparse Number is 40
-
-Input: x = 44
-Output: Next Sparse Number is 64
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Think #1&lt;/h2&gt;
-
-&lt;p&gt;An Efficient Solution come from &lt;a href=&#34;http://www.geeksforgeeks.org/given-a-number-find-next-sparse-number/&#34;&gt;Geeksforgeek&lt;/a&gt; can solve this problem without checking all numbers on by one. Below are steps.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1) Find binary of the given number and store it in a 
-   boolean array.
-2) Initialize last_finalized bit position as 0.
-2) Start traversing the binary from least significant bit.
-    a) If we get two adjacent 1&#39;s such that next (or third) 
-       bit is not 1, then 
-          (i)  Make all bits after this 1 to last finalized
-               bit (including last finalized) as 0. 
-          (ii) Update last finalized bit as next bit. 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For example, let binary representation be &lt;code&gt;01010001011101&lt;/code&gt;, we change it to &lt;code&gt;01010001100000&lt;/code&gt; (all bits after highlighted 11 are set to 0). Again two 1’s are adjacent, so change binary representation to &lt;code&gt;01010010000000&lt;/code&gt;. This is our final answer.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Solution #1&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static long sparseNum(long num) {
-        // record the original number as boolean array which contains least significant bit (LSB)
-        boolean[] bits = new boolean[64];
-        int shift = 0;
-        // num (like 13) -&amp;gt; reversed { true, false, true, true}
-        while (shift &amp;lt; 64)
-            bits[shift] = ((num &amp;gt;&amp;gt; shift++) &amp;amp; 1) == 1;
-        // The position till which all bits are finalized
-        int last_final = 0;
-        // search from low digit
-        for (int i = 1; i &amp;lt; 63; i++) {
-            // find two adjacent 1&#39;s such that next bits[i+1] is not 1
-            if (bits[i] &amp;amp;&amp;amp; bits[i - 1] &amp;amp;&amp;amp; !bits[i + 1]) {
-                for(int j = last_final; j &amp;lt;= i; j++)
-                    bits[j] = false;
-                bits[i+1] = true;
-                last_final = i+1;
-            }
-        }
-        long res = 0L;
-        while(shift &amp;gt; 0) 
-            res += ((bits[--shift]?1:0)&amp;lt;&amp;lt;shift);
-        return res;
-    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

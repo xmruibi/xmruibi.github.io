@@ -3,8 +3,48 @@
   
   <url>
     <loc>http://xmruibi.github.io/</loc>
-    <lastmod>2015-11-14T22:43:13-07:00</lastmod>
+    <lastmod>2015-11-15T20:33:13-07:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</loc>
+    <lastmod>2015-11-15T20:33:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</loc>
+    <lastmod>2015-11-15T17:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</loc>
+    <lastmod>2015-11-15T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</loc>
+    <lastmod>2015-11-15T13:11:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</loc>
+    <lastmod>2015-11-15T12:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/max-stack/</loc>
+    <lastmod>2015-11-15T10:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</loc>
+    <lastmod>2015-11-15T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</loc>
+    <lastmod>2015-11-15T10:10:29-07:00</lastmod>
   </url>
   
   <url>
@@ -25,6 +65,11 @@
   <url>
     <loc>http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/</loc>
     <lastmod>2015-11-14T22:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</loc>
+    <lastmod>2015-11-14T22:10:29-07:00</lastmod>
   </url>
   
   <url>
@@ -150,6 +195,11 @@
   <url>
     <loc>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</loc>
     <lastmod>2015-11-12T12:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/12/double-type-and-float-type/</loc>
+    <lastmod>2015-11-12T00:03:07-07:00</lastmod>
   </url>
   
   <url>
@@ -384,11 +434,6 @@
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/31/jump-iterator/</loc>
-    <lastmod>2015-10-31T10:10:29-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/</loc>
     <lastmod>2015-10-31T10:10:29-07:00</lastmod>
   </url>
   
@@ -638,12 +683,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
@@ -678,12 +723,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/ugly-number/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/ugly-number/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
   </url>
   
@@ -728,12 +773,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</loc>
     <lastmod>2015-10-16T09:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/16/longest-common-subsequence/</loc>
+    <loc>http://xmruibi.github.io/2015/10/16/longest-increasing-continuous-subsequence-ii/</loc>
     <lastmod>2015-10-16T09:43:13-07:00</lastmod>
   </url>
   
@@ -779,11 +824,6 @@
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/08/longest-substring-with-at-most-k-distinct-characters-show-result/</loc>
-    <lastmod>2015-10-08T22:10:29-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</loc>
     <lastmod>2015-10-08T22:10:29-07:00</lastmod>
   </url>
   
@@ -888,7 +928,7 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/07/12/accesscontrol/</loc>
+    <loc>http://xmruibi.github.io/2015/07/12/access-control/</loc>
     <lastmod>2015-07-12T00:03:07-07:00</lastmod>
   </url>
   

@@ -46,11 +46,11 @@ The lowest common ancestor is the node with largest depth which is the ancestor 
 
 
 <meta itemprop="dateModified" content="2015-10-18T23:10:29-07:00" />
-<meta itemprop="wordCount" content="222">
+<meta itemprop="wordCount" content="379">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -195,7 +195,7 @@ The lowest common ancestor is the node with largest depth which is the ancestor 
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-18 23:10:29 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            222
+            379
             words
             &middot;
             2
@@ -278,6 +278,59 @@ The lowest common ancestor is the node with largest depth which is the ancestor 
 }
 </code></pre>
 
+<h2 id="think-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b">Think # With Parent Node</h2>
+
+<ul>
+<li>With Parent node we don&rsquo;t need the root node.</li>
+<li>Get the depth of each node.</li>
+<li>Then look like we find the intersectin of two linked list.</li>
+<li>Find the intersection.</li>
+</ul>
+
+<h2 id="solution-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b">Solution # With Parent Node</h2>
+
+<pre><code class="language-java">public class Solution {
+    /**
+     * @param A and B: two nodes in a Binary.
+     * @return: Return the least common ancestor(LCA) of the two nodes.
+     */
+    public TreeNode lowestCommonAncestor(TreeNode A, TreeNode B) {
+        int adepth = getDepth(A);
+        int bdepth = getDepth(B);
+        // make two length equal
+        while(adepth &gt; bdepth) {
+            A = A.parent;
+            adepth--;
+        }
+        while(adepth &lt; bdepth) {
+            B = B.parent;
+            bdepth--;
+        }
+        // find intersection
+        while(A != B) {
+            if(A == B)
+                return A;
+            A = A.parent;
+            B = B.parent;
+        }
+        return null;
+    }
+
+    private int getDepth(TreeNode node){
+        if(node == null)
+            return 0;
+        return 1 + getDepth(node.parent);
+    }
+}
+class TreeNode{
+    int val;
+    TreeNode parent, left, right;
+    public TreeNode(int val){
+        this.val = val;
+}
+}
+</code></pre>
+
             </div>
             <footer class="article-footer">
     <a data-url="http://xmruibi.github.io/2015/10/18/lowest-common-ancestor/" data-id="63e93a6b82ee930d2e0666f2fd23df1b" class="article-share-link">
@@ -353,6 +406,8 @@ The lowest common ancestor is the node with largest depth which is the ancestor 
 </ul></li>
 <li><a href="#think:63e93a6b82ee930d2e0666f2fd23df1b">Think</a></li>
 <li><a href="#solution:63e93a6b82ee930d2e0666f2fd23df1b">Solution</a></li>
+<li><a href="#think-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b">Think # With Parent Node</a></li>
+<li><a href="#solution-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b">Solution # With Parent Node</a></li>
 </ul></li>
 </ul>
 </nav>

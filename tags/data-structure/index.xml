@@ -7,8 +7,135 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 10:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/data-structure/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Max Stack</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-stack/</link>
+      <pubDate>Sun, 15 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack, which makes the following function, try to reduce the time compaxity less than &lt;code&gt;O(n)&lt;/code&gt;
+- &lt;code&gt;pop()&lt;/code&gt; pop the top of stack
+- &lt;code&gt;push()&lt;/code&gt; push a element into stack
+- &lt;code&gt;peek()&lt;/code&gt; peek the top of stack
+- &lt;code&gt;peekMax()&lt;/code&gt; peek the max element of stack
+- &lt;code&gt;popMax()&lt;/code&gt; pop the max element of stack&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typically, we can think about using one stacks and one heap. One of value, one of tracking the max stack.&lt;/li&gt;
+&lt;li&gt;The most tricky part is pop max function. Make the node removal in O(n) should use the doubly linked list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxStack {
+    Stack elem = new Stack();
+    PriorityQueue&amp;lt;ListNode&amp;gt; heap = new PriorityQueue&amp;lt;ListNode&amp;gt;((o1,o2) -&amp;gt; Integer.compare(o2.val, o1.val));
+    
+    // take O(logn): the depth of heap tree 
+    public void push(int val) {
+        ListNode newnode = new ListNode(val);
+        heap.add(newnode); 
+        elem.push(newnode);
+    }
+    
+    // take O(logn): the depth of heap tree 
+    public void pop() {
+        ListNode remove = elem.pop();
+        heap.remove(remove); 
+    }
+    
+    // O(1) time
+    public int peek() {
+        return elem.peek().val;
+    }
+
+    // O(1) time
+    public int peekMax() {
+        return heap.peek().val; 
+    }
+
+    // take O(logn): the depth of heap tree 
+    public void popMax() {
+        ListNode node = heap.poll(); 
+        elem.remove(node);
+    }
+
+    public static void main(String[] args) {
+        MaxStack ms = new MaxStack();
+        ms.push(1);
+        ms.push(3);
+        ms.push(2);
+        System.out.println(ms.peekMax()); // == 3
+        ms.popMax();
+        System.out.println(ms.peekMax()); // == 2
+        ms.push(4);
+        ms.push(8);
+        ms.pop();
+        System.out.println(ms.peekMax()); // == 4
+    }
+}
+
+class Stack {
+    ListNode head, rear;
+
+    public Stack() {
+        head = new ListNode(0);
+        rear = new ListNode(0);
+        head.next = rear;
+        rear.prev = head;
+    }
+
+    public void push(ListNode newnode) {
+        rear.prev.next = newnode;
+        newnode.prev = rear.prev;
+        newnode.next = rear;
+        rear.prev = newnode;
+    }
+
+    public ListNode pop() {
+        if (isEmpty())
+            return null;
+        ListNode remove = rear.prev;
+        rear.prev = remove.prev;
+        remove.prev.next = rear;
+        return remove;
+    }
+
+    public ListNode peek() {
+        if (isEmpty())
+            return null;
+        ListNode peek = rear.prev;
+        return peek;
+    }
+
+    public void remove(ListNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public boolean isEmpty() {
+        return head.next == rear;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode prev, next;
+
+    public ListNode(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Constant Time Random Picker</title>

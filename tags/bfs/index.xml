@@ -7,8 +7,79 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Wed, 11 Nov 2015 10:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/bfs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Compact Tree Builder</title>
+      <link>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</link>
+      <pubDate>Sun, 15 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</guid>
+      <description>
+
+&lt;p&gt;Given a root of a binary tree. Transform it in a way that each node(except probably one) would either have N or 0 children.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   * A               A                 A                         A
+     *  |               |                 |_B                       |_B
+     *  |_B             |_B                  |_C                    |
+     *     |            |  |                    |_D                 |_C
+     *     |            |  |_D                     |_E              |
+     *     |            |  |                          |_F           |_D
+     *     |_C          |  |_E                           |_G        |
+     *     | |_D        |    |_H                            |_H     |_E
+     *     |    |_F     |                                           |
+     *     |            |_C                                         |_F
+     *     |_E            |                                         |
+     *       |_G          |_F                                       |_G
+     *       |            |                                         |
+     *       |_H          |_G                                       |_H
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BFS entire tree into a queue.&lt;/li&gt;
+&lt;li&gt;Read that queue and build posssible children according to the limit and add it into the root.&lt;/li&gt;
+&lt;li&gt;Record the next root in another queue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static CTree compact(TreeNode node, int limit) {
+
+		// bfs the original tree into a queue
+		List&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		queue.add(node);
+		int idx = 0;
+		while (idx &amp;lt; queue.size()) {
+			TreeNode cur = queue.get(idx++);
+			if (cur.left != null)
+				queue.add(cur.left);
+			if (cur.right != null)
+				queue.add(cur.right);
+		}
+		// get the root for final return
+		CTree root = new CTree(queue.remove(0).val);
+		// build a queue for store the new type tree
+		Queue&amp;lt;CTree&amp;gt; helperQueue = new LinkedList&amp;lt;&amp;gt;();
+		helperQueue.add(root);
+		while (!queue.isEmpty()) {
+			CTree cRoot = helperQueue.remove();
+			// build the children for current CTree
+			int curLv = 0; // make sure the amount of children
+			List&amp;lt;CTree&amp;gt; nexlv = new ArrayList&amp;lt;&amp;gt;();
+			while (curLv &amp;lt; limit &amp;amp;&amp;amp; !queue.isEmpty()) {
+				nexlv.add(new CTree(queue.remove(0).val));
+				helperQueue.offer(nexlv.get(curLv++));
+			}			
+			cRoot.nodes = nexlv;
+		}	
+		return root;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Walls and Gates</title>

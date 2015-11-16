@@ -7,8 +7,81 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2015 22:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/complex-implement/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Valid Number</title>
@@ -252,87 +325,6 @@
 		return sb.toString();
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Minimum Window Substring</title>
-      <link>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</link>
-      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/08/minimum-window-substring/</guid>
-      <description>
-
-&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
-
-&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
-
-&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;    public String minWindow(String source, String target) {
-        // preload for target checking
-        if(source == null || source.length() == 0 || target == null || target.length() == 0)
-            return &amp;quot;&amp;quot;;
-        
-        
-        int tarLen = target.length();
-        HashMap&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
-        for(char c : target.toCharArray()) 
-            dict.put(c, dict.containsKey(c)? dict.get(c) + 1 : 1);
-        
-        int hitCount = 0; // record current window hits how many characters in target
-        int prevIdx = 0; // record the left bound of current window
-        int minWindow = source.length() + 1; // initial the minimum window length
-        int start = 0;
-        for(int i = 0; i &amp;lt; source.length(); i++) {
-            char cur = source.charAt(i);
-            // if current char is not in dict, continue
-            if(!dict.containsKey(cur))
-                continue;
-            
-            dict.put(cur, dict.get(cur) - 1);
-            if(dict.get(cur) &amp;gt;= 0)
-                hitCount++;
-            
-            // check the windows has amount of this char more than it in target string
-            // loop until the amount back to normal, but always reduce the prev index char
-            while(hitCount == tarLen) {
-                if( minWindow &amp;gt; i - prevIdx + 1) {
-                    start = prevIdx;
-                    minWindow = i - prevIdx + 1;
-                }
-                char prevChar = source.charAt(prevIdx);
-                if(dict.containsKey(prevChar)) {
-                    dict.put(prevChar, dict.get(prevChar)+1);
-                    if(dict.get(prevChar) &amp;gt; 0)
-                        hitCount--;
-                }
-                prevIdx++;
-            }
-        }
-        // 
-        if(minWindow &amp;gt; source.length())
-            return &amp;quot;&amp;quot;;
-        return source.substring(start, start + minWindow);
-    }
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

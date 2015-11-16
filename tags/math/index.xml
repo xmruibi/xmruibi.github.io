@@ -7,8 +7,141 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 16:13:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 13:11:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Pow() and Sqrt()</title>
+      <link>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</link>
+      <pubDate>Sun, 15 Nov 2015 13:11:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</guid>
+      <description>
+
+&lt;p&gt;Write function to get the power &lt;code&gt;n&lt;/code&gt; of &lt;code&gt;x&lt;/code&gt; and the square root of &lt;code&gt;x&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-pow:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Pow&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// basic  
+	public float pow(float x, int n) {
+	    if(n==0)
+            return 1.0;
+		if (n == 1)
+			return x;
+		if (n % 2 == 0)
+			return pow(x, n / 2) * pow(x, n / 2);
+		else
+			return x * pow(x, n / 2) * pow(x, n / 2);
+	}
+
+	// improved
+	public double pow(double x, int n) {
+        if(n==0)
+            return 1.0;
+        boolean neg = false;
+        if(n&amp;lt;0)
+            neg = true;
+        double res = 1.0;
+        while(n != 0){
+            if(n%2 != 0){
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return neg?1.0/res:res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-sqrt:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Sqrt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public float sqrt(float n) {
+        float low = 0, high = n;
+        float mid = low + (high - low) / 2;
+        while (Math.abs(mid * mid - n) &amp;gt; 0.00001) {
+            if (mid * mid &amp;lt; n)
+                low = mid;
+            else if (mid * mid &amp;gt; n)
+                high = mid;
+            mid = low + (high - low) / 2;
+        }
+        return mid;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Points on a Line</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</link>
+      <pubDate>Sun, 15 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</guid>
+      <description>
+
+&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Represent line by ratio. Compare point to point by a nested two loop.&lt;/li&gt;
+&lt;li&gt;Think about four cases:
+
+&lt;ul&gt;
+&lt;li&gt;Same point, count the same point amount&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;normal case &lt;code&gt;(y1 - y2)/(x1 - x2)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxPointOnAline {
+
+    public int getMaxLine(List&amp;lt;FloatPoint&amp;gt; points) {
+        if (points == null || points.size() == 0)
+            return 0;
+
+        int max = 0;
+        for (int i = 0; i &amp;lt; points.size(); i++) {
+            FloatPoint cur = points.get(i);
+            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int same = 0, localMax = 1;
+            for (int j = i + 1; j &amp;lt; points.size(); j++) {
+                FloatPoint tar = points.get(j);
+                if (cur.x == tar.x &amp;amp;&amp;amp; cur.y == tar.y) {
+                    same++;
+                }else if (cur.x == tar.x) {
+                    double maxr = Double.MAX_VALUE;
+                    map.put(maxr, map.containsKey(maxr) ? map.get(maxr) + 1 : 2);
+                } else if (cur.y == tar.y) {
+                    map.put(0.0, map.containsKey(0.0) ? map.get(0.0) + 1 : 2);
+                } else {
+                    double ratio = (cur.y - tar.y) / (cur.x - tar.x);
+                    map.put(ratio, map.containsKey(ratio) ? map.get(ratio) + 1
+                            : 2);
+                }
+            }
+            for (Map.Entry&amp;lt;Double, Integer&amp;gt; entry : map.entrySet())
+                localMax = Math.max(localMax, entry.getValue());
+            max = Math.max(localMax + same, max);
+        }
+        return max;
+    }
+}
+
+class FloatPoint {
+    float x, y; // float may not suitable for accurate computation
+
+    public FloatPoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Valid Number</title>
@@ -321,6 +454,7 @@
 &lt;h2 id=&#34;think:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Think&lt;/h2&gt;
 
 &lt;ul&gt;
+&lt;li&gt;Typical DFS idea.&lt;/li&gt;
 &lt;li&gt;For input value &lt;code&gt;n&lt;/code&gt;, it has possible factors start from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;Sqrt(n)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;For every factor, we also calculate its factors, like: &lt;code&gt;16 -&amp;gt; 2, 8 -&amp;gt; 2, 2, 4 -&amp;gt; 2, 2, 2, 2, 2&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list&lt;/li&gt;
@@ -787,7 +921,9 @@ For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2
 
 &lt;p&gt;Backtracking, with memorized the element usage, which takes space, or we can search on arraylist(more time);&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;class Solution {
+&lt;h2 id=&#34;solution:a083606555b205581658a49380bd6233&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
     /**
      * @param nums: A list of integers.
      * @return: A list of permutations.
@@ -821,9 +957,7 @@ For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;method-two:a083606555b205581658a49380bd6233&#34;&gt;Method Two:&lt;/h4&gt;
-
-&lt;p&gt;Swap: &lt;a href=&#34;https://www.cs.princeton.edu/~rs/talks/perms.pdf&#34;&gt;Reference&lt;/a&gt;;&lt;/p&gt;
+&lt;h2 id=&#34;solution-swap-https-www-cs-princeton-edu-rs-talks-perms-pdf:a083606555b205581658a49380bd6233&#34;&gt;Solution #&lt;a href=&#34;https://www.cs.princeton.edu/~rs/talks/perms.pdf&#34;&gt;Swap&lt;/a&gt;;&lt;/h2&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/PermutationSwap.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
@@ -873,6 +1007,42 @@ For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2
   }
 }
 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;follow-up:a083606555b205581658a49380bd6233&#34;&gt;Follow Up&lt;/h2&gt;
+
+&lt;p&gt;Given a collection of numbers that might contain duplicates, return all possible unique permutations.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:a083606555b205581658a49380bd6233&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;[1,1,2]&lt;/code&gt; have the following unique permutations:
+&lt;code&gt;[1,1,2]&lt;/code&gt;, &lt;code&gt;[1,2,1]&lt;/code&gt;, and &lt;code&gt;[2,1,1]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-followup:a083606555b205581658a49380bd6233&#34;&gt;Solution #Followup&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; permuteUnique(int[] num) {
+      List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;();
+      Arrays.sort(num);
+      helper(new boolean[num.length], num, new ArrayList&amp;lt;Integer&amp;gt;(),result);
+      return result;
+    }
+
+    public void helper(boolean[] isUsed, int[] num, List&amp;lt;Integer&amp;gt; cur, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; result){
+      if(cur.size() == num.length){
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(cur));
+        return;
+      }
+
+      for(int i=0;i&amp;lt;num.length;i++){
+        if ((i&amp;gt;0&amp;amp;&amp;amp;num[i]==num[i-1]&amp;amp;&amp;amp;(!isUsed[i-1])) || isUsed[i])
+          continue;
+        cur.add(num[i]);
+        isUsed[i] = true;
+        helper(isUsed, num, cur,result);
+        isUsed[i] = false;
+        cur.remove(cur.size() - 1);
+      }
+    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
@@ -1025,153 +1195,6 @@ Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Permutation Sequence</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-sequence/</link>
-      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-sequence/</guid>
-      <description>
-
-&lt;p&gt;Given n and k, return the k-th permutation sequence.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:b1087bc16781260625f1914785de95cc&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;For n = 3, all permutations are listed as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;
-&amp;quot;132&amp;quot;
-&amp;quot;213&amp;quot;
-&amp;quot;231&amp;quot;
-&amp;quot;312&amp;quot;
-&amp;quot;321&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If k = &lt;code&gt;4&lt;/code&gt;, the fourth permutation is &amp;ldquo;&lt;code&gt;231&lt;/code&gt;&amp;ldquo;&lt;/p&gt;
-
-&lt;h3 id=&#34;note:b1087bc16781260625f1914785de95cc&#34;&gt;Note&lt;/h3&gt;
-
-&lt;p&gt;n will be between 1 and 9 inclusive.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge:b1087bc16781260625f1914785de95cc&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;O(n*k) in time complexity is easy, can you do it in O(n^2) or less?&lt;/p&gt;
-
-&lt;h2 id=&#34;think:b1087bc16781260625f1914785de95cc&#34;&gt;Think&lt;/h2&gt;
-
-&lt;p&gt;a1,a2,a3&amp;hellip;..an的permutation 如果确定了a1,那么剩下的permutation就有(n-1)!种 所以 a1 = k / (n-1)! k2 = k % (n-1)! a2 = k2 / (n-2)!&lt;/p&gt;
-
-&lt;p&gt;要注意的是&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;得到的应该是剩下选择数字的index,而不是value,所以要建一个存储可用数字的list&lt;/li&gt;
-&lt;li&gt;在用完一个数字后要将它从list中删去&lt;/li&gt;
-&lt;li&gt;array是0-based index, 那么K也应该减去1变为0-based的 (&lt;code&gt;k--&lt;/code&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:b1087bc16781260625f1914785de95cc&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;class Solution {
-    /**
-      * @param n: n
-      * @param k: the kth permutation
-      * @return: return the k-th permutation
-      */
-    public String getPermutation(int n, int k) {
-        
-        int[] factors = new int[n + 1];
-        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
-        factors[0] = 1;
-        for(int i = 1; i &amp;lt;= n; i++) {
-            factors[i] = i * factors[i-1];
-            list.add(i);
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        // for index alignment： e.g: k == 12, k / 6 = 2, 
-        // however, it should still belong the number start for list.get(1); So here need to make a alignment
-        k--;
-        while(n &amp;gt; 1) {
-            int index = k / factors[n-1];
-            sb.append(list.remove(index));
-            k %= factors[n-1];
-            n--;
-        }
-        sb.append(list.get(0));
-        return sb.toString();
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Permutation Index</title>
-      <link>http://xmruibi.github.io/2015/10/19/permutation-index/</link>
-      <pubDate>Mon, 19 Oct 2015 11:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/19/permutation-index/</guid>
-      <description>
-
-&lt;p&gt;Given a permutation which contains no repeated number, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:b254e2be3b90deb3cd83d96477ed4e86&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given &lt;code&gt;[1,2,4]&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;thinking:b254e2be3b90deb3cd83d96477ed4e86&#34;&gt;Thinking&lt;/h2&gt;
-
-&lt;p&gt;Illustrating by manually getting the index of {2, 4, 3, 1}. Since this is a 4-element set, we know there are 4! permutations (4! = 4*3*2*1). If the set only had 3 elements, we would have 3*2*1 permutations. If the set only had 2 elements, we would have 2!=2*1 permutations; and so on.&lt;/p&gt;
-
-&lt;p&gt;ASIDE: The decimal system of counting is a positional system. A 3-element decimal number, for instance, has the following three positional weights: hundred, ten, unit. Hence, we know the value of the number 472 because we understand: 4*hundred + 7*ten + 2*unit.&lt;/p&gt;
-
-&lt;p&gt;If we treat our 4-element set as a positional system, then we get the following positional weights: 3!, 2!, 1!, 0. So that the index of {2, 4, 3, 1} is: x*3!+y*2!+z*1!+w*0. Presently it suffices to find the values of x,y,z to calculate the index (we ignore w because it is paired with 0). x,y,z are counters: the number of succeeding elements less than the element being considered. For example, in {2, 4, 3, 1}, there are two succeeding elements less than 4 (namely 3 and 1). For 2 it&amp;rsquo;s 1 (1); for 4 it&amp;rsquo;s 2 (3 and 1); for 3 it&amp;rsquo;s 1 (1); for 1 it&amp;rsquo;s 0. Now we can calculate the index of {2, 4, 3, 1} as: x=1, y=2, z=1:
-    &lt;code&gt;x*3!+y*2!+z*1!+w*0 = 1*3! + 2*2! + 1*1! = 6 + 4 + 1 = 11&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;solution:b254e2be3b90deb3cd83d96477ed4e86&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
-    /**
-     * @param A an integer array
-     * @return a long integer
-     */
-    public long permutationIndex(int[] A) {
-        
-        if(A == null || A.length == 0)
-            return 0L;
-        
-        int pos = 2;
-        long factor = 1;
-        long index = 1;
-        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
-            int cnt = 0;
-            for(int j = i + 1; j &amp;lt; A.length; j++) {
-                if(A[i] &amp;gt; A[j])
-                    cnt++;
-            }
-            index += (cnt*factor);
-            factor *= pos;
-            pos++;
-        }
-        
-        return index;
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;complexity-analysis:b254e2be3b90deb3cd83d96477ed4e86&#34;&gt;Complexity Analysis&lt;/h2&gt;
-
-&lt;p&gt;Two loop: &lt;code&gt;i range 0 -&amp;gt; length - 2&lt;/code&gt; and &lt;code&gt;j range i + 1 -&amp;gt; length - 1&lt;/code&gt;, So it is &lt;code&gt;O(n^2)&lt;/code&gt;;
-Constant Space with some integer variable, Space: &lt;code&gt;O(1)&lt;/code&gt;;&lt;/p&gt;
 </description>
     </item>
     

@@ -581,6 +581,38 @@ The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&
 
 &lt;h2 id=&#34;problem-ii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem II&lt;/h2&gt;
 
+&lt;p&gt;Get the longest palindromical substring from permutation by given string.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Record the frequency&lt;/li&gt;
+&lt;li&gt;All character with even frequency can be added into final result.&lt;/li&gt;
+&lt;li&gt;Find the largest odd frequency add it onto final result.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        private int longestSubset(String str) {
+        HashMap&amp;lt;Character, Integer&amp;gt; charCnt = new HashMap&amp;lt;&amp;gt;();
+        for (char c : str.toCharArray())
+            charCnt.put(c, charCnt.containsKey(c) ? charCnt.get(c) + 1 : 1);
+        int maxLen = 0;
+        int maxsingle = 0;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : charCnt.entrySet()) {
+            if (entry.getValue() % 2 == 0)
+                maxLen += entry.getValue();
+            else
+                maxsingle = Math.max(maxsingle, entry.getValue());
+        }
+        return maxLen + maxsingle;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-iii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem III&lt;/h2&gt;
+
 &lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
 
 &lt;h4 id=&#34;example-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
@@ -588,7 +620,7 @@ The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&
 &lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
 Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+&lt;h3 id=&#34;think-2:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
@@ -601,7 +633,7 @@ Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[
 &lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+&lt;h3 id=&#34;solution-2:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
         HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();

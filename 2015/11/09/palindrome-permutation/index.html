@@ -42,11 +42,11 @@
 
 
 <meta itemprop="dateModified" content="2015-11-09T19:43:13-07:00" />
-<meta itemprop="wordCount" content="496">
+<meta itemprop="wordCount" content="593">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-09 19:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
             &middot;
-            496
+            593
             words
             &middot;
             3
@@ -268,6 +268,38 @@
 
 <h2 id="problem-ii:c02b61735a4f657d896704e724aa8184">Problem II</h2>
 
+<p>Get the longest palindromical substring from permutation by given string.</p>
+
+<h3 id="think-1:c02b61735a4f657d896704e724aa8184">Think</h3>
+
+<ul>
+<li>Record the frequency</li>
+<li>All character with even frequency can be added into final result.</li>
+<li>Find the largest odd frequency add it onto final result.</li>
+</ul>
+
+<h3 id="solution-1:c02b61735a4f657d896704e724aa8184">Solution</h3>
+
+<pre><code class="language-java">        private int longestSubset(String str) {
+        HashMap&lt;Character, Integer&gt; charCnt = new HashMap&lt;&gt;();
+        for (char c : str.toCharArray())
+            charCnt.put(c, charCnt.containsKey(c) ? charCnt.get(c) + 1 : 1);
+        int maxLen = 0;
+        int maxsingle = 0;
+        for (Map.Entry&lt;Character, Integer&gt; entry : charCnt.entrySet()) {
+            if (entry.getValue() % 2 == 0)
+                maxLen += entry.getValue();
+            else
+                maxsingle = Math.max(maxsingle, entry.getValue());
+        }
+        return maxLen + maxsingle;
+    }
+</code></pre>
+
+<hr />
+
+<h2 id="problem-iii:c02b61735a4f657d896704e724aa8184">Problem III</h2>
+
 <p>Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.</p>
 
 <h4 id="example-1:c02b61735a4f657d896704e724aa8184">Example</h4>
@@ -275,7 +307,7 @@
 <p>Given s = <code>&quot;aabb&quot;</code>, return <code>[&quot;abba&quot;, &quot;baab&quot;]</code>.
 Given s = <code>&quot;abc&quot;</code>, return <code>[]</code>.</p>
 
-<h3 id="think-1:c02b61735a4f657d896704e724aa8184">Think</h3>
+<h3 id="think-2:c02b61735a4f657d896704e724aa8184">Think</h3>
 
 <ul>
 <li>Similar with the last problem, check if the input String can form any valid palindrome</li>
@@ -288,7 +320,7 @@ Given s = <code>&quot;abc&quot;</code>, return <code>[]</code>.</p>
 <li>Backtracking to generate the symmetry characters on the generation String</li>
 </ul>
 
-<h3 id="solution-1:c02b61735a4f657d896704e724aa8184">Solution</h3>
+<h3 id="solution-2:c02b61735a4f657d896704e724aa8184">Solution</h3>
 
 <pre><code class="language-java">    public static List&lt;String&gt; generatePalindromes(String s) {
         HashSet&lt;String&gt; res = new HashSet&lt;&gt;();
@@ -430,12 +462,17 @@ Given s = <code>&quot;abc&quot;</code>, return <code>[]</code>.</p>
 </ul></li>
 <li><a href="#problem-ii:c02b61735a4f657d896704e724aa8184">Problem II</a>
 <ul>
+<li><a href="#think-1:c02b61735a4f657d896704e724aa8184">Think</a></li>
+<li><a href="#solution-1:c02b61735a4f657d896704e724aa8184">Solution</a></li>
+</ul></li>
+<li><a href="#problem-iii:c02b61735a4f657d896704e724aa8184">Problem III</a>
+<ul>
 <li>
 <ul>
 <li><a href="#example-1:c02b61735a4f657d896704e724aa8184">Example</a></li>
 </ul></li>
-<li><a href="#think-1:c02b61735a4f657d896704e724aa8184">Think</a></li>
-<li><a href="#solution-1:c02b61735a4f657d896704e724aa8184">Solution</a></li>
+<li><a href="#think-2:c02b61735a4f657d896704e724aa8184">Think</a></li>
+<li><a href="#solution-2:c02b61735a4f657d896704e724aa8184">Solution</a></li>
 </ul></li>
 </ul></li>
 </ul>

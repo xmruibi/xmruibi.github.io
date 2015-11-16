@@ -452,11 +452,11 @@ public class Solution {
 
 &lt;h3 id=&#34;example:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Example&lt;/h3&gt;
 
-&lt;pre&gt;&lt;code&gt;	1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4
-		 |		   |
-		 5 —&amp;gt; 6 -&amp;gt; 7
-		 	  |    |
-		 	  8 -&amp;gt; 9
+&lt;pre&gt;&lt;code&gt;		1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4
+			 |		   |
+			 5 —&amp;gt; 6 -&amp;gt; 7
+			 	  |    |
+			 	  8 -&amp;gt; 9
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;node-structure:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Node Structure&lt;/h3&gt;
@@ -469,7 +469,23 @@ public class Solution {
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;solution:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;solution-1:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static void flatten(MLNode root) {
+		Queue&amp;lt;MLNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		queue.add(root);
+		while (!queue.isEmpty()) {
+			MLNode cur = queue.poll();
+			while (cur != null) {
+				System.out.print(cur.val + &amp;quot;  &amp;quot;);
+				queue.offer(cur.child);
+				cur = cur.next;
+			}
+		}
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-2avoid-duplicate:ba06e0632d1f604042cd8e7b5d1837dc&#34;&gt;Solution #2Avoid duplicate&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;public class Solution{
     /**
@@ -492,27 +508,6 @@ public class Solution {
         return res
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

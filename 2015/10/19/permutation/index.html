@@ -42,11 +42,11 @@
 
 
 <meta itemprop="dateModified" content="2015-10-19T20:43:13-07:00" />
-<meta itemprop="wordCount" content="259">
+<meta itemprop="wordCount" content="345">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-19 20:43:13 -0700 PDT" itemprop="datePublished">2015-10-19</time>
             &middot;
-            259
+            345
             words
             &middot;
             2
@@ -245,7 +245,9 @@
 
 <p>Backtracking, with memorized the element usage, which takes space, or we can search on arraylist(more time);</p>
 
-<pre><code>class Solution {
+<h2 id="solution:a083606555b205581658a49380bd6233">Solution</h2>
+
+<pre><code class="language-java">class Solution {
     /**
      * @param nums: A list of integers.
      * @return: A list of permutations.
@@ -279,9 +281,7 @@
 }
 </code></pre>
 
-<h4 id="method-two:a083606555b205581658a49380bd6233">Method Two:</h4>
-
-<p>Swap: <a href="https://www.cs.princeton.edu/~rs/talks/perms.pdf">Reference</a>;</p>
+<h2 id="solution-swap-https-www-cs-princeton-edu-rs-talks-perms-pdf:a083606555b205581658a49380bd6233">Solution #<a href="https://www.cs.princeton.edu/~rs/talks/perms.pdf">Swap</a>;</h2>
 
 <p><img src="/media/PermutationSwap.png" alt="" /></p>
 
@@ -331,6 +331,42 @@
   }
 }
 
+</code></pre>
+
+<h2 id="follow-up:a083606555b205581658a49380bd6233">Follow Up</h2>
+
+<p>Given a collection of numbers that might contain duplicates, return all possible unique permutations.</p>
+
+<h3 id="example-1:a083606555b205581658a49380bd6233">Example</h3>
+
+<p><code>[1,1,2]</code> have the following unique permutations:
+<code>[1,1,2]</code>, <code>[1,2,1]</code>, and <code>[2,1,1]</code>.</p>
+
+<h2 id="solution-followup:a083606555b205581658a49380bd6233">Solution #Followup</h2>
+
+<pre><code class="language-java">    public List&lt;List&lt;Integer&gt;&gt; permuteUnique(int[] num) {
+      List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;List&lt;Integer&gt;&gt;();
+      Arrays.sort(num);
+      helper(new boolean[num.length], num, new ArrayList&lt;Integer&gt;(),result);
+      return result;
+    }
+
+    public void helper(boolean[] isUsed, int[] num, List&lt;Integer&gt; cur, List&lt;List&lt;Integer&gt;&gt; result){
+      if(cur.size() == num.length){
+        result.add(new ArrayList&lt;Integer&gt;(cur));
+        return;
+      }
+
+      for(int i=0;i&lt;num.length;i++){
+        if ((i&gt;0&amp;&amp;num[i]==num[i-1]&amp;&amp;(!isUsed[i-1])) || isUsed[i])
+          continue;
+        cur.add(num[i]);
+        isUsed[i] = true;
+        helper(isUsed, num, cur,result);
+        isUsed[i] = false;
+        cur.remove(cur.size() - 1);
+      }
+    }
 </code></pre>
 
             </div>
@@ -412,9 +448,15 @@
 <li>
 <ul>
 <li><a href="#method-one:a083606555b205581658a49380bd6233">Method One:</a></li>
-<li><a href="#method-two:a083606555b205581658a49380bd6233">Method Two:</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#solution:a083606555b205581658a49380bd6233">Solution</a></li>
+<li><a href="#solution-swap-https-www-cs-princeton-edu-rs-talks-perms-pdf:a083606555b205581658a49380bd6233">Solution #<a href="https://www.cs.princeton.edu/~rs/talks/perms.pdf">Swap</a>;</a></li>
+<li><a href="#follow-up:a083606555b205581658a49380bd6233">Follow Up</a>
+<ul>
+<li><a href="#example-1:a083606555b205581658a49380bd6233">Example</a></li>
+</ul></li>
+<li><a href="#solution-followup:a083606555b205581658a49380bd6233">Solution #Followup</a></li>
 </ul></li>
 </ul>
 </nav>

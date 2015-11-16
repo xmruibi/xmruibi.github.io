@@ -7,8 +7,165 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 20:40:29 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 10:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/iterator/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Iterator for Merging Sorted Stream</title>
+      <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</guid>
+      <description>
+
+&lt;p&gt;Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: &lt;code&gt;1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2&lt;/code&gt; -&amp;gt; &lt;code&gt;2, ,4, 6, 8&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:c20097de2cc12809c8a9177ae4edd63e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class HopIterator&amp;lt;E&amp;gt; implements Iterator&amp;lt;E&amp;gt; {
+	int hop;
+	Iterator&amp;lt;E&amp;gt; itr;
+
+	public HopIterator(Collection&amp;lt;E&amp;gt; list, int hop) {
+		this.itr = list.iterator();
+		this.hop = hop;
+	}
+
+	@Override
+	public boolean hasNext() {
+		int k = 1;
+		while (k &amp;lt; hop &amp;amp;&amp;amp; itr.hasNext()) {
+			k++;
+			itr.next();
+		}
+		return k == hop &amp;amp;&amp;amp; itr.hasNext();
+	}
+
+	@Override
+	public E next() {
+		return itr.next();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator for Merging Sorted Stream</title>
+      <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</guid>
+      <description>
+
+&lt;p&gt;Given a &lt;code&gt;Merge Sorted Stream&lt;/code&gt; class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: &lt;code&gt;hasNext()&lt;/code&gt;, &lt;code&gt;next()&lt;/code&gt;. Sorted Stream defines the stream read data by ascending order, so that in &lt;code&gt;Merge Sorted Stream&lt;/code&gt; when call &lt;code&gt;next()&lt;/code&gt; method, it will return values by ascending order. Pleas complete the following codes.&lt;/p&gt;
+
+&lt;h3 id=&#34;partital-code:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Partital Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SortedStream implments Iterator&amp;lt;Integer&amp;gt;{
+	List&amp;lt;Integer&amp;gt; content;
+	int cursor;
+	public SortedStream(List&amp;lt;Integer&amp;gt; content){
+		if(content == null)
+			throw new IllegalArgumentException(&amp;quot;Null Input&amp;quot;);
+		this.content = content;
+		this.cursor = 0;
+	}
+
+	public boolean hasNext(){return cursor &amp;lt; content.size();}
+
+	public int next(){return content.get(cursor++);}
+}
+
+class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
+    List&amp;lt;SortedStream&amp;gt; content;
+	SortedStream cursor;
+	public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){...}
+	
+	public boolean hasNext(){...};
+
+	public int next(){...};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Implement a new wrapper class for original iterator class and make it comparable.&lt;/li&gt;
+&lt;li&gt;The new wrapper class is just like peek iterator, and implement &lt;code&gt;compareTo()&lt;/code&gt; method with comparing the peek element.&lt;/li&gt;
+&lt;li&gt;Put all new iterator class in a minheap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MergeKSortedIterator implements Iterable&amp;lt;Integer&amp;gt; {
+
+    Collection&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; listOfItr;
+
+    public MergeKSortedIterator(Collection&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; lists) {
+        this.listOfItr = lists;
+    }
+
+    @Override
+    public Iterator&amp;lt;Integer&amp;gt; iterator() {
+        Queue&amp;lt;NewIterator&amp;gt; minHeap = new PriorityQueue&amp;lt;NewIterator&amp;gt;(
+                listOfItr.size());
+        for (Iterator&amp;lt;Integer&amp;gt; it : listOfItr)
+            minHeap.add(new NewIterator(it));
+
+        return new Iterator&amp;lt;Integer&amp;gt;() {
+            @Override
+            public boolean hasNext() {
+                return !minHeap.isEmpty();
+            }
+
+            @Override
+            public Integer next() {
+                NewIterator pop = minHeap.poll();
+                int res = pop.next();
+                if (pop.hasNext()) {
+                    minHeap.add(pop);
+                }
+                return res;
+            }
+
+        };
+    }
+
+    class NewIterator implements Comparable&amp;lt;NewIterator&amp;gt;, Iterator&amp;lt;Integer&amp;gt; {
+        Integer cur;
+        Iterator&amp;lt;Integer&amp;gt; itr;
+
+        public NewIterator(Iterator&amp;lt;Integer&amp;gt; itr) {
+            this.itr = itr;
+            cur = itr.hasNext() ? itr.next() : null;
+        }
+
+        @Override
+        public int compareTo(NewIterator o) {
+            return Integer.compare(this.peek(), o.peek());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cur != null;
+        }
+
+        @Override
+        public Integer next() {
+            int res = cur;
+            cur = itr.hasNext() ? itr.next() : null;
+            return res;
+        }
+
+        public Integer peek() {
+            return cur;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Text File Iterator</title>
@@ -445,81 +602,6 @@ Given the list &lt;code&gt;{1,{4,{6}}}&lt;/code&gt; the function should return &
         while(it.hasNext()){
             System.out.println(it.next());
         }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Iterator for Merging Sorted Stream</title>
-      <link>http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/</link>
-      <pubDate>Sat, 31 Oct 2015 10:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/10/31/iterator-for-merging-sorted-stream/</guid>
-      <description>
-
-&lt;p&gt;Given a &lt;code&gt;Merge Sorted Stream&lt;/code&gt; class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: &lt;code&gt;hasNext()&lt;/code&gt;, &lt;code&gt;next()&lt;/code&gt;. Sorted Stream defines the stream read data by ascending order, so that in &lt;code&gt;Merge Sorted Stream&lt;/code&gt; when call &lt;code&gt;next()&lt;/code&gt; method, it will return values by ascending order. Pleas complete the following codes.&lt;/p&gt;
-
-&lt;h3 id=&#34;partital-code:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Partital Code&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SortedStream implments Iterator&amp;lt;Integer&amp;gt;{
-	List&amp;lt;Integer&amp;gt; content;
-	int cursor;
-	public SortedStream(List&amp;lt;Integer&amp;gt; content){
-		if(content == null)
-			throw new IllegalArgumentException(&amp;quot;Null Input&amp;quot;);
-		this.content = content;
-		this.cursor = 0;
-	}
-
-	public boolean hasNext(){return cursor &amp;lt; content.size();}
-
-	public int next(){return content.get(cursor++);}
-}
-
-class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
-    List&amp;lt;SortedStream&amp;gt; content;
-	SortedStream cursor;
-	public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){...}
-	
-	public boolean hasNext(){...};
-
-	public int next(){...};
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;think:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Merge Sorted data by Heap!&lt;/li&gt;
-&lt;li&gt;Peek Iterator&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
-    List&amp;lt;SortedStream&amp;gt; content;
-    PriorityQueue&amp;lt;Integer&amp;gt; minheap;
-    public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){
-        this.minheap = new PriorityQueue&amp;lt;&amp;gt;();
-        this.content = content;
-        for(SortedStream ss : content) {
-            if(ss != null &amp;amp;&amp;amp; ss.hasNext())
-                minheap.add(ss.next());
-        }
-    }
-    
-    public boolean hasNext() {
-        for (SortedStream ss : content) {
-            if (ss != null &amp;amp;&amp;amp; ss.hasNext())
-                minheap.add(ss.next());
-        }
-        return !minheap.isEmpty();
-    }
-
-    public int next(){
-        return minheap.poll();
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

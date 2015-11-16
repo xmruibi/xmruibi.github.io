@@ -42,11 +42,11 @@
 
 
 <meta itemprop="dateModified" content="2015-09-08T23:10:29-07:00" />
-<meta itemprop="wordCount" content="184">
+<meta itemprop="wordCount" content="222">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-09-08 23:10:29 -0700 PDT" itemprop="datePublished">2015-09-08</time>
             &middot;
-            184
+            222
             words
             &middot;
-            1
+            2
             minute read
         </div>
         <div class="article-category">
@@ -220,11 +220,11 @@
 
 <h3 id="example:ba06e0632d1f604042cd8e7b5d1837dc">Example</h3>
 
-<pre><code>	1 -&gt; 2 -&gt; 3 -&gt; 4
-		 |		   |
-		 5 —&gt; 6 -&gt; 7
-		 	  |    |
-		 	  8 -&gt; 9
+<pre><code>		1 -&gt; 2 -&gt; 3 -&gt; 4
+			 |		   |
+			 5 —&gt; 6 -&gt; 7
+			 	  |    |
+			 	  8 -&gt; 9
 </code></pre>
 
 <h3 id="node-structure:ba06e0632d1f604042cd8e7b5d1837dc">Node Structure</h3>
@@ -237,7 +237,23 @@
 
 </code></pre>
 
-<h2 id="solution:ba06e0632d1f604042cd8e7b5d1837dc">Solution</h2>
+<h2 id="solution-1:ba06e0632d1f604042cd8e7b5d1837dc">Solution #1</h2>
+
+<pre><code class="language-java">	private static void flatten(MLNode root) {
+		Queue&lt;MLNode&gt; queue = new LinkedList&lt;&gt;();
+		queue.add(root);
+		while (!queue.isEmpty()) {
+			MLNode cur = queue.poll();
+			while (cur != null) {
+				System.out.print(cur.val + &quot;  &quot;);
+				queue.offer(cur.child);
+				cur = cur.next;
+			}
+		}
+	}
+</code></pre>
+
+<h2 id="solution-2avoid-duplicate:ba06e0632d1f604042cd8e7b5d1837dc">Solution #2Avoid duplicate</h2>
 
 <pre><code>public class Solution{
     /**
@@ -260,27 +276,6 @@
         return res
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
 </code></pre>
 
             </div>
@@ -357,7 +352,8 @@
 <li><a href="#example:ba06e0632d1f604042cd8e7b5d1837dc">Example</a></li>
 <li><a href="#node-structure:ba06e0632d1f604042cd8e7b5d1837dc">Node Structure</a></li>
 </ul></li>
-<li><a href="#solution:ba06e0632d1f604042cd8e7b5d1837dc">Solution</a></li>
+<li><a href="#solution-1:ba06e0632d1f604042cd8e7b5d1837dc">Solution #1</a></li>
+<li><a href="#solution-2avoid-duplicate:ba06e0632d1f604042cd8e7b5d1837dc">Solution #2Avoid duplicate</a></li>
 </ul></li>
 </ul>
 </nav>

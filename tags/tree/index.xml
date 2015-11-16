@@ -7,8 +7,142 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 20:39:16 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Compact Tree Builder</title>
+      <link>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</link>
+      <pubDate>Sun, 15 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/compact-tree-builder/</guid>
+      <description>
+
+&lt;p&gt;Given a root of a binary tree. Transform it in a way that each node(except probably one) would either have N or 0 children.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   * A               A                 A                         A
+     *  |               |                 |_B                       |_B
+     *  |_B             |_B                  |_C                    |
+     *     |            |  |                    |_D                 |_C
+     *     |            |  |_D                     |_E              |
+     *     |            |  |                          |_F           |_D
+     *     |_C          |  |_E                           |_G        |
+     *     | |_D        |    |_H                            |_H     |_E
+     *     |    |_F     |                                           |
+     *     |            |_C                                         |_F
+     *     |_E            |                                         |
+     *       |_G          |_F                                       |_G
+     *       |            |                                         |
+     *       |_H          |_G                                       |_H
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BFS entire tree into a queue.&lt;/li&gt;
+&lt;li&gt;Read that queue and build posssible children according to the limit and add it into the root.&lt;/li&gt;
+&lt;li&gt;Record the next root in another queue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:397f4eeb84727cbe660f274d6bea7a6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static CTree compact(TreeNode node, int limit) {
+
+		// bfs the original tree into a queue
+		List&amp;lt;TreeNode&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		queue.add(node);
+		int idx = 0;
+		while (idx &amp;lt; queue.size()) {
+			TreeNode cur = queue.get(idx++);
+			if (cur.left != null)
+				queue.add(cur.left);
+			if (cur.right != null)
+				queue.add(cur.right);
+		}
+		// get the root for final return
+		CTree root = new CTree(queue.remove(0).val);
+		// build a queue for store the new type tree
+		Queue&amp;lt;CTree&amp;gt; helperQueue = new LinkedList&amp;lt;&amp;gt;();
+		helperQueue.add(root);
+		while (!queue.isEmpty()) {
+			CTree cRoot = helperQueue.remove();
+			// build the children for current CTree
+			int curLv = 0; // make sure the amount of children
+			List&amp;lt;CTree&amp;gt; nexlv = new ArrayList&amp;lt;&amp;gt;();
+			while (curLv &amp;lt; limit &amp;amp;&amp;amp; !queue.isEmpty()) {
+				nexlv.add(new CTree(queue.remove(0).val));
+				helperQueue.offer(nexlv.get(curLv++));
+			}			
+			cRoot.nodes = nexlv;
+		}	
+		return root;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert BST to Sorted Doubly-Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</link>
+      <pubDate>Sun, 15 Nov 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a Binary Tree (BT), convert it to a Doubly Linked List(DLL) In-Place. The left and right pointers in nodes are to be used as previous and next pointers respectively in converted DLL. The order of nodes in DLL must be same as Inorder of the given Binary Tree. The first node of Inorder traversal (left most node in BT) must be head node of the DLL.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:9391617169eedec55b65d518b5c0a515&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Inorder traversal&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-stack:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Stack&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static Node convertBST2DoublyLinkedList(Node root) {
+		Node dummy = new Node(0);
+		Node prev = dummy;
+		java.util.Stack&amp;lt;Node&amp;gt; stack = new java.util.Stack&amp;lt;&amp;gt;();
+
+		do {
+			while (root != null) {
+				stack.push(root);
+				root = root.prev;
+			}
+			Node cur = stack.pop();
+			prev.next = cur;
+			cur.prev = prev;
+			prev = prev.next;
+			if (cur.next != null)
+				root = cur.next;
+			else
+				root = null;
+		} while (!stack.isEmpty() || root != null);
+
+		return dummy.next;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursion:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Recursion&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    static Node dummy = new Node(0);
+    static Node pre = dummy;
+
+    private static Node convertII(Node root) {
+        if (root == null)
+            return root;
+        Node prev = convertII(root.prev);
+        pre.next = root;
+        root.prev = pre;
+        pre = root;
+        Node next = convertII(root.next);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Reverse a Stack using Recursion</title>
@@ -559,6 +693,59 @@
             return left == null? right : left;
         }
     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b&#34;&gt;Think # With Parent Node&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;With Parent node we don&amp;rsquo;t need the root node.&lt;/li&gt;
+&lt;li&gt;Get the depth of each node.&lt;/li&gt;
+&lt;li&gt;Then look like we find the intersectin of two linked list.&lt;/li&gt;
+&lt;li&gt;Find the intersection.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-with-parent-node:63e93a6b82ee930d2e0666f2fd23df1b&#34;&gt;Solution # With Parent Node&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A and B: two nodes in a Binary.
+     * @return: Return the least common ancestor(LCA) of the two nodes.
+     */
+    public TreeNode lowestCommonAncestor(TreeNode A, TreeNode B) {
+        int adepth = getDepth(A);
+        int bdepth = getDepth(B);
+        // make two length equal
+        while(adepth &amp;gt; bdepth) {
+            A = A.parent;
+            adepth--;
+        }
+        while(adepth &amp;lt; bdepth) {
+            B = B.parent;
+            bdepth--;
+        }
+        // find intersection
+        while(A != B) {
+            if(A == B)
+                return A;
+            A = A.parent;
+            B = B.parent;
+        }
+        return null;
+    }
+
+    private int getDepth(TreeNode node){
+        if(node == null)
+            return 0;
+        return 1 + getDepth(node.parent);
+    }
+}
+class TreeNode{
+    int val;
+    TreeNode parent, left, right;
+    public TreeNode(int val){
+        this.val = val;
+}
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

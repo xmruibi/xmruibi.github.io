@@ -232,6 +232,7 @@
 &lt;h2 id=&#34;think:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Think&lt;/h2&gt;
 
 &lt;ul&gt;
+&lt;li&gt;Typical DFS idea.&lt;/li&gt;
 &lt;li&gt;For input value &lt;code&gt;n&lt;/code&gt;, it has possible factors start from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;Sqrt(n)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;For every factor, we also calculate its factors, like: &lt;code&gt;16 -&amp;gt; 2, 8 -&amp;gt; 2, 2, 4 -&amp;gt; 2, 2, 2, 2, 2&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list&lt;/li&gt;

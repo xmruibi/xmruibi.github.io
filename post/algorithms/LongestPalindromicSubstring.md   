@@ -16,7 +16,7 @@ Given the string = `"abcdzdcab"`, return `"cdzdc"`.
 ### Challenge
 O(n2) time is acceptable. Can you do it in O(n) time.
 
-## Think
+## Think #2
 - One pass on each position in string characters, assume the axis of symmetry on each character or between two character:
 
 		    |						|
@@ -43,31 +43,47 @@ public class Solution {
      * @param s input string
      * @return the longest palindromic substring
      */
-    public String longestPalindrome(String s) {
-        if(s == null || s.length() == 0)
-            return "";
-        
-        String longest = "";
-        int maxLength = 0;
-        for(int i = 0; i < s.length()*2 - 1; i++){
-            int l = i / 2;
-            int r = i / 2;
-            if(i % 2 != 0)
-                r++;
-            String cur = palindrome(s, l , r);
-            if(cur.length() > maxLength) {
-                longest = cur;
-                maxLength = cur.length();
+    private String LongestPalindromeSubstringI(String str) {
+        int maxLen = 0;
+        String maxSubstr = "";
+        // memorized whether it is palindromical in str (i, j)
+        boolean[][] memo = new boolean[str.length()][str.length()];
+        for (int i = str.length() - 1; i >= 0; i--) {
+            for (int j = i; j < str.length(); j++) {
+                if ((j - i < 2 || memo[i + 1][j - 1])
+                        && str.charAt(i) == str.charAt(j)) {
+                    memo[i][j] = true;
+                    if (j - i + 1 > maxLen) {
+                        maxSubstr = str.substring(i, j + 1);
+                        maxLen = j - i + 1;
+                    }
+                }
             }
         }
-        return longest;
+        return maxSubstr;
     }
-    
-    private String palindrome(String s, int l, int r) {
-        while(l>=0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
-            l--; r++;
+
+    private String LongestPalindromeSubstringII(String str) {
+        int maxLen = 0;
+        String maxSubstr = "";
+        for (int i = 0; i < str.length(); i++) {
+            String case1 = expandFromCenter(str, i, i);
+            String case2 = expandFromCenter(str, i, i + 1);
+            if (Math.max(case1.length(), case2.length()) > maxLen) {
+                maxLen = Math.max(case1.length(), case2.length());
+                maxSubstr = case1.length() > case2.length() ? case1 : case2;
+            }
         }
-        return s.substring(l + 1, r);
+        return maxSubstr;
+    }
+
+    private String expandFromCenter(String str, int left, int right) {
+        while ( left >= 0
+                && right < str.length()&&str.charAt(left) == str.charAt(right)) {
+            left--;
+            right++;
+        }
+        return str.substring(left + 1, right);
     }
 }
 ```
