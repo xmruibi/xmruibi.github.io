@@ -11,6 +11,69 @@
     <atom:link href="http://xmruibi.github.io/tags/iterator/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Find Union and Intersection by Iterators</title>
+      <link>http://xmruibi.github.io/2015/11/15/find-union-and-intersection-by-iterators/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/find-union-and-intersection-by-iterators/</guid>
+      <description>
+
+&lt;p&gt;Given two iterators, find their union and intersection.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:d67777c39d54b3f8295734245ce89a09&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    private static List&amp;lt;Integer&amp;gt; union(Iterator&amp;lt;Integer&amp;gt; itr1,
+            Iterator&amp;lt;Integer&amp;gt; itr2) {
+        Integer num1 = itr1.hasNext() ? itr1.next() : null;
+        Integer num2 = itr2.hasNext() ? itr2.next() : null;
+        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        while (num1 != null || num2 != null) {
+            if (num1 != null &amp;amp;&amp;amp; num2 != null) {
+                if (num1 &amp;lt; num2) {
+                    res.add(num1);
+                    num1 = itr1.hasNext() ? itr1.next() : null;
+                } else if (num1 &amp;gt; num2) {
+                    res.add(num2);
+                    num2 = itr2.hasNext() ? itr2.next() : null;
+                } else {
+                    res.add(num1);
+                    num1 = itr1.hasNext() ? itr1.next() : null;
+                    num2 = itr2.hasNext() ? itr2.next() : null;
+                }
+            } else if (num1 != null) {
+                res.add(num1);
+                num1 = itr1.hasNext() ? itr1.next() : null;
+            } else {
+                res.add(num2);
+                num2 = itr2.hasNext() ? itr2.next() : null;
+            }
+        }
+        return res;
+    }
+
+    private static List&amp;lt;Integer&amp;gt; intersection(Iterator&amp;lt;Integer&amp;gt; itr1,
+            Iterator&amp;lt;Integer&amp;gt; itr2) {
+        Integer num1 = itr1.hasNext() ? itr1.next() : null;
+        Integer num2 = itr2.hasNext() ? itr2.next() : null;
+        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        while (num1 != null &amp;amp;&amp;amp; num2 != null) {
+            if (num1 &amp;lt; num2) {
+                num1 = itr1.hasNext() ? itr1.next() : null;
+            } else if (num1 &amp;gt; num2) {
+                num2 = itr2.hasNext() ? itr2.next() : null;
+            } else {
+                res.add(num1);
+                num1 = itr1.hasNext() ? itr1.next() : null;
+                num2 = itr2.hasNext() ? itr2.next() : null;
+            }
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Iterator for Merging Sorted Stream</title>
       <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
       <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>

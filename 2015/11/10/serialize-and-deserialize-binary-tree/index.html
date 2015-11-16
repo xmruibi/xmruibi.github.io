@@ -42,11 +42,11 @@
 
 
 <meta itemprop="dateModified" content="2015-11-10T22:43:13-07:00" />
-<meta itemprop="wordCount" content="360">
+<meta itemprop="wordCount" content="455">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-10 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-10</time>
             &middot;
-            360
+            455
             words
             &middot;
-            2
+            3
             minute read
         </div>
         <div class="article-category">
@@ -235,13 +235,47 @@
 
 <p>You can use other method to do serializaiton and deserialization.</p>
 
-<h2 id="think:1229938f8d50f25aeb29cea5addd005c">Think</h2>
+<h2 id="think-multiple-ways:1229938f8d50f25aeb29cea5addd005c">Think #Multiple Ways</h2>
 
 <ul>
 <li>BFS with queue</li>
+<li>Preorder or inorder</li>
 </ul>
 
-<h2 id="solution:1229938f8d50f25aeb29cea5addd005c">Solution</h2>
+<h2 id="solution-preorder:1229938f8d50f25aeb29cea5addd005c">Solution # Preorder</h2>
+
+<pre><code class="language-java">class Solution {
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        preorder(sb, root);
+        return sb.toString();
+    }    
+    private void preorder(StringBuilder sb, TreeNode node) {
+        if(node == null) {
+            sb.append(&quot;#,&quot;);
+            return;
+        }
+        sb.append(node.val + &quot;,&quot;);
+        preorder(sb, node.left);
+        preorder(sb, node.right);
+    }    
+    public TreeNode deserialize(String data) {
+        String[] datas = data.split(&quot;,&quot;);
+        return helper(datas, new int[]{0});
+    }    
+    private TreeNode helper(String[] datas, int[] idx) {
+        String cur = datas[idx[0]++];
+        if(cur.equals(&quot;#&quot;)) 
+            return null;
+        TreeNode root = new TreeNode(Integer.parseInt(cur));
+        root.left = helper(datas, idx);
+        root.right = helper(datas, idx);
+        return root;
+    }
+}
+</code></pre>
+
+<h2 id="solution-bfs-level-order:1229938f8d50f25aeb29cea5addd005c">Solution #BFS(Level order)</h2>
 
 <pre><code class="language-java">class Solution {
     /**
@@ -376,8 +410,9 @@
 <ul>
 <li><a href="#example:1229938f8d50f25aeb29cea5addd005c">Example</a></li>
 </ul></li>
-<li><a href="#think:1229938f8d50f25aeb29cea5addd005c">Think</a></li>
-<li><a href="#solution:1229938f8d50f25aeb29cea5addd005c">Solution</a></li>
+<li><a href="#think-multiple-ways:1229938f8d50f25aeb29cea5addd005c">Think #Multiple Ways</a></li>
+<li><a href="#solution-preorder:1229938f8d50f25aeb29cea5addd005c">Solution # Preorder</a></li>
+<li><a href="#solution-bfs-level-order:1229938f8d50f25aeb29cea5addd005c">Solution #BFS(Level order)</a></li>
 </ul></li>
 </ul>
 </nav>

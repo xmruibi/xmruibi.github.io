@@ -48,6 +48,11 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/11/15/find-union-and-intersection-by-iterators/</loc>
+    <lastmod>2015-11-15T10:10:29-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/11/14/balanced-point-in-array/</loc>
     <lastmod>2015-11-14T22:43:13-07:00</lastmod>
   </url>
@@ -178,12 +183,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/12/find-the-celebrity/</loc>
+    <loc>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</loc>
     <lastmod>2015-11-12T12:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</loc>
+    <loc>http://xmruibi.github.io/2015/11/12/find-the-celebrity/</loc>
     <lastmod>2015-11-12T12:43:13-07:00</lastmod>
   </url>
   
@@ -195,6 +200,11 @@
   <url>
     <loc>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</loc>
     <lastmod>2015-11-12T12:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/11/12/mutex-vs-semaphore/</loc>
+    <lastmod>2015-11-12T09:03:07-07:00</lastmod>
   </url>
   
   <url>
@@ -233,12 +243,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</loc>
+    <loc>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</loc>
     <lastmod>2015-11-10T22:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</loc>
+    <loc>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</loc>
     <lastmod>2015-11-10T22:43:13-07:00</lastmod>
   </url>
   
@@ -383,12 +393,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/04/longest-common-substring/</loc>
+    <loc>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</loc>
     <lastmod>2015-11-04T09:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</loc>
+    <loc>http://xmruibi.github.io/2015/11/04/longest-common-substring/</loc>
     <lastmod>2015-11-04T09:43:13-07:00</lastmod>
   </url>
   
@@ -473,6 +483,11 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</loc>
+    <lastmod>2015-10-25T20:33:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</loc>
     <lastmod>2015-10-25T20:13:13-07:00</lastmod>
   </url>
@@ -513,12 +528,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -563,12 +578,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/chess-game/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/chess-game/</loc>
+    <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
@@ -678,12 +693,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
@@ -693,22 +708,22 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
-    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
+    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -723,12 +738,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/ugly-number/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/ugly-number/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
   </url>
   
@@ -954,10 +969,6 @@
   
   <url>
     <loc>http://xmruibi.github.io/license/</loc>
-  </url>
-  
-  <url>
-    <loc>http://xmruibi.github.io/1/01/01/</loc>
   </url>
   
   <url>

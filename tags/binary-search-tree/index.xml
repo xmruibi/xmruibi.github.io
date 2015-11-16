@@ -327,5 +327,55 @@ You are guaranteed to have only one unique value in the BST that is closest to t
 </description>
     </item>
     
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a tree string expression in balanced parenthesis format: &lt;code&gt;[A[B[C][D]][E][F]]&lt;/code&gt;
+Construct a tree and return the root of the tree.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                A 
+            /   |   \
+          B     E    F
+         / \
+       C   D
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:c5615b000167d84de0482a72736f3047&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Store Nodes in a Stack&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:c5615b000167d84de0482a72736f3047&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static Node buildTree(String str) {
+        java.util.Stack&amp;lt;Node&amp;gt; nodes = new java.util.Stack();
+        int idx = 0;
+        Node root = null;
+        while (idx &amp;lt; str.length()) {
+            char cur = str.charAt(idx);
+            if (cur == &#39;]&#39;) {
+                Node pop = nodes.pop();
+                root = pop;
+                if (nodes.isEmpty())
+                    break;
+                nodes.peek().children.add(pop);
+            } else if (cur != &#39;[&#39;) {
+                Node node = new Node(cur);
+                nodes.push(node);
+            }
+            idx++;
+        }
+        return root;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>

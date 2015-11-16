@@ -182,13 +182,47 @@
 
 &lt;p&gt;You can use other method to do serializaiton and deserialization.&lt;/p&gt;
 
-&lt;h2 id=&#34;think:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Think&lt;/h2&gt;
+&lt;h2 id=&#34;think-multiple-ways:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Think #Multiple Ways&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;BFS with queue&lt;/li&gt;
+&lt;li&gt;Preorder or inorder&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;solution:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Solution&lt;/h2&gt;
+&lt;h2 id=&#34;solution-preorder:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Solution # Preorder&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        preorder(sb, root);
+        return sb.toString();
+    }    
+    private void preorder(StringBuilder sb, TreeNode node) {
+        if(node == null) {
+            sb.append(&amp;quot;#,&amp;quot;);
+            return;
+        }
+        sb.append(node.val + &amp;quot;,&amp;quot;);
+        preorder(sb, node.left);
+        preorder(sb, node.right);
+    }    
+    public TreeNode deserialize(String data) {
+        String[] datas = data.split(&amp;quot;,&amp;quot;);
+        return helper(datas, new int[]{0});
+    }    
+    private TreeNode helper(String[] datas, int[] idx) {
+        String cur = datas[idx[0]++];
+        if(cur.equals(&amp;quot;#&amp;quot;)) 
+            return null;
+        TreeNode root = new TreeNode(Integer.parseInt(cur));
+        root.left = helper(datas, idx);
+        root.right = helper(datas, idx);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-bfs-level-order:1229938f8d50f25aeb29cea5addd005c&#34;&gt;Solution #BFS(Level order)&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
     /**
