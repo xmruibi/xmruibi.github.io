@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
     <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Convert Sorted List to Binary Search Tree" />
-<meta property="og:description" content="Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+<meta property="og:description" content="Given a tree string expression in balanced parenthesis format: [A[B[C][D]][E][F]]
+Construct a tree and return the root of the tree.
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/" />
@@ -37,12 +38,13 @@
     
     
 <meta itemprop="name" content="Convert Sorted List to Binary Search Tree">
-<meta itemprop="description" content="Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+<meta itemprop="description" content="Given a tree string expression in balanced parenthesis format: [A[B[C][D]][E][F]]
+Construct a tree and return the root of the tree.
 ">
 
 
 <meta itemprop="dateModified" content="2015-10-25T20:33:13-07:00" />
-<meta itemprop="wordCount" content="144">
+<meta itemprop="wordCount" content="101">
 
 
 
@@ -55,7 +57,8 @@
 
 
 <meta name="twitter:title" content="Convert Sorted List to Binary Search Tree"/>
-<meta name="twitter:description" content="Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+<meta name="twitter:description" content="Given a tree string expression in balanced parenthesis format: [A[B[C][D]][E][F]]
+Construct a tree and return the root of the tree.
 "/>
 
 
@@ -189,7 +192,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-25 20:33:13 -0700 PDT" itemprop="datePublished">2015-10-25</time>
             &middot;
-            144
+            101
             words
             &middot;
             1
@@ -198,7 +201,7 @@
         <div class="article-category">
             
             <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/google">Google</a>
             
             <i class="fa fa-folder"></i>
             <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
@@ -207,13 +210,10 @@
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/linked-list">Linked List</a>
-               
-            <i class="fa fa-tag"></i>        
             <a class="article-category-link" href="http://xmruibi.github.io/tags/two-pointers">Two Pointers</a>
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/divide-and-conquer">Divide and Conquer</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
                
             <i class="fa fa-tag"></i>        
             <a class="article-category-link" href="http://xmruibi.github.io/tags/binary-search-tree">Binary Search Tree</a>
@@ -225,60 +225,49 @@
             <div class="article-entry" itemprop="articleBody">
                 
 
-<p>Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.</p>
+<p>Given a tree string expression in balanced parenthesis format: <code>[A[B[C][D]][E][F]]</code>
+Construct a tree and return the root of the tree.</p>
 
-<h3 id="example:ebcc5cc351452f43a80486353940deb1">Example</h3>
-
-<pre><code>               2
-1-&gt;2-&gt;3  =&gt;   / \
-             1   3
+<pre><code>                A 
+            /   |   \
+          B     E    F
+         / \
+       C   D
 </code></pre>
 
-<h2 id="think:ebcc5cc351452f43a80486353940deb1">Think</h2>
+<h2 id="think:c5615b000167d84de0482a72736f3047">Think</h2>
 
 <ul>
-<li>Find the middle point in list</li>
-<li>Divide and Conquer to build left child and right child node</li>
+<li>Store Nodes in a Stack</li>
 </ul>
 
-<h2 id="solution:ebcc5cc351452f43a80486353940deb1">Solution</h2>
+<h2 id="solution:c5615b000167d84de0482a72736f3047">Solution</h2>
 
-<pre><code class="language-java">public class Solution {
-    /**
-     * @param head: The first node of linked list.
-     * @return: a tree node
-     */
-    public TreeNode sortedListToBST(ListNode head) {  
-        // write your code here
-        if(head == null)
-            return null;
-        if(head.next == null)
-            return new TreeNode(head.val);
-            
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode runner = head;
-        ListNode walker = dummy;
-        while(runner!=null &amp;&amp; runner.next!=null) {
-            runner = runner.next.next;
-            walker = walker.next;
+<pre><code class="language-java">    public static Node buildTree(String str) {
+        java.util.Stack&lt;Node&gt; nodes = new java.util.Stack();
+        int idx = 0;
+        Node root = null;
+        while (idx &lt; str.length()) {
+            char cur = str.charAt(idx);
+            if (cur == ']') {
+                Node pop = nodes.pop();
+                root = pop;
+                if (nodes.isEmpty())
+                    break;
+                nodes.peek().children.add(pop);
+            } else if (cur != '[') {
+                Node node = new Node(cur);
+                nodes.push(node);
+            }
+            idx++;
         }
-        
-        ListNode m = walker.next;
-        TreeNode root = new TreeNode(m.val);
-        ListNode left = dummy.next;
-        ListNode right = walker.next.next;
-        walker.next = null;
-        root.left = sortedListToBST(left);
-        root.right = sortedListToBST(right);
         return root;
     }
-}
 </code></pre>
 
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/" data-id="ebcc5cc351452f43a80486353940deb1" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/" data-id="c5615b000167d84de0482a72736f3047" class="article-share-link">
         Share
     </a>
     
@@ -293,20 +282,20 @@
         
 <nav id="article-nav">
     
-    <a href="http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Convert Sorted List to Binary Search Tree</div>
+      <div class="article-nav-title">Remove Duplicates from Sorted List II</div>
     </a>
     
 
     
-    <a href="http://xmruibi.github.io/2015/10/25/boggle-game/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Newer
       </strong>
-      <div class="article-nav-title">Boggle Game</div>
+      <div class="article-nav-title">Convert Sorted List to Binary Search Tree</div>
     </a>
     
 </nav>
@@ -345,12 +334,8 @@
 <ul>
 <li>
 <ul>
-<li>
-<ul>
-<li><a href="#example:ebcc5cc351452f43a80486353940deb1">Example</a></li>
-</ul></li>
-<li><a href="#think:ebcc5cc351452f43a80486353940deb1">Think</a></li>
-<li><a href="#solution:ebcc5cc351452f43a80486353940deb1">Solution</a></li>
+<li><a href="#think:c5615b000167d84de0482a72736f3047">Think</a></li>
+<li><a href="#solution:c5615b000167d84de0482a72736f3047">Solution</a></li>
 </ul></li>
 </ul>
 </nav>

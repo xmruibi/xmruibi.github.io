@@ -170,6 +170,61 @@
     </item>
     
     <item>
+      <title>Smallest character that is strictly larger than the search character target</title>
+      <link>http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/</guid>
+      <description>
+
+&lt;p&gt;Given a sorted list of letters, sorted in ascending order and a character for which we are searching. Return the smallest character that is strictly larger than the search character, If no such character exists, return the smallest character in the array.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following inputs we expect the corresponding output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;a&#39; =&amp;gt; &#39;c&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;c&#39; =&amp;gt; &#39;f&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;k&#39; =&amp;gt; &#39;p&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;z&#39; =&amp;gt; &#39;c&#39; // The wrap around case 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;f&#39; =&amp;gt; &#39;k&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;c&#39; =&amp;gt; &#39;f&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;d&#39; =&amp;gt; &#39;f&#39; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical binary Search&lt;/li&gt;
+&lt;li&gt;Just be aware to wrapped case, use mod.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static char search(char[] dict, char c) {
+
+		int l = 0, r = dict.length - 1;
+
+		while (l + 1 &amp;lt; r) {
+			int m = l + (r - l) / 2;
+			if (dict[m] &amp;lt; c)
+				l = m;
+			else
+				r = m;
+		}
+
+		if (dict[l] &amp;gt; c)
+			return dict[l];
+		else if (dict[r] &amp;gt; c)
+			return dict[r];
+		else
+			return dict[(r + 1) % dict.length];
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Find the Celebrity</title>
       <link>http://xmruibi.github.io/2015/11/12/find-the-celebrity/</link>
       <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>

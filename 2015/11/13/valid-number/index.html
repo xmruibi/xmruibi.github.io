@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-13T16:13:13-07:00" />
-<meta itemprop="wordCount" content="238">
+<meta itemprop="wordCount" content="189">
 
 
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-13 16:13:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
             &middot;
-            238
+            189
             words
             &middot;
-            2
+            1
             minute read
         </div>
         <div class="article-category">
@@ -254,38 +254,30 @@
 <h2 id="solution:d0ba9336933b8515213de1bc6935949b">Solution</h2>
 
 <pre><code class="language-java">	public boolean isNumber(String s) {
-		if(s == null)
-			return false;
-        boolean eFlagAllow = true; // switcher for 'e' or 'E'
-        boolean decimal = true; // switcher for '.'
-        boolean hasNum = false; // make sure it contains number
-        int cursor = 0;
-        // skip previous space.
-        while(cursor &lt; s.length() &amp;&amp; s.charAt(cursor) == ' ')
-            cursor++;
-            
-        // check the sign, only one position allow for '-'
-        if(cursor &lt; s.length() &amp;&amp; s.charAt(cursor) == '-')
-            cursor++;
-            
-        while(cursor &lt; s.length()) {
-            char cur = s.charAt(cursor);
-            // if has number 
-            if(cur &gt;= '0' &amp;&amp; cur &lt;= '9'){
-                if(!hasNum)
-                    hasNum = true;
-            }else if((cur == 'e' || cur == 'E') &amp;&amp; eFlagAllow &amp;&amp; hasNum) { 
-                // previous position should contain the number first 
-                eFlagAllow = false; // turn off the e/E switcher
-            }else if(cur == '.' &amp;&amp; decimal) {
-                // turn off the decimal switcher
-                decimal = false;
-            }else if(cur != ' ') // not allow the char except the space
+        s = s.trim();
+        int hasNum = 0;
+        boolean allowE = true;
+        boolean allowD = true;
+        boolean afterE = true;
+
+        for (int idx = 0; idx &lt; s.length(); idx++) {
+            char c = s.charAt(idx);
+            if (c &gt;= '0' &amp;&amp; c &lt;= '9') {
+                hasNum++;
+                if(!afterE)
+                    afterE = true;
+            } else if ((c == 'e' || c == 'E') &amp;&amp; hasNum &gt; 0 &amp;&amp; allowE) {
+                allowE = afterE = false;
+            } else if (c == '.' &amp;&amp; allowD &amp;&amp; allowE) {
+                allowD  = false;
+            } else if(c == '-' || c == '+') {
+                if(idx != 0 &amp;&amp; s.charAt(idx-1) != 'e') {
+                    return false;
+                }
+            }else
                 return false;
-            cursor ++;
         }
-        
-        return cursor == s.length() &amp;&amp; hasNum;
+        return hasNum&gt;0 &amp;&amp; afterE;
     }
 </code></pre>
 
@@ -315,11 +307,11 @@
     
 
     
-    <a href="http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Newer
       </strong>
-      <div class="article-nav-title">The Second Minimum in Tournament Tree</div>
+      <div class="article-nav-title">Smallest character that is strictly larger than the search character target</div>
     </a>
     
 </nav>

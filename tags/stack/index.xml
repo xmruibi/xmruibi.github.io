@@ -908,11 +908,11 @@ public class Solution {
     </item>
     
     <item>
-      <title>Expression Evaluation</title>
-      <link>http://xmruibi.github.io/2015/10/25/expression-evaluation/</link>
+      <title>Expression Evaluation (Calculator)</title>
+      <link>http://xmruibi.github.io/2015/10/25/expression-evaluation-calculator/</link>
       <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
       
-      <guid>http://xmruibi.github.io/2015/10/25/expression-evaluation/</guid>
+      <guid>http://xmruibi.github.io/2015/10/25/expression-evaluation-calculator/</guid>
       <description>
 
 &lt;p&gt;Given an expression string array, return the final result of this expression&lt;/p&gt;

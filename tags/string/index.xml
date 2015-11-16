@@ -379,38 +379,30 @@
 &lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
-		if(s == null)
-			return false;
-        boolean eFlagAllow = true; // switcher for &#39;e&#39; or &#39;E&#39;
-        boolean decimal = true; // switcher for &#39;.&#39;
-        boolean hasNum = false; // make sure it contains number
-        int cursor = 0;
-        // skip previous space.
-        while(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39; &#39;)
-            cursor++;
-            
-        // check the sign, only one position allow for &#39;-&#39;
-        if(cursor &amp;lt; s.length() &amp;amp;&amp;amp; s.charAt(cursor) == &#39;-&#39;)
-            cursor++;
-            
-        while(cursor &amp;lt; s.length()) {
-            char cur = s.charAt(cursor);
-            // if has number 
-            if(cur &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; cur &amp;lt;= &#39;9&#39;){
-                if(!hasNum)
-                    hasNum = true;
-            }else if((cur == &#39;e&#39; || cur == &#39;E&#39;) &amp;amp;&amp;amp; eFlagAllow &amp;amp;&amp;amp; hasNum) { 
-                // previous position should contain the number first 
-                eFlagAllow = false; // turn off the e/E switcher
-            }else if(cur == &#39;.&#39; &amp;amp;&amp;amp; decimal) {
-                // turn off the decimal switcher
-                decimal = false;
-            }else if(cur != &#39; &#39;) // not allow the char except the space
+        s = s.trim();
+        int hasNum = 0;
+        boolean allowE = true;
+        boolean allowD = true;
+        boolean afterE = true;
+
+        for (int idx = 0; idx &amp;lt; s.length(); idx++) {
+            char c = s.charAt(idx);
+            if (c &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; c &amp;lt;= &#39;9&#39;) {
+                hasNum++;
+                if(!afterE)
+                    afterE = true;
+            } else if ((c == &#39;e&#39; || c == &#39;E&#39;) &amp;amp;&amp;amp; hasNum &amp;gt; 0 &amp;amp;&amp;amp; allowE) {
+                allowE = afterE = false;
+            } else if (c == &#39;.&#39; &amp;amp;&amp;amp; allowD &amp;amp;&amp;amp; allowE) {
+                allowD  = false;
+            } else if(c == &#39;-&#39; || c == &#39;+&#39;) {
+                if(idx != 0 &amp;amp;&amp;amp; s.charAt(idx-1) != &#39;e&#39;) {
+                    return false;
+                }
+            }else
                 return false;
-            cursor ++;
         }
-        
-        return cursor == s.length() &amp;amp;&amp;amp; hasNum;
+        return hasNum&amp;gt;0 &amp;amp;&amp;amp; afterE;
     }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

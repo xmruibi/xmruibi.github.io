@@ -23,7 +23,8 @@
 &lt;h2 id=&#34;think:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Think&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Comparable interface and Max heap&lt;/li&gt;
+&lt;li&gt;Implement a Point class with Comparable interface, we can save the distance between the central point in each point and for its &lt;code&gt;compareTo&lt;/code&gt; function&lt;/li&gt;
+&lt;li&gt;Max heap to save space, since we only need k space for max heap. The top of heap is the node has the larest distance in these k nearest node. So once we got point near to the central than it, we poll the top and add the new one.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;solution:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Solution&lt;/h2&gt;

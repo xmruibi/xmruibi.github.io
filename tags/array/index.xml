@@ -500,6 +500,61 @@ Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
     </item>
     
     <item>
+      <title>Smallest character that is strictly larger than the search character target</title>
+      <link>http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/</guid>
+      <description>
+
+&lt;p&gt;Given a sorted list of letters, sorted in ascending order and a character for which we are searching. Return the smallest character that is strictly larger than the search character, If no such character exists, return the smallest character in the array.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following inputs we expect the corresponding output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;a&#39; =&amp;gt; &#39;c&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;c&#39; =&amp;gt; &#39;f&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;k&#39; =&amp;gt; &#39;p&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;z&#39; =&amp;gt; &#39;c&#39; // The wrap around case 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;f&#39; =&amp;gt; &#39;k&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;c&#39; =&amp;gt; &#39;f&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;d&#39; =&amp;gt; &#39;f&#39; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical binary Search&lt;/li&gt;
+&lt;li&gt;Just be aware to wrapped case, use mod.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static char search(char[] dict, char c) {
+
+		int l = 0, r = dict.length - 1;
+
+		while (l + 1 &amp;lt; r) {
+			int m = l + (r - l) / 2;
+			if (dict[m] &amp;lt; c)
+				l = m;
+			else
+				r = m;
+		}
+
+		if (dict[l] &amp;gt; c)
+			return dict[l];
+		else if (dict[r] &amp;gt; c)
+			return dict[r];
+		else
+			return dict[(r + 1) % dict.length];
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Nested List</title>
       <link>http://xmruibi.github.io/2015/11/13/nested-list/</link>
       <pubDate>Fri, 13 Nov 2015 13:13:13 -0700</pubDate>
@@ -1134,203 +1189,6 @@ Here are some pattern we should notice.
             excl = Math.max(excl, tmp);
         }
         return Math.max(incl, excl);
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Coins in a Line</title>
-      <link>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</link>
-      <pubDate>Thu, 05 Nov 2015 13:10:29 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/05/coins-in-a-line/</guid>
-      <description>
-
-&lt;h2 id=&#34;problem-i:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Problem I&lt;/h2&gt;
-
-&lt;p&gt;There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.&lt;/p&gt;
-
-&lt;p&gt;Could you please decide the first play will win or lose?&lt;/p&gt;
-
-&lt;h4 id=&#34;example:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;n = &lt;code&gt;1&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;n = &lt;code&gt;2&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;n = &lt;code&gt;3&lt;/code&gt;, return &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;n = &lt;code&gt;4&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;n = &lt;code&gt;5&lt;/code&gt;, return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;challenge:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Challenge&lt;/h4&gt;
-
-&lt;p&gt;$O(n)$ time and $$O(1)$$ memory&lt;/p&gt;
-
-&lt;h3 id=&#34;think:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Think&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Only if the amount of coin is the multiply of &lt;code&gt;3&lt;/code&gt;, first player cannot win.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param n: an integer
-     * @return: a boolean which equals to true if the first player will win
-     */
-    public boolean firstWillWin(int n) {
-        return n%3!=0;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-ii:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Problem II&lt;/h2&gt;
-
-&lt;p&gt;There are n coins with different value in a line. Two players take turns to take one or two coins from left side until there are no more coins left. The player who take the coins with the most value wins.&lt;/p&gt;
-
-&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
-
-&lt;h4 id=&#34;example-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Given values array A = &lt;code&gt;[1,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
-
-&lt;p&gt;Given A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return false.&lt;/p&gt;
-
-&lt;h3 id=&#34;think-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Think&lt;/h3&gt;
-
-&lt;h5 id=&#34;state:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;State&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;dp[i]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to the end&lt;/p&gt;
-
-&lt;h5 id=&#34;function:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Function&lt;/h5&gt;
-
-&lt;p&gt;Each time when iterate &lt;code&gt;i&lt;/code&gt;, we have two choice:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;takes &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Here are what we need to think:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;1.If we took &lt;code&gt;values[i]&lt;/code&gt;, opposite has two choice:  &lt;code&gt;values[i+1]&lt;/code&gt; or &lt;code&gt;values[i+1] + values[i+2]&lt;/code&gt; so the rest values for our own sides are &lt;code&gt;DP[i+2]&lt;/code&gt; or &lt;code&gt;DP[i+3]&lt;/code&gt;, however it should choose the minimum so that the opposite can get the maximum.&lt;/p&gt;
-
-&lt;p&gt;$$value1 = values[i] + min(DP[i+2], DP[i+3])$$&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;2.If we took  &lt;code&gt;values[i] + values[i+1]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;$$value2 = values[i] + values[i+1] + min(DP[i+3], DP[i+4])$$&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;3.&lt;/p&gt;
-
-&lt;p&gt;$$dp[I] = max(value1, value2)$$&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;solution-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param values: an array of integers
-     * @return: a boolean which equals to true if the first player will win
-     */
-    public boolean firstWillWin(int[] values) {
-        if (values == null || values.length &amp;lt;= 2) {
-            return true;
-        }
-        int dp[] = new int[values.length];
-        
-        dp[values.length-1] = values[values.length-1];
-        dp[values.length-2] = values[values.length-1] + values[values.length-2];
-        int total = dp[values.length-2];
-        
-        for(int i = values.length - 3; i &amp;gt;= 0; i--) {
-            total += values[i];
-            int value1 = values[i] + Math.min(dp[i+2], i+3&amp;lt;values.length?dp[i+3]:0);
-            int value2 = values[i] + values[i+1] + Math.min(i+3&amp;lt;values.length?dp[i+3]:0, i+4&amp;lt;values.length?dp[i+4]:0);
-            dp[i] = Math.max(value1, value2);
-        }
-        
-        return dp[0] &amp;gt; (total - dp[0]);
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;problem-iii:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Problem III&lt;/h2&gt;
-
-&lt;p&gt;There are n coins in a line. Two players take turns to take a coin from one of the ends of the line until there are no more coins left. The player with the larger amount of money wins.&lt;/p&gt;
-
-&lt;p&gt;Could you please decide the first player will win or lose?&lt;/p&gt;
-
-&lt;h4 id=&#34;example-2:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Given array A = &lt;code&gt;[3,2,2]&lt;/code&gt;, return true.&lt;/p&gt;
-
-&lt;p&gt;Given array A = &lt;code&gt;[1,2,4]&lt;/code&gt;, return true.&lt;/p&gt;
-
-&lt;p&gt;Given array A = &lt;code&gt;[1,20,4]&lt;/code&gt;, return false.&lt;/p&gt;
-
-&lt;h4 id=&#34;challenge-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Challenge&lt;/h4&gt;
-
-&lt;p&gt;Follow Up Question: If &lt;code&gt;n&lt;/code&gt; is even. Is there any hacky algorithm that can decide whether first player will win or lose in $$O(1)$$ memory and $O(n)$ time?&lt;/p&gt;
-
-&lt;h3 id=&#34;think-2:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Think&lt;/h3&gt;
-
-&lt;h5 id=&#34;state-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;State&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;dp[i][j]&lt;/code&gt; represent the max value it can get from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;sum[i][j]&lt;/code&gt; represent the sum value from &lt;code&gt;i&lt;/code&gt; to &lt;code&gt;j&lt;/code&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;function-1:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Function&lt;/h5&gt;
-
-&lt;p&gt;Each time when taken coins, we have two choice:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;takes &lt;code&gt;values[i]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;takes &lt;code&gt;values[j]&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;$$dp[i][j]=max(values[i]+sum[i+1][j]-dp[i+1][j], values[j]+sum[i][j-1]-dp[i][j-1])$$&lt;/p&gt;
-
-&lt;p&gt;Since &lt;code&gt;values[i]+sum[i+1][j]&lt;/code&gt; or &lt;code&gt;values[j]+sum[i][j-1]&lt;/code&gt; equals to &lt;code&gt;sum[i][j]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;So the equation can be $dp[i][j] = sum[i][j] - min(dp[i+1][j],dp[i][j-1])$&lt;/p&gt;
-
-&lt;h3 id=&#34;solution-2:55c5f52fdeb28cdc1ad9a0690da63696&#34;&gt;Solution&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     * @param values: an array of integers
-     * @return: a boolean which equals to true if the first player will win
-     */
-    public boolean firstWillWin(int[] values) {
-        if (values == null || values.length &amp;lt;= 2) {
-            return true;
-        }
-        
-        int[][] dp = new int[values.length][values.length];
-        int[][] sum = new int[values.length][values.length];
-        // get the sum of i to j
-        for(int i = 0; i &amp;lt; values.length; i++){
-            for(int j  = i; j &amp;lt; values.length; j++) {
-                if(i == j)
-                    sum[i][j] = values[i];
-                else
-                    sum[i][j] = values[j] + sum[i][j-1];
-            }
-        }
-        
-        // to do the dp 
-        for(int i = values.length - 1; i &amp;gt;= 0; i--){
-            for(int j  = i; j &amp;lt; values.length; j++) {
-                if(i == j)
-                    dp[i][j] = values[i];
-                else
-                    dp[i][j] = sum[i][j] - Math.min(dp[i+1][j],dp[i][j-1]);
-            }
-        }
-        
-        return dp[0][values.length - 1] &amp;gt; sum[0][values.length - 1] - dp[0][values.length - 1];
     }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

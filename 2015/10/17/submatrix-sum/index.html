@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-10-17T21:43:13-07:00" />
-<meta itemprop="wordCount" content="46">
+<meta itemprop="wordCount" content="217">
 
 
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-17 21:43:13 -0700 PDT" itemprop="datePublished">2015-10-17</time>
             &middot;
-            46
+            217
             words
             &middot;
-            1
+            2
             minute read
         </div>
         <div class="article-category">
@@ -240,6 +240,48 @@
 <h3 id="challenge:e10ab144a5aace7a18fe8ad441bebc7a">Challenge</h3>
 
 <p>O(n3) time.</p>
+
+<h2 id="solution:e10ab144a5aace7a18fe8ad441bebc7a">Solution</h2>
+
+<pre><code class="language-java">public class Solution {
+    /**
+     * @param matrix an integer matrix
+     * @return the coordinate of the left-up and right-down number
+     */
+    public int[][] submatrixSum(int[][] matrix) {
+        int[][] result = new int[2][2];
+        int M = matrix.length;
+        if (M == 0) return result;
+        int N = matrix[0].length;
+        if (N == 0) return result;
+        // pre-compute: sum[i][j] = sum of submatrix [(0, 0), (i, j)]
+        int[][] sum = new int[M+1][N+1];
+        for (int j=0; j&lt;=N; ++j) sum[0][j] = 0;
+        for (int i=1; i&lt;=M; ++i) sum[i][0] = 0;
+        for (int i=0; i&lt;M; ++i) {
+            for (int j=0; j&lt;N; ++j)
+                sum[i+1][j+1] = matrix[i][j] + sum[i+1][j] + sum[i][j+1] - sum[i][j];
+        }
+        for (int l=0; l&lt;M; ++l) {
+            for (int h=l+1; h&lt;=M; ++h) {
+                Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
+                for (int j=0; j&lt;=N; ++j) {
+                    int diff = sum[h][j] - sum[l][j];
+                    if (map.containsKey(diff)) {
+                        int k = map.get(diff);
+                        result[0][0] = l;   result[0][1] = k;
+                        result[1][0] = h-1; result[1][1] = j-1;
+                        return result;
+                    } else {
+                        map.put(diff, j);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+</code></pre>
 
             </div>
             <footer class="article-footer">
@@ -315,6 +357,7 @@
 <li><a href="#example:e10ab144a5aace7a18fe8ad441bebc7a">Example</a></li>
 <li><a href="#challenge:e10ab144a5aace7a18fe8ad441bebc7a">Challenge</a></li>
 </ul></li>
+<li><a href="#solution:e10ab144a5aace7a18fe8ad441bebc7a">Solution</a></li>
 </ul></li>
 </ul>
 </nav>
