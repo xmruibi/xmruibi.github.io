@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>Is Subtree &middot; Geek Think</title>
+    <title>Merge Two Linked List &middot; Geek Think</title>
     <meta name="generator" content="Hugo 0.14" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -16,11 +16,11 @@
     <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
     <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
     <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="Is Subtree" />
-<meta property="og:description" content="Given a tree root node and another root node of tree, check if another tree is the subtree of the given tree.
+    <meta property="og:title" content="Merge Two Linked List" />
+<meta property="og:description" content="Given two sorted linked lists, merge two lists into one.
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://xmruibi.github.io/2015/11/17/is-subtree/" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/17/merge-two-linked-list/" />
 
 
 <meta property="og:updated_time" content="2015-11-17T22:43:13-07:00"/>
@@ -36,13 +36,13 @@
 
     
     
-<meta itemprop="name" content="Is Subtree">
-<meta itemprop="description" content="Given a tree root node and another root node of tree, check if another tree is the subtree of the given tree.
+<meta itemprop="name" content="Merge Two Linked List">
+<meta itemprop="description" content="Given two sorted linked lists, merge two lists into one.
 ">
 
 
 <meta itemprop="dateModified" content="2015-11-17T22:43:13-07:00" />
-<meta itemprop="wordCount" content="99">
+<meta itemprop="wordCount" content="72">
 
 
 
@@ -54,8 +54,8 @@
 
 
 
-<meta name="twitter:title" content="Is Subtree"/>
-<meta name="twitter:description" content="Given a tree root node and another root node of tree, check if another tree is the subtree of the given tree.
+<meta name="twitter:title" content="Merge Two Linked List"/>
+<meta name="twitter:description" content="Given two sorted linked lists, merge two lists into one.
 "/>
 
 
@@ -179,9 +179,9 @@
             
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/17/is-subtree/">
+    <a href="http://xmruibi.github.io/2015/11/17/merge-two-linked-list/">
     <h1 class="article-title" itemprop="name">
-        Is Subtree
+        Merge Two Linked List
     </h1>
     </a>
     <div class="article-meta">
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
             &middot;
-            99
+            72
             words
             &middot;
             1
@@ -207,7 +207,7 @@
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/binary-tree">Binary Tree</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/linked-list">Linked List</a>
             
         </div>
     </div>
@@ -216,36 +216,40 @@
             <div class="article-entry" itemprop="articleBody">
                 
 
-<p>Given a tree root node and another root node of tree, check if another tree is the subtree of the given tree.</p>
+<p>Given two sorted linked lists, merge two lists into one.</p>
 
-<h2 id="solution:9117bbf9480bc8a6d399845a198d0d79">Solution</h2>
+<h2 id="solution:163b96d9ecdb872770ca9afdd12774e8">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-    public boolean isSubtree(TreeNode root, TreeNode node) {
-        if(root == null &amp;&amp; node  == null)
-            return true;
-        else if(root == null || node == null)
-            return false;
-        return checkNodes(root, node) || isSubtree(root.left, node) ||isSubtree(root.right, node);
-    }
-
-    private boolean checkNodes(TreeNode r1, TreeNode r2) {
-        if(r1 == null &amp;&amp; r2  == null)
-            return true;
-        else if(r1 == null || r2 == null)
-            return false;
-        return (r1.val == r2.val) &amp;&amp; checkNodes(r1.left, r2.left) &amp;&amp; chechNodes(r1.right, r2.right);
+    public ListNode merge(ListNode n1, ListNode n2) {
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        pre.next = n1;
+        while(n1!=null &amp;&amp; n2!=null) {
+            if(n1.val &gt; n2.val) {
+                ListNode next = n2.next;
+                n2.next = pre.next;
+                pre.next = n2;
+                n2 = next;
+            }else {
+                n1 = n1.next;
+            }
+            pre = pre.next;
+        }
+        if(n2!=null)
+            pre.next = n2;
+        return dummy.next;
     }
 }
 </code></pre>
 
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/17/is-subtree/" data-id="9117bbf9480bc8a6d399845a198d0d79" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/11/17/merge-two-linked-list/" data-id="163b96d9ecdb872770ca9afdd12774e8" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/11/17/is-subtree//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/11/17/merge-two-linked-list//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -256,14 +260,21 @@
         
 <nav id="article-nav">
     
-    <a href="http://xmruibi.github.io/2015/11/17/merge-two-linked-list/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Merge Two Linked List</div>
+      <div class="article-nav-title">Reverse Half of Linked List</div>
     </a>
     
 
+    
+    <a href="http://xmruibi.github.io/2015/11/17/is-subtree/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Is Subtree</div>
+    </a>
     
 </nav>
 
@@ -274,9 +285,9 @@
             <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'ruisblog';
-    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/17\/is-subtree\/';
-    var disqus_title = 'Is Subtree';
-    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/17\/is-subtree\/';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/17\/merge-two-linked-list\/';
+    var disqus_title = 'Merge Two Linked List';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/17\/merge-two-linked-list\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -301,7 +312,7 @@
 <ul>
 <li>
 <ul>
-<li><a href="#solution:9117bbf9480bc8a6d399845a198d0d79">Solution</a></li>
+<li><a href="#solution:163b96d9ecdb872770ca9afdd12774e8">Solution</a></li>
 </ul></li>
 </ul>
 </nav>

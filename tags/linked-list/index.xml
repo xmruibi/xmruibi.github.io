@@ -11,6 +11,43 @@
     <atom:link href="http://xmruibi.github.io/tags/linked-list/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Merge Two Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/17/merge-two-linked-list/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/merge-two-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given two sorted linked lists, merge two lists into one.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:163b96d9ecdb872770ca9afdd12774e8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    public ListNode merge(ListNode n1, ListNode n2) {
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        pre.next = n1;
+        while(n1!=null &amp;amp;&amp;amp; n2!=null) {
+            if(n1.val &amp;gt; n2.val) {
+                ListNode next = n2.next;
+                n2.next = pre.next;
+                pre.next = n2;
+                n2 = next;
+            }else {
+                n1 = n1.next;
+            }
+            pre = pre.next;
+        }
+        if(n2!=null)
+            pre.next = n2;
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Reverse Half of Linked List</title>
       <link>http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/</link>
       <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>

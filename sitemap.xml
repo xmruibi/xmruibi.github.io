@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/11/17/merge-two-linked-list/</loc>
+    <lastmod>2015-11-17T22:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/</loc>
     <lastmod>2015-11-17T22:43:13-07:00</lastmod>
   </url>
@@ -258,12 +263,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</loc>
+    <loc>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</loc>
     <lastmod>2015-11-10T22:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</loc>
+    <loc>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</loc>
     <lastmod>2015-11-10T22:43:13-07:00</lastmod>
   </url>
   
@@ -433,12 +438,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/11/02/sort-colors/</loc>
     <lastmod>2015-11-02T09:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/02/sort-colors/</loc>
+    <loc>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</loc>
     <lastmod>2015-11-02T09:10:29-07:00</lastmod>
   </url>
   
@@ -548,12 +553,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</loc>
+    <loc>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</loc>
     <lastmod>2015-10-25T10:13:13-07:00</lastmod>
   </url>
   
@@ -598,17 +603,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
-    <lastmod>2015-10-21T11:16:26-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/21/conclusion-on-object-oriented-programming/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/21/chess-game/</loc>
+    <lastmod>2015-10-21T11:16:26-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/21/online-book-reader-system/</loc>
     <lastmod>2015-10-21T11:16:26-07:00</lastmod>
   </url>
   
@@ -713,6 +718,11 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
@@ -723,22 +733,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
-    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -883,12 +888,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   
