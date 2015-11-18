@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Interval on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/interval/</link>
+    <description>Recent content in Interval on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 14 Nov 2015 00:30:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/interval/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Intervals and Covered Length</title>
+      <link>http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/</link>
+      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/</guid>
+      <description>
+
+&lt;p&gt;Design a structrue can get interval pair and a function which can return the total cover length.&lt;/p&gt;
+
+&lt;h2 id=&#34;partial-code:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Partial Code&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;interface Intervals {
+
+	/**
+	 * Adds an interval [from, to] into internal structure.
+	 */
+	void addInterval(int from, int to);
+
+	/**
+	 * Returns a total length covered by intervals. If several intervals
+	 * intersect, intersection should be counted only once. Example:
+	 *
+	 * addInterval(3, 6) addInterval(8, 9) addInterval(1, 5)
+	 *
+	 * getTotalCoveredLength() -&amp;gt; 6 i.e. [1,5] and [3,6] intersect and give a
+	 * total covered interval [1,6] [1,6] and [8,9] don&#39;t intersect so total
+	 * covered length is a sum for both intervals, that is 6.
+	 *
+	 * _________ ___ ____________
+	 *
+	 * 0 1 2 3 4 5 6 7 8 9 10
+	 *
+	 */
+	int getTotalCoveredLength();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class IntervalProblem implements Intervals {
+
+	private class Interval {
+		int from, to;
+
+		public Interval(int from, int to) {
+			this.from = from;
+			this.to = to;
+		}
+	}
+
+	List&amp;lt;Interval&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+
+	@Override
+	public void addInterval(int start, int end) {
+		if (list.size() == 0) {
+			list.add(new Interval(start, end));
+			return;
+		}		
+
+        ListIterator&amp;lt;Interval&amp;gt; li = list.listIterator();
+
+        while(li.hasNext()){
+            Interval itv = li.next();
+            if(start &amp;lt;= itv.to){
+                if(end &amp;lt; itv.from){ //newInterval does not overlap with current itv, time to insert
+                    li.remove();
+                    li.add(new Interval(start, end));
+                    li.add(itv);
+                    return;
+                }
+                // still some overlap so compare start &amp;amp; end
+                start = Math.min(start, itv.from);
+                end = Math.max(end, itv.to);
+                li.remove();
+            }
+        }
+		list.add(new Interval(start, end));
+	}
+
+	@Override
+	public int getTotalCoveredLength() {
+		if (list.size() == 0) 
+			return 0;
+		int sum = 0;
+		for (int i = 0; i &amp;lt; list.size(); i++) {
+			sum += (list.get(i).to - list.get(i).from);
+		}
+		return sum;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-merge-interval:a398446ee2bc7e4d0eef3e4051fe083f&#34;&gt;Solution # Merge Interval&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;Interval&amp;gt; merge(List&amp;lt;Interval&amp;gt; intervals) {
+
+        if (intervals == null || intervals.size() &amp;lt;= 1)
+            return intervals;
+
+        // sort intervals by using self-defined Comparator
+        Collections.sort(intervals, new IntervalComparator&amp;lt;Interval&amp;gt;((o1,o2) -&amp;gt; Integer.compare(o1.start, o2.start)));
+
+        ArrayList&amp;lt;Interval&amp;gt; result = new ArrayList&amp;lt;Interval&amp;gt;();
+
+        Interval prev = intervals.get(0);
+        for (int i = 1; i &amp;lt; intervals.size(); i++) {
+            Interval curr = intervals.get(i);
+
+            if (prev.end &amp;gt;= curr.start) {
+                // merged case
+                Interval merged = new Interval(prev.start, Math.max(prev.end, curr.end));
+                prev = merged;
+            } else {
+                result.add(prev);
+                prev = curr;
+            }
+        }
+
+        result.add(prev);
+
+        return result;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

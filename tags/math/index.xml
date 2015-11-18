@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Math on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/math/</link>
+    <description>Recent content in Math on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sun, 15 Nov 2015 13:11:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Pow() and Sqrt()</title>
+      <link>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</link>
+      <pubDate>Sun, 15 Nov 2015 13:11:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</guid>
+      <description>
+
+&lt;p&gt;Write function to get the power &lt;code&gt;n&lt;/code&gt; of &lt;code&gt;x&lt;/code&gt; and the square root of &lt;code&gt;x&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-pow:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Pow&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// basic  
+	public float pow(float x, int n) {
+	    if(n==0)
+            return 1.0;
+		if (n == 1)
+			return x;
+		if (n % 2 == 0)
+			return pow(x, n / 2) * pow(x, n / 2);
+		else
+			return x * pow(x, n / 2) * pow(x, n / 2);
+	}
+
+	// improved
+	public double pow(double x, int n) {
+        if(n==0)
+            return 1.0;
+        boolean neg = false;
+        if(n&amp;lt;0)
+            neg = true;
+        double res = 1.0;
+        while(n != 0){
+            if(n%2 != 0){
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return neg?1.0/res:res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-sqrt:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Sqrt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public float sqrt(float n) {
+        float low = 0, high = n;
+        float mid = low + (high - low) / 2;
+        while (Math.abs(mid * mid - n) &amp;gt; 0.00001) {
+            if (mid * mid &amp;lt; n)
+                low = mid;
+            else if (mid * mid &amp;gt; n)
+                high = mid;
+            mid = low + (high - low) / 2;
+        }
+        return mid;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Points on a Line</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</link>
+      <pubDate>Sun, 15 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</guid>
+      <description>
+
+&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Represent line by ratio. Compare point to point by a nested two loop.&lt;/li&gt;
+&lt;li&gt;Think about four cases:
+
+&lt;ul&gt;
+&lt;li&gt;Same point, count the same point amount&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; axis are the same&lt;/li&gt;
+&lt;li&gt;normal case &lt;code&gt;(y1 - y2)/(x1 - x2)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxPointOnAline {
+
+    public int getMaxLine(List&amp;lt;FloatPoint&amp;gt; points) {
+        if (points == null || points.size() == 0)
+            return 0;
+
+        int max = 0;
+        for (int i = 0; i &amp;lt; points.size(); i++) {
+            FloatPoint cur = points.get(i);
+            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int same = 0, localMax = 1;
+            for (int j = i + 1; j &amp;lt; points.size(); j++) {
+                FloatPoint tar = points.get(j);
+                if (cur.x == tar.x &amp;amp;&amp;amp; cur.y == tar.y) {
+                    same++;
+                }else if (cur.x == tar.x) {
+                    double maxr = Double.MAX_VALUE;
+                    map.put(maxr, map.containsKey(maxr) ? map.get(maxr) + 1 : 2);
+                } else if (cur.y == tar.y) {
+                    map.put(0.0, map.containsKey(0.0) ? map.get(0.0) + 1 : 2);
+                } else {
+                    double ratio = (cur.y - tar.y) / (cur.x - tar.x);
+                    map.put(ratio, map.containsKey(ratio) ? map.get(ratio) + 1
+                            : 2);
+                }
+            }
+            for (Map.Entry&amp;lt;Double, Integer&amp;gt; entry : map.entrySet())
+                localMax = Math.max(localMax, entry.getValue());
+            max = Math.max(localMax + same, max);
+        }
+        return max;
+    }
+}
+
+class FloatPoint {
+    float x, y; // float may not suitable for accurate computation
+
+    public FloatPoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Valid Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
+      <description>
+
+&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question focus on thinking about all of corner case
+
+&lt;ol&gt;
+&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
+&lt;li&gt;space before the number&lt;/li&gt;
+&lt;li&gt;invalid character before / after the number&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
+&lt;li&gt;space after the number&lt;/li&gt;
+&lt;li&gt;decimal checker&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
+        s = s.trim();
+        int hasNum = 0;
+        boolean allowE = true;
+        boolean allowD = true;
+        boolean afterE = true;
+
+        for (int idx = 0; idx &amp;lt; s.length(); idx++) {
+            char c = s.charAt(idx);
+            if (c &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; c &amp;lt;= &#39;9&#39;) {
+                hasNum++;
+                if(!afterE)
+                    afterE = true;
+            } else if ((c == &#39;e&#39; || c == &#39;E&#39;) &amp;amp;&amp;amp; hasNum &amp;gt; 0 &amp;amp;&amp;amp; allowE) {
+                allowE = afterE = false;
+            } else if (c == &#39;.&#39; &amp;amp;&amp;amp; allowD &amp;amp;&amp;amp; allowE) {
+                allowD  = false;
+            } else if(c == &#39;-&#39; || c == &#39;+&#39;) {
+                if(idx != 0 &amp;amp;&amp;amp; s.charAt(idx-1) != &#39;e&#39;) {
+                    return false;
+                }
+            }else
+                return false;
+        }
+        return hasNum&amp;gt;0 &amp;amp;&amp;amp; afterE;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Expression Add Operators</title>
+      <link>http://xmruibi.github.io/2015/11/12/expression-add-operators/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/expression-add-operators/</guid>
+      <description>
+
+&lt;p&gt;Given a string that contains only digits 0-9 and a target value, return all possibilities to add binary operators (not unary) +, -, or * between the digits so they evaluate to the target value.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;, 6 -&amp;gt; [&amp;quot;1+2+3&amp;quot;, &amp;quot;1*2*3&amp;quot;] 
+&amp;quot;232&amp;quot;, 8 -&amp;gt; [&amp;quot;2*3+2&amp;quot;, &amp;quot;2+3*2&amp;quot;]
+&amp;quot;105&amp;quot;, 5 -&amp;gt; [&amp;quot;1*0+5&amp;quot;,&amp;quot;10-5&amp;quot;]
+&amp;quot;00&amp;quot;, 0 -&amp;gt; [&amp;quot;0+0&amp;quot;, &amp;quot;0-0&amp;quot;, &amp;quot;0*0&amp;quot;]
+&amp;quot;3456237490&amp;quot;, 9191 -&amp;gt; []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;This problem has a lot of edge cases to be considered:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;overflow: we use a long type once it is larger than Integer.MAX_VALUE or minimum, we get over it.&lt;/li&gt;
+&lt;li&gt;0 sequence: because we can&amp;rsquo;t have numbers with multiple digits started with zero, we have to deal with it too.&lt;/li&gt;
+&lt;li&gt;a little trick is that we should save the value that is to be multiplied in the next recursion.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;solution:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+
+    public List&amp;lt;String&amp;gt; addOperators(String num, int target) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        helper(res, &amp;quot;&amp;quot;, num, 0, target, 0L, 0L);
+        return res;
+    }
+    
+    private void helper(List&amp;lt;String&amp;gt; res, String cur, String num, int idx, int target, long preVal, long nextVal) {
+       if(idx == num.length()) {
+            if(preVal == target)
+                res.add(new String(cur));
+            return;
+       }
+       
+       for(int i = idx; i &amp;lt; num.length(); i++) {
+           if(i != idx &amp;amp;&amp;amp; num.charAt(idx) == &#39;0&#39;) break;
+           String sbstr = num.substring(idx, i+1);
+           long curVal = Long.parseLong(sbstr);
+           if(idx == 0)
+                helper(res, sbstr, num, i+1, target, curVal, curVal);
+           else {
+               helper(res, cur + &amp;quot;+&amp;quot; + curVal, num, i+1, target, preVal + curVal,  curVal);
+               helper(res, cur + &amp;quot;-&amp;quot; + curVal, num, i+1, target, preVal - curVal, 0 - curVal);
+               helper(res, cur + &amp;quot;*&amp;quot; + curVal, num, i+1, target, preVal - nextVal + nextVal * curVal, nextVal * curVal);
+           }
+       }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Integer to English Words</title>
+      <link>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</guid>
+      <description>
+
+&lt;p&gt;Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;123&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Hundred Twenty Three&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12345&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;Twelve Thousand Three Hundred Forty Five&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;1234567&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;There are many edge cases. What are some good test cases? Does your code work with input such as &lt;code&gt;0&lt;/code&gt; ? Or &lt;code&gt;1000010&lt;/code&gt;? (middle chunk is zero and should not be printed out)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The regular pattern in English word to count number is splitting by &lt;code&gt;1000&lt;/code&gt;, so set each &lt;code&gt;000.&lt;/code&gt; by &lt;code&gt;&amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Be aware to number less than &lt;code&gt;20&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private final String[] lessThan20 = {&amp;quot;&amp;quot;, &amp;quot;One &amp;quot;, &amp;quot;Two &amp;quot;, &amp;quot;Three &amp;quot;, &amp;quot;Four &amp;quot;, &amp;quot;Five &amp;quot;, &amp;quot;Six &amp;quot;, &amp;quot;Seven &amp;quot;, &amp;quot;Eight &amp;quot;, &amp;quot;Nine &amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Eleven &amp;quot;, &amp;quot;Twelve &amp;quot;, &amp;quot;Thirteen &amp;quot;, &amp;quot;Fourteen &amp;quot;, &amp;quot;Fifteen &amp;quot;, &amp;quot;Sixteen &amp;quot;, &amp;quot;Seventeen &amp;quot;, &amp;quot;Eighteen &amp;quot;, &amp;quot;Nineteen &amp;quot;};
+    private final String[] tens = {&amp;quot;&amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Twenty &amp;quot;, &amp;quot;Thirty &amp;quot;, &amp;quot;Forty &amp;quot;, &amp;quot;Fifty &amp;quot;, &amp;quot;Sixty &amp;quot;, &amp;quot;Seventy &amp;quot;, &amp;quot;Eighty &amp;quot;, &amp;quot;Ninety &amp;quot;};
+    private final String[] thousands = {&amp;quot;&amp;quot;, &amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;};
+
+    public String numberToWords(int num) {
+        if (num == 0)
+            return &amp;quot;Zero&amp;quot;;
+        int i = 0;
+        String words = &amp;quot;&amp;quot;;
+        
+        while(num &amp;gt; 0) {
+            if (num % 1000 != 0)
+                words = eachThousand(num % 1000)+ thousands[i] + words;
+            num /= 1000;
+            i++;
+        }
+        return words.trim();
+    }
+    
+    private String eachThousand(int each) {
+        StringBuilder sb = new StringBuilder();
+        if(each / 100 &amp;gt; 0) {
+            sb.append(lessThan20[each / 100] + &amp;quot;Hundred &amp;quot;);
+        }
+        int ten = each % 100;
+        if(ten &amp;gt;= 20) {
+            sb.append(tens[ten/10]);
+            sb.append(lessThan20[ten%10]);
+        }else {
+            sb.append(lessThan20[ten]);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Nim Game</title>
+      <link>http://xmruibi.github.io/2015/11/11/nim-game/</link>
+      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/nim-game/</guid>
+      <description>
+
+&lt;p&gt;You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.&lt;/p&gt;
+
+&lt;p&gt;Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.&lt;/p&gt;
+
+&lt;p&gt;For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;p&gt;If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the Coin in A Line I&lt;/li&gt;
+&lt;li&gt;The death number will be the multiply of &lt;code&gt;the max amount your can taken +1&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;So just check if the total amount is the multiply of &lt;code&gt;4&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;proof:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Proof:&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;the base case: when &lt;code&gt;n&lt;/code&gt; = &lt;code&gt;4&lt;/code&gt;, as suggested by the hint from the problem, no matter which number that that first player, the second player would always be able to pick the remaining number.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;For &lt;code&gt;1 x 4&lt;/code&gt; &amp;lt; &lt;code&gt;n&lt;/code&gt; &amp;lt; &lt;code&gt;2 x 4&lt;/code&gt;, (&lt;code&gt;n&lt;/code&gt; = &lt;code&gt;5, 6, 7&lt;/code&gt;), the first player can reduce the initial number into 4 accordingly, which will leave the death number 4 to the second player. i.e. The numbers &lt;code&gt;5, 6, 7&lt;/code&gt; are winning numbers for any player who got it first.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Now to the beginning of the next cycle, n = 8, no matter which number that the first player picks, it would always leave the winning numbers (5, 6, 7) to the second player. Therefore, &lt;code&gt;8 % 4 == 0&lt;/code&gt;, again is a death number.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Following the second case, for numbers between &lt;code&gt;(2 x 4 = 8)&lt;/code&gt; and &lt;code&gt;(3 x 4=12)&lt;/code&gt;, which are &lt;code&gt;9&lt;/code&gt;,&lt;code&gt;10&lt;/code&gt;, &lt;code&gt;11&lt;/code&gt;, are winning numbers for the first player again, because the first player can always reduce the number into the death number 8.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;solution:0aace8da72e32a0839e02ab0612ed2e5&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean canWinNim(int n) {
+        return n%4 != 0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Factor Combinations</title>
+      <link>http://xmruibi.github.io/2015/11/09/factor-combinations/</link>
+      <pubDate>Mon, 09 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/factor-combinations/</guid>
+      <description>
+
+&lt;p&gt;Numbers can be regarded as product of its factors. For example,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;8 = 2 x 2 x 2;
+  = 2 x 4.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Write a function that takes an integer n and return all possible combinations of its factors.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Each combination’s factors must be sorted ascending, for example: The factors of &lt;code&gt;2&lt;/code&gt; and &lt;code&gt;6&lt;/code&gt; is &lt;code&gt;[2, 6]&lt;/code&gt;, not &lt;code&gt;[6, 2]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You may assume that n is always positive.&lt;/p&gt;
+
+&lt;p&gt;Factors should be greater than 1 and less than n.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;input: &lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;37&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 6], [2, 2, 3], [3, 4] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;32&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 16], [2, 2, 8], [2, 2, 2, 4], [2, 2, 2, 2, 2], [2, 4, 4], [4, 8] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical DFS idea.&lt;/li&gt;
+&lt;li&gt;For input value &lt;code&gt;n&lt;/code&gt;, it has possible factors start from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;Sqrt(n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For every factor, we also calculate its factors, like: &lt;code&gt;16 -&amp;gt; 2, 8 -&amp;gt; 2, 2, 4 -&amp;gt; 2, 2, 2, 2, 2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; getFactors(int n) {
+        // use hashset to avoid replicate
+        Set&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                // make sure the elements are sorted
+                Collections.sort(each);
+                res.add(each);
+            }
+        }
+        return  new ArrayList&amp;lt;&amp;gt;(res);
+    }
+
+    private List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; helper(int n) {
+        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        // add it self which is also a factor
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        list.add(n);
+        res.add(list);
+
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                res.add(each);
+            }
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Binary Representation</title>
+      <link>http://xmruibi.github.io/2015/10/24/binary-representation/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/24/binary-representation/</guid>
+      <description>
+
+&lt;p&gt;Given a (decimal - e.g. 3.72) number that is passed in as a string, return the binary representation that is passed in as a string. If the fractional part of the number can not be represented accurately in binary with at most 32 characters, return &lt;code&gt;ERROR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4bd31ea126cea08cd98a23a0cd04fca6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.72&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;ERROR&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.5&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;11.1&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:4bd31ea126cea08cd98a23a0cd04fca6&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For Integer part, we use &lt;code&gt;% 2&lt;/code&gt; to get each digit from lowest bit to highest bit, or use a loop to make &lt;code&gt;&amp;amp;&lt;/code&gt; with &lt;code&gt;1&lt;/code&gt; and left shift until it get zero.&lt;/li&gt;
+&lt;li&gt;For decimal part, we can use $$\times2$$ approach. For example: &lt;code&gt;int n = 0.75; n*2 = 1.5;&lt;/code&gt; Therefore, the first digit of binary number after &lt;code&gt;.&lt;/code&gt; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:4bd31ea126cea08cd98a23a0cd04fca6&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+    * Therefore, the first digit of binary number after &#39;.&#39; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1 
+     *@param n: Given a decimal number that is passed in as a string
+     *@return: A string
+     */
+    public String binaryRepresentation(String n) {
+        int intPart = Integer.parseInt(n.substring(0, n.indexOf(&#39;.&#39;)));
+        StringBuilder res = new StringBuilder();
+        while(intPart != 0) {
+            res.insert(0, &amp;quot;&amp;quot; + (intPart &amp;amp; 1));
+            intPart &amp;gt;&amp;gt;= 1;
+        }
+        if(res.length() == 0)
+            res.append(0);
+        double decPart = Double.parseDouble(n.substring(n.indexOf(&#39;.&#39;)));
+        String decBit = &amp;quot;&amp;quot;;
+        // if it has decimal part, creat &#39;.&#39; in result string
+        if(decPart &amp;gt; 0.0)
+            res.append(&amp;quot;.&amp;quot;);
+        // to count how many digit in decimal binary result
+        int cnt = 0;
+        while(decPart &amp;gt; 0.0) {
+            double cur = (decPart * 2);
+            cnt++;
+            if(cnt &amp;gt; 32)
+                return &amp;quot;ERROR&amp;quot;;
+            if(cur &amp;gt;= 1) {
+                res.append(1);
+                decPart = cur - 1.0;
+            }else {
+                res.append(0);
+                decPart = cur;
+            }
+        }
+        
+        return res.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sqrt(x)</title>
+      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
+      <description>
+
+&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:1989b8b3a92fd67cab06c6c75d9d061f&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:1989b8b3a92fd67cab06c6c75d9d061f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
+&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:1989b8b3a92fd67cab06c6c75d9d061f&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int mySqrt(int x) {
+        if(x == 0)
+            return 0;
+        // binary search from 1 -&amp;gt; x/2
+        int l = 1, r = (x&amp;gt;&amp;gt;1);
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
+                return m;
+            }else if(m + 1 &amp;lt;= x / m) {
+                l = m + 1;
+            }else{
+                r = m;
+            }
+        }
+        return l;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Digit Counts</title>
+      <link>http://xmruibi.github.io/2015/10/20/digit-counts/</link>
+      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/20/digit-counts/</guid>
+      <description>
+
+&lt;p&gt;Count the number of k&amp;rsquo;s between 0 and n. k can be 0 - 9.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:680aef9553c13e7cebf4ae69a9859818&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;if n=12, k=1 in &lt;code&gt;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]&lt;/code&gt;, we have &lt;code&gt;FIVE&lt;/code&gt; 1&amp;rsquo;s &lt;code&gt;(1, 10, 11, 12)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:680aef9553c13e7cebf4ae69a9859818&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Brute Force: Check each digit in number form (0 -&amp;gt; n) then get the count;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:680aef9553c13e7cebf4ae69a9859818&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int digitCounts(int k, int n) {
+        int[] record = new int[10];
+        Arrays.fill(record,0);
+        for (int i=0;i&amp;lt;=n;i++){
+            String temp = Integer.toString(i);
+            for (int j=0;j &amp;lt; temp.length();j++){
+                int ind = (int) (temp.charAt(j)-&#39;0&#39;);
+                record[ind]++;
+            }
+        }
+        return record[k];            
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:680aef9553c13e7cebf4ae69a9859818&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Math:
+
+&lt;ul&gt;
+&lt;li&gt;When current digit less than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When current digit equal to &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits x digit position + lower digits + 1&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When current digit larger than &lt;code&gt;k&lt;/code&gt;, the current count should be &lt;code&gt;higher digits + 1(itself) x digit position&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;When &lt;code&gt;k&lt;/code&gt; == 0 and the current digit larger than &lt;code&gt;k&lt;/code&gt;, the higher digits x digit position and it need to add one in the last result;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:680aef9553c13e7cebf4ae69a9859818&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+    /*
+     * param k : As description.
+     * param n : As description.
+     * return: An integer denote the count of digit k in 1..n
+     */
+    public int digitCounts(int k, int n) {
+        int digit = 1;
+        int cnt = 0;
+        while(digit &amp;lt;= n) {
+            int low = n % digit; // lower digits;
+            int high = n / (digit*10); // higher digits;
+            int cur = n / digit % 10;
+            if(cur == k) {
+                // higher digits * digit + lower digits + 1;
+                cnt += ((high * digit) + low + 1);
+            }else if(cur &amp;lt; k) {
+                // higher digits * digit
+                cnt += (high * digit);
+            }else{
+                // (higher digits + 1: itself) * digit
+                cnt += ((high + (k == 0?0:1)) * digit);   
+            }
+            digit *= 10;
+        }
+        
+        return cnt + (k == 0 ? 1 : 0);
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Divide Two Integers</title>
+      <link>http://xmruibi.github.io/2015/10/20/divide-two-integers/</link>
+      <pubDate>Tue, 20 Oct 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/20/divide-two-integers/</guid>
+      <description>
+
+&lt;p&gt;Divide two integers without using multiplication, division and mod operator.&lt;/p&gt;
+
+&lt;p&gt;If it is overflow, return &lt;code&gt;2147483647&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;example:65b19a66c56fc3d4b2281e237f0fdc40&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dividend = &lt;code&gt;100&lt;/code&gt; and divisor = &lt;code&gt;9&lt;/code&gt;, return &lt;code&gt;11&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:65b19a66c56fc3d4b2281e237f0fdc40&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bitwise Idea:
+
+&lt;ul&gt;
+&lt;li&gt;Get the result sign (negative or positive) by &lt;code&gt;((dividend ^ divisor) &amp;gt;&amp;gt;&amp;gt; 31) == 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;This question contains many corner cases!&lt;/li&gt;
+&lt;li&gt;Firstly, check the corner cases in following steps:
+
+&lt;ul&gt;
+&lt;li&gt;Divisor is zero? return &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;Dividend is &lt;code&gt;Integer.MIN_VALUE&lt;/code&gt;?
+
+&lt;ul&gt;
+&lt;li&gt;if divisor is negative one? you cannot get the positive &lt;code&gt;MIN_VALUE&lt;/code&gt; so return &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dividend += Math.abs(divisor)&lt;/code&gt; so that the dividend become away from overflow but that leads the res increase one;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Divisor is &lt;code&gt;Integer.MIN_VALUE&lt;/code&gt;? return res; To avoid the inaccurate from above operation;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Make dividend and divisor both positive;&lt;/li&gt;
+&lt;li&gt;Then, the main operation to do the binary substraction;
+
+&lt;ul&gt;
+&lt;li&gt;Get the most higher position(&lt;code&gt;digit&lt;/code&gt;) for bit one with increasing the divisor until it is just larger than (&lt;code&gt;dividend &amp;gt;&amp;gt; 1&lt;/code&gt;): divisor cannot larger than dividend so that we use the &lt;code&gt;dividend&amp;gt;&amp;gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Get result by add the &lt;code&gt;1&amp;lt;&amp;lt;digit&lt;/code&gt; (current bit position should be one) and &lt;code&gt;dividend -= divisor&lt;/code&gt; but if divisor larger than dividend which means current bit position should be zero so just reduce digit and divisor should shift right one position each time;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:65b19a66c56fc3d4b2281e237f0fdc40&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param dividend the dividend
+     * @param divisor the divisor
+     * @return the result
+     */
+    public int divide(int dividend, int divisor) {
+        int res = 0;
+        if(divisor == 0)
+            return Integer.MAX_VALUE;
+        boolean neg = ((dividend ^ divisor) &amp;gt;&amp;gt;&amp;gt; 31) == 1;  
+        if(dividend == Integer.MIN_VALUE) {
+            // since the dividend is negative number now so we plus the abs(divisor)
+            dividend += Math.abs(divisor);
+            if(divisor == -1)
+                return Integer.MAX_VALUE;
+            res++;
+        }
+        
+        if(divisor == Integer.MIN_VALUE)
+            return res;
+        
+        // the highest position for bit in result   
+        int digit = 0;
+        dividend = Math.abs(dividend);  
+        divisor = Math.abs(divisor);
+        while(divisor &amp;lt;= (dividend&amp;gt;&amp;gt;1)) {
+            divisor &amp;lt;&amp;lt;= 1;
+            digit ++;
+        }
+        
+        while(digit&amp;gt;=0){
+            if(dividend&amp;gt;=divisor){
+                res += (1&amp;lt;&amp;lt;digit);
+                dividend-=divisor;
+            }
+            divisor&amp;gt;&amp;gt;=1;
+            digit--;
+        }
+        return neg?-res:res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Next Permutation</title>
+      <link>http://xmruibi.github.io/2015/10/19/next-permutation/</link>
+      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/19/next-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a list of integers, which denote a permutation.&lt;/p&gt;
+
+&lt;p&gt;Find the next permutation in ascending order.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:1255b2eac96df45bed9d507c090e9726&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[1,3,2,3]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,3,3,2]&lt;/code&gt;
+For &lt;code&gt;[4,3,2,1]&lt;/code&gt;, the next permutation is &lt;code&gt;[1,2,3,4]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:1255b2eac96df45bed9d507c090e9726&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The list may contains duplicate integers.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:1255b2eac96df45bed9d507c090e9726&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;字典序算法：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从后往前寻找索引满足 a[k] &amp;lt; a[k + 1], 如果此条件不满足，则说明已遍历到最后一个。&lt;/li&gt;
+&lt;li&gt;如 k == 0, 说明是字典序最后一位， 因此直接倒置整个数组即可.&lt;/li&gt;
+&lt;li&gt;从后往前遍历，找到第一个比a[k]大的数a[l], 即a[k] &amp;lt; a[l].&lt;/li&gt;
+&lt;li&gt;交换a[k]与a[l].&lt;/li&gt;
+&lt;li&gt;反转k + 1 ~ n之间的元素.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:1255b2eac96df45bed9d507c090e9726&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: an array of integers
+     * @return: return nothing (void), do not return anything, modify nums in-place instead
+     */
+    public int[] nextPermutation(int[] nums) {
+        if(nums == null || nums.length == 1)
+            return nums;
+        
+        // step1: find nums[i] &amp;lt; nums[i + 1]
+        int i = 0;
+        for (i = nums.length - 2; i &amp;gt;= 0; i--) {
+            if (nums[i] &amp;lt; nums[i + 1]) {
+                break;
+            } else if (i == 0) {
+                // reverse nums if reach maximum
+                reverse(nums, 0, nums.length - 1);
+                return nums;
+            }
+        }
+        // step2: find nums[i] &amp;lt; nums[j]
+        int j = 0;
+        for (j = nums.length - 1; j &amp;gt; i; j--) {
+            if (nums[i] &amp;lt; nums[j]) {
+                break;
+            }
+        }
+        // step3: swap betwenn nums[i] and nums[j]
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+        
+        // step4: reverse between [i + 1, n - 1]
+        reverse(nums, i + 1, nums.length - 1);
+
+        return nums;
+    }
+    
+    private void reverse(int[] nums, int l, int r) {
+        while(l &amp;lt; r) {
+            int tmp = nums[l];
+            nums[l++] = nums[r];
+            nums[r--] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;complexity-analysis:1255b2eac96df45bed9d507c090e9726&#34;&gt;Complexity Analysis&lt;/h2&gt;
+
+&lt;p&gt;At most, two pass o(2*n) -&amp;gt; O(n); Constant Space Complexity: O(1)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permutation</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation/</link>
+      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/19/permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a list of numbers, return all possible permutations.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a083606555b205581658a49380bd6233&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For nums = [1,2,3], the permutations are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;challenge:a083606555b205581658a49380bd6233&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Do it without recursion.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a083606555b205581658a49380bd6233&#34;&gt;Think&lt;/h2&gt;
+
+&lt;h4 id=&#34;method-one:a083606555b205581658a49380bd6233&#34;&gt;Method One:&lt;/h4&gt;
+
+&lt;p&gt;Backtracking, with memorized the element usage, which takes space, or we can search on arraylist(more time);&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:a083606555b205581658a49380bd6233&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     * @param nums: A list of integers.
+     * @return: A list of permutations.
+     */
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; permute(ArrayList&amp;lt;Integer&amp;gt; nums) {
+
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(nums == null || nums.size() == 0)
+            return res;
+        helper(res, new ArrayList&amp;lt;Integer&amp;gt;(), nums);
+        return res;
+    }
+    
+    private void helper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; res, ArrayList&amp;lt;Integer&amp;gt; list,  ArrayList&amp;lt;Integer&amp;gt; nums ) {
+        
+        if(list.size() == nums.size()) {
+            res.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+            return;
+        }
+        
+        for(int i = 0; i&amp;lt;nums.size(); i++){
+        	// to check if this number already taken
+            if(list.contains(nums.get(i)))
+                continue;
+            
+            list.add(nums.get(i));
+            helper(res, list, nums);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-swap-https-www-cs-princeton-edu-rs-talks-perms-pdf:a083606555b205581658a49380bd6233&#34;&gt;Solution #&lt;a href=&#34;https://www.cs.princeton.edu/~rs/talks/perms.pdf&#34;&gt;Swap&lt;/a&gt;;&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/PermutationSwap.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+  private static Set&amp;lt;Integer&amp;gt; exchPermutation(int[] arr) {
+    Set&amp;lt;Integer&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
+    int i = 0, num = 0;
+    outer: while(true) {
+      
+      while(i &amp;lt; arr.length - 1) {
+        num = exchGenerate(arr, i, ++i);
+        if(set.contains(num))
+          break outer;
+        set.add(num);
+      }
+      
+      num = exchGenerate(arr, 0, 1);
+      if(set.contains(num))
+        break outer;
+      set.add(num);
+      
+      while(i &amp;gt; 0) {
+        num = exchGenerate(arr, --i, i+1);
+        if(set.contains(num))
+          break outer;
+        set.add(num);
+      }
+      
+      num = exchGenerate(arr, arr.length - 2, arr.length - 1);
+      if(set.contains(num))
+        break outer;
+      set.add(num);
+    }
+    return set;
+  }
+  
+  private static int exchGenerate(int[] arr, int i, int j) {
+    int tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+    
+    int res = 0;
+    for(int n : arr){
+      res = res*10 + n;
+    }
+    return res;
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;follow-up:a083606555b205581658a49380bd6233&#34;&gt;Follow Up&lt;/h2&gt;
+
+&lt;p&gt;Given a collection of numbers that might contain duplicates, return all possible unique permutations.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:a083606555b205581658a49380bd6233&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;[1,1,2]&lt;/code&gt; have the following unique permutations:
+&lt;code&gt;[1,1,2]&lt;/code&gt;, &lt;code&gt;[1,2,1]&lt;/code&gt;, and &lt;code&gt;[2,1,1]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-followup:a083606555b205581658a49380bd6233&#34;&gt;Solution #Followup&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; permuteUnique(int[] num) {
+      List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;();
+      Arrays.sort(num);
+      helper(new boolean[num.length], num, new ArrayList&amp;lt;Integer&amp;gt;(),result);
+      return result;
+    }
+
+    public void helper(boolean[] isUsed, int[] num, List&amp;lt;Integer&amp;gt; cur, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; result){
+      if(cur.size() == num.length){
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(cur));
+        return;
+      }
+
+      for(int i=0;i&amp;lt;num.length;i++){
+        if ((i&amp;gt;0&amp;amp;&amp;amp;num[i]==num[i-1]&amp;amp;&amp;amp;(!isUsed[i-1])) || isUsed[i])
+          continue;
+        cur.add(num[i]);
+        isUsed[i] = true;
+        helper(isUsed, num, cur,result);
+        isUsed[i] = false;
+        cur.remove(cur.size() - 1);
+      }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Previous Permutation</title>
+      <link>http://xmruibi.github.io/2015/10/19/previous-permutation/</link>
+      <pubDate>Mon, 19 Oct 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/19/previous-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a list of integers, which denote a permutation.&lt;/p&gt;
+
+&lt;p&gt;Find the previous permutation in ascending order.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:f6e4d713143b55b8f106d0392621f23d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For &lt;code&gt;[1,3,2,3]&lt;/code&gt;, the previous permutation is &lt;code&gt;[1,2,3,3]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;[1,2,3,4]&lt;/code&gt;, the previous permutation is [&lt;code&gt;4,3,2,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:f6e4d713143b55b8f106d0392621f23d&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The list may contains duplicate integers.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:f6e4d713143b55b8f106d0392621f23d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;step 1: find last nums[k] &amp;gt; nums[k + 1];&lt;/li&gt;
+&lt;li&gt;step 2: find last nums[i] &amp;gt; nums[k];&lt;/li&gt;
+&lt;li&gt;step 3: swap i, j;&lt;/li&gt;
+&lt;li&gt;step 4: reverse num after i;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:f6e4d713143b55b8f106d0392621f23d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @return: A list of integers that&#39;s previous permuation
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; previousPermuation(ArrayList&amp;lt;Integer&amp;gt; nums) {
+        if(nums == null || nums.size() &amp;lt;= 1)
+            return nums;
+            
+        // step 1: find last nums[k] &amp;gt; nums[k + 1]
+        int i = nums.size() - 2;
+        for (; i &amp;gt;= 0; i--) {
+            if (nums.get(i) &amp;gt; nums.get(i + 1)) {
+                break;
+            }
+            if(i &amp;lt;= 0) {
+                reverse(nums, 0, nums.size() - 1);
+                return nums;
+            }
+        }
+
+        // step 2: find last nums[i] &amp;gt; nums[k]
+        int j = nums.size() - 1;
+        for (; j &amp;gt; i; j--) {
+            if (nums.get(i) &amp;gt; nums.get(j)) {
+                break;
+            }
+        }
+        
+        // step 3: swap i, j
+        Collections.swap(nums, i, j);
+        
+        // step 4: reverse num after i
+        reverse(nums, i + 1, nums.size() - 1);
+        
+        return nums;
+    }
+    
+    private void reverse(ArrayList&amp;lt;Integer&amp;gt; nums,  int start, int end) {
+        for (int i = start, j = end; i &amp;lt; j; i++, j--) {
+            Collections.swap(nums, i, j);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permutation Index II</title>
+      <link>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</link>
+      <pubDate>Mon, 19 Oct 2015 11:45:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/19/permutation-index-ii/</guid>
+      <description>
+
+&lt;p&gt;Given a permutation which may contain repeated numbers, find its index in all the permutations of these numbers, which are ordered in lexicographical order. The index begins at 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:255abb4e020c1f092375ee8b5958ef84&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the permutation &lt;code&gt;[1, 4, 2, 2]&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:255abb4e020c1f092375ee8b5958ef84&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The key is counting from low digit(right) to higher digit(left), and checking how many digits are less than current digits. Then using that count as the coefficient with positional weight. However, there are duplicates occured. So that means we can use a hash map to do the count.
+But the positional system should be modified. The multiple of the factorial of the duplicates occurence should be divided by original position system. That means the &lt;code&gt;entry.value&lt;/code&gt; need to to the factorial and multiply those factors.
+Why? For example, n numbers with 2 duplicates, like &lt;code&gt;2,4,3,3&lt;/code&gt;, when &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:255abb4e020c1f092375ee8b5958ef84&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param A an integer array
+     * @return a long integer
+     */
+    public long permutationIndexII(int[] A) {
+        if(A == null || A.length == 0)
+            return 0L;
+        
+        int pos = 2;
+        long factor = 1;
+        long index = 1;
+        for(int i = A.length - 2; i &amp;gt;= 0; i--) {
+            HashMap&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+            int cnt = 0;
+            // count itself
+            map.put(A[i], 1);
+            for(int j = i + 1; j &amp;lt; A.length; j++) {
+                // count all occurence on following element in Array
+                map.put(A[j], map.containsKey(A[j])?map.get(A[j])+1:1);
+                if(A[i] &amp;gt; A[j])
+                    cnt++;
+            }
+            index += (cnt*factor)/factorialMultiple(map);
+            factor *= pos;
+            pos++;
+        }
+        
+        return index;
+    }
+    
+    private int factorialMultiple(HashMap&amp;lt;Integer, Integer&amp;gt; map) {
+        int res = 1;
+        for(int value : map.values()) {
+            // do the factor on occurence
+            int factor = 1;
+            for(int i = 1; i &amp;lt;= value; i++)
+                factor*= i;
+            // get the multiple of occurence factor
+            res *= factor;
+        }
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

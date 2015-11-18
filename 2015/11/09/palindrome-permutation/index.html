@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Palindrome Permutation &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Palindrome Permutation" />
+<meta property="og:description" content="Given a string, determine if a permutation of the string could form a palindrome.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/09/palindrome-permutation/" />
+
+
+<meta property="og:updated_time" content="2015-11-09T19:43:13-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Palindrome Permutation">
+<meta itemprop="description" content="Given a string, determine if a permutation of the string could form a palindrome.
+">
+
+
+<meta itemprop="dateModified" content="2015-11-09T19:43:13-07:00" />
+<meta itemprop="wordCount" content="593">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Palindrome Permutation"/>
+<meta name="twitter:description" content="Given a string, determine if a permutation of the string could form a palindrome.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/09/palindrome-permutation/">
+    <h1 class="article-title" itemprop="name">
+        Palindrome Permutation
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-09 19:43:13 -0700 -0700" itemprop="datePublished">2015-11-09</time>
+            &middot;
+            593
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/permutation">Permutation</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/combination">Combination</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/palindrome">Palindrome</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/hash-map">Hash Map</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Given a string, determine if a permutation of the string could form a palindrome.</p>
+
+<h2 id="problem-i:c02b61735a4f657d896704e724aa8184">Problem I</h2>
+
+<h4 id="example:c02b61735a4f657d896704e724aa8184">Example</h4>
+
+<p><code>&quot;code&quot;</code> -&gt; <code>false</code>, <code>&quot;aab&quot;</code> -&gt; <code>true</code>, <code>&quot;carerac&quot;</code> -&gt; <code>true</code>.</p>
+
+<h3 id="think:c02b61735a4f657d896704e724aa8184">Think</h3>
+
+<p>The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
+- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
+- If the length is odd. One and only one character could appear odd times.</p>
+
+<h3 id="solution:c02b61735a4f657d896704e724aa8184">Solution</h3>
+
+<pre><code class="language-java">	public boolean canPermutePalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		HashMap&lt;Character, Integer&gt; map = new HashMap&lt;&gt;();
+		for (char c : s.toCharArray())
+			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+
+		int tolerent = 0;
+		for (Map.Entry&lt;Character, Integer&gt; entry : map.entrySet()) {
+			if (entry.getValue() % 2 != 0) {
+				tolerent++;
+			}
+		}
+		if (s.length() % 2 != 0)
+			return tolerent == 1;
+		else
+			return tolerent == 0;
+	}
+</code></pre>
+
+<hr />
+
+<h2 id="problem-ii:c02b61735a4f657d896704e724aa8184">Problem II</h2>
+
+<p>Get the longest palindromical substring from permutation by given string.</p>
+
+<h3 id="think-1:c02b61735a4f657d896704e724aa8184">Think</h3>
+
+<ul>
+<li>Record the frequency</li>
+<li>All character with even frequency can be added into final result.</li>
+<li>Find the largest odd frequency add it onto final result.</li>
+</ul>
+
+<h3 id="solution-1:c02b61735a4f657d896704e724aa8184">Solution</h3>
+
+<pre><code class="language-java">        private int longestSubset(String str) {
+        HashMap&lt;Character, Integer&gt; charCnt = new HashMap&lt;&gt;();
+        for (char c : str.toCharArray())
+            charCnt.put(c, charCnt.containsKey(c) ? charCnt.get(c) + 1 : 1);
+        int maxLen = 0;
+        int maxsingle = 0;
+        for (Map.Entry&lt;Character, Integer&gt; entry : charCnt.entrySet()) {
+            if (entry.getValue() % 2 == 0)
+                maxLen += entry.getValue();
+            else
+                maxsingle = Math.max(maxsingle, entry.getValue());
+        }
+        return maxLen + maxsingle;
+    }
+</code></pre>
+
+<hr />
+
+<h2 id="problem-iii:c02b61735a4f657d896704e724aa8184">Problem III</h2>
+
+<p>Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.</p>
+
+<h4 id="example-1:c02b61735a4f657d896704e724aa8184">Example</h4>
+
+<p>Given s = <code>&quot;aabb&quot;</code>, return <code>[&quot;abba&quot;, &quot;baab&quot;]</code>.
+Given s = <code>&quot;abc&quot;</code>, return <code>[]</code>.</p>
+
+<h3 id="think-2:c02b61735a4f657d896704e724aa8184">Think</h3>
+
+<ul>
+<li>Similar with the last problem, check if the input String can form any valid palindrome</li>
+<li>Address the case when the length is odd
+
+<ul>
+<li>Record the character with odd frequency</li>
+<li>Initialize the generation String with the Odd character</li>
+</ul></li>
+<li>Backtracking to generate the symmetry characters on the generation String</li>
+</ul>
+
+<h3 id="solution-2:c02b61735a4f657d896704e724aa8184">Solution</h3>
+
+<pre><code class="language-java">    public static List&lt;String&gt; generatePalindromes(String s) {
+        HashSet&lt;String&gt; res = new HashSet&lt;&gt;();
+        if (s == null || s.length() == 0)
+            return new ArrayList&lt;String&gt;(res);
+        HashMap&lt;Character, Integer&gt; map = new HashMap&lt;&gt;();
+        for (char c : s.toCharArray())
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        
+        // check if it is odd length, increase the tolerance when it is odd length
+        int tolerent = 0;
+        if (s.length() % 2 != 0)
+            tolerent++;
+        
+        // record the odd item to set as the base of generate String
+        char odd = '\u0000';
+        for (Map.Entry&lt;Character, Integer&gt; entry : map.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                if (tolerent &gt; 0) {
+                    tolerent--;
+                    odd = entry.getKey(); // set it
+                } else
+                    return new ArrayList&lt;String&gt;(res);
+            }
+        }
+        // set the base String when the odd case
+        String cur = &quot;&quot;;
+        if (odd != '\u0000') {
+            map.put(odd, map.get(odd) - 1);
+            if (map.get(odd) == 0)
+                map.remove(odd);
+            cur = &quot;&quot; + odd;
+        }
+        
+        // generate the palindrome
+        helper(res, map, cur, s);
+        return new ArrayList&lt;String&gt;(res);
+    }
+
+    private static void helper(Set&lt;String&gt; res,
+            HashMap&lt;Character, Integer&gt; map, String cur, String origin) {
+        if (map.size() == 0) {
+            res.add(new String(cur));
+            return;
+        }
+
+        for (int i = 0; i &lt; origin.length(); i++) {
+            char c = origin.charAt(i);
+            if (!map.containsKey(c))
+                continue;
+            cur = (c + cur + c);
+            map.put(c, map.get(c) - 2);
+            if (map.get(c) == 0)
+                map.remove(c);
+            helper(res, map, cur, origin);
+            cur = cur.substring(1, cur.length() - 1);
+            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
+        }
+    }
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/09/palindrome-permutation/" data-id="c02b61735a4f657d896704e724aa8184" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/09/palindrome-permutation//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/11/09/graph-valid-tree/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Graph Valid Tree</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/11/09/delete-digits/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Delete Digits</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/09\/palindrome-permutation\/';
+    var disqus_title = 'Palindrome Permutation';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/09\/palindrome-permutation\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#problem-i:c02b61735a4f657d896704e724aa8184">Problem I</a>
+<ul>
+<li>
+<ul>
+<li><a href="#example:c02b61735a4f657d896704e724aa8184">Example</a></li>
+</ul></li>
+<li><a href="#think:c02b61735a4f657d896704e724aa8184">Think</a></li>
+<li><a href="#solution:c02b61735a4f657d896704e724aa8184">Solution</a></li>
+</ul></li>
+<li><a href="#problem-ii:c02b61735a4f657d896704e724aa8184">Problem II</a>
+<ul>
+<li><a href="#think-1:c02b61735a4f657d896704e724aa8184">Think</a></li>
+<li><a href="#solution-1:c02b61735a4f657d896704e724aa8184">Solution</a></li>
+</ul></li>
+<li><a href="#problem-iii:c02b61735a4f657d896704e724aa8184">Problem III</a>
+<ul>
+<li>
+<ul>
+<li><a href="#example-1:c02b61735a4f657d896704e724aa8184">Example</a></li>
+</ul></li>
+<li><a href="#think-2:c02b61735a4f657d896704e724aa8184">Think</a></li>
+<li><a href="#solution-2:c02b61735a4f657d896704e724aa8184">Solution</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

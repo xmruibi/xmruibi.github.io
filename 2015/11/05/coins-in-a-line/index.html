@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Coins in a Line &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Coins in a Line" />
+<meta property="og:description" content="Problem I
+
+There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.
+
+Could you please decide the first play will win or lose?
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/05/coins-in-a-line/" />
+
+
+<meta property="og:updated_time" content="2015-11-05T13:10:29-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Coins in a Line">
+<meta itemprop="description" content="Problem I
+
+There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.
+
+Could you please decide the first play will win or lose?
+">
+
+
+<meta itemprop="dateModified" content="2015-11-05T13:10:29-07:00" />
+<meta itemprop="wordCount" content="697">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Coins in a Line"/>
+<meta name="twitter:description" content="Problem I
+
+There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.
+
+Could you please decide the first play will win or lose?
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/05/coins-in-a-line/">
+    <h1 class="article-title" itemprop="name">
+        Coins in a Line
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-05 13:10:29 -0700 -0700" itemprop="datePublished">2015-11-05</time>
+            &middot;
+            697
+            words
+            &middot;
+            4
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<h2 id="problem-i:55c5f52fdeb28cdc1ad9a0690da63696">Problem I</h2>
+
+<p>There are n coins in a line. Two players take turns to take one or two coins from right side until there are no more coins left. The player who take the last coin wins.</p>
+
+<p>Could you please decide the first play will win or lose?</p>
+
+<h4 id="example:55c5f52fdeb28cdc1ad9a0690da63696">Example</h4>
+
+<p>n = <code>1</code>, return <code>true</code>.</p>
+
+<p>n = <code>2</code>, return <code>true</code>.</p>
+
+<p>n = <code>3</code>, return <code>false</code>.</p>
+
+<p>n = <code>4</code>, return <code>true</code>.</p>
+
+<p>n = <code>5</code>, return <code>true</code>.</p>
+
+<h4 id="challenge:55c5f52fdeb28cdc1ad9a0690da63696">Challenge</h4>
+
+<p>$O(n)$ time and $$O(1)$$ memory</p>
+
+<h3 id="think:55c5f52fdeb28cdc1ad9a0690da63696">Think</h3>
+
+<ul>
+<li>Only if the amount of coin is the multiply of <code>3</code>, first player cannot win.</li>
+</ul>
+
+<h3 id="solution:55c5f52fdeb28cdc1ad9a0690da63696">Solution</h3>
+
+<pre><code class="language-java">    /**
+     * @param n: an integer
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int n) {
+        return n%3!=0;
+    }
+</code></pre>
+
+<h2 id="problem-ii:55c5f52fdeb28cdc1ad9a0690da63696">Problem II</h2>
+
+<p>There are n coins with different value in a line. Two players take turns to take one or two coins from left side until there are no more coins left. The player who take the coins with the most value wins.</p>
+
+<p>Could you please decide the first player will win or lose?</p>
+
+<h4 id="example-1:55c5f52fdeb28cdc1ad9a0690da63696">Example</h4>
+
+<p>Given values array A = <code>[1,2,2]</code>, return true.</p>
+
+<p>Given A = <code>[1,2,4]</code>, return false.</p>
+
+<h3 id="think-1:55c5f52fdeb28cdc1ad9a0690da63696">Think</h3>
+
+<h5 id="state:55c5f52fdeb28cdc1ad9a0690da63696">State</h5>
+
+<p><code>dp[i]</code> represent the max value it can get from <code>i</code> to the end</p>
+
+<h5 id="function:55c5f52fdeb28cdc1ad9a0690da63696">Function</h5>
+
+<p>Each time when iterate <code>i</code>, we have two choice:</p>
+
+<ul>
+<li>takes <code>values[i]</code></li>
+<li>takes <code>values[i] + values[i+1]</code></li>
+</ul>
+
+<p>Here are what we need to think:</p>
+
+<ul>
+<li><p>1.If we took <code>values[i]</code>, opposite has two choice:  <code>values[i+1]</code> or <code>values[i+1] + values[i+2]</code> so the rest values for our own sides are <code>DP[i+2]</code> or <code>DP[i+3]</code>, however it should choose the minimum so that the opposite can get the maximum.</p>
+
+<p>$$value1 = values[i] + min(DP[i+2], DP[i+3])$$</p></li>
+
+<li><p>2.If we took  <code>values[i] + values[i+1]</code></p>
+
+<p>$$value2 = values[i] + values[i+1] + min(DP[i+3], DP[i+4])$$</p></li>
+
+<li><p>3.</p>
+
+<p>$$dp[I] = max(value1, value2)$$</p></li>
+</ul>
+
+<h3 id="solution-1:55c5f52fdeb28cdc1ad9a0690da63696">Solution</h3>
+
+<pre><code class="language-java">    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &lt;= 2) {
+            return true;
+        }
+        int dp[] = new int[values.length];
+        
+        dp[values.length-1] = values[values.length-1];
+        dp[values.length-2] = values[values.length-1] + values[values.length-2];
+        int total = dp[values.length-2];
+        
+        for(int i = values.length - 3; i &gt;= 0; i--) {
+            total += values[i];
+            int value1 = values[i] + Math.min(dp[i+2], i+3&lt;values.length?dp[i+3]:0);
+            int value2 = values[i] + values[i+1] + Math.min(i+3&lt;values.length?dp[i+3]:0, i+4&lt;values.length?dp[i+4]:0);
+            dp[i] = Math.max(value1, value2);
+        }
+        
+        return dp[0] &gt; (total - dp[0]);
+    }
+</code></pre>
+
+<h2 id="problem-iii:55c5f52fdeb28cdc1ad9a0690da63696">Problem III</h2>
+
+<p>There are n coins in a line. Two players take turns to take a coin from one of the ends of the line until there are no more coins left. The player with the larger amount of money wins.</p>
+
+<p>Could you please decide the first player will win or lose?</p>
+
+<h4 id="example-2:55c5f52fdeb28cdc1ad9a0690da63696">Example</h4>
+
+<p>Given array A = <code>[3,2,2]</code>, return true.</p>
+
+<p>Given array A = <code>[1,2,4]</code>, return true.</p>
+
+<p>Given array A = <code>[1,20,4]</code>, return false.</p>
+
+<h4 id="challenge-1:55c5f52fdeb28cdc1ad9a0690da63696">Challenge</h4>
+
+<p>Follow Up Question: If <code>n</code> is even. Is there any hacky algorithm that can decide whether first player will win or lose in $$O(1)$$ memory and $O(n)$ time?</p>
+
+<h3 id="think-2:55c5f52fdeb28cdc1ad9a0690da63696">Think</h3>
+
+<h5 id="state-1:55c5f52fdeb28cdc1ad9a0690da63696">State</h5>
+
+<p><code>dp[i][j]</code> represent the max value it can get from <code>i</code> to <code>j</code></p>
+
+<p><code>sum[i][j]</code> represent the sum value from <code>i</code> to <code>j</code></p>
+
+<h5 id="function-1:55c5f52fdeb28cdc1ad9a0690da63696">Function</h5>
+
+<p>Each time when taken coins, we have two choice:</p>
+
+<ul>
+<li>takes <code>values[i]</code></li>
+<li>takes <code>values[j]</code></li>
+</ul>
+
+<p>$$dp[i][j]=max(values[i]+sum[i+1][j]-dp[i+1][j], values[j]+sum[i][j-1]-dp[i][j-1])$$</p>
+
+<p>Since <code>values[i]+sum[i+1][j]</code> or <code>values[j]+sum[i][j-1]</code> equals to <code>sum[i][j]</code></p>
+
+<p>So the equation can be $dp[i][j] = sum[i][j] - min(dp[i+1][j],dp[i][j-1])$</p>
+
+<h3 id="solution-2:55c5f52fdeb28cdc1ad9a0690da63696">Solution</h3>
+
+<pre><code class="language-java">    /**
+     * @param values: an array of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        if (values == null || values.length &lt;= 2) {
+            return true;
+        }
+        
+        int[][] dp = new int[values.length][values.length];
+        int[][] sum = new int[values.length][values.length];
+        // get the sum of i to j
+        for(int i = 0; i &lt; values.length; i++){
+            for(int j  = i; j &lt; values.length; j++) {
+                if(i == j)
+                    sum[i][j] = values[i];
+                else
+                    sum[i][j] = values[j] + sum[i][j-1];
+            }
+        }
+        
+        // to do the dp 
+        for(int i = values.length - 1; i &gt;= 0; i--){
+            for(int j  = i; j &lt; values.length; j++) {
+                if(i == j)
+                    dp[i][j] = values[i];
+                else
+                    dp[i][j] = sum[i][j] - Math.min(dp[i+1][j],dp[i][j-1]);
+            }
+        }
+        
+        return dp[0][values.length - 1] &gt; sum[0][values.length - 1] - dp[0][values.length - 1];
+    }
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/05/coins-in-a-line/" data-id="55c5f52fdeb28cdc1ad9a0690da63696" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/05/coins-in-a-line//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/11/05/distinct-subsequences/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Distinct Subsequences</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/11/05/palindrome-partitioning/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Palindrome Partitioning</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/05\/coins-in-a-line\/';
+    var disqus_title = 'Coins in a Line';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/05\/coins-in-a-line\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#problem-i:55c5f52fdeb28cdc1ad9a0690da63696">Problem I</a>
+<ul>
+<li>
+<ul>
+<li><a href="#example:55c5f52fdeb28cdc1ad9a0690da63696">Example</a></li>
+<li><a href="#challenge:55c5f52fdeb28cdc1ad9a0690da63696">Challenge</a></li>
+</ul></li>
+<li><a href="#think:55c5f52fdeb28cdc1ad9a0690da63696">Think</a></li>
+<li><a href="#solution:55c5f52fdeb28cdc1ad9a0690da63696">Solution</a></li>
+</ul></li>
+<li><a href="#problem-ii:55c5f52fdeb28cdc1ad9a0690da63696">Problem II</a>
+<ul>
+<li>
+<ul>
+<li><a href="#example-1:55c5f52fdeb28cdc1ad9a0690da63696">Example</a></li>
+</ul></li>
+<li><a href="#think-1:55c5f52fdeb28cdc1ad9a0690da63696">Think</a>
+<ul>
+<li>
+<ul>
+<li><a href="#state:55c5f52fdeb28cdc1ad9a0690da63696">State</a></li>
+<li><a href="#function:55c5f52fdeb28cdc1ad9a0690da63696">Function</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#solution-1:55c5f52fdeb28cdc1ad9a0690da63696">Solution</a></li>
+</ul></li>
+<li><a href="#problem-iii:55c5f52fdeb28cdc1ad9a0690da63696">Problem III</a>
+<ul>
+<li>
+<ul>
+<li><a href="#example-2:55c5f52fdeb28cdc1ad9a0690da63696">Example</a></li>
+<li><a href="#challenge-1:55c5f52fdeb28cdc1ad9a0690da63696">Challenge</a></li>
+</ul></li>
+<li><a href="#think-2:55c5f52fdeb28cdc1ad9a0690da63696">Think</a>
+<ul>
+<li>
+<ul>
+<li><a href="#state-1:55c5f52fdeb28cdc1ad9a0690da63696">State</a></li>
+<li><a href="#function-1:55c5f52fdeb28cdc1ad9a0690da63696">Function</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#solution-2:55c5f52fdeb28cdc1ad9a0690da63696">Solution</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

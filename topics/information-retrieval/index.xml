@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Information Retrieval on Geek Think</title>
+    <link>http://xmruibi.github.io/topics/information-retrieval/</link>
+    <description>Recent content in Information Retrieval on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 10 Oct 2015 23:56:15 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/topics/information-retrieval/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How to do the insite search in Hugo?</title>
+      <link>http://xmruibi.github.io/code/BleveSearch/</link>
+      <pubDate>Sat, 10 Oct 2015 23:56:15 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/code/BleveSearch/</guid>
+      <description>
+
+&lt;p&gt;Since I tried to avoid using the Google tool, searching insite content in static site like Hugo seems a tough thing for me.  However, I just found &lt;a href=&#34;https://github.com/blevesearch/hugoidx&#34;&gt;Bleeve Search&lt;/a&gt;, which is a great tool to assist the insite search.&lt;/p&gt;
+
+&lt;p&gt;There are three steps to adding search to your site. First, you must build the index. Second, you must host the index. Third, you add a search page to your site.&lt;/p&gt;
+
+&lt;h3 id=&#34;building-the-index:3ed2cfef5c148cbf5b7a53acba8c6c7b&#34;&gt;Building the Index&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Preparation: Check you have installed Go. Two ways to install Go, see the instruction in &lt;a href=&#34;https://golang.org/dl/&#34;&gt; Download GO&lt;/a&gt;. Also, be awared to the GOPATH&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export %GOPATH = &amp;quot;.../...&amp;quot;
+source etc/profile
+echo $GOPATH
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Be sured you&amp;rsquo;ve also installed Mercurial. Check it by command &lt;code&gt;hg&lt;/code&gt;. You can use &lt;code&gt;brew&lt;/code&gt; to install it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brew install hg
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Install &lt;strong&gt;hugoidx&lt;/strong&gt; - this is the command we will use build the search index.  Anytime you update your content and regenerate your site using the &lt;code&gt;hugo&lt;/code&gt; command, you&amp;rsquo;ll also want to rebuild your search index.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go get github.com/blevesearch/hugoidx
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cd &amp;lt;your hugo site&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;hugoidx&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;You should now have a file named &lt;code&gt;search.bleve&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;hosting-the-index:3ed2cfef5c148cbf5b7a53acba8c6c7b&#34;&gt;Hosting the Index&lt;/h3&gt;
+
+&lt;p&gt;In order to host the index we need to run a small Go program that is available on the internet.  To simplify this process, we have built a reusable application called &lt;code&gt;bleve-hosted&lt;/code&gt;.  You can use this application safely answer queries to the index (read-only operations).&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Install &lt;code&gt;bleve-hosted&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go get github.com/blevesearch/bleve-hosted
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cd $GOPATH/src/github.com/blevesearch/bleve-hosted&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;bleve-hosted&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Test that its working:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;curl http://localhost:8080/api/test.bleve/_search -d &#39;{&amp;quot;query&amp;quot;:{&amp;quot;query&amp;quot;:&amp;quot;bleve&amp;quot;}}&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting JSON should include &amp;ldquo;total_hits&amp;rdquo;: 1&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Copy the &lt;code&gt;search.bleve&lt;/code&gt; index you generated earlier into your &lt;code&gt;indexes/&lt;/code&gt; folder.  (This can really be anywhere, it will always look for an &lt;code&gt;indexes/&lt;/code&gt; folder relative to the current working directly when you launch &lt;code&gt;bleve-hosted&lt;/code&gt;.)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Restart &lt;code&gt;bleve-hosted&lt;/code&gt; and optionally configure your server to keep this process running long term (init-scripts, etc)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;add-search-to-your-site:3ed2cfef5c148cbf5b7a53acba8c6c7b&#34;&gt;Add Search to your Site&lt;/h3&gt;
+
+&lt;p&gt;Finally, we&amp;rsquo;re ready to add a search page to our site.  Several files were downloaded as a part of the &lt;code&gt;hugoidx&lt;/code&gt; package to help you get started.  Feel free to customize these files to best adapt them to your site.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;cd &amp;lt;your hugo site&amp;gt;&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Copy the main search page:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cp $GOPATH/src/github.com/blevesearch/hugoidx/search.md content/
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check and copy two Javascript files in my Github:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://github.com/xmruibi/xmruibi.github.io/blob/master/js/handlebars.js
+https://github.com/xmruibi/xmruibi.github.io/blob/master/js/search.js
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Copy these two files into your &lt;code&gt;static/&lt;/code&gt; folder. Also, make sure you&amp;rsquo;ve &lt;code&gt;jquery.min.js&lt;/code&gt; in this folder.&lt;/p&gt;
+
+&lt;p&gt;handlebars.js is used to render search results using a simple template syntax.&lt;br /&gt;
+search.js is our custom code to bind everything together.&lt;/p&gt;
+
+&lt;p&gt;jQuery is used to make AJAX requests from the browser to &lt;code&gt;bleve-hosted&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update your layout to include these javascript files.  For many sites this will be in a file like &lt;code&gt;layouts/partial/footer.html&lt;/code&gt; or &lt;code&gt;themes/&amp;lt;your theme&amp;gt;/layouts/partials/footer.html&lt;/code&gt;.  In the section where javascript files are being included you&amp;rsquo;ll want to add:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;/js/jquery.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;/js/handlebars.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;/js/search.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Finally, we need to update search.js to point to the correct URL for &lt;code&gt;bleve-hosted&lt;/code&gt;.  On line 2 of &lt;code&gt;static/js/search.js&lt;/code&gt; modify the value:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var searchURL = &#39;http://&amp;lt;your server&amp;gt;:8080/api/search.bleve/_search&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;touch-the-search-function:3ed2cfef5c148cbf5b7a53acba8c6c7b&#34;&gt;Touch the Search function&lt;/h3&gt;
+
+&lt;p&gt;You need to setup file &lt;code&gt;search.html&lt;/code&gt; in &lt;code&gt;layout/partials/modules/site/link&lt;/code&gt;, which is for the search bar in navgation sidebar. And also a &lt;code&gt;search.md&lt;/code&gt; file in your content folder.&lt;/p&gt;
+
+&lt;p&gt;Here provided a great CSS to generate the beautiful search bar. Please check &lt;a href =&#34;https://github.com/xmruibi/xmruibi.github.io/blob/master/css/search.css&#34;&gt; Code &lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Make you search form includes both components:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    &amp;lt;input id=&amp;quot;page&amp;quot; name=&amp;quot;p&amp;quot; value=&amp;quot;1&amp;quot; type=&amp;quot;hidden&amp;quot;/&amp;gt;
+    &amp;lt;input id=&amp;quot;query&amp;quot; name=&amp;quot;q&amp;quot; type=&amp;quot;search&amp;quot; placeholder=&amp;quot;Search&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot App with Elastic Search Indexing Service</title>
+      <link>http://xmruibi.github.io/code/ElasticSearch/</link>
+      <pubDate>Mon, 10 Aug 2015 23:56:15 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/code/ElasticSearch/</guid>
+      <description>
+
+&lt;p&gt;This article shows an example to build a bridge between Spring-Boot App and Elastic Search Indexing Service.&lt;/p&gt;
+
+&lt;h2 id=&#34;1-elastic-search-install:a362be84ed635496f364beed2b4fc4f1&#34;&gt;1. Elastic Search Install&lt;/h2&gt;
+
+&lt;p&gt;Install elastic search is very easy&lt;/p&gt;
+
+&lt;h3 id=&#34;install-elastic-search:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Install Elastic Search&lt;/h3&gt;
+
+&lt;h4 id=&#34;start-elastic-search:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Start Elastic Search&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;    # windows: cd yourPath: service install
+                            service start
+                            service stop
+    # Mac: cd $ELASTIC_HOME: elasticsearch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;check-your-service-by-input-the-url-localhost-9200-in-your-browser:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Check your service by input the url &lt;code&gt;localhost:9200&lt;/code&gt; in your browser.&lt;/h4&gt;
+
+&lt;h4 id=&#34;cluster-name:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Cluster Name&lt;/h4&gt;
+
+&lt;p&gt;If cluster name is not &amp;ldquo;elasticsearch&amp;rdquo;, it may cause the run failed when your Java code trying to build elastic search instance. There should be an exception( NoNodeClientException: None of node configed) when your indexing the data.&lt;/p&gt;
+
+&lt;p&gt;Please change your cluster name into &amp;ldquo;elasticsearch&amp;rdquo; in your elasticsearch install path.
+ $ELASTIC_HOME/config/elasticsearch.yml : clustername = elasticsearch&lt;/p&gt;
+
+&lt;h2 id=&#34;2-creat-index-by-spring-data-elasticsearch-api:a362be84ed635496f364beed2b4fc4f1&#34;&gt;2. Creat Index by Spring-data-elasticsearch API&lt;/h2&gt;
+
+&lt;p&gt;Here is a example from my project. It shows how I creat an index for music by Bulk method, which is provided by Elastic Java API.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Service
+public class MusicIndexingService {
+
+	private final static Logger logger = Logger
+			.getLogger(MusicIndexingService.class);
+
+	@Autowired	
+	private Client client ;
+	
+	private ObjectMapper mapper = new ObjectMapper();
+
+	/**
+	 * The bulk index method
+	 * @param musicCollection for index
+	 */
+	public void bulkIndex(List&amp;lt;IndexedMusic&amp;gt; musicCollection) {
+		client.delete(new DeleteRequest(&amp;quot;musics&amp;quot;));
+		logger.info(&amp;quot;Indexing bulk request of &amp;quot; + musicCollection.size()
+				+ &amp;quot; documents&amp;quot;);
+		BulkRequestBuilder bulkRequest = client.prepareBulk();
+		for (IndexedMusic music : musicCollection) {
+			String json = null;
+			try {
+				json = mapper.writeValueAsString(music);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+			bulkRequest.add(client.prepareIndex(&amp;quot;musics&amp;quot;, &amp;quot;music&amp;quot;,
+					UUID.randomUUID().toString()).setSource(json));
+		}
+		BulkResponse response = bulkRequest.execute().actionGet();
+		if (response.hasFailures()) {
+			throw new RuntimeException(
+					&amp;quot;there was an error indexing the bulk request of &amp;quot;
+							+ musicCollection.size() + &amp;quot; documents: &amp;quot; +response.buildFailureMessage());
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;## 3. Search the index:
+ Search a music by name.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+	 * This is keyword search method in comment contents field in music object
+	 * @param keyword
+	 * @return
+	 */
+	public List&amp;lt;Music&amp;gt; findMusic(String keyword) {
+		QueryBuilder matchquery = QueryBuilders.fuzzyLikeThisFieldQuery(
+				&amp;quot;commentContents&amp;quot;).likeText(keyword);
+		SearchRequestBuilder requestBuilder = client.prepareSearch(&amp;quot;musics&amp;quot;)
+				.setQuery(matchquery);
+		SearchResponse response = requestBuilder.execute().actionGet();
+		SearchHits hits = response.getHits();
+		List&amp;lt;String&amp;gt; musicIdsList = new ArrayList&amp;lt;String&amp;gt;();
+		Iterator&amp;lt;SearchHit&amp;gt; iterator = hits.iterator();
+		while (iterator.hasNext()) {
+			musicIdsList.add(iterator.next().getSource().get(&amp;quot;id&amp;quot;).toString());
+		}
+		return (List&amp;lt;Music&amp;gt;) musicRepository.findAll(musicIdsList);
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Machine Learning: Query Classifier</title>
+      <link>http://xmruibi.github.io/code/QueryClassifier/</link>
+      <pubDate>Mon, 12 Jan 2015 15:33:07 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/code/QueryClassifier/</guid>
+      <description>
+
+&lt;p&gt;A system for figuring out the category of user query in search engine and potential subtask of user in group searching task.&lt;/p&gt;
+
+&lt;h2 id=&#34;basically:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Basically&lt;/h2&gt;
+
+&lt;p&gt;Query classifier is some kind of that when you give a query then it return the most possible category or topic of this query.But things are little bit different here. Because this query classifier is a subproject for collaborative search engine.&lt;/p&gt;
+
+&lt;h2 id=&#34;collaborative-search-engine:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Collaborative Search Engine&lt;/h2&gt;
+
+&lt;p&gt;That is a search engine platform for a team not an individual (As you know, most of current search engine are just personized for individual). In here we set some experiments according to the real situation that when a team is addressing some problems around a certain task. For example, we assumed a team are planning to go for a travel, so one of guy focus on booking hotel or airline ticket, one guy focus on studying the route of attractions. Then the collaborative search engine should give each person different ranking results.&lt;/p&gt;
+
+&lt;h2 id=&#34;why-need-query-classifier:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Why need query classifier?&lt;/h2&gt;
+
+&lt;p&gt;We assume that during the collaborative search engine working, a team is working on a certain task. And there is a task statement wrote by natural language. In task statement, the subtopic also indicated by some sentences. (Experiment initial stage) So my query classifier is trying to figure out the input query belong to what kind of subtopic under this task.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-does-classifier-result-look-like:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;What does classifier result look like?&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve set two experimental tasks for team searching. One is (Study on Social Media). Another is travel in Helsinki. I did some example queries on Console and screenshot results.&lt;/p&gt;
+
+&lt;p&gt;For traveling task, we assumed we have three people searching on three aspects in Helsinki: culture, dining and outdoor activity.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/TravelTask.png&#34; alt=&#34;&#34; &gt;&lt;/p&gt;
+
+&lt;p&gt;For social media study, we assumed five subtopics for team member:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Emergence and spread of social networking sites, such as MySpace, Facebook, Twitter, and del.icio.us&lt;/li&gt;
+&lt;li&gt;Statistics about popularity of such sites-(How many users? How much time they spend? How much content?)&lt;/li&gt;
+&lt;li&gt;Impacts on students and professionals&lt;/li&gt;
+&lt;li&gt;Commerce around these sites-(How do they make money? How do users use them to make money?)&lt;/li&gt;
+&lt;li&gt;Examples of usage of such services in various domains, such as healthcare and politics&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/Socialmedia1.png&#34; alt=&#34;&#34; &gt;
+&lt;img src=&#34;http://xmruibi.github.io/media/Socialmedia2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;How about them by scores and rank?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://xmruibi.github.io/media/Socialmedia3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;procedure:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Procedure:&lt;/h2&gt;
+
+&lt;h4 id=&#34;step-0-basic-idea:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 0. Basic idea&lt;/h4&gt;
+
+&lt;p&gt;Build language model for each subtopic in one task and get the relevance score between query and subtopic model.&lt;/p&gt;
+
+&lt;h4 id=&#34;step-1-corpus:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 1. Corpus&lt;/h4&gt;
+
+&lt;p&gt;Set up Corpus for task and each subtopic
+ - Keywords extraction from task statement
+     - We believe the keyword should be noun or proper noun or noun phrase from task statement.
+     - Then Stanford NLP parser to get part-of-speech tags.&lt;br /&gt;
+     - There is a little bit tricky during finding the noun phrase. As we know the NLP parser generate the tagging sentences as a tree. Every leaf of tree is the word in sentence. But we need look up the parent nodes or grandparent nodes of leaves to get the phrase tag. So each time even if we find a word is noun or proper noun we still need to check its upper level nodes and consider its tags.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Build keywords as query on Google
+
+&lt;ul&gt;
+&lt;li&gt;A subtopic can be represent by some keywords combination:&lt;/li&gt;
+&lt;li&gt;Those keywords can be formed as the queries&lt;/li&gt;
+&lt;li&gt;Fetch the Google Top 20 Results title and snippet as the subtopic model&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;step-2-evaluate-query-and-subtopic-relevance:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Step 2. Evaluate Query and Subtopic Relevance&lt;/h4&gt;
+
+&lt;p&gt;I consider both classical statistic model and language model and get relevance score from two part, but different weights on two models (0.8 and 0.2). As we know language model has better performance. Because, the language model is more rely on the real language rules other than the mathematical statistical rules and  the details of how statistics like term frequency and document
+length are used differ.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Query Likelihood Model: Dirichlet Smoothing Algorithm&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;considering term frequency and collection frequency&lt;/li&gt;
+&lt;li&gt;Using a reference model (collection language model) to discriminate unseen words.
+    $$P(w|D) = \frac{c(w,M_D)+\mu\cdot P(w|M_C)}{|D|+\mu}$$
+    |D| means the length of current document!
+    $c(w,M_D)$ means the term frequency in a document&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Vector Space Model: using TF-IDF score&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The vector between subtopic model and query&lt;/li&gt;
+&lt;li&gt;but did some query expansion: top 5 snippet from google result as expansion&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;how-to-implement:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;How to implement?&lt;/h2&gt;
+
+&lt;h3 id=&#34;subtopic-language-model:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Subtopic Language Model&lt;/h3&gt;
+
+&lt;h4 id=&#34;1-keyword-extraction:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;1. Keyword Extraction&lt;/h4&gt;
+
+&lt;p&gt;Keywords extraction means to extracted keywords from task statement and subtopic statement. These keywords would be combined as queries to search on Google and crawl their Top 20 result as the language model for subtopic.
+In this study, I use the Stanford Nature language parser package to extraction noun word leaves from statement as a keyword, moreover, if a certain noun word leaf has parent node which is noun phrase, the noun phrase should be used as keyword.&lt;/p&gt;
+
+&lt;p&gt;Keyword Extraction Example from Task 2 and Task 5
+(Word with “+” means the proper noun)&lt;/p&gt;
+
+&lt;p&gt;Keywords for Task 2:
+Emergence, spread, social networking sites, Facebook+, Myspace+, Twitter+, Delicious+, statistics, popularity, sites, users, time, impacts, students, professionals, commerce, money, examples, usage, services, domains, healthcare, politics&lt;/p&gt;
+
+&lt;p&gt;Keywords for Task 5:
+ friend, four-day vacation, December+, Helsinki+, Finland+, information, vacation, flights, US+, hotels, activities, goal, joint plan, things, Euros, person, group, vacation, outdoor activity, dining activity, cultural activity, types, addition&lt;/p&gt;
+
+&lt;h4 id=&#34;2-corpus-set-up:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;2. Corpus Set Up&lt;/h4&gt;
+
+&lt;p&gt;According to the keywords extracted from task or subtopic statement, these keywords can be combined as query for each subtopic. Here are the combination rules:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1)   Keywords from task statement should regarded as a collection.&lt;/li&gt;
+&lt;li&gt;2)   Proper Noun words should regarded as a collection.&lt;/li&gt;
+&lt;li&gt;3)   Keywords from each subtopic statement should regarded as a collection.&lt;/li&gt;
+&lt;li&gt;4)   Those keywords come from three collections combined as a query represent for each subtopic.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Using these query and search the TOP 20 results on Google, the titles and snippets on the Google result pages can regarded as the corpus for describing each subtopic .&lt;/p&gt;
+
+&lt;h4 id=&#34;3-dirichlet-prior-smoothing:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;3. Dirichlet Prior Smoothing&lt;/h4&gt;
+
+&lt;p&gt;Once the corpus built up, We nned build language model for getting the likehood of each query belong to what kind of subtopic. I use Dirichlet Prior Smoothing (DPS) method to get the probability of each term from a query in a certain subtopic language model. Then get product by these probability. The probability can be regarded as score one.&lt;/p&gt;
+
+&lt;h4 id=&#34;4-collection-expansion:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;4. Collection Expansion&lt;/h4&gt;
+
+&lt;p&gt;However, sometimes the term may not get any frequency in collection which is shown as c(w,D) in equation due to the collection may not rich enough for some terms. To deal with this problem, I tried to use the title of task as query to search on Google and get its TOP 50 result as the collection background.&lt;/p&gt;
+
+&lt;h2 id=&#34;query-expansion:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;Query Expansion&lt;/h2&gt;
+
+&lt;h4 id=&#34;1-expansion-content:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;1. Expansion Content&lt;/h4&gt;
+
+&lt;p&gt;For each user query, I first search the query on Google with fetching its TOP 5 results. The titles and snippets are combined as the query’s expansion.&lt;/p&gt;
+
+&lt;h4 id=&#34;2-tfidf-similarity-by-vsm:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;2. TFIDF Similarity by VSM&lt;/h4&gt;
+
+&lt;p&gt;For each query expansion content and subtopic description content (Language model), they can be figured out with two vectors according the terms TFIDF values in two contents. Using the VSM model with these two vectors, then can calculate the similarity between query expansion content and subtopic description. The similarity value can be regarded as score two in this study.&lt;/p&gt;
+
+&lt;h3 id=&#34;3-performance-progress:7e4628281278dc6dc1c2688a607a2efd&#34;&gt;3.  Performance Progress&lt;/h3&gt;
+
+&lt;p&gt;The experiments are stepping by several stages. At the first stage, only language model with Dirichlet Prior Smoothing score applied to evaluate whether a query matching with the subtopic. Under this case, the precision  of experiment is just over than 0.64. Then after inserting the collection background, the precision is improved to 0.73. Finally, with combining DFS score and VSM similarity score, the precision has lift to over 0.81, which is acceptable for the study. So far, we decide to leave the rest of possible features and only use the DFS score and VSM similarity score for the query – subtopic rank system.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

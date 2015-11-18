@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Duplicates Remove on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/duplicates-remove/</link>
+    <description>Recent content in Duplicates Remove on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sun, 25 Oct 2015 20:33:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/duplicates-remove/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Remove Duplicates from Sorted List II</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</guid>
+      <description>
+
+&lt;p&gt;Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:7cc5def643b6f339ce88e1cfcbbda9b8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5&lt;/code&gt;, return &lt;code&gt;1-&amp;gt;2-&amp;gt;5&lt;/code&gt;.
+Given &lt;code&gt;1-&amp;gt;1-&amp;gt;1-&amp;gt;2-&amp;gt;3&lt;/code&gt;, return &lt;code&gt;2-&amp;gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:7cc5def643b6f339ce88e1cfcbbda9b8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param ListNode head is the head of the linked list
+     * @return: ListNode head of the linked list
+     */
+    public static ListNode deleteDuplicates(ListNode head) {
+        // write your code here
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        while(head != null){
+            ListNode cur = head;
+            while(head.next != null &amp;amp;&amp;amp; cur.val == head.next.val)
+                head = head.next;
+            
+            if(head != cur){
+                pre.next = head.next;
+            }else
+                pre = pre.next;
+            head = head.next;
+        }
+        
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

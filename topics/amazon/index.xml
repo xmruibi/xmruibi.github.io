@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Amazon on Geek Think</title>
+    <link>http://xmruibi.github.io/topics/amazon/</link>
+    <description>Recent content in Amazon on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Tue, 17 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/topics/amazon/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Is Subtree</title>
+      <link>http://xmruibi.github.io/2015/11/17/is-subtree/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/is-subtree/</guid>
+      <description>
+
+&lt;p&gt;Given a tree root node and another root node of tree, check if another tree is the subtree of the given tree.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:9117bbf9480bc8a6d399845a198d0d79&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    public boolean isSubtree(TreeNode root, TreeNode node) {
+        if(root == null &amp;amp;&amp;amp; node  == null)
+            return true;
+        else if(root == null || node == null)
+            return false;
+        return checkNodes(root, node) || isSubtree(root.left, node) ||isSubtree(root.right, node);
+    }
+
+    private boolean checkNodes(TreeNode r1, TreeNode r2) {
+        if(r1 == null &amp;amp;&amp;amp; r2  == null)
+            return true;
+        else if(r1 == null || r2 == null)
+            return false;
+        return (r1.val == r2.val) &amp;amp;&amp;amp; checkNodes(r1.left, r2.left) &amp;amp;&amp;amp; chechNodes(r1.right, r2.right);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reverse Half of Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, reverse the half rear linked list.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:4b7b94f93aabe077e4bae2445c410224&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	
+	public ListNode reverseHalf(ListNode node) {
+		if(node == null || node.next == null)
+			return node;
+
+		ListNode runner = node;
+		ListNode pre = new ListNode(0);
+		pre.next = node;
+		ListNode walker = pre;
+
+		// find the middle point: the index of head of half rear node should according to the question requirement:
+		// here I just define the real middle one is the head of rear half 
+		while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+			runner = runner.next.next;
+			walker = walker.next;
+		} 
+
+		// reverse the rear half
+		walker.next = reverse(walker.next);
+		return node;
+	}
+
+	private ListNode reverse(ListNode node) {
+		ListNode head = null;
+		while(node != null) {
+			ListNode next = node.next;
+			node.next = head;
+			head = node;
+			node = next;
+		}	
+		return head;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tenary   Binary on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/tenary---binary/</link>
+    <description>Recent content in Tenary   Binary on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 24 Oct 2015 16:13:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/tenary---binary/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Binary Representation</title>
+      <link>http://xmruibi.github.io/2015/10/24/binary-representation/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/24/binary-representation/</guid>
+      <description>
+
+&lt;p&gt;Given a (decimal - e.g. 3.72) number that is passed in as a string, return the binary representation that is passed in as a string. If the fractional part of the number can not be represented accurately in binary with at most 32 characters, return &lt;code&gt;ERROR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4bd31ea126cea08cd98a23a0cd04fca6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.72&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;ERROR&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For n = &lt;code&gt;&amp;quot;3.5&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;11.1&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:4bd31ea126cea08cd98a23a0cd04fca6&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For Integer part, we use &lt;code&gt;% 2&lt;/code&gt; to get each digit from lowest bit to highest bit, or use a loop to make &lt;code&gt;&amp;amp;&lt;/code&gt; with &lt;code&gt;1&lt;/code&gt; and left shift until it get zero.&lt;/li&gt;
+&lt;li&gt;For decimal part, we can use $$\times2$$ approach. For example: &lt;code&gt;int n = 0.75; n*2 = 1.5;&lt;/code&gt; Therefore, the first digit of binary number after &lt;code&gt;.&lt;/code&gt; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:4bd31ea126cea08cd98a23a0cd04fca6&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+    * Therefore, the first digit of binary number after &#39;.&#39; is 1 (i.e. 0.1).  After constructed the first digit, n= n*2-1 
+     *@param n: Given a decimal number that is passed in as a string
+     *@return: A string
+     */
+    public String binaryRepresentation(String n) {
+        int intPart = Integer.parseInt(n.substring(0, n.indexOf(&#39;.&#39;)));
+        StringBuilder res = new StringBuilder();
+        while(intPart != 0) {
+            res.insert(0, &amp;quot;&amp;quot; + (intPart &amp;amp; 1));
+            intPart &amp;gt;&amp;gt;= 1;
+        }
+        if(res.length() == 0)
+            res.append(0);
+        double decPart = Double.parseDouble(n.substring(n.indexOf(&#39;.&#39;)));
+        String decBit = &amp;quot;&amp;quot;;
+        // if it has decimal part, creat &#39;.&#39; in result string
+        if(decPart &amp;gt; 0.0)
+            res.append(&amp;quot;.&amp;quot;);
+        // to count how many digit in decimal binary result
+        int cnt = 0;
+        while(decPart &amp;gt; 0.0) {
+            double cur = (decPart * 2);
+            cnt++;
+            if(cnt &amp;gt; 32)
+                return &amp;quot;ERROR&amp;quot;;
+            if(cur &amp;gt;= 1) {
+                res.append(1);
+                decPart = cur - 1.0;
+            }else {
+                res.append(0);
+                decPart = cur;
+            }
+        }
+        
+        return res.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
