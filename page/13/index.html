@@ -25,7 +25,7 @@
 <meta property="og:url" content="http://xmruibi.github.io/" />
 
 
-<meta property="og:updated_time" content="2015-10-21T11:16:26-07:00"/>
+<meta property="og:updated_time" content="2015-10-18T15:43:13-07:00"/>
 
 
 
@@ -246,32 +246,41 @@
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/21/chess-game/">
+    <a href="http://xmruibi.github.io/2015/10/18/interval-sum-ii/">
     <h1 class="article-title" itemprop="name">
-        Chess Game
+        Interval Sum II
     </h1>
     </a>
     <div class="article-meta">
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-21 11:16:26 -0700 PDT" itemprop="datePublished">2015-10-21</time>
+            <time datetime="2015-10-18 15:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            955
+            345
             words
             &middot;
-            5
+            2
             minute read
         </div>
         <div class="article-category">
             
             <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/design">Design</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
             
         </div>
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/object-oriented-programming">Object Oriented Programming</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
             
         </div>
     </div>
@@ -279,21 +288,26 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>This typical question in many interview&rsquo;s OO Design part; Design a chess game with object-oriented programming principle.</p>
+                    <p>Given an integer array in the construct method, implement two methods query(start, end) and modify(index, value):</p>
+
+<ul>
+<li>For query(start, end), return the sum from index start to index end in the given array.</li>
+<li>For modify(index, value), modify the number in the given index to value.</li>
+</ul>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/21/chess-game/">
+                    <a href="http://xmruibi.github.io/2015/10/18/interval-sum-ii/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/21/chess-game/" data-id="83ff40ea4fe5a4635e859eb6010edd31" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/18/interval-sum-ii/" data-id="e0cca0b814df91c6782e6b8b28ceb2de" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/21/chess-game//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/18/interval-sum-ii//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -308,144 +322,403 @@
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">
     <h1 class="article-title" itemprop="name">
-        Online Book Reader System
+        Segment Tree Build
     </h1>
     </a>
     <div class="article-meta">
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-21 11:16:26 -0700 PDT" itemprop="datePublished">2015-10-21</time>
+            <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            71
+            319
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
+
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a <code>build</code> method with two parameters start and end, so that we can create a corresponding segment tree with every node has the correct start and end value, return the root of this segment tree.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-build/" data-id="a3cbebc7c2396823d2eb103843ad1b38" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+    <h1 class="article-title" itemprop="name">
+        Segment Tree Modify
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            279
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
+
+<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" data-id="ab66ca0e96ab88fced8a7606053bd30c" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query/">
+    <h1 class="article-title" itemprop="name">
+        Segment Tree Query
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            258
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>For an integer array (index from 0 to n-1, where n is the size of this array), in the corresponding SegmentTree, each node stores an extra attribute max to denote the maximum number in the interval of the array (index from start to end).</p>
+
+<p>Design a query method with three parameters root, start and end, find the maximum number in the interval [start, end] by the given root of segment tree.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-query/" data-id="42336530e5ce12b3a1f93f50a537a227" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/">
+    <h1 class="article-title" itemprop="name">
+        Segment Tree Query II
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            265
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>For an array, we can build a SegmentTree for it, each node stores an extra attribute count to denote the number of elements in the the array which value is between interval start and end. (The array may not fully filled by elements)</p>
+
+<p>Design a query method with three parameters root, start and end, find the number of elements in the in array&rsquo;s interval [start, end] by the given root of value SegmentTree.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/" data-id="bae44c0af7e8b43c3e0d98a5da21d56e" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query-ii//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">
+    <h1 class="article-title" itemprop="name">
+        Segment Tree Build II
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            293
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
+
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a build method with a given array, so that we can create a corresponding segment tree with every node value represent the corresponding interval max value in the array, return the root of this segment tree.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/" data-id="4b9f9ac8601d639b8cbf83a2852bb8e5" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/">
+    <h1 class="article-title" itemprop="name">
+        Intersection of Two Linked Lists
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 11:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            213
             words
             &middot;
             1
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/design">Design</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/object-oriented-programming">Object Oriented Programming</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>This question comes from the book named &ldquo;Cracking Code Interview&rdquo;, Chapter 7; It is very very easy problem with thinking about the insert/remove/update/retrieve action.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/21/online-book-reader-system/" data-id="edda8d8a6a4a64322dd28d4afab27ebf" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/21/online-book-reader-system//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/21/deck-of-card/">
-    <h1 class="article-title" itemprop="name">
-        Deck of Card
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-21 10:16:26 -0700 PDT" itemprop="datePublished">2015-10-21</time>
-            &middot;
-            220
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/design">Design</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/object-oriented-programming">Object Oriented Programming</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Design the data structure for a generic deck of cards. How you would subclass it to implement particular card games?</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/21/deck-of-card/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/21/deck-of-card/" data-id="6d0659585bada2d7ce1dbf80cac55db4" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/21/deck-of-card//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/20/interleaving-string/">
-    <h1 class="article-title" itemprop="name">
-        Interleaving String
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-20 19:13:13 -0700 PDT" itemprop="datePublished">2015-10-20</time>
-            &middot;
-            242
-            words
-            &middot;
-            2
             minute read
         </div>
         <div class="article-category">
@@ -460,13 +733,10 @@
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/linked-list">Linked List</a>
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/subsequence"> Subsequence</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/two-pointers">Two Pointers</a>
             
         </div>
     </div>
@@ -474,21 +744,21 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>Given three strings: s1, s2, s3, determine whether s3 is formed by the interleaving of s1 and s2.</p>
+                    <p>Write a program to find the node at which the intersection of two singly linked lists begins.</p>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/20/interleaving-string/">
+                    <a href="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/20/interleaving-string/" data-id="7d3b495498f05a566b13a1ad91ea470e" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/" data-id="39d8ae45b6ebacb7279514dffe28ccf5" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/20/interleaving-string//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -503,17 +773,232 @@
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/">
+    <a href="http://xmruibi.github.io/2015/10/18/ugly-number/">
     <h1 class="article-title" itemprop="name">
-        Binary Search Tree Iterator
+        Ugly Number
     </h1>
     </a>
     <div class="article-meta">
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-20 16:13:13 -0700 PDT" itemprop="datePublished">2015-10-20</time>
+            <time datetime="2015-10-18 11:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            195
+            133
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/math">Math</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Write a program to check whether a given number is an ugly number.</p>
+
+<p>Ugly numbers are positive numbers whose prime factors only include <code>2, 3, 5</code>. For example, <code>6, 8</code> are ugly while <code>14</code> is not ugly since it includes another prime factor <code>7</code>.</p>
+
+<p>Note that 1 is typically treated as an ugly number.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/ugly-number/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/ugly-number/" data-id="0523765f5dde10eac2dbd47f2e13dc82" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/ugly-number//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii/">
+    <h1 class="article-title" itemprop="name">
+        Ugly Number II
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 11:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            191
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/math">Math</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Write a program to find the n-th ugly number.</p>
+
+<p>Ugly numbers are positive numbers whose prime factors only include <code>2, 3, 5</code>. For example, <code>1, 2, 3, 4, 5, 6, 8, 9, 10, 12</code> is the sequence of the first <code>10</code> ugly numbers.</p>
+
+<p>Note that <code>1</code> is typically treated as an ugly number.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/ugly-number-ii/" data-id="6730528237fe4dac6ff3d8c4fe0af3a8" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/ugly-number-ii//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/17/submatrix-sum/">
+    <h1 class="article-title" itemprop="name">
+        Submatrix Sum
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-17 21:43:13 -0700 PDT" itemprop="datePublished">2015-10-17</time>
+            &middot;
+            217
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/matrix">Matrix</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/submatrix">Submatrix</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/17/submatrix-sum/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/17/submatrix-sum/" data-id="e10ab144a5aace7a18fe8ad441bebc7a" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/17/submatrix-sum//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/">
+    <h1 class="article-title" itemprop="name">
+        Flatten Binary Tree to Linked List
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-17 17:50:34 -0700 PDT" itemprop="datePublished">2015-10-17</time>
+            &middot;
+            159
             words
             &middot;
             1
@@ -534,13 +1019,7 @@
             <a class="article-category-link" href="http://xmruibi.github.io/tags/binary-tree">Binary Tree</a>
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/stack">Stack</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/tree-preorder">Tree Preorder</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/iterator">Iterator</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/two-pointers">Two Pointers</a>
             
         </div>
     </div>
@@ -548,24 +1027,23 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>Design an iterator over a binary search tree with the following rules:</p>
+                    <p>Flatten a binary tree to a fake &ldquo;linked list&rdquo; in pre-order traversal.</p>
 
-<p>Elements are visited in ascending order (i.e. an in-order traversal)
-next() and hasNext() queries run in O(1) time in average.</p>
+<p>Here we use the right pointer in TreeNode as the next pointer in ListNode.</p>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/">
+                    <a href="http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/" data-id="85b0b1957c82e6f57b71982fe0b0c38b" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/" data-id="3558130a00db2ed581e30cf5bef32986" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -580,150 +1058,20 @@ next() and hasNext() queries run in O(1) time in average.</p>
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/">
+    <a href="http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/">
     <h1 class="article-title" itemprop="name">
-        Find the Weak Connected Component in the Directed Graph
+        Remove Linked List Elements
     </h1>
     </a>
     <div class="article-meta">
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-20 16:13:13 -0700 PDT" itemprop="datePublished">2015-10-20</time>
+            <time datetime="2015-10-17 17:50:34 -0700 PDT" itemprop="datePublished">2015-10-17</time>
             &middot;
-            268
+            80
             words
             &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/union-find">Union Find</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Find the number Weak Connected Component in the directed graph. Each node in the graph contains a label and a list of its neighbors. (a connected set of a directed graph is a subgraph in which any two vertices are connected by direct edge path.)</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph/" data-id="d915b7f1ad74fe68f671447624d777e6" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/20/find-the-weak-connected-component-in-the-directed-graph//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/20/digit-counts/">
-    <h1 class="article-title" itemprop="name">
-        Digit Counts
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-20 10:43:13 -0700 PDT" itemprop="datePublished">2015-10-20</time>
-            &middot;
-            330
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/math">Math</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Count the number of k&rsquo;s between 0 and n. k can be 0 - 9.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/20/digit-counts/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/20/digit-counts/" data-id="680aef9553c13e7cebf4ae69a9859818" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/20/digit-counts//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/20/divide-two-integers/">
-    <h1 class="article-title" itemprop="name">
-        Divide Two Integers
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-20 10:43:13 -0700 PDT" itemprop="datePublished">2015-10-20</time>
-            &middot;
-            322
-            words
-            &middot;
-            2
+            1
             minute read
         </div>
         <div class="article-category">
@@ -738,7 +1086,10 @@ next() and hasNext() queries run in O(1) time in average.</p>
             <div class="article-category">                
                
             <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/math">Math</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/linkedlist">LinkedList</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/dummy-node">Dummy Node</a>
             
         </div>
     </div>
@@ -746,161 +1097,21 @@ next() and hasNext() queries run in O(1) time in average.</p>
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>Divide two integers without using multiplication, division and mod operator.</p>
-
-<p>If it is overflow, return <code>2147483647</code></p>
+                    <p>Remove all elements from a linked list of integers that have value <code>val</code>.</p>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/20/divide-two-integers/">
+                    <a href="http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/20/divide-two-integers/" data-id="65b19a66c56fc3d4b2281e237f0fdc40" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/17/remove-linked-list-elements/" data-id="67e28166910c8410c97c2e3c73ffb467" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/20/divide-two-integers//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/">
-    <h1 class="article-title" itemprop="name">
-        Number of Airplanes in the Sky
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-19 22:43:13 -0700 PDT" itemprop="datePublished">2015-10-19</time>
-            &middot;
-            364
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given an interval list which are flying and landing time of the flight. How many airplanes are on the sky at most?</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky/" data-id="2060271ba0a7d92e954462b72c6bb62d" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/19/number-of-airplanes-in-the-sky//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/19/next-permutation/">
-    <h1 class="article-title" itemprop="name">
-        Next Permutation
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-19 20:43:13 -0700 PDT" itemprop="datePublished">2015-10-19</time>
-            &middot;
-            262
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/permutation">Permutation</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/math">Math</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given a list of integers, which denote a permutation.</p>
-
-<p>Find the next permutation in ascending order.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/19/next-permutation/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/19/next-permutation/" data-id="1255b2eac96df45bed9d507c090e9726" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/19/next-permutation//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/17/remove-linked-list-elements//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -921,85 +1132,73 @@ next() and hasNext() queries run in O(1) time in average.</p>
     
 
     
-        <a  class="page-number"  href="http://xmruibi.github.io//">
-          1
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//">
+              1
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/2/">
-          2
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/2/">
+              2
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/3/">
-          3
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/3/">
+              3
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/4/">
-          4
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/4/">
+              4
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/5/">
-          5
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/5/">
+              5
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/6/">
-          6
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/6/">
+              6
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/7/">
-          7
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/7/">
+              7
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/8/">
-          8
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/8/">
+              8
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/9/">
-          9
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/9/">
+              9
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/10/">
-          10
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/10/">
+              10
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/11/">
-          11
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/11/">
+              11
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/12/">
-          12
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/12/">
+              12
+            </a>
     
-        <a  class="current"  href="http://xmruibi.github.io//page/13/">
-          13
-        </a>
+            <a  class="current"  href="http://xmruibi.github.io//page/13/">
+              13
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/14/">
-          14
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/14/">
+              14
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/15/">
-          15
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/15/">
+              15
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/16/">
-          16
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/16/">
+              16
+            </a>
     
-        <a  class="page-number"  href="http://xmruibi.github.io//page/17/">
-          17
-        </a>
-    
-        <a  class="page-number"  href="http://xmruibi.github.io//page/18/">
-          18
-        </a>
-    
-        <a  class="page-number"  href="http://xmruibi.github.io//page/19/">
-          19
-        </a>
-    
-        <a  class="page-number"  href="http://xmruibi.github.io//page/20/">
-          20
-        </a>
+            <a  class="page-number"  href="http://xmruibi.github.io//page/17/">
+              17
+            </a>
     
 
     
