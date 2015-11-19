@@ -17,15 +17,15 @@
     <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
     <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Copy List with Random Pointer" />
-<meta property="og:description" content="Merge k sorted linked lists and return it as one sorted list.
+<meta property="og:description" content="A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
 
-Analyze and describe its complexity.
+Return a deep copy of the list.
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/" />
 
 
-<meta property="og:updated_time" content="2015-10-25T20:13:13-07:00"/>
+<meta property="og:updated_time" content="2015-10-25T15:13:13-07:00"/>
 
 
 
@@ -39,18 +39,18 @@ Analyze and describe its complexity.
     
     
 <meta itemprop="name" content="Copy List with Random Pointer">
-<meta itemprop="description" content="Merge k sorted linked lists and return it as one sorted list.
+<meta itemprop="description" content="A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
 
-Analyze and describe its complexity.
+Return a deep copy of the list.
 ">
 
 
-<meta itemprop="dateModified" content="2015-10-25T20:13:13-07:00" />
-<meta itemprop="wordCount" content="163">
+<meta itemprop="dateModified" content="2015-10-25T15:13:13-07:00" />
+<meta itemprop="wordCount" content="201">
 
 
 
-<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
 
     
 
@@ -59,9 +59,9 @@ Analyze and describe its complexity.
 
 
 <meta name="twitter:title" content="Copy List with Random Pointer"/>
-<meta name="twitter:description" content="Merge k sorted linked lists and return it as one sorted list.
+<meta name="twitter:description" content="A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
 
-Analyze and describe its complexity.
+Return a deep copy of the list.
 "/>
 
 
@@ -193,9 +193,9 @@ Analyze and describe its complexity.
     <div class="article-meta">
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-25 20:13:13 -0700 PDT" itemprop="datePublished">2015-10-25</time>
+            <time datetime="2015-10-25 15:13:13 -0700 PDT" itemprop="datePublished">2015-10-25</time>
             &middot;
-            163
+            201
             words
             &middot;
             1
@@ -225,76 +225,70 @@ Analyze and describe its complexity.
             <div class="article-entry" itemprop="articleBody">
                 
 
-<p>Merge k sorted linked lists and return it as one sorted list.</p>
+<p>A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.</p>
 
-<p>Analyze and describe its complexity.</p>
+<p>Return a deep copy of the list.</p>
 
-<h3 id="example:3c5a9ce4c5efa791d62153b2e62fe7c5">Example</h3>
+<h3 id="challenge:19413ae975836162dbe42612c6b4bffb">Challenge</h3>
 
-<p>Given lists:</p>
+<p>Could you solve it with O(1) space?</p>
 
-<pre><code>[
-  2-&gt;4-&gt;null,
-  null,
-  -1-&gt;null
-],
-</code></pre>
-
-<p>return <code>-1-&gt;2-&gt;4-&gt;null</code>.</p>
-
-<h2 id="think:3c5a9ce4c5efa791d62153b2e62fe7c5">Think</h2>
+<h2 id="think:19413ae975836162dbe42612c6b4bffb">Think</h2>
 
 <ul>
-<li>Use a heap to receive element from linked list</li>
-<li>Tricky part:
+<li>Three pass:
 
 <ul>
-<li>Just entered k node in heap instead of pass all nodes in lists.</li>
-<li>When poll out element, it also need to push back the next node of polled node.</li>
+<li>Clone every node and attach it right next of original node,</li>
+<li>Copy the random pointer for clone node (the next of origianl node&rsquo;s random pointer)</li>
+<li>Cut down the original and clone one</li>
 </ul></li>
 </ul>
 
-<h2 id="solution:3c5a9ce4c5efa791d62153b2e62fe7c5">Solution</h2>
+<h2 id="solution:19413ae975836162dbe42612c6b4bffb">Solution</h2>
 
 <pre><code class="language-java">public class Solution {
     /**
-     * @param lists: a list of ListNode
-     * @return: The head of one sorted list.
+     * @param head: The head of linked list with a random pointer.
+     * @return: A new head of a deep copy of the list.
      */
-    public ListNode mergeKLists(List&lt;ListNode&gt; lists) {  
-        if(lists == null)
+    public RandomListNode copyRandomList(RandomListNode head) {
+        // write your code here
+        if(head == null)
             return null;
-        
-        PriorityQueue&lt;ListNode&gt; queue = new PriorityQueue&lt;ListNode&gt;(10, new Comparator&lt;ListNode&gt;(){
-            @Override
-            public int compare(ListNode o1, ListNode o2){
-                return Integer.compare(o1.val, o2.val);
-            }
-        });
-        // O(n) : n total nodes 
-        for(ListNode node : lists){
-            if(node != null)
-                queue.offer(node);
+        RandomListNode dummyHead = head;
+        while(head != null) {
+            RandomListNode clone = new RandomListNode(head.label);
+            RandomListNode next = head.next;
+            head.next = clone;
+            clone.next = next;
+            head = next;
+        }
+        head = dummyHead;
+        while(head != null) {
+            RandomListNode clone = head.next;
+            if(head.random != null)
+                clone.random = head.random.next;
+            head = clone.next;
+        }
+        head = dummyHead;
+        RandomListNode resHead = dummyHead.next;
+        while(head != null) {
+            RandomListNode clone = head.next;
+            head.next = clone.next;
+            head = head.next;
+            if(head != null)
+                clone.next = head.next;
         }
         
-        ListNode dummy = new ListNode(0);
-        ListNode pre = dummy;
-        while(!queue.isEmpty()){
-            ListNode cur = queue.remove();
-            if(cur.next != null)
-                queue.offer(cur.next);
-            pre.next = cur;
-            pre = cur;
-        }
-        
-        return dummy.next;
+        return resHead;
     }
 }
 </code></pre>
 
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/" data-id="3c5a9ce4c5efa791d62153b2e62fe7c5" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/" data-id="19413ae975836162dbe42612c6b4bffb" class="article-share-link">
         Share
     </a>
     
@@ -309,20 +303,20 @@ Analyze and describe its complexity.
         
 <nav id="article-nav">
     
-    <a href="http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/10/25/expression-tree-build/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Remove Nth Node From End of List</div>
+      <div class="article-nav-title">Expression Tree Build</div>
     </a>
     
 
     
-    <a href="http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Newer
       </strong>
-      <div class="article-nav-title">Remove Duplicates from Sorted List II</div>
+      <div class="article-nav-title">Remove Nth Node From End of List</div>
     </a>
     
 </nav>
@@ -363,10 +357,10 @@ Analyze and describe its complexity.
 <ul>
 <li>
 <ul>
-<li><a href="#example:3c5a9ce4c5efa791d62153b2e62fe7c5">Example</a></li>
+<li><a href="#challenge:19413ae975836162dbe42612c6b4bffb">Challenge</a></li>
 </ul></li>
-<li><a href="#think:3c5a9ce4c5efa791d62153b2e62fe7c5">Think</a></li>
-<li><a href="#solution:3c5a9ce4c5efa791d62153b2e62fe7c5">Solution</a></li>
+<li><a href="#think:19413ae975836162dbe42612c6b4bffb">Think</a></li>
+<li><a href="#solution:19413ae975836162dbe42612c6b4bffb">Solution</a></li>
 </ul></li>
 </ul>
 </nav>

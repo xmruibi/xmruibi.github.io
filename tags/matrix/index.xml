@@ -7,8 +7,89 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 15 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 12:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Find a Path in Maze</title>
+      <link>http://xmruibi.github.io/2015/11/19/find-a-path-in-maze/</link>
+      <pubDate>Thu, 19 Nov 2015 12:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/find-a-path-in-maze/</guid>
+      <description>
+
+&lt;p&gt;Find path in given 2D matrix. 3 states, &lt;code&gt;0&lt;/code&gt; means allow to go, &lt;code&gt;1&lt;/code&gt; means the obstacle, &lt;code&gt;9&lt;/code&gt; is the final, return true or false if the path exist from &lt;code&gt;(0,0)&lt;/code&gt; to any position contains &lt;code&gt;9&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:6bea082703d3b73c0480d7f0afc663d2&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    private final static int[] sx = {-1, 0, 0, 1};
+    private final static int[] sy = {0, 1, -1, 0};
+    public boolean findPath(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0)  
+            return false;
+        if (matrix[0][0] == 9)  
+            return true;
+        int m = matrix.length, n = matrix[0].length;
+        Queue&amp;lt;int[]&amp;gt; queue = new LinkedList&amp;lt;int[]&amp;gt;();
+        queue.offer(new int[]{0, 0});
+        matrix[0][0] = 1;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int i = 0; i &amp;lt; 4; i++) {
+                int[] next = {cur[0] + sx[i], cur[1] + sy[i]};
+                if (next[0] &amp;gt;= 0 &amp;amp;&amp;amp; next[0] &amp;lt; m &amp;amp;&amp;amp; next[1] &amp;gt;= 0 &amp;amp;&amp;amp; next[1] &amp;lt; n) {
+                    if (matrix[next[0]][next[1]] == 9)
+                            return true;
+                    else if (matrix[next[0]][next[1]] == 0) {
+                        queue.offer(next);
+                        matrix[next[0]][next[1]] = 1; // set the previous passed position as no longer accessiable 
+                    }
+                }
+            }
+        }
+        return false;
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find if Two Rectangles Overlap</title>
+      <link>http://xmruibi.github.io/2015/11/19/find-if-two-rectangles-overlap/</link>
+      <pubDate>Thu, 19 Nov 2015 12:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/find-if-two-rectangles-overlap/</guid>
+      <description>
+
+&lt;p&gt;Given two rectangles, find if the given two rectangles overlap or not. Note that a rectangle can be represented by two coordinates, top left and bottom right. So mainly we are given following four coordinates.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;l1: Top Left coordinate of first rectangle.&lt;/li&gt;
+&lt;li&gt;r1: Bottom Right coordinate of first rectangle.&lt;/li&gt;
+&lt;li&gt;l2: Top Left coordinate of second rectangle.&lt;/li&gt;
+&lt;li&gt;r2: Bottom Right coordinate of second rectangle.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:349119d14e4a4f28c56258b5d1239743&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public boolean overlapRectangle(Point l1, Point l2, Point r1, Point r2) {
+		// If one rectangle is on left side of other
+		if (l1.x &amp;gt; r2.x || l2.x &amp;gt; r1.x)
+		    return false;		 
+		// If one rectangle is above other
+		if (l1.y &amp;lt; r2.y || l2.y &amp;lt; r1.y)
+		    return false;
+		 
+		return true;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Max Points on a Line</title>

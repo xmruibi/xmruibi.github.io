@@ -7,8 +7,73 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2015 13:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2015 12:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Process Schedule Problems</title>
+      <link>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</guid>
+      <description>&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+
+&lt;p&gt;## Solution&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public int CacheMiss(int[] array, int size) {
+		if(array == null)	
+			return 0;
+		Queue&amp;lt;Integer&amp;gt; cache = new LinkedList&amp;lt;Integer&amp;gt;();
+		HashSet&amp;lt;Integer&amp;gt; hash = new HashSet&amp;lt;&amp;gt;();
+		int count = 0;
+		for (int i = 0; i &amp;lt; array.length; i++) {
+			if(hash.contains(array[i])) {
+				cache.remove(array[i]); // if hit it need to move it back, so remove here at first
+			} else {
+				count++; // miss, increse the count
+			}
+			cache.add(array[i]);
+			hash.add(new Integer(array[i]));
+			if (size == cache.size()) // over size, poll the first of queue
+				cache.poll();
+		}
+		return count;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Count</title>
+      <link>http://xmruibi.github.io/2015/11/18/two-sum-count/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/two-sum-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array and a target number, count how many pair in this array can sum to that target number.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:4e4f31a8a2c131093d3fe5e1265a3ff0&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    public int countTwoSum(int[] arr, int tar) {
+        if(arr == null || arr.length == 0)
+            return 0;
+        int cnt = 0;
+        HashSet&amp;lt;Integer&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; arr.length; i++) {
+            if(set.contains(tar - arr[i]))
+                cnt++;
+            set.add(arr[i]);
+        }
+        return cnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Repeated DNA Sequences</title>

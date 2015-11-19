@@ -7,8 +7,43 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 15 Nov 2015 14:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Determine valid parentheses</title>
+      <link>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</guid>
+      <description>
+
+&lt;p&gt;Given a String, judge if it is a valid parenthese.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:10aafbab84837eff25243552bd87c32a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public boolean validParenthese(String str) {
+		Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+		int idx = 0;
+		HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		map.put(&#39;(&#39;,&#39;)&#39;);map.put(&#39;[&#39;,&#39;]&#39;);map.put(&#39;{&#39;,&#39;}&#39;);
+		while(idx &amp;lt; str.length()) {
+			char cur = str.charAt(idx);
+			if(map.containsKey(cur))
+				stack.push(cur);
+			else {
+				if(!(!stack.isEmpty() &amp;amp;&amp;amp; map.containsValue(cur) &amp;amp;&amp;amp; map.get(stack.pop()) == cur))
+					return false;
+			}
+			idx++;
+		}
+		return true;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Longest Palindromic Subsequence</title>
@@ -1064,86 +1099,6 @@ The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&
             this.indegree = 0;
             this.neighbors = new ArrayList&amp;lt;&amp;gt;();
         }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Delete Digits</title>
-      <link>http://xmruibi.github.io/2015/11/09/delete-digits/</link>
-      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/09/delete-digits/</guid>
-      <description>
-
-&lt;p&gt;Given string A representative a positive integer which has N digits, remove any k digits of the number, the remaining digits are arranged according to the original order to become a new positive integer.&lt;/p&gt;
-
-&lt;p&gt;Find the smallest integer after remove k digits.&lt;/p&gt;
-
-&lt;p&gt;N &amp;lt;= &lt;code&gt;240&lt;/code&gt; and k &amp;lt;= N,&lt;/p&gt;
-
-&lt;h3 id=&#34;example:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given an integer A = &lt;code&gt;&amp;quot;178542&amp;quot;&lt;/code&gt;, k = &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;return a string &lt;code&gt;&amp;quot;12&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Setup a Stack.&lt;/li&gt;
-&lt;li&gt;Iterate through input number&lt;/li&gt;
-&lt;li&gt;If current digit is less than the peek of stack, pop out the stack until the peek is not larger than current digit.&lt;/li&gt;
-&lt;li&gt;Push current digit&lt;/li&gt;
-&lt;li&gt;Limit the pop out times by K. That means the pop action is regarded as remove digit. So when the pop out times is not less than K, keep push the digit even if it is less than peek element.&lt;/li&gt;
-&lt;li&gt;Rebuild the output string by reading elements in stack.&lt;/li&gt;
-&lt;li&gt;Two corner case should be careful:
-
-&lt;ul&gt;
-&lt;li&gt;When the iterate through digits finished, the remove(pop out) counter still less than K, we should ignore the first  &lt;code&gt;k-count&lt;/code&gt; element in stack.&lt;/li&gt;
-&lt;li&gt;When the output result has the zero on first element, remove the zero.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     *@param A: A positive integer which has N digits, A is a string.
-     *@param k: Remove k digits.
-     *@return: A string
-     */
-    public String DeleteDigits(String A, int k) {
-        if(A == null || A.length() == 0)
-            return &amp;quot;&amp;quot;;
-        // setup stack
-        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
-        // read digits from input string
-        int removeCnt = 0;
-        for(char c : A.toCharArray()) {
-            int cur = c - &#39;0&#39;;
-            // pop out the digit larger than current digit
-            while(!stack.isEmpty() &amp;amp;&amp;amp; removeCnt &amp;lt; k &amp;amp;&amp;amp; stack.peek() &amp;gt; cur) {
-                stack.pop();
-                removeCnt ++;
-            }
-            stack.push(cur);
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        while(!stack.isEmpty()) {
-            // corner case one:
-            if(removeCnt &amp;lt; k) {
-                stack.pop();
-                removeCnt ++;
-            }else
-                sb.insert(0, &amp;quot;&amp;quot; + stack.pop());
-        }
-        // corner case two:
-        while(sb.charAt(0) == &#39;0&#39;)
-            sb.deleteCharAt(0);
-        
-        return sb.toString();
     }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

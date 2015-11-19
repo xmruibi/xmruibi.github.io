@@ -25,7 +25,7 @@
 <meta property="og:url" content="http://xmruibi.github.io/" />
 
 
-<meta property="og:updated_time" content="2015-11-13T23:50:13-07:00"/>
+<meta property="og:updated_time" content="2015-11-14T22:43:13-07:00"/>
 
 
 
@@ -166,11 +166,11 @@
     </div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        196
+        212
         <span>Posts</span>
       </div>
       <div class="article-info-block">
-        83
+        84
         <span>
             Tags
         </span>
@@ -246,6 +246,678 @@
             </a>
 
             <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/">
+    <h1 class="article-title" itemprop="name">
+        Find Valid IP Address in a File
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            133
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Given a file with many lines of Strings, find those valid IP address from them.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/" data-id="ed817a74e0c3a1097fc0cfb76d5d85e1" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/">
+    <h1 class="article-title" itemprop="name">
+        Maximum Subarray of Sum / Product
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            257
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    Find the contiguous subarray within an array (containing at least one number) which has the largest sum. For example, given the array [−2,1,−3,4,−1,2,1,−5,4], the contiguous subarray [4,−1,2,1] has the largest sum = 6. Solution public int maxSubArray(int[] arr) { int maxSum = Integer.MIN_VALUE; int curSum = 0; for (int i = 0; i &lt; arr.length; i++) { curSum += arr[i]; maxSum = Math.max(maxSum, curSum); if (curSum &lt; 0) curSum = 0; } return maxSum; } Solution #Record Index public int[] maxSubArray(int[] arr) { int maxSum = Integer.MIN_VALUE; int curSum = 0; int prev = 0, l = 0, r = 0; for (int i = 0; i &lt; arr.length; i++) { curSum += arr[i]; if(curSum &gt; maxSum) { maxSum = curSum; l = prev; r = i; } if (curSum &lt; 0) { curSum = 0; prev = i + 1; } } return new int[]{l, r}; } Find the contiguous subarray within an array (containing at least one number) which has the largest product.
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product/" data-id="f78387a942b57f331cbfb70191f2872a" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/maximum-subarray-of-sum-/-product//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/minimum-window-substring/">
+    <h1 class="article-title" itemprop="name">
+        Minimum Window Substring
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 22:10:29 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            237
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/hash-table">Hash Table</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/complex-implement">Complex Implement</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/two-pointers">Two Pointers</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Given a string source and a string target, find the minimum window in source which will contain all the characters in target.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/minimum-window-substring/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/minimum-window-substring/" data-id="550cea2e147a44ca0938087e5ad57f43" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/minimum-window-substring//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/">
+    <h1 class="article-title" itemprop="name">
+        Binary Tree Upside Down
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 15:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            227
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/binary-tree">Binary Tree</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/" data-id="33643332a2ae687d0e663b807ba8b06f" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/binary-tree-upside-down//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/">
+    <h1 class="article-title" itemprop="name">
+        Course Schedule I/II
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 13:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            503
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/topological-sort">Topological Sort</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/" data-id="cc6cec0f55bbe04713d85b21b1b7c478" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/">
+    <h1 class="article-title" itemprop="name">
+        Repeated DNA Sequences
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 13:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            194
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/hash-map">Hash Map</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &ldquo;ACGAATTCCG&rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.</p>
+
+<p>Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/" data-id="86c36611807a867e11fbbb9582b6e9b6" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/repeated-dna-sequences//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/can-i-win/">
+    <h1 class="article-title" itemprop="name">
+        Can I Win
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 10:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            222
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/backtracking">Backtracking</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Given an array of positive integers and two players. In each turn, one player picks up one number and if the sum of all the picked up numbers is greater than a target number, the player wins. Write a program <code>canIWin()</code> to print the result.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/can-i-win/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/can-i-win/" data-id="20042e86952d9768f73636e75bf69c3b" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/can-i-win//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/product-of-array-except-self/">
+    <h1 class="article-title" itemprop="name">
+        Product of Array Except Self
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 10:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            144
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Given an array of <code>n</code> integers where <code>n</code> &gt; 1, nums, return an array output such that <code>output[i]</code> is equal to the product of all the elements of nums except <code>nums[i]</code>.</p>
+
+<p>Solve it <strong>without division</strong> and in <code>O(n)</code>.</p>
+
+<p>For example, given <code>[1,2,3,4]</code>, return <code>[24,12,8,6]</code>.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/product-of-array-except-self/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/product-of-array-except-self/" data-id="475ac2d302270bdb12a33bec7e726fb7" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/product-of-array-except-self//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/constant-time-random-picker/">
+    <h1 class="article-title" itemprop="name">
+        Constant Time Random Picker
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 00:30:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            420
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/hash-map">Hash Map</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Design a data structure that supports insert, delete, search and getRandom in constant time.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/constant-time-random-picker/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/constant-time-random-picker/" data-id="fbe9fdf4f7686b0780359874c12ae63a" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/constant-time-random-picker//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/">
+    <h1 class="article-title" itemprop="name">
+        Intervals and Covered Length
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 00:30:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            355
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval">Interval</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>Design a structrue can get interval pair and a function which can return the total cover length.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/intervals-and-covered-length/" data-id="a398446ee2bc7e4d0eef3e4051fe083f" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/intervals-and-covered-length//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
     <a href="http://xmruibi.github.io/2015/11/13/k-nearest-points/">
     <h1 class="article-title" itemprop="name">
         K Nearest Points
@@ -266,6 +938,9 @@
             
             <i class="fa fa-folder"></i>
             <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/amazon">Amazon</a>
             
             <i class="fa fa-folder"></i>
             <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
@@ -574,484 +1249,6 @@
         </div>
     </article>
     
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/">
-    <h1 class="article-title" itemprop="name">
-        Level Order with Position Preserved
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 17:50:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            267
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/tree">Tree</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/recursion">Recursion</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given a Tree, each node contains one digit value, print each level in a format with relative position preserved.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved/" data-id="2d2b69a30dfde4d7f80bc31959b14b6c" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/level-order-with-position-preserved//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/middle-index-stack/">
-    <h1 class="article-title" itemprop="name">
-        Middle Index Stack
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 17:50:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            289
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/stack">Stack</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/linked-list">Linked List</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Design a stack with operations on middle element.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/middle-index-stack/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/middle-index-stack/" data-id="df16d69c6148fbc9ca34a1b8691b475e" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/middle-index-stack//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/">
-    <h1 class="article-title" itemprop="name">
-        The Second Minimum in Tournament Tree
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 17:50:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            163
-            words
-            &middot;
-            1
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/tree">Tree</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/recursion">Recursion</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given a tournament tree try to find the second minimum value. Here the tournament tree is represented by a tree with node has the minimum value of children.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree/" data-id="87bd1bfcb3ac65273c0a27e5e481ef2e" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/the-second-minimum-in-tournament-tree//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/">
-    <h1 class="article-title" itemprop="name">
-        Smallest character that is strictly larger than the search character target
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 16:13:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            187
-            words
-            &middot;
-            1
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/binary-search">Binary Search</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given a sorted list of letters, sorted in ascending order and a character for which we are searching. Return the smallest character that is strictly larger than the search character, If no such character exists, return the smallest character in the array.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/" data-id="bc64afc6494de3ecd97710220a697bf3" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/valid-number/">
-    <h1 class="article-title" itemprop="name">
-        Valid Number
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 16:13:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            189
-            words
-            &middot;
-            1
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/math">Math</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/complex-implement">Complex Implement</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Validate if a given string is numeric.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/valid-number/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/valid-number/" data-id="d0ba9336933b8515213de1bc6935949b" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/valid-number//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/nested-list/">
-    <h1 class="article-title" itemprop="name">
-        Nested List
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 13:13:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            393
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/iterator">Iterator</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given a nested list of integers, returns the sum of all integers in the list weighted by their depth.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/nested-list/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/nested-list/" data-id="cd5432d5a5299bdbe44a28444996274a" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/nested-list//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/13/find-next-sparse-number/">
-    <h1 class="article-title" itemprop="name">
-        Find Next Sparse Number
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-13 10:43:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
-            &middot;
-            356
-            words
-            &middot;
-            2
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/bit-manipulation">Bit Manipulation</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>A number is Sparse if there are no two adjacent 1s in its binary representation. For example 5 (binary representation: 101) is sparse, but 6 (binary representation: 110) is not sparse.</p>
-
-<p>Given a number x, find the smallest Sparse number which greater than or equal to x.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/13/find-next-sparse-number/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/13/find-next-sparse-number/" data-id="55858ad5fc27fc1dfb3046c41e3f8382" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/13/find-next-sparse-number//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
 
     
 
@@ -1124,14 +1321,6 @@
               15
             </a>
     
-            <a  class="page-number"  href="http://xmruibi.github.io//page/16/">
-              16
-            </a>
-    
-            <a  class="page-number"  href="http://xmruibi.github.io//page/17/">
-              17
-            </a>
-    
 
     
         <a class="extend next" rel="next" href="/page/4/">
@@ -1156,21 +1345,21 @@
                 <a class="category-list-link" href="http://xmruibi.github.io//topics/algorithm">
                     algorithm
                 </a>
-                <span class="category-list-count">176</span>
+                <span class="category-list-count">192</span>
             </li>
             
             <li class="category-list-item">
                 <a class="category-list-link" href="http://xmruibi.github.io//topics/amazon">
                     amazon
                 </a>
-                <span class="category-list-count">3</span>
+                <span class="category-list-count">20</span>
             </li>
             
             <li class="category-list-item">
                 <a class="category-list-link" href="http://xmruibi.github.io//topics/career-cup">
                     career-cup
                 </a>
-                <span class="category-list-count">22</span>
+                <span class="category-list-count">32</span>
             </li>
             
             <li class="category-list-item">
@@ -1192,6 +1381,13 @@
                     devops
                 </a>
                 <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="http://xmruibi.github.io//topics/geeks-for-geeks">
+                    geeks-for-geeks
+                </a>
+                <span class="category-list-count">3</span>
             </li>
             
             <li class="category-list-item">
@@ -1226,7 +1422,7 @@
                 <a class="category-list-link" href="http://xmruibi.github.io//topics/leetcode">
                     leetcode
                 </a>
-                <span class="category-list-count">83</span>
+                <span class="category-list-count">87</span>
             </li>
             
             <li class="category-list-item">
@@ -1282,21 +1478,21 @@
                 
                 <div class="item-thumbnail">
                     <a href="http://xmruibi.github.io/" class="thumbnail">
-                        <span style="background-image:url(http://xmruibi.github.io//media/amazon.jpg)" alt="Geek Think" class="thumbnail-image"></span>
+                        <span style="background-image:url(http://xmruibi.github.io//media/geeks.png)" alt="Geek Think" class="thumbnail-image"></span>
                     </a>
                 </div>
                 
                 <div class="item-inner">
                     
                     <p class="item-category">
-                        <a class="article-category-link" href="http://xmruibi.github.io/topics/amazon">
-                        Amazon
+                        <a class="article-category-link" href="http://xmruibi.github.io/topics/geeks-for-geeks">
+                        Geeks for Geeks
                         </a>
                     </p>
                     
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/17/merge-two-linked-list/" class="title">Merge Two Linked List</a></p>
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/" class="title">Insert Node for Circular Linked List</a></p>
                     <p class="item-date">
-                        <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
+                        <time datetime="2015-11-19 20:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
                     </p>
                 </div>
             </li>
@@ -1305,44 +1501,21 @@
                 
                 <div class="item-thumbnail">
                     <a href="http://xmruibi.github.io/" class="thumbnail">
-                        <span style="background-image:url(http://xmruibi.github.io//media/amazon.jpg)" alt="Geek Think" class="thumbnail-image"></span>
+                        <span style="background-image:url(http://xmruibi.github.io//media/leetcode.png)" alt="Geek Think" class="thumbnail-image"></span>
                     </a>
                 </div>
                 
                 <div class="item-inner">
                     
                     <p class="item-category">
-                        <a class="article-category-link" href="http://xmruibi.github.io/topics/amazon">
-                        Amazon
+                        <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">
+                        Leetcode
                         </a>
                     </p>
                     
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/" class="title">Reverse Half of Linked List</a></p>
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/game-of-life/" class="title">Game of Life</a></p>
                     <p class="item-date">
-                        <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                
-                <div class="item-thumbnail">
-                    <a href="http://xmruibi.github.io/" class="thumbnail">
-                        <span style="background-image:url(http://xmruibi.github.io//media/amazon.jpg)" alt="Geek Think" class="thumbnail-image"></span>
-                    </a>
-                </div>
-                
-                <div class="item-inner">
-                    
-                    <p class="item-category">
-                        <a class="article-category-link" href="http://xmruibi.github.io/topics/amazon">
-                        Amazon
-                        </a>
-                    </p>
-                    
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/17/is-subtree/" class="title">Is Subtree</a></p>
-                    <p class="item-date">
-                        <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
+                        <time datetime="2015-11-19 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
                     </p>
                 </div>
             </li>
@@ -1363,9 +1536,9 @@
                         </a>
                     </p>
                     
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/15/compact-tree-builder/" class="title">Compact Tree Builder</a></p>
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/find-a-path-in-maze/" class="title">Find a Path in Maze</a></p>
                     <p class="item-date">
-                        <time datetime="2015-11-15 20:33:13 -0700 -0700" itemprop="datePublished">2015-11-15</time>
+                        <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
                     </p>
                 </div>
             </li>
@@ -1374,21 +1547,44 @@
                 
                 <div class="item-thumbnail">
                     <a href="http://xmruibi.github.io/" class="thumbnail">
-                        <span style="background-image:url(http://xmruibi.github.io//media/careercup.png)" alt="Geek Think" class="thumbnail-image"></span>
+                        <span style="background-image:url(http://xmruibi.github.io//media/geeks.png)" alt="Geek Think" class="thumbnail-image"></span>
                     </a>
                 </div>
                 
                 <div class="item-inner">
                     
                     <p class="item-category">
-                        <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">
-                        Career Cup
+                        <a class="article-category-link" href="http://xmruibi.github.io/topics/geeks-for-geeks">
+                        Geeks for Geeks
                         </a>
                     </p>
                     
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/" class="title">Convert BST to Sorted Doubly-Linked List</a></p>
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/greatest-common-divisor/" class="title">Greatest Common Divisor</a></p>
                     <p class="item-date">
-                        <time datetime="2015-11-15 17:10:29 -0700 -0700" itemprop="datePublished">2015-11-15</time>
+                        <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
+                <div class="item-thumbnail">
+                    <a href="http://xmruibi.github.io/" class="thumbnail">
+                        <span style="background-image:url(http://xmruibi.github.io//media/geeks.png)" alt="Geek Think" class="thumbnail-image"></span>
+                    </a>
+                </div>
+                
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.io/topics/geeks-for-geeks">
+                        Geeks for Geeks
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/find-if-two-rectangles-overlap/" class="title">Find if Two Rectangles Overlap</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
                     </p>
                 </div>
             </li>

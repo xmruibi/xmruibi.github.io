@@ -7,8 +7,99 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 17 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/linked-list/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Insert Node for Circular Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/</link>
+      <pubDate>Thu, 19 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Write a function to insert a new node in a sorted Circular Linked List (CLL). For example, if the input CLL is following.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ee71923bba76e242d68d338217d1bb7b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public void insertNode(CNode root, CNode insert) {
+		CNode cur = root;
+		// step one: find the node just less than root
+		do{
+			if(cur.val &amp;lt;= insert.val &amp;amp;&amp;amp; cur.next.val &amp;gt;= insert.val)
+				break;
+			cur = cur.next;
+		}while(cur != root);
+
+		CNode tmp = cur.next;
+		insert.next = tmp;
+		cur.next = insert;
+	}
+}
+
+class CNode{
+	int val;
+	CNode next;
+	public CNode(int val) {
+		this.val = val;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find Loops in Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/18/find-loops-in-linked-list/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/find-loops-in-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, find if it has a loop inside and return the loop beginning if it has the loop&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:a840d91244dfb46c7b1bf7358d4fa1d5&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    public boolean findLoop(ListNode root) {
+        if(root == null || root.next == null)
+            return false;
+        ListNode runner = root;
+        ListNode walker = root;
+        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+            runner = runner.next.next;
+            walker = walker.next;
+            if(runner == walker)
+                return true;
+        }
+        return false;
+    }
+
+    public ListNode findLoopEntry(ListNode root){
+        if(root == null || root.next == null)
+            return root;
+        ListNode runner = root;
+        ListNode walker = root;
+        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+            runner = runner.next.next;
+            walker = walker.next;
+            if(runner == walker)
+                break;
+        }
+        if(runner == null || runner.next == null)
+            return null;
+        walker = root;
+        while(walker != runner) {
+            walker = walker.next;
+            runner = runner.next;
+        }
+        return walker;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Merge Two Linked List</title>
