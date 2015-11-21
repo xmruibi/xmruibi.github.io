@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hash Map on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/hash-map/</link>
+    <description>Recent content in Hash Map on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Wed, 18 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Process Schedule Problems</title>
+      <link>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</guid>
+      <description>&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+
+&lt;p&gt;## Solution&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public int CacheMiss(int[] array, int size) {
+		if(array == null)	
+			return 0;
+		Queue&amp;lt;Integer&amp;gt; cache = new LinkedList&amp;lt;Integer&amp;gt;();
+		HashSet&amp;lt;Integer&amp;gt; hash = new HashSet&amp;lt;&amp;gt;();
+		int count = 0;
+		for (int i = 0; i &amp;lt; array.length; i++) {
+			if(hash.contains(array[i])) {
+				cache.remove(array[i]); // if hit it need to move it back, so remove here at first
+			} else {
+				count++; // miss, increse the count
+			}
+			cache.add(array[i]);
+			hash.add(new Integer(array[i]));
+			if (size == cache.size()) // over size, poll the first of queue
+				cache.poll();
+		}
+		return count;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Count</title>
+      <link>http://xmruibi.github.io/2015/11/18/two-sum-count/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/two-sum-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array and a target number, count how many pair in this array can sum to that target number.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:4e4f31a8a2c131093d3fe5e1265a3ff0&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public int countTwoSum(int[] arr, int tar) {
+		if(arr == null || arr.length == 0)
+			return 0;
+		int cnt = 0;
+		// store all number in this array
+		HashSet&amp;lt;Integer&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
+		for(int i = 0; i &amp;lt; arr.length; i++) {
+			// if any number hit in hashset, that means a pair can sum to the target number
+			if(set.contains(tar - arr[i]))
+				cnt ++;
+			set.add(arr[i]);
+		}
+		return cnt;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-if-input-integers-has-duplicate:4e4f31a8a2c131093d3fe5e1265a3ff0&#34;&gt;Solution #If input integers has duplicate&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public static int TwoSumCount(int[] nums, int target) {
+        if (nums == null || nums.length &amp;lt; 2)    return 0;
+        Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;Integer, Integer&amp;gt;();
+        int count = 0;
+        for (int i = 0; i &amp;lt; nums.length; i++) {
+            if (map.containsKey(target - nums[i]))
+                count += map.get(target - nums[i]);
+            map.put(nums[i], map.containsKey(nums[i]) ? map.get(nums[i]) + 1 : 1);
+        }
+        return count;
+    }
+    
+    public static void main(String[] args) {
+        int rvalue = TwoSumCount(new int[] {1, 1, 2, 3, 4}, 5);
+        System.out.println(rvalue);
+        return;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Repeated DNA Sequences</title>
+      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
+      <description>
+
+&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
+
+&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
+&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
+&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
+&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
+&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;O(n) time complexity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
+        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if(s==null||s.length()==0)
+            return new ArrayList(res);
+        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
+       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
+        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
+        int hashCode = 0;
+        for(int i=0;i&amp;lt;s.length();i++){
+            if(i&amp;gt;9) // remove first 
+                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
+            hashCode = 4*hashCode + dict.get(s.charAt(i));
+            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
+                res.add(s.substring(i-9,i+1));
+        }
+        return new ArrayList(res);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Constant Time Random Picker</title>
+      <link>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</link>
+      <pubDate>Sat, 14 Nov 2015 00:30:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/constant-time-random-picker/</guid>
+      <description>
+
+&lt;p&gt;Design a data structure that supports insert, delete, search and getRandom in constant time.&lt;/p&gt;
+
+&lt;p&gt;Design a data structure that supports following operations in Θ(1) time.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;insert(x)&lt;/code&gt;: Inserts an item x to the data structure if not already present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;remove(x)&lt;/code&gt;: Removes an item x from the data structure if present.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;search(x)&lt;/code&gt;: Searches an item x in the data structure.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getRandom()&lt;/code&gt;: Returns a random element from current set of elements&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;We can use hashing to support first 3 operations in Θ(1) time. How to do the 4th operation? The idea is to use a resizable array (ArrayList in Java, vector in C) together with hashing. Resizable arrays support insert in Θ(1) amortized time complexity. To implement getRandom(), we can simply pick a random number from 0 to size-1 (size is number of current elements) and return the element at that index. The hash map stores array values as keys and array indexes as values.&lt;/p&gt;
+
+&lt;p&gt;Following are detailed operations.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;insert(x)&lt;/li&gt;
+&lt;li&gt;Check if x is already present by doing a hash map lookup.&lt;/li&gt;
+&lt;li&gt;If not present, then insert it at the end of the array.&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add in hash table also, x is added as key and last array index as index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;remove(x)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check if x is present by doing a hash map lookup.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If present, then find its index and remove it from hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swap the last element with this element in array and remove the last element.
+Swapping is done because the last element can be removed in O(1) time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update index of last element in hash map.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;getRandom()&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Generate a random number from 0 to last index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Return the array element at the randomly generated index.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;search(x)
+Do a lookup for x in hash map.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:fbe9fdf4f7686b0780359874c12ae63a&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ConstantTimeRandomPicker {
+	
+	private final ArrayList&amp;lt;Integer&amp;gt; arr;
+	private final HashMap&amp;lt;Integer, Integer&amp;gt; map; // value - index
+    Random r;
+	
+	public ConstantTimeRandomPicker() {
+		this.arr = new ArrayList&amp;lt;Integer&amp;gt;();
+		this.map = new HashMap&amp;lt;Integer, Integer&amp;gt;();
+	}
+	
+	public void add(int val) {
+		arr.add(val);
+		map.put(arr.size() - 1, val);
+	}
+	
+	public void remove(int val) {
+		remove(map.get(val), val);
+	}
+	
+	public void removeRandom() {
+		int val = arr.get(r.nextInt(arr.size()));
+		remove(map.get(val), val);
+	}
+	
+	public int getRandom() {
+		return arr.get(r.nextInt(arr.size()));
+	}
+	
+	public int search(int val) {
+		return arr.get(map.get(val));
+	}
+
+	private void remove(int idx, int val) {
+		
+		// swap with the last element
+		int last = arr.get(arr.size() - 1);
+		// put the last element to the current index
+		arr.set(idx, last);
+		// remove the last element
+		arr.remove(arr.size() - 1);
+				
+		// update the last element&#39;s index in hashmap
+		map.put(last, idx);		
+		// remove the removal value
+		map.remove(val);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Implementation</title>
+      <link>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</link>
+      <pubDate>Fri, 13 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</guid>
+      <description>
+
+&lt;p&gt;Finish a implementation for a interface where it store some data and returns true if there is any pair of numbers in the internal data structure which have sum @param val, and false otherwise.&lt;/p&gt;
+
+&lt;h3 id=&#34;given-code:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Given Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface TwoSum {
+    /**
+     * Stores @param input in an internal data structure.
+     */
+    void store(int input);
+    /**
+     * Returns true if there is any pair of numbers in the internal data structure which
+     * have sum @param val, and false otherwise.
+     * For example, if the numbers 1, -2, 3, and 6 had been stored,
+     * the method should return true for 4, -1, and 9, but false for 10, 5, and 0
+     */
+    boolean test(int val);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Sum problem has two way to solve
+
+&lt;ul&gt;
+&lt;li&gt;Sort strategy (O(nlogn) time, O(1) space);&lt;/li&gt;
+&lt;li&gt;Set strategy (O(n) time, O(n) space);&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumProblem implements TwoSum{
+    
+    // thread not safe, use CopyOnWriteArrayList&amp;lt;E&amp;gt; for thread safe
+    List&amp;lt;Integer&amp;gt; list; 
+    // save the previous data for unnecessary duplicate computation
+    HashSet&amp;lt;Integer&amp;gt; set;
+    
+    public TwoSumProblem() {
+        list = new ArrayList&amp;lt;&amp;gt;();
+        set = new HashSet&amp;lt;&amp;gt;();
+    }
+    
+    @Override
+    public void store(int input) {
+        list.add(input);    
+    }
+
+    @Override
+    public boolean test(int val) {
+        if(set.contains(val))
+            return true;
+        return checkTwoSum(val);
+    }
+
+    // sort strategy (O(nlogn) time, O(1) space)
+    private boolean checkTwoSum(int target){
+        Collections.sort(list);
+        int l = 0, r = list.size() - 1;
+        while(l &amp;lt; r) {
+            int sum = list.get(l) + list.get(r);
+            if(sum == target){
+                set.add(target);
+                return true;
+            }else if(sum &amp;lt; target)
+                l++;
+            else
+                r--;
+        }
+        return false;
+    }
+
+    // set strategy (O(n) time, O(n) space)
+    private boolean checkTwoSumII(int target){
+         int len = list.size();
+           Set&amp;lt;Integer&amp;gt; mem = new HashSet();
+            for(int i = 0; i &amp;lt; len; i++){
+                if ( mem.contains(target - list.get(i)) 
+                        return true;
+               else 
+                    mem.add(list.get(i));
+            }
+            return false;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Braces Check</title>
+      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
+      <description>
+
+&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Parenthese check problem three way to solve.
+
+&lt;ul&gt;
+&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
+&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
+    public boolean matched(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        int cnt = 0;
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            if(s.charAt(idx) == &#39;(&#39;)
+                cnt++;
+            else if(s.charAt(idx) == &#39;)&#39;) {
+                if(cnt &amp;lt;= 0) 
+                    return false;
+                cnt--;
+            }
+        }
+        return cnt == 0;
+    }
+
+    // 
+    public boolean matchedII(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            char c = s.charAt(idx);
+            if(map.containsKey(c))
+                stack.push(c);
+            else if(map.values().contains(c)){
+                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
+                    return false;
+            }
+        }
+        return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unique Word Abbreviation</title>
+      <link>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</guid>
+      <description>
+
+&lt;p&gt;An abbreviation of a word follows the form &lt;code&gt;&amp;lt;first letter&amp;gt;&amp;lt;number&amp;gt;&amp;lt;last letter&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples of word abbreviations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    a) it                      --&amp;gt; it    (no abbreviation)
+    
+         1
+    b) d|o|g                   --&amp;gt; d1g
+    
+                  1    1  1
+         1---5----0----5--8
+    c) i|nternationalizatio|n  --&amp;gt; i18n
+    
+                  1
+         1---5----0
+    d) l|ocalizatio|n          --&amp;gt; l10n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word&amp;rsquo;s abbreviation is unique if no other word from the dictionary has the same abbreviation.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a71989791a51f811869cd70e5706cbbe&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dictionary = [ &amp;ldquo;deer&amp;rdquo;, &amp;ldquo;door&amp;rdquo;, &amp;ldquo;cake&amp;rdquo;, &amp;ldquo;card&amp;rdquo; ]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;dear&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cart&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt; ;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cane&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;make&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a71989791a51f811869cd70e5706cbbe&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save dictionary words in a set&lt;/li&gt;
+&lt;li&gt;Save the abbreviation from dictionary word to a HashMap.&lt;/li&gt;
+&lt;li&gt;HashMap has the key with abbreviation and value with the original word&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;isUnique(word)&lt;/code&gt; by make abbreviation from that word and compare with the hashmap&lt;/li&gt;
+&lt;li&gt;If hashmap doesn&amp;rsquo;t contain that word, return true.&lt;/li&gt;
+&lt;li&gt;If hashmap contains that word, we should compare if the word is equal to the word saved in hashmap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a71989791a51f811869cd70e5706cbbe&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class UniqueWordAbbreviation {
+
+	Set&amp;lt;String&amp;gt; dict = new HashSet&amp;lt;&amp;gt;(); // keep the dictionary has unique words
+	Map&amp;lt;String, String&amp;gt; abbrDict = new HashMap&amp;lt;&amp;gt;();
+
+	public UniqueWordAbbreviation(String[] dictionary) {
+		for (String str : dictionary) {
+			if (dict.contains(str))
+				continue;
+			String abbr = makeAbbr(str);
+			if (!abbrDict.containsKey(abbr))
+				abbrDict.put(abbr, str);
+			else
+				abbrDict.put(abbr, &amp;quot;&amp;quot;);
+			dict.add(str);
+		}
+	}
+
+	public boolean isUnique(String word) {
+		String abbr = makeAbbr(word);
+		if (abbrDict.containsKey(abbr))
+			return word.equals(abbrDict.get(abbr));
+		return true;
+	}
+
+    private String makeAbbr(String str) {
+		if (str == null || str.length() &amp;lt;= 2)
+			return str;
+		int mid = str.length() - 2;
+		StringBuilder sb = new StringBuilder();
+		sb.append(str.charAt(0));
+		sb.append(mid);
+		sb.append(str.charAt(str.length() - 1));
+		return sb.toString();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Alien Dictionary</title>
+      <link>http://xmruibi.github.io/2015/11/09/alien-dictionary/</link>
+      <pubDate>Mon, 09 Nov 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/alien-dictionary/</guid>
+      <description>
+
+&lt;p&gt;There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following words in dictionary,
+&lt;code&gt;[
+  &amp;quot;wrt&amp;quot;,
+  &amp;quot;wrf&amp;quot;,
+  &amp;quot;er&amp;quot;,
+  &amp;quot;ett&amp;quot;,
+  &amp;quot;rftt&amp;quot;
+]&lt;/code&gt;
+The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Note&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You may assume all letters are in lowercase.&lt;/li&gt;
+&lt;li&gt;If the order is invalid, return an empty string.&lt;/li&gt;
+&lt;li&gt;There may be multiple valid order of letters, return any one of them is fine.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical topological problem&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static String alienOrder(String[] words) {
+        // build up the node map, find node according to the char
+        HashMap&amp;lt;Character, Node&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        // iterate through all provided words
+        for (String str : words) {
+            // read each word and learn their order
+            map.put(str.charAt(0),
+                    map.containsKey(str.charAt(0)) ? map.get(str.charAt(0))
+                            : new Node(str.charAt(0)));
+            for (int i = 1; i &amp;lt; str.length(); i++) {
+                char cur = str.charAt(i);
+                // ignore the adjacent equal characters
+                if(cur == str.charAt(i-1))
+                    continue;
+                Node node = map.containsKey(cur) ? map.get(cur) : new Node(cur);
+                Node prev = map.get(str.charAt(i - 1));
+                // make current node indegree plus one only if the previous node doesn&#39;t have current node in its neighborhood list 
+                if (!prev.neighbors.contains(node) ) {
+                    node.indegree++;
+                    map.get(str.charAt(i - 1)).neighbors.add(node);
+                }
+                map.put(cur, node);
+            }
+        }
+
+        // find the node with zero indegree
+        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for (Node node : map.values())
+            if (node.indegree == 0)
+                queue.offer(node);
+        // build the final string,
+        StringBuilder sb = new StringBuilder();
+        // each time pop the node with zero indegree 
+        // reduce their neighbor&#39;s indegree and push node when it has zero indegree
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            sb.append(node.c);
+            map.remove(node.c);
+            for (Node nb : node.neighbors) {
+                nb.indegree--;
+                if (nb.indegree == 0 &amp;amp;&amp;amp; map.containsKey(nb.c))
+                    queue.offer(nb);
+            }
+        }
+        // if map has any entry means the cycle existed
+        if (map.size() &amp;gt; 0)
+            return &amp;quot;&amp;quot;;
+
+        return sb.toString();
+    }
+
+    private static class Node {
+        char c;
+        int indegree;
+        List&amp;lt;Node&amp;gt; neighbors;
+
+        public Node(char c) {
+            this.c = c;
+            this.indegree = 0;
+            this.neighbors = new ArrayList&amp;lt;&amp;gt;();
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Palindrome Permutation</title>
+      <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a string, determine if a permutation of the string could form a palindrome.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;example:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;code&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;&amp;quot;carerac&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
+- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
+- If the length is odd. One and only one character could appear odd times.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean canPermutePalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		for (char c : s.toCharArray())
+			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+
+		int tolerent = 0;
+		for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+			if (entry.getValue() % 2 != 0) {
+				tolerent++;
+			}
+		}
+		if (s.length() % 2 != 0)
+			return tolerent == 1;
+		else
+			return tolerent == 0;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Get the longest palindromical substring from permutation by given string.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Record the frequency&lt;/li&gt;
+&lt;li&gt;All character with even frequency can be added into final result.&lt;/li&gt;
+&lt;li&gt;Find the largest odd frequency add it onto final result.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        private int longestSubset(String str) {
+        HashMap&amp;lt;Character, Integer&amp;gt; charCnt = new HashMap&amp;lt;&amp;gt;();
+        for (char c : str.toCharArray())
+            charCnt.put(c, charCnt.containsKey(c) ? charCnt.get(c) + 1 : 1);
+        int maxLen = 0;
+        int maxsingle = 0;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : charCnt.entrySet()) {
+            if (entry.getValue() % 2 == 0)
+                maxLen += entry.getValue();
+            else
+                maxsingle = Math.max(maxsingle, entry.getValue());
+        }
+        return maxLen + maxsingle;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-iii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
+Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
+&lt;li&gt;Address the case when the length is odd
+
+&lt;ul&gt;
+&lt;li&gt;Record the character with odd frequency&lt;/li&gt;
+&lt;li&gt;Initialize the generation String with the Odd character&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
+        HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if (s == null || s.length() == 0)
+            return new ArrayList&amp;lt;String&amp;gt;(res);
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (char c : s.toCharArray())
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        
+        // check if it is odd length, increase the tolerance when it is odd length
+        int tolerent = 0;
+        if (s.length() % 2 != 0)
+            tolerent++;
+        
+        // record the odd item to set as the base of generate String
+        char odd = &#39;\u0000&#39;;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                if (tolerent &amp;gt; 0) {
+                    tolerent--;
+                    odd = entry.getKey(); // set it
+                } else
+                    return new ArrayList&amp;lt;String&amp;gt;(res);
+            }
+        }
+        // set the base String when the odd case
+        String cur = &amp;quot;&amp;quot;;
+        if (odd != &#39;\u0000&#39;) {
+            map.put(odd, map.get(odd) - 1);
+            if (map.get(odd) == 0)
+                map.remove(odd);
+            cur = &amp;quot;&amp;quot; + odd;
+        }
+        
+        // generate the palindrome
+        helper(res, map, cur, s);
+        return new ArrayList&amp;lt;String&amp;gt;(res);
+    }
+
+    private static void helper(Set&amp;lt;String&amp;gt; res,
+            HashMap&amp;lt;Character, Integer&amp;gt; map, String cur, String origin) {
+        if (map.size() == 0) {
+            res.add(new String(cur));
+            return;
+        }
+
+        for (int i = 0; i &amp;lt; origin.length(); i++) {
+            char c = origin.charAt(i);
+            if (!map.containsKey(c))
+                continue;
+            cur = (c + cur + c);
+            map.put(c, map.get(c) - 2);
+            if (map.get(c) == 0)
+                map.remove(c);
+            helper(res, map, cur, origin);
+            cur = cur.substring(1, cur.length() - 1);
+            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Group Shifted Strings</title>
+      <link>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/group-shifted-strings/</guid>
+      <description>
+
+&lt;p&gt;Given a string, we can “shift” each of its letter to its successive letter, for example: &lt;code&gt;“abc”&lt;/code&gt; -&amp;gt; &lt;code&gt;“bcd”&lt;/code&gt;. We can keep “shifting” which forms the sequence:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot; -&amp;gt; &amp;quot;bcd&amp;quot; -&amp;gt; ... -&amp;gt; &amp;quot;xyz&amp;quot;&lt;/code&gt;
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;given: [&amp;ldquo;abc&amp;rdquo;, &amp;ldquo;bcd&amp;rdquo;, &amp;ldquo;acef&amp;rdquo;, &amp;ldquo;xyz&amp;rdquo;, &amp;ldquo;az&amp;rdquo;, &amp;ldquo;ba&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;z&amp;rdquo;], Return:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [&amp;quot;abc&amp;quot;,&amp;quot;bcd&amp;quot;,&amp;quot;xyz&amp;quot;],
+  [&amp;quot;az&amp;quot;,&amp;quot;ba&amp;quot;],
+  [&amp;quot;acef&amp;quot;],
+  [&amp;quot;a&amp;quot;,&amp;quot;z&amp;quot;]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##Note
+For the return value, each inner list’s elements must follow the lexicographic order.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is a regular pattern: if two words are shifted, the distance between two adjacent characters are the same.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    2   3        2   3
+    /\ /\        /\ /\
+   a  c  f - &amp;gt;  e  g  j 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;So all we need to do is figure out the distance between each character in each word and make these distance as a code to represent the word.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0f6fb6f6e23951a407419096c7ef933b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class GroupShiftedString {
+    public List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; groupStrings(String[] strings) {
+        List&amp;lt;List&amp;lt;String&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (String str : strings) {
+            String code = getCode(str);
+            List&amp;lt;String&amp;gt; val;
+            if (!map.containsKey(code)) {
+                val = new ArrayList&amp;lt;&amp;gt;();
+            } else {
+                val = map.get(code);
+            }
+            val.add(str);
+            map.put(code, val);
+        }
+
+        for (Map.Entry&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; entry : map.entrySet()) {
+            List&amp;lt;String&amp;gt; val = entry.getValue();
+            Collections.sort(val);
+            res.add(val);
+        }
+        return res;
+    }
+
+    private String getCode(String s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(&amp;quot;#&amp;quot;);
+        for (int i = 1; i &amp;lt; s.length(); i++) {
+            int tmp = ((s.charAt(i) - s.charAt(i - 1)) + 26) % 26;
+            sb.append(tmp).append(&amp;quot;#&amp;quot;);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shortest Word Distance</title>
+      <link>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</link>
+      <pubDate>Mon, 09 Nov 2015 09:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/shortest-word-distance/</guid>
+      <description>
+
+&lt;p&gt;Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h3 id=&#34;example:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;“coding”&lt;/code&gt;, word2 = &lt;code&gt;“practice”&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The problem can be solved by one-pass of the array.&lt;/li&gt;
+&lt;li&gt;Iterate through the array, use two pointers pointing to the index of the word1 and word2, maintain the minimum distance.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2))
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I.The only difference is now you are given the list of words and your method will be called repeatedly many times with different parameters. How would you optimize it?
+Design a class which receives a list of words in the constructor, and implements a method that takes two words word1 and word2 and return the shortest distance between these two words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;practice&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Since the calls are from different words, we have to save the index for each word. So HashMap is a good choice.&lt;/li&gt;
+&lt;li&gt;Preprocess the list and save the word and its indexes as key and value in constructor.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ShortestWordDistance {
+  
+    private final HashMap&amp;lt;String, List&amp;lt;Integer&amp;gt;&amp;gt; map;
+
+	public ShortestWordDistance(String[] words) {
+		map = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; words.length; i++) {
+			List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+			if (map.containsKey(words[i]))
+				list = map.get(words[i]);
+			list.add(i);
+			map.put(words[i], list);
+		}
+	}
+
+	public int shortestDistanceII(String word1, String word2) {
+		int min = Integer.MAX_VALUE;
+		if (!map.containsKey(word1) || !map.containsKey(word2))
+			return min;
+		for (int i : map.get(word1)) {
+			for (int j : map.get(word2)) {
+				min = Math.min(min, Math.abs(i - j));
+			}
+		}
+		return min;
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;This is a follow up of Problem I. The only difference is &lt;strong&gt;now word1 could be the same as word2&lt;/strong&gt;.
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+word1 and word2 may be the same and they represent two individual words in the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Assume that words = &lt;code&gt;[&amp;quot;practice&amp;quot;, &amp;quot;makes&amp;quot;, &amp;quot;perfect&amp;quot;, &amp;quot;coding&amp;quot;, &amp;quot;makes&amp;quot;]&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;coding&amp;quot;&lt;/code&gt;, return &lt;code&gt;1&lt;/code&gt;.
+Given word1 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, word2 = &lt;code&gt;&amp;quot;makes&amp;quot;&lt;/code&gt;, return &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Most code should remain the same as the Problem I. But need to deal with the situation that word1 and word2 are the same.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w1Idx&lt;/code&gt; always record the index when &lt;code&gt;word[i].equals(word1)&lt;/code&gt; but &lt;code&gt;w2Idx&lt;/code&gt; should be assigned as the value from &lt;code&gt;w1Idx&lt;/code&gt; when &lt;code&gt;word1 == word2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	 public int shortestDistance(String[] words, String word1, String word2) {
+		 if(words == null)
+		    throw new IllegalArgumentException(&amp;quot;Invalid Input!&amp;quot;);
+		 int w1Idx = -1, w2Idx = -1;
+		 int min = Integer.MAX_VALUE;
+		 for(int i = 0; i &amp;lt; words.length; i++) {
+			 if(words[i].equals(word1))
+				 w1Idx = i;
+			 else if(words[i].equals(word2)) // else if to avoid w2Idx be recorded whrn word1==word2
+				 w2Idx = i;
+			 if(w1Idx!=-1 &amp;amp;&amp;amp; w2Idx!=-1 &amp;amp;&amp;amp; w1Idx != w2Idx){
+				 min = Math.min(min, Math.abs(w2Idx-w1Idx));
+			 }
+			 if(word2.equals(word1))
+			    w2Idx = w1Idx; // update previous index record
+		 }
+		 return min;
+	 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;follow-up:8309a21fb22c54b8cd96e2f12923a3c6&#34;&gt;Follow Up&lt;/h2&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
