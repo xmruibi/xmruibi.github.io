@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Elastic Search on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/elastic-search/</link>
+    <description>Recent content in Elastic Search on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 10 Aug 2015 23:56:15 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/elastic-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Spring Boot App with Elastic Search Indexing Service</title>
+      <link>http://xmruibi.github.io/code/ElasticSearch/</link>
+      <pubDate>Mon, 10 Aug 2015 23:56:15 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/code/ElasticSearch/</guid>
+      <description>
+
+&lt;p&gt;This article shows an example to build a bridge between Spring-Boot App and Elastic Search Indexing Service.&lt;/p&gt;
+
+&lt;h2 id=&#34;1-elastic-search-install:a362be84ed635496f364beed2b4fc4f1&#34;&gt;1. Elastic Search Install&lt;/h2&gt;
+
+&lt;p&gt;Install elastic search is very easy&lt;/p&gt;
+
+&lt;h3 id=&#34;install-elastic-search:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Install Elastic Search&lt;/h3&gt;
+
+&lt;h4 id=&#34;start-elastic-search:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Start Elastic Search&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;    # windows: cd yourPath: service install
+                            service start
+                            service stop
+    # Mac: cd $ELASTIC_HOME: elasticsearch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;check-your-service-by-input-the-url-localhost-9200-in-your-browser:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Check your service by input the url &lt;code&gt;localhost:9200&lt;/code&gt; in your browser.&lt;/h4&gt;
+
+&lt;h4 id=&#34;cluster-name:a362be84ed635496f364beed2b4fc4f1&#34;&gt;Cluster Name&lt;/h4&gt;
+
+&lt;p&gt;If cluster name is not &amp;ldquo;elasticsearch&amp;rdquo;, it may cause the run failed when your Java code trying to build elastic search instance. There should be an exception( NoNodeClientException: None of node configed) when your indexing the data.&lt;/p&gt;
+
+&lt;p&gt;Please change your cluster name into &amp;ldquo;elasticsearch&amp;rdquo; in your elasticsearch install path.
+ $ELASTIC_HOME/config/elasticsearch.yml : clustername = elasticsearch&lt;/p&gt;
+
+&lt;h2 id=&#34;2-creat-index-by-spring-data-elasticsearch-api:a362be84ed635496f364beed2b4fc4f1&#34;&gt;2. Creat Index by Spring-data-elasticsearch API&lt;/h2&gt;
+
+&lt;p&gt;Here is a example from my project. It shows how I creat an index for music by Bulk method, which is provided by Elastic Java API.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Service
+public class MusicIndexingService {
+
+	private final static Logger logger = Logger
+			.getLogger(MusicIndexingService.class);
+
+	@Autowired	
+	private Client client ;
+	
+	private ObjectMapper mapper = new ObjectMapper();
+
+	/**
+	 * The bulk index method
+	 * @param musicCollection for index
+	 */
+	public void bulkIndex(List&amp;lt;IndexedMusic&amp;gt; musicCollection) {
+		client.delete(new DeleteRequest(&amp;quot;musics&amp;quot;));
+		logger.info(&amp;quot;Indexing bulk request of &amp;quot; + musicCollection.size()
+				+ &amp;quot; documents&amp;quot;);
+		BulkRequestBuilder bulkRequest = client.prepareBulk();
+		for (IndexedMusic music : musicCollection) {
+			String json = null;
+			try {
+				json = mapper.writeValueAsString(music);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+			bulkRequest.add(client.prepareIndex(&amp;quot;musics&amp;quot;, &amp;quot;music&amp;quot;,
+					UUID.randomUUID().toString()).setSource(json));
+		}
+		BulkResponse response = bulkRequest.execute().actionGet();
+		if (response.hasFailures()) {
+			throw new RuntimeException(
+					&amp;quot;there was an error indexing the bulk request of &amp;quot;
+							+ musicCollection.size() + &amp;quot; documents: &amp;quot; +response.buildFailureMessage());
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;## 3. Search the index:
+ Search a music by name.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+	 * This is keyword search method in comment contents field in music object
+	 * @param keyword
+	 * @return
+	 */
+	public List&amp;lt;Music&amp;gt; findMusic(String keyword) {
+		QueryBuilder matchquery = QueryBuilders.fuzzyLikeThisFieldQuery(
+				&amp;quot;commentContents&amp;quot;).likeText(keyword);
+		SearchRequestBuilder requestBuilder = client.prepareSearch(&amp;quot;musics&amp;quot;)
+				.setQuery(matchquery);
+		SearchResponse response = requestBuilder.execute().actionGet();
+		SearchHits hits = response.getHits();
+		List&amp;lt;String&amp;gt; musicIdsList = new ArrayList&amp;lt;String&amp;gt;();
+		Iterator&amp;lt;SearchHit&amp;gt; iterator = hits.iterator();
+		while (iterator.hasNext()) {
+			musicIdsList.add(iterator.next().getSource().get(&amp;quot;id&amp;quot;).toString());
+		}
+		return (List&amp;lt;Music&amp;gt;) musicRepository.findAll(musicIdsList);
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

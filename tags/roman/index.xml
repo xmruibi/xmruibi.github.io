@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Roman on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/roman/</link>
+    <description>Recent content in Roman on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Fri, 16 Oct 2015 21:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/roman/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Integer to Roman</title>
+      <link>http://xmruibi.github.io/2015/10/16/integer-to-roman/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/16/integer-to-roman/</guid>
+      <description>
+
+&lt;p&gt;Given an integer, convert it to a roman numeral.&lt;/p&gt;
+
+&lt;p&gt;The number is guaranteed to be within the range from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;3999&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:b7e977a31809e5cc9a9145ac200c9748&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;4&lt;/code&gt; -&amp;gt; &lt;code&gt;IV&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12&lt;/code&gt; -&amp;gt; &lt;code&gt;XII&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;21&lt;/code&gt; -&amp;gt; &lt;code&gt;XXI&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;99&lt;/code&gt; -&amp;gt; &lt;code&gt;XCIX&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:b7e977a31809e5cc9a9145ac200c9748&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param n The integer
+     * @return Roman representation
+     */
+    public String intToRoman(int n) {
+        int[] numTab = {1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        String[] romanTab = {&amp;quot;I&amp;quot;, &amp;quot;IV&amp;quot;, &amp;quot;V&amp;quot;, &amp;quot;IX&amp;quot;, &amp;quot;X&amp;quot;, &amp;quot;XL&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;LC&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;CD&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;DM&amp;quot;,&amp;quot;M&amp;quot;};
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = numTab.length - 1; i &amp;gt;= 0; i--) {
+            while(n &amp;gt;= numTab[i]) {
+                sb.append(romanTab[i]);
+                n -= numTab[i];
+            }
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Roman to Integer</title>
+      <link>http://xmruibi.github.io/2015/10/16/roman-to-integer/</link>
+      <pubDate>Fri, 16 Oct 2015 21:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/16/roman-to-integer/</guid>
+      <description>
+
+&lt;p&gt;Given a roman numeral, convert it to an integer.&lt;/p&gt;
+
+&lt;p&gt;The answer is guaranteed to be within the range from 1 to 3999.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:127939d702142834418c408afc57cb92&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;IV&lt;/code&gt; -&amp;gt; &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XII&lt;/code&gt; -&amp;gt; &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XXI&lt;/code&gt; -&amp;gt; &lt;code&gt;21&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;XCIX&lt;/code&gt; -&amp;gt; &lt;code&gt;99&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:127939d702142834418c408afc57cb92&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Symbol&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;I&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;V&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;X&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;L&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;D&lt;/td&gt;
+&lt;td&gt;500&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;M&lt;/td&gt;
+&lt;td&gt;1,000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同一数码最多只能出现三次，如40不可表示为XXXX，而要表示为XL。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。&lt;/li&gt;
+&lt;li&gt;在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。&lt;/li&gt;
+&lt;li&gt;左减的数字有限制，仅限于I、X、C。比如45不可以写成VL，只能是XLV。&lt;/li&gt;
+&lt;li&gt;但是，左减时不可跨越一个位数。比如，99不可以用IC（100 - 1）表示，是用XCIX（[100 - 10] + [10 - 1]）表示。&lt;/li&gt;
+&lt;li&gt;左减数字必须为一位，比如8写成VIII，而非IIX。&lt;/li&gt;
+&lt;li&gt;右加数字不可连续超过三位，比如14写成XIV，而非XIIII。（见下方“数码限制”一项。）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param s Roman representation
+     * @return an integer
+     */
+    public int romanToInt(String s) {
+        // Write your code here
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;I&#39;, 1);map.put(&#39;V&#39;, 5);
+        map.put(&#39;X&#39;, 10);map.put(&#39;L&#39;, 50);
+        map.put(&#39;C&#39;, 100);map.put(&#39;D&#39;, 500);
+        map.put(&#39;M&#39;, 1000);
+        
+        int res = 0;
+        for (int i = 0; i &amp;lt; s.length() ; i++) {
+            if(i &amp;lt; s.length() - 1 &amp;amp;&amp;amp; map.get(s.charAt(i)) &amp;lt; map.get(s.charAt(i+1)) )
+                res -= map.get(s.charAt(i));
+            else
+                res += map.get(s.charAt(i));
+        }
+        
+        return res;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

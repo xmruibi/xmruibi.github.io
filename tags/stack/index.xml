@@ -1,0 +1,1150 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stack on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/stack/</link>
+    <description>Recent content in Stack on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Tue, 17 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/stack/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Determine valid parentheses</title>
+      <link>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</guid>
+      <description>
+
+&lt;p&gt;Given a String, judge if it is a valid parenthese.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:10aafbab84837eff25243552bd87c32a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public boolean validParenthese(String str) {
+		Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+		int idx = 0;
+		// save the parenthese pair in hashmap as a dictionary
+		HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		map.put(&#39;(&#39;,&#39;)&#39;); map.put(&#39;[&#39;,&#39;]&#39;); map.put(&#39;{&#39;,&#39;}&#39;);
+
+		while(idx &amp;lt; str.length()) {
+			char cur = str.charAt(idx);
+			if(map.containsKey(cur))
+				// if the current character is the front parenthese
+				stack.push(cur);
+			else {
+				// if current stack is empty or current character is not back parenthese or the peek element doesn&#39;t match with current character 
+				if(stack.isEmpty() || !map.containsValue(cur) || map.get(stack.pop()) != cur)
+					return false;
+			}
+			idx++;
+		}
+
+		return stack.isEmpty();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert BST to Sorted Doubly-Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</link>
+      <pubDate>Sun, 15 Nov 2015 17:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/convert-bst-to-sorted-doubly-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a Binary Tree (BT), convert it to a Doubly Linked List(DLL) In-Place. The left and right pointers in nodes are to be used as previous and next pointers respectively in converted DLL. The order of nodes in DLL must be same as Inorder of the given Binary Tree. The first node of Inorder traversal (left most node in BT) must be head node of the DLL.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:9391617169eedec55b65d518b5c0a515&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Inorder traversal&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-stack:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Stack&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private static Node convertBST2DoublyLinkedList(Node root) {
+		Node dummy = new Node(0);
+		Node prev = dummy;
+		java.util.Stack&amp;lt;Node&amp;gt; stack = new java.util.Stack&amp;lt;&amp;gt;();
+
+		do {
+			while (root != null) {
+				stack.push(root);
+				root = root.prev;
+			}
+			Node cur = stack.pop();
+			prev.next = cur;
+			cur.prev = prev;
+			prev = prev.next;
+			if (cur.next != null)
+				root = cur.next;
+			else
+				root = null;
+		} while (!stack.isEmpty() || root != null);
+
+		return dummy.next;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursion:9391617169eedec55b65d518b5c0a515&#34;&gt;Solution #Recursion&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    static Node dummy = new Node(0);
+    static Node pre = dummy;
+
+    private static Node convertII(Node root) {
+        if (root == null)
+            return root;
+        Node prev = convertII(root.prev);
+        pre.next = root;
+        root.prev = pre;
+        pre = root;
+        Node next = convertII(root.next);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Max Stack</title>
+      <link>http://xmruibi.github.io/2015/11/15/max-stack/</link>
+      <pubDate>Sun, 15 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/max-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack, which makes the following function, try to reduce the time compaxity less than &lt;code&gt;O(n)&lt;/code&gt;
+- &lt;code&gt;pop()&lt;/code&gt; pop the top of stack
+- &lt;code&gt;push()&lt;/code&gt; push a element into stack
+- &lt;code&gt;peek()&lt;/code&gt; peek the top of stack
+- &lt;code&gt;peekMax()&lt;/code&gt; peek the max element of stack
+- &lt;code&gt;popMax()&lt;/code&gt; pop the max element of stack&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typically, we can think about using one stacks and one heap. One of value, one of tracking the max stack.&lt;/li&gt;
+&lt;li&gt;The most tricky part is pop max function. Make the node removal in O(n) should use the doubly linked list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxStack {
+    Stack elem = new Stack();
+    PriorityQueue&amp;lt;ListNode&amp;gt; heap = new PriorityQueue&amp;lt;ListNode&amp;gt;((o1,o2) -&amp;gt; Integer.compare(o2.val, o1.val));
+    
+    // take O(logn): the depth of heap tree 
+    public void push(int val) {
+        ListNode newnode = new ListNode(val);
+        heap.add(newnode); 
+        elem.push(newnode);
+    }
+    
+    // take O(logn): the depth of heap tree 
+    public void pop() {
+        ListNode remove = elem.pop();
+        heap.remove(remove); 
+    }
+    
+    // O(1) time
+    public int peek() {
+        return elem.peek().val;
+    }
+
+    // O(1) time
+    public int peekMax() {
+        return heap.peek().val; 
+    }
+
+    // take O(logn): the depth of heap tree 
+    public void popMax() {
+        ListNode node = heap.poll(); 
+        elem.remove(node);
+    }
+
+    public static void main(String[] args) {
+        MaxStack ms = new MaxStack();
+        ms.push(1);
+        ms.push(3);
+        ms.push(2);
+        System.out.println(ms.peekMax()); // == 3
+        ms.popMax();
+        System.out.println(ms.peekMax()); // == 2
+        ms.push(4);
+        ms.push(8);
+        ms.pop();
+        System.out.println(ms.peekMax()); // == 4
+    }
+}
+
+class Stack {
+    ListNode head, rear;
+
+    public Stack() {
+        head = new ListNode(0);
+        rear = new ListNode(0);
+        head.next = rear;
+        rear.prev = head;
+    }
+
+    public void push(ListNode newnode) {
+        rear.prev.next = newnode;
+        newnode.prev = rear.prev;
+        newnode.next = rear;
+        rear.prev = newnode;
+    }
+
+    public ListNode pop() {
+        if (isEmpty())
+            return null;
+        ListNode remove = rear.prev;
+        rear.prev = remove.prev;
+        remove.prev.next = rear;
+        return remove;
+    }
+
+    public ListNode peek() {
+        if (isEmpty())
+            return null;
+        ListNode peek = rear.prev;
+        return peek;
+    }
+
+    public void remove(ListNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public boolean isEmpty() {
+        return head.next == rear;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode prev, next;
+
+    public ListNode(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Middle Index Stack</title>
+      <link>http://xmruibi.github.io/2015/11/13/middle-index-stack/</link>
+      <pubDate>Fri, 13 Nov 2015 17:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/middle-index-stack/</guid>
+      <description>
+
+&lt;p&gt;Design a stack with operations on middle element.&lt;/p&gt;
+
+&lt;p&gt;How to implement a stack which will support following operations in O(1) time complexity?
+1) push() which adds an element to the top of stack.
+2) pop() which removes an element from top of stack.
+3) findMiddle() which will return middle element of the stack.
+4) deleteMiddle() which will delete the middle element.
+Push and pop are standard stack operations.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;The important question is, whether to use a linked list or array for implementation of stack?
+- The key of this question is to design an doubly linked list to deal with those required functions.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:df16d69c6148fbc9ca34a1b8691b475e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MidStack implements MyStack{
+    int size;
+    Node top;
+    Node mid;
+    
+    public MidStack() {
+        int size = 0;
+        top = mid = null;
+    }
+    @Override
+    public void push(int val) {
+        Node newNode = new Node(val);
+        if(top == null) {
+            top = newNode;
+            mid = top;
+        }else{
+            top.next = newNode;
+            newNode.prev = top;
+            top = newNode;
+            if(size % 2 ==0)
+                mid = mid.next;
+        }
+        size++;
+    }
+    @Override
+    public int pop() {
+        int pop = top.val;
+        top = top.prev;
+        top.next = null;
+        if(size % 2 !=0)
+            mid = mid.prev;
+        size--;
+        return pop;
+    }
+    @Override
+    public int findMiddle() {
+        return mid.val;
+    }
+    @Override
+    public void deleteMiddle() {
+        if(size &amp;lt;= 2) {
+            mid = top;
+            top.prev = null;
+            size--;
+            return;
+        }
+            
+        mid.next.prev = mid.prev;
+        mid.prev.next = mid.next;
+        mid = mid.prev;
+        size--;
+    }
+    
+    public static void main(String[] args) {
+        MidStack stack = new MidStack();
+        stack.push(1);stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        stack.deleteMiddle();
+        stack.push(2);
+        stack.push(3);stack.push(4);    
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+        System.out.println(stack.findMiddle());
+        System.out.println(stack.pop());
+    }
+}
+
+interface MyStack{
+    public void push(int val);
+    public int pop();
+    public int findMiddle();
+    public void deleteMiddle();
+}
+class Node{
+    int val;
+    Node prev, next;
+    public Node(int val) {
+        this.val = val;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Braces Check</title>
+      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
+      <description>
+
+&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Parenthese check problem three way to solve.
+
+&lt;ul&gt;
+&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
+&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
+    public boolean matched(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        int cnt = 0;
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            if(s.charAt(idx) == &#39;(&#39;)
+                cnt++;
+            else if(s.charAt(idx) == &#39;)&#39;) {
+                if(cnt &amp;lt;= 0) 
+                    return false;
+                cnt--;
+            }
+        }
+        return cnt == 0;
+    }
+
+    // 
+    public boolean matchedII(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            char c = s.charAt(idx);
+            if(map.containsKey(c))
+                stack.push(c);
+            else if(map.values().contains(c)){
+                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
+                    return false;
+            }
+        }
+        return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Delete Digits</title>
+      <link>http://xmruibi.github.io/2015/11/09/delete-digits/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/delete-digits/</guid>
+      <description>
+
+&lt;p&gt;Given string A representative a positive integer which has N digits, remove any k digits of the number, the remaining digits are arranged according to the original order to become a new positive integer.&lt;/p&gt;
+
+&lt;p&gt;Find the smallest integer after remove k digits.&lt;/p&gt;
+
+&lt;p&gt;N &amp;lt;= &lt;code&gt;240&lt;/code&gt; and k &amp;lt;= N,&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given an integer A = &lt;code&gt;&amp;quot;178542&amp;quot;&lt;/code&gt;, k = &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;return a string &lt;code&gt;&amp;quot;12&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup a Stack.&lt;/li&gt;
+&lt;li&gt;Iterate through input number&lt;/li&gt;
+&lt;li&gt;If current digit is less than the peek of stack, pop out the stack until the peek is not larger than current digit.&lt;/li&gt;
+&lt;li&gt;Push current digit&lt;/li&gt;
+&lt;li&gt;Limit the pop out times by K. That means the pop action is regarded as remove digit. So when the pop out times is not less than K, keep push the digit even if it is less than peek element.&lt;/li&gt;
+&lt;li&gt;Rebuild the output string by reading elements in stack.&lt;/li&gt;
+&lt;li&gt;Two corner case should be careful:
+
+&lt;ul&gt;
+&lt;li&gt;When the iterate through digits finished, the remove(pop out) counter still less than K, we should ignore the first  &lt;code&gt;k-count&lt;/code&gt; element in stack.&lt;/li&gt;
+&lt;li&gt;When the output result has the zero on first element, remove the zero.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     *@param A: A positive integer which has N digits, A is a string.
+     *@param k: Remove k digits.
+     *@return: A string
+     */
+    public String DeleteDigits(String A, int k) {
+        if(A == null || A.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // setup stack
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        // read digits from input string
+        int removeCnt = 0;
+        for(char c : A.toCharArray()) {
+            int cur = c - &#39;0&#39;;
+            // pop out the digit larger than current digit
+            while(!stack.isEmpty() &amp;amp;&amp;amp; removeCnt &amp;lt; k &amp;amp;&amp;amp; stack.peek() &amp;gt; cur) {
+                stack.pop();
+                removeCnt ++;
+            }
+            stack.push(cur);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()) {
+            // corner case one:
+            if(removeCnt &amp;lt; k) {
+                stack.pop();
+                removeCnt ++;
+            }else
+                sb.insert(0, &amp;quot;&amp;quot; + stack.pop());
+        }
+        // corner case two:
+        while(sb.charAt(0) == &#39;0&#39;)
+            sb.deleteCharAt(0);
+        
+        return sb.toString();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Closest Binary Search Tree Value</title>
+      <link>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</guid>
+      <description>
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;note:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;Given target value is a floating point.
+You are guaranteed to have only one unique value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClosestBSTValue {
+	double min = Double.MAX_VALUE;
+	TreeNode closest = null;
+
+	public int closestValue(TreeNode root, double target) {
+		if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+		helper(root, target);
+		return closest.val;
+	}
+
+	private void helper(TreeNode node, double target) {
+		if (node == null)
+			return;
+		if (Math.abs((double) node.val - target) &amp;lt; min) {
+			min = Math.abs((double) node.val - target);
+			closest = node;
+		}
+		
+		if((double) node.val &amp;gt; target) {
+			helper(node.left, target);
+		}else{
+			helper(node.right, target);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find &lt;strong&gt;k values&lt;/strong&gt; in the BST that are closest to the target.&lt;/p&gt;
+
+&lt;h4 id=&#34;note-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Given target value is a floating point.&lt;/li&gt;
+&lt;li&gt;You may assume &lt;code&gt;k&lt;/code&gt; is always valid, that is:&lt;code&gt;k ≤ total&lt;/code&gt; nodes.&lt;/li&gt;
+&lt;li&gt;You are guaranteed to have only one unique set of &lt;code&gt;k&lt;/code&gt; values in the BST that are closest to the target.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;follow-up:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Follow up&lt;/h4&gt;
+
+&lt;p&gt;Assume that the BST is balanced, could you solve it in less than $$O(n)$$ runtime (where n = total nodes)?&lt;/p&gt;
+
+&lt;h4 id=&#34;hint:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Hint&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider implement these two helper functions:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;getPredecessor(N)&lt;/code&gt;, which returns the next smaller node to N.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getSuccessor(N)&lt;/code&gt;, which returns the next larger node to N.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Try to assume that each node has a parent pointer, it makes the problem much easier.&lt;/li&gt;
+&lt;li&gt;Without parent pointer we just need to keep track of the path from the root to the current node using a stack.&lt;/li&gt;
+&lt;li&gt;You would need two stacks to track the path in finding predecessor and successor node separately.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;think-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Think #1&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The straight-forward solution would be to use a &lt;strong&gt;heap&lt;/strong&gt;. We just treat the BST just as a usual array and do a in-order traverse. Then we compare the current element with the minimum element in the heap, the same as top k problem.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution #1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private PriorityQueue&amp;lt;Integer&amp;gt; minPQ;
+    private int count = 0;
+    public List&amp;lt;Integer&amp;gt; closestKValues(TreeNode root, double target, int k) {
+        minPQ = new PriorityQueue&amp;lt;;Integer&amp;gt;(k);
+        List&amp;lt;Integer&amp;gt; result = new ArrayList&amp;lt;Integer&amp;gt;();
+         
+        inorderTraverse(root, target, k);
+         
+        // Dump the pq into result list
+        for (Integer elem : minPQ) {
+            result.add(elem);
+        }
+         
+        return result;
+    }
+     
+    private void inorderTraverse(TreeNode root, double target, int k) {
+        if (root == null) {
+            return;
+        }
+         
+        inorderTraverse(root.left, target, k);
+         
+        if (count &amp;lt; k) {
+            minPQ.offer(root.val);
+        } else {
+            if (Math.abs((double) root.val - target) &amp;amp;lt; Math.abs((double) minPQ.peek() - target)) {
+                minPQ.poll();
+                minPQ.offer(root.val);
+            }
+        }
+        count++;
+         
+        inorderTraverse(root.right, target, k);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Expression Tree Build</title>
+      <link>http://xmruibi.github.io/2015/10/25/expression-tree-build/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/expression-tree-build/</guid>
+      <description>
+
+&lt;p&gt;The structure of Expression Tree is a binary tree to evaluate certain expressions. All leaves of the Expression Tree have an number string value. All non-leaves of the Expression Tree have an operator string value.&lt;/p&gt;
+
+&lt;p&gt;Now, given an expression array, build the expression tree of this expression, return the root of this expression tree.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a8db62594ba60859281f6e01a853f915&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;(2*6-(23+7)/(1+2))&lt;/code&gt; (which can be represented by &lt;code&gt;[&amp;quot;2&amp;quot; &amp;quot;*&amp;quot; &amp;quot;6&amp;quot; &amp;quot;-&amp;quot; &amp;quot;(&amp;quot; &amp;quot;23&amp;quot; &amp;quot;+&amp;quot; &amp;quot;7&amp;quot; &amp;quot;)&amp;quot; &amp;quot;/&amp;quot; &amp;quot;(&amp;quot; &amp;quot;1&amp;quot; &amp;quot;+&amp;quot; &amp;quot;2&amp;quot; &amp;quot;)&amp;quot;]&lt;/code&gt;). The expression tree will be like&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                 [ - ]
+             /          \
+        [ * ]              [ / ]
+      /     \           /         \
+    [ 2 ]  [ 6 ]      [ + ]        [ + ]
+                     /    \       /      \
+                   [ 23 ][ 7 ] [ 1 ]   [ 2 ] .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After building the tree, you just need to return root node &lt;code&gt;[-]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:a8db62594ba60859281f6e01a853f915&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;A binary expression tree is a specific application of a binary tree to evaluate certain expressions. Two common types of expressions that a binary expression tree can represent are algebraic[1] and boolean. These trees can represent expressions that contain both unary and binary operators.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ExpressionTreeNode {
+    public String symbol;
+     public ExpressionTreeNode left, right;
+     public ExpressionTreeNode(String symbol) {
+        this.symbol = symbol;
+        this.left = this.right = null;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:a8db62594ba60859281f6e01a853f915&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two stacks, one is only for operator, another is for build the result tree.&lt;/li&gt;
+&lt;li&gt;The idea is similar with RPN.&lt;/li&gt;
+&lt;li&gt;One pass the expression array, when it get a operand, insert as new treenode in result tree, when it get a operator, insert as new treenode in operator tree and compare the priority, if the current is less than stack top element, build a new node with operator in stack top and two node from result tree as its right and left child, then insert back to result tree with this new node.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a8db62594ba60859281f6e01a853f915&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+
+
+public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The root of expression tree
+     */
+    public ExpressionTreeNode build(String[] expression) {
+        Stack&amp;lt;ExpressionTreeNode&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        Stack&amp;lt;ExpressionTreeNode&amp;gt; data = new Stack&amp;lt;&amp;gt;();
+        for( int i = 0; i &amp;lt; expression.length; i++) {
+            String str = expression[i];
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek().symbol) &amp;gt;= operatorLevel(str)) {
+                    newNodeGtr(ops, data);
+                }
+                ops.push(new ExpressionTreeNode(str));
+            }else if(str.equals(&amp;quot;(&amp;quot;)){
+                ops.push(new ExpressionTreeNode(str));
+            }else if(str.equals(&amp;quot;)&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().symbol.equals(&amp;quot;(&amp;quot;))
+                    newNodeGtr(ops, data);
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;(&amp;quot;
+            }else
+                data.push(new ExpressionTreeNode(str));
+        }
+        
+        while(!ops.isEmpty())
+            newNodeGtr(ops, data);
+        
+        return data.isEmpty()? null : data.pop();
+    }
+    
+    private void newNodeGtr(Stack&amp;lt;ExpressionTreeNode&amp;gt; ops, Stack&amp;lt;ExpressionTreeNode&amp;gt; data) {
+        if(ops.isEmpty())
+            return;
+        ExpressionTreeNode node = ops.pop();
+        node.right = data.isEmpty() ? null : data.pop();
+        node.left = data.isEmpty() ? null : data.pop();
+        data.push(node);
+    }
+    
+    private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Expression to Polish Notation</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-expression-to-polish-notation/</guid>
+      <description>
+
+&lt;p&gt;Given an expression string array, return the Polish notation of this expression. (remove the parentheses)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Polish notation, also known as Polish prefix notation or simply prefix notation, is a form of notation for logic, arithmetic, and algebra. Its distinguishing feature is that it places operators to the left of their operands. If the arity of the operators is fixed, the result is a syntax lacking parentheses or other brackets that can still be parsed without ambiguity. The Polish logician Jan Łukasiewicz invented this notation in 1924 in order to simplify sentential logic.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;example:d7447c9961a6f93964dc93aedc06eb81&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;[(5 − 6) * 7]&lt;/code&gt; (which represented by &lt;code&gt;[&amp;quot;(&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;−&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;)&amp;quot;, &amp;quot;*&amp;quot;, &amp;quot;7&amp;quot;]&lt;/code&gt;), the corresponding polish notation is &lt;code&gt;[* - 5 6 7]&lt;/code&gt; (which the return value should be &lt;code&gt;[&amp;quot;*&amp;quot;, &amp;quot;−&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;7&amp;quot;]&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d7447c9961a6f93964dc93aedc06eb81&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea is not complext if you took the reverse polish notation question.&lt;/li&gt;
+&lt;li&gt;Just two things changed:
+
+&lt;ul&gt;
+&lt;li&gt;Pass from rear to head;&lt;/li&gt;
+&lt;li&gt;Every insertion is to the first index in result list&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d7447c9961a6f93964dc93aedc06eb81&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The Polish notation of this expression
+     */
+    public ArrayList&amp;lt;String&amp;gt; convertToPN(String[] expression) {
+        
+        Stack&amp;lt;String&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(int i = expression.length - 1; i &amp;gt;= 0; i--) {
+            String str = expression[i];
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek()) &amp;gt; operatorLevel(str))
+                    res.add(0, ops.pop());
+                ops.push(str);
+            }else if(str.equals(&amp;quot;)&amp;quot;)){
+                ops.push(str);
+            }else if(str.equals(&amp;quot;(&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().equals(&amp;quot;)&amp;quot;))
+                    res.add(0, ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;)&amp;quot;
+            }else
+                res.add(0, str);
+        }
+        while(!ops.isEmpty())
+            res.add(0, ops.pop());
+        return res;
+    }
+    
+     private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Expression to Reverse Polish Notation</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-expression-to-reverse-polish-notation/</guid>
+      <description>
+
+&lt;p&gt;Given an expression string array, return the Reverse Polish notation of this expression. (remove the parentheses)&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86fbf0be1657ea20854d7de837899103&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;[3 - 4 + 5]&lt;/code&gt; (which denote by &lt;code&gt;[&amp;quot;3&amp;quot;, &amp;quot;-&amp;quot;, &amp;quot;4&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;5&amp;quot;]&lt;/code&gt;), return &lt;code&gt;[3 4 - 5 +]&lt;/code&gt; (which denote by &lt;code&gt;[&amp;quot;3&amp;quot;, &amp;quot;4&amp;quot;, &amp;quot;-&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;+&amp;quot;]&lt;/code&gt;)&lt;/p&gt;
+
+&lt;h2 id=&#34;think:86fbf0be1657ea20854d7de837899103&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Always consider stack firstly, when meet a reverse polish notation problem.&lt;/li&gt;
+&lt;li&gt;The operator priority (&lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;) &amp;gt; (&lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;), when get the operator is less priority than stack top element, pop the stack util the element has the same priority as the current operator and output the pop element in result list.&lt;/li&gt;
+&lt;li&gt;Push the &amp;ldquo;(&amp;rdquo; always but pop the stack when get the &amp;ldquo;)&amp;rdquo; until stack has pop the corresponding &amp;ldquo;(&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;When get the operand, just output in result list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:86fbf0be1657ea20854d7de837899103&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The Reverse Polish notation of this expression
+     */
+    public ArrayList&amp;lt;String&amp;gt; convertToRPN(String[] expression) {
+        Stack&amp;lt;String&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(String str : expression) {
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek()) &amp;gt;= operatorLevel(str))
+                    res.add(ops.pop());
+                ops.push(str);
+            }else if(str.equals(&amp;quot;(&amp;quot;)){
+                ops.push(str);
+            }else if(str.equals(&amp;quot;)&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().equals(&amp;quot;(&amp;quot;))
+                    res.add(ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;(&amp;quot;
+            }else
+                res.add(str);
+        }
+        while(!ops.isEmpty())
+            res.add(ops.pop());
+        return res;
+    }
+    
+    private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Evaluate Reverse Polish Notation</title>
+      <link>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/evaluate-reverse-polish-notation/</guid>
+      <description>
+
+&lt;p&gt;Evaluate the value of an arithmetic expression in Reverse Polish Notation.&lt;/p&gt;
+
+&lt;p&gt;Valid operators are &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;. Each operand may be an integer or another expression.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:30010151c74bdc58a93bb0cdf42e6784&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;	[&amp;quot;2&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;3&amp;quot;, &amp;quot;*&amp;quot;] -&amp;gt; ((2 + 1) * 3) -&amp;gt; 9
+	[&amp;quot;4&amp;quot;, &amp;quot;13&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;/&amp;quot;, &amp;quot;+&amp;quot;] -&amp;gt; (4 + (13 / 5)) -&amp;gt; 6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:30010151c74bdc58a93bb0cdf42e6784&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reverse Polish Notation problems always accompany with the stack as its data structure;&lt;/li&gt;
+&lt;li&gt;Setup stack only to store the integer value;&lt;/li&gt;
+&lt;li&gt;One pass the tokens array, when get the integer, insert the stack, while get the operator, to do the evaluate with pop two value from stack and push back the result after calculated;&lt;/li&gt;
+&lt;li&gt;Its good to use &lt;code&gt;switch&lt;/code&gt; rather than &lt;code&gt;if&lt;/code&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:30010151c74bdc58a93bb0cdf42e6784&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param tokens The Reverse Polish Notation
+     * @return the value
+     */
+    public int evalRPN(String[] tokens) {
+        // By use stack
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        for(String str : tokens) {
+            int curRes = 0;
+            switch(str){
+                case &amp;quot;+&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) + (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;-&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    curRes = (stack.isEmpty()?0:stack.pop()) - curRes;
+                    break;
+                case &amp;quot;*&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) *  (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;/&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    if(curRes == 0)
+                        break;
+                    curRes = (stack.isEmpty()?0:stack.pop()) / curRes;
+                    break;
+                default:
+                    curRes = Integer.parseInt(str);
+            }
+            stack.push(curRes);
+        }
+        
+        return stack.isEmpty()?0:stack.pop();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Expression Evaluation (Calculator)</title>
+      <link>http://xmruibi.github.io/2015/10/25/expression-evaluation-calculator/</link>
+      <pubDate>Sun, 25 Oct 2015 10:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/expression-evaluation-calculator/</guid>
+      <description>
+
+&lt;p&gt;Given an expression string array, return the final result of this expression&lt;/p&gt;
+
+&lt;h3 id=&#34;example:0e0fb5047eba066c532e1fe6f318bee3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the expression &lt;code&gt;2*6-(23+7)/(1+2)&lt;/code&gt;, input is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  &amp;quot;2&amp;quot;, &amp;quot;*&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;-&amp;quot;, &amp;quot;(&amp;quot;,
+  &amp;quot;23&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;7&amp;quot;, &amp;quot;)&amp;quot;, &amp;quot;/&amp;quot;,
+  (&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;+&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;)&amp;quot;
+],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:0e0fb5047eba066c532e1fe6f318bee3&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The expression contains only &lt;code&gt;integer&lt;/code&gt;, &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;, &lt;code&gt;(&lt;/code&gt;, &lt;code&gt;)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:0e0fb5047eba066c532e1fe6f318bee3&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question is combination of read string array to RPN and then read RPN to get the integer result.&lt;/li&gt;
+&lt;li&gt;So&amp;hellip;. two steps:
+
+&lt;ul&gt;
+&lt;li&gt;first, build RPN&lt;/li&gt;
+&lt;li&gt;second, read the RPN&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:0e0fb5047eba066c532e1fe6f318bee3&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param expression: an array of strings;
+     * @return: an integer
+     */
+    public int evaluateExpression(String[] expression) {
+        // two steps:
+        // first, build RPN
+        ArrayList&amp;lt;String&amp;gt; list = convertToRPN(expression);
+        // second, read the RPN
+        return RPNreader(list);
+    }
+    
+    public ArrayList&amp;lt;String&amp;gt; convertToRPN(String[] expression) {
+        Stack&amp;lt;String&amp;gt; ops = new Stack&amp;lt;&amp;gt;();
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        for(String str : expression) {
+            if(str.equals(&amp;quot;+&amp;quot;) || str.equals(&amp;quot;-&amp;quot;) ||str.equals(&amp;quot;*&amp;quot;) ||str.equals(&amp;quot;/&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; operatorLevel(ops.peek()) &amp;gt;= operatorLevel(str))
+                    res.add(ops.pop());
+                ops.push(str);
+            }else if(str.equals(&amp;quot;(&amp;quot;)){
+                ops.push(str);
+            }else if(str.equals(&amp;quot;)&amp;quot;)) {
+                while(!ops.isEmpty() &amp;amp;&amp;amp; !ops.peek().equals(&amp;quot;(&amp;quot;))
+                    res.add(ops.pop());
+                if(!ops.isEmpty()) 
+                    ops.pop(); // pop the &amp;quot;(&amp;quot;
+            }else
+                res.add(str);
+        }
+        while(!ops.isEmpty())
+            res.add(ops.pop());
+        return res;
+    }
+    
+    private int operatorLevel(String op) {
+        if(op.equals(&amp;quot;+&amp;quot;) || op.equals(&amp;quot;-&amp;quot;)) 
+            return 1;
+        else if(op.equals(&amp;quot;*&amp;quot;) ||op.equals(&amp;quot;/&amp;quot;))
+            return 2;
+        else
+            return 0;
+    }
+    
+    private int RPNreader(ArrayList&amp;lt;String&amp;gt; list) {
+        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        for(String str : list) {
+            int curRes = 0;
+            switch(str){
+                case &amp;quot;+&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) + (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;-&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    curRes = (stack.isEmpty()?0:stack.pop()) - curRes;
+                    break;
+                case &amp;quot;*&amp;quot;:
+                    curRes = (stack.isEmpty()?0:stack.pop()) *  (stack.isEmpty()?0:stack.pop());
+                    break;
+                case &amp;quot;/&amp;quot;:
+                    curRes = stack.isEmpty()?0:stack.pop();
+                    if(curRes == 0)
+                        break;
+                    curRes = (stack.isEmpty()?0:stack.pop()) / curRes;
+                    break;
+                default:
+                    curRes = Integer.parseInt(str);
+            }
+            stack.push(curRes);
+        }
+        
+        return stack.isEmpty()?0:stack.pop();
+    }
+    
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Binary Search Tree Iterator</title>
+      <link>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</link>
+      <pubDate>Tue, 20 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/20/binary-search-tree-iterator/</guid>
+      <description>
+
+&lt;p&gt;Design an iterator over a binary search tree with the following rules:&lt;/p&gt;
+
+&lt;p&gt;Elements are visited in ascending order (i.e. an in-order traversal)
+next() and hasNext() queries run in O(1) time in average.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:85b0b1957c82e6f57b71982fe0b0c38b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For the following binary search tree, in-order traversal by using iterator is [1, 6, 10, 11, 12]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   10
+ /    \
+1      11
+ \       \
+  6       12
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###Challenge
+Extra memory usage O(h), h is the height of the tree.&lt;/p&gt;
+
+&lt;p&gt;Super Star: Extra memory usage O(1)&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:85b0b1957c82e6f57b71982fe0b0c38b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stack: Preorder&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:85b0b1957c82e6f57b71982fe0b0c38b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    // O(height of tree) space to store current left branch nodes
+    Stack&amp;lt;TreeNode&amp;gt; stack;
+
+    //@param root: The root of binary tree.
+    public Solution(TreeNode root) {
+
+        stack = new Stack&amp;lt;&amp;gt;();
+        if(root == null)
+            return;
+        stack.push(root);
+        TreeNode left = root.left;
+        while(left != null) {
+            stack.push(left);
+            left = left.left;
+        }
+    }
+
+    //@return: True if there has next node, or false
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+    
+    //@return: return next node
+    public TreeNode next() {
+        TreeNode pop = stack.pop();
+
+        // each time pop a node, push left branch nodes for current pop node&#39;s right child
+        TreeNode left = pop.right;
+        while(left != null) {
+            stack.push(left);
+            left = left.left;
+        }
+        return pop;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

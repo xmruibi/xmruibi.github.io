@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>How to do the insite search in Hugo? &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="How to do the insite search in Hugo?" />
+<meta property="og:description" content="Since I tried to avoid using the Google tool, searching insite content in static site like Hugo seems a tough thing for me. However, I just found Bleeve Search, which is a great tool to assist the insite search. There are three steps to adding search to your site. First, you must build the index. Second, you must host the index. Third, you add a search page to your site. Building the Index Preparation: Check you have installed Go." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/code/BleveSearch/" />
+
+
+<meta property="og:updated_time" content="2015-10-10T23:56:15-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="How to do the insite search in Hugo?">
+<meta itemprop="description" content="Since I tried to avoid using the Google tool, searching insite content in static site like Hugo seems a tough thing for me. However, I just found Bleeve Search, which is a great tool to assist the insite search. There are three steps to adding search to your site. First, you must build the index. Second, you must host the index. Third, you add a search page to your site. Building the Index Preparation: Check you have installed Go.">
+
+
+<meta itemprop="dateModified" content="2015-10-10T23:56:15-07:00" />
+<meta itemprop="wordCount" content="545">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="How to do the insite search in Hugo?"/>
+<meta name="twitter:description" content="Since I tried to avoid using the Google tool, searching insite content in static site like Hugo seems a tough thing for me. However, I just found Bleeve Search, which is a great tool to assist the insite search. There are three steps to adding search to your site. First, you must build the index. Second, you must host the index. Third, you add a search page to your site. Building the Index Preparation: Check you have installed Go."/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/BleveSearch/">
+    <h1 class="article-title" itemprop="name">
+        How to do the insite search in Hugo?
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-10 23:56:15 -0700 PDT" itemprop="datePublished">2015-10-10</time>
+            &middot;
+            545
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/information-retrieval">Information Retrieval</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/javascript">JavaScript</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/bleve-search">Bleve Search</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/configuration">Configuration</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Since I tried to avoid using the Google tool, searching insite content in static site like Hugo seems a tough thing for me.  However, I just found <a href="https://github.com/blevesearch/hugoidx">Bleeve Search</a>, which is a great tool to assist the insite search.</p>
+
+<p>There are three steps to adding search to your site. First, you must build the index. Second, you must host the index. Third, you add a search page to your site.</p>
+
+<h3 id="building-the-index:3ed2cfef5c148cbf5b7a53acba8c6c7b">Building the Index</h3>
+
+<ol>
+<li><p>Preparation: Check you have installed Go. Two ways to install Go, see the instruction in <a href="https://golang.org/dl/"> Download GO</a>. Also, be awared to the GOPATH</p>
+
+<pre><code>export %GOPATH = &quot;.../...&quot;
+source etc/profile
+echo $GOPATH
+</code></pre></li>
+
+<li><p>Be sured you&rsquo;ve also installed Mercurial. Check it by command <code>hg</code>. You can use <code>brew</code> to install it.</p>
+
+<pre><code>brew install hg
+</code></pre></li>
+
+<li><p>Install <strong>hugoidx</strong> - this is the command we will use build the search index.  Anytime you update your content and regenerate your site using the <code>hugo</code> command, you&rsquo;ll also want to rebuild your search index.</p>
+
+<pre><code>go get github.com/blevesearch/hugoidx
+</code></pre></li>
+
+<li><p><code>cd &lt;your hugo site&gt;</code></p></li>
+
+<li><p><code>hugoidx</code></p>
+
+<p>You should now have a file named <code>search.bleve</code>.</p></li>
+</ol>
+
+<h3 id="hosting-the-index:3ed2cfef5c148cbf5b7a53acba8c6c7b">Hosting the Index</h3>
+
+<p>In order to host the index we need to run a small Go program that is available on the internet.  To simplify this process, we have built a reusable application called <code>bleve-hosted</code>.  You can use this application safely answer queries to the index (read-only operations).</p>
+
+<ol>
+<li><p>Install <code>bleve-hosted</code></p>
+
+<pre><code>go get github.com/blevesearch/bleve-hosted
+</code></pre></li>
+
+<li><p><code>cd $GOPATH/src/github.com/blevesearch/bleve-hosted</code></p></li>
+
+<li><p><code>bleve-hosted</code></p></li>
+
+<li><p>Test that its working:</p>
+
+<pre><code>curl http://localhost:8080/api/test.bleve/_search -d '{&quot;query&quot;:{&quot;query&quot;:&quot;bleve&quot;}}'
+</code></pre>
+
+<p>The resulting JSON should include &ldquo;total_hits&rdquo;: 1</p></li>
+
+<li><p>Copy the <code>search.bleve</code> index you generated earlier into your <code>indexes/</code> folder.  (This can really be anywhere, it will always look for an <code>indexes/</code> folder relative to the current working directly when you launch <code>bleve-hosted</code>.)</p></li>
+
+<li><p>Restart <code>bleve-hosted</code> and optionally configure your server to keep this process running long term (init-scripts, etc)</p></li>
+</ol>
+
+<h3 id="add-search-to-your-site:3ed2cfef5c148cbf5b7a53acba8c6c7b">Add Search to your Site</h3>
+
+<p>Finally, we&rsquo;re ready to add a search page to our site.  Several files were downloaded as a part of the <code>hugoidx</code> package to help you get started.  Feel free to customize these files to best adapt them to your site.</p>
+
+<ol>
+<li><code>cd &lt;your hugo site&gt;</code></li>
+
+<li><p>Copy the main search page:</p>
+
+<pre><code>cp $GOPATH/src/github.com/blevesearch/hugoidx/search.md content/
+</code></pre></li>
+
+<li><p>Check and copy two Javascript files in my Github:</p>
+
+<pre><code>https://github.com/xmruibi/xmruibi.github.io/blob/master/js/handlebars.js
+https://github.com/xmruibi/xmruibi.github.io/blob/master/js/search.js
+</code></pre>
+
+<p>Copy these two files into your <code>static/</code> folder. Also, make sure you&rsquo;ve <code>jquery.min.js</code> in this folder.</p>
+
+<p>handlebars.js is used to render search results using a simple template syntax.<br />
+search.js is our custom code to bind everything together.</p>
+
+<p>jQuery is used to make AJAX requests from the browser to <code>bleve-hosted</code>.</p></li>
+
+<li><p>Update your layout to include these javascript files.  For many sites this will be in a file like <code>layouts/partial/footer.html</code> or <code>themes/&lt;your theme&gt;/layouts/partials/footer.html</code>.  In the section where javascript files are being included you&rsquo;ll want to add:</p>
+
+<pre><code>&lt;script src=&quot;/js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/js/handlebars.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/js/search.js&quot;&gt;&lt;/script&gt;
+</code></pre></li>
+
+<li><p>Finally, we need to update search.js to point to the correct URL for <code>bleve-hosted</code>.  On line 2 of <code>static/js/search.js</code> modify the value:</p>
+
+<pre><code>var searchURL = 'http://&lt;your server&gt;:8080/api/search.bleve/_search'
+</code></pre></li>
+</ol>
+
+<h3 id="touch-the-search-function:3ed2cfef5c148cbf5b7a53acba8c6c7b">Touch the Search function</h3>
+
+<p>You need to setup file <code>search.html</code> in <code>layout/partials/modules/site/link</code>, which is for the search bar in navgation sidebar. And also a <code>search.md</code> file in your content folder.</p>
+
+<p>Here provided a great CSS to generate the beautiful search bar. Please check <a href ="https://github.com/xmruibi/xmruibi.github.io/blob/master/css/search.css"> Code </a>.</p>
+
+<p>Make you search form includes both components:</p>
+
+<pre><code>    &lt;input id=&quot;page&quot; name=&quot;p&quot; value=&quot;1&quot; type=&quot;hidden&quot;/&gt;
+    &lt;input id=&quot;query&quot; name=&quot;q&quot; type=&quot;search&quot; placeholder=&quot;Search&quot; /&gt;
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/BleveSearch/" data-id="3ed2cfef5c148cbf5b7a53acba8c6c7b" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/BleveSearch//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/code/ElasticSearch/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Spring Boot App with Elastic Search Indexing Service</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/code/HugoSiteConstruction/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">How to build a Hugo Site like this site?</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/code\/BleveSearch\/';
+    var disqus_title = 'How to do the insite search in Hugo?';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/code\/BleveSearch\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#building-the-index:3ed2cfef5c148cbf5b7a53acba8c6c7b">Building the Index</a></li>
+<li><a href="#hosting-the-index:3ed2cfef5c148cbf5b7a53acba8c6c7b">Hosting the Index</a></li>
+<li><a href="#add-search-to-your-site:3ed2cfef5c148cbf5b7a53acba8c6c7b">Add Search to your Site</a></li>
+<li><a href="#touch-the-search-function:3ed2cfef5c148cbf5b7a53acba8c6c7b">Touch the Search function</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

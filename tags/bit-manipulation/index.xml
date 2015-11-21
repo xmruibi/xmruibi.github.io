@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bit Manipulation on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/bit-manipulation/</link>
+    <description>Recent content in Bit Manipulation on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Fri, 13 Nov 2015 10:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/bit-manipulation/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Find Next Sparse Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/find-next-sparse-number/</guid>
+      <description>
+
+&lt;p&gt;A number is Sparse if there are no two adjacent 1s in its binary representation. For example 5 (binary representation: 101) is sparse, but 6 (binary representation: 110) is not sparse.&lt;/p&gt;
+
+&lt;p&gt;Given a number x, find the smallest Sparse number which greater than or equal to x.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;Input: x = 6
+Output: Next Sparse Number is 8
+
+Input: x = 4
+Output: Next Sparse Number is 4
+
+Input: x = 38
+Output: Next Sparse Number is 40
+
+Input: x = 44
+Output: Next Sparse Number is 64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;p&gt;An Efficient Solution come from &lt;a href=&#34;http://www.geeksforgeeks.org/given-a-number-find-next-sparse-number/&#34;&gt;Geeksforgeek&lt;/a&gt; can solve this problem without checking all numbers on by one. Below are steps.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1) Find binary of the given number and store it in a 
+   boolean array.
+2) Initialize last_finalized bit position as 0.
+2) Start traversing the binary from least significant bit.
+    a) If we get two adjacent 1&#39;s such that next (or third) 
+       bit is not 1, then 
+          (i)  Make all bits after this 1 to last finalized
+               bit (including last finalized) as 0. 
+          (ii) Update last finalized bit as next bit. 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example, let binary representation be &lt;code&gt;01010001011101&lt;/code&gt;, we change it to &lt;code&gt;01010001100000&lt;/code&gt; (all bits after highlighted 11 are set to 0). Again two 1’s are adjacent, so change binary representation to &lt;code&gt;01010010000000&lt;/code&gt;. This is our final answer.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-1:55858ad5fc27fc1dfb3046c41e3f8382&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static long sparseNum(long num) {
+        // record the original number as boolean array which contains least significant bit (LSB)
+        boolean[] bits = new boolean[64];
+        int shift = 0;
+        // num (like 13) -&amp;gt; reversed { true, false, true, true}
+        while (shift &amp;lt; 64)
+            bits[shift] = ((num &amp;gt;&amp;gt; shift++) &amp;amp; 1) == 1;
+        // The position till which all bits are finalized
+        int last_final = 0;
+        // search from low digit
+        for (int i = 1; i &amp;lt; 63; i++) {
+            // find two adjacent 1&#39;s such that next bits[i+1] is not 1
+            if (bits[i] &amp;amp;&amp;amp; bits[i - 1] &amp;amp;&amp;amp; !bits[i + 1]) {
+                for(int j = last_final; j &amp;lt;= i; j++)
+                    bits[j] = false;
+                bits[i+1] = true;
+                last_final = i+1;
+            }
+        }
+        long res = 0L;
+        while(shift &amp;gt; 0) 
+            res += ((bits[--shift]?1:0)&amp;lt;&amp;lt;shift);
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Update Bits</title>
+      <link>http://xmruibi.github.io/2015/10/22/update-bits/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/22/update-bits/</guid>
+      <description>
+
+&lt;p&gt;Given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e g , M becomes a substring of N located at i and starting at j).&lt;/p&gt;
+
+&lt;h3 id=&#34;example:371436709d1e9f5c02757abafc92508e&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given N=&lt;code&gt;(10000000000)2&lt;/code&gt;, M=&lt;code&gt;(10101)2&lt;/code&gt;, i=&lt;code&gt;2&lt;/code&gt;, j=&lt;code&gt;6&lt;/code&gt;
+return N=&lt;code&gt;(10001010100)2&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:371436709d1e9f5c02757abafc92508e&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;In the function, the numbers N and M will given in decimal, you should also return a decimal number.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:371436709d1e9f5c02757abafc92508e&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Minimum number of operations?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:371436709d1e9f5c02757abafc92508e&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;You can assume that the bits j through i have enough space to fit all of M. That is, if M = &lt;code&gt;10011&lt;/code&gt;, you can assume that there are at least 5 bits between j and i. You would not, for example, have j=3 and i=2, because M could not fully fit between bit 3 and bit 2.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:371436709d1e9f5c02757abafc92508e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Set a mask:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Position:   31 30 ..~.. j+1  j ..~.. i  i-1 ..~.. 0
+Bit Val:     1  1  ...   1   0  ...  0   1   ...  1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Use that mask to do &lt;code&gt;&amp;amp;&lt;/code&gt; with N, so that in the new N, the position i~j will be zero.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Left shift &lt;code&gt;i&lt;/code&gt; for M to make the position aligned.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Do &lt;code&gt;|&lt;/code&gt; for M and N, then get the final result.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:371436709d1e9f5c02757abafc92508e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    /**
+     *@param n, m: Two integer
+     *@param i, j: Two bit positions
+     *return: An integer
+     */
+    public int updateBits(int n, int m, int i, int j) {
+        
+        int mask = 0;
+        for(int lfShift = 31; lfShift &amp;gt; j; lfShift--) 
+            mask += (1&amp;lt;&amp;lt;lfShift);
+        
+        for(int lfShift = i - 1; lfShift &amp;gt;= 0; lfShift--) 
+            mask += (1&amp;lt;&amp;lt;lfShift);
+        n &amp;amp;= mask;
+        m &amp;lt;&amp;lt;= i;
+        return n|m;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Topological Sort on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/topological-sort/</link>
+    <description>Recent content in Topological Sort on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 14 Nov 2015 13:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/topological-sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Course Schedule I/II</title>
+      <link>http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/</guid>
+      <description>
+
+&lt;h2 id=&#34;problem-i:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;There are a total of n courses you have to take, labeled from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;n - 1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: &lt;code&gt;[0,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?&lt;/p&gt;
+
+&lt;p&gt;For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0],[0,1]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-topological-sort:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Solution #Topological Sort&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap&amp;lt;Integer, Course&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&amp;lt;Course&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0;
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&amp;lt;Course&amp;gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&amp;lt;&amp;gt;();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.&lt;/p&gt;
+
+&lt;p&gt;There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.&lt;/p&gt;
+
+&lt;h4 id=&#34;example:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Example&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;2, [[1,0]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 2 courses to take. To take course &lt;code&gt;1&lt;/code&gt; you should have finished course &lt;code&gt;0&lt;/code&gt;. So the correct course order is &lt;code&gt;[0,1]&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;4, [[1,0],[2,0],[3,1],[3,2]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a total of 4 courses to take. To take course &lt;code&gt;3&lt;/code&gt; you should have finished both courses &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt;. Both courses &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt; should be taken after you finished course 0. So one correct course order is &lt;code&gt;[0,1,2,3]&lt;/code&gt;. Another correct ordering is &lt;code&gt;[0,2,1,3]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-topological-sort-1:cc6cec0f55bbe04713d85b21b1b7c478&#34;&gt;Solution #Topological Sort&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        if(prerequisites == null || prerequisites.length == 0)
+            return new int[0];
+            
+        HashMap&amp;lt;Integer, Course&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&amp;lt;Course&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        int[] res = new int[numCourses];
+        int index = 0;
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            res[index++] = cur.idx;
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0 ? res : new int[0];
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&amp;lt;Course&amp;gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&amp;lt;&amp;gt;();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Alien Dictionary</title>
+      <link>http://xmruibi.github.io/2015/11/09/alien-dictionary/</link>
+      <pubDate>Mon, 09 Nov 2015 20:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/alien-dictionary/</guid>
+      <description>
+
+&lt;p&gt;There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following words in dictionary,
+&lt;code&gt;[
+  &amp;quot;wrt&amp;quot;,
+  &amp;quot;wrf&amp;quot;,
+  &amp;quot;er&amp;quot;,
+  &amp;quot;ett&amp;quot;,
+  &amp;quot;rftt&amp;quot;
+]&lt;/code&gt;
+The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Note&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You may assume all letters are in lowercase.&lt;/li&gt;
+&lt;li&gt;If the order is invalid, return an empty string.&lt;/li&gt;
+&lt;li&gt;There may be multiple valid order of letters, return any one of them is fine.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical topological problem&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static String alienOrder(String[] words) {
+        // build up the node map, find node according to the char
+        HashMap&amp;lt;Character, Node&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        // iterate through all provided words
+        for (String str : words) {
+            // read each word and learn their order
+            map.put(str.charAt(0),
+                    map.containsKey(str.charAt(0)) ? map.get(str.charAt(0))
+                            : new Node(str.charAt(0)));
+            for (int i = 1; i &amp;lt; str.length(); i++) {
+                char cur = str.charAt(i);
+                // ignore the adjacent equal characters
+                if(cur == str.charAt(i-1))
+                    continue;
+                Node node = map.containsKey(cur) ? map.get(cur) : new Node(cur);
+                Node prev = map.get(str.charAt(i - 1));
+                // make current node indegree plus one only if the previous node doesn&#39;t have current node in its neighborhood list 
+                if (!prev.neighbors.contains(node) ) {
+                    node.indegree++;
+                    map.get(str.charAt(i - 1)).neighbors.add(node);
+                }
+                map.put(cur, node);
+            }
+        }
+
+        // find the node with zero indegree
+        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+        for (Node node : map.values())
+            if (node.indegree == 0)
+                queue.offer(node);
+        // build the final string,
+        StringBuilder sb = new StringBuilder();
+        // each time pop the node with zero indegree 
+        // reduce their neighbor&#39;s indegree and push node when it has zero indegree
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            sb.append(node.c);
+            map.remove(node.c);
+            for (Node nb : node.neighbors) {
+                nb.indegree--;
+                if (nb.indegree == 0 &amp;amp;&amp;amp; map.containsKey(nb.c))
+                    queue.offer(nb);
+            }
+        }
+        // if map has any entry means the cycle existed
+        if (map.size() &amp;gt; 0)
+            return &amp;quot;&amp;quot;;
+
+        return sb.toString();
+    }
+
+    private static class Node {
+        char c;
+        int indegree;
+        List&amp;lt;Node&amp;gt; neighbors;
+
+        public Node(char c) {
+            this.c = c;
+            this.indegree = 0;
+            this.neighbors = new ArrayList&amp;lt;&amp;gt;();
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
