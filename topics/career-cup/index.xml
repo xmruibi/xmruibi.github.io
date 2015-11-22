@@ -7,8 +7,116 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 19 Nov 2015 12:33:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 14:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/career-cup/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Palindromic Substring</title>
+      <link>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</link>
+      <pubDate>Thu, 19 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the string = &lt;code&gt;&amp;quot;abcdzdcab&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;cdzdc&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n2) time is acceptable. Can you do it in O(n) time.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-2:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;One pass on each position in string characters, assume the axis of symmetry on each character or between two character:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    |                       |
+c a b a c f     or     c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;On each axis of symmetry we get the left and right pointers and make them move toward left or right&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;left right           
+   \ /                 
+c a b a c f 
+
+
+...or...        
+
+
+    l r
+    | |
+c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param s input string
+     * @return the longest palindromic substring
+     */
+    private String LongestPalindromeSubstringI(String str) {
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        // memorized whether it is palindromical in str (i, j)
+        boolean[][] memo = new boolean[str.length()][str.length()];
+        for (int i = str.length() - 1; i &amp;gt;= 0; i--) {
+            for (int j = i; j &amp;lt; str.length(); j++) {
+                if ((j - i &amp;lt; 2 || memo[i + 1][j - 1])
+                        &amp;amp;&amp;amp; str.charAt(i) == str.charAt(j)) {
+                    memo[i][j] = true;
+                    if (j - i + 1 &amp;gt; maxLen) {
+                        maxSubstr = str.substring(i, j + 1);
+                        maxLen = j - i + 1;
+                    }
+                }
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String LongestPalindromeSubstringII(String str) {
+        if(str == null || str.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // record current longest length
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        for (int i = 0; i &amp;lt; str.length(); i++) {
+            // find the longest palindrome, when symmetry axis is the current index
+            String case1 = expandFromCenter(str, i, i);
+            // find the longest palindrome, when symmetry axis is between the current index and next index
+            String case2 = expandFromCenter(str, i, i + 1);
+            
+            if (Math.max(case1.length(), case2.length()) &amp;gt; maxLen) {
+                maxLen = Math.max(case1.length(), case2.length());
+                maxSubstr = case1.length() &amp;gt; case2.length() ? case1 : case2;
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String expandFromCenter(String str, int left, int right) {
+        // expand the left and right index two opposite sides
+        while ( left &amp;gt;= 0
+                &amp;amp;&amp;amp; right &amp;lt; str.length()&amp;amp;&amp;amp;str.charAt(left) == str.charAt(right)) {
+            left--;
+            right++;
+        }
+        return str.substring(left + 1, right);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;analysis:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;p&gt;One pass from 0 - $$len \times 2$$; inside the loop the palindromic substring search also costs a loop from l - r; So the total is O($$n^2$$);&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Find a Path in Maze</title>
@@ -213,6 +321,41 @@ public class Solution{
         }
         return walker;
     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>LRU Problem</title>
+      <link>http://xmruibi.github.io/2015/11/18/lru-problem/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/lru-problem/</guid>
+      <description>&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+
+&lt;p&gt;## Solution&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public int CacheMiss(int[] array, int size) {
+		if(array == null)	
+			return 0;
+		Queue&amp;lt;Integer&amp;gt; cache = new LinkedList&amp;lt;Integer&amp;gt;();
+		HashSet&amp;lt;Integer&amp;gt; hash = new HashSet&amp;lt;&amp;gt;();
+		int count = 0;
+		for (int i = 0; i &amp;lt; array.length; i++) {
+			if(hash.contains(array[i])) {
+				cache.remove(array[i]); // if hit it need to move it back, so remove here at first
+			} else {
+				count++; // miss, increse the count
+			}
+			cache.add(array[i]);
+			hash.add(new Integer(array[i]));
+			if (size == cache.size()) // over size, poll the first of queue
+				cache.poll();
+		}
+		return count;
+	}
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -776,205 +919,6 @@ public class Solution{
         }
         return mid;
     }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Max Points on a Line</title>
-      <link>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</link>
-      <pubDate>Sun, 15 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/15/max-points-on-a-line/</guid>
-      <description>
-
-&lt;p&gt;Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Represent line by ratio. Compare point to point by a nested two loop.&lt;/li&gt;
-&lt;li&gt;Think about four cases:
-
-&lt;ul&gt;
-&lt;li&gt;Same point, count the same point amount&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;x&lt;/code&gt; axis are the same&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;y&lt;/code&gt; axis are the same&lt;/li&gt;
-&lt;li&gt;normal case &lt;code&gt;(y1 - y2)/(x1 - x2)&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:0468874f3f0719bf48609e7d9f0fd5fc&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxPointOnAline {
-
-    public int getMaxLine(List&amp;lt;FloatPoint&amp;gt; points) {
-        if (points == null || points.size() == 0)
-            return 0;
-
-        int max = 0;
-        for (int i = 0; i &amp;lt; points.size(); i++) {
-            FloatPoint cur = points.get(i);
-            Map&amp;lt;Double, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-            int same = 0, localMax = 1;
-            for (int j = i + 1; j &amp;lt; points.size(); j++) {
-                FloatPoint tar = points.get(j);
-                if (cur.x == tar.x &amp;amp;&amp;amp; cur.y == tar.y) {
-                    same++;
-                }else if (cur.x == tar.x) {
-                    double maxr = Double.MAX_VALUE;
-                    map.put(maxr, map.containsKey(maxr) ? map.get(maxr) + 1 : 2);
-                } else if (cur.y == tar.y) {
-                    map.put(0.0, map.containsKey(0.0) ? map.get(0.0) + 1 : 2);
-                } else {
-                    double ratio = (cur.y - tar.y) / (cur.x - tar.x);
-                    map.put(ratio, map.containsKey(ratio) ? map.get(ratio) + 1
-                            : 2);
-                }
-            }
-            for (Map.Entry&amp;lt;Double, Integer&amp;gt; entry : map.entrySet())
-                localMax = Math.max(localMax, entry.getValue());
-            max = Math.max(localMax + same, max);
-        }
-        return max;
-    }
-}
-
-class FloatPoint {
-    float x, y; // float may not suitable for accurate computation
-
-    public FloatPoint(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Max Stack</title>
-      <link>http://xmruibi.github.io/2015/11/15/max-stack/</link>
-      <pubDate>Sun, 15 Nov 2015 10:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/15/max-stack/</guid>
-      <description>
-
-&lt;p&gt;Design a stack, which makes the following function, try to reduce the time compaxity less than &lt;code&gt;O(n)&lt;/code&gt;
-- &lt;code&gt;pop()&lt;/code&gt; pop the top of stack
-- &lt;code&gt;push()&lt;/code&gt; push a element into stack
-- &lt;code&gt;peek()&lt;/code&gt; peek the top of stack
-- &lt;code&gt;peekMax()&lt;/code&gt; peek the max element of stack
-- &lt;code&gt;popMax()&lt;/code&gt; pop the max element of stack&lt;/p&gt;
-
-&lt;h2 id=&#34;think:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typically, we can think about using one stacks and one heap. One of value, one of tracking the max stack.&lt;/li&gt;
-&lt;li&gt;The most tricky part is pop max function. Make the node removal in O(n) should use the doubly linked list.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:0c76a512774b6e4792fd578d8968c8bd&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxStack {
-    Stack elem = new Stack();
-    PriorityQueue&amp;lt;ListNode&amp;gt; heap = new PriorityQueue&amp;lt;ListNode&amp;gt;((o1,o2) -&amp;gt; Integer.compare(o2.val, o1.val));
-    
-    // take O(logn): the depth of heap tree 
-    public void push(int val) {
-        ListNode newnode = new ListNode(val);
-        heap.add(newnode); 
-        elem.push(newnode);
-    }
-    
-    // take O(logn): the depth of heap tree 
-    public void pop() {
-        ListNode remove = elem.pop();
-        heap.remove(remove); 
-    }
-    
-    // O(1) time
-    public int peek() {
-        return elem.peek().val;
-    }
-
-    // O(1) time
-    public int peekMax() {
-        return heap.peek().val; 
-    }
-
-    // take O(logn): the depth of heap tree 
-    public void popMax() {
-        ListNode node = heap.poll(); 
-        elem.remove(node);
-    }
-
-    public static void main(String[] args) {
-        MaxStack ms = new MaxStack();
-        ms.push(1);
-        ms.push(3);
-        ms.push(2);
-        System.out.println(ms.peekMax()); // == 3
-        ms.popMax();
-        System.out.println(ms.peekMax()); // == 2
-        ms.push(4);
-        ms.push(8);
-        ms.pop();
-        System.out.println(ms.peekMax()); // == 4
-    }
-}
-
-class Stack {
-    ListNode head, rear;
-
-    public Stack() {
-        head = new ListNode(0);
-        rear = new ListNode(0);
-        head.next = rear;
-        rear.prev = head;
-    }
-
-    public void push(ListNode newnode) {
-        rear.prev.next = newnode;
-        newnode.prev = rear.prev;
-        newnode.next = rear;
-        rear.prev = newnode;
-    }
-
-    public ListNode pop() {
-        if (isEmpty())
-            return null;
-        ListNode remove = rear.prev;
-        rear.prev = remove.prev;
-        remove.prev.next = rear;
-        return remove;
-    }
-
-    public ListNode peek() {
-        if (isEmpty())
-            return null;
-        ListNode peek = rear.prev;
-        return peek;
-    }
-
-    public void remove(ListNode node) {
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-    }
-
-    public boolean isEmpty() {
-        return head.next == rear;
-    }
-}
-
-class ListNode {
-    int val;
-    ListNode prev, next;
-
-    public ListNode(int val) {
-        this.val = val;
-    }
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

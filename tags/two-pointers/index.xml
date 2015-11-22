@@ -953,67 +953,60 @@ You may assume there are no cycles anywhere in the entire linked structure.&lt;/
     </item>
     
     <item>
-      <title>Flatten Binary Tree to Linked List</title>
-      <link>http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/</link>
-      <pubDate>Sat, 17 Oct 2015 17:50:34 -0700</pubDate>
+      <title>Palindrome Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</link>
+      <pubDate>Sat, 17 Oct 2015 23:50:34 -0700</pubDate>
       
-      <guid>http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/</guid>
+      <guid>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</guid>
       <description>
 
-&lt;p&gt;Flatten a binary tree to a fake &amp;ldquo;linked list&amp;rdquo; in pre-order traversal.&lt;/p&gt;
+&lt;p&gt;Implement a function to check if a linked list is a palindrome.&lt;/p&gt;
 
-&lt;p&gt;Here we use the right pointer in TreeNode as the next pointer in ListNode.&lt;/p&gt;
+&lt;h3 id=&#34;example:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Example&lt;/h3&gt;
 
-&lt;h3 id=&#34;example:3558130a00db2ed581e30cf5bef32986&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;Given 1-&amp;gt;2-&amp;gt;1, return true&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;              1
-               \
-     1          2
-    / \          \
-   2   5    =&amp;gt;    3
-  / \   \          \
- 3   4   6          4
-                     \
-                      5
-                       \
-                        6
-&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;challenge:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Challenge&lt;/h3&gt;
 
-&lt;h3 id=&#34;note:3558130a00db2ed581e30cf5bef32986&#34;&gt;Note&lt;/h3&gt;
+&lt;p&gt;Could you do it in O(n) time and O(1) space?&lt;/p&gt;
 
-&lt;p&gt;Don&amp;rsquo;t forget to mark the left child of each node to null. Or you will get Time Limit Exceeded or Memory Limit Exceeded.&lt;/p&gt;
-
-&lt;h3 id=&#34;challenge:3558130a00db2ed581e30cf5bef32986&#34;&gt;Challenge&lt;/h3&gt;
-
-&lt;p&gt;Do it in-place without any extra memory.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:3558130a00db2ed581e30cf5bef32986&#34;&gt;Solution:&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;One pass with iterate each right node.&lt;/li&gt;
-&lt;li&gt;Put left node to right node.&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h2 id=&#34;solution:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;public class Solution {
     /**
-     * @param root: a TreeNode, the root of the binary tree
-     * @return: nothing
+     * @param head a ListNode
+     * @return a boolean
      */
-    public void flatten(TreeNode root) {
-        TreeNode node = root;
-        while(node!=null) {
-            if(node.left != null) {
-                TreeNode left = node.left;
-                while(left.right != null) {
-                    left = left.right;
-                }
-                left.right = node.right;
-                node.right = node.left;
-                node.left = null;
-            }
-            node = node.right;
+    public boolean isPalindrome(ListNode head) {
+        
+        // get half
+        ListNode runner = head;
+        ListNode walker = new ListNode(0);
+        walker.next = head;
+        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+            runner = runner.next.next;
+            walker = walker.next;
         }
+        
+        // reverse half tail
+        ListNode tail = null;
+        ListNode move = walker.next;
+        
+        while(move!=null){
+            ListNode next = move.next;
+            move.next = tail;
+            tail = move;
+            move = next;
+        }
+        
+        // check palindrome
+        while(head != null&amp;amp;&amp;amp; tail != null) {
+            if(head.val != tail.val)
+                return false;
+            head = head.next;
+            tail = tail.next;
+        }
+        return true;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

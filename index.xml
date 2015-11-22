@@ -20,18 +20,21 @@
 
 &lt;h2 id=&#34;probelam-i-grey-code:36e0d9010da29c0b03b32585059c5e35&#34;&gt;Probelam I: Grey Code&lt;/h2&gt;
 
-&lt;p&gt;Given 2 numbers. Find if they are consecutive gray (grey) code sequences.&lt;/p&gt;
+&lt;p&gt;Given 2 numbers. Find if they are consecutive gray (grey) code sequences. In grey code sequence, two succesive values differ in only one bit.&lt;/p&gt;
 
 &lt;h2 id=&#34;solution:36e0d9010da29c0b03b32585059c5e35&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public int greyCode(byte term1, byte term2) {
+		// use XOR to find the difference between two numbers
 		byte x = (byte)(term1 ^ term2);
+		// check how many 1s left in XOR result.
 		int total = 0;
 		while(x != 0){
-			x = (byte) (x &amp;amp; (x - 1));
-			total++;
+			total += (x&amp;amp;1);
+			x &amp;gt;&amp;gt;= 1;
 		}
+
 		if(total == 1) 
 			return 1; 
 		else 
@@ -107,6 +110,114 @@ class CNode{
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Palindromic Substring</title>
+      <link>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</link>
+      <pubDate>Thu, 19 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the string = &lt;code&gt;&amp;quot;abcdzdcab&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;cdzdc&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n2) time is acceptable. Can you do it in O(n) time.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-2:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;One pass on each position in string characters, assume the axis of symmetry on each character or between two character:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    |                       |
+c a b a c f     or     c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;On each axis of symmetry we get the left and right pointers and make them move toward left or right&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;left right           
+   \ /                 
+c a b a c f 
+
+
+...or...        
+
+
+    l r
+    | |
+c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param s input string
+     * @return the longest palindromic substring
+     */
+    private String LongestPalindromeSubstringI(String str) {
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        // memorized whether it is palindromical in str (i, j)
+        boolean[][] memo = new boolean[str.length()][str.length()];
+        for (int i = str.length() - 1; i &amp;gt;= 0; i--) {
+            for (int j = i; j &amp;lt; str.length(); j++) {
+                if ((j - i &amp;lt; 2 || memo[i + 1][j - 1])
+                        &amp;amp;&amp;amp; str.charAt(i) == str.charAt(j)) {
+                    memo[i][j] = true;
+                    if (j - i + 1 &amp;gt; maxLen) {
+                        maxSubstr = str.substring(i, j + 1);
+                        maxLen = j - i + 1;
+                    }
+                }
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String LongestPalindromeSubstringII(String str) {
+        if(str == null || str.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // record current longest length
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        for (int i = 0; i &amp;lt; str.length(); i++) {
+            // find the longest palindrome, when symmetry axis is the current index
+            String case1 = expandFromCenter(str, i, i);
+            // find the longest palindrome, when symmetry axis is between the current index and next index
+            String case2 = expandFromCenter(str, i, i + 1);
+            
+            if (Math.max(case1.length(), case2.length()) &amp;gt; maxLen) {
+                maxLen = Math.max(case1.length(), case2.length());
+                maxSubstr = case1.length() &amp;gt; case2.length() ? case1 : case2;
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String expandFromCenter(String str, int left, int right) {
+        // expand the left and right index two opposite sides
+        while ( left &amp;gt;= 0
+                &amp;amp;&amp;amp; right &amp;lt; str.length()&amp;amp;&amp;amp;str.charAt(left) == str.charAt(right)) {
+            left--;
+            right++;
+        }
+        return str.substring(left + 1, right);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;analysis:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;p&gt;One pass from 0 - $$len \times 2$$; inside the loop the palindromic substring search also costs a loop from l - r; So the total is O($$n^2$$);&lt;/p&gt;
 </description>
     </item>
     
@@ -302,6 +413,8 @@ class Point{
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public boolean overlapRectangle(Rectangle r1, Rectangle r2) {
+		if(r1 == null || r2 == null)
+			return true;
 		// If one rectangle is on left side of other
 		if (r1.rightBottom.x &amp;gt;= r2.topLeft.x || r1.topLeft.x &amp;gt;= r2.rightBottom.x)
 		    return false;	
@@ -526,11 +639,11 @@ public class Solution{
     </item>
     
     <item>
-      <title>Process Schedule Problems</title>
-      <link>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</link>
+      <title>LRU Problem</title>
+      <link>http://xmruibi.github.io/2015/11/18/lru-problem/</link>
       <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
       
-      <guid>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</guid>
+      <guid>http://xmruibi.github.io/2015/11/18/lru-problem/</guid>
       <description>&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
 
 &lt;p&gt;## Solution&lt;/p&gt;
@@ -748,58 +861,6 @@ public class Solution{
 			}
 		}
 	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Find Loops in Linked List</title>
-      <link>http://xmruibi.github.io/2015/11/18/find-loops-in-linked-list/</link>
-      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/18/find-loops-in-linked-list/</guid>
-      <description>
-
-&lt;p&gt;Given a linked list, find if it has a loop inside and return the loop beginning if it has the loop&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:a840d91244dfb46c7b1bf7358d4fa1d5&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-    public boolean findLoop(ListNode root) {
-        if(root == null || root.next == null)
-            return false;
-        ListNode runner = root;
-        ListNode walker = root;
-        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
-            runner = runner.next.next;
-            walker = walker.next;
-            if(runner == walker)
-                return true;
-        }
-        return false;
-    }
-
-    public ListNode findLoopEntry(ListNode root){
-        if(root == null || root.next == null)
-            return root;
-        ListNode runner = root;
-        ListNode walker = root;
-        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
-            runner = runner.next.next;
-            walker = walker.next;
-            if(runner == walker)
-                break;
-        }
-        if(runner == null || runner.next == null)
-            return null;
-        walker = root;
-        while(walker != runner) {
-            walker = walker.next;
-            runner = runner.next;
-        }
-        return walker;
-    }
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

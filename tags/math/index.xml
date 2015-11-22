@@ -20,18 +20,21 @@
 
 &lt;h2 id=&#34;probelam-i-grey-code:36e0d9010da29c0b03b32585059c5e35&#34;&gt;Probelam I: Grey Code&lt;/h2&gt;
 
-&lt;p&gt;Given 2 numbers. Find if they are consecutive gray (grey) code sequences.&lt;/p&gt;
+&lt;p&gt;Given 2 numbers. Find if they are consecutive gray (grey) code sequences. In grey code sequence, two succesive values differ in only one bit.&lt;/p&gt;
 
 &lt;h2 id=&#34;solution:36e0d9010da29c0b03b32585059c5e35&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public int greyCode(byte term1, byte term2) {
+		// use XOR to find the difference between two numbers
 		byte x = (byte)(term1 ^ term2);
+		// check how many 1s left in XOR result.
 		int total = 0;
 		while(x != 0){
-			x = (byte) (x &amp;amp; (x - 1));
-			total++;
+			total += (x&amp;amp;1);
+			x &amp;gt;&amp;gt;= 1;
 		}
+
 		if(total == 1) 
 			return 1; 
 		else 
@@ -106,6 +109,8 @@ class Point{
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public boolean overlapRectangle(Rectangle r1, Rectangle r2) {
+		if(r1 == null || r2 == null)
+			return true;
 		// If one rectangle is on left side of other
 		if (r1.rightBottom.x &amp;gt;= r2.topLeft.x || r1.topLeft.x &amp;gt;= r2.rightBottom.x)
 		    return false;	

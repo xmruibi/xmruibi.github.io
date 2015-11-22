@@ -18,6 +18,11 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</loc>
+    <lastmod>2015-11-19T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/11/19/game-of-life/</loc>
     <lastmod>2015-11-19T12:43:13-07:00</lastmod>
   </url>
@@ -58,7 +63,7 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</loc>
+    <loc>http://xmruibi.github.io/2015/11/18/lru-problem/</loc>
     <lastmod>2015-11-18T12:43:13-07:00</lastmod>
   </url>
   
@@ -348,12 +353,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</loc>
+    <loc>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</loc>
     <lastmod>2015-11-10T22:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/10/serialize-and-deserialize-binary-tree/</loc>
+    <loc>http://xmruibi.github.io/2015/11/10/longest-consecutive-sequence-in-binary-tree/</loc>
     <lastmod>2015-11-10T22:43:13-07:00</lastmod>
   </url>
   
@@ -828,17 +833,17 @@
   </url>
   
   <url>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
+    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
-    <lastmod>2015-10-18T14:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query-ii/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -855,6 +860,11 @@
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/ugly-number-ii/</loc>
     <lastmod>2015-10-18T11:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</loc>
+    <lastmod>2015-10-17T23:50:34-07:00</lastmod>
   </url>
   
   <url>
@@ -878,12 +888,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/17/n-queen-ii/</loc>
+    <loc>http://xmruibi.github.io/2015/10/17/n-queen-i/</loc>
     <lastmod>2015-10-17T17:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/17/n-queen-i/</loc>
+    <loc>http://xmruibi.github.io/2015/10/17/n-queen-ii/</loc>
     <lastmod>2015-10-17T17:10:29-07:00</lastmod>
   </url>
   
@@ -973,12 +983,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   

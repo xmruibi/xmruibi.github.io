@@ -91,6 +91,8 @@ class Point{
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public boolean overlapRectangle(Rectangle r1, Rectangle r2) {
+		if(r1 == null || r2 == null)
+			return true;
 		// If one rectangle is on left side of other
 		if (r1.rightBottom.x &amp;gt;= r2.topLeft.x || r1.topLeft.x &amp;gt;= r2.rightBottom.x)
 		    return false;	
