@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google on Geek Think</title>
+    <link>http://xmruibi.github.io/topics/google/</link>
+    <description>Recent content in Google on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sun, 15 Nov 2015 10:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/topics/google/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Find Union and Intersection by Iterators</title>
+      <link>http://xmruibi.github.io/2015/11/15/find-union-and-intersection-by-iterators/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/find-union-and-intersection-by-iterators/</guid>
+      <description>
+
+&lt;p&gt;Given two iterators, find their union and intersection.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:d67777c39d54b3f8295734245ce89a09&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    private static List&amp;lt;Integer&amp;gt; union(Iterator&amp;lt;Integer&amp;gt; itr1,
+            Iterator&amp;lt;Integer&amp;gt; itr2) {
+        Integer num1 = itr1.hasNext() ? itr1.next() : null;
+        Integer num2 = itr2.hasNext() ? itr2.next() : null;
+        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        while (num1 != null || num2 != null) {
+            if (num1 != null &amp;amp;&amp;amp; num2 != null) {
+                if (num1 &amp;lt; num2) {
+                    res.add(num1);
+                    num1 = itr1.hasNext() ? itr1.next() : null;
+                } else if (num1 &amp;gt; num2) {
+                    res.add(num2);
+                    num2 = itr2.hasNext() ? itr2.next() : null;
+                } else {
+                    res.add(num1);
+                    num1 = itr1.hasNext() ? itr1.next() : null;
+                    num2 = itr2.hasNext() ? itr2.next() : null;
+                }
+            } else if (num1 != null) {
+                res.add(num1);
+                num1 = itr1.hasNext() ? itr1.next() : null;
+            } else {
+                res.add(num2);
+                num2 = itr2.hasNext() ? itr2.next() : null;
+            }
+        }
+        return res;
+    }
+
+    private static List&amp;lt;Integer&amp;gt; intersection(Iterator&amp;lt;Integer&amp;gt; itr1,
+            Iterator&amp;lt;Integer&amp;gt; itr2) {
+        Integer num1 = itr1.hasNext() ? itr1.next() : null;
+        Integer num2 = itr2.hasNext() ? itr2.next() : null;
+        List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        while (num1 != null &amp;amp;&amp;amp; num2 != null) {
+            if (num1 &amp;lt; num2) {
+                num1 = itr1.hasNext() ? itr1.next() : null;
+            } else if (num1 &amp;gt; num2) {
+                num2 = itr2.hasNext() ? itr2.next() : null;
+            } else {
+                res.add(num1);
+                num1 = itr1.hasNext() ? itr1.next() : null;
+                num2 = itr2.hasNext() ? itr2.next() : null;
+            }
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Iterator for Merging Sorted Stream</title>
+      <link>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</link>
+      <pubDate>Sun, 15 Nov 2015 10:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/</guid>
+      <description>
+
+&lt;p&gt;Given a &lt;code&gt;Merge Sorted Stream&lt;/code&gt; class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: &lt;code&gt;hasNext()&lt;/code&gt;, &lt;code&gt;next()&lt;/code&gt;. Sorted Stream defines the stream read data by ascending order, so that in &lt;code&gt;Merge Sorted Stream&lt;/code&gt; when call &lt;code&gt;next()&lt;/code&gt; method, it will return values by ascending order. Pleas complete the following codes.&lt;/p&gt;
+
+&lt;h3 id=&#34;partital-code:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Partital Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class SortedStream implments Iterator&amp;lt;Integer&amp;gt;{
+	List&amp;lt;Integer&amp;gt; content;
+	int cursor;
+	public SortedStream(List&amp;lt;Integer&amp;gt; content){
+		if(content == null)
+			throw new IllegalArgumentException(&amp;quot;Null Input&amp;quot;);
+		this.content = content;
+		this.cursor = 0;
+	}
+
+	public boolean hasNext(){return cursor &amp;lt; content.size();}
+
+	public int next(){return content.get(cursor++);}
+}
+
+class MergeSortedStream implments Iterator&amp;lt;SortedStream&amp;gt;{
+    List&amp;lt;SortedStream&amp;gt; content;
+	SortedStream cursor;
+	public MergeSortedStream(List&amp;lt;SortedStream&amp;gt; content){...}
+	
+	public boolean hasNext(){...};
+
+	public int next(){...};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Implement a new wrapper class for original iterator class and make it comparable.&lt;/li&gt;
+&lt;li&gt;The new wrapper class is just like peek iterator, and implement &lt;code&gt;compareTo()&lt;/code&gt; method with comparing the peek element.&lt;/li&gt;
+&lt;li&gt;Put all new iterator class in a minheap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:29d87af7cc40b904c89fba965c56caf1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MergeKSortedIterator implements Iterable&amp;lt;Integer&amp;gt; {
+
+    Collection&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; listOfItr;
+
+    public MergeKSortedIterator(Collection&amp;lt;Iterator&amp;lt;Integer&amp;gt;&amp;gt; lists) {
+        this.listOfItr = lists;
+    }
+
+    @Override
+    public Iterator&amp;lt;Integer&amp;gt; iterator() {
+        Queue&amp;lt;NewIterator&amp;gt; minHeap = new PriorityQueue&amp;lt;NewIterator&amp;gt;(
+                listOfItr.size());
+        for (Iterator&amp;lt;Integer&amp;gt; it : listOfItr)
+            minHeap.add(new NewIterator(it));
+
+        return new Iterator&amp;lt;Integer&amp;gt;() {
+            @Override
+            public boolean hasNext() {
+                return !minHeap.isEmpty();
+            }
+
+            @Override
+            public Integer next() {
+                NewIterator pop = minHeap.poll();
+                int res = pop.next();
+                if (pop.hasNext()) {
+                    minHeap.add(pop);
+                }
+                return res;
+            }
+
+        };
+    }
+
+    class NewIterator implements Comparable&amp;lt;NewIterator&amp;gt;, Iterator&amp;lt;Integer&amp;gt; {
+        Integer cur;
+        Iterator&amp;lt;Integer&amp;gt; itr;
+
+        public NewIterator(Iterator&amp;lt;Integer&amp;gt; itr) {
+            this.itr = itr;
+            cur = itr.hasNext() ? itr.next() : null;
+        }
+
+        @Override
+        public int compareTo(NewIterator o) {
+            return Integer.compare(this.peek(), o.peek());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cur != null;
+        }
+
+        @Override
+        public Integer next() {
+            int res = cur;
+            cur = itr.hasNext() ? itr.next() : null;
+            return res;
+        }
+
+        public Integer peek() {
+            return cur;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a tree string expression in balanced parenthesis format: &lt;code&gt;[A[B[C][D]][E][F]]&lt;/code&gt;
+Construct a tree and return the root of the tree.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                A 
+            /   |   \
+          B     E    F
+         / \
+       C   D
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:c5615b000167d84de0482a72736f3047&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Store Nodes in a Stack&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:c5615b000167d84de0482a72736f3047&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static Node buildTree(String str) {
+        java.util.Stack&amp;lt;Node&amp;gt; nodes = new java.util.Stack();
+        int idx = 0;
+        Node root = null;
+        while (idx &amp;lt; str.length()) {
+            char cur = str.charAt(idx);
+            if (cur == &#39;]&#39;) {
+                Node pop = nodes.pop();
+                root = pop;
+                if (nodes.isEmpty())
+                    break;
+                nodes.peek().children.add(pop);
+            } else if (cur != &#39;[&#39;) {
+                Node node = new Node(cur);
+                nodes.push(node);
+            }
+            idx++;
+        }
+        return root;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

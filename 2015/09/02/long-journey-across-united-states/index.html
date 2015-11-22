@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Long Journey Across United States &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Long Journey Across United States" />
+<meta property="og:description" content="Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!
+Great road trip! Love it! Crossed 11 states in American.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/" />
+
+
+<meta property="og:updated_time" content="2015-09-02T10:42:11-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Long Journey Across United States">
+<meta itemprop="description" content="Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!
+Great road trip! Love it! Crossed 11 states in American.
+">
+
+
+<meta itemprop="dateModified" content="2015-09-02T10:42:11-07:00" />
+<meta itemprop="wordCount" content="197">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Long Journey Across United States"/>
+<meta name="twitter:description" content="Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!
+Great road trip! Love it! Crossed 11 states in American.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            <img src="http://xmruibi.github.io//media/route.png" class="article-banner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/">
+    <h1 class="article-title" itemprop="name">
+        Long Journey Across United States
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-09-02 10:42:11 -0700 PDT" itemprop="datePublished">2015-09-02</time>
+            &middot;
+            197
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/travel">travel</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/road-trip">Road Trip</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/american">American</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Six days, from Pennsylvania to California! Had been driving for 50 hours on the road and 4990 kilometer!
+Great road trip! Love it! Crossed 11 states in American.</p>
+
+<h3 id="aug-27th:afecfa315ebe66b45c929f8e5019c956">Aug 27th</h3>
+
+<h4 id="pittsburgh-pa-chicago-il:afecfa315ebe66b45c929f8e5019c956">Pittsburgh,PA - Chicago, IL</h4>
+
+<p>Start from my american home town Pittsburgh! Say good bye, but really miss you!</p>
+
+<p>Through Ohio, Indina, then Illinois. All the way is Toll way in first day trip!</p>
+
+<h3 id="aug-28th:afecfa315ebe66b45c929f8e5019c956">Aug 28th</h3>
+
+<h4 id="chicago-il-omaha-ne:afecfa315ebe66b45c929f8e5019c956">Chicago,IL - Omaha, NE</h4>
+
+<p>Passed Iowa, acrossed Mississippi.</p>
+
+<p>Huge corn field all the way! Typical great plain scene!
+<img src="/media/Journey/IMG_4353.jpg" alt=""></p>
+
+<h3 id="aug-29th:afecfa315ebe66b45c929f8e5019c956">Aug 29th</h3>
+
+<h4 id="omaha-ne-danver-co:afecfa315ebe66b45c929f8e5019c956">Omaha, NE - Danver, CO</h4>
+
+<p>Farms and Corns in Omaha, then the Colorado&rsquo;s desert.</p>
+
+<p>Rocky Mountain National Park!! 4000 kilometer above sea level! Gorgeous view, like Xinjiang Uygur Autonomous Regin and Tibet in China.
+<img src="/media/Journey/IMG_4388.jpg" alt="">
+<img src="/media/Journey/IMG_4400.jpg" alt="">
+<img src="/media/Journey/IMG_4426.jpg" alt=""></p>
+
+<p>The highest road in United States.
+<img src="/media/Journey/IMG_4445.jpg" alt=""></p>
+
+<h3 id="aug-30th:afecfa315ebe66b45c929f8e5019c956">Aug 30th</h3>
+
+<h4 id="danver-co-salt-lake-city-ut:afecfa315ebe66b45c929f8e5019c956">Danver, CO - Salt Lake City, UT</h4>
+
+<p>Lonely Gas Staion in Wyoming
+<img src="/media/Journey/IMG_4470.jpg" alt=""></p>
+
+<p>Storm on the way!
+<img src="/media/Journey/IMG_4496.jpg" alt=""></p>
+
+<p>Hello Utah! Red Rock! The location is near the welcome center in Utah
+<img src="/media/Journey/IMG_4497.jpg" alt=""></p>
+
+<h3 id="aug-31st:afecfa315ebe66b45c929f8e5019c956">Aug 31st</h3>
+
+<h4 id="salt-lake-city-ut-reno-nv:afecfa315ebe66b45c929f8e5019c956">Salt Lake City, UT - Reno, NV</h4>
+
+<p>Great Salt Plain! Never seen the view like this. Huge White Salt plat stretches continuously for nearly 100 kilometer!
+<img src="/media/Journey/IMG_4571.jpg" alt=""></p>
+
+<p>Desert in Nevada
+<img src="/media/Journey/IMG_4576.jpg" alt=""></p>
+
+<h3 id="sept-1st:afecfa315ebe66b45c929f8e5019c956">Sept 1st,</h3>
+
+<h4 id="reno-nv-san-francisco-ca:afecfa315ebe66b45c929f8e5019c956">Reno, NV - San Francisco, CA</h4>
+
+<p>Tahoe Lake!
+<img src="/media/Journey/IMG_4591.jpg" alt=""></p>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/09/02/long-journey-across-united-states/" data-id="afecfa315ebe66b45c929f8e5019c956" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/09/02/long-journey-across-united-states//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/09\/02\/long-journey-across-united-states\/';
+    var disqus_title = 'Long Journey Across United States';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/09\/02\/long-journey-across-united-states\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#aug-27th:afecfa315ebe66b45c929f8e5019c956">Aug 27th</a>
+<ul>
+<li><a href="#pittsburgh-pa-chicago-il:afecfa315ebe66b45c929f8e5019c956">Pittsburgh,PA - Chicago, IL</a></li>
+</ul></li>
+<li><a href="#aug-28th:afecfa315ebe66b45c929f8e5019c956">Aug 28th</a>
+<ul>
+<li><a href="#chicago-il-omaha-ne:afecfa315ebe66b45c929f8e5019c956">Chicago,IL - Omaha, NE</a></li>
+</ul></li>
+<li><a href="#aug-29th:afecfa315ebe66b45c929f8e5019c956">Aug 29th</a>
+<ul>
+<li><a href="#omaha-ne-danver-co:afecfa315ebe66b45c929f8e5019c956">Omaha, NE - Danver, CO</a></li>
+</ul></li>
+<li><a href="#aug-30th:afecfa315ebe66b45c929f8e5019c956">Aug 30th</a>
+<ul>
+<li><a href="#danver-co-salt-lake-city-ut:afecfa315ebe66b45c929f8e5019c956">Danver, CO - Salt Lake City, UT</a></li>
+</ul></li>
+<li><a href="#aug-31st:afecfa315ebe66b45c929f8e5019c956">Aug 31st</a>
+<ul>
+<li><a href="#salt-lake-city-ut-reno-nv:afecfa315ebe66b45c929f8e5019c956">Salt Lake City, UT - Reno, NV</a></li>
+</ul></li>
+<li><a href="#sept-1st:afecfa315ebe66b45c929f8e5019c956">Sept 1st,</a>
+<ul>
+<li><a href="#reno-nv-san-francisco-ca:afecfa315ebe66b45c929f8e5019c956">Reno, NV - San Francisco, CA</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

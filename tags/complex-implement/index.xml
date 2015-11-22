@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Complex Implement on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/complex-implement/</link>
+    <description>Recent content in Complex Implement on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 14 Nov 2015 22:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/complex-implement/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Valid Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
+      <description>
+
+&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question focus on thinking about all of corner case
+
+&lt;ol&gt;
+&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
+&lt;li&gt;space before the number&lt;/li&gt;
+&lt;li&gt;invalid character before / after the number&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
+&lt;li&gt;space after the number&lt;/li&gt;
+&lt;li&gt;decimal checker&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
+        s = s.trim();
+        int hasNum = 0;
+        boolean allowE = true;
+        boolean allowD = true;
+        boolean afterE = true;
+
+        for (int idx = 0; idx &amp;lt; s.length(); idx++) {
+            char c = s.charAt(idx);
+            if (c &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; c &amp;lt;= &#39;9&#39;) {
+                hasNum++;
+                if(!afterE)
+                    afterE = true;
+            } else if ((c == &#39;e&#39; || c == &#39;E&#39;) &amp;amp;&amp;amp; hasNum &amp;gt; 0 &amp;amp;&amp;amp; allowE) {
+                allowE = afterE = false;
+            } else if (c == &#39;.&#39; &amp;amp;&amp;amp; allowD &amp;amp;&amp;amp; allowE) {
+                allowD  = false;
+            } else if(c == &#39;-&#39; || c == &#39;+&#39;) {
+                if(idx != 0 &amp;amp;&amp;amp; s.charAt(idx-1) != &#39;e&#39;) {
+                    return false;
+                }
+            }else
+                return false;
+        }
+        return hasNum&amp;gt;0 &amp;amp;&amp;amp; afterE;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Integer to English Words</title>
+      <link>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</guid>
+      <description>
+
+&lt;p&gt;Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;123&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Hundred Twenty Three&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12345&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;Twelve Thousand Three Hundred Forty Five&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;1234567&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;There are many edge cases. What are some good test cases? Does your code work with input such as &lt;code&gt;0&lt;/code&gt; ? Or &lt;code&gt;1000010&lt;/code&gt;? (middle chunk is zero and should not be printed out)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The regular pattern in English word to count number is splitting by &lt;code&gt;1000&lt;/code&gt;, so set each &lt;code&gt;000.&lt;/code&gt; by &lt;code&gt;&amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Be aware to number less than &lt;code&gt;20&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private final String[] lessThan20 = {&amp;quot;&amp;quot;, &amp;quot;One &amp;quot;, &amp;quot;Two &amp;quot;, &amp;quot;Three &amp;quot;, &amp;quot;Four &amp;quot;, &amp;quot;Five &amp;quot;, &amp;quot;Six &amp;quot;, &amp;quot;Seven &amp;quot;, &amp;quot;Eight &amp;quot;, &amp;quot;Nine &amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Eleven &amp;quot;, &amp;quot;Twelve &amp;quot;, &amp;quot;Thirteen &amp;quot;, &amp;quot;Fourteen &amp;quot;, &amp;quot;Fifteen &amp;quot;, &amp;quot;Sixteen &amp;quot;, &amp;quot;Seventeen &amp;quot;, &amp;quot;Eighteen &amp;quot;, &amp;quot;Nineteen &amp;quot;};
+    private final String[] tens = {&amp;quot;&amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Twenty &amp;quot;, &amp;quot;Thirty &amp;quot;, &amp;quot;Forty &amp;quot;, &amp;quot;Fifty &amp;quot;, &amp;quot;Sixty &amp;quot;, &amp;quot;Seventy &amp;quot;, &amp;quot;Eighty &amp;quot;, &amp;quot;Ninety &amp;quot;};
+    private final String[] thousands = {&amp;quot;&amp;quot;, &amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;};
+
+    public String numberToWords(int num) {
+        if (num == 0)
+            return &amp;quot;Zero&amp;quot;;
+        int i = 0;
+        String words = &amp;quot;&amp;quot;;
+        
+        while(num &amp;gt; 0) {
+            if (num % 1000 != 0)
+                words = eachThousand(num % 1000)+ thousands[i] + words;
+            num /= 1000;
+            i++;
+        }
+        return words.trim();
+    }
+    
+    private String eachThousand(int each) {
+        StringBuilder sb = new StringBuilder();
+        if(each / 100 &amp;gt; 0) {
+            sb.append(lessThan20[each / 100] + &amp;quot;Hundred &amp;quot;);
+        }
+        int ten = each % 100;
+        if(ten &amp;gt;= 20) {
+            sb.append(tens[ten/10]);
+            sb.append(lessThan20[ten%10]);
+        }else {
+            sb.append(lessThan20[ten]);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unique Word Abbreviation</title>
+      <link>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</guid>
+      <description>
+
+&lt;p&gt;An abbreviation of a word follows the form &lt;code&gt;&amp;lt;first letter&amp;gt;&amp;lt;number&amp;gt;&amp;lt;last letter&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples of word abbreviations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    a) it                      --&amp;gt; it    (no abbreviation)
+    
+         1
+    b) d|o|g                   --&amp;gt; d1g
+    
+                  1    1  1
+         1---5----0----5--8
+    c) i|nternationalizatio|n  --&amp;gt; i18n
+    
+                  1
+         1---5----0
+    d) l|ocalizatio|n          --&amp;gt; l10n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word&amp;rsquo;s abbreviation is unique if no other word from the dictionary has the same abbreviation.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a71989791a51f811869cd70e5706cbbe&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dictionary = [ &amp;ldquo;deer&amp;rdquo;, &amp;ldquo;door&amp;rdquo;, &amp;ldquo;cake&amp;rdquo;, &amp;ldquo;card&amp;rdquo; ]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;dear&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cart&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt; ;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cane&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;make&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a71989791a51f811869cd70e5706cbbe&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save dictionary words in a set&lt;/li&gt;
+&lt;li&gt;Save the abbreviation from dictionary word to a HashMap.&lt;/li&gt;
+&lt;li&gt;HashMap has the key with abbreviation and value with the original word&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;isUnique(word)&lt;/code&gt; by make abbreviation from that word and compare with the hashmap&lt;/li&gt;
+&lt;li&gt;If hashmap doesn&amp;rsquo;t contain that word, return true.&lt;/li&gt;
+&lt;li&gt;If hashmap contains that word, we should compare if the word is equal to the word saved in hashmap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a71989791a51f811869cd70e5706cbbe&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class UniqueWordAbbreviation {
+
+	Set&amp;lt;String&amp;gt; dict = new HashSet&amp;lt;&amp;gt;(); // keep the dictionary has unique words
+	Map&amp;lt;String, String&amp;gt; abbrDict = new HashMap&amp;lt;&amp;gt;();
+
+	public UniqueWordAbbreviation(String[] dictionary) {
+		for (String str : dictionary) {
+			if (dict.contains(str))
+				continue;
+			String abbr = makeAbbr(str);
+			if (!abbrDict.containsKey(abbr))
+				abbrDict.put(abbr, str);
+			else
+				abbrDict.put(abbr, &amp;quot;&amp;quot;);
+			dict.add(str);
+		}
+	}
+
+	public boolean isUnique(String word) {
+		String abbr = makeAbbr(word);
+		if (abbrDict.containsKey(abbr))
+			return word.equals(abbrDict.get(abbr));
+		return true;
+	}
+
+    private String makeAbbr(String str) {
+		if (str == null || str.length() &amp;lt;= 2)
+			return str;
+		int mid = str.length() - 2;
+		StringBuilder sb = new StringBuilder();
+		sb.append(str.charAt(0));
+		sb.append(mid);
+		sb.append(str.charAt(str.length() - 1));
+		return sb.toString();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Set Matrix Zeroes</title>
+      <link>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</link>
+      <pubDate>Fri, 18 Sep 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/09/18/set-matrix-zeroes/</guid>
+      <description>
+
+&lt;p&gt;Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:35c33b873bff4238525fcbe7737590f0&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use the first row (up row) and the first col (left col) to record the position info of zeroes in matrix;&lt;/li&gt;
+&lt;li&gt;But we also need to set two boolean value to check if there is zero in first row and first col;&lt;/li&gt;
+&lt;li&gt;Then go through the matrix again, when [i][0] is marked zero or [0][j] is marked zero set current position as zero! This is important!;&lt;/li&gt;
+&lt;li&gt;Finally, go back to check two boolean value, and set that row or col as zero if boolean value is true;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix: A list of lists of integers
+     * @return: Void
+     */
+    public void setZeroes(int[][] matrix) {
+
+        if(matrix == null || matrix.length == 0)
+            return;
+        
+        boolean row = false;
+        boolean col = false;
+                        
+        for(int i = 0; i &lt; matrix.length; i++)
+            if(matrix[i][0] == 0)
+                col = true;
+                
+        for(int j = 0; j &lt; matrix[0].length; j++)
+            if(matrix[0][j] == 0)
+                row = true;
+        
+        for(int i = 1; i &lt; matrix.length; i++)
+            for(int j = 1; j &lt; matrix[i].length; j++) 
+                if(matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+                
+        for(int i = 1; i &lt; matrix.length; i++){ 
+            for(int j = 1; j &lt; matrix[0].length; j++){
+                if(matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
+            }   
+        }
+        
+        if(row)
+            for(int j = 0; j &lt; matrix[0].length; j++)
+                    matrix[0][j] = 0;
+                    
+        if(col)
+            for(int i = 0; i &lt; matrix.length; i++)
+                    matrix[i][0] = 0;
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rotate Image</title>
+      <link>http://xmruibi.github.io/2015/09/11/rotate-image/</link>
+      <pubDate>Fri, 11 Sep 2015 16:06:19 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/09/11/rotate-image/</guid>
+      <description>
+
+&lt;p&gt;You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees (clockwise).&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:16166296d29f61e468857c0d8a3fcbcc&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Headache Implement question!&lt;/li&gt;
+&lt;li&gt;Very carefully to treat index.&lt;/li&gt;
+&lt;li&gt;Only calculate the &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;4&lt;/sub&gt; of index in matrix!&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix: A list of lists of integers
+     * @return: Void
+     */
+    public void rotate(int[][] matrix) {
+        
+        int n = matrix.length;
+
+        // One of i or j need to consider boundry!
+        for(int i = 0; i &lt; ( n &gt;&gt; 1); i ++) {
+        // that&#39;s why j &lt; (n+1) / 2, that is the boundry!
+            for(int j = 0; j &lt; ( n+1 &gt;&gt; 1); j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = tmp;
+            }
+        }
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

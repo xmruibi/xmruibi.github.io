@@ -1,0 +1,1017 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Two Pointers on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/two-pointers/</link>
+    <description>Recent content in Two Pointers on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 14 Nov 2015 22:10:29 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/two-pointers/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find the Duplicate Number</title>
+      <link>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</guid>
+      <description>
+
+&lt;p&gt;Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:51072b7754d767e44ab1a140653d075f&#34;&gt;Note&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You must not modify the array (assume the array is read only).&lt;/li&gt;
+&lt;li&gt;You must use only constant, O(1) extra space.&lt;/li&gt;
+&lt;li&gt;Your runtime complexity should be less than $$O(n^2)$$.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is only one duplicate number in the array, but it could be repeated more than once.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:51072b7754d767e44ab1a140653d075f&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;h5 id=&#34;pigeonhole-principle:51072b7754d767e44ab1a140653d075f&#34;&gt;Pigeonhole Principle&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Split the array into two pieces by the middle point.&lt;/li&gt;
+&lt;li&gt;NOTE: an array nums containing &lt;code&gt;n + 1&lt;/code&gt; integers where each integer is between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;n&lt;/code&gt; (inclusive).&lt;/li&gt;
+&lt;li&gt;Let&amp;rsquo;s say if there is &lt;code&gt;10&lt;/code&gt; elements in array. The index of middle point is &lt;code&gt;4&lt;/code&gt;. Check the all elements and count how many element has the value less or equal to that index. If the counter larger than index value and according to Pigeonhole Priciple,  that means there must have number duplicated in the first half of searching range. So next time we search the first half. Otherwise, we check the last half part.&lt;/li&gt;
+&lt;li&gt;NOTICE: each time we decrease the search range but still check the number in entire array.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:51072b7754d767e44ab1a140653d075f&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int findDuplicate(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            int cnt = 0;
+            for(int i : nums)
+                if(i &amp;lt;= m)
+                    cnt++;
+            if(cnt &amp;lt;= m)
+                l = m + 1;
+            else
+                r = m;
+        }
+        return l;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Move Zeroes</title>
+      <link>http://xmruibi.github.io/2015/11/11/move-zeroes/</link>
+      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/move-zeroes/</guid>
+      <description>
+
+&lt;p&gt;Given an array nums, write a function to move all 0&amp;rsquo;s to the end of it while maintaining the relative order of the non-zero elements.&lt;/p&gt;
+
+&lt;p&gt;For example, given nums = &lt;code&gt;[0, 1, 0, 3, 12]&lt;/code&gt;, after calling your function, nums should be &lt;code&gt;[1, 3, 12, 0, 0]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You must do this in-place without making a copy of the array.
+Minimize the total number of operations.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mark an index for nonzero element&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:48a830997c7d9feb48b62c53bd2152a6&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public void moveZeroes(int[] nums) {
+        int nonzeroIdx = 0;
+        int idx = 0;
+        while(idx &amp;lt; nums.length) {
+            if(idx &amp;gt;= nonzeroIdx &amp;amp;&amp;amp; nums[idx] != 0) {
+                int tmp = nums[idx];
+                nums[idx--] = nums[nonzeroIdx];
+                nums[nonzeroIdx++] = tmp;
+            }
+            idx++;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Encode String</title>
+      <link>http://xmruibi.github.io/2015/11/04/encode-string/</link>
+      <pubDate>Wed, 04 Nov 2015 15:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/04/encode-string/</guid>
+      <description>
+
+&lt;p&gt;Given a String like &lt;code&gt;&amp;quot;ABBCCCC&amp;quot;&lt;/code&gt;, encode it to &lt;code&gt;A2B4C&lt;/code&gt;. Avoid to make the encode string larger than original string. Do it in-place! The repeat count should less than 10.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:1bf6d4bfb4d8342f4044f6557ab5a4e7&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass the char array by reversed order so that it&amp;rsquo;s easier to modify the char to count number in-place&lt;/li&gt;
+&lt;li&gt;Index passing should from &lt;code&gt;len - 2&lt;/code&gt; to &lt;code&gt;-1&lt;/code&gt;, this is tricky part to avoid the case when index is zero cannot be count&lt;/li&gt;
+&lt;li&gt;The in-place modification index come from the &lt;code&gt;len - 1&lt;/code&gt;, rewrite the result char by this index&lt;/li&gt;
+&lt;li&gt;For the integer convert to character, it may need to use &lt;code&gt;Character.forDigit(count, 10)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For those rest char less than rewrite index, set them as null character &lt;code&gt;&amp;quot;\u0000&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:1bf6d4bfb4d8342f4044f6557ab5a4e7&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+  public static void main(String[] args) {
+    String str = &amp;quot;ABC&amp;quot;;
+    inplaceEncode(str.toCharArray());
+  }
+  
+  public static void inplaceEncode(char[] chars){
+    int idx = chars.length - 1;
+    int count = 1;
+    for(int i = chars.length - 2; i &amp;gt;= -1; i--) {
+      if(i&amp;gt;=0 &amp;amp;&amp;amp; chars[i] == chars[i+1])
+        count++;
+      else {
+        char cur = chars[i+1];
+        if(count &amp;gt; 1){
+          chars[idx--] = cur;
+          chars[idx--] = Character.forDigit(count, 10);
+        }else
+          chars[idx--] = cur;
+        count = 1;
+      }
+    }
+    
+    // place the rest char position as null char
+    while(idx&amp;gt;=0)
+      chars[idx--] = &#39;\u0000&#39;;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Colors II</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &amp;hellip; k.&lt;/p&gt;
+
+&lt;h2 id=&#34;example:db5a7066fa348a409152342e618d2b60&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].&lt;/p&gt;
+
+&lt;h2 id=&#34;note:db5a7066fa348a409152342e618d2b60&#34;&gt;Note&lt;/h2&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h2 id=&#34;challenge:db5a7066fa348a409152342e618d2b60&#34;&gt;Challenge&lt;/h2&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bucket Sort but space complexity with $O(k)$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        int[] bucket = new int[k];
+        for(int i : colors)
+            bucket[i - 1] ++;
+        int idx = 0, bidx = 0;
+        while(bidx &amp;lt; bucket.length) {
+            while(bucket[bidx] &amp;gt; 0) {
+                colors[idx++] = bidx+1;
+                bucket[bidx]--;
+            }
+            bidx++;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complex bucket sort with in-place counting&lt;/li&gt;
+&lt;li&gt;Get a value and find its index by &lt;code&gt;value - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If the target index has another value, exchange and set target index as &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If target index is counter, make it minus 1, e.g. &lt;code&gt;-2&lt;/code&gt; and set original index as &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Steps like following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 3   2   2   1   4
+
+
+ 2   2  -1   1   4
+
+
+ 2  -1  -1   1   4
+
+
+ 0  -2  -1   1   4
+
+
+-1  -2  -1   0   4
+
+
+-1  -2  -1  -1   0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Get back the result by counter value from rear to head&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     * @return: nothing
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        for(int i = 0; i &amp;lt; colors.length; i++){
+            if(colors[i] &amp;lt;= 0)
+                continue;
+            else{
+                int idx = colors[i] - 1;
+                if(colors[idx] &amp;gt; 0){
+                    colors[i--] = colors[idx];
+                    colors[idx] = -1;
+                }else{
+                    colors[i] = 0;
+                    colors[idx]--;
+                }
+            }
+        }
+        
+        int idx = colors.length - 1;
+        for(int i = k - 1; i &amp;gt;= 0; i--){
+            int cnt = -colors[i];
+            while(cnt-- &amp;gt; 0 &amp;amp;&amp;amp; idx &amp;gt;= 0) {
+                colors[idx--] = (i+1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ebcc5cc351452f43a80486353940deb1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;               2
+1-&amp;gt;2-&amp;gt;3  =&amp;gt;   / \
+             1   3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:ebcc5cc351452f43a80486353940deb1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Find the middle point in list&lt;/li&gt;
+&lt;li&gt;Divide and Conquer to build left child and right child node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ebcc5cc351452f43a80486353940deb1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: a tree node
+     */
+    public TreeNode sortedListToBST(ListNode head) {  
+        // write your code here
+        if(head == null)
+            return null;
+        if(head.next == null)
+            return new TreeNode(head.val);
+            
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode runner = head;
+        ListNode walker = dummy;
+        while(runner!=null &amp;amp;&amp;amp; runner.next!=null) {
+            runner = runner.next.next;
+            walker = walker.next;
+        }
+        
+        ListNode m = walker.next;
+        TreeNode root = new TreeNode(m.val);
+        ListNode left = dummy.next;
+        ListNode right = walker.next.next;
+        walker.next = null;
+        root.left = sortedListToBST(left);
+        root.right = sortedListToBST(right);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a tree string expression in balanced parenthesis format: &lt;code&gt;[A[B[C][D]][E][F]]&lt;/code&gt;
+Construct a tree and return the root of the tree.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                A 
+            /   |   \
+          B     E    F
+         / \
+       C   D
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:c5615b000167d84de0482a72736f3047&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Store Nodes in a Stack&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:c5615b000167d84de0482a72736f3047&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static Node buildTree(String str) {
+        java.util.Stack&amp;lt;Node&amp;gt; nodes = new java.util.Stack();
+        int idx = 0;
+        Node root = null;
+        while (idx &amp;lt; str.length()) {
+            char cur = str.charAt(idx);
+            if (cur == &#39;]&#39;) {
+                Node pop = nodes.pop();
+                root = pop;
+                if (nodes.isEmpty())
+                    break;
+                nodes.peek().children.add(pop);
+            } else if (cur != &#39;[&#39;) {
+                Node node = new Node(cur);
+                nodes.push(node);
+            }
+            idx++;
+        }
+        return root;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remove Duplicates from Sorted List II</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/remove-duplicates-from-sorted-list-ii/</guid>
+      <description>
+
+&lt;p&gt;Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:7cc5def643b6f339ce88e1cfcbbda9b8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5&lt;/code&gt;, return &lt;code&gt;1-&amp;gt;2-&amp;gt;5&lt;/code&gt;.
+Given &lt;code&gt;1-&amp;gt;1-&amp;gt;1-&amp;gt;2-&amp;gt;3&lt;/code&gt;, return &lt;code&gt;2-&amp;gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:7cc5def643b6f339ce88e1cfcbbda9b8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param ListNode head is the head of the linked list
+     * @return: ListNode head of the linked list
+     */
+    public static ListNode deleteDuplicates(ListNode head) {
+        // write your code here
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        while(head != null){
+            ListNode cur = head;
+            while(head.next != null &amp;amp;&amp;amp; cur.val == head.next.val)
+                head = head.next;
+            
+            if(head != cur){
+                pre.next = head.next;
+            }else
+                pre = pre.next;
+            head = head.next;
+        }
+        
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Copy List with Random Pointer</title>
+      <link>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</link>
+      <pubDate>Sun, 25 Oct 2015 20:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</guid>
+      <description>
+
+&lt;p&gt;Merge k sorted linked lists and return it as one sorted list.&lt;/p&gt;
+
+&lt;p&gt;Analyze and describe its complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:3c5a9ce4c5efa791d62153b2e62fe7c5&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given lists:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  2-&amp;gt;4-&amp;gt;null,
+  null,
+  -1-&amp;gt;null
+],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;return &lt;code&gt;-1-&amp;gt;2-&amp;gt;4-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:3c5a9ce4c5efa791d62153b2e62fe7c5&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Use a heap to receive element from linked list&lt;/li&gt;
+&lt;li&gt;Tricky part:
+
+&lt;ul&gt;
+&lt;li&gt;Just entered k node in heap instead of pass all nodes in lists.&lt;/li&gt;
+&lt;li&gt;When poll out element, it also need to push back the next node of polled node.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:3c5a9ce4c5efa791d62153b2e62fe7c5&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param lists: a list of ListNode
+     * @return: The head of one sorted list.
+     */
+    public ListNode mergeKLists(List&amp;lt;ListNode&amp;gt; lists) {  
+        if(lists == null)
+            return null;
+        
+        PriorityQueue&amp;lt;ListNode&amp;gt; queue = new PriorityQueue&amp;lt;ListNode&amp;gt;(10, new Comparator&amp;lt;ListNode&amp;gt;(){
+            @Override
+            public int compare(ListNode o1, ListNode o2){
+                return Integer.compare(o1.val, o2.val);
+            }
+        });
+        // O(n) : n total nodes 
+        for(ListNode node : lists){
+            if(node != null)
+                queue.offer(node);
+        }
+        
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        while(!queue.isEmpty()){
+            ListNode cur = queue.remove();
+            if(cur.next != null)
+                queue.offer(cur.next);
+            pre.next = cur;
+            pre = cur;
+        }
+        
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remove Nth Node From End of List</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</link>
+      <pubDate>Sun, 25 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, remove the nth node from the end of list and return its head.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;null&lt;/code&gt;, and n = &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After removing the second node from the end, the linked list becomes &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;5-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The minimum number of nodes in list is n.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;think:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical idea on runner and walker linked list question&lt;/li&gt;
+&lt;li&gt;Let runner node run for N step further than walker node.&lt;/li&gt;
+&lt;li&gt;Get the N + 1 th position from end of list.&lt;/li&gt;
+&lt;li&gt;Remove walker.next which is the target node.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: The head of linked list.
+     */
+    ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null)
+            return head;
+        ListNode runner = head;
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode walker = pre;
+        while(n&amp;gt;0&amp;amp;&amp;amp;runner!=null){
+            runner = runner.next;
+            n--;
+        }
+        while(runner!=null){
+            runner = runner.next;
+            walker = walker.next;
+        }
+        walker.next = walker.next.next;
+        return pre.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Copy List with Random Pointer</title>
+      <link>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/copy-list-with-random-pointer/</guid>
+      <description>
+
+&lt;p&gt;A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.&lt;/p&gt;
+
+&lt;p&gt;Return a deep copy of the list.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:19413ae975836162dbe42612c6b4bffb&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you solve it with O(1) space?&lt;/p&gt;
+
+&lt;h2 id=&#34;think:19413ae975836162dbe42612c6b4bffb&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Three pass:
+
+&lt;ul&gt;
+&lt;li&gt;Clone every node and attach it right next of original node,&lt;/li&gt;
+&lt;li&gt;Copy the random pointer for clone node (the next of origianl node&amp;rsquo;s random pointer)&lt;/li&gt;
+&lt;li&gt;Cut down the original and clone one&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:19413ae975836162dbe42612c6b4bffb&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The head of linked list with a random pointer.
+     * @return: A new head of a deep copy of the list.
+     */
+    public RandomListNode copyRandomList(RandomListNode head) {
+        // write your code here
+        if(head == null)
+            return null;
+        RandomListNode dummyHead = head;
+        while(head != null) {
+            RandomListNode clone = new RandomListNode(head.label);
+            RandomListNode next = head.next;
+            head.next = clone;
+            clone.next = next;
+            head = next;
+        }
+        head = dummyHead;
+        while(head != null) {
+            RandomListNode clone = head.next;
+            if(head.random != null)
+                clone.random = head.random.next;
+            head = clone.next;
+        }
+        head = dummyHead;
+        RandomListNode resHead = dummyHead.next;
+        while(head != null) {
+            RandomListNode clone = head.next;
+            head.next = clone.next;
+            head = head.next;
+            if(head != null)
+                clone.next = head.next;
+        }
+        
+        return resHead;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Insertion Sort for Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Sort a linked list using insertion sort.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a42e42e7f7cdb3bb867580db5b170fe8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;3-&amp;gt;2-&amp;gt;0-&amp;gt;null&lt;/code&gt;, return &lt;code&gt;0-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a42e42e7f7cdb3bb867580db5b170fe8&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass nodes from head to end.&lt;/li&gt;
+&lt;li&gt;Once it get an element larger than its next one, do a swap.&lt;/li&gt;
+&lt;li&gt;Then return to the head and to do the passing again.&lt;/li&gt;
+&lt;li&gt;Loop until get all sorted.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a42e42e7f7cdb3bb867580db5b170fe8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: The head of linked list.
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+            
+            ListNode dummy = new ListNode(0);
+            ListNode pre = dummy;
+            ListNode cur = head;
+            while(cur != null){
+                pre = dummy;
+                ListNode next = cur.next;
+                while(pre.next != null &amp;amp;&amp;amp; pre.next.val &amp;lt; cur.val)
+                    pre = pre.next;
+                cur.next = pre.next;
+                pre.next = cur;
+                cur = next;
+            }
+            
+            return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reverse Nodes in k-Group</title>
+      <link>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/reverse-nodes-in-k-group/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.&lt;/p&gt;
+
+&lt;p&gt;If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.&lt;/p&gt;
+
+&lt;p&gt;You may not alter the values in the nodes, only nodes itself may be changed. Only constant memory is allowed.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:6bff6de529644558c74dae4b5e10233c&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given this linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For k = &lt;code&gt;2&lt;/code&gt;, you should return: &lt;code&gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;3-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For k = &lt;code&gt;3&lt;/code&gt;, you should return: &lt;code&gt;3-&amp;gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;5&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:6bff6de529644558c74dae4b5e10233c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider the list like following:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;	
+	dummy(pre) -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the reversed segment:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt; when cnt % k == 0:
+
+		pre.next	  node  node.next
+		   |            |     |
+	pre -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
+
+		  last	  ----&amp;gt;	     end
+		    |		          |
+	pre -&amp;gt; l1 -&amp;gt; l2 -&amp;gt; l3 -&amp;gt; l4 -&amp;gt; l5 -&amp;gt; null
+			|     |	    
+		pre.next pre.next(final status)	
+			   \     \
+			      |  -&amp;gt; |     |
+				 cur   cur	 cur.next (final status)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution:6bff6de529644558c74dae4b5e10233c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head a ListNode
+     * @param k an integer
+     * @return a ListNode
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || head.next == null)
+            return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        int cnt = 1;
+        ListNode front = head;
+        while(head != null) {
+            if(cnt % k == 0) {
+                pre = reverse(pre, head.next);
+                head = pre.next;
+            }else
+                head = head.next;
+            cnt++;
+        }
+        return dummy.next;
+    }
+    
+    private ListNode reverse(ListNode pre, ListNode end) {
+        ListNode last = pre.next, cur = last.next;
+        while(cur != end) {
+            last.next = cur.next;
+            cur.next = pre.next;
+            pre.next = cur;
+            cur = last.next;
+        }
+        return last;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Intersection of Two Linked Lists</title>
+      <link>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</link>
+      <pubDate>Sun, 18 Oct 2015 11:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/intersection-of-two-linked-lists/</guid>
+      <description>
+
+&lt;p&gt;Write a program to find the node at which the intersection of two singly linked lists begins.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:39d8ae45b6ebacb7279514dffe28ccf5&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;The following two linked lists:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3
+                   ↗            
+B:     b1 → b2 → b3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;begin to intersect at node c1.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:39d8ae45b6ebacb7279514dffe28ccf5&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If the two linked lists have no intersection at all, return null.
+The linked lists must retain their original structure after the function returns.
+You may assume there are no cycles anywhere in the entire linked structure.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:39d8ae45b6ebacb7279514dffe28ccf5&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Count the length of each linked list&lt;/li&gt;
+&lt;li&gt;Make two counts to be equal, then start moving and check if there are two nodes the same as each other.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param headA: the first list
+     * @param headB: the second list
+     * @return: a ListNode 
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        ListNode a = headA;
+        ListNode b = headB;
+        int alen = 0, blen = 0;
+        
+        while(a!=null) {
+            a = a.next;
+            alen++;
+        }
+        while(b!=null) {
+            b = b.next;
+            blen++;
+        }
+        
+        while(alen &amp;gt; blen) {
+            headA = headA.next;
+            alen--;
+        }
+        
+        while(alen &amp;lt; blen) {
+            headB = headB.next;
+            blen--;
+        }
+        
+        while(headA != null &amp;amp;&amp;amp; headB != null) {
+            if(headA == headB)
+                return headA;
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return null;
+    }  
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Palindrome Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</link>
+      <pubDate>Sat, 17 Oct 2015 23:50:34 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Implement a function to check if a linked list is a palindrome.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given 1-&amp;gt;2-&amp;gt;1, return true&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you do it in O(n) time and O(1) space?&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param head a ListNode
+     * @return a boolean
+     */
+    public boolean isPalindrome(ListNode head) {
+        
+        // get half
+        ListNode runner = head;
+        ListNode walker = new ListNode(0);
+        walker.next = head;
+        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+            runner = runner.next.next;
+            walker = walker.next;
+        }
+        
+        // reverse half tail
+        ListNode tail = null;
+        ListNode move = walker.next;
+        
+        while(move!=null){
+            ListNode next = move.next;
+            move.next = tail;
+            tail = move;
+            move = next;
+        }
+        
+        // check palindrome
+        while(head != null&amp;amp;&amp;amp; tail != null) {
+            if(head.val != tail.val)
+                return false;
+            head = head.next;
+            tail = tail.next;
+        }
+        return true;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

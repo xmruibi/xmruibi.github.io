@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>List Node on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/list-node/</link>
+    <description>Recent content in List Node on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sat, 17 Oct 2015 23:50:34 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/list-node/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Palindrome Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</link>
+      <pubDate>Sat, 17 Oct 2015 23:50:34 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/17/palindrome-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Implement a function to check if a linked list is a palindrome.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given 1-&amp;gt;2-&amp;gt;1, return true&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you do it in O(n) time and O(1) space?&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:59a1e8b427fcec475c7268d3c20c566d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param head a ListNode
+     * @return a boolean
+     */
+    public boolean isPalindrome(ListNode head) {
+        
+        // get half
+        ListNode runner = head;
+        ListNode walker = new ListNode(0);
+        walker.next = head;
+        while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+            runner = runner.next.next;
+            walker = walker.next;
+        }
+        
+        // reverse half tail
+        ListNode tail = null;
+        ListNode move = walker.next;
+        
+        while(move!=null){
+            ListNode next = move.next;
+            move.next = tail;
+            tail = move;
+            move = next;
+        }
+        
+        // check palindrome
+        while(head != null&amp;amp;&amp;amp; tail != null) {
+            if(head.val != tail.val)
+                return false;
+            head = head.next;
+            tail = tail.next;
+        }
+        return true;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

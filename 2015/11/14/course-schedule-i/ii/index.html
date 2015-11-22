@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Course Schedule I/II &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Course Schedule I/II" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/" />
+
+
+<meta property="og:updated_time" content="2015-11-14T13:43:13-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Course Schedule I/II">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="dateModified" content="2015-11-14T13:43:13-07:00" />
+<meta itemprop="wordCount" content="503">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Course Schedule I/II"/>
+<meta name="twitter:description" content=""/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/">
+    <h1 class="article-title" itemprop="name">
+        Course Schedule I/II
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-14 13:43:13 -0700 -0700" itemprop="datePublished">2015-11-14</time>
+            &middot;
+            503
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/topological-sort">Topological Sort</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<h2 id="problem-i:cc6cec0f55bbe04713d85b21b1b7c478">Problem I</h2>
+
+<p>There are a total of n courses you have to take, labeled from <code>0</code> to <code>n - 1</code>.</p>
+
+<p>Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: <code>[0,1]</code></p>
+
+<p>Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?</p>
+
+<p>For example:</p>
+
+<pre><code>2, [[1,0]]
+</code></pre>
+
+<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.</p>
+
+<pre><code>2, [[1,0],[0,1]]
+</code></pre>
+
+<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.</p>
+
+<h3 id="solution-topological-sort:cc6cec0f55bbe04713d85b21b1b7c478">Solution #Topological Sort</h3>
+
+<pre><code class="language-java">public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap&lt;Integer, Course&gt; map = new HashMap&lt;&gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&lt;Course&gt; queue = new LinkedList&lt;&gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0;
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&lt;Course&gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&lt;&gt;();
+    }
+}
+</code></pre>
+
+<h2 id="problem-ii:cc6cec0f55bbe04713d85b21b1b7c478">Problem II</h2>
+
+<p>Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.</p>
+
+<p>There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.</p>
+
+<h4 id="example:cc6cec0f55bbe04713d85b21b1b7c478">Example</h4>
+
+<pre><code>2, [[1,0]]
+</code></pre>
+
+<p>There are a total of 2 courses to take. To take course <code>1</code> you should have finished course <code>0</code>. So the correct course order is <code>[0,1]</code></p>
+
+<pre><code>4, [[1,0],[2,0],[3,1],[3,2]]
+</code></pre>
+
+<p>There are a total of 4 courses to take. To take course <code>3</code> you should have finished both courses <code>1</code> and <code>2</code>. Both courses <code>1</code> and <code>2</code> should be taken after you finished course 0. So one correct course order is <code>[0,1,2,3]</code>. Another correct ordering is <code>[0,2,1,3]</code>.</p>
+
+<h3 id="solution-topological-sort-1:cc6cec0f55bbe04713d85b21b1b7c478">Solution #Topological Sort</h3>
+
+<pre><code class="language-java">public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        if(prerequisites == null || prerequisites.length == 0)
+            return new int[0];
+            
+        HashMap&lt;Integer, Course&gt; map = new HashMap&lt;&gt;();
+        for(int[] pair : prerequisites) {
+            int pre = pair[1];
+            int cur = pair[0];
+            if(!map.containsKey(pre))
+                map.put(pre, new Course(pre));
+            if(!map.containsKey(cur))
+                map.put(cur, new Course(cur));
+            map.get(pre).nexts.add(map.get(cur));
+            map.get(cur).preq++;
+        }
+        Queue&lt;Course&gt; queue = new LinkedList&lt;&gt;();
+        for(Course c : map.values()) {
+            if(c.preq == 0)
+                queue.offer(c);
+        }
+        int[] res = new int[numCourses];
+        int index = 0;
+        while(!queue.isEmpty()) {
+            Course cur = queue.poll();
+            res[index++] = cur.idx;
+            map.remove(cur.idx);
+            for(Course next : cur.nexts) {
+                next.preq--;
+                if(next.preq == 0)
+                    queue.offer(next);
+            }
+        }
+        return map.size() == 0 ? res : new int[0];
+    }
+}
+class Course{
+    int idx;
+    int preq;
+    ArrayList&lt;Course&gt; nexts;
+    public Course(int index) {
+        this.idx = index;
+        this.preq = 0;
+        this.nexts = new ArrayList&lt;&gt;();
+    }
+}
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii/" data-id="cc6cec0f55bbe04713d85b21b1b7c478" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/14/course-schedule-i/ii//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Repeated DNA Sequences</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/11/14/binary-tree-upside-down/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Binary Tree Upside Down</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/14\/course-schedule-i\/ii\/';
+    var disqus_title = 'Course Schedule I\/II';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/14\/course-schedule-i\/ii\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#problem-i:cc6cec0f55bbe04713d85b21b1b7c478">Problem I</a>
+<ul>
+<li><a href="#solution-topological-sort:cc6cec0f55bbe04713d85b21b1b7c478">Solution #Topological Sort</a></li>
+</ul></li>
+<li><a href="#problem-ii:cc6cec0f55bbe04713d85b21b1b7c478">Problem II</a>
+<ul>
+<li>
+<ul>
+<li><a href="#example:cc6cec0f55bbe04713d85b21b1b7c478">Example</a></li>
+</ul></li>
+<li><a href="#solution-topological-sort-1:cc6cec0f55bbe04713d85b21b1b7c478">Solution #Topological Sort</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

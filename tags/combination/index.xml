@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Combination on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/combination/</link>
+    <description>Recent content in Combination on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 20:33:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/combination/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Factor Combinations</title>
+      <link>http://xmruibi.github.io/2015/11/09/factor-combinations/</link>
+      <pubDate>Mon, 09 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/factor-combinations/</guid>
+      <description>
+
+&lt;p&gt;Numbers can be regarded as product of its factors. For example,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;8 = 2 x 2 x 2;
+  = 2 x 4.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Write a function that takes an integer n and return all possible combinations of its factors.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Each combination’s factors must be sorted ascending, for example: The factors of &lt;code&gt;2&lt;/code&gt; and &lt;code&gt;6&lt;/code&gt; is &lt;code&gt;[2, 6]&lt;/code&gt;, not &lt;code&gt;[6, 2]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You may assume that n is always positive.&lt;/p&gt;
+
+&lt;p&gt;Factors should be greater than 1 and less than n.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;input: &lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;37&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output: &lt;code&gt;[]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;12&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 6], [2, 2, 3], [3, 4] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;input: &lt;code&gt;32&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;output:
+&lt;code&gt;[ [2, 16], [2, 2, 8], [2, 2, 2, 4], [2, 2, 2, 2, 2], [2, 4, 4], [4, 8] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical DFS idea.&lt;/li&gt;
+&lt;li&gt;For input value &lt;code&gt;n&lt;/code&gt;, it has possible factors start from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;Sqrt(n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For every factor, we also calculate its factors, like: &lt;code&gt;16 -&amp;gt; 2, 8 -&amp;gt; 2, 2, 4 -&amp;gt; 2, 2, 2, 2, 2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Build helper function, the only difference between main recursion and helper recursion function is, in helper, we have to consider about the input value is one of factor which should also include in result list&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d3fa2271d6e080f445f18820b36a73ed&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; getFactors(int n) {
+        // use hashset to avoid replicate
+        Set&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                // make sure the elements are sorted
+                Collections.sort(each);
+                res.add(each);
+            }
+        }
+        return  new ArrayList&amp;lt;&amp;gt;(res);
+    }
+
+    private List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; helper(int n) {
+        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        // add it self which is also a factor
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        list.add(n);
+        res.add(list);
+
+        int end = (int) Math.sqrt(n);
+        for (int i = 2; i &amp;lt;= end; i++) {
+            if (n % i != 0)
+                continue;
+            List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; prev = helper(n / i);
+            for (List&amp;lt;Integer&amp;gt; each : prev) {
+                each.add(i);
+                res.add(each);
+            }
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Palindrome Permutation</title>
+      <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</guid>
+      <description>
+
+&lt;p&gt;Given a string, determine if a permutation of the string could form a palindrome.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;example:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;code&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;&amp;quot;carerac&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;p&gt;The problem can be easily solved by count the frequency of each character using a hash map. The only thing need to take special care is consider the length of the string to be even or odd.
+- If the length is even. Each character should appear exactly times of 2, e.g. 2, 4, 6, etc..
+- If the length is odd. One and only one character could appear odd times.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean canPermutePalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		for (char c : s.toCharArray())
+			map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+
+		int tolerent = 0;
+		for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+			if (entry.getValue() % 2 != 0) {
+				tolerent++;
+			}
+		}
+		if (s.length() % 2 != 0)
+			return tolerent == 1;
+		else
+			return tolerent == 0;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Get the longest palindromical substring from permutation by given string.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Record the frequency&lt;/li&gt;
+&lt;li&gt;All character with even frequency can be added into final result.&lt;/li&gt;
+&lt;li&gt;Find the largest odd frequency add it onto final result.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        private int longestSubset(String str) {
+        HashMap&amp;lt;Character, Integer&amp;gt; charCnt = new HashMap&amp;lt;&amp;gt;();
+        for (char c : str.toCharArray())
+            charCnt.put(c, charCnt.containsKey(c) ? charCnt.get(c) + 1 : 1);
+        int maxLen = 0;
+        int maxsingle = 0;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : charCnt.entrySet()) {
+            if (entry.getValue() % 2 == 0)
+                maxLen += entry.getValue();
+            else
+                maxsingle = Math.max(maxsingle, entry.getValue());
+        }
+        return maxLen + maxsingle;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-iii:c02b61735a4f657d896704e724aa8184&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-1:c02b61735a4f657d896704e724aa8184&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Given s = &lt;code&gt;&amp;quot;aabb&amp;quot;&lt;/code&gt;, return &lt;code&gt;[&amp;quot;abba&amp;quot;, &amp;quot;baab&amp;quot;]&lt;/code&gt;.
+Given s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, return &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-2:c02b61735a4f657d896704e724aa8184&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Similar with the last problem, check if the input String can form any valid palindrome&lt;/li&gt;
+&lt;li&gt;Address the case when the length is odd
+
+&lt;ul&gt;
+&lt;li&gt;Record the character with odd frequency&lt;/li&gt;
+&lt;li&gt;Initialize the generation String with the Odd character&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Backtracking to generate the symmetry characters on the generation String&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2:c02b61735a4f657d896704e724aa8184&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static List&amp;lt;String&amp;gt; generatePalindromes(String s) {
+        HashSet&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if (s == null || s.length() == 0)
+            return new ArrayList&amp;lt;String&amp;gt;(res);
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for (char c : s.toCharArray())
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        
+        // check if it is odd length, increase the tolerance when it is odd length
+        int tolerent = 0;
+        if (s.length() % 2 != 0)
+            tolerent++;
+        
+        // record the odd item to set as the base of generate String
+        char odd = &#39;\u0000&#39;;
+        for (Map.Entry&amp;lt;Character, Integer&amp;gt; entry : map.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                if (tolerent &amp;gt; 0) {
+                    tolerent--;
+                    odd = entry.getKey(); // set it
+                } else
+                    return new ArrayList&amp;lt;String&amp;gt;(res);
+            }
+        }
+        // set the base String when the odd case
+        String cur = &amp;quot;&amp;quot;;
+        if (odd != &#39;\u0000&#39;) {
+            map.put(odd, map.get(odd) - 1);
+            if (map.get(odd) == 0)
+                map.remove(odd);
+            cur = &amp;quot;&amp;quot; + odd;
+        }
+        
+        // generate the palindrome
+        helper(res, map, cur, s);
+        return new ArrayList&amp;lt;String&amp;gt;(res);
+    }
+
+    private static void helper(Set&amp;lt;String&amp;gt; res,
+            HashMap&amp;lt;Character, Integer&amp;gt; map, String cur, String origin) {
+        if (map.size() == 0) {
+            res.add(new String(cur));
+            return;
+        }
+
+        for (int i = 0; i &amp;lt; origin.length(); i++) {
+            char c = origin.charAt(i);
+            if (!map.containsKey(c))
+                continue;
+            cur = (c + cur + c);
+            map.put(c, map.get(c) - 2);
+            if (map.get(c) == 0)
+                map.remove(c);
+            helper(res, map, cur, origin);
+            cur = cur.substring(1, cur.length() - 1);
+            map.put(c, map.containsKey(c) ? map.get(c) + 2 : 2);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Strobogrammatic Number</title>
+      <link>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</link>
+      <pubDate>Sun, 08 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/08/strobogrammatic-number/</guid>
+      <description>
+
+&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;p&gt;Write a function to determine if a number is strobogrammatic. The number is represented as a string.&lt;/p&gt;
+
+&lt;p&gt;For example, the numbers &lt;code&gt;&amp;quot;69&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;88&amp;quot;&lt;/code&gt;, and &lt;code&gt;&amp;quot;818&amp;quot;&lt;/code&gt; are all strobogrammatic.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Strobogrammatic {
+	public boolean isStrobogrammatic(String num) {
+		if (num == null || num.length() == 0)
+			return true;
+		int l = 0, r = num.length() - 1;
+		while (l &amp;lt; r) {
+			if (isEqual(num.charAt(l), num.charAt(r))) {
+				l++;
+				r--;
+			} else
+				return false;
+		}
+		return true;
+	}
+
+	private boolean isEqual(char l, char r) {
+		if ((l == &#39;9&#39; &amp;amp;&amp;amp; r == &#39;6&#39;) || (l == &#39;6&#39; &amp;amp;&amp;amp; r == &#39;9&#39;)
+				|| (l == &#39;1&#39; &amp;amp;&amp;amp; r == &#39;1&#39;) || (l == &#39;8&#39; &amp;amp;&amp;amp; r == &#39;8&#39;)
+				|| (l == &#39;0&#39; &amp;amp;&amp;amp; r == &#39;0&#39;))
+			return true;
+		else
+			return false;
+	}
+	
+    // Use HashMap
+	public boolean isStrobogrammatic(String num) {
+        if(num == null || num.length() == 0) {
+            return true;
+        }
+         
+        Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;0&#39;, &#39;0&#39;);
+        map.put(&#39;1&#39;, &#39;1&#39;);
+        map.put(&#39;8&#39;, &#39;8&#39;);
+        map.put(&#39;6&#39;, &#39;9&#39;);
+        map.put(&#39;9&#39;, &#39;6&#39;);
+         
+        int lo = 0;
+        int hi = num.length() - 1;
+         
+        while (lo &amp;lt;= hi) {
+            char c1 = num.charAt(lo);
+            char c2 = num.charAt(hi);
+             
+            if (!map.containsKey(c1) || map.get(c1) != c2) {
+                return false;
+            }
+             
+            lo++;
+            hi--;
+        }
+         
+        return true;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down). Find all strobogrammatic numbers that are of length = n.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Example,&lt;/h3&gt;
+
+&lt;p&gt;Given n = 2, return &lt;code&gt;[&amp;quot;11&amp;quot;,&amp;quot;69&amp;quot;,&amp;quot;88&amp;quot;,&amp;quot;96&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical backtracking to generate something question&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static List&amp;lt;String&amp;gt; findStrobogrammatic(int n) {
+        Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;0&#39;, &#39;0&#39;);
+        map.put(&#39;1&#39;, &#39;1&#39;);
+        map.put(&#39;8&#39;, &#39;8&#39;);
+        map.put(&#39;6&#39;, &#39;9&#39;);
+        map.put(&#39;9&#39;, &#39;6&#39;);
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        // two cases: even or odd
+        if(n%2==0)
+        		generate(res, map, &amp;quot;&amp;quot;, n);
+        else{
+            // the central digit can be any number
+        	for(int i = 0; i &amp;lt;= 9; i++)
+        		generate(res, map, &amp;quot;&amp;quot;+i, n);
+        }
+        return res;
+	}
+	
+	private static void generate(List&amp;lt;String&amp;gt; res, Map&amp;lt;Character, Character&amp;gt; map, String cur, int n) {
+		if(cur.length() == n) {
+			res.add(new String(cur));
+			return;
+		}
+		
+		for(Map.Entry&amp;lt;Character, Character&amp;gt; entry : map.entrySet()) {
+			String origin = new String(cur);
+			cur = entry.getKey() + cur + entry.getValue();
+			generate(res, map, cur, n);
+			cur = origin;
+		}
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-iii:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Problem III&lt;/h2&gt;
+
+&lt;p&gt;A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).&lt;/p&gt;
+
+&lt;p&gt;Write a function to count the total strobogrammatic numbers that exist in the range of low &amp;lt;= num &amp;lt;= high.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given low = &amp;ldquo;50&amp;rdquo;, high = &amp;ldquo;100&amp;rdquo;, return 3. Because 69, 88, and 96 are three strobogrammatic numbers.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Because the range might be a large number, the low and high numbers are represented as string.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution-2:f662f7c9f15163bad22a6112c8cc09b3&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static int strobogrammaticInRange(String low, String high) {
+		Map&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		map.put(&#39;0&#39;, &#39;0&#39;);
+		map.put(&#39;1&#39;, &#39;1&#39;);
+		map.put(&#39;8&#39;, &#39;8&#39;);
+		map.put(&#39;6&#39;, &#39;9&#39;);
+		map.put(&#39;9&#39;, &#39;6&#39;);
+		int[] cnt = new int[1];
+		for (int n = low.length(); n &amp;lt;= high.length(); n++) {
+			if (n % 2 == 0)
+				generateII(cnt, map, &amp;quot;&amp;quot;, n, low, high);
+			else {
+				for (int i = 0; i &amp;lt;= 9; i++)
+					generateII(cnt, map, &amp;quot;&amp;quot; + i, n, low, high);
+			}
+		}
+		return cnt[0];
+	}
+
+	private static void generateII(int[] cnt,
+			Map&amp;lt;Character, Character&amp;gt; map, String cur, int n, String low,
+			String high) {
+		if (cur.length() == n) {
+			if (cur.charAt(0) != &#39;0&#39; &amp;amp;&amp;amp; compare(low, cur) &amp;lt; 0
+					&amp;amp;&amp;amp; compare(cur, high) &amp;lt; 0)
+				cnt[0]++;
+			return;
+		}
+
+		for (Map.Entry&amp;lt;Character, Character&amp;gt; entry : map.entrySet()) {
+			String origin = new String(cur);
+			cur = entry.getKey() + cur + entry.getValue();
+			generateII(cnt, map, cur, n, low, high);
+			cur = origin;
+		}
+	}
+
+	private static int compare(String s1, String s2) {
+		return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Boggle Game</title>
+      <link>http://xmruibi.github.io/2015/10/25/boggle-game/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/boggle-game/</guid>
+      <description>
+
+&lt;p&gt;Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:2f4b37296a213552305b81233c8b6afa&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;DFS on character board to do backtracking.&lt;/li&gt;
+&lt;li&gt;Searching the character for 8 directions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:2f4b37296a213552305b81233c8b6afa&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+
+    public List&amp;lt;String&amp;gt; findWords(HashSet&amp;lt;String&amp;gt; dict, char[][] board) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for(int i = 0; i &amp;lt; board.length; i++) {
+            for(int j = 0; j &amp;lt; board[i].length; j++) {
+                findUtil(res, dict, board, visited, &amp;quot;&amp;quot;, i, j);
+            }
+        }
+        return res;
+    }
+
+    private void findUtil(List&amp;lt;String&amp;gt; res, HashSet&amp;lt;String&amp;gt; dict, char[][] board, boolean[][] visited, String cur, int x, int y) {
+        visited[x][y] = true;
+        cur += board[x][y];
+
+        if(dict.contains(cur)) {
+            res.add(cur);
+            dict.remvoe(cur);
+            return;
+        }
+        
+        int[] xs = {1,1,1,0,0,-1,-1,-1};
+        int[] ys = {1,-1,0,1,-1,0,1,-1};
+        for(int i = 0; i &amp;lt; 8; i++) {
+            int nx = xs[i] + x;
+            int ny = ys[i] + y;
+            if(nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; board.length &amp;amp;&amp;amp; ny &amp;gt;= 0 &amp;amp;&amp;amp; ny &amp;lt; board[nx].length &amp;amp;&amp;amp; !visited[nx][ny])
+                findUtil(res, dict, board, visited, cur, nx, ny);
+        }
+        visited[x][y] = false;
+        cur = cur.substring(0, cur.length() - 1);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Letter Combinations of a Phone Number</title>
+      <link>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</link>
+      <pubDate>Wed, 14 Oct 2015 20:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/14/letter-combinations-of-a-phone-number/</guid>
+      <description>
+
+&lt;p&gt;Given a digit string, return all possible letter combinations that the number could represent.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:49f63381cb14e1b96f95b6892f55b425&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Return &lt;code&gt;[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;note:49f63381cb14e1b96f95b6892f55b425&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Although the above answer is in lexicographical order, your answer could be in any order you want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param digits A digital string
+     * @return all posible letter combinations
+     */
+    public ArrayList&amp;lt;String&amp;gt; letterCombinations(String digits) {
+        ArrayList&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(digits == null ||digits.length() == 0)
+            return res;
+        HashMap&amp;lt;Character, String&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;2&#39;,&amp;quot;abc&amp;quot;);dict.put(&#39;3&#39;,&amp;quot;def&amp;quot;);dict.put(&#39;4&#39;,&amp;quot;ghi&amp;quot;);dict.put(&#39;5&#39;,&amp;quot;jkl&amp;quot;);
+        dict.put(&#39;6&#39;,&amp;quot;mno&amp;quot;);dict.put(&#39;7&#39;,&amp;quot;pqrs&amp;quot;);dict.put(&#39;8&#39;,&amp;quot;tuv&amp;quot;);dict.put(&#39;9&#39;,&amp;quot;wxyz&amp;quot;);
+
+        helper(dict, res, &amp;quot;&amp;quot;, digits, 0);
+        return res;
+    }
+    
+    private void helper(HashMap&amp;lt;Character, String&amp;gt; dict, ArrayList&amp;lt;String&amp;gt; res, String str, String digits, int idx) {
+        if(idx == digits.length()) {
+            res.add(new String(str));
+            return;
+        }
+        String letters = dict.get(digits.charAt(idx));
+        for(int i = 0; i &amp;lt; letters.length(); i++) {
+            str += letters.charAt(i);
+            helper(dict, res, str, digits, idx + 1);
+            str = str.substring(0, idx);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>License Plate Number Combination</title>
+      <link>http://xmruibi.github.io/2015/10/08/license-plate-number-combination/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/08/license-plate-number-combination/</guid>
+      <description>
+
+&lt;p&gt;Given some rules on License plate number:
+- Seven digits;
+- First three should be Alphabet;
+- Adjacent number shouldn&amp;rsquo;t be the same;
+- Last four can be alphbet or number;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:6157580cfb3615f277a7fec78525f8a6&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public List&amp;lt;String&amp;gt; plateNumberCombination() {
+    List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+    combinatioUtil(res, &amp;quot;&amp;quot;, 0, 7);
+    return res; 
+}
+
+private void combinatioUtil(List&amp;lt;String&amp;gt; res, String cur, int idx, int limit) {
+    if(cur.length() &amp;gt; 1 &amp;amp;&amp;amp; cur.charAt(cur.length() - 1) == cur.charAt(cur.length() - 2))
+        return;
+
+    if(cur.length() == limit) {
+        res.add(new String(cur));
+        return;
+    }
+    if(idx &amp;gt; 3) {
+        for(int i = 0; i &amp;lt;= 9; i++) {
+            cur += &amp;quot;&amp;quot; + i;
+            combinatioUtil(res, cur, idx + 1, limit);
+            cur = cur.substring(0, cur.length() - 1);
+        }
+    } 
+
+    for(int i = 0; i &amp;lt; 26; i++) {
+        cur += (char)(&#39;a&#39;+i);
+        combinatioUtil(res, cur, idx + 1, limit);
+        cur = cur.substring(0, cur.length() - 1);
+    }
+    for(int i = 0; i &amp;lt; 26; i++) {
+        cur += (char)(&#39;A&#39;+i);
+        combinatioUtil(res, cur, idx + 1, limit);
+        cur = cur.substring(0, cur.length() - 1);
+    }
+}
+
+private boolean isNumber(char c) {
+    return c &amp;lt;= &#39;9&#39; &amp;amp;&amp;amp; c &amp;gt;= &#39;0&#39;;
+}
+
+private boolean isAlphabet(char c) {
+    return (c &amp;lt;= &#39;z&#39; &amp;amp;&amp;amp; c &amp;gt;= &#39;a&#39;) || ( &amp;lt;= &#39;Z&#39; &amp;amp;&amp;amp; c &amp;gt;= &#39;A&#39;);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Subsets I &amp; II</title>
+      <link>http://xmruibi.github.io/2015/10/08/subsets-i--ii/</link>
+      <pubDate>Thu, 08 Oct 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/08/subsets-i--ii/</guid>
+      <description>
+
+&lt;p&gt;Given a set of distinct integers, return all possible subsets.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:4252bf8f97315f21664e67301a9bfa40&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;If S = &lt;code&gt;[1,2,3]&lt;/code&gt;, a solution is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;note:4252bf8f97315f21664e67301a9bfa40&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Elements in a subset must be in non-descending order.&lt;/p&gt;
+
+&lt;p&gt;For Question I: The solution set must not contain duplicate subsets.
+For Question II: The solution set may contain duplicate subsets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Question I：
+public class Solution {
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; subsets(int[] num) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt;();
+        if(num == null || num.length == 0) {
+            return result;
+        }
+        ArrayList&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
+        Arrays.sort(num);  
+        subsetsHelper(result, list, num, 0);
+
+        return result;
+    }
+
+
+    private void subsetsHelper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result,
+        ArrayList&amp;lt;Integer&amp;gt; list, int[] num, int pos) {
+
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+
+        for (int i = pos; i &amp;lt; num.length; i++) {
+            list.add(num[i]);
+            subsetsHelper(result, list, num, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+
+
+// Question II:
+public class Solution {
+    public ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; subsetsWithDup(ArrayList&amp;lt;Integer&amp;gt; num) {
+        ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result = new ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt;();
+        if(num == null || num.size() == 0) {
+            return result;
+        }
+        ArrayList&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();
+        Collections.sort(num);  
+        subsetsHelper(result, list, num, 0);
+
+        return result;
+    }
+
+
+    private void subsetsHelper(ArrayList&amp;lt;ArrayList&amp;lt;Integer&amp;gt;&amp;gt; result,
+        ArrayList&amp;lt;Integer&amp;gt; list, ArrayList&amp;lt;Integer&amp;gt; num, int pos) {
+
+        result.add(new ArrayList&amp;lt;Integer&amp;gt;(list));
+
+        for (int i = pos; i &amp;lt; num.size(); i++) {
+            if(i &amp;gt; pos &amp;amp;&amp;amp; num.get(i) == num.get(i-1))
+                continue;
+            list.add(num.get(i));
+            subsetsHelper(result, list, num, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
