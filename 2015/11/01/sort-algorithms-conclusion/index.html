@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Sort Algorithms Conclusion &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Sort Algorithms Conclusion" />
+<meta property="og:description" content="Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/" />
+
+
+<meta property="og:updated_time" content="2015-11-01T16:13:13-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Sort Algorithms Conclusion">
+<meta itemprop="description" content="Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms
+">
+
+
+<meta itemprop="dateModified" content="2015-11-01T16:13:13-07:00" />
+<meta itemprop="wordCount" content="591">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Sort Algorithms Conclusion"/>
+<meta name="twitter:description" content="Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/">
+    <h1 class="article-title" itemprop="name">
+        Sort Algorithms Conclusion
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-01 16:13:13 -0700 -0700" itemprop="datePublished">2015-11-01</time>
+            &middot;
+            591
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/sort">Sort</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms</p>
+
+<h2 id="by-complexity:01353f0d7aa92901422488934163ba2e">By Complexity</h2>
+
+<ul>
+<li>Time Complexity: $O(N^2)$
+
+<ul>
+<li>Bubble Sort</li>
+<li>Selection Sort</li>
+<li>Insertion Sort (min: $O(N))$</li>
+</ul></li>
+<li>Time Complexity: $O(Nlog_2N)$
+
+<ul>
+<li>Quick Sort (Space Complexity: $O(Nlog_2N)$)</li>
+<li>Merge Sort (Space Complexity: $O(N)$)</li>
+<li>Heap Sort</li>
+</ul></li>
+<li>Time Complexity: $O(N)$ &amp;&amp; Space Complexity: $O(N)$
+
+<ul>
+<li>Bucket sort</li>
+</ul></li>
+</ul>
+
+<h2 id="by-stable:01353f0d7aa92901422488934163ba2e">By Stable</h2>
+
+<ul>
+<li>Stable
+
+<ul>
+<li>Insertion sort</li>
+<li>Merge Sort</li>
+</ul></li>
+<li>Not Stable<br />
+
+<ul>
+<li>Bubble Sort</li>
+<li>Selection Sort</li>
+<li>Quick Sort</li>
+<li>Merge Sort</li>
+<li>Heap Sort</li>
+</ul></li>
+</ul>
+
+<h1 id="elementary-sort:01353f0d7aa92901422488934163ba2e">Elementary Sort</h1>
+
+<p>These are most basic sort methods with $O(N^2)$ time complexity.</p>
+
+<h2 id="bubble-sort:01353f0d7aa92901422488934163ba2e">Bubble Sort</h2>
+
+<h3 id="think:01353f0d7aa92901422488934163ba2e">Think</h3>
+
+<ul>
+<li>Swap when the two adjacent elements is not in order</li>
+<li>Do a while loop until swap not happened in previous element order check</li>
+</ul>
+
+<h3 id="solution:01353f0d7aa92901422488934163ba2e">Solution</h3>
+
+<pre><code class="language-java">public void bubbleSort(int[] arr){
+    boolean swap;
+    do{
+        swap = false;
+        for(int i = 0; i &lt; arr.length - 1; i++){
+            if(arr[i] &gt; arr[i + 1]){
+                int tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
+                swap = true;
+            }
+        }
+    }while(swap);
+}
+</code></pre>
+
+<h2 id="insertion-sort:01353f0d7aa92901422488934163ba2e">Insertion Sort</h2>
+
+<h3 id="think-1:01353f0d7aa92901422488934163ba2e">Think</h3>
+
+<ul>
+<li>Get the target value from head of array</li>
+<li>Find its suitable position from 0 to its position</li>
+</ul>
+
+<h3 id="solution-1:01353f0d7aa92901422488934163ba2e">Solution</h3>
+
+<pre><code class="language-java">public void insertionSort(int[] arr){
+    for(int i = 1; i &lt; arr.length; i++){
+        for(int j = 0; j &lt; i; j++) {
+            if(arr[j] &gt; arr[i]) {
+                int tmp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = tmp;
+            }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="selection-sort:01353f0d7aa92901422488934163ba2e">Selection Sort</h2>
+
+<h3 id="think-2:01353f0d7aa92901422488934163ba2e">Think</h3>
+
+<ul>
+<li>Get the target value from head of array</li>
+<li>Find the minimum element on the right of target, swap them if minimum less then target</li>
+</ul>
+
+<h3 id="solution-2:01353f0d7aa92901422488934163ba2e">Solution</h3>
+
+<pre><code class="language-java">public void selectionSort(int[] arr){
+    for(int i = 0; i &lt; arr.length - 1; i++){
+        int min = i;
+        for(int j = i + 1; j &lt; arr.length; j++) {
+            if(arr[min] &gt; arr[j])
+                min = j;
+        }
+        if(i!=min) {
+            int tmp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+}
+</code></pre>
+
+<h1 id="advanced-sort:01353f0d7aa92901422488934163ba2e">Advanced Sort</h1>
+
+<h2 id="merge-sort:01353f0d7aa92901422488934163ba2e">Merge Sort</h2>
+
+<h3 id="think-3:01353f0d7aa92901422488934163ba2e">Think</h3>
+
+<ul>
+<li>Divide and Conquer</li>
+<li>Recursion</li>
+</ul>
+
+<h3 id="solution-3:01353f0d7aa92901422488934163ba2e">Solution</h3>
+
+<pre><code class="language-java">public void mergeSort(int[] arr, int left, int right){
+    if(left &gt;= right)
+        return;
+    int mid = left + ((right - left) &gt;&gt; 1);
+    mergeSort(arr, left, mid - 1);
+    mergeSort(arr, mid, right);
+    merge(arr, left, mid, right);
+}
+
+private void merge(int[] arr, int left, int mid, int right){
+    int[] newarr = new int[right - left + 1];
+  
+    for(int i = left; i &lt;= right; i++)
+        newarr[i - left] = arr[i];
+  
+    int l = 0;
+    int r = mid - left + 1;
+    for(int i = left; i &lt;= right; i++){
+        if(l &gt; mid - left)
+            arr[i] = newarr[r++];
+        else if(r &gt; right - left)
+            arr[i] = newarr[l++];
+        else
+            arr[i] = newarr[l] &lt; newarr[r]? newarr[l++] : newarr[r++];
+    }
+}
+</code></pre>
+
+<h2 id="quick-sort:01353f0d7aa92901422488934163ba2e">Quick Sort</h2>
+
+<h3 id="think-4:01353f0d7aa92901422488934163ba2e">Think</h3>
+
+<ul>
+<li>Set pivot (the rear of array or ) and consider it as a standard</li>
+<li>Pass the array and make the element less than pivot on the pivot&rsquo;s left and the element larger than pivot on the pivot&rsquo;s right;</li>
+</ul>
+
+<h3 id="solution-4:01353f0d7aa92901422488934163ba2e">Solution</h3>
+
+<pre><code class="language-java">public void quickSort(int[] arr, int l, int r){
+    if(l &gt; r)
+        return;
+        
+    int pivot = pivot(arr, l, r);
+    quickSort(arr, l, pivot - 1);
+    quickSort(arr, pivot + 1, r);
+}
+
+
+private int pivot(int[] arr, int l, int r){
+    int pivot = arr[r];
+    int idx = l;
+    for(int i = l; i &lt; r; i++){
+        if(arr[i] &lt; pivot){
+            int tmp = arr[idx];
+            arr[idx++] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+    arr[r] = arr[idx];
+    arr[idx] = pivot;
+    return idx;
+}
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/" data-id="01353f0d7aa92901422488934163ba2e" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/11/01/rotate-iterator/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Rotate Iterator</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/11/01/wiggle-sort/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Wiggle Sort</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/01\/sort-algorithms-conclusion\/';
+    var disqus_title = 'Sort Algorithms Conclusion';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/01\/sort-algorithms-conclusion\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#by-complexity:01353f0d7aa92901422488934163ba2e">By Complexity</a></li>
+<li><a href="#by-stable:01353f0d7aa92901422488934163ba2e">By Stable</a></li>
+</ul></li>
+<li><a href="#elementary-sort:01353f0d7aa92901422488934163ba2e">Elementary Sort</a>
+<ul>
+<li><a href="#bubble-sort:01353f0d7aa92901422488934163ba2e">Bubble Sort</a>
+<ul>
+<li><a href="#think:01353f0d7aa92901422488934163ba2e">Think</a></li>
+<li><a href="#solution:01353f0d7aa92901422488934163ba2e">Solution</a></li>
+</ul></li>
+<li><a href="#insertion-sort:01353f0d7aa92901422488934163ba2e">Insertion Sort</a>
+<ul>
+<li><a href="#think-1:01353f0d7aa92901422488934163ba2e">Think</a></li>
+<li><a href="#solution-1:01353f0d7aa92901422488934163ba2e">Solution</a></li>
+</ul></li>
+<li><a href="#selection-sort:01353f0d7aa92901422488934163ba2e">Selection Sort</a>
+<ul>
+<li><a href="#think-2:01353f0d7aa92901422488934163ba2e">Think</a></li>
+<li><a href="#solution-2:01353f0d7aa92901422488934163ba2e">Solution</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#advanced-sort:01353f0d7aa92901422488934163ba2e">Advanced Sort</a>
+<ul>
+<li><a href="#merge-sort:01353f0d7aa92901422488934163ba2e">Merge Sort</a>
+<ul>
+<li><a href="#think-3:01353f0d7aa92901422488934163ba2e">Think</a></li>
+<li><a href="#solution-3:01353f0d7aa92901422488934163ba2e">Solution</a></li>
+</ul></li>
+<li><a href="#quick-sort:01353f0d7aa92901422488934163ba2e">Quick Sort</a>
+<ul>
+<li><a href="#think-4:01353f0d7aa92901422488934163ba2e">Think</a></li>
+<li><a href="#solution-4:01353f0d7aa92901422488934163ba2e">Solution</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

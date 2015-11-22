@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Distributed MongoDB Configuration &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Distributed MongoDB Configuration" />
+<meta property="og:description" content="How to shard the distributed Mongo DB in remote VMs? Here is what I did during a project using Mongo DB as Database and using Hadoop as computing framework.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/code/DistributedMongoDB/" />
+
+
+<meta property="og:updated_time" content="2015-03-10T22:56:15-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Distributed MongoDB Configuration">
+<meta itemprop="description" content="How to shard the distributed Mongo DB in remote VMs? Here is what I did during a project using Mongo DB as Database and using Hadoop as computing framework.
+">
+
+
+<meta itemprop="dateModified" content="2015-03-10T22:56:15-07:00" />
+<meta itemprop="wordCount" content="541">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Distributed MongoDB Configuration"/>
+<meta name="twitter:description" content="How to shard the distributed Mongo DB in remote VMs? Here is what I did during a project using Mongo DB as Database and using Hadoop as computing framework.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/DistributedMongoDB/">
+    <h1 class="article-title" itemprop="name">
+        Distributed MongoDB Configuration
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-03-10 22:56:15 -0700 PDT" itemprop="datePublished">2015-03-10</time>
+            &middot;
+            541
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/devops">DevOps</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/cloud-computing">Cloud Computing</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/mongodb">MongoDB</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/configuration">Configuration</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>How to shard the distributed Mongo DB in remote VMs? Here is what I did during a project using Mongo DB as Database and using Hadoop as computing framework.</p>
+
+<h2 id="sharded-mongodb-configuration:4aa0a68069c32ae3cd96af8e4943a95f">Sharded MongoDB Configuration</h2>
+
+<p>The following graph is the architecture of how I set three VMs with different port to simulate the real sharding pattern(which need 15 machines actually)</p>
+
+<p><img src="/media/Sharded%20MongoDB.png" alt=""></p>
+
+<p>The following procedure is how I configured MongoDB on remote three VMs.</p>
+
+<h3 id="1-set-up-data-path-config-file-and-log-file-paths-in-each-node-with-mongos-config-shard1-shard2-shard3-directory-name:4aa0a68069c32ae3cd96af8e4943a95f">1. Set up data path, config file and log file paths in each node with mongos 、config 、 shard1 、shard2、shard3 (directory name)</h3>
+
+<pre><code>mkdir -p /data/mongos/log
+sudo chmod -R 777 /data/mongos/log
+mkdir -p /data/config/data
+sudo chmod -R 777 /data/config/data
+mkdir -p /data/config/log
+sudo chmod -R 777 /data/config/log
+mkdir -p /data/mongos/log
+sudo chmod -R 777 /data/mongos/log
+mkdir -p /data/shard1/data
+sudo chmod -R 777 /data/shard1/data
+mkdir -p /data/shard1/log
+sudo chmod -R 777 /data/shard1/log
+mkdir -p /data/shard2/data
+sudo chmod -R 777 /data/shard2/data
+mkdir -p /data/shard2/log
+sudo chmod -R 777 /data/shard2/log
+mkdir -p /data/shard3/data
+sudo chmod -R 777 /data/shard3/data
+mkdir -p /data/shard3/log
+sudo chmod -R 777 /data/shard3/log
+</code></pre>
+
+<h3 id="2-make-a-plan-of-port-number-and-modify-some-config-parameter-in-mongod-conf:4aa0a68069c32ae3cd96af8e4943a95f">2. Make a plan of port number and modify some config parameter in mongod.conf</h3>
+
+<pre><code>mongod --configsvr --dbpath /data/config/data --port 27019 --logpath /data/config/log/config.log --fork
+
+
+mongos  --configdb 45.55.188.234:27019,45.55.186.238:27019,104.131.106.22:27019  --port 27017   --logpath  /data/mongos/log/mongos.log --fork
+
+## or 
+## These codes can migration configuration 
+
+rsync -az /data/configdb mongo-config1.example.net:/data/configdb
+rsync -az /data/configdb mongo-config2.example.net:/data/configdb
+
+nano etc/mongod.conf
+
+### This is important!!
+set bing_ip = 0.0.0.0; for remote login
+set default mongod: 27019 
+## !Otherwise your mongos port(27017) will be blocked
+</code></pre>
+
+<h3 id="3-config-sharding-setting-on-each-vm:4aa0a68069c32ae3cd96af8e4943a95f">3. Config sharding setting on each VM</h3>
+
+<pre><code>### set up shards ports and dbpath and log path
+mongod --shardsvr --replSet shard1 --port 22001 --dbpath /data/shard1/data  --logpath /data/shard1/log/shard1.log --fork --journal  --oplogSize 10
+mongod --shardsvr --replSet shard2 --port 22002 --dbpath /data/shard2/data  --logpath /data/shard2/log/shard2.log --fork --journal  --oplogSize 10
+mongod --shardsvr --replSet shard3 --port 22003 --dbpath /data/shard3/data  --logpath /data/shard3/log/shard3.log --fork --journal  --oplogSize 10
+
+
+# Shard_1 in Node(45.55.188.234)
+mongo  127.0.0.1:22001
+use admin
+config = { _id:&quot;shard1&quot;, members:[
+                     {_id:0,host:&quot;45.55.188.234:22001&quot;},
+                     {_id:1,host:&quot;45.55.186.238:22001&quot;},
+                {_id:2,host:&quot;104.131.106.22:22001&quot;,arbiterOnly:true}
+                ]
+         }
+rs.initiate(config);
+
+# Shard_2 in Node(45.55.186.238)
+mongo  127.0.0.1:22002
+use admin
+config = { _id:&quot;shard2&quot;, members:[
+                     {_id:0,host:&quot;45.55.186.238:22002&quot;},
+                     {_id:1,host:&quot;104.131.106.22:22002&quot;},
+                {_id:2,host:&quot;45.55.188.234:22002&quot;,arbiterOnly:true}
+                ]
+         }
+rs.initiate(config);
+
+# Shard_3 in Node(104.131.106.22)
+mongo  127.0.0.1:22003
+use admin
+config = { _id:&quot;shard3&quot;, members:[
+                     {_id:0,host:&quot;104.131.106.22:22003&quot;},
+                     {_id:1,host:&quot;45.55.188.234:22003&quot;},
+           {_id:2,host:&quot;45.55.186.238:22003&quot;,arbiterOnly:true}
+                ]
+         }
+rs.initiate(config);
+## if you need to reconfig, please use Cmd( rs.reconfig(your_para) )
+</code></pre>
+
+<h3 id="4-add-shard-config-just-in-one-of-vms:4aa0a68069c32ae3cd96af8e4943a95f">4. Add Shard Config just in one of VMs</h3>
+
+<p>It seems no master mode concept in MongoDB. So just choose one of it. Config Sharding info in mongos; I also made the sharding part on different machines (e.g. Primary Shard1 on Server One, Primary Shard2 on Server Two).</p>
+
+<pre><code>## no specific addr/port 
+mongo
+use admin
+
+db.runCommand({addshard : &quot;shard1/45.55.188.234:22001,45.55.186.238:22001,104.131.106.22:22001&quot;});
+
+db.runCommand({addshard: &quot;shard2/45.55.186.238:22002,104.131.106.22:22002,45.55.188.234:22002&quot;});
+
+db.runCommand({addshard : &quot;shard3/104.131.106.22:22003,45.55.188.234:22003,45.55.186.238:22003&quot;});
+
+## if you need to reset your previous setting
+## 
+db.runCommand( { removeShard: &quot;shard1&quot; } )
+
+#Test:
+db.runCommand( { enablesharding :&quot;stock&quot;});
+db.runCommand( { shardcollection : &quot;stock.quotes&quot;,key : {&quot;_id&quot;: 1} })
+
+for (var i = 1; i &lt;= 100000; i++) db.table1.save({id:i,&quot;test1&quot;:&quot;testval1&quot;});
+
+
+use admin
+db.addUser('test','test')
+db.auth('test','test')
+</code></pre>
+
+<h3 id="5-some-commmands-for-check-database-status:4aa0a68069c32ae3cd96af8e4943a95f">5. Some Commmands for check Database Status;</h3>
+
+<pre><code>db.stats();
+
+show databases
+
+db.dropDatabase()
+
+db.printShardingStatus()
+</code></pre>
+
+<h3 id="6-misc:4aa0a68069c32ae3cd96af8e4943a95f">6. Misc.</h3>
+
+<pre><code>## Sometimes export jar failed
+ zip -d stockCrawler.jar META-INF/LICENSE
+ jar tvf stockCrawler.jar | grep -i license
+ 
+ ## HDFS manipulation
+ 
+ hadoop fs -ls
+ hadoop fs -mkdir /user/${adminName}   
+ hadoop fs -touch test
+ hdfs dfs -copyFromLocal ${fileName}
+ hdfs dfs -cat ${fileName}
+ hadoop fs -rmr output
+ hadoop jar stockCrawler.jar
+ 
+ ## Some query example:
+ db.quotes.find({'historical_quotes.date':'2015-04-10'})
+ 
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/DistributedMongoDB/" data-id="4aa0a68069c32ae3cd96af8e4943a95f" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/DistributedMongoDB//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/code/QueryClassifier/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Machine Learning: Query Classifier</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/code/MongoDBwithHadoop/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">How to Input and Output with Mongo DB Data on Hadoop Platform</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/code\/DistributedMongoDB\/';
+    var disqus_title = 'Distributed MongoDB Configuration';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/code\/DistributedMongoDB\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#sharded-mongodb-configuration:4aa0a68069c32ae3cd96af8e4943a95f">Sharded MongoDB Configuration</a>
+<ul>
+<li><a href="#1-set-up-data-path-config-file-and-log-file-paths-in-each-node-with-mongos-config-shard1-shard2-shard3-directory-name:4aa0a68069c32ae3cd96af8e4943a95f">1. Set up data path, config file and log file paths in each node with mongos 、config 、 shard1 、shard2、shard3 (directory name)</a></li>
+<li><a href="#2-make-a-plan-of-port-number-and-modify-some-config-parameter-in-mongod-conf:4aa0a68069c32ae3cd96af8e4943a95f">2. Make a plan of port number and modify some config parameter in mongod.conf</a></li>
+<li><a href="#3-config-sharding-setting-on-each-vm:4aa0a68069c32ae3cd96af8e4943a95f">3. Config sharding setting on each VM</a></li>
+<li><a href="#4-add-shard-config-just-in-one-of-vms:4aa0a68069c32ae3cd96af8e4943a95f">4. Add Shard Config just in one of VMs</a></li>
+<li><a href="#5-some-commmands-for-check-database-status:4aa0a68069c32ae3cd96af8e4943a95f">5. Some Commmands for check Database Status;</a></li>
+<li><a href="#6-misc:4aa0a68069c32ae3cd96af8e4943a95f">6. Misc.</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

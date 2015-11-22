@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Queue on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/queue/</link>
+    <description>Recent content in Queue on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Wed, 18 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/queue/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Process Schedule Problems</title>
+      <link>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</guid>
+      <description>&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+
+&lt;p&gt;## Solution&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public int CacheMiss(int[] array, int size) {
+		if(array == null)	
+			return 0;
+		Queue&amp;lt;Integer&amp;gt; cache = new LinkedList&amp;lt;Integer&amp;gt;();
+		HashSet&amp;lt;Integer&amp;gt; hash = new HashSet&amp;lt;&amp;gt;();
+		int count = 0;
+		for (int i = 0; i &amp;lt; array.length; i++) {
+			if(hash.contains(array[i])) {
+				cache.remove(array[i]); // if hit it need to move it back, so remove here at first
+			} else {
+				count++; // miss, increse the count
+			}
+			cache.add(array[i]);
+			hash.add(new Integer(array[i]));
+			if (size == cache.size()) // over size, poll the first of queue
+				cache.poll();
+		}
+		return count;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Process Schedule Problems</title>
+      <link>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</guid>
+      <description>
+
+&lt;p&gt;Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private class Process{
+		int arrTime;
+		int exeTime;
+		public Process(int arrTime, int exeTime) {
+			this.arrTime = arrTime;
+			this.exeTime = exeTime;
+		}
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-one:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Problem One&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Robin Round:&lt;/strong&gt; The question is about the robin round. Given an array with start time of each task and another array represent the executing time of each task and &lt;code&gt;q&lt;/code&gt; for quantum which is allowance of CPU time, means the maximum time for exeuting one task. Write a function, calculate the average waiting time on each task.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-robin-round:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Solution #Robin Round&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public double robinRound(int[] arrTime, int[] exeTime, int q) {
+		if(arrTime == null || exeTime == null || arrTime.length == 0 || exeTime.length == 0)
+			return 0;
+		Queue&amp;lt;Process&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		int idx = 0, waitTime = 0, curTime = 0;
+		while(idx &amp;lt; arrTime.length || !queue.isEmpty()) {
+			if(queue.isEmpty()) {
+				queue.offer(new Process(arrTime[idx], exeTime[idx]));
+				curTime = arrTime[idx++];
+			}else{
+				Process curProcess = queue.poll();
+				waitTime += (curTime - curProcess.arrTime);
+				curTime += Math.min(curProcess.exeTime, q);
+				// push those process which has arrival time less than current time
+				while(idx &amp;lt; arrTime.length &amp;amp;&amp;amp; arrTime[idx] &amp;lt; curTime) {
+					queue.offer(new Process(arrTime[idx], exeTime[idx++]));
+				}
+				// if current process didn&#39;t be processed at all, push it back to queue
+				if(curProcess.exeTime &amp;gt; q) {
+					curProcess.exeTime -= q; 
+					queue.offer(curProcess);
+				}
+			}
+		}
+		return (double) waitTime / (double) arrTime.length;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-two:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Problem Two&lt;/h2&gt;
+
+&lt;p&gt;Given an array with start time of each task and another array represent the executing time of each task. Process these task by the principle that the shortest job should always run firstly. Write a function to achieve that.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-shortest-job-first:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Solution #Shortest Job First&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public double robinRound(int[] arrTime, int[] exeTime, int q) {
+		if(arrTime == null || exeTime == null || arrTime.length == 0 || exeTime.length == 0)
+			return 0;
+		PriorityQueue&amp;lt;Process&amp;gt; queue = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Process&amp;gt;(){
+			@Override
+			public int compare(Process p1, Process p2) {
+				if (p1.exeTime == p2.exeTime)
+					return p1.arrTime - p2.arrTime;
+				return Integer.compare(p1.exeTime, p2.exeTime);
+			}
+		});
+		int idx = 0, waitTime = 0, curTime = 0;
+		while(idx &amp;lt; arrTime.length || !queue.isEmpty()) {
+			if(queue.isEmpty()) {
+				queue.offer(new Process(arrTime[idx], exeTime[idx]));
+				curTime = arrTime[idx++];
+			}else{
+				Process curProcess = queue.poll();
+				waitTime += (curTime - curProcess.arrTime);
+				curTime += curProcess.exeTime;
+				// push those process which has arrival time less than current time
+				while(idx &amp;lt; arrTime.length &amp;amp;&amp;amp; arrTime[idx] &amp;lt;= curTime) {
+					queue.offer(new Process(arrTime[idx], exeTime[idx++]));
+				}
+			}
+		}
+		return (double) waitTime / (double) arrTime.length;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rotate Matrix</title>
+      <link>http://xmruibi.github.io/2015/11/18/rotate-matrix/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/rotate-matrix/</guid>
+      <description>
+
+&lt;p&gt;Given A Matrix and rotate by input flag represent the direction of rotation.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:18934d05988ea6297312db56d76fae0e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public int[][] rotateMatrix(int[][] matrix, boolean flag) {
+		int n = matrix.length - 1;
+		// in-place solution
+		for (int i = 0; i &amp;lt; n; i++) {
+			for (int j = i; j &amp;lt; n - i; j++) {
+			// do it in 1/4 area of matrix
+				int temp;
+				if(flag) {
+					temp = matrix[j][n - i];
+					matrix[j][n - i] = matrix[i][j];
+					matrix[i][j] = matrix[n - j][i];
+					matrix[n - j][i] = matrix[n - i][n - j];
+					matrix[n - i][n - j] = temp;
+				}else{
+					temp = matrix[n - i][n - j];
+					matrix[n - i][n - j] = matrix[n - j][i];
+					matrix[n - j][i] = matrix[i][j];
+					matrix[i][j] = matrix[j][n - i];
+					matrix[j][n - i] = temp;
+				}
+			}
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Comparable on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/comparable/</link>
+    <description>Recent content in Comparable on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Fri, 13 Nov 2015 23:50:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/comparable/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>K Nearest Points</title>
+      <link>http://xmruibi.github.io/2015/11/13/k-nearest-points/</link>
+      <pubDate>Fri, 13 Nov 2015 23:50:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/k-nearest-points/</guid>
+      <description>
+
+&lt;p&gt;Find K nearest Points by given the central point. Complete the class design for Point as implementing Comparable interface.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Implement a Point class with Comparable interface, we can save the distance between the central point in each point and for its &lt;code&gt;compareTo&lt;/code&gt; function&lt;/li&gt;
+&lt;li&gt;Max heap to save space, since we only need k space for max heap. The top of heap is the node has the larest distance in these k nearest node. So once we got point near to the central than it, we poll the top and add the new one.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class KNearestPoints {
+
+    // finding k nearest neighbor from the original point using a MAX heap, each
+    // time if the dist is less than the MAX we put it into the q.
+    public Collection&amp;lt;Point&amp;gt; getClosestPoints(Collection&amp;lt;Point&amp;gt; points, int k) {
+        PriorityQueue&amp;lt;Point&amp;gt; queue = new PriorityQueue&amp;lt;Point&amp;gt;(k);
+        int i = 0;
+        for(Point p:points) {
+            if(i &amp;lt; k) {
+                queue.add(p);
+            }else{
+                if(p.compareTo(queue.peek()) &amp;lt; 0) {
+                    queue.poll();
+                    queue.offer(p);
+                }
+            }
+            i++;
+        }
+        return queue;
+    }
+}
+
+class Point implements Comparable&amp;lt;Point&amp;gt; {
+    final int x, y;
+    final double dist;
+
+    public Point(int x, int y, Point origin) {
+        this.x = x;
+        this.y = y;
+        this.dist = Math.hypot(x - origin.x, y - origin.y);
+    }
+
+    @Override
+    public int compareTo(Point o) {
+        return Double.compare(this.dist, o.dist);
+    }
+
+    @Override
+    public String toString() {
+        return &amp;quot;x: &amp;quot; + x + &amp;quot; y: &amp;quot; + y;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

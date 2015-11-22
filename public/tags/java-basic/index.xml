@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java Basic on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/java-basic/</link>
+    <description>Recent content in Java Basic on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Sun, 12 Jul 2015 00:03:07 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/java-basic/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Access Control</title>
+      <link>http://xmruibi.github.io/2015/07/12/access-control/</link>
+      <pubDate>Sun, 12 Jul 2015 00:03:07 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/07/12/access-control/</guid>
+      <description>&lt;p&gt;Reading Note while reading Java Best Practice.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Access Level&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Private:&lt;/li&gt;
+&lt;li&gt;Package-private: Default&lt;/li&gt;
+&lt;li&gt;Protected:&lt;/li&gt;
+&lt;li&gt;Public&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Make each class or member as inaccessiable as possible!&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Implements Serializable may leak this class in API.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Instance field and static field must not be public!
+Lost the control of this field and not thread safety but may be okay for immutable final instance field.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;An array with not-zero length is mutable!
+Cannnot return public static array field.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The only two ways to return above field is by establish a immutable list or create a public method returning clone object!&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Don&amp;rsquo;t expose the internal data field:
+public class should not expose any mutable field;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

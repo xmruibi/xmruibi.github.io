@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Binary Search Tree on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/binary-search-tree/</link>
+    <description>Recent content in Binary Search Tree on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Mon, 09 Nov 2015 10:23:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/binary-search-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Closest Binary Search Tree Value</title>
+      <link>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/closest-binary-search-tree-value/</guid>
+      <description>
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-i:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem I&lt;/h2&gt;
+
+&lt;h4 id=&#34;note:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;p&gt;Given target value is a floating point.
+You are guaranteed to have only one unique value in the BST that is closest to the target.&lt;/p&gt;
+
+&lt;h3 id=&#34;solution:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClosestBSTValue {
+	double min = Double.MAX_VALUE;
+	TreeNode closest = null;
+
+	public int closestValue(TreeNode root, double target) {
+		if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+		helper(root, target);
+		return closest.val;
+	}
+
+	private void helper(TreeNode node, double target) {
+		if (node == null)
+			return;
+		if (Math.abs((double) node.val - target) &amp;lt; min) {
+			min = Math.abs((double) node.val - target);
+			closest = node;
+		}
+		
+		if((double) node.val &amp;gt; target) {
+			helper(node.left, target);
+		}else{
+			helper(node.right, target);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;problem-ii:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;Given a non-empty binary search tree and a target value, find &lt;strong&gt;k values&lt;/strong&gt; in the BST that are closest to the target.&lt;/p&gt;
+
+&lt;h4 id=&#34;note-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Note&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Given target value is a floating point.&lt;/li&gt;
+&lt;li&gt;You may assume &lt;code&gt;k&lt;/code&gt; is always valid, that is:&lt;code&gt;k ≤ total&lt;/code&gt; nodes.&lt;/li&gt;
+&lt;li&gt;You are guaranteed to have only one unique set of &lt;code&gt;k&lt;/code&gt; values in the BST that are closest to the target.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;follow-up:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Follow up&lt;/h4&gt;
+
+&lt;p&gt;Assume that the BST is balanced, could you solve it in less than $$O(n)$$ runtime (where n = total nodes)?&lt;/p&gt;
+
+&lt;h4 id=&#34;hint:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Hint&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consider implement these two helper functions:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;getPredecessor(N)&lt;/code&gt;, which returns the next smaller node to N.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getSuccessor(N)&lt;/code&gt;, which returns the next larger node to N.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Try to assume that each node has a parent pointer, it makes the problem much easier.&lt;/li&gt;
+&lt;li&gt;Without parent pointer we just need to keep track of the path from the root to the current node using a stack.&lt;/li&gt;
+&lt;li&gt;You would need two stacks to track the path in finding predecessor and successor node separately.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;think-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Think #1&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The straight-forward solution would be to use a &lt;strong&gt;heap&lt;/strong&gt;. We just treat the BST just as a usual array and do a in-order traverse. Then we compare the current element with the minimum element in the heap, the same as top k problem.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:6be38d1c917371dcb2184c0b4dc0a45b&#34;&gt;Solution #1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private PriorityQueue&amp;lt;Integer&amp;gt; minPQ;
+    private int count = 0;
+    public List&amp;lt;Integer&amp;gt; closestKValues(TreeNode root, double target, int k) {
+        minPQ = new PriorityQueue&amp;lt;;Integer&amp;gt;(k);
+        List&amp;lt;Integer&amp;gt; result = new ArrayList&amp;lt;Integer&amp;gt;();
+         
+        inorderTraverse(root, target, k);
+         
+        // Dump the pq into result list
+        for (Integer elem : minPQ) {
+            result.add(elem);
+        }
+         
+        return result;
+    }
+     
+    private void inorderTraverse(TreeNode root, double target, int k) {
+        if (root == null) {
+            return;
+        }
+         
+        inorderTraverse(root.left, target, k);
+         
+        if (count &amp;lt; k) {
+            minPQ.offer(root.val);
+        } else {
+            if (Math.abs((double) root.val - target) &amp;amp;lt; Math.abs((double) minPQ.peek() - target)) {
+                minPQ.poll();
+                minPQ.offer(root.val);
+            }
+        }
+        count++;
+         
+        inorderTraverse(root.right, target, k);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Verify Preorder Sequence in Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</link>
+      <pubDate>Mon, 09 Nov 2015 10:23:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/verify-preorder-sequence-in-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given an array of numbers, verify whether it is the correct preorder traversal sequence of a binary search tree.&lt;/p&gt;
+
+&lt;p&gt;You may assume each number in the sequence is unique.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;Could you do it using only constant space complexity?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The first element should be the root node.&lt;/li&gt;
+&lt;li&gt;Find the bound that all previous element are small than root value by checking the first larger element.&lt;/li&gt;
+&lt;li&gt;So the left of this bound should be the left tree of root, and the rest of it should be the right tree of root.&lt;/li&gt;
+&lt;li&gt;Check left and right recursively.&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(n^2)$$, Space Complexity: $$O(n)$$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorder(int[] preorder) {
+		if (preorder == null || preorder.length &amp;lt;= 1)
+			return true;
+		return helper(preorder, 0, preorder.length - 1);
+	}
+
+	private boolean helper(int[] preorder, int l, int r) {
+		int root = preorder[l];
+		int divide = l;
+		for (int i = l + 1; i &amp;lt;= r; i++) {
+			if (preorder[i] &amp;lt; root &amp;amp;&amp;amp; divide != l)
+				return false;
+			else if (preorder[i] &amp;gt; root &amp;amp;&amp;amp; divide != l)
+				divide = i;
+		}
+		return helper(preorder, l + 1, divide - 1)
+				&amp;amp;&amp;amp; helper(preorder, divide, r);
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Preorder in BST has a regular pattern:
+
+&lt;ul&gt;
+&lt;li&gt;When going to left node, it must be a descending order&lt;/li&gt;
+&lt;li&gt;When going to right node, it should be a ascending order&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Setting a stack, to store the previous path. Iterate throught the array:
+
+&lt;ul&gt;
+&lt;li&gt;When it getting smaller element make it just push into stack&lt;/li&gt;
+&lt;li&gt;When it find the larger element (larger than the peek of stack), pop the stack and set the minimum limit as the value of popped element.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $$O(n)$$, Space Complexity: $$O(n)$$&lt;/li&gt;
+&lt;li&gt;For Example, 10 5 2 7 6 8 12 11 -&amp;gt; BST&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;          10
+        /    \
+      5       12
+     / \     /
+    2   7   11
+       / \
+      6   8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The procedure in Stack:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;10 -&amp;gt; 10 5 -&amp;gt; 10 5 2 -&amp;gt; 10 7 (min=5) -&amp;gt; 10 7 6 (min = 5) -&amp;gt; 10 8 (min = 7)
+-&amp;gt; 12 (min = 10) -&amp;gt; 12 11 (min = 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-2:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorderII(int[] preorder) {
+
+		Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;Integer&amp;gt;();
+		int min = Integer.MIN_VALUE;
+		for (int num : preorder) {
+			if (num &amp;lt; min)
+				return false;
+			while (!stack.isEmpty() &amp;amp;&amp;amp; num &amp;gt; stack.peek())
+				min = stack.pop();
+			stack.push(num);
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Optimized on the #2 solution&lt;/li&gt;
+&lt;li&gt;Use a pointer to replace the stack peek position.&lt;/li&gt;
+&lt;li&gt;指针模拟栈&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:c6f9d47b3dad1a7fe0ddae9f563e246b&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean verifyPreorderII(int[] preorder) {
+
+        int idx = -1;
+        int min = Integer.MIN_VALUE;
+        for (int num : preorder) {
+            if (num &amp;lt; min)
+                return false;
+            while (idx &amp;gt;= 0 &amp;amp;&amp;amp; num &amp;gt; preorder[idx]) {
+                min = preorder[idx--];
+            }
+            preorder[++idx] = num;
+        }
+        return true;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ebcc5cc351452f43a80486353940deb1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;               2
+1-&amp;gt;2-&amp;gt;3  =&amp;gt;   / \
+             1   3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:ebcc5cc351452f43a80486353940deb1&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Find the middle point in list&lt;/li&gt;
+&lt;li&gt;Divide and Conquer to build left child and right child node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ebcc5cc351452f43a80486353940deb1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: a tree node
+     */
+    public TreeNode sortedListToBST(ListNode head) {  
+        // write your code here
+        if(head == null)
+            return null;
+        if(head.next == null)
+            return new TreeNode(head.val);
+            
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode runner = head;
+        ListNode walker = dummy;
+        while(runner!=null &amp;amp;&amp;amp; runner.next!=null) {
+            runner = runner.next.next;
+            walker = walker.next;
+        }
+        
+        ListNode m = walker.next;
+        TreeNode root = new TreeNode(m.val);
+        ListNode left = dummy.next;
+        ListNode right = walker.next.next;
+        walker.next = null;
+        root.left = sortedListToBST(left);
+        root.right = sortedListToBST(right);
+        return root;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Convert Sorted List to Binary Search Tree</title>
+      <link>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</link>
+      <pubDate>Sun, 25 Oct 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/convert-sorted-list-to-binary-search-tree/</guid>
+      <description>
+
+&lt;p&gt;Given a tree string expression in balanced parenthesis format: &lt;code&gt;[A[B[C][D]][E][F]]&lt;/code&gt;
+Construct a tree and return the root of the tree.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                A 
+            /   |   \
+          B     E    F
+         / \
+       C   D
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:c5615b000167d84de0482a72736f3047&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Store Nodes in a Stack&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:c5615b000167d84de0482a72736f3047&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static Node buildTree(String str) {
+        java.util.Stack&amp;lt;Node&amp;gt; nodes = new java.util.Stack();
+        int idx = 0;
+        Node root = null;
+        while (idx &amp;lt; str.length()) {
+            char cur = str.charAt(idx);
+            if (cur == &#39;]&#39;) {
+                Node pop = nodes.pop();
+                root = pop;
+                if (nodes.isEmpty())
+                    break;
+                nodes.peek().children.add(pop);
+            } else if (cur != &#39;[&#39;) {
+                Node node = new Node(cur);
+                nodes.push(node);
+            }
+            idx++;
+        }
+        return root;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Strobogrammatic Number &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Strobogrammatic Number" />
+<meta property="og:description" content="A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/11/08/strobogrammatic-number/" />
+
+
+<meta property="og:updated_time" content="2015-11-08T22:10:29-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Strobogrammatic Number">
+<meta itemprop="description" content="A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+">
+
+
+<meta itemprop="dateModified" content="2015-11-08T22:10:29-07:00" />
+<meta itemprop="wordCount" content="614">
+
+
+
+<meta itemprop="keywords" content="american,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Strobogrammatic Number"/>
+<meta name="twitter:description" content="A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/11/08/strobogrammatic-number/">
+    <h1 class="article-title" itemprop="name">
+        Strobogrammatic Number
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-08 22:10:29 -0700 -0700" itemprop="datePublished">2015-11-08</time>
+            &middot;
+            614
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/combination">Combination</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/backtracking">Backtracking</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).</p>
+
+<h2 id="problem-i:f662f7c9f15163bad22a6112c8cc09b3">Problem I</h2>
+
+<p>Write a function to determine if a number is strobogrammatic. The number is represented as a string.</p>
+
+<p>For example, the numbers <code>&quot;69&quot;</code>, <code>&quot;88&quot;</code>, and <code>&quot;818&quot;</code> are all strobogrammatic.</p>
+
+<h3 id="solution:f662f7c9f15163bad22a6112c8cc09b3">Solution</h3>
+
+<pre><code class="language-java">public class Strobogrammatic {
+	public boolean isStrobogrammatic(String num) {
+		if (num == null || num.length() == 0)
+			return true;
+		int l = 0, r = num.length() - 1;
+		while (l &lt; r) {
+			if (isEqual(num.charAt(l), num.charAt(r))) {
+				l++;
+				r--;
+			} else
+				return false;
+		}
+		return true;
+	}
+
+	private boolean isEqual(char l, char r) {
+		if ((l == '9' &amp;&amp; r == '6') || (l == '6' &amp;&amp; r == '9')
+				|| (l == '1' &amp;&amp; r == '1') || (l == '8' &amp;&amp; r == '8')
+				|| (l == '0' &amp;&amp; r == '0'))
+			return true;
+		else
+			return false;
+	}
+	
+    // Use HashMap
+	public boolean isStrobogrammatic(String num) {
+        if(num == null || num.length() == 0) {
+            return true;
+        }
+         
+        Map&lt;Character, Character&gt; map = new HashMap&lt;&gt;();
+        map.put('0', '0');
+        map.put('1', '1');
+        map.put('8', '8');
+        map.put('6', '9');
+        map.put('9', '6');
+         
+        int lo = 0;
+        int hi = num.length() - 1;
+         
+        while (lo &lt;= hi) {
+            char c1 = num.charAt(lo);
+            char c2 = num.charAt(hi);
+             
+            if (!map.containsKey(c1) || map.get(c1) != c2) {
+                return false;
+            }
+             
+            lo++;
+            hi--;
+        }
+         
+        return true;
+    }
+}
+</code></pre>
+
+<h2 id="problem-ii:f662f7c9f15163bad22a6112c8cc09b3">Problem II</h2>
+
+<p>A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down). Find all strobogrammatic numbers that are of length = n.</p>
+
+<h3 id="example:f662f7c9f15163bad22a6112c8cc09b3">Example,</h3>
+
+<p>Given n = 2, return <code>[&quot;11&quot;,&quot;69&quot;,&quot;88&quot;,&quot;96&quot;]</code>.</p>
+
+<h3 id="think:f662f7c9f15163bad22a6112c8cc09b3">Think</h3>
+
+<ul>
+<li>Typical backtracking to generate something question</li>
+</ul>
+
+<h3 id="solution-1:f662f7c9f15163bad22a6112c8cc09b3">Solution</h3>
+
+<pre><code class="language-java">	public static List&lt;String&gt; findStrobogrammatic(int n) {
+        Map&lt;Character, Character&gt; map = new HashMap&lt;&gt;();
+        map.put('0', '0');
+        map.put('1', '1');
+        map.put('8', '8');
+        map.put('6', '9');
+        map.put('9', '6');
+        List&lt;String&gt; res = new ArrayList&lt;&gt;();
+        // two cases: even or odd
+        if(n%2==0)
+        		generate(res, map, &quot;&quot;, n);
+        else{
+            // the central digit can be any number
+        	for(int i = 0; i &lt;= 9; i++)
+        		generate(res, map, &quot;&quot;+i, n);
+        }
+        return res;
+	}
+	
+	private static void generate(List&lt;String&gt; res, Map&lt;Character, Character&gt; map, String cur, int n) {
+		if(cur.length() == n) {
+			res.add(new String(cur));
+			return;
+		}
+		
+		for(Map.Entry&lt;Character, Character&gt; entry : map.entrySet()) {
+			String origin = new String(cur);
+			cur = entry.getKey() + cur + entry.getValue();
+			generate(res, map, cur, n);
+			cur = origin;
+		}
+	}
+</code></pre>
+
+<h2 id="problem-iii:f662f7c9f15163bad22a6112c8cc09b3">Problem III</h2>
+
+<p>A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).</p>
+
+<p>Write a function to count the total strobogrammatic numbers that exist in the range of low &lt;= num &lt;= high.</p>
+
+<h3 id="example-1:f662f7c9f15163bad22a6112c8cc09b3">Example</h3>
+
+<p>Given low = &ldquo;50&rdquo;, high = &ldquo;100&rdquo;, return 3. Because 69, 88, and 96 are three strobogrammatic numbers.</p>
+
+<h3 id="note:f662f7c9f15163bad22a6112c8cc09b3">Note</h3>
+
+<p>Because the range might be a large number, the low and high numbers are represented as string.</p>
+
+<h3 id="solution-2:f662f7c9f15163bad22a6112c8cc09b3">Solution</h3>
+
+<pre><code class="language-java">public static int strobogrammaticInRange(String low, String high) {
+		Map&lt;Character, Character&gt; map = new HashMap&lt;&gt;();
+		map.put('0', '0');
+		map.put('1', '1');
+		map.put('8', '8');
+		map.put('6', '9');
+		map.put('9', '6');
+		int[] cnt = new int[1];
+		for (int n = low.length(); n &lt;= high.length(); n++) {
+			if (n % 2 == 0)
+				generateII(cnt, map, &quot;&quot;, n, low, high);
+			else {
+				for (int i = 0; i &lt;= 9; i++)
+					generateII(cnt, map, &quot;&quot; + i, n, low, high);
+			}
+		}
+		return cnt[0];
+	}
+
+	private static void generateII(int[] cnt,
+			Map&lt;Character, Character&gt; map, String cur, int n, String low,
+			String high) {
+		if (cur.length() == n) {
+			if (cur.charAt(0) != '0' &amp;&amp; compare(low, cur) &lt; 0
+					&amp;&amp; compare(cur, high) &lt; 0)
+				cnt[0]++;
+			return;
+		}
+
+		for (Map.Entry&lt;Character, Character&gt; entry : map.entrySet()) {
+			String origin = new String(cur);
+			cur = entry.getKey() + cur + entry.getValue();
+			generateII(cnt, map, cur, n, low, high);
+			cur = origin;
+		}
+	}
+
+	private static int compare(String s1, String s2) {
+		return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
+	}
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/11/08/strobogrammatic-number/" data-id="f662f7c9f15163bad22a6112c8cc09b3" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/11/08/strobogrammatic-number//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/11/07/maximum-subarray-iii/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Maximum Subarray III</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/11/09/shortest-word-distance/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Shortest Word Distance</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/11\/08\/strobogrammatic-number\/';
+    var disqus_title = 'Strobogrammatic Number';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/11\/08\/strobogrammatic-number\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#problem-i:f662f7c9f15163bad22a6112c8cc09b3">Problem I</a>
+<ul>
+<li><a href="#solution:f662f7c9f15163bad22a6112c8cc09b3">Solution</a></li>
+</ul></li>
+<li><a href="#problem-ii:f662f7c9f15163bad22a6112c8cc09b3">Problem II</a>
+<ul>
+<li><a href="#example:f662f7c9f15163bad22a6112c8cc09b3">Example,</a></li>
+<li><a href="#think:f662f7c9f15163bad22a6112c8cc09b3">Think</a></li>
+<li><a href="#solution-1:f662f7c9f15163bad22a6112c8cc09b3">Solution</a></li>
+</ul></li>
+<li><a href="#problem-iii:f662f7c9f15163bad22a6112c8cc09b3">Problem III</a>
+<ul>
+<li><a href="#example-1:f662f7c9f15163bad22a6112c8cc09b3">Example</a></li>
+<li><a href="#note:f662f7c9f15163bad22a6112c8cc09b3">Note</a></li>
+<li><a href="#solution-2:f662f7c9f15163bad22a6112c8cc09b3">Solution</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

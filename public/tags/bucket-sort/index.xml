@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bucket Sort on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/bucket-sort/</link>
+    <description>Recent content in Bucket Sort on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Wed, 11 Nov 2015 10:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/bucket-sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>H-Index</title>
+      <link>http://xmruibi.github.io/2015/11/11/h-index/</link>
+      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/h-index/</guid>
+      <description>
+
+&lt;p&gt;Given an array of citations (each citation is a non-negative integer) of a researcher, write a function to compute the researcher&amp;rsquo;s h-index.&lt;/p&gt;
+
+&lt;p&gt;According to the definition of h-index on Wikipedia: &amp;ldquo;A scientist has index h if h of his/her N papers have at least h citations each, and the other N − h papers have no more than h citations each.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;For example, given citations = &lt;code&gt;[3, 0, 6, 1, 5]&lt;/code&gt;, which means the researcher has &lt;code&gt;5&lt;/code&gt; papers in total and each of them had received &lt;code&gt;3, 0, 6, 1, 5&lt;/code&gt; citations respectively. Since the researcher has &lt;code&gt;3&lt;/code&gt; papers with at least &lt;code&gt;3&lt;/code&gt; citations each and the remaining two with no more than &lt;code&gt;3&lt;/code&gt; citations each, his h-index is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there are several possible values for h, the maximum one is taken as the h-index.&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;An easy approach is to sort the array first.&lt;/li&gt;
+&lt;li&gt;What are the possible values of h-index?&lt;/li&gt;
+&lt;li&gt;A faster approach is to use extra space.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort first (takes $$O(n \times log{n})$$)&lt;/li&gt;
+&lt;li&gt;Set a &lt;code&gt;h&lt;/code&gt; variable, increase &lt;code&gt;h&lt;/code&gt; to &lt;code&gt;length - currentIdx&lt;/code&gt; when current element&amp;rsquo;s value is equals or larger than &lt;code&gt;length - currentIdx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)
+            return 0;
+        Arrays.sort(citations);
+        int h = 0;
+        for(int i = 0; i &amp;lt; citations.length; i++) {
+            if(citations[i] &amp;gt;= citations.length - i)
+                h = Math.max(h, citations.length - i);
+        }
+        return h;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Extra Space&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)
+            return 0;
+        int[] memo = new int[citations.length + 1];
+        for(int i = 0; i &amp;lt; citations.length; i++) {
+            if(citations[i] &amp;gt;= memo.length)
+                memo[memo.length - 1] ++;
+            else
+                memo[citations[i]]++;
+        }
+
+        for(int i = memo.length - 1; i &amp;gt;= 0; i--) {
+            if(i &amp;lt; memo.length - 1)
+                memo[i] += memo[i+1];
+            if(memo[i] &amp;gt;= i)
+                return i;
+        }
+        return 0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort and Binary Search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)
+            return 0;
+        int l = 0, r = citations.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(citations[m] == citations.length - m)
+                return citations.length - m;
+            else if(citations[m] &amp;lt; citations.length - m)
+                l = m;
+            else
+                r = m;
+        }
+        if(citations[l] &amp;gt;= citations.length - l)
+            return citations.length - l;   // this is larger
+        if(citations[r] &amp;gt;= citations.length - r)
+            return citations.length - r;
+    
+        return 0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
