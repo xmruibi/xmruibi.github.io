@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-17T22:43:13-07:00" />
-<meta itemprop="wordCount" content="106">
+<meta itemprop="wordCount" content="123">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
             &middot;
-            106
+            123
             words
             &middot;
             1
@@ -227,28 +227,29 @@
 <h2 id="solution:10aafbab84837eff25243552bd87c32a">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-	public boolean validParenthese(String str) {
-		Stack&lt;Character&gt; stack = new Stack&lt;&gt;();
-		int idx = 0;
-		// save the parenthese pair in hashmap as a dictionary
-		HashMap&lt;Character, Character&gt; map = new HashMap&lt;&gt;();
-		map.put('(',')'); map.put('[',']'); map.put('{','}');
-
-		while(idx &lt; str.length()) {
-			char cur = str.charAt(idx);
-			if(map.containsKey(cur))
-				// if the current character is the front parenthese
-				stack.push(cur);
-			else {
-				// if current stack is empty or current character is not back parenthese or the peek element doesn't match with current character 
-				if(stack.isEmpty() || !map.containsValue(cur) || map.get(stack.pop()) != cur)
-					return false;
-			}
-			idx++;
-		}
-
-		return stack.isEmpty();
-	}
+public static boolean validParenthese(String str) {
+    if(str == null || str.length() == 0)
+      return true;
+    // store the parenthese
+    Stack&lt;Character&gt; stack = new Stack&lt;&gt;();
+    // save the parenthese pair in hashmap as a dictionary
+    HashMap&lt;Character, Character&gt; map = new HashMap&lt;&gt;();
+    map.put('(',')');map.put('{','}');map.put('[',']');
+    
+    for(int i = 0 ; i &lt; str.length() ; i++) {
+      char cur = str.charAt(i);
+      if(map.containsKey(cur))
+        // if the current character is a front parenthese, directly push into stack
+        stack.push(cur);
+      else if(map.containsValue(cur)){  
+      	// if current character is a back parenthese  
+          if(stack.isEmpty() || map.get(stack.pop()) != cur)
+          // if current stack is empty or the poped element doesn't match with current character 
+            return false;
+      }
+    }
+    return stack.isEmpty();
+  }
 }
 </code></pre>
 

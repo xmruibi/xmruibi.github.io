@@ -94,13 +94,13 @@ class Point{
 		if(r1 == null || r2 == null)
 			return true;
 		// If one rectangle is on left side of other
-		if (r1.rightBottom.x &amp;gt;= r2.topLeft.x || r1.topLeft.x &amp;gt;= r2.rightBottom.x)
-		    return false;	
+		if(r1.topLeft.x &amp;gt;= r2.bottomRight.x || r2.topLeft.x &amp;gt;= r1.bottomRight.x)
+      		return false;
 
 		// If one rectangle is above other
-		if (r1.rightBottom.y &amp;gt;= r2.topLeft.y || r2.rightBottom.y &amp;gt;= r1.topLeft.y)
-		    return false;
-		 
+    	if(r1.topLeft.y &amp;lt;= r2.bottomRight.y || r2.topLeft.y &amp;lt;= r1.bottomRight.y)
+      		return false;
+      		
 		return true;
 	}
 }

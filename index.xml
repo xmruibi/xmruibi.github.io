@@ -48,13 +48,15 @@
 &lt;h2 id=&#34;solution-1:36e0d9010da29c0b03b32585059c5e35&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public int removeVowel(String str) {
+	public String removeVowel(String str) {
+		if(str == null || str.length == 0)
+			return str;
 		StringBuffer sb = new StringBuffer();
-		String v = &amp;quot;aeiouAEIOU&amp;quot;;
-		for(int i = 0; i &amp;lt; string.length(); i++){
-			if(v.indexOf(string.charAt(i)) &amp;gt; -1)
+		String dict = &amp;quot;aeiouAEIOU&amp;quot;;
+		for(int i = 0; i &amp;lt; str.length(); i++){
+			if(dict.indexOf(str.charAt(i)) &amp;gt; -1)
 		 		continue;
-			sb.append(string.charAt(i));
+			sb.append(str.charAt(i));
 		}
 		return sb.toStirng();
 	}
@@ -67,8 +69,14 @@
 
 &lt;h2 id=&#34;solution-2:36e0d9010da29c0b03b32585059c5e35&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;boolean isRotation(String s1,String s2) {  
-    return (s1.length() == s2.length()) &amp;amp;&amp;amp; ((s1+s1).indexOf(s2) != -1);  
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public boolean isRotation(String s1,String s2) {  
+	    if(s1 == null || s2 == null)
+      		return false;
+    	if(s1.length() != s2.length())
+      		return false;
+    	return (s1 + s1).indexOf(s2) != -1;
+	}
 } 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -416,13 +424,13 @@ class Point{
 		if(r1 == null || r2 == null)
 			return true;
 		// If one rectangle is on left side of other
-		if (r1.rightBottom.x &amp;gt;= r2.topLeft.x || r1.topLeft.x &amp;gt;= r2.rightBottom.x)
-		    return false;	
+		if(r1.topLeft.x &amp;gt;= r2.bottomRight.x || r2.topLeft.x &amp;gt;= r1.bottomRight.x)
+      		return false;
 
 		// If one rectangle is above other
-		if (r1.rightBottom.y &amp;gt;= r2.topLeft.y || r2.rightBottom.y &amp;gt;= r1.topLeft.y)
-		    return false;
-		 
+    	if(r1.topLeft.y &amp;lt;= r2.bottomRight.y || r2.topLeft.y &amp;lt;= r1.bottomRight.y)
+      		return false;
+      		
 		return true;
 	}
 }

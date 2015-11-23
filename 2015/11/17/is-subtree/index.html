@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-17T22:43:13-07:00" />
-<meta itemprop="wordCount" content="138">
+<meta itemprop="wordCount" content="157">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
             &middot;
-            138
+            157
             words
             &middot;
             1
@@ -230,7 +230,7 @@
             return true;
         else if(root == null || node == null)
             return false;
-
+        // check if currende node can build a same tree, or  recursively check the child node is that subtree
         return checkNodes(root, node) || isSubtree(root.left, node) ||isSubtree(root.right, node);
     }
 

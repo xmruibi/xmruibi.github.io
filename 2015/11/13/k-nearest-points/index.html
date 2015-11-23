@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-13T23:50:13-07:00" />
-<meta itemprop="wordCount" content="231">
+<meta itemprop="wordCount" content="242">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-13 23:50:13 -0700 -0700" itemprop="datePublished">2015-11-13</time>
             &middot;
-            231
+            242
             words
             &middot;
             2
@@ -237,45 +237,47 @@
 
     // finding k nearest neighbor from the original point using a MAX heap, each
     // time if the dist is less than the MAX we put it into the q.
-    public Collection&lt;Point&gt; getClosestPoints(Collection&lt;Point&gt; points, int k) {
-        PriorityQueue&lt;Point&gt; queue = new PriorityQueue&lt;Point&gt;(k);
-        int i = 0;
-        for(Point p:points) {
-            if(i &lt; k) {
-                queue.add(p);
-            }else{
-                if(p.compareTo(queue.peek()) &lt; 0) {
-                    queue.poll();
-                    queue.offer(p);
-                }
-            }
-            i++;
+      public static Collection&lt;Point&gt; knearestPoints( Collection&lt;Point&gt; points, Point origin, int k) {
+        PriorityQueue&lt;CPoint&gt; pq = new PriorityQueue&lt;&gt;();
+        int cnt = 0;
+        for(Point point : points) {
+          CPoint cur = new CPoint(point.x, point.y, origin);
+           if(cnt &lt; k) {
+             pq.offer(cur);
+             cnt++;
+           }else {
+             if(cur.compareTo(pq.peek()) &lt; 0) {
+               pq.poll();
+               pq.offer(cur);
+             }
+           }
         }
-        return queue;
+        return new ArrayList&lt;&gt;(pq);
+      }
+}
+
+class Point {
+    int x, y;
+    public Point(int x, int y) {
+      this.x = x;
+      this.y = y;
     }
 }
 
-class Point implements Comparable&lt;Point&gt; {
-    final int x, y;
-    final double dist;
-
-    public Point(int x, int y, Point origin) {
-        this.x = x;
-        this.y = y;
-        this.dist = Math.hypot(x - origin.x, y - origin.y);
-    }
-
-    @Override
-    public int compareTo(Point o) {
-        return Double.compare(this.dist, o.dist);
-    }
-
-    @Override
-    public String toString() {
-        return &quot;x: &quot; + x + &quot; y: &quot; + y;
-    }
+class CPoint extends Point implements Comparable&lt;CPoint&gt;{
+  double dist;
+  
+  public CPoint (int x, int y, Point root) {
+    super(x, y);
+    this.dist = Math.hypot(x - root.x, y - root.y);
+  }
+  
+  
+  @Override
+  public int compareTo(CPoint p) {
+    return Double.compare(this.dist, p.dist);
+  }
 }
-
 </code></pre>
 
             </div>

@@ -127,7 +127,7 @@
             return true;
         else if(root == null || node == null)
             return false;
-
+        // check if currende node can build a same tree, or  recursively check the child node is that subtree
         return checkNodes(root, node) || isSubtree(root.left, node) ||isSubtree(root.right, node);
     }
 

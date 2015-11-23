@@ -593,22 +593,20 @@ public class Solution{
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public List&amp;lt;Integer&amp;gt; windowsSum(List&amp;lt;Integer&amp;gt; arr, int wSize) {
-		List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();b
-		// be careful to return new initilized array list instead of return null
-		if(arr == null || arr.size() == 0)
-			return res; 
-		int curSum = 0;
-		int idx = 0;
-		int resIdx = 0;
-		while(idx &amp;lt; arr.size()) {
-			curSum += arr.get(idx);
-			if(idx &amp;gt;= wSize - 1) {
-				res.add(curSum);
-				curSum -= arr.get(idx - wSize + 1);
-			}
-			idx++;
-		}
-		return res;
+	    List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+	    
+	    if(list == null || list.size() == 0 || wSize &amp;gt; list.size())
+	      return res;
+	    int curSum = 0;
+	    for(int i = 0; i &amp;lt; list.size(); i++) {
+	      curSum += list.get(i);
+	      if(i &amp;gt;= wSize - 1) {
+	        res.add(curSum);
+	        curSum -= list.get(i - wSize + 1);
+	      }
+	    }
+	    
+	    return res;
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;

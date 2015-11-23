@@ -40,7 +40,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-20T22:43:13-07:00" />
-<meta itemprop="wordCount" content="155">
+<meta itemprop="wordCount" content="181">
 
 
 
@@ -186,7 +186,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-20 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-20</time>
             &middot;
-            155
+            181
             words
             &middot;
             1
@@ -249,13 +249,15 @@
 <h2 id="solution-1:36e0d9010da29c0b03b32585059c5e35">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-	public int removeVowel(String str) {
+	public String removeVowel(String str) {
+		if(str == null || str.length == 0)
+			return str;
 		StringBuffer sb = new StringBuffer();
-		String v = &quot;aeiouAEIOU&quot;;
-		for(int i = 0; i &lt; string.length(); i++){
-			if(v.indexOf(string.charAt(i)) &gt; -1)
+		String dict = &quot;aeiouAEIOU&quot;;
+		for(int i = 0; i &lt; str.length(); i++){
+			if(dict.indexOf(str.charAt(i)) &gt; -1)
 		 		continue;
-			sb.append(string.charAt(i));
+			sb.append(str.charAt(i));
 		}
 		return sb.toStirng();
 	}
@@ -268,8 +270,14 @@
 
 <h2 id="solution-2:36e0d9010da29c0b03b32585059c5e35">Solution</h2>
 
-<pre><code class="language-java">boolean isRotation(String s1,String s2) {  
-    return (s1.length() == s2.length()) &amp;&amp; ((s1+s1).indexOf(s2) != -1);  
+<pre><code class="language-java">public class Solution{
+	public boolean isRotation(String s1,String s2) {  
+	    if(s1 == null || s2 == null)
+      		return false;
+    	if(s1.length() != s2.length())
+      		return false;
+    	return (s1 + s1).indexOf(s2) != -1;
+	}
 } 
 </code></pre>
 

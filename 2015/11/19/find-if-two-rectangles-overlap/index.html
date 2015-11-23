@@ -56,7 +56,7 @@ r2: Bottom Right coordinate of second rectangle.
 
 
 <meta itemprop="dateModified" content="2015-11-19T12:33:13-07:00" />
-<meta itemprop="wordCount" content="150">
+<meta itemprop="wordCount" content="148">
 
 
 
@@ -210,7 +210,7 @@ r2: Bottom Right coordinate of second rectangle.
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            150
+            148
             words
             &middot;
             1
@@ -276,13 +276,13 @@ class Point{
 		if(r1 == null || r2 == null)
 			return true;
 		// If one rectangle is on left side of other
-		if (r1.rightBottom.x &gt;= r2.topLeft.x || r1.topLeft.x &gt;= r2.rightBottom.x)
-		    return false;	
+		if(r1.topLeft.x &gt;= r2.bottomRight.x || r2.topLeft.x &gt;= r1.bottomRight.x)
+      		return false;
 
 		// If one rectangle is above other
-		if (r1.rightBottom.y &gt;= r2.topLeft.y || r2.rightBottom.y &gt;= r1.topLeft.y)
-		    return false;
-		 
+    	if(r1.topLeft.y &lt;= r2.bottomRight.y || r2.topLeft.y &lt;= r1.bottomRight.y)
+      		return false;
+      		
 		return true;
 	}
 }

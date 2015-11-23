@@ -33,45 +33,47 @@
 
     // finding k nearest neighbor from the original point using a MAX heap, each
     // time if the dist is less than the MAX we put it into the q.
-    public Collection&amp;lt;Point&amp;gt; getClosestPoints(Collection&amp;lt;Point&amp;gt; points, int k) {
-        PriorityQueue&amp;lt;Point&amp;gt; queue = new PriorityQueue&amp;lt;Point&amp;gt;(k);
-        int i = 0;
-        for(Point p:points) {
-            if(i &amp;lt; k) {
-                queue.add(p);
-            }else{
-                if(p.compareTo(queue.peek()) &amp;lt; 0) {
-                    queue.poll();
-                    queue.offer(p);
-                }
-            }
-            i++;
+      public static Collection&amp;lt;Point&amp;gt; knearestPoints( Collection&amp;lt;Point&amp;gt; points, Point origin, int k) {
+        PriorityQueue&amp;lt;CPoint&amp;gt; pq = new PriorityQueue&amp;lt;&amp;gt;();
+        int cnt = 0;
+        for(Point point : points) {
+          CPoint cur = new CPoint(point.x, point.y, origin);
+           if(cnt &amp;lt; k) {
+             pq.offer(cur);
+             cnt++;
+           }else {
+             if(cur.compareTo(pq.peek()) &amp;lt; 0) {
+               pq.poll();
+               pq.offer(cur);
+             }
+           }
         }
-        return queue;
+        return new ArrayList&amp;lt;&amp;gt;(pq);
+      }
+}
+
+class Point {
+    int x, y;
+    public Point(int x, int y) {
+      this.x = x;
+      this.y = y;
     }
 }
 
-class Point implements Comparable&amp;lt;Point&amp;gt; {
-    final int x, y;
-    final double dist;
-
-    public Point(int x, int y, Point origin) {
-        this.x = x;
-        this.y = y;
-        this.dist = Math.hypot(x - origin.x, y - origin.y);
-    }
-
-    @Override
-    public int compareTo(Point o) {
-        return Double.compare(this.dist, o.dist);
-    }
-
-    @Override
-    public String toString() {
-        return &amp;quot;x: &amp;quot; + x + &amp;quot; y: &amp;quot; + y;
-    }
+class CPoint extends Point implements Comparable&amp;lt;CPoint&amp;gt;{
+  double dist;
+  
+  public CPoint (int x, int y, Point root) {
+    super(x, y);
+    this.dist = Math.hypot(x - root.x, y - root.y);
+  }
+  
+  
+  @Override
+  public int compareTo(CPoint p) {
+    return Double.compare(this.dist, p.dist);
+  }
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
