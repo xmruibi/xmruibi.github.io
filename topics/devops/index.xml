@@ -7,8 +7,280 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Thu, 16 Apr 2015 12:56:15 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2015 22:56:15 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/topics/devops/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Apache and PHP Configuration and some shell scripts</title>
+      <link>http://xmruibi.github.io/code/Apache/</link>
+      <pubDate>Tue, 24 Nov 2015 22:56:15 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/code/Apache/</guid>
+      <description>
+
+&lt;h2 id=&#34;task-1:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 1:&lt;/h2&gt;
+
+&lt;h3 id=&#34;install-apache-server-httpd-and-open-ssl:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Install Apache Server (httpd) and Open SSL:&lt;/h3&gt;
+
+&lt;p&gt;Access AWS:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;ssh root@ec2-54-145-34-67.compute-1.amazonaws.com 
+# Enter your password
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Download Apache HTTPD&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cd /home/root/
+
+wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz
+
+mkdir apache-2.2
+
+mv httpd-2.2.31.tar.gz apache-2.2
+
+cd apache-2.2
+
+tar -xzvf httpd-2.2.31.tar.gz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Download and install open ssl so that apache can achieve the https visiting&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz
+
+tar -zxvf openssl-0.9.8zd.tar.gz
+
+# Please config with -fPIC otherwise it may takes error during httpd
+./config -fPIC no-gost no-shared no-zlib
+
+make
+make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;configuration-on-both-httpd-and-open-ssl-certificates:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Configuration on both HTTPD and Open SSL Certificates&lt;/h3&gt;
+
+&lt;p&gt;Configure and install the HTTPD&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cd /home/root/apache-2.2/httpd-2.2.31
+
+# Configure Apache to be installed into your home directory
+# Sometime it may show some errors like: `no acceptable C compiler found in $Path`
+# Please check gcc package installed! 
+# make agrs: --enable-so --enable-modules=all --enable-mods-shared=all so that it can dynamic load modules for SSL and php
+./configure --prefix=/home/root/apache-2.2 --enable-so --enable-modules=all --enable-mods-shared=all --enable-ssl=shared --with-ssl=/usr/local/ssl 
+
+make
+make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Generate Open SSL Key and Certificates&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;# enter the openssl directory
+cd /usr/local/ssl/bin
+
+#Generate private key   
+openssl genrsa -out server.key 2048   
+
+#Generate CSR Certificate Signing Request   
+openssl req -new -key server.key -out server.csr  
+
+#Generate Self Signed Certificate  
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt  
+
+# Copy all generated certificates and keys into directory under apache
+cp server.key   /home/root/apache-2.2/conf/
+cp server.csr   /home/root/apache-2.2/conf/
+cp server.crt   /home/root/apache-2.2/conf/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Configure the ssl.conf for httpd&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;nano /home/root/apache-2.2/conf/extra/httpd-ssl.conf
+
+# Modify following 
+SSLCertificateFile conf/server.key            # configure the certificate of server
+SSLCertificateKeyFile conf/server.csr        # configure the private key 
+#SSLCertificateChainFile conf/server.crt     # remove&#39;#&#39;
+
+# Configure the httpd.conf - the global httpd configuration file
+nano /home/root/apache-2.2/conf/httpd.conf
+
+# Configure Apache to listen on both port 81 AND 82 simultaneously
+# Listen 81 # remove&#39;#&#39;
+# Listen 82 # remove&#39;#&#39;
+# Include conf/extra/httpd-ssl.conf #remove&#39;#&#39;
+
+# Check the configuration and run the apache server
+cd /home/root/apache-2.2/bin
+./apachectl configtest
+./apachectl -k start
+
+# Verify that Apache is listening on both port 81 AND 82 AND HTTPS/443
+curl http://localhost:81
+# It will show this:
+&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;It works!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+curl http://localhost:82
+curl --cacert &amp;quot;/usr/local/ssl/bin/server.crt&amp;quot; https://localhost
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;task-2:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 2:&lt;/h2&gt;
+
+&lt;h3 id=&#34;get-php-installed:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Get PHP installed&lt;/h3&gt;
+
+&lt;p&gt;The prerequisite (libxml2) for php install&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;mkdir php
+cd php
+
+wget http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz
+tar zxvf libxml2-2.9.1.tar.gz 
+ cd libxml2-2.9.1.
+ # --with-python=no for sometime the error occured when install
+  ./configure --prefix=/usr/local/libxml2 --with-python=no
+ make
+ # make clean  # when some error occur
+ make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Install and Configuration on PHP&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;wget  http://us2.php.net/get/php-5.4.45.tar.gz/from/this/mirror
+tar zxvf php-5.4.45
+cd php-5.4.45
+
+# Configure php install with pointing the root path of httpd and php and also the libxml2
+./configure --with-apxs2=/home/root/apache-2.2/bin/apxs --prefix=/home/root/apache-2.2/php --with-config-file-path=/home/root/apache-2.2/php --with-libxml-dir=/usr/local/libxml2
+
+# Move php.ini into the php path
+cd /home/root/php/php-5.4.45
+mv php.ini-development php.ini.dist
+cp php.ini.dist /home/root/apache-2.2/php/bin/php.ini 
+
+
+# Add the following two lines in httpd.conf
+AddType application/x-httpd-php .php 
+AddType application/x-httpd-php-source .phps   
+
+# Make sure you have this line in httpd.conf
+LoadModule php5_module        modules/libphp5.so
+
+cd /home/root/apache-2.2/bin
+./apachectl stop
+./apachectl start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;write-and-test-following-into-helloworld-php:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Write and Test following into &amp;lsquo;helloworld.php&amp;rsquo;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;nano /home/root/apache-2.2/htdocs/helloworld.php
+
+# Write down following into helloworld.php
+&amp;lt;html&amp;gt;
+ &amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;PHP Test&amp;lt;/title&amp;gt;
+ &amp;lt;/head&amp;gt;
+ &amp;lt;body&amp;gt;
+ &amp;lt;?php echo &#39;&amp;lt;p&amp;gt;Hello World&amp;lt;/p&amp;gt;&#39;; ?&amp;gt; 
+ &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+# Test
+curl localhost:81/helloworld.php
+
+#Output
+&amp;lt;html&amp;gt;
+ &amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;PHP Test&amp;lt;/title&amp;gt;
+ &amp;lt;/head&amp;gt;
+ &amp;lt;body&amp;gt;
+ &amp;lt;p&amp;gt;Hello World&amp;lt;/p&amp;gt; 
+ &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;task-3:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 3:&lt;/h2&gt;
+
+&lt;h3 id=&#34;task-3a-prompt-for-your-name-and-print-it-out-by-write-following-script:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 3A: Prompt for your name and print it out by write following script:&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;name=&#39;Rui Bi&#39;
+echo $name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;task-3b-print-out-the-current-date-five-times-with-a-minute-pause-between-each-print:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 3B: Print out the current date five times, with a minute pause between each print.&lt;/h3&gt;
+
+&lt;p&gt;By write following script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;for ((i=0;$i&amp;lt;5;i++))
+ do
+ date
+ sleep 60
+ done
+echo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;task-3c-count-the-number-of-processes-running-as-root:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 3C: Count the number of processes running as &amp;ldquo;&amp;ldquo;root&amp;rdquo;&amp;rdquo;&lt;/h3&gt;
+
+&lt;p&gt;By write following script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;count=`ps -u root | wc  -l`
+echo $count
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;task-3d-every-minute-you-should-print-out-the-following:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 3D: Every minute, you should print out the following&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The total number of processes running as root.  If this is above 25, print out a warning message.&lt;/li&gt;
+&lt;li&gt;The percentage of disk used.  If this is above 80%, print out a warning message.&lt;/li&gt;
+&lt;li&gt;The amount of free memory, if this number gets below 100mb, print out a warning message.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;write-a-shell-script-systemmonitor-sh-which-is-storing-in-directory-home-root-as-following:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Write a shell script &lt;code&gt;SystemMonitor.sh&lt;/code&gt; which is storing in directory &lt;code&gt;/home/root/&lt;/code&gt;, as following:&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;psCnt=`ps -u root | wc  -l`
+diskUsg=`df / | awk &#39;END{print $5}&#39; | cut -f 1 -d &amp;quot;%&amp;quot;`
+freeMem=`free -m | grep Mem | awk &#39;{print $4}&#39;`
+ 
+if (($psCnt &amp;gt; 25)); then
+ echo &amp;quot;Warning: current process amount is &amp;quot;$psCnt
+fi
+
+if ((diskUsg &amp;gt; 80)); then
+ echo &amp;quot;Warning: current disk Usage exceeded 80%&amp;quot;
+fi
+
+if (($freeMem &amp;lt; 100)); then
+ echo &amp;quot;Warning: current free Memory less than 100MB&amp;quot;
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;setup-crontab-by-following-command-and-output-the-result-in-home-root-monitor-output-file:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Setup &lt;code&gt;crontab&lt;/code&gt; by following command and output the result in &lt;code&gt;/home/root/monitor_output.file&lt;/code&gt;&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;crontab -e
+*/1 * * * * /home/root/SystemMonitor.sh &amp;gt;&amp;gt; /home/root/monitor_output.file &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;task-3e-create-a-crontab-that-will-execute-every-5-minutes-that-will-log-the-last-4-ip-addresses-that-accessed-your-website:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 3E: Create a crontab that will execute every 5 minutes that will log the last 4 IP addresses that accessed your website.&lt;/h3&gt;
+
+&lt;h4 id=&#34;for-this-task-we-have-to-check-the-httpd-access-log-which-is-located-in-home-root-apache-2-2-logs-access-log:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;For this task, we have to check the httpd access log which is located in &lt;code&gt;/home/root/apache-2.2/logs/access-log&lt;/code&gt;&lt;/h4&gt;
+
+&lt;p&gt;Here I use &lt;code&gt;cat&lt;/code&gt; command and output the result to the &lt;code&gt;/home/root/ip_output.file&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;write-a-shell-script-ip-monitor-sh:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Write a shell script &lt;code&gt;ip_monitor.sh&lt;/code&gt;&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;echo `date` &amp;gt;&amp;gt; /home/root/ip_output.file
+
+# Get recent 4 ip access means the last 4 ip in access_log
+cat /home/root/apache-2.2/logs/access_log |cut -d &#39; &#39; -f 1 | awk &#39;{print $0 }&#39; | tail -n 4 |less &amp;gt;&amp;gt; /home/root/ip_output.file
+
+# for first 5 frequent visit use this:
+# /home/root/apache-2.2/logs/access_log |cut -d &#39; &#39; -f 1 |sort |uniq -c | sort -nr | awk &#39;{print $0 }&#39; | head -n 5 |less
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;make-the-ip-access-log-monitor-as-a-crontab-task-with-every-5-minutes-run:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Make the ip access log monitor as a &lt;code&gt;crontab&lt;/code&gt; task with every 5 minutes run.&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;crontab -e
+*/5 * * * * /home/root/ip_monitor.sh
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>How to Input and Output with Mongo DB Data on Hadoop Platform</title>

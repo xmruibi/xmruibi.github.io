@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Apache and PHP Configuration and some shell scripts &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Apache and PHP Configuration and some shell scripts" />
+<meta property="og:description" content="Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/code/Apache/" />
+
+
+<meta property="og:updated_time" content="2015-11-24T22:56:15-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Apache and PHP Configuration and some shell scripts">
+<meta itemprop="description" content="Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!">
+
+
+<meta itemprop="dateModified" content="2015-11-24T22:56:15-07:00" />
+<meta itemprop="wordCount" content="872">
+
+
+
+<meta itemprop="keywords" content="american,apache,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,amazon,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Apache and PHP Configuration and some shell scripts"/>
+<meta name="twitter:description" content="Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/Apache/">
+    <h1 class="article-title" itemprop="name">
+        Apache and PHP Configuration and some shell scripts
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-24 22:56:15 -0700 -0700" itemprop="datePublished">2015-11-24</time>
+            &middot;
+            872
+            words
+            &middot;
+            5
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/devops">DevOps</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/apache">Apache</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/configuration">Configuration</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<h2 id="task-1:46c96d68f9a2765d4e06c15f60cc3802">Task 1:</h2>
+
+<h3 id="install-apache-server-httpd-and-open-ssl:46c96d68f9a2765d4e06c15f60cc3802">Install Apache Server (httpd) and Open SSL:</h3>
+
+<p>Access AWS:</p>
+
+<pre><code class="language-shell">ssh root@ec2-54-145-34-67.compute-1.amazonaws.com 
+# Enter your password
+</code></pre>
+
+<p>Download Apache HTTPD</p>
+
+<pre><code class="language-shell">cd /home/root/
+
+wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz
+
+mkdir apache-2.2
+
+mv httpd-2.2.31.tar.gz apache-2.2
+
+cd apache-2.2
+
+tar -xzvf httpd-2.2.31.tar.gz
+</code></pre>
+
+<p>Download and install open ssl so that apache can achieve the https visiting</p>
+
+<pre><code class="language-shell">wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz
+
+tar -zxvf openssl-0.9.8zd.tar.gz
+
+# Please config with -fPIC otherwise it may takes error during httpd
+./config -fPIC no-gost no-shared no-zlib
+
+make
+make install
+</code></pre>
+
+<h3 id="configuration-on-both-httpd-and-open-ssl-certificates:46c96d68f9a2765d4e06c15f60cc3802">Configuration on both HTTPD and Open SSL Certificates</h3>
+
+<p>Configure and install the HTTPD</p>
+
+<pre><code class="language-shell">cd /home/root/apache-2.2/httpd-2.2.31
+
+# Configure Apache to be installed into your home directory
+# Sometime it may show some errors like: `no acceptable C compiler found in $Path`
+# Please check gcc package installed! 
+# make agrs: --enable-so --enable-modules=all --enable-mods-shared=all so that it can dynamic load modules for SSL and php
+./configure --prefix=/home/root/apache-2.2 --enable-so --enable-modules=all --enable-mods-shared=all --enable-ssl=shared --with-ssl=/usr/local/ssl 
+
+make
+make install
+</code></pre>
+
+<p>Generate Open SSL Key and Certificates</p>
+
+<pre><code class="language-shell"># enter the openssl directory
+cd /usr/local/ssl/bin
+
+#Generate private key   
+openssl genrsa -out server.key 2048   
+
+#Generate CSR Certificate Signing Request   
+openssl req -new -key server.key -out server.csr  
+
+#Generate Self Signed Certificate  
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt  
+
+# Copy all generated certificates and keys into directory under apache
+cp server.key   /home/root/apache-2.2/conf/
+cp server.csr   /home/root/apache-2.2/conf/
+cp server.crt   /home/root/apache-2.2/conf/
+</code></pre>
+
+<p>Configure the ssl.conf for httpd</p>
+
+<pre><code class="language-shell">nano /home/root/apache-2.2/conf/extra/httpd-ssl.conf
+
+# Modify following 
+SSLCertificateFile conf/server.key            # configure the certificate of server
+SSLCertificateKeyFile conf/server.csr        # configure the private key 
+#SSLCertificateChainFile conf/server.crt     # remove'#'
+
+# Configure the httpd.conf - the global httpd configuration file
+nano /home/root/apache-2.2/conf/httpd.conf
+
+# Configure Apache to listen on both port 81 AND 82 simultaneously
+# Listen 81 # remove'#'
+# Listen 82 # remove'#'
+# Include conf/extra/httpd-ssl.conf #remove'#'
+
+# Check the configuration and run the apache server
+cd /home/root/apache-2.2/bin
+./apachectl configtest
+./apachectl -k start
+
+# Verify that Apache is listening on both port 81 AND 82 AND HTTPS/443
+curl http://localhost:81
+# It will show this:
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+curl http://localhost:82
+curl --cacert &quot;/usr/local/ssl/bin/server.crt&quot; https://localhost
+</code></pre>
+
+<h2 id="task-2:46c96d68f9a2765d4e06c15f60cc3802">Task 2:</h2>
+
+<h3 id="get-php-installed:46c96d68f9a2765d4e06c15f60cc3802">Get PHP installed</h3>
+
+<p>The prerequisite (libxml2) for php install</p>
+
+<pre><code class="language-shell">mkdir php
+cd php
+
+wget http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz
+tar zxvf libxml2-2.9.1.tar.gz 
+ cd libxml2-2.9.1.
+ # --with-python=no for sometime the error occured when install
+  ./configure --prefix=/usr/local/libxml2 --with-python=no
+ make
+ # make clean  # when some error occur
+ make install
+</code></pre>
+
+<p>Install and Configuration on PHP</p>
+
+<pre><code class="language-shell">wget  http://us2.php.net/get/php-5.4.45.tar.gz/from/this/mirror
+tar zxvf php-5.4.45
+cd php-5.4.45
+
+# Configure php install with pointing the root path of httpd and php and also the libxml2
+./configure --with-apxs2=/home/root/apache-2.2/bin/apxs --prefix=/home/root/apache-2.2/php --with-config-file-path=/home/root/apache-2.2/php --with-libxml-dir=/usr/local/libxml2
+
+# Move php.ini into the php path
+cd /home/root/php/php-5.4.45
+mv php.ini-development php.ini.dist
+cp php.ini.dist /home/root/apache-2.2/php/bin/php.ini 
+
+
+# Add the following two lines in httpd.conf
+AddType application/x-httpd-php .php 
+AddType application/x-httpd-php-source .phps   
+
+# Make sure you have this line in httpd.conf
+LoadModule php5_module        modules/libphp5.so
+
+cd /home/root/apache-2.2/bin
+./apachectl stop
+./apachectl start
+</code></pre>
+
+<h3 id="write-and-test-following-into-helloworld-php:46c96d68f9a2765d4e06c15f60cc3802">Write and Test following into &lsquo;helloworld.php&rsquo;</h3>
+
+<pre><code class="language-shell">nano /home/root/apache-2.2/htdocs/helloworld.php
+
+# Write down following into helloworld.php
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;PHP Test&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+ &lt;?php echo '&lt;p&gt;Hello World&lt;/p&gt;'; ?&gt; 
+ &lt;/body&gt;
+&lt;/html&gt;
+
+# Test
+curl localhost:81/helloworld.php
+
+#Output
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;PHP Test&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+ &lt;p&gt;Hello World&lt;/p&gt; 
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h2 id="task-3:46c96d68f9a2765d4e06c15f60cc3802">Task 3:</h2>
+
+<h3 id="task-3a-prompt-for-your-name-and-print-it-out-by-write-following-script:46c96d68f9a2765d4e06c15f60cc3802">Task 3A: Prompt for your name and print it out by write following script:</h3>
+
+<pre><code class="language-shell">name='Rui Bi'
+echo $name
+</code></pre>
+
+<h3 id="task-3b-print-out-the-current-date-five-times-with-a-minute-pause-between-each-print:46c96d68f9a2765d4e06c15f60cc3802">Task 3B: Print out the current date five times, with a minute pause between each print.</h3>
+
+<p>By write following script:</p>
+
+<pre><code class="language-shell">for ((i=0;$i&lt;5;i++))
+ do
+ date
+ sleep 60
+ done
+echo
+</code></pre>
+
+<h3 id="task-3c-count-the-number-of-processes-running-as-root:46c96d68f9a2765d4e06c15f60cc3802">Task 3C: Count the number of processes running as &ldquo;&ldquo;root&rdquo;&rdquo;</h3>
+
+<p>By write following script:</p>
+
+<pre><code class="language-shell">count=`ps -u root | wc  -l`
+echo $count
+</code></pre>
+
+<h3 id="task-3d-every-minute-you-should-print-out-the-following:46c96d68f9a2765d4e06c15f60cc3802">Task 3D: Every minute, you should print out the following</h3>
+
+<ul>
+<li>The total number of processes running as root.  If this is above 25, print out a warning message.</li>
+<li>The percentage of disk used.  If this is above 80%, print out a warning message.</li>
+<li>The amount of free memory, if this number gets below 100mb, print out a warning message.</li>
+</ul>
+
+<h4 id="write-a-shell-script-systemmonitor-sh-which-is-storing-in-directory-home-root-as-following:46c96d68f9a2765d4e06c15f60cc3802">Write a shell script <code>SystemMonitor.sh</code> which is storing in directory <code>/home/root/</code>, as following:</h4>
+
+<pre><code class="language-shell">psCnt=`ps -u root | wc  -l`
+diskUsg=`df / | awk 'END{print $5}' | cut -f 1 -d &quot;%&quot;`
+freeMem=`free -m | grep Mem | awk '{print $4}'`
+ 
+if (($psCnt &gt; 25)); then
+ echo &quot;Warning: current process amount is &quot;$psCnt
+fi
+
+if ((diskUsg &gt; 80)); then
+ echo &quot;Warning: current disk Usage exceeded 80%&quot;
+fi
+
+if (($freeMem &lt; 100)); then
+ echo &quot;Warning: current free Memory less than 100MB&quot;
+fi
+</code></pre>
+
+<h4 id="setup-crontab-by-following-command-and-output-the-result-in-home-root-monitor-output-file:46c96d68f9a2765d4e06c15f60cc3802">Setup <code>crontab</code> by following command and output the result in <code>/home/root/monitor_output.file</code></h4>
+
+<pre><code class="language-shell">crontab -e
+*/1 * * * * /home/root/SystemMonitor.sh &gt;&gt; /home/root/monitor_output.file &amp;
+</code></pre>
+
+<h3 id="task-3e-create-a-crontab-that-will-execute-every-5-minutes-that-will-log-the-last-4-ip-addresses-that-accessed-your-website:46c96d68f9a2765d4e06c15f60cc3802">Task 3E: Create a crontab that will execute every 5 minutes that will log the last 4 IP addresses that accessed your website.</h3>
+
+<h4 id="for-this-task-we-have-to-check-the-httpd-access-log-which-is-located-in-home-root-apache-2-2-logs-access-log:46c96d68f9a2765d4e06c15f60cc3802">For this task, we have to check the httpd access log which is located in <code>/home/root/apache-2.2/logs/access-log</code></h4>
+
+<p>Here I use <code>cat</code> command and output the result to the <code>/home/root/ip_output.file</code>.</p>
+
+<h4 id="write-a-shell-script-ip-monitor-sh:46c96d68f9a2765d4e06c15f60cc3802">Write a shell script <code>ip_monitor.sh</code></h4>
+
+<pre><code class="language-shell">echo `date` &gt;&gt; /home/root/ip_output.file
+
+# Get recent 4 ip access means the last 4 ip in access_log
+cat /home/root/apache-2.2/logs/access_log |cut -d ' ' -f 1 | awk '{print $0 }' | tail -n 4 |less &gt;&gt; /home/root/ip_output.file
+
+# for first 5 frequent visit use this:
+# /home/root/apache-2.2/logs/access_log |cut -d ' ' -f 1 |sort |uniq -c | sort -nr | awk '{print $0 }' | head -n 5 |less
+</code></pre>
+
+<h4 id="make-the-ip-access-log-monitor-as-a-crontab-task-with-every-5-minutes-run:46c96d68f9a2765d4e06c15f60cc3802">Make the ip access log monitor as a <code>crontab</code> task with every 5 minutes run.</h4>
+
+<pre><code class="language-shell">crontab -e
+*/5 * * * * /home/root/ip_monitor.sh
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/Apache/" data-id="46c96d68f9a2765d4e06c15f60cc3802" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/Apache//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/code/reviewHadoop/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Hadoop Review</div>
+    </a>
+    
+
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/code\/Apache\/';
+    var disqus_title = 'Apache and PHP Configuration and some shell scripts';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/code\/Apache\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#task-1:46c96d68f9a2765d4e06c15f60cc3802">Task 1:</a>
+<ul>
+<li><a href="#install-apache-server-httpd-and-open-ssl:46c96d68f9a2765d4e06c15f60cc3802">Install Apache Server (httpd) and Open SSL:</a></li>
+<li><a href="#configuration-on-both-httpd-and-open-ssl-certificates:46c96d68f9a2765d4e06c15f60cc3802">Configuration on both HTTPD and Open SSL Certificates</a></li>
+</ul></li>
+<li><a href="#task-2:46c96d68f9a2765d4e06c15f60cc3802">Task 2:</a>
+<ul>
+<li><a href="#get-php-installed:46c96d68f9a2765d4e06c15f60cc3802">Get PHP installed</a></li>
+<li><a href="#write-and-test-following-into-helloworld-php:46c96d68f9a2765d4e06c15f60cc3802">Write and Test following into &lsquo;helloworld.php&rsquo;</a></li>
+</ul></li>
+<li><a href="#task-3:46c96d68f9a2765d4e06c15f60cc3802">Task 3:</a>
+<ul>
+<li><a href="#task-3a-prompt-for-your-name-and-print-it-out-by-write-following-script:46c96d68f9a2765d4e06c15f60cc3802">Task 3A: Prompt for your name and print it out by write following script:</a></li>
+<li><a href="#task-3b-print-out-the-current-date-five-times-with-a-minute-pause-between-each-print:46c96d68f9a2765d4e06c15f60cc3802">Task 3B: Print out the current date five times, with a minute pause between each print.</a></li>
+<li><a href="#task-3c-count-the-number-of-processes-running-as-root:46c96d68f9a2765d4e06c15f60cc3802">Task 3C: Count the number of processes running as &ldquo;&ldquo;root&rdquo;&rdquo;</a></li>
+<li><a href="#task-3d-every-minute-you-should-print-out-the-following:46c96d68f9a2765d4e06c15f60cc3802">Task 3D: Every minute, you should print out the following</a>
+<ul>
+<li><a href="#write-a-shell-script-systemmonitor-sh-which-is-storing-in-directory-home-root-as-following:46c96d68f9a2765d4e06c15f60cc3802">Write a shell script <code>SystemMonitor.sh</code> which is storing in directory <code>/home/root/</code>, as following:</a></li>
+<li><a href="#setup-crontab-by-following-command-and-output-the-result-in-home-root-monitor-output-file:46c96d68f9a2765d4e06c15f60cc3802">Setup <code>crontab</code> by following command and output the result in <code>/home/root/monitor_output.file</code></a></li>
+</ul></li>
+<li><a href="#task-3e-create-a-crontab-that-will-execute-every-5-minutes-that-will-log-the-last-4-ip-addresses-that-accessed-your-website:46c96d68f9a2765d4e06c15f60cc3802">Task 3E: Create a crontab that will execute every 5 minutes that will log the last 4 IP addresses that accessed your website.</a>
+<ul>
+<li><a href="#for-this-task-we-have-to-check-the-httpd-access-log-which-is-located-in-home-root-apache-2-2-logs-access-log:46c96d68f9a2765d4e06c15f60cc3802">For this task, we have to check the httpd access log which is located in <code>/home/root/apache-2.2/logs/access-log</code></a></li>
+<li><a href="#write-a-shell-script-ip-monitor-sh:46c96d68f9a2765d4e06c15f60cc3802">Write a shell script <code>ip_monitor.sh</code></a></li>
+<li><a href="#make-the-ip-access-log-monitor-as-a-crontab-task-with-every-5-minutes-run:46c96d68f9a2765d4e06c15f60cc3802">Make the ip access log monitor as a <code>crontab</code> task with every 5 minutes run.</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

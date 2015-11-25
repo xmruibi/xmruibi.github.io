@@ -166,11 +166,11 @@
     </div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        215
+        216
         <span>Posts</span>
       </div>
       <div class="article-info-block">
-        85
+        86
         <span>
             Tags
         </span>
@@ -246,9 +246,9 @@
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">
     <h1 class="article-title" itemprop="name">
-        Segment Tree Modify
+        Segment Tree Build
     </h1>
     </a>
     <div class="article-meta">
@@ -256,7 +256,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            279
+            319
             words
             &middot;
             2
@@ -288,23 +288,32 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
+                    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
 
-<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a <code>build</code> method with two parameters start and end, so that we can create a corresponding segment tree with every node has the correct start and end value, return the root of this segment tree.</p>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" data-id="ab66ca0e96ab88fced8a7606053bd30c" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-build/" data-id="a3cbebc7c2396823d2eb103843ad1b38" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -378,6 +387,79 @@
     </a>
     
     <a href="http://xmruibi.github.io/2015/10/18/segment-tree-query//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+    <h1 class="article-title" itemprop="name">
+        Segment Tree Modify
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
+            &middot;
+            279
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/data-structure">Data Structure</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/segement-tree">Segement Tree</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/interval-problem">Interval Problem</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
+
+<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" data-id="ab66ca0e96ab88fced8a7606053bd30c" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -1243,79 +1325,6 @@
         </div>
     </article>
     
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/16/roman-to-integer/">
-    <h1 class="article-title" itemprop="name">
-        Roman to Integer
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-10-16 21:43:13 -0700 PDT" itemprop="datePublished">2015-10-16</time>
-            &middot;
-            146
-            words
-            &middot;
-            1
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/leetcode">Leetcode</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/string">String</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/integer">Integer</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/roman">Roman</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given a roman numeral, convert it to an integer.</p>
-
-<p>The answer is guaranteed to be within the range from 1 to 3999.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/16/roman-to-integer/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/16/roman-to-integer/" data-id="127939d702142834418c408afc57cb92" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/10/16/roman-to-integer//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
 
     
 
@@ -1447,7 +1456,7 @@
                 <a class="category-list-link" href="http://xmruibi.github.io//topics/devops">
                     devops
                 </a>
-                <span class="category-list-count">2</span>
+                <span class="category-list-count">3</span>
             </li>
             
             <li class="category-list-item">
@@ -1543,6 +1552,23 @@
             
             <li>
                 
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.io/topics/devops">
+                        DevOps
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/code/Apache/" class="title">Apache and PHP Configuration and some shell scripts</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-24 22:56:15 -0700 -0700" itemprop="datePublished">2015-11-24</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
                 <div class="item-thumbnail">
                     <a href="http://xmruibi.github.io/" class="thumbnail">
                         <span style="background-image:url(http://xmruibi.github.io//media/leetcode.png)" alt="Geek Think" class="thumbnail-image"></span>
@@ -1629,29 +1655,6 @@
                     <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/game-of-life/" class="title">Game of Life</a></p>
                     <p class="item-date">
                         <time datetime="2015-11-19 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                
-                <div class="item-thumbnail">
-                    <a href="http://xmruibi.github.io/" class="thumbnail">
-                        <span style="background-image:url(http://xmruibi.github.io//media/careercup.png)" alt="Geek Think" class="thumbnail-image"></span>
-                    </a>
-                </div>
-                
-                <div class="item-inner">
-                    
-                    <p class="item-category">
-                        <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">
-                        Career Cup
-                        </a>
-                    </p>
-                    
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/find-a-path-in-maze/" class="title">Find a Path in Maze</a></p>
-                    <p class="item-date">
-                        <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
                     </p>
                 </div>
             </li>

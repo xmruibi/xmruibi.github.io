@@ -166,11 +166,11 @@
     </div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        215
+        216
         <span>Posts</span>
       </div>
       <div class="article-info-block">
-        85
+        86
         <span>
             Tags
         </span>
@@ -239,6 +239,70 @@
 
     <section id="main">
     
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/Apache/">
+    <h1 class="article-title" itemprop="name">
+        Apache and PHP Configuration and some shell scripts
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-11-24 22:56:15 -0700 -0700" itemprop="datePublished">2015-11-24</time>
+            &middot;
+            872
+            words
+            &middot;
+            5
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/devops">DevOps</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/apache">Apache</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/configuration">Configuration</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!
+                </p>
+                <p class="article-more-link">
+                    <a href="http://xmruibi.github.io/code/Apache/">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/Apache/" data-id="46c96d68f9a2765d4e06c15f60cc3802" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/Apache//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+    </article>
     
     <article class="article article-type-post" itemscope="" itemprop="blogPost">
         <div class="article-inner">
@@ -1244,77 +1308,6 @@
         </div>
     </article>
     
-    <article class="article article-type-post" itemscope="" itemprop="blogPost">
-        <div class="article-inner">
-            
-            </a>
-
-            <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/11/18/rotate-matrix/">
-    <h1 class="article-title" itemprop="name">
-        Rotate Matrix
-    </h1>
-    </a>
-    <div class="article-meta">
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
-            &middot;
-            135
-            words
-            &middot;
-            1
-            minute read
-        </div>
-        <div class="article-category">
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/amazon">Amazon</a>
-            
-            <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
-            
-        </div>
-            <div class="article-category">                
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/array">Array</a>
-               
-            <i class="fa fa-tag"></i>        
-            <a class="article-category-link" href="http://xmruibi.github.io/tags/queue">Queue</a>
-            
-        </div>
-    </div>
-</header>
-
-            <div class="article-entry" itemprop="articleBody">
-                <p>
-                    <p>Given A Matrix and rotate by input flag represent the direction of rotation.</p>
-
-                </p>
-                <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/11/18/rotate-matrix/">
-                        Read more
-                    </a>
-                </p>
-            </div>
-            <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/18/rotate-matrix/" data-id="18934d05988ea6297312db56d76fae0e" class="article-share-link">
-        Share
-    </a>
-    
-    <a href="http://xmruibi.github.io/2015/11/18/rotate-matrix//#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-</footer>
-
-        </div>
-    </article>
-    
 
     
 
@@ -1442,7 +1435,7 @@
                 <a class="category-list-link" href="http://xmruibi.github.io//topics/devops">
                     devops
                 </a>
-                <span class="category-list-count">2</span>
+                <span class="category-list-count">3</span>
             </li>
             
             <li class="category-list-item">
@@ -1538,6 +1531,23 @@
             
             <li>
                 
+                <div class="item-inner">
+                    
+                    <p class="item-category">
+                        <a class="article-category-link" href="http://xmruibi.github.io/topics/devops">
+                        DevOps
+                        </a>
+                    </p>
+                    
+                    <p class="item-title"><a href="http://xmruibi.github.io/code/Apache/" class="title">Apache and PHP Configuration and some shell scripts</a></p>
+                    <p class="item-date">
+                        <time datetime="2015-11-24 22:56:15 -0700 -0700" itemprop="datePublished">2015-11-24</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                
                 <div class="item-thumbnail">
                     <a href="http://xmruibi.github.io/" class="thumbnail">
                         <span style="background-image:url(http://xmruibi.github.io//media/leetcode.png)" alt="Geek Think" class="thumbnail-image"></span>
@@ -1624,29 +1634,6 @@
                     <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/game-of-life/" class="title">Game of Life</a></p>
                     <p class="item-date">
                         <time datetime="2015-11-19 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                
-                <div class="item-thumbnail">
-                    <a href="http://xmruibi.github.io/" class="thumbnail">
-                        <span style="background-image:url(http://xmruibi.github.io//media/careercup.png)" alt="Geek Think" class="thumbnail-image"></span>
-                    </a>
-                </div>
-                
-                <div class="item-inner">
-                    
-                    <p class="item-category">
-                        <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">
-                        Career Cup
-                        </a>
-                    </p>
-                    
-                    <p class="item-title"><a href="http://xmruibi.github.io/2015/11/19/find-a-path-in-maze/" class="title">Find a Path in Maze</a></p>
-                    <p class="item-date">
-                        <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
                     </p>
                 </div>
             </li>
