@@ -508,12 +508,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</loc>
+    <loc>http://xmruibi.github.io/2015/11/04/longest-common-substring/</loc>
     <lastmod>2015-11-04T09:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/11/04/longest-common-substring/</loc>
+    <loc>http://xmruibi.github.io/2015/11/04/longest-common-subsequence/</loc>
     <lastmod>2015-11-04T09:43:13-07:00</lastmod>
   </url>
   
@@ -813,17 +813,17 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
-    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://xmruibi.github.io/2015/10/18/interval-minimum-number/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
   <url>
     <loc>http://xmruibi.github.io/2015/10/18/interval-sum/</loc>
+    <lastmod>2015-10-18T15:43:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xmruibi.github.io/2015/10/18/interval-sum-ii/</loc>
     <lastmod>2015-10-18T15:43:13-07:00</lastmod>
   </url>
   
@@ -838,12 +838,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-modify/</loc>
+    <loc>http://xmruibi.github.io/2015/10/18/segment-tree-query/</loc>
     <lastmod>2015-10-18T14:43:13-07:00</lastmod>
   </url>
   
@@ -988,12 +988,12 @@
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-2-d-array/</loc>
+    <loc>http://xmruibi.github.io/2015/09/28/iterator-of-iterator/</loc>
     <lastmod>2015-09-28T10:10:29-07:00</lastmod>
   </url>
   

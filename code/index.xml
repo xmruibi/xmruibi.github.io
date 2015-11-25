@@ -18,6 +18,8 @@
       <guid>http://xmruibi.github.io/code/Apache/</guid>
       <description>
 
+&lt;p&gt;This document is for the technical operations assignment. The assignment mainly target to achieve the apache httpd and PHP configuration on AWS. There are some bash scripts practices also required in this assignment.&lt;/p&gt;
+
 &lt;h2 id=&#34;task-1:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Task 1:&lt;/h2&gt;
 
 &lt;h3 id=&#34;install-apache-server-httpd-and-open-ssl:46c96d68f9a2765d4e06c15f60cc3802&#34;&gt;Install Apache Server (httpd) and Open SSL:&lt;/h3&gt;

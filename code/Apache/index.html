@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
     <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Apache and PHP Configuration and some shell scripts" />
-<meta property="og:description" content="Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!" />
+<meta property="og:description" content="This document is for the technical operations assignment. The assignment mainly target to achieve the apache httpd and PHP configuration on AWS. There are some bash scripts practices also required in this assignment.
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://xmruibi.github.io/code/Apache/" />
 
@@ -36,11 +37,12 @@
     
     
 <meta itemprop="name" content="Apache and PHP Configuration and some shell scripts">
-<meta itemprop="description" content="Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!">
+<meta itemprop="description" content="This document is for the technical operations assignment. The assignment mainly target to achieve the apache httpd and PHP configuration on AWS. There are some bash scripts practices also required in this assignment.
+">
 
 
 <meta itemprop="dateModified" content="2015-11-24T22:56:15-07:00" />
-<meta itemprop="wordCount" content="872">
+<meta itemprop="wordCount" content="905">
 
 
 
@@ -53,7 +55,8 @@
 
 
 <meta name="twitter:title" content="Apache and PHP Configuration and some shell scripts"/>
-<meta name="twitter:description" content="Task 1: Install Apache Server (httpd) and Open SSL: Access AWS: ssh root@ec2-54-145-34-67.compute-1.amazonaws.com # Enter your password Download Apache HTTPD cd /home/root/ wget http://apache.osuosl.org/httpd/httpd-2.2.31.tar.gz mkdir apache-2.2 mv httpd-2.2.31.tar.gz apache-2.2 cd apache-2.2 tar -xzvf httpd-2.2.31.tar.gz Download and install open ssl so that apache can achieve the https visiting wget ftp://ftp.openssl.org/source/openssl-0.9.8zd.tar.gz tar -zxvf openssl-0.9.8zd.tar.gz # Please config with -fPIC otherwise it may takes error during httpd ./config -fPIC no-gost no-shared no-zlib make make install Configuration on both HTTPD and Open SSL Certificates Configure and install the HTTPD cd /home/root/apache-2.2/httpd-2.2.31 # Configure Apache to be installed into your home directory # Sometime it may show some errors like: `no acceptable C compiler found in $Path` # Please check gcc package installed!"/>
+<meta name="twitter:description" content="This document is for the technical operations assignment. The assignment mainly target to achieve the apache httpd and PHP configuration on AWS. There are some bash scripts practices also required in this assignment.
+"/>
 
 
 
@@ -186,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-24 22:56:15 -0700 -0700" itemprop="datePublished">2015-11-24</time>
             &middot;
-            872
+            905
             words
             &middot;
             5
@@ -212,6 +215,8 @@
 
             <div class="article-entry" itemprop="articleBody">
                 
+
+<p>This document is for the technical operations assignment. The assignment mainly target to achieve the apache httpd and PHP configuration on AWS. There are some bash scripts practices also required in this assignment.</p>
 
 <h2 id="task-1:46c96d68f9a2765d4e06c15f60cc3802">Task 1:</h2>
 
