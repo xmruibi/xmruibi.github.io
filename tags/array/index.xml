@@ -411,12 +411,25 @@ public class Solution{
 
 &lt;p&gt;Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	private class Process{
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	class Process{
 		int arrTime;
 		int exeTime;
+
 		public Process(int arrTime, int exeTime) {
 			this.arrTime = arrTime;
 			this.exeTime = exeTime;
+		}
+
+		@Override
+		public int compareTo(Process that) {
+			if (this.exeTime == that.exeTime)
+				return this.arrTime - that.arrTime;
+			return this.exeTime - that.exeTime;
+		}
+
+		@Override
+		public String toString() {
+			return &amp;quot;arrTime: &amp;quot; + this.arrTime;
 		}
 	}
 &lt;/code&gt;&lt;/pre&gt;
@@ -460,7 +473,7 @@ public class Solution{
 				// back to the queue
 				if (curP.exeTime &amp;gt; q) {
 					curP.exeTime -= q;
-					curP.start = curTime;
+					curP.arrTime = curTime;
 					queue.offer(curP);
 				}
 			}
