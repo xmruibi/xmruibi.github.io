@@ -107,25 +107,29 @@ days1: [0, 1, 0, 0, 1, 0, 1, 0]
 &lt;h2 id=&#34;solution:bd78b8dc0ea88ac5e1b12dcd60867418&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public int[] cellChange(int[] arr, int days) {
-		for(int i = 0; i &amp;lt; days; i++)
-			changeHelper(arr);
-		return arr;
+	public static int[] daysChange (int[] cells, int day) {
+		if (cells == null || cells.length &amp;lt;= 2) {
+			return cells;
+		}
+		for(int i = 0; i &amp;lt; day; i++)
+			changeHelper(cells);
+		return cells;
 	}
 
-	private void changeHelper(int[] arr) {
-		int bound = 0, prev = 0;
-		for(int i = 0; i &amp;lt; arr.length; i++) {
-			if(i == 0) {
-				prev = arr[i];
-				arr[i] = (bound == arr[1]?0:1);
-			}else if(i == arr.length - 1) {
-				arr[i] = (bound == prev?0:1);
-			}else{
-				int tmp = arr[i];
-				arr[i] = (prev == arr[i+1]?0:1);
-				prev = tmp;
+	/**
+	* Modify on original array by the othse changing rules
+	* @param cells array
+	**/
+	private static void changeHelper (int[] cells) {
+		int prev = 0;
+		for ( int i = 0 ; i &amp;lt; cells.length ; i++ ) {
+			int tmp = cells[i];
+			if(i == cells.length - 1) {
+				cells[i] = prev ^ 0;
+			} else {
+				cells[i] = prev ^ cells[i+1];
 			}
+			prev = tmp;
 		}
 	}
 }

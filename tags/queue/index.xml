@@ -73,30 +73,43 @@
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public double robinRound(int[] arrTime, int[] exeTime, int q) {
-		if(arrTime == null || exeTime == null || arrTime.length == 0 || exeTime.length == 0)
+		// edge cases
+		if (arrTime == null || exeTime == null
+				|| exeTime.length != arrTime.length)
 			return 0;
-		Queue&amp;lt;Process&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
-		int idx = 0, waitTime = 0, curTime = 0;
-		while(idx &amp;lt; arrTime.length || !queue.isEmpty()) {
-			if(queue.isEmpty()) {
+
+		int waitTime = 0; // total Waiting time
+		int len = arrTime.length; // the len of time list
+		int idx = 0; // pointer for iterate through time list
+		Queue&amp;lt;Process&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;(); // store those processes
+
+		int curTime = 0; // tracking current time
+		while (!queue.isEmpty() || idx &amp;lt; len) {
+			if (queue.isEmpty()) {
 				queue.offer(new Process(arrTime[idx], exeTime[idx]));
 				curTime = arrTime[idx++];
-			}else{
-				Process curProcess = queue.poll();
-				waitTime += (curTime - curProcess.arrTime);
-				curTime += Math.min(curProcess.exeTime, q);
-				// push those process which has arrival time less than current time
-				while(idx &amp;lt; arrTime.length &amp;amp;&amp;amp; arrTime[idx] &amp;lt; curTime) {
+			} else {
+				// poll out a Process from queue
+				Process curP = queue.poll();
+				// calculate the waiting time on this process and add it to the
+				// total waitTime
+				waitTime += Math.abs(curP.arrTime - curTime);
+				// update curTime track according to the limit of &#39;q&#39;
+				curTime = Math.min(curTime + q, curTime + curP.exeTime);
+				while (idx &amp;lt; len &amp;amp;&amp;amp; arrTime[idx] &amp;lt;= curTime)
 					queue.offer(new Process(arrTime[idx], exeTime[idx++]));
-				}
-				// if current process didn&#39;t be processed at all, push it back to queue
-				if(curProcess.exeTime &amp;gt; q) {
-					curProcess.exeTime -= q; 
-					queue.offer(curProcess);
+				// if the current process still not be executed according to the
+				// &#39;quantum&#39; limit, use curTime minus that &#39;q&#39; as new exeTime
+				// and count curTime as new arrTime for new Process, then put it
+				// back to the queue
+				if (curP.exeTime &amp;gt; q) {
+					curP.exeTime -= q;
+					curP.start = curTime;
+					queue.offer(curP);
 				}
 			}
 		}
-		return (double) waitTime / (double) arrTime.length;
+		return (double) waitTime / len;
 	}
 
 }
@@ -109,33 +122,30 @@
 &lt;h2 id=&#34;solution-shortest-job-first:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Solution #Shortest Job First&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public double robinRound(int[] arrTime, int[] exeTime, int q) {
-		if(arrTime == null || exeTime == null || arrTime.length == 0 || exeTime.length == 0)
+	public static double shortestJobFirst(int[] arrTime, int[] exeTime) {
+		if (arrTime == null || exeTime == null
+				|| exeTime.length != arrTime.length)
 			return 0;
-		PriorityQueue&amp;lt;Process&amp;gt; queue = new PriorityQueue&amp;lt;&amp;gt;(new Comparator&amp;lt;Process&amp;gt;(){
-			@Override
-			public int compare(Process p1, Process p2) {
-				if (p1.exeTime == p2.exeTime)
-					return p1.arrTime - p2.arrTime;
-				return Integer.compare(p1.exeTime, p2.exeTime);
-			}
-		});
-		int idx = 0, waitTime = 0, curTime = 0;
-		while(idx &amp;lt; arrTime.length || !queue.isEmpty()) {
-			if(queue.isEmpty()) {
-				queue.offer(new Process(arrTime[idx], exeTime[idx]));
+
+		int waitTime = 0; // total Waiting time
+		int len = arrTime.length; // the len of time list
+		int idx = 0; // pointer for iterate through time list
+		PriorityQueue&amp;lt;Process&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;();
+		int curTime = 0; // tracking current time
+		while (!heap.isEmpty() || idx &amp;lt; len) {
+			if (heap.isEmpty()) {
+				heap.offer(new Process(arrTime[idx], exeTime[idx]));
 				curTime = arrTime[idx++];
-			}else{
-				Process curProcess = queue.poll();
-				waitTime += (curTime - curProcess.arrTime);
-				curTime += curProcess.exeTime;
-				// push those process which has arrival time less than current time
-				while(idx &amp;lt; arrTime.length &amp;amp;&amp;amp; arrTime[idx] &amp;lt;= curTime) {
-					queue.offer(new Process(arrTime[idx], exeTime[idx++]));
-				}
+			} else {
+				Process curP = heap.poll();
+				System.out.println(curP);
+				waitTime += Math.abs(curP.arrTime - curTime);
+				curTime += curP.exeTime;
+				while (idx &amp;lt; len &amp;amp;&amp;amp; arrTime[idx] &amp;lt;= curTime)
+					heap.offer(new Process(arrTime[idx], exeTime[idx++]));
 			}
 		}
-		return (double) waitTime / (double) arrTime.length;
+		return (double) waitTime / len;
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;

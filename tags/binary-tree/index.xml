@@ -80,28 +80,46 @@
 &lt;h2 id=&#34;solution:e9e8391b63bbb0456c71932d2a3068e3&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-    static int maxDiff = 0;
-    public int maxAmplitude(TreeNode root) {
-        if(root == null)
+    public static int treeAmplitude(TreeNode root) {
+        if (root == null)
             return 0;
-        recurHelper(root, new int[2]);
-        return maxDiff;
+        // setup an array to record [0] minimum in a certain path,
+        // [1] maximum in a certain path, [2] the global maximum difference in
+        // tree
+        int[] mx = new int[1];
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        list.add(Integer.MIN_VALUE);
+        list.add(Integer.MAX_VALUE);
+        recursionHelper(root, list, mx);
+        return mx[0];
     }
 
-    private void recurHelper(TreeNode node, int[] mnMx) {
-        mnMx[0] = Math.min(mnMx[0], node.val);
-        mnMx[1] = Math.max(mnMx[1], node.val);
-
-        if(node.left == null &amp;amp;&amp;amp; node.right == null){
-
-            int curDiff = Math.abs(mnMx[0] - mnMx[1]);
-            maxDiff = Math.max(maxDiff, curDiff);
+    /**
+     * @param node
+     *            - current root node in tree
+     * @param prev
+     *            - record the minimum and maximum value in current path
+     * @param mx
+     *            - record global maximum amplitude
+     **/
+    private static void recursionHelper(TreeNode node, List&amp;lt;Integer&amp;gt; prev,
+            int[] mx) {
+        // update the min or max in current path
+        List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+        list.add(Math.max(prev.get(0), node.val));
+        list.add(Math.min(prev.get(1), node.val));
+        // once find the leaf node terminate the recursion
+        // and caculate current amplitude in this path
+        if (node.left == null &amp;amp;&amp;amp; node.right == null) {
+            int diff = list.get(0) - list.get(1);
+            mx[0] = Math.max(mx[0], diff);
             return;
         }
-        if(node.left != null) 
-            recurHelper(node.left, mnMx);
-        if(node.right != null) 
-            recurHelper(node.right, mnMx);
+        // check each child node if existed
+        if (node.left != null)
+            recursionHelper(node.left, list, mx);
+        if (node.right != null)
+            recursionHelper(node.right, list, mx);
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

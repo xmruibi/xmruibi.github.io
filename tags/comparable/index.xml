@@ -71,7 +71,7 @@ class CPoint extends Point implements Comparable&amp;lt;CPoint&amp;gt;{
   
   @Override
   public int compareTo(CPoint p) {
-    return Double.compare(this.dist, p.dist);
+    return Double.compare(p.dist, this.dist);
   }
 }
 &lt;/code&gt;&lt;/pre&gt;
