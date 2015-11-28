@@ -183,14 +183,14 @@ c a b a c f
         // the steps for x and y
         int[] sx = { 0, 0, -1, 1 };
         int[] sy = { 1, -1, 0, 0 };
-        boolean res = false;
+        
         // setup a queue to do the bfs
         Queue&amp;lt;int[]&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
         queue.offer(new int[] { x, y });
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
             if (matrix[cur[0]][cur[1]] == 9) 
-                res =  true;
+                return true;
             
             matrix[cur[0]][cur[1]] = 1;
             for (int i = 0; i &amp;lt; 4; i++) {
@@ -202,7 +202,7 @@ c a b a c f
                 }
             }
         }
-        return res;
+        return false;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

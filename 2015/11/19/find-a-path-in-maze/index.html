@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-19T12:33:13-07:00" />
-<meta itemprop="wordCount" content="387">
+<meta itemprop="wordCount" content="382">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            387
+            382
             words
             &middot;
             2
@@ -279,14 +279,14 @@
         // the steps for x and y
         int[] sx = { 0, 0, -1, 1 };
         int[] sy = { 1, -1, 0, 0 };
-        boolean res = false;
+        
         // setup a queue to do the bfs
         Queue&lt;int[]&gt; queue = new LinkedList&lt;&gt;();
         queue.offer(new int[] { x, y });
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
             if (matrix[cur[0]][cur[1]] == 9) 
-                res =  true;
+                return true;
             
             matrix[cur[0]][cur[1]] = 1;
             for (int i = 0; i &lt; 4; i++) {
@@ -298,7 +298,7 @@
                 }
             }
         }
-        return res;
+        return false;
     }
 }
 </code></pre>
