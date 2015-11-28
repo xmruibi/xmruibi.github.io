@@ -210,9 +210,9 @@ c a b a c f
 
 &lt;h2 id=&#34;time-complexity:6bea082703d3b73c0480d7f0afc663d2&#34;&gt;Time Complexity&lt;/h2&gt;
 
-&lt;p&gt;For DFS, it takes much space $O(m * n)$,  while the time complexity is $O(m * n)$. More specifically, the space complexity depends on the maze type and the step direction order.&lt;/p&gt;
+&lt;p&gt;For DFS, it takes much space $O(m * n)$ since the recursion stack,  while the time complexity is $O(m * n)$. More specifically, the space complexity depends on the maze type and the step direction order.&lt;/p&gt;
 
-&lt;p&gt;For BFS,&lt;/p&gt;
+&lt;p&gt;For BFS, it take less space, since every time the queue only store the valid neighbors according to current layer for a certain node. In matrix, the maximum layer size is the valid node number in diagonal. So the complexity is $O(\sqrt{n^2 + m^2})$. But the time complexity is the same as DFS with $O(m * n)$.&lt;/p&gt;
 </description>
     </item>
     

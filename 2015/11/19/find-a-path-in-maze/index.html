@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-19T12:33:13-07:00" />
-<meta itemprop="wordCount" content="419">
+<meta itemprop="wordCount" content="478">
 
 
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            419
+            478
             words
             &middot;
-            2
+            3
             minute read
         </div>
         <div class="article-category">
@@ -306,9 +306,9 @@
 
 <h2 id="time-complexity:6bea082703d3b73c0480d7f0afc663d2">Time Complexity</h2>
 
-<p>For DFS, it takes much space $O(m * n)$,  while the time complexity is $O(m * n)$. More specifically, the space complexity depends on the maze type and the step direction order.</p>
+<p>For DFS, it takes much space $O(m * n)$ since the recursion stack,  while the time complexity is $O(m * n)$. More specifically, the space complexity depends on the maze type and the step direction order.</p>
 
-<p>For BFS,</p>
+<p>For BFS, it take less space, since every time the queue only store the valid neighbors according to current layer for a certain node. In matrix, the maximum layer size is the valid node number in diagonal. So the complexity is $O(\sqrt{n^2 + m^2})$. But the time complexity is the same as DFS with $O(m * n)$.</p>
 
             </div>
             <footer class="article-footer">

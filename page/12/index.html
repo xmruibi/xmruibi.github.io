@@ -247,9 +247,9 @@
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
     <h1 class="article-title" itemprop="name">
-        Segment Tree Build II
+        Segment Tree Modify
     </h1>
     </a>
     <div class="article-meta">
@@ -257,7 +257,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            293
+            279
             words
             &middot;
             2
@@ -289,32 +289,23 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
+                    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
 
-<p>start and end are both integers, they should be assigned in following rules:</p>
-
-<ul>
-<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
-<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
-<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
-<li>if start equals to end, there will be no children for this node.</li>
-</ul>
-
-<p>Implement a build method with a given array, so that we can create a corresponding segment tree with every node value represent the corresponding interval max value in the array, return the root of this segment tree.</p>
+<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/" data-id="4b9f9ac8601d639b8cbf83a2852bb8e5" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" data-id="ab66ca0e96ab88fced8a7606053bd30c" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
@@ -406,9 +397,9 @@
             </a>
 
             <header class="article-header">
-    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">
     <h1 class="article-title" itemprop="name">
-        Segment Tree Modify
+        Segment Tree Build II
     </h1>
     </a>
     <div class="article-meta">
@@ -416,7 +407,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-10-18 14:43:13 -0700 PDT" itemprop="datePublished">2015-10-18</time>
             &middot;
-            279
+            293
             words
             &middot;
             2
@@ -448,23 +439,32 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <p>For a Maximum Segment Tree, which each node has an extra value max to store the maximum value in this node&rsquo;s interval.</p>
+                    <p>The structure of Segment Tree is a binary tree which each node has two attributes <code>start</code> and <code>end</code> denote an segment / interval.</p>
 
-<p>Implement a modify function with three parameter root, index and value to change the node&rsquo;s value with [start, end] = [index, index] to the new given value. Make sure after this change, every node in segment tree still has the max attribute with the correct value.</p>
+<p>start and end are both integers, they should be assigned in following rules:</p>
+
+<ul>
+<li>The root&rsquo;s start and end is given by <code>build</code> method.</li>
+<li>The left child of node A has <code>start=A.left, end=(A.left + A.right) / 2</code>.</li>
+<li>The right child of node A has <code>start=(A.left + A.right) / 2 + 1, end=A.right</code>.</li>
+<li>if start equals to end, there will be no children for this node.</li>
+</ul>
+
+<p>Implement a build method with a given array, so that we can create a corresponding segment tree with every node value represent the corresponding interval max value in the array, return the root of this segment tree.</p>
 
                 </p>
                 <p class="article-more-link">
-                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify/">
+                    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-modify/" data-id="ab66ca0e96ab88fced8a7606053bd30c" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii/" data-id="4b9f9ac8601d639b8cbf83a2852bb8e5" class="article-share-link">
         Share
     </a>
     
-    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-modify//#disqus_thread" class="article-comment-link">
+    <a href="http://xmruibi.github.io/2015/10/18/segment-tree-build-ii//#disqus_thread" class="article-comment-link">
         Comments
     </a>
     
