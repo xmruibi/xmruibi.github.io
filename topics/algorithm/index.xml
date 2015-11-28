@@ -318,81 +318,88 @@ In this question, we represent the board using a 2D array. In principle, the boa
 &lt;h2 id=&#34;solution:6bea082703d3b73c0480d7f0afc663d2&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-    /**
-     * DFS Implementation
-     * @param matrix as maze
-     * @param x start position
-     * @param y start position
-     * @return
-     */
-    public static boolean findPath(int[][] matrix, int x, int y) {
-        // output for edge cases
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0
-                || matrix[x][y] == 1) {
-            return false;
-        }
-        // the steps for x and y
-        int[] sx = { 0, 0, -1, 1 };
-        int[] sy = { 1, -1, 0, 0 };
+	/**
+	 * DFS Implementation
+	 * @param matrix as maze
+	 * @param x start position
+	 * @param y start position
+	 * @return
+	 */
+	public static boolean findPath(int[][] matrix, int x, int y) {
+		// output for edge cases
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0
+				|| matrix[x][y] == 1) {
+			return false;
+		}
+		// the steps for x and y
+		int[] sx = { 0, 0, -1, 1 };
+		int[] sy = { 1, -1, 0, 0 };
 
-        // if current position is &#39;9&#39;
-        if (matrix[x][y] == 9)
-            return true;
-        // set current value to 1 avoid the duplicate visiting
-        matrix[x][y] = 1;
+		// if current position is &#39;9&#39;
+		if (matrix[x][y] == 9)
+			return true;
+		// set current value to 1 avoid the duplicate visiting
+		matrix[x][y] = 1;
+		
+		// dfs to try the path in matrix
+		for (int i = 0; i &amp;lt; 4; i++) {
+			int nx = x + sx[i];
+			int ny = y + sy[i];
+			if (nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; matrix.length &amp;amp;&amp;amp; ny &amp;gt;= 0
+					&amp;amp;&amp;amp; ny &amp;lt; matrix[nx].length &amp;amp;&amp;amp; matrix[nx][ny] != 1) {
+				if (findPath(matrix, nx, ny))
+					return true;
+			}
+		}
+		return false;
+	}
 
-        boolean res = false;
-        // dfs to try the path in matrix
-        for (int i = 0; i &amp;lt; 4; i++) {
-            int nx = x + sx[i];
-            int ny = y + sy[i];
-            if (nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; matrix.length &amp;amp;&amp;amp; ny &amp;gt;= 0
-                    &amp;amp;&amp;amp; ny &amp;lt; matrix[nx].length &amp;amp;&amp;amp; matrix[nx][ny] != 1) {
-                if (findPath(matrix, nx, ny))
-                    res = true;
-            }
-        }
-        return res;
-    }
+	/**
+	 * BFS Implementation
+	 * @param matrix as maze
+	 * @param x start position
+	 * @param y start position
+	 * @return
+	 */
+	public static boolean findPathII(int[][] matrix, int x, int y) {
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0
+				|| matrix[x][y] == 1) {
+			return false;
+		}
+		// the steps for x and y
+		int[] sx = { 0, 0, -1, 1 };
+		int[] sy = { 1, -1, 0, 0 };
 
-    /**
-     * BFS Implementation
-     * @param matrix as maze
-     * @param x start position
-     * @param y start position
-     * @return
-     */
-    public static boolean findPathII(int[][] matrix, int x, int y) {
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0
-                || matrix[x][y] == 1) {
-            return false;
-        }
-        // the steps for x and y
-        int[] sx = { 0, 0, -1, 1 };
-        int[] sy = { 1, -1, 0, 0 };
-        
-        // setup a queue to do the bfs
-        Queue&amp;lt;int[]&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
-        queue.offer(new int[] { x, y });
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            if (matrix[cur[0]][cur[1]] == 9) 
-                return true;
-            
-            matrix[cur[0]][cur[1]] = 1;
-            for (int i = 0; i &amp;lt; 4; i++) {
-                int nx = cur[0] + sx[i];
-                int ny = cur[1] + sy[i];
-                if (nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; matrix.length &amp;amp;&amp;amp; ny &amp;gt;= 0
-                        &amp;amp;&amp;amp; ny &amp;lt; matrix[nx].length &amp;amp;&amp;amp; matrix[nx][ny] != 1) {
-                    queue.offer(new int[] { nx, ny });
-                }
-            }
-        }
-        return false;
-    }
+		// setup a queue to do the bfs
+		Queue&amp;lt;int[]&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
+		queue.offer(new int[] { x, y });
+		matrix[x][y] = 1;
+		while (!queue.isEmpty()) {
+			int[] cur = queue.poll();
+			if (matrix[cur[0]][cur[1]] == 9) 
+				return true;
+			
+			matrix[cur[0]][cur[1]] = 1;
+			for (int i = 0; i &amp;lt; 4; i++) {
+				int nx = cur[0] + sx[i];
+				int ny = cur[1] + sy[i];
+				if (nx &amp;gt;= 0 &amp;amp;&amp;amp; nx &amp;lt; matrix.length &amp;amp;&amp;amp; ny &amp;gt;= 0
+						&amp;amp;&amp;amp; ny &amp;lt; matrix[nx].length &amp;amp;&amp;amp; matrix[nx][ny] != 1) {
+					queue.offer(new int[] { nx, ny });
+					matrix[nx][ny] = 1;
+				}
+			}
+		}
+		return false;
+	}
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;time-complexity:6bea082703d3b73c0480d7f0afc663d2&#34;&gt;Time Complexity&lt;/h2&gt;
+
+&lt;p&gt;For DFS, it takes much space $O(m * n)$,  while the time complexity is $O(m * n)$. More specifically, the space complexity depends on the maze type and the step direction order.&lt;/p&gt;
+
+&lt;p&gt;For BFS,&lt;/p&gt;
 </description>
     </item>
     
@@ -810,27 +817,28 @@ public class Solution{
 
 &lt;p&gt;Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	class Process{
-		int arrTime;
-		int exeTime;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Process implements Comparable&amp;lt;Process&amp;gt; {
+	int arrTime;
+	int exeTime;
 
-		public Process(int arrTime, int exeTime) {
-			this.arrTime = arrTime;
-			this.exeTime = exeTime;
-		}
-
-		@Override
-		public int compareTo(Process that) {
-			if (this.exeTime == that.exeTime)
-				return this.arrTime - that.arrTime;
-			return this.exeTime - that.exeTime;
-		}
-
-		@Override
-		public String toString() {
-			return &amp;quot;arrTime: &amp;quot; + this.arrTime;
-		}
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
 	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &amp;quot;arrTime: &amp;quot; + this.arrTime;
+	}
+}
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;problem-one:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Problem One&lt;/h2&gt;

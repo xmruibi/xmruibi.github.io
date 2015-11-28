@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-19T12:33:13-07:00" />
-<meta itemprop="wordCount" content="382">
+<meta itemprop="wordCount" content="419">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            382
+            419
             words
             &middot;
             2
@@ -227,81 +227,88 @@
 <h2 id="solution:6bea082703d3b73c0480d7f0afc663d2">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-    /**
-     * DFS Implementation
-     * @param matrix as maze
-     * @param x start position
-     * @param y start position
-     * @return
-     */
-    public static boolean findPath(int[][] matrix, int x, int y) {
-        // output for edge cases
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0
-                || matrix[x][y] == 1) {
-            return false;
-        }
-        // the steps for x and y
-        int[] sx = { 0, 0, -1, 1 };
-        int[] sy = { 1, -1, 0, 0 };
+	/**
+	 * DFS Implementation
+	 * @param matrix as maze
+	 * @param x start position
+	 * @param y start position
+	 * @return
+	 */
+	public static boolean findPath(int[][] matrix, int x, int y) {
+		// output for edge cases
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0
+				|| matrix[x][y] == 1) {
+			return false;
+		}
+		// the steps for x and y
+		int[] sx = { 0, 0, -1, 1 };
+		int[] sy = { 1, -1, 0, 0 };
 
-        // if current position is '9'
-        if (matrix[x][y] == 9)
-            return true;
-        // set current value to 1 avoid the duplicate visiting
-        matrix[x][y] = 1;
+		// if current position is '9'
+		if (matrix[x][y] == 9)
+			return true;
+		// set current value to 1 avoid the duplicate visiting
+		matrix[x][y] = 1;
+		
+		// dfs to try the path in matrix
+		for (int i = 0; i &lt; 4; i++) {
+			int nx = x + sx[i];
+			int ny = y + sy[i];
+			if (nx &gt;= 0 &amp;&amp; nx &lt; matrix.length &amp;&amp; ny &gt;= 0
+					&amp;&amp; ny &lt; matrix[nx].length &amp;&amp; matrix[nx][ny] != 1) {
+				if (findPath(matrix, nx, ny))
+					return true;
+			}
+		}
+		return false;
+	}
 
-        boolean res = false;
-        // dfs to try the path in matrix
-        for (int i = 0; i &lt; 4; i++) {
-            int nx = x + sx[i];
-            int ny = y + sy[i];
-            if (nx &gt;= 0 &amp;&amp; nx &lt; matrix.length &amp;&amp; ny &gt;= 0
-                    &amp;&amp; ny &lt; matrix[nx].length &amp;&amp; matrix[nx][ny] != 1) {
-                if (findPath(matrix, nx, ny))
-                    res = true;
-            }
-        }
-        return res;
-    }
+	/**
+	 * BFS Implementation
+	 * @param matrix as maze
+	 * @param x start position
+	 * @param y start position
+	 * @return
+	 */
+	public static boolean findPathII(int[][] matrix, int x, int y) {
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0
+				|| matrix[x][y] == 1) {
+			return false;
+		}
+		// the steps for x and y
+		int[] sx = { 0, 0, -1, 1 };
+		int[] sy = { 1, -1, 0, 0 };
 
-    /**
-     * BFS Implementation
-     * @param matrix as maze
-     * @param x start position
-     * @param y start position
-     * @return
-     */
-    public static boolean findPathII(int[][] matrix, int x, int y) {
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0
-                || matrix[x][y] == 1) {
-            return false;
-        }
-        // the steps for x and y
-        int[] sx = { 0, 0, -1, 1 };
-        int[] sy = { 1, -1, 0, 0 };
-        
-        // setup a queue to do the bfs
-        Queue&lt;int[]&gt; queue = new LinkedList&lt;&gt;();
-        queue.offer(new int[] { x, y });
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            if (matrix[cur[0]][cur[1]] == 9) 
-                return true;
-            
-            matrix[cur[0]][cur[1]] = 1;
-            for (int i = 0; i &lt; 4; i++) {
-                int nx = cur[0] + sx[i];
-                int ny = cur[1] + sy[i];
-                if (nx &gt;= 0 &amp;&amp; nx &lt; matrix.length &amp;&amp; ny &gt;= 0
-                        &amp;&amp; ny &lt; matrix[nx].length &amp;&amp; matrix[nx][ny] != 1) {
-                    queue.offer(new int[] { nx, ny });
-                }
-            }
-        }
-        return false;
-    }
+		// setup a queue to do the bfs
+		Queue&lt;int[]&gt; queue = new LinkedList&lt;&gt;();
+		queue.offer(new int[] { x, y });
+		matrix[x][y] = 1;
+		while (!queue.isEmpty()) {
+			int[] cur = queue.poll();
+			if (matrix[cur[0]][cur[1]] == 9) 
+				return true;
+			
+			matrix[cur[0]][cur[1]] = 1;
+			for (int i = 0; i &lt; 4; i++) {
+				int nx = cur[0] + sx[i];
+				int ny = cur[1] + sy[i];
+				if (nx &gt;= 0 &amp;&amp; nx &lt; matrix.length &amp;&amp; ny &gt;= 0
+						&amp;&amp; ny &lt; matrix[nx].length &amp;&amp; matrix[nx][ny] != 1) {
+					queue.offer(new int[] { nx, ny });
+					matrix[nx][ny] = 1;
+				}
+			}
+		}
+		return false;
+	}
 }
 </code></pre>
+
+<h2 id="time-complexity:6bea082703d3b73c0480d7f0afc663d2">Time Complexity</h2>
+
+<p>For DFS, it takes much space $O(m * n)$,  while the time complexity is $O(m * n)$. More specifically, the space complexity depends on the maze type and the step direction order.</p>
+
+<p>For BFS,</p>
 
             </div>
             <footer class="article-footer">
@@ -373,6 +380,7 @@
 <li>
 <ul>
 <li><a href="#solution:6bea082703d3b73c0480d7f0afc663d2">Solution</a></li>
+<li><a href="#time-complexity:6bea082703d3b73c0480d7f0afc663d2">Time Complexity</a></li>
 </ul></li>
 </ul>
 </nav>

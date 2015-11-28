@@ -19,27 +19,28 @@
     <meta property="og:title" content="Process Schedule Problems" />
 <meta property="og:description" content="Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.
 
-	class Process{
-		int arrTime;
-		int exeTime;
+class Process implements Comparable&lt;Process&gt; {
+	int arrTime;
+	int exeTime;
 
-		public Process(int arrTime, int exeTime) {
-			this.arrTime = arrTime;
-			this.exeTime = exeTime;
-		}
-
-		@Override
-		public int compareTo(Process that) {
-			if (this.exeTime == that.exeTime)
-				return this.arrTime - that.arrTime;
-			return this.exeTime - that.exeTime;
-		}
-
-		@Override
-		public String toString() {
-			return &quot;arrTime: &quot; &#43; this.arrTime;
-		}
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
 	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &quot;arrTime: &quot; &#43; this.arrTime;
+	}
+}
 
 " />
 <meta property="og:type" content="article" />
@@ -62,33 +63,34 @@
 <meta itemprop="name" content="Process Schedule Problems">
 <meta itemprop="description" content="Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.
 
-	class Process{
-		int arrTime;
-		int exeTime;
+class Process implements Comparable&lt;Process&gt; {
+	int arrTime;
+	int exeTime;
 
-		public Process(int arrTime, int exeTime) {
-			this.arrTime = arrTime;
-			this.exeTime = exeTime;
-		}
-
-		@Override
-		public int compareTo(Process that) {
-			if (this.exeTime == that.exeTime)
-				return this.arrTime - that.arrTime;
-			return this.exeTime - that.exeTime;
-		}
-
-		@Override
-		public String toString() {
-			return &quot;arrTime: &quot; &#43; this.arrTime;
-		}
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
 	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &quot;arrTime: &quot; &#43; this.arrTime;
+	}
+}
 
 ">
 
 
 <meta itemprop="dateModified" content="2015-11-18T12:43:13-07:00" />
-<meta itemprop="wordCount" content="528">
+<meta itemprop="wordCount" content="537">
 
 
 
@@ -103,27 +105,28 @@
 <meta name="twitter:title" content="Process Schedule Problems"/>
 <meta name="twitter:description" content="Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.
 
-	class Process{
-		int arrTime;
-		int exeTime;
+class Process implements Comparable&lt;Process&gt; {
+	int arrTime;
+	int exeTime;
 
-		public Process(int arrTime, int exeTime) {
-			this.arrTime = arrTime;
-			this.exeTime = exeTime;
-		}
-
-		@Override
-		public int compareTo(Process that) {
-			if (this.exeTime == that.exeTime)
-				return this.arrTime - that.arrTime;
-			return this.exeTime - that.exeTime;
-		}
-
-		@Override
-		public String toString() {
-			return &quot;arrTime: &quot; &#43; this.arrTime;
-		}
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
 	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &quot;arrTime: &quot; &#43; this.arrTime;
+	}
+}
 
 "/>
 
@@ -258,7 +261,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            528
+            537
             words
             &middot;
             3
@@ -293,27 +296,28 @@
 
 <p>Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.</p>
 
-<pre><code class="language-java">	class Process{
-		int arrTime;
-		int exeTime;
+<pre><code class="language-java">class Process implements Comparable&lt;Process&gt; {
+	int arrTime;
+	int exeTime;
 
-		public Process(int arrTime, int exeTime) {
-			this.arrTime = arrTime;
-			this.exeTime = exeTime;
-		}
-
-		@Override
-		public int compareTo(Process that) {
-			if (this.exeTime == that.exeTime)
-				return this.arrTime - that.arrTime;
-			return this.exeTime - that.exeTime;
-		}
-
-		@Override
-		public String toString() {
-			return &quot;arrTime: &quot; + this.arrTime;
-		}
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
 	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &quot;arrTime: &quot; + this.arrTime;
+	}
+}
 </code></pre>
 
 <h2 id="problem-one:fd5fbfca02af2e560dbb93ca15b4bf95">Problem One</h2>

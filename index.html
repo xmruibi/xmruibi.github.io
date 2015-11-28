@@ -544,7 +544,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            382
+            419
             words
             &middot;
             2
@@ -1208,7 +1208,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            528
+            537
             words
             &middot;
             3
@@ -1242,27 +1242,28 @@
                 <p>
                     <p>Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.</p>
 
-<pre><code class="language-java">	class Process{
-		int arrTime;
-		int exeTime;
+<pre><code class="language-java">class Process implements Comparable&lt;Process&gt; {
+	int arrTime;
+	int exeTime;
 
-		public Process(int arrTime, int exeTime) {
-			this.arrTime = arrTime;
-			this.exeTime = exeTime;
-		}
-
-		@Override
-		public int compareTo(Process that) {
-			if (this.exeTime == that.exeTime)
-				return this.arrTime - that.arrTime;
-			return this.exeTime - that.exeTime;
-		}
-
-		@Override
-		public String toString() {
-			return &quot;arrTime: &quot; + this.arrTime;
-		}
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
 	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &quot;arrTime: &quot; + this.arrTime;
+	}
+}
 </code></pre>
 
                 </p>
