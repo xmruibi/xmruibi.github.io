@@ -7,76 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Fri, 13 Nov 2015 23:50:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2015 10:23:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/heap/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>K Nearest Points</title>
-      <link>http://xmruibi.github.io/2015/11/13/k-nearest-points/</link>
-      <pubDate>Fri, 13 Nov 2015 23:50:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/13/k-nearest-points/</guid>
-      <description>
-
-&lt;p&gt;Find K nearest Points by given the central point. Complete the class design for Point as implementing Comparable interface.&lt;/p&gt;
-
-&lt;h2 id=&#34;think:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Implement a Point class with Comparable interface, we can save the distance between the central point in each point and for its &lt;code&gt;compareTo&lt;/code&gt; function&lt;/li&gt;
-&lt;li&gt;Max heap to save space, since we only need k space for max heap. The top of heap is the node has the larest distance in these k nearest node. So once we got point near to the central than it, we poll the top and add the new one.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class KNearestPoints {
-
-    // finding k nearest neighbor from the original point using a MAX heap, each
-    // time if the dist is less than the MAX we put it into the q.
-      public static Collection&amp;lt;Point&amp;gt; knearestPoints( Collection&amp;lt;Point&amp;gt; points, Point origin, int k) {
-        PriorityQueue&amp;lt;CPoint&amp;gt; pq = new PriorityQueue&amp;lt;&amp;gt;();
-        int cnt = 0;
-        for(Point point : points) {
-          CPoint cur = new CPoint(point.x, point.y, origin);
-           if(cnt &amp;lt; k) {
-             pq.offer(cur);
-             cnt++;
-           }else {
-             if(cur.compareTo(pq.peek()) &amp;lt; 0) {
-               pq.poll();
-               pq.offer(cur);
-             }
-           }
-        }
-        return new ArrayList&amp;lt;&amp;gt;(pq);
-      }
-}
-
-class Point {
-    int x, y;
-    public Point(int x, int y) {
-      this.x = x;
-      this.y = y;
-    }
-}
-
-class CPoint extends Point implements Comparable&amp;lt;CPoint&amp;gt;{
-  double dist;
-  
-  public CPoint (int x, int y, Point root) {
-    super(x, y);
-    this.dist = Math.hypot(x - root.x, y - root.y);
-  }
-  
-  
-  @Override
-  public int compareTo(CPoint p) {
-    return Double.compare(p.dist, this.dist);
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
     
     <item>
       <title>Closest Binary Search Tree Value</title>

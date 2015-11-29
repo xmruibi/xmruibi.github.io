@@ -69,56 +69,6 @@ public class Solution{
     </item>
     
     <item>
-      <title>Sum of Difference on Four Integers</title>
-      <link>http://xmruibi.github.io/2015/11/18/sum-of-difference-on-four-integers/</link>
-      <pubDate>Wed, 18 Nov 2015 13:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/18/sum-of-difference-on-four-integers/</guid>
-      <description>
-
-&lt;p&gt;Given four integers, make &lt;code&gt;F(S)&lt;/code&gt; = &lt;code&gt;abs(S[0] - S[1])&lt;/code&gt; + &lt;code&gt;abs(S[1] - S[2])&lt;/code&gt; + &lt;code&gt;abs(S[2] - S[3])&lt;/code&gt; to be largest.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution-general-method:b95750bdbb505b858c5f59e1fd60a5ee&#34;&gt;Solution #General Method&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-    public int maxDiff(int[] arr) {
-        List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-        permutation(res, new ArrayList&amp;lt;&amp;gt;(), arr);
-        int max = 0;
-        List&amp;lt;Integer&amp;gt; maxLine = new ArrayList&amp;lt;&amp;gt;();
-        for(List&amp;lt;Integer&amp;gt; each : res) {
-            int cur = 0;
-            for(int i = 1; i &amp;lt; each.size(); i++) 
-                cur += Math.abs(each.get(i) - cur.get(i-1));
-            if(max &amp;lt;= cur) {
-                max = cur;
-                maxLine = each;
-            }
-        }
-        System.out.println(maxLine);
-        return max;
-    }
-
-    private void permutation(List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res, List&amp;lt;Integer&amp;gt; curRes, int[] arr) {
-        if(curRes.size() == arr.length) {
-            res.add(new ArrayList&amp;lt;&amp;gt;(curRes));
-            return;
-        }
-
-        for(int i = 0; i &amp;lt; arr.length; i++) {
-            if(curRes.contains(arr[i]))
-                continue;
-            curRes.add(arr[i]); 
-            permutation(res, curRes, arr);
-            curRes.remove(curRes.size() - 1);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Palindrome Permutation</title>
       <link>http://xmruibi.github.io/2015/11/09/palindrome-permutation/</link>
       <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>

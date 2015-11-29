@@ -7,49 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Tue, 17 Nov 2015 22:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2015 17:10:29 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/stack/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Determine valid parentheses</title>
-      <link>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</link>
-      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</guid>
-      <description>
-
-&lt;p&gt;Given a String, judge if it is a valid parenthese.&lt;/p&gt;
-
-&lt;h2 id=&#34;solution:10aafbab84837eff25243552bd87c32a&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-public static boolean validParenthese(String str) {
-    if(str == null || str.length() == 0)
-      return true;
-    // store the parenthese
-    Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
-    // save the parenthese pair in hashmap as a dictionary
-    HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-    map.put(&#39;(&#39;,&#39;)&#39;);map.put(&#39;{&#39;,&#39;}&#39;);map.put(&#39;[&#39;,&#39;]&#39;);
-    
-    for(int i = 0 ; i &amp;lt; str.length() ; i++) {
-      char cur = str.charAt(i);
-      if(map.containsKey(cur))
-        // if the current character is a front parenthese, directly push into stack
-        stack.push(cur);
-      else if(map.containsValue(cur)){  
-      	// if current character is a back parenthese  
-          if(stack.isEmpty() || map.get(stack.pop()) != cur)
-          // if current stack is empty or the poped element doesn&#39;t match with current character 
-            return false;
-      }
-    }
-    return stack.isEmpty();
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
     
     <item>
       <title>Convert BST to Sorted Doubly-Linked List</title>
