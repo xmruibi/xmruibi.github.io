@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-19T10:23:13-07:00" />
-<meta itemprop="wordCount" content="71">
+<meta itemprop="wordCount" content="63">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 10:23:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            71
+            63
             words
             &middot;
             1
@@ -224,21 +224,16 @@
 <h2 id="solution:daf05f69a964957806f1dbf44b1f6175">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-	public int minPath(TreeNode root) {
-		if(root == null)
+	public static int minPath(TreeNode root) {
+		if (root == null)
 			return 0;
-		return dfshelper(root);
-	}
-
-	private int dfshelper(TreeNode node) {
-		if(node.left == null &amp;&amp; node.right == null)
-			return node.val;
-		int left = Integer.MAX_VALUE, right = Integer.MAX_VALUE;
-		if(node.left != null)
-			left = dfshelper(node.left);
-		if(node.right != null) 
-			right = dfshelper(node.right);
-		return Math.min(left, right) + node.val;
+		if (root.left == null &amp;&amp; root.right == null)
+			return root.val;
+		if (root.left == null)
+			return root.val + minPath(root.right);
+		if (root.right == null)
+			return root.val + minPath(root.left);
+		return root.val + Math.min(minPath(root.left), minPath(root.right));
 	}
 }
 </code></pre>

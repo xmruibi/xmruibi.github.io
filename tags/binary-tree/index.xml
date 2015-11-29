@@ -23,21 +23,16 @@
 &lt;h2 id=&#34;solution:daf05f69a964957806f1dbf44b1f6175&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public int minPath(TreeNode root) {
-		if(root == null)
+	public static int minPath(TreeNode root) {
+		if (root == null)
 			return 0;
-		return dfshelper(root);
-	}
-
-	private int dfshelper(TreeNode node) {
-		if(node.left == null &amp;amp;&amp;amp; node.right == null)
-			return node.val;
-		int left = Integer.MAX_VALUE, right = Integer.MAX_VALUE;
-		if(node.left != null)
-			left = dfshelper(node.left);
-		if(node.right != null) 
-			right = dfshelper(node.right);
-		return Math.min(left, right) + node.val;
+		if (root.left == null &amp;amp;&amp;amp; root.right == null)
+			return root.val;
+		if (root.left == null)
+			return root.val + minPath(root.right);
+		if (root.right == null)
+			return root.val + minPath(root.left);
+		return root.val + Math.min(minPath(root.left), minPath(root.right));
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
