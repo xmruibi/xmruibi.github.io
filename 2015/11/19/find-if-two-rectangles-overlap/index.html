@@ -56,7 +56,7 @@ r2: Bottom Right coordinate of second rectangle.
 
 
 <meta itemprop="dateModified" content="2015-11-19T12:33:13-07:00" />
-<meta itemprop="wordCount" content="148">
+<meta itemprop="wordCount" content="183">
 
 
 
@@ -210,7 +210,7 @@ r2: Bottom Right coordinate of second rectangle.
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            148
+            183
             words
             &middot;
             1
@@ -255,35 +255,37 @@ r2: Bottom Right coordinate of second rectangle.
 <li>r2: Bottom Right coordinate of second rectangle.</li>
 </ul>
 
-<pre><code class="language-java">class Rectangle{
-	Point topLeft;
-	Point rightBottom;
-	public Rectangle(Point topLeft, Point rightBottom){
-		this.topLeft = topLeft;
-		this.rightBottom = rightBottom;
-	}
-}
-class Point{
-	int x;
-	int y;
-}
-</code></pre>
-
 <h2 id="solution:349119d14e4a4f28c56258b5d1239743">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-	public boolean overlapRectangle(Rectangle r1, Rectangle r2) {
+	public static boolean overlapping(Rectangle r1, Rectangle r2) {
+		// edge case, if one of them is null
 		if(r1 == null || r2 == null)
 			return true;
 		// If one rectangle is on left side of other
-		if(r1.topLeft.x &gt;= r2.bottomRight.x || r2.topLeft.x &gt;= r1.bottomRight.x)
-      		return false;
-
+		if(r1.leftTop.x &gt;= r2.rightBottom.x || r2.leftTop.x &gt;= r1.rightBottom.x)
+			return false;
 		// If one rectangle is above other
-    	if(r1.topLeft.y &lt;= r2.bottomRight.y || r2.topLeft.y &lt;= r1.bottomRight.y)
-      		return false;
-      		
+		if(r1.leftTop.y &lt;= r2.rightBottom.y || r2.leftTop.y &lt;= r1.rightBottom.y)
+			return false;
 		return true;
+	}
+
+	static class Rectangle {
+		Point leftTop, rightBottom;
+		public Rectangle (int x1, int y1, int x2, int y2) {
+			this.leftTop = new Point(x1, y1);
+			this.rightBottom = new Point(x2, y2);
+		}
+
+		private class Point{
+			int x;
+			int y;
+			public Point(int x, int y) {
+				this.x = x;
+				this.y = y;
+			}
+		}
 	}
 }
 </code></pre>

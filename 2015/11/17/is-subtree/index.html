@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-17T22:43:13-07:00" />
-<meta itemprop="wordCount" content="157">
+<meta itemprop="wordCount" content="147">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-17 22:43:13 -0700 -0700" itemprop="datePublished">2015-11-17</time>
             &middot;
-            157
+            147
             words
             &middot;
             1
@@ -226,9 +226,9 @@
 <pre><code class="language-java">public class Solution{
     
     public boolean isSubtree(TreeNode root, TreeNode node) {
-        if(root == null &amp;&amp; node  == null)
+        if(node  == null)
             return true;
-        else if(root == null || node == null)
+        if(root == null)
             return false;
         // check if currende node can build a same tree, or  recursively check the child node is that subtree
         return checkNodes(root, node) || isSubtree(root.left, node) ||isSubtree(root.right, node);
@@ -242,7 +242,7 @@
     private boolean checkNodes(TreeNode r1, TreeNode r2) {
         if(r1 == null &amp;&amp; r2  == null)
             return true;
-        else if(r1 == null || r2 == null)
+        if(r1 == null || r2 == null)
             return false;
         return (r1.val == r2.val) &amp;&amp; checkNodes(r1.left, r2.left) &amp;&amp; chechNodes(r1.right, r2.right);
     }

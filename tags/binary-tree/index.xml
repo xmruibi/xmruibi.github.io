@@ -141,9 +141,9 @@
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
     
     public boolean isSubtree(TreeNode root, TreeNode node) {
-        if(root == null &amp;amp;&amp;amp; node  == null)
+        if(node  == null)
             return true;
-        else if(root == null || node == null)
+        if(root == null)
             return false;
         // check if currende node can build a same tree, or  recursively check the child node is that subtree
         return checkNodes(root, node) || isSubtree(root.left, node) ||isSubtree(root.right, node);
@@ -157,7 +157,7 @@
     private boolean checkNodes(TreeNode r1, TreeNode r2) {
         if(r1 == null &amp;amp;&amp;amp; r2  == null)
             return true;
-        else if(r1 == null || r2 == null)
+        if(r1 == null || r2 == null)
             return false;
         return (r1.val == r2.val) &amp;amp;&amp;amp; checkNodes(r1.left, r2.left) &amp;amp;&amp;amp; chechNodes(r1.right, r2.right);
     }

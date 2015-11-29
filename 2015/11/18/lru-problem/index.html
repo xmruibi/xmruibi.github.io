@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-18T12:43:13-07:00" />
-<meta itemprop="wordCount" content="105">
+<meta itemprop="wordCount" content="384">
 
 
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            105
+            384
             words
             &middot;
-            1
+            2
             minute read
         </div>
         <div class="article-category">
@@ -223,29 +223,137 @@
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                <p>Given the max size of a LRU cache and a input array, calculate the miss times.</p>
+                
 
-<p>## Solution</p>
+<p>Given the max size of a LRU cache and a input array, calculate the miss times.</p>
 
-<pre><code class="language-java">public class Solution{
-	public int CacheMiss(int[] array, int size) {
-		if(array == null)	
+<p>## Solution # LinkedHashMap</p>
+
+<pre><code class="language-java">public class MissingCacheII {
+	public static int countMiss(int[] arr, int size) {
+		if(arr == null || arr.length == 0)
 			return 0;
-		Queue&lt;Integer&gt; cache = new LinkedList&lt;Integer&gt;();
-		HashSet&lt;Integer&gt; hash = new HashSet&lt;&gt;();
-		int count = 0;
-		for (int i = 0; i &lt; array.length; i++) {
-			if(hash.contains(array[i])) {
-				cache.remove(array[i]); // if hit it need to move it back, so remove here at first
-			} else {
-				count++; // miss, increse the count
+		
+		Cache cache = new Cache(size);
+		int cnt = 0;
+		for(int i = 0; i &lt; arr.length; i ++) {
+			if(cache.get(arr[i]) &lt; 0) {
+				cnt++;
+				cache.put(arr[i], i);
 			}
-			cache.add(array[i]);
-			hash.add(new Integer(array[i]));
-			if (size == cache.size()) // over size, poll the first of queue
-				cache.poll();
 		}
-		return count;
+		return cnt;
+	}
+
+	static class Cache {
+		int capacity; // the capacity of cache
+		Map&lt;Integer, Integer&gt; map; // use linkedhashmap to store elements
+
+		public Cache(int capacity) {
+			this.capacity = capacity;
+			// setup the loadFactor with 0.75, and set the access order as true so that it can be a LRU cache
+			this.map = new LinkedHashMap&lt;Integer, Integer&gt;(capacity, 0.75f,
+					true) {
+				// remove the eldest element when the size exceed the capacity
+				protected boolean removeEldestEntry(
+						Map.Entry&lt;Integer, Integer&gt; entry) {
+					return size() &gt; capacity;
+				}
+			};
+		}
+
+		public int get(int key) {
+			if (map.containsKey(key))
+				return map.get(key);
+			else
+				return -1;
+		}
+
+		public void put(int key, int val) {
+			map.put(key, val);
+		}
+	}
+}
+</code></pre>
+
+<h2 id="solution-doubly-linked-list-hash-map:8efa23982de6478b4725ada2918c55f0">Solution #Doubly Linked List + Hash Map</h2>
+
+<pre><code class="language-java">public class MissingCache {
+
+	public static int countMissing(int[] arr, int size) {
+		int missCnt = 0;
+		if (arr == null || arr.length == 0)
+			return missCnt;
+		Cache cache = new Cache(size);
+		for (int i : arr) {
+			if (cache.insert(i) == 1)
+				missCnt++;
+		}
+		return missCnt;
+	}
+
+	static class Cache {
+		int size;
+		int thresHold;
+		DLLNode head, rear;
+		HashMap&lt;Integer, DLLNode&gt; map = new HashMap&lt;&gt;();
+
+		public Cache(int thresHold) {
+			this.size = 0;
+			this.thresHold = thresHold;
+			this.head = new DLLNode(0);
+			this.rear = new DLLNode(0);
+			this.head.next = rear;
+			this.rear.prev = head;
+		}
+
+		public void insertHead(DLLNode newnode) {
+			head.next.prev = newnode;
+			newnode.next = head.next;
+			newnode.prev = head;
+			head.next = newnode;
+		}
+
+		public DLLNode removeLast() {
+			DLLNode remove = this.rear.prev;
+			this.rear.prev = remove.prev;
+			remove.prev.next = this.rear;
+			return remove;
+		}
+
+		public void remove(DLLNode remove) {
+			remove.prev.next = remove.next;
+			remove.next.prev = remove.prev;
+		}
+
+		public int insert(int key) {
+			if (map.containsKey(key)) {
+				DLLNode node = map.get(key);
+				remove(node);
+				insertHead(node);
+				return 0;
+			} else {
+				if (size &gt;= thresHold) {
+					DLLNode remove = removeLast();
+					map.remove(remove.val);
+					size--;
+				}
+				DLLNode newnode = new DLLNode(key);
+				insertHead(newnode);
+				map.put(key, newnode);
+				size++;
+				return 1;
+			}
+		}
+	}
+
+	static class DLLNode {
+		int val;
+		DLLNode prev, next;
+
+		public DLLNode(int val) {
+			this.val = val;
+		}
 	}
 }
 </code></pre>
@@ -315,7 +423,14 @@
     Table of Contents
     </h3>
      <div class="widget">
-		
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#solution-doubly-linked-list-hash-map:8efa23982de6478b4725ada2918c55f0">Solution #Doubly Linked List + Hash Map</a></li>
+</ul></li>
+</ul>
+</nav>
      </div>
 </div>
 	

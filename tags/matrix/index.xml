@@ -125,35 +125,37 @@
 &lt;li&gt;r2: Bottom Right coordinate of second rectangle.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Rectangle{
-	Point topLeft;
-	Point rightBottom;
-	public Rectangle(Point topLeft, Point rightBottom){
-		this.topLeft = topLeft;
-		this.rightBottom = rightBottom;
-	}
-}
-class Point{
-	int x;
-	int y;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
 &lt;h2 id=&#34;solution:349119d14e4a4f28c56258b5d1239743&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public boolean overlapRectangle(Rectangle r1, Rectangle r2) {
+	public static boolean overlapping(Rectangle r1, Rectangle r2) {
+		// edge case, if one of them is null
 		if(r1 == null || r2 == null)
 			return true;
 		// If one rectangle is on left side of other
-		if(r1.topLeft.x &amp;gt;= r2.bottomRight.x || r2.topLeft.x &amp;gt;= r1.bottomRight.x)
-      		return false;
-
+		if(r1.leftTop.x &amp;gt;= r2.rightBottom.x || r2.leftTop.x &amp;gt;= r1.rightBottom.x)
+			return false;
 		// If one rectangle is above other
-    	if(r1.topLeft.y &amp;lt;= r2.bottomRight.y || r2.topLeft.y &amp;lt;= r1.bottomRight.y)
-      		return false;
-      		
+		if(r1.leftTop.y &amp;lt;= r2.rightBottom.y || r2.leftTop.y &amp;lt;= r1.rightBottom.y)
+			return false;
 		return true;
+	}
+
+	static class Rectangle {
+		Point leftTop, rightBottom;
+		public Rectangle (int x1, int y1, int x2, int y2) {
+			this.leftTop = new Point(x1, y1);
+			this.rightBottom = new Point(x2, y2);
+		}
+
+		private class Point{
+			int x;
+			int y;
+			public Point(int x, int y) {
+				this.x = x;
+				this.y = y;
+			}
+		}
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;

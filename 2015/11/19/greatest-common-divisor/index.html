@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-19T12:33:13-07:00" />
-<meta itemprop="wordCount" content="104">
+<meta itemprop="wordCount" content="110">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 12:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            104
+            110
             words
             &middot;
             1
@@ -224,26 +224,29 @@
 <h2 id="solution:5d09a98119ed49836b368e464065fa50">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-	public int findGCD(int[] arr) {
-		if (array == null || array.length == 1)	return 0;
-		int gcd = array[0];
-		for (int i = 1; i &lt; array.length; i++) {
-			gcd = gcd(gcd, array[i]);
+	public static int gcdArr(int[] arr) {
+		if (arr == null || arr.length == 0)
+			return 0;
+		if (arr.length == 1)
+			return arr[0];
+		int res = gcd(arr[0], arr[1]);
+		for (int i = 2; i &lt; arr.length; i++) {
+			if( arr[i] &lt;= 0 || res == 0)
+				return 0;
+			res = gcd(res, arr[i]);
 		}
-		return gcd;
+		return res;
 	}
 
-	private int gcd(int num1, int num2) {
-		if (num2 &gt; num1)
-			return gcd(num2, num1);
-		if (num1 == 0 || num2 == 0)	
+	private static int gcd(int m, int n) {
+		if (m &lt;= 0 || n &lt;= 0)
 			return 0;
-		while (num1 != 0 &amp;&amp; num2 != 0) {
-			int temp = num1 % num2;
-			num1 = num2;
-			num2 = temp;
-		}
-		return num1 + num2;
+		
+		if (n &gt; m)
+			return gcd(n, m);
+		if (m % n == 0)
+			return n;
+		return gcd(n, m % n);
 	}
 }
 </code></pre>

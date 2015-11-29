@@ -420,35 +420,37 @@ In this question, we represent the board using a 2D array. In principle, the boa
 &lt;li&gt;r2: Bottom Right coordinate of second rectangle.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Rectangle{
-	Point topLeft;
-	Point rightBottom;
-	public Rectangle(Point topLeft, Point rightBottom){
-		this.topLeft = topLeft;
-		this.rightBottom = rightBottom;
-	}
-}
-class Point{
-	int x;
-	int y;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
 &lt;h2 id=&#34;solution:349119d14e4a4f28c56258b5d1239743&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public boolean overlapRectangle(Rectangle r1, Rectangle r2) {
+	public static boolean overlapping(Rectangle r1, Rectangle r2) {
+		// edge case, if one of them is null
 		if(r1 == null || r2 == null)
 			return true;
 		// If one rectangle is on left side of other
-		if(r1.topLeft.x &amp;gt;= r2.bottomRight.x || r2.topLeft.x &amp;gt;= r1.bottomRight.x)
-      		return false;
-
+		if(r1.leftTop.x &amp;gt;= r2.rightBottom.x || r2.leftTop.x &amp;gt;= r1.rightBottom.x)
+			return false;
 		// If one rectangle is above other
-    	if(r1.topLeft.y &amp;lt;= r2.bottomRight.y || r2.topLeft.y &amp;lt;= r1.bottomRight.y)
-      		return false;
-      		
+		if(r1.leftTop.y &amp;lt;= r2.rightBottom.y || r2.leftTop.y &amp;lt;= r1.rightBottom.y)
+			return false;
 		return true;
+	}
+
+	static class Rectangle {
+		Point leftTop, rightBottom;
+		public Rectangle (int x1, int y1, int x2, int y2) {
+			this.leftTop = new Point(x1, y1);
+			this.rightBottom = new Point(x2, y2);
+		}
+
+		private class Point{
+			int x;
+			int y;
+			public Point(int x, int y) {
+				this.x = x;
+				this.y = y;
+			}
+		}
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -468,26 +470,29 @@ class Point{
 &lt;h2 id=&#34;solution:5d09a98119ed49836b368e464065fa50&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public int findGCD(int[] arr) {
-		if (array == null || array.length == 1)	return 0;
-		int gcd = array[0];
-		for (int i = 1; i &amp;lt; array.length; i++) {
-			gcd = gcd(gcd, array[i]);
+	public static int gcdArr(int[] arr) {
+		if (arr == null || arr.length == 0)
+			return 0;
+		if (arr.length == 1)
+			return arr[0];
+		int res = gcd(arr[0], arr[1]);
+		for (int i = 2; i &amp;lt; arr.length; i++) {
+			if( arr[i] &amp;lt;= 0 || res == 0)
+				return 0;
+			res = gcd(res, arr[i]);
 		}
-		return gcd;
+		return res;
 	}
 
-	private int gcd(int num1, int num2) {
-		if (num2 &amp;gt; num1)
-			return gcd(num2, num1);
-		if (num1 == 0 || num2 == 0)	
+	private static int gcd(int m, int n) {
+		if (m &amp;lt;= 0 || n &amp;lt;= 0)
 			return 0;
-		while (num1 != 0 &amp;amp;&amp;amp; num2 != 0) {
-			int temp = num1 % num2;
-			num1 = num2;
-			num2 = temp;
-		}
-		return num1 + num2;
+		
+		if (n &amp;gt; m)
+			return gcd(n, m);
+		if (m % n == 0)
+			return n;
+		return gcd(n, m % n);
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -778,29 +783,137 @@ public class Solution{
       <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
       
       <guid>http://xmruibi.github.io/2015/11/18/lru-problem/</guid>
-      <description>&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+      <description>
 
-&lt;p&gt;## Solution&lt;/p&gt;
+&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public int CacheMiss(int[] array, int size) {
-		if(array == null)	
+&lt;p&gt;## Solution # LinkedHashMap&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MissingCacheII {
+	public static int countMiss(int[] arr, int size) {
+		if(arr == null || arr.length == 0)
 			return 0;
-		Queue&amp;lt;Integer&amp;gt; cache = new LinkedList&amp;lt;Integer&amp;gt;();
-		HashSet&amp;lt;Integer&amp;gt; hash = new HashSet&amp;lt;&amp;gt;();
-		int count = 0;
-		for (int i = 0; i &amp;lt; array.length; i++) {
-			if(hash.contains(array[i])) {
-				cache.remove(array[i]); // if hit it need to move it back, so remove here at first
-			} else {
-				count++; // miss, increse the count
+		
+		Cache cache = new Cache(size);
+		int cnt = 0;
+		for(int i = 0; i &amp;lt; arr.length; i ++) {
+			if(cache.get(arr[i]) &amp;lt; 0) {
+				cnt++;
+				cache.put(arr[i], i);
 			}
-			cache.add(array[i]);
-			hash.add(new Integer(array[i]));
-			if (size == cache.size()) // over size, poll the first of queue
-				cache.poll();
 		}
-		return count;
+		return cnt;
+	}
+
+	static class Cache {
+		int capacity; // the capacity of cache
+		Map&amp;lt;Integer, Integer&amp;gt; map; // use linkedhashmap to store elements
+
+		public Cache(int capacity) {
+			this.capacity = capacity;
+			// setup the loadFactor with 0.75, and set the access order as true so that it can be a LRU cache
+			this.map = new LinkedHashMap&amp;lt;Integer, Integer&amp;gt;(capacity, 0.75f,
+					true) {
+				// remove the eldest element when the size exceed the capacity
+				protected boolean removeEldestEntry(
+						Map.Entry&amp;lt;Integer, Integer&amp;gt; entry) {
+					return size() &amp;gt; capacity;
+				}
+			};
+		}
+
+		public int get(int key) {
+			if (map.containsKey(key))
+				return map.get(key);
+			else
+				return -1;
+		}
+
+		public void put(int key, int val) {
+			map.put(key, val);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-doubly-linked-list-hash-map:8efa23982de6478b4725ada2918c55f0&#34;&gt;Solution #Doubly Linked List + Hash Map&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MissingCache {
+
+	public static int countMissing(int[] arr, int size) {
+		int missCnt = 0;
+		if (arr == null || arr.length == 0)
+			return missCnt;
+		Cache cache = new Cache(size);
+		for (int i : arr) {
+			if (cache.insert(i) == 1)
+				missCnt++;
+		}
+		return missCnt;
+	}
+
+	static class Cache {
+		int size;
+		int thresHold;
+		DLLNode head, rear;
+		HashMap&amp;lt;Integer, DLLNode&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+
+		public Cache(int thresHold) {
+			this.size = 0;
+			this.thresHold = thresHold;
+			this.head = new DLLNode(0);
+			this.rear = new DLLNode(0);
+			this.head.next = rear;
+			this.rear.prev = head;
+		}
+
+		public void insertHead(DLLNode newnode) {
+			head.next.prev = newnode;
+			newnode.next = head.next;
+			newnode.prev = head;
+			head.next = newnode;
+		}
+
+		public DLLNode removeLast() {
+			DLLNode remove = this.rear.prev;
+			this.rear.prev = remove.prev;
+			remove.prev.next = this.rear;
+			return remove;
+		}
+
+		public void remove(DLLNode remove) {
+			remove.prev.next = remove.next;
+			remove.next.prev = remove.prev;
+		}
+
+		public int insert(int key) {
+			if (map.containsKey(key)) {
+				DLLNode node = map.get(key);
+				remove(node);
+				insertHead(node);
+				return 0;
+			} else {
+				if (size &amp;gt;= thresHold) {
+					DLLNode remove = removeLast();
+					map.remove(remove.val);
+					size--;
+				}
+				DLLNode newnode = new DLLNode(key);
+				insertHead(newnode);
+				map.put(key, newnode);
+				size++;
+				return 1;
+			}
+		}
+	}
+
+	static class DLLNode {
+		int val;
+		DLLNode prev, next;
+
+		public DLLNode(int val) {
+			this.val = val;
+		}
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
