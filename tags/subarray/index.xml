@@ -49,20 +49,20 @@
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public List&amp;lt;Integer&amp;gt; windowsSum(List&amp;lt;Integer&amp;gt; arr, int wSize) {
-	    List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-	    
-	    if(list == null || list.size() == 0 || wSize &amp;gt; list.size())
-	      return res;
-	    int curSum = 0;
-	    for(int i = 0; i &amp;lt; list.size(); i++) {
-	      curSum += list.get(i);
-	      if(i &amp;gt;= wSize - 1) {
-	        res.add(curSum);
-	        curSum -= list.get(i - wSize + 1);
-	      }
-	    }
-	    
-	    return res;
+	    if(arr == null || arr.size() &amp;lt; wSize)
+			return new ArrayList&amp;lt;&amp;gt;();
+
+		List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		int curSum = 0; // count current sum
+		int idx = 0; // index pointer for res array
+		for(int i = 0; i &amp;lt; arr.size(); i++) {
+			curSum += arr.get(i);
+			if(i + 1 &amp;gt;= wSize) {
+				res.add(curSum); // write current sum on the res array
+				curSum -= arr.get(idx++); // reduce the prev number out of windows
+			} 
+		}
+		return res;
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;

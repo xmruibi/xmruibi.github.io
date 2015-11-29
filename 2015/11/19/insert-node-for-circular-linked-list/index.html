@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-19T20:33:13-07:00" />
-<meta itemprop="wordCount" content="90">
+<meta itemprop="wordCount" content="146">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-19 20:33:13 -0700 -0700" itemprop="datePublished">2015-11-19</time>
             &middot;
-            90
+            146
             words
             &middot;
             1
@@ -224,25 +224,38 @@
 <h2 id="solution:ee71923bba76e242d68d338217d1bb7b">Solution</h2>
 
 <pre><code class="language-java">public class Solution{
-	public void insertNode(CNode root, CNode insert) {
-		CNode cur = root;
-		// step one: find the node just less than root
-		do{
-			if(cur.val &lt;= insert.val &amp;&amp; cur.next.val &gt;= insert.val)
+	/**
+	* Insert a node into a linked list with cycle
+	* @param node: one of node in linked list
+	* @param insert: the node for inserting
+	* @return newNode which is newly inserted node
+	**/
+	public static ListNode insertList (ListNode node, int insert) {
+		ListNode newNode = new ListNode(insert);
+		// egde case
+		if(node == null) {
+			newNode.next = newNode;
+			return newNode;
+		}
+		
+		ListNode origin = node;
+		// find the insert place with iterate through the list
+		do {
+			if(node.val &lt;= insert.val &amp;&amp; insert.val &lt;= node.next.val)
 				break;
-			cur = cur.next;
-		}while(cur != root);
+			node = node.next;
+		} while(node != origin);
 
-		CNode tmp = cur.next;
-		insert.next = tmp;
-		cur.next = insert;
+		newNode.next = node.next;
+		node.next = newNode;
+		return newNode;
 	}
 }
 
-class CNode{
+class ListNode{
 	int val;
-	CNode next;
-	public CNode(int val) {
+	ListNode next;
+	public ListNode(int val) {
 		this.val = val;
 	}
 }

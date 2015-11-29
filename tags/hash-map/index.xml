@@ -94,8 +94,8 @@
 		public Cache(int thresHold) {
 			this.size = 0;
 			this.thresHold = thresHold;
-			this.head = new DLLNode(0);
-			this.rear = new DLLNode(0);
+			this.head = new DLLNode(0, 0);
+			this.rear = new DLLNode(0, 0);
 			this.head.next = rear;
 			this.rear.prev = head;
 		}
@@ -107,44 +107,40 @@
 			head.next = newnode;
 		}
 
-		public DLLNode removeLast() {
-			DLLNode remove = this.rear.prev;
-			this.rear.prev = remove.prev;
-			remove.prev.next = this.rear;
+		public DLLNode remove(DLLNode remove) {
+			remove.prev.next = remove.next;
+			remove.next.prev = remove.prev;
 			return remove;
 		}
 
-		public void remove(DLLNode remove) {
-			remove.prev.next = remove.next;
-			remove.next.prev = remove.prev;
-		}
-
-		public int insert(int key) {
+		public int insert(int key, int val) {
+			DLLNode newnode = new DLLNode(key, val);
 			if (map.containsKey(key)) {
 				DLLNode node = map.get(key);
 				remove(node);
-				insertHead(node);
-				return 0;
+				insertHead(newnode);
+				return node.val;
 			} else {
 				if (size &amp;gt;= thresHold) {
-					DLLNode remove = removeLast();
-					map.remove(remove.val);
+					DLLNode remove = remove(rear.prev);
+					map.remove(remove.key);
 					size--;
 				}
-				DLLNode newnode = new DLLNode(key);
 				insertHead(newnode);
 				map.put(key, newnode);
 				size++;
-				return 1;
+				return -1;
 			}
 		}
 	}
 
 	static class DLLNode {
+		int key;
 		int val;
 		DLLNode prev, next;
 
-		public DLLNode(int val) {
+		public DLLNode(int key, int val) {
+			this.key = key;
 			this.val = val;
 		}
 	}

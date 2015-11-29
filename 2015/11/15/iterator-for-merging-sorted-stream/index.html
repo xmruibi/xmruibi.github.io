@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
     <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Iterator for Merging Sorted Stream" />
-<meta property="og:description" content="Given a Merge Sorted Stream class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: hasNext(), next(). Sorted Stream defines the stream read data by ascending order, so that in Merge Sorted Stream when call next() method, it will return values by ascending order. Pleas complete the following codes.
+<meta property="og:description" content="Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: 1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2 -&gt; 2, ,4, 6, 8.
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/" />
@@ -37,12 +37,12 @@
     
     
 <meta itemprop="name" content="Iterator for Merging Sorted Stream">
-<meta itemprop="description" content="Given a Merge Sorted Stream class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: hasNext(), next(). Sorted Stream defines the stream read data by ascending order, so that in Merge Sorted Stream when call next() method, it will return values by ascending order. Pleas complete the following codes.
+<meta itemprop="description" content="Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: 1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2 -&gt; 2, ,4, 6, 8.
 ">
 
 
 <meta itemprop="dateModified" content="2015-11-15T10:10:29-07:00" />
-<meta itemprop="wordCount" content="294">
+<meta itemprop="wordCount" content="97">
 
 
 
@@ -55,7 +55,7 @@
 
 
 <meta name="twitter:title" content="Iterator for Merging Sorted Stream"/>
-<meta name="twitter:description" content="Given a Merge Sorted Stream class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: hasNext(), next(). Sorted Stream defines the stream read data by ascending order, so that in Merge Sorted Stream when call next() method, it will return values by ascending order. Pleas complete the following codes.
+<meta name="twitter:description" content="Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: 1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2 -&gt; 2, ,4, 6, 8.
 "/>
 
 
@@ -189,16 +189,16 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-15 10:10:29 -0700 -0700" itemprop="datePublished">2015-11-15</time>
             &middot;
-            294
+            97
             words
             &middot;
-            2
+            1
             minute read
         </div>
         <div class="article-category">
             
             <i class="fa fa-folder"></i>
-            <a class="article-category-link" href="http://xmruibi.github.io/topics/google">Google</a>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/career-cup">Career Cup</a>
             
             <i class="fa fa-folder"></i>
             <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
@@ -216,116 +216,39 @@
             <div class="article-entry" itemprop="articleBody">
                 
 
-<p>Given a <code>Merge Sorted Stream</code> class contains some sorted stream which implements iterator interface. Each sorted stream class has some methods: <code>hasNext()</code>, <code>next()</code>. Sorted Stream defines the stream read data by ascending order, so that in <code>Merge Sorted Stream</code> when call <code>next()</code> method, it will return values by ascending order. Pleas complete the following codes.</p>
+<p>Design a iterator, with input a list and a hop parameter. Then output the element according to that hop number. List: <code>1, 2, 3, 4, 5, 6, 7, 8, 9; hop = 2</code> -&gt; <code>2, ,4, 6, 8</code>.</p>
 
-<h3 id="partital-code:29d87af7cc40b904c89fba965c56caf1">Partital Code</h3>
+<h2 id="solution:c20097de2cc12809c8a9177ae4edd63e">Solution</h2>
 
-<pre><code class="language-java">class SortedStream implments Iterator&lt;Integer&gt;{
-	List&lt;Integer&gt; content;
-	int cursor;
-	public SortedStream(List&lt;Integer&gt; content){
-		if(content == null)
-			throw new IllegalArgumentException(&quot;Null Input&quot;);
-		this.content = content;
-		this.cursor = 0;
+<pre><code class="language-java">public class HopIterator&lt;E&gt; implements Iterator&lt;E&gt; {
+	int hop;
+	Iterator&lt;E&gt; itr;
+
+	public HopIterator(Collection&lt;E&gt; list, int hop) {
+		this.itr = list.iterator();
+		this.hop = hop;
 	}
 
-	public boolean hasNext(){return cursor &lt; content.size();}
+	@Override
+	public boolean hasNext() {
+		int k = 1;
+		while (k &lt; hop &amp;&amp; itr.hasNext()) {
+			k++;
+			itr.next();
+		}
+		return k == hop &amp;&amp; itr.hasNext();
+	}
 
-	public int next(){return content.get(cursor++);}
-}
-
-class MergeSortedStream implments Iterator&lt;SortedStream&gt;{
-    List&lt;SortedStream&gt; content;
-	SortedStream cursor;
-	public MergeSortedStream(List&lt;SortedStream&gt; content){...}
-	
-	public boolean hasNext(){...};
-
-	public int next(){...};
-}
-</code></pre>
-
-<h2 id="think:29d87af7cc40b904c89fba965c56caf1">Think</h2>
-
-<ul>
-<li>Implement a new wrapper class for original iterator class and make it comparable.</li>
-<li>The new wrapper class is just like peek iterator, and implement <code>compareTo()</code> method with comparing the peek element.</li>
-<li>Put all new iterator class in a minheap.</li>
-</ul>
-
-<h2 id="solution:29d87af7cc40b904c89fba965c56caf1">Solution</h2>
-
-<pre><code class="language-java">public class MergeKSortedIterator implements Iterable&lt;Integer&gt; {
-
-    Collection&lt;Iterator&lt;Integer&gt;&gt; listOfItr;
-
-    public MergeKSortedIterator(Collection&lt;Iterator&lt;Integer&gt;&gt; lists) {
-        this.listOfItr = lists;
-    }
-
-    @Override
-    public Iterator&lt;Integer&gt; iterator() {
-        Queue&lt;NewIterator&gt; minHeap = new PriorityQueue&lt;NewIterator&gt;(
-                listOfItr.size());
-        for (Iterator&lt;Integer&gt; it : listOfItr)
-            minHeap.add(new NewIterator(it));
-
-        return new Iterator&lt;Integer&gt;() {
-            @Override
-            public boolean hasNext() {
-                return !minHeap.isEmpty();
-            }
-
-            @Override
-            public Integer next() {
-                NewIterator pop = minHeap.poll();
-                int res = pop.next();
-                if (pop.hasNext()) {
-                    minHeap.add(pop);
-                }
-                return res;
-            }
-
-        };
-    }
-
-    class NewIterator implements Comparable&lt;NewIterator&gt;, Iterator&lt;Integer&gt; {
-        Integer cur;
-        Iterator&lt;Integer&gt; itr;
-
-        public NewIterator(Iterator&lt;Integer&gt; itr) {
-            this.itr = itr;
-            cur = itr.hasNext() ? itr.next() : null;
-        }
-
-        @Override
-        public int compareTo(NewIterator o) {
-            return Integer.compare(this.peek(), o.peek());
-        }
-
-        @Override
-        public boolean hasNext() {
-            return cur != null;
-        }
-
-        @Override
-        public Integer next() {
-            int res = cur;
-            cur = itr.hasNext() ? itr.next() : null;
-            return res;
-        }
-
-        public Integer peek() {
-            return cur;
-        }
-    }
+	@Override
+	public E next() {
+		return itr.next();
+	}
 }
 </code></pre>
 
             </div>
             <footer class="article-footer">
-    <a data-url="http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/" data-id="29d87af7cc40b904c89fba965c56caf1" class="article-share-link">
+    <a data-url="http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/" data-id="c20097de2cc12809c8a9177ae4edd63e" class="article-share-link">
         Share
     </a>
     
@@ -340,20 +263,20 @@ class MergeSortedStream implments Iterator&lt;SortedStream&gt;{
         
 <nav id="article-nav">
     
-    <a href="http://xmruibi.github.io/2015/11/14/balanced-point-in-array/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Balanced Point in Array</div>
+      <div class="article-nav-title">Iterator for Merging Sorted Stream</div>
     </a>
     
 
     
-    <a href="http://xmruibi.github.io/2015/11/15/iterator-for-merging-sorted-stream/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="http://xmruibi.github.io/2015/11/15/find-union-and-intersection-by-iterators/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Newer
       </strong>
-      <div class="article-nav-title">Iterator for Merging Sorted Stream</div>
+      <div class="article-nav-title">Find Union and Intersection by Iterators</div>
     </a>
     
 </nav>
@@ -392,12 +315,7 @@ class MergeSortedStream implments Iterator&lt;SortedStream&gt;{
 <ul>
 <li>
 <ul>
-<li>
-<ul>
-<li><a href="#partital-code:29d87af7cc40b904c89fba965c56caf1">Partital Code</a></li>
-</ul></li>
-<li><a href="#think:29d87af7cc40b904c89fba965c56caf1">Think</a></li>
-<li><a href="#solution:29d87af7cc40b904c89fba965c56caf1">Solution</a></li>
+<li><a href="#solution:c20097de2cc12809c8a9177ae4edd63e">Solution</a></li>
 </ul></li>
 </ul>
 </nav>

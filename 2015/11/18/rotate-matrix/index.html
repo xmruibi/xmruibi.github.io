@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-18T12:43:13-07:00" />
-<meta itemprop="wordCount" content="135">
+<meta itemprop="wordCount" content="154">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            135
+            154
             words
             &middot;
             1
@@ -228,24 +228,28 @@
 
 <pre><code class="language-java">public class Solution{
 	public int[][] rotateMatrix(int[][] matrix, boolean flag) {
-		int n = matrix.length - 1;
-		// in-place solution
-		for (int i = 0; i &lt; n; i++) {
-			for (int j = i; j &lt; n - i; j++) {
-			// do it in 1/4 area of matrix
+		// edge cases
+		if (matrix == null || matrix.length &lt;= 1)
+			return;
+		// get the length of matrix
+		int m = matrix.length - 1;
+
+		// only check the 1/4 of matrix
+		for (int i = 0; i &lt;= m / 2; i++) {
+			for (int j = i; j &lt; m - i; j++) {
 				int temp;
-				if(flag) {
-					temp = matrix[j][n - i];
-					matrix[j][n - i] = matrix[i][j];
-					matrix[i][j] = matrix[n - j][i];
-					matrix[n - j][i] = matrix[n - i][n - j];
-					matrix[n - i][n - j] = temp;
-				}else{
-					temp = matrix[n - i][n - j];
-					matrix[n - i][n - j] = matrix[n - j][i];
-					matrix[n - j][i] = matrix[i][j];
-					matrix[i][j] = matrix[j][n - i];
-					matrix[j][n - i] = temp;
+				if (flag) {
+					temp = matrix[i][j];
+					matrix[i][j] = matrix[m - j][i];
+					matrix[m - j][i] = matrix[m - i][m - j];
+					matrix[m - i][m - j] = matrix[j][m - i];
+					matrix[j][m - i] = temp;
+				} else {
+					temp = matrix[i][j];
+					matrix[i][j] = matrix[j][m - i];
+					matrix[j][m - i] = matrix[m - i][m - j];
+					matrix[m - i][m - j] = matrix[m - j][i];
+					matrix[m - j][i] = temp;
 				}
 			}
 		}

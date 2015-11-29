@@ -23,25 +23,38 @@
 &lt;h2 id=&#34;solution:ee71923bba76e242d68d338217d1bb7b&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
-	public void insertNode(CNode root, CNode insert) {
-		CNode cur = root;
-		// step one: find the node just less than root
-		do{
-			if(cur.val &amp;lt;= insert.val &amp;amp;&amp;amp; cur.next.val &amp;gt;= insert.val)
+	/**
+	* Insert a node into a linked list with cycle
+	* @param node: one of node in linked list
+	* @param insert: the node for inserting
+	* @return newNode which is newly inserted node
+	**/
+	public static ListNode insertList (ListNode node, int insert) {
+		ListNode newNode = new ListNode(insert);
+		// egde case
+		if(node == null) {
+			newNode.next = newNode;
+			return newNode;
+		}
+		
+		ListNode origin = node;
+		// find the insert place with iterate through the list
+		do {
+			if(node.val &amp;lt;= insert.val &amp;amp;&amp;amp; insert.val &amp;lt;= node.next.val)
 				break;
-			cur = cur.next;
-		}while(cur != root);
+			node = node.next;
+		} while(node != origin);
 
-		CNode tmp = cur.next;
-		insert.next = tmp;
-		cur.next = insert;
+		newNode.next = node.next;
+		node.next = newNode;
+		return newNode;
 	}
 }
 
-class CNode{
+class ListNode{
 	int val;
-	CNode next;
-	public CNode(int val) {
+	ListNode next;
+	public ListNode(int val) {
 		this.val = val;
 	}
 }

@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-18T11:43:13-07:00" />
-<meta itemprop="wordCount" content="210">
+<meta itemprop="wordCount" content="233">
 
 
 
@@ -189,10 +189,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 11:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            210
+            233
             words
             &middot;
-            1
+            2
             minute read
         </div>
         <div class="article-category">
@@ -253,20 +253,20 @@
 
 <pre><code class="language-java">public class Solution{
 	public List&lt;Integer&gt; windowsSum(List&lt;Integer&gt; arr, int wSize) {
-	    List&lt;Integer&gt; res = new ArrayList&lt;&gt;();
-	    
-	    if(list == null || list.size() == 0 || wSize &gt; list.size())
-	      return res;
-	    int curSum = 0;
-	    for(int i = 0; i &lt; list.size(); i++) {
-	      curSum += list.get(i);
-	      if(i &gt;= wSize - 1) {
-	        res.add(curSum);
-	        curSum -= list.get(i - wSize + 1);
-	      }
-	    }
-	    
-	    return res;
+	    if(arr == null || arr.size() &lt; wSize)
+			return new ArrayList&lt;&gt;();
+
+		List&lt;Integer&gt; res = new ArrayList&lt;&gt;();
+		int curSum = 0; // count current sum
+		int idx = 0; // index pointer for res array
+		for(int i = 0; i &lt; arr.size(); i++) {
+			curSum += arr.get(i);
+			if(i + 1 &gt;= wSize) {
+				res.add(curSum); // write current sum on the res array
+				curSum -= arr.get(idx++); // reduce the prev number out of windows
+			} 
+		}
+		return res;
 	}
 }
 </code></pre>

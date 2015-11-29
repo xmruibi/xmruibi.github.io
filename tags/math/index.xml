@@ -216,8 +216,7 @@ public class Solution{
 			return 0;
 		int total = 0;
 		int idx = 1;
-		int prev = 0;
-		while(prev &amp;lt; array.length) {
+		while(idx &amp;lt; array.length) {
 			int curSlice = 2;
 			int diff = array[idx] - array[idx-1];
 			// if the difference between two consecutive numbers is the same
@@ -229,7 +228,6 @@ public class Solution{
 				// when slice length = 3 -&amp;gt; count 1, = 4 -&amp;gt; 1*2, = 5 -&amp;gt; 1*2*3...
 				total += ((curSlice - 2) * (curSlice - 1) / 2);
 			}
-			prev = idx;
 		}
 		return (total &amp;gt; 1000000000) ? -1 :total;
 	}

@@ -336,8 +336,7 @@ public class Solution{
 			return 0;
 		int total = 0;
 		int idx = 1;
-		int prev = 0;
-		while(prev &amp;lt; array.length) {
+		while(idx &amp;lt; array.length) {
 			int curSlice = 2;
 			int diff = array[idx] - array[idx-1];
 			// if the difference between two consecutive numbers is the same
@@ -349,7 +348,6 @@ public class Solution{
 				// when slice length = 3 -&amp;gt; count 1, = 4 -&amp;gt; 1*2, = 5 -&amp;gt; 1*2*3...
 				total += ((curSlice - 2) * (curSlice - 1) / 2);
 			}
-			prev = idx;
 		}
 		return (total &amp;gt; 1000000000) ? -1 :total;
 	}
@@ -544,8 +542,8 @@ public class Solution{
 		public Cache(int thresHold) {
 			this.size = 0;
 			this.thresHold = thresHold;
-			this.head = new DLLNode(0);
-			this.rear = new DLLNode(0);
+			this.head = new DLLNode(0, 0);
+			this.rear = new DLLNode(0, 0);
 			this.head.next = rear;
 			this.rear.prev = head;
 		}
@@ -557,44 +555,40 @@ public class Solution{
 			head.next = newnode;
 		}
 
-		public DLLNode removeLast() {
-			DLLNode remove = this.rear.prev;
-			this.rear.prev = remove.prev;
-			remove.prev.next = this.rear;
+		public DLLNode remove(DLLNode remove) {
+			remove.prev.next = remove.next;
+			remove.next.prev = remove.prev;
 			return remove;
 		}
 
-		public void remove(DLLNode remove) {
-			remove.prev.next = remove.next;
-			remove.next.prev = remove.prev;
-		}
-
-		public int insert(int key) {
+		public int insert(int key, int val) {
+			DLLNode newnode = new DLLNode(key, val);
 			if (map.containsKey(key)) {
 				DLLNode node = map.get(key);
 				remove(node);
-				insertHead(node);
-				return 0;
+				insertHead(newnode);
+				return node.val;
 			} else {
 				if (size &amp;gt;= thresHold) {
-					DLLNode remove = removeLast();
-					map.remove(remove.val);
+					DLLNode remove = remove(rear.prev);
+					map.remove(remove.key);
 					size--;
 				}
-				DLLNode newnode = new DLLNode(key);
 				insertHead(newnode);
 				map.put(key, newnode);
 				size++;
-				return 1;
+				return -1;
 			}
 		}
 	}
 
 	static class DLLNode {
+		int key;
 		int val;
 		DLLNode prev, next;
 
-		public DLLNode(int val) {
+		public DLLNode(int key, int val) {
+			this.key = key;
 			this.val = val;
 		}
 	}
@@ -738,24 +732,28 @@ public class Solution{
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public int[][] rotateMatrix(int[][] matrix, boolean flag) {
-		int n = matrix.length - 1;
-		// in-place solution
-		for (int i = 0; i &amp;lt; n; i++) {
-			for (int j = i; j &amp;lt; n - i; j++) {
-			// do it in 1/4 area of matrix
+		// edge cases
+		if (matrix == null || matrix.length &amp;lt;= 1)
+			return;
+		// get the length of matrix
+		int m = matrix.length - 1;
+
+		// only check the 1/4 of matrix
+		for (int i = 0; i &amp;lt;= m / 2; i++) {
+			for (int j = i; j &amp;lt; m - i; j++) {
 				int temp;
-				if(flag) {
-					temp = matrix[j][n - i];
-					matrix[j][n - i] = matrix[i][j];
-					matrix[i][j] = matrix[n - j][i];
-					matrix[n - j][i] = matrix[n - i][n - j];
-					matrix[n - i][n - j] = temp;
-				}else{
-					temp = matrix[n - i][n - j];
-					matrix[n - i][n - j] = matrix[n - j][i];
-					matrix[n - j][i] = matrix[i][j];
-					matrix[i][j] = matrix[j][n - i];
-					matrix[j][n - i] = temp;
+				if (flag) {
+					temp = matrix[i][j];
+					matrix[i][j] = matrix[m - j][i];
+					matrix[m - j][i] = matrix[m - i][m - j];
+					matrix[m - i][m - j] = matrix[j][m - i];
+					matrix[j][m - i] = temp;
+				} else {
+					temp = matrix[i][j];
+					matrix[i][j] = matrix[j][m - i];
+					matrix[j][m - i] = matrix[m - i][m - j];
+					matrix[m - i][m - j] = matrix[m - j][i];
+					matrix[m - j][i] = temp;
 				}
 			}
 		}
@@ -859,20 +857,20 @@ public class Solution{
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
 	public List&amp;lt;Integer&amp;gt; windowsSum(List&amp;lt;Integer&amp;gt; arr, int wSize) {
-	    List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
-	    
-	    if(list == null || list.size() == 0 || wSize &amp;gt; list.size())
-	      return res;
-	    int curSum = 0;
-	    for(int i = 0; i &amp;lt; list.size(); i++) {
-	      curSum += list.get(i);
-	      if(i &amp;gt;= wSize - 1) {
-	        res.add(curSum);
-	        curSum -= list.get(i - wSize + 1);
-	      }
-	    }
-	    
-	    return res;
+	    if(arr == null || arr.size() &amp;lt; wSize)
+			return new ArrayList&amp;lt;&amp;gt;();
+
+		List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		int curSum = 0; // count current sum
+		int idx = 0; // index pointer for res array
+		for(int i = 0; i &amp;lt; arr.size(); i++) {
+			curSum += arr.get(i);
+			if(i + 1 &amp;gt;= wSize) {
+				res.add(curSum); // write current sum on the res array
+				curSum -= arr.get(idx++); // reduce the prev number out of windows
+			} 
+		}
+		return res;
 	}
 }
 &lt;/code&gt;&lt;/pre&gt;
