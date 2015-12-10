@@ -7,8 +7,60 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Wed, 18 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 20:33:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/linked-list/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Insert Node for Circular Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/</link>
+      <pubDate>Thu, 19 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Write a function to insert a new node in a sorted Circular Linked List (CLL). For example, if the input CLL is following.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ee71923bba76e242d68d338217d1bb7b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	/**
+	* Insert a node into a linked list with cycle
+	* @param node: one of node in linked list
+	* @param insert: the node for inserting
+	* @return newNode which is newly inserted node
+	**/
+	public static ListNode insertList (ListNode node, int insert) {
+		ListNode newNode = new ListNode(insert);
+		// egde case
+		if(node == null) {
+			newNode.next = newNode;
+			return newNode;
+		}
+		
+		ListNode origin = node;
+		// find the insert place with iterate through the list
+		do {
+			if(node.val &amp;lt;= insert.val &amp;amp;&amp;amp; insert.val &amp;lt;= node.next.val)
+				break;
+			node = node.next;
+		} while(node != origin);
+
+		newNode.next = node.next;
+		node.next = newNode;
+		return newNode;
+	}
+}
+
+class ListNode{
+	int val;
+	ListNode next;
+	public ListNode(int val) {
+		this.val = val;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Find Loops in Linked List</title>
@@ -57,6 +109,111 @@
         }
         return walker;
     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Merge Two Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/17/merge-two-linked-list/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/merge-two-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given two sorted linked lists, merge two lists into one.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:163b96d9ecdb872770ca9afdd12774e8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+    public ListNode merge(ListNode n1, ListNode n2) {
+        if(n1 == null)
+            return n2;
+        if(n2 == null)
+            return n1;
+
+        // create dummy node for pointing on next node from list n1
+        ListNode dummy = new ListNode(0);
+        
+        // create pre node as a pointer on current nodes from n1
+        ListNode pre = dummy;
+        pre.next = n1;
+
+        // iterate passing two lists 
+        while(n1!=null &amp;amp;&amp;amp; n2!=null) {
+            // if n1 has value larger than n2, 
+            // move it forward and set that n1 in the rear of inserted node
+            if(n1.val &amp;gt; n2.val) {
+                ListNode next = n2.next;
+                n2.next = pre.next;
+                pre.next = n2;
+                n2 = next;
+            }else {
+                n1 = n1.next;
+            }
+            pre = pre.next;
+        }
+
+        // if n2 still has nodes, attach n2 directly into pre
+        if(n2!=null)
+            pre.next = n2;
+        return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reverse Half of Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/reverse-half-of-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, reverse the half rear linked list.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:4b7b94f93aabe077e4bae2445c410224&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	
+	public ListNode reverseHalf(ListNode node) {
+		if(node == null || node.next == null)
+			return node;
+
+		ListNode runner = node;
+		// creat a dummy node that is just a lead for head node
+		ListNode walker = new ListNode(0);
+		walker.next = node;
+
+		// find the middle point: the index of head of half rear node should according to the question requirement:
+		// here I just define the real middle one is the head of rear half 
+		while(runner != null &amp;amp;&amp;amp; runner.next != null) {
+			runner = runner.next.next;
+			walker = walker.next;
+		} 
+
+		// reverse the rear half
+		walker.next = reverse(walker.next);
+		return node;
+	}
+
+	/**
+	* @param: node - the head node of list 
+	* @return: node - the head node of reversed list
+	*/
+	private ListNode reverse(ListNode node) {
+		ListNode head = null;
+		while(node != null) {
+			ListNode next = node.next;
+			node.next = head;
+			head = node;
+			node = next;
+		}	
+		return head;
+	}
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

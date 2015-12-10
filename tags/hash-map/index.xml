@@ -11,6 +11,145 @@
     <atom:link href="http://xmruibi.github.io/tags/hash-map/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>LRU Problem</title>
+      <link>http://xmruibi.github.io/2015/11/18/lru-problem/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/lru-problem/</guid>
+      <description>
+
+&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+
+&lt;p&gt;## Solution # LinkedHashMap&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MissingCacheII {
+	public static int countMiss(int[] arr, int size) {
+		if(arr == null || arr.length == 0)
+			return 0;
+		
+		Cache cache = new Cache(size);
+		int cnt = 0;
+		for(int i = 0; i &amp;lt; arr.length; i ++) {
+			if(cache.get(arr[i]) &amp;lt; 0) {
+				cnt++;
+				cache.put(arr[i], i);
+			}
+		}
+		return cnt;
+	}
+
+	static class Cache {
+		int capacity; // the capacity of cache
+		Map&amp;lt;Integer, Integer&amp;gt; map; // use linkedhashmap to store elements
+
+		public Cache(int capacity) {
+			this.capacity = capacity;
+			// setup the loadFactor with 0.75, and set the access order as true so that it can be a LRU cache
+			this.map = new LinkedHashMap&amp;lt;Integer, Integer&amp;gt;(capacity, 0.75f,
+					true) {
+				// remove the eldest element when the size exceed the capacity
+				protected boolean removeEldestEntry(
+						Map.Entry&amp;lt;Integer, Integer&amp;gt; entry) {
+					return size() &amp;gt; capacity;
+				}
+			};
+		}
+
+		public int get(int key) {
+			if (map.containsKey(key))
+				return map.get(key);
+			else
+				return -1;
+		}
+
+		public void put(int key, int val) {
+			map.put(key, val);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-doubly-linked-list-hash-map:8efa23982de6478b4725ada2918c55f0&#34;&gt;Solution #Doubly Linked List + Hash Map&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MissingCache {
+
+	public static int countMissing(int[] arr, int size) {
+		int missCnt = 0;
+		if (arr == null || arr.length == 0)
+			return missCnt;
+		Cache cache = new Cache(size);
+		for (int i : arr) {
+			if (cache.insert(i) == 1)
+				missCnt++;
+		}
+		return missCnt;
+	}
+
+	static class Cache {
+		int size;
+		int thresHold;
+		DLLNode head, rear;
+		HashMap&amp;lt;Integer, DLLNode&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+
+		public Cache(int thresHold) {
+			this.size = 0;
+			this.thresHold = thresHold;
+			this.head = new DLLNode(0, 0);
+			this.rear = new DLLNode(0, 0);
+			this.head.next = rear;
+			this.rear.prev = head;
+		}
+
+		public void insertHead(DLLNode newnode) {
+			head.next.prev = newnode;
+			newnode.next = head.next;
+			newnode.prev = head;
+			head.next = newnode;
+		}
+
+		public DLLNode remove(DLLNode remove) {
+			remove.prev.next = remove.next;
+			remove.next.prev = remove.prev;
+			return remove;
+		}
+
+		public int insert(int key, int val) {
+			DLLNode newnode = new DLLNode(key, val);
+			if (map.containsKey(key)) {
+				DLLNode node = map.get(key);
+				remove(node);
+				insertHead(newnode);
+				return node.val;
+			} else {
+				if (size &amp;gt;= thresHold) {
+					DLLNode remove = remove(rear.prev);
+					map.remove(remove.key);
+					size--;
+				}
+				insertHead(newnode);
+				map.put(key, newnode);
+				size++;
+				return -1;
+			}
+		}
+	}
+
+	static class DLLNode {
+		int key;
+		int val;
+		DLLNode prev, next;
+
+		public DLLNode(int key, int val) {
+			this.key = key;
+			this.val = val;
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Two Sum Count</title>
       <link>http://xmruibi.github.io/2015/11/18/two-sum-count/</link>
       <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>

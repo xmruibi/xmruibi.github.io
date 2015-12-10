@@ -7,8 +7,107 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 15 Nov 2015 13:11:13 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 08 Dec 2015 22:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Minimum Maximum Path</title>
+      <link>http://xmruibi.github.io/2015/12/08/minimum-maximum-path/</link>
+      <pubDate>Tue, 08 Dec 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/12/08/minimum-maximum-path/</guid>
+      <description>
+
+&lt;h2 id=&#34;solution:dd4611eff104dea2a0befae27dddd5e9&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxMin {
+    //private static int maxMin = Integer.MIN_VALUE;
+    
+    public static int maxMin(int[][] matrix) {
+        int[] res = new int[1];
+        res[0] = Integer.MIN_VALUE;
+        dfs(matrix, 0, 0, Integer.MAX_VALUE, res);
+        return res[0];
+    }
+    
+    private static void dfs(int[][] matrix, int i, int j, int curMin, int[] res) {
+        if (i == matrix.length || j == matrix[0].length) {
+            return;
+        }
+        curMin = Math.min(curMin, matrix[i][j]);
+        if (i == matrix.length - 1 &amp;amp;&amp;amp; j == matrix[0].length - 1) {
+            res[0] = Math.max(res[0], curMin);
+        }
+        dfs(matrix, i + 1, j, curMin, res);
+        dfs(matrix, i, j + 1, curMin, res);
+    }
+    
+    public static void main(String[] args) {
+        int[][] matrix = {{3,4,3},{2,3,4},{4,5,6}};
+        int[][] matrix2 = {{8, 4, 7},{6, 5, 9}};
+        System.out.println(maxMin(matrix2));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Cloeset</title>
+      <link>http://xmruibi.github.io/2015/12/08/two-sum-cloeset/</link>
+      <pubDate>Tue, 08 Dec 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/12/08/two-sum-cloeset/</guid>
+      <description>
+
+&lt;h2 id=&#34;solution:926f52d7c9da5d811d44d49e601d0eb8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumClosest {
+    static class Container {
+        public double first;
+        public double second;
+    }
+    public static Container findOptimalWeight(double[] weight, double capacity) {
+        Container res = new Container();
+        if (weight == null || weight.length == 0) {
+            return res;
+        }
+        
+        Arrays.sort(weight);
+        int l = 0, r = weight.length - 1;
+        double closest = Integer.MAX_VALUE;
+        while (l &amp;lt; r) {
+            if (weight[l] + weight[r] == capacity) {
+                res.first = weight[l];
+                res.second = weight[r];
+                return res;
+            }
+            double diff = capacity - weight[l] - weight[r];
+            if (diff &amp;gt; 0 &amp;amp;&amp;amp; diff &amp;lt; closest) {
+                closest = diff;
+                res.first = weight[l];
+                res.second = weight[r];
+            }
+            if (weight[l] + weight[r] &amp;gt; capacity) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+        
+        return res;
+    }
+    
+    public static void main(String[] args) {
+        double[] weight = {1.0, 1.5, 7.0, 2.8, 4.8, 1.6, 9.1};
+        Container res = findOptimalWeight(weight, 7.0);
+        System.out.println(res.first);
+        System.out.println(res.second);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Pow() and Sqrt()</title>
@@ -933,53 +1032,6 @@ public class Solution {
 }
 &lt;/code&gt;
 &lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Subarray Sum II</title>
-      <link>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</link>
-      <pubDate>Tue, 08 Sep 2015 21:18:09 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/09/08/subarray-sum-ii/</guid>
-      <description>&lt;p&gt;Given an integer array, find a subarray where the sum of numbers is between two given interval. Your code should return the number of possible answer.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;java&#34;&gt;
-public int subarraySumII(int[] A, int start, int end) {
-    int res = 0;
-        for(int i = 1; i &lt; A.length; i++)
-            A[i] += A[i - 1];
-        
-        Arrays.sort(A);
-        for(int i = 0; i &lt; A.length; i++) {
-            if(A[i] &gt;= start &amp;&amp; A[i] &lt;= end)
-                res++;
-            // start &lt;= A[i] - A[j] &lt;= end
-            // so the max bound and min bound of A[j] are following:
-            int max = A[i] - start;
-            int min = A[i] - end;
-            // max + 1 make sure the right bound of max value and also index problem
-            int range = findInsPos(A, max + 1) - findInsPos(A, min);
-            res += range;
-        }
-        return res;
-}
-private int findInsPos(int[] A, int value) {
-        int l = 0, r = A.length - 1;
-        
-        while(l &lt; r - 1) {
-            int m = l + ((r - l) &gt;&gt;1);
-            if(A[m] &lt; value)
-                l = m;
-            else
-                r = m;
-        }
-        if(A[l] &gt;= value)
-            return l;
-        else
-            return r;
-}
-&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

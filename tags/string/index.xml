@@ -7,8 +7,157 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>(c) 2015 Rui Bi.</copyright>
-    <lastBuildDate>Sun, 15 Nov 2015 14:43:13 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 14:43:13 -0700</lastBuildDate>
     <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Palindromic Substring</title>
+      <link>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</link>
+      <pubDate>Thu, 19 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the string = &lt;code&gt;&amp;quot;abcdzdcab&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;cdzdc&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n2) time is acceptable. Can you do it in O(n) time.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-2:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;One pass on each position in string characters, assume the axis of symmetry on each character or between two character:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    |                       |
+c a b a c f     or     c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;On each axis of symmetry we get the left and right pointers and make them move toward left or right&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;left right           
+   \ /                 
+c a b a c f 
+
+
+...or...        
+
+
+    l r
+    | |
+c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param s input string
+     * @return the longest palindromic substring
+     */
+    private String LongestPalindromeSubstringI(String str) {
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        // memorized whether it is palindromical in str (i, j)
+        boolean[][] memo = new boolean[str.length()][str.length()];
+        for (int i = str.length() - 1; i &amp;gt;= 0; i--) {
+            for (int j = i; j &amp;lt; str.length(); j++) {
+                if ((j - i &amp;lt; 2 || memo[i + 1][j - 1])
+                        &amp;amp;&amp;amp; str.charAt(i) == str.charAt(j)) {
+                    memo[i][j] = true;
+                    if (j - i + 1 &amp;gt; maxLen) {
+                        maxSubstr = str.substring(i, j + 1);
+                        maxLen = j - i + 1;
+                    }
+                }
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String LongestPalindromeSubstringII(String str) {
+        if(str == null || str.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // record current longest length
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        for (int i = 0; i &amp;lt; str.length(); i++) {
+            // find the longest palindrome, when symmetry axis is the current index
+            String case1 = expandFromCenter(str, i, i);
+            // find the longest palindrome, when symmetry axis is between the current index and next index
+            String case2 = expandFromCenter(str, i, i + 1);
+            
+            if (Math.max(case1.length(), case2.length()) &amp;gt; maxLen) {
+                maxLen = Math.max(case1.length(), case2.length());
+                maxSubstr = case1.length() &amp;gt; case2.length() ? case1 : case2;
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String expandFromCenter(String str, int left, int right) {
+        // expand the left and right index two opposite sides
+        while ( left &amp;gt;= 0
+                &amp;amp;&amp;amp; right &amp;lt; str.length()&amp;amp;&amp;amp;str.charAt(left) == str.charAt(right)) {
+            left--;
+            right++;
+        }
+        return str.substring(left + 1, right);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;analysis:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;p&gt;One pass from 0 - $$len \times 2$$; inside the loop the palindromic substring search also costs a loop from l - r; So the total is O($$n^2$$);&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Determine valid parentheses</title>
+      <link>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</guid>
+      <description>
+
+&lt;p&gt;Given a String, judge if it is a valid parenthese.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:10aafbab84837eff25243552bd87c32a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+public static boolean validParenthese(String str) {
+    if(str == null || str.length() == 0)
+      return true;
+    // store the parenthese
+    Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+    // save the parenthese pair in hashmap as a dictionary
+    HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+    map.put(&#39;(&#39;,&#39;)&#39;);map.put(&#39;{&#39;,&#39;}&#39;);map.put(&#39;[&#39;,&#39;]&#39;);
+    
+    for(int i = 0 ; i &amp;lt; str.length() ; i++) {
+      char cur = str.charAt(i);
+      if(map.containsKey(cur))
+        // if the current character is a front parenthese, directly push into stack
+        stack.push(cur);
+      else if(map.containsValue(cur)){  
+      	// if current character is a back parenthese  
+          if(stack.isEmpty() || map.get(stack.pop()) != cur)
+          // if current stack is empty or the poped element doesn&#39;t match with current character 
+            return false;
+      }
+    }
+    return stack.isEmpty();
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Longest Palindromic Subsequence</title>
@@ -961,190 +1110,6 @@ Here are some pattern we should notice.
 		return list;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Alien Dictionary</title>
-      <link>http://xmruibi.github.io/2015/11/09/alien-dictionary/</link>
-      <pubDate>Mon, 09 Nov 2015 20:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/09/alien-dictionary/</guid>
-      <description>
-
-&lt;p&gt;There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.&lt;/p&gt;
-
-&lt;h3 id=&#34;example:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given the following words in dictionary,
-&lt;code&gt;[
-  &amp;quot;wrt&amp;quot;,
-  &amp;quot;wrf&amp;quot;,
-  &amp;quot;er&amp;quot;,
-  &amp;quot;ett&amp;quot;,
-  &amp;quot;rftt&amp;quot;
-]&lt;/code&gt;
-The correct order is: &lt;code&gt;&amp;quot;wertf&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;note:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Note&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;You may assume all letters are in lowercase.&lt;/li&gt;
-&lt;li&gt;If the order is invalid, return an empty string.&lt;/li&gt;
-&lt;li&gt;There may be multiple valid order of letters, return any one of them is fine.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;think:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Typical topological problem&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:d07ac332ddb445c1a49d7ba124475686&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public static String alienOrder(String[] words) {
-        // build up the node map, find node according to the char
-        HashMap&amp;lt;Character, Node&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
-        // iterate through all provided words
-        for (String str : words) {
-            // read each word and learn their order
-            map.put(str.charAt(0),
-                    map.containsKey(str.charAt(0)) ? map.get(str.charAt(0))
-                            : new Node(str.charAt(0)));
-            for (int i = 1; i &amp;lt; str.length(); i++) {
-                char cur = str.charAt(i);
-                // ignore the adjacent equal characters
-                if(cur == str.charAt(i-1))
-                    continue;
-                Node node = map.containsKey(cur) ? map.get(cur) : new Node(cur);
-                Node prev = map.get(str.charAt(i - 1));
-                // make current node indegree plus one only if the previous node doesn&#39;t have current node in its neighborhood list 
-                if (!prev.neighbors.contains(node) ) {
-                    node.indegree++;
-                    map.get(str.charAt(i - 1)).neighbors.add(node);
-                }
-                map.put(cur, node);
-            }
-        }
-
-        // find the node with zero indegree
-        Queue&amp;lt;Node&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;();
-        for (Node node : map.values())
-            if (node.indegree == 0)
-                queue.offer(node);
-        // build the final string,
-        StringBuilder sb = new StringBuilder();
-        // each time pop the node with zero indegree 
-        // reduce their neighbor&#39;s indegree and push node when it has zero indegree
-        while (!queue.isEmpty()) {
-            Node node = queue.remove();
-            sb.append(node.c);
-            map.remove(node.c);
-            for (Node nb : node.neighbors) {
-                nb.indegree--;
-                if (nb.indegree == 0 &amp;amp;&amp;amp; map.containsKey(nb.c))
-                    queue.offer(nb);
-            }
-        }
-        // if map has any entry means the cycle existed
-        if (map.size() &amp;gt; 0)
-            return &amp;quot;&amp;quot;;
-
-        return sb.toString();
-    }
-
-    private static class Node {
-        char c;
-        int indegree;
-        List&amp;lt;Node&amp;gt; neighbors;
-
-        public Node(char c) {
-            this.c = c;
-            this.indegree = 0;
-            this.neighbors = new ArrayList&amp;lt;&amp;gt;();
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Delete Digits</title>
-      <link>http://xmruibi.github.io/2015/11/09/delete-digits/</link>
-      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
-      
-      <guid>http://xmruibi.github.io/2015/11/09/delete-digits/</guid>
-      <description>
-
-&lt;p&gt;Given string A representative a positive integer which has N digits, remove any k digits of the number, the remaining digits are arranged according to the original order to become a new positive integer.&lt;/p&gt;
-
-&lt;p&gt;Find the smallest integer after remove k digits.&lt;/p&gt;
-
-&lt;p&gt;N &amp;lt;= &lt;code&gt;240&lt;/code&gt; and k &amp;lt;= N,&lt;/p&gt;
-
-&lt;h3 id=&#34;example:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Given an integer A = &lt;code&gt;&amp;quot;178542&amp;quot;&lt;/code&gt;, k = &lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;return a string &lt;code&gt;&amp;quot;12&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;think:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Think&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Setup a Stack.&lt;/li&gt;
-&lt;li&gt;Iterate through input number&lt;/li&gt;
-&lt;li&gt;If current digit is less than the peek of stack, pop out the stack until the peek is not larger than current digit.&lt;/li&gt;
-&lt;li&gt;Push current digit&lt;/li&gt;
-&lt;li&gt;Limit the pop out times by K. That means the pop action is regarded as remove digit. So when the pop out times is not less than K, keep push the digit even if it is less than peek element.&lt;/li&gt;
-&lt;li&gt;Rebuild the output string by reading elements in stack.&lt;/li&gt;
-&lt;li&gt;Two corner case should be careful:
-
-&lt;ul&gt;
-&lt;li&gt;When the iterate through digits finished, the remove(pop out) counter still less than K, we should ignore the first  &lt;code&gt;k-count&lt;/code&gt; element in stack.&lt;/li&gt;
-&lt;li&gt;When the output result has the zero on first element, remove the zero.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;solution:d495b4aefc52c57478ac2d101d684b28&#34;&gt;Solution&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
-     *@param A: A positive integer which has N digits, A is a string.
-     *@param k: Remove k digits.
-     *@return: A string
-     */
-    public String DeleteDigits(String A, int k) {
-        if(A == null || A.length() == 0)
-            return &amp;quot;&amp;quot;;
-        // setup stack
-        Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
-        // read digits from input string
-        int removeCnt = 0;
-        for(char c : A.toCharArray()) {
-            int cur = c - &#39;0&#39;;
-            // pop out the digit larger than current digit
-            while(!stack.isEmpty() &amp;amp;&amp;amp; removeCnt &amp;lt; k &amp;amp;&amp;amp; stack.peek() &amp;gt; cur) {
-                stack.pop();
-                removeCnt ++;
-            }
-            stack.push(cur);
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        while(!stack.isEmpty()) {
-            // corner case one:
-            if(removeCnt &amp;lt; k) {
-                stack.pop();
-                removeCnt ++;
-            }else
-                sb.insert(0, &amp;quot;&amp;quot; + stack.pop());
-        }
-        // corner case two:
-        while(sb.charAt(0) == &#39;0&#39;)
-            sb.deleteCharAt(0);
-        
-        return sb.toString();
-    }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
