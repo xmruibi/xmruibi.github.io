@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-18T12:43:13-07:00" />
-<meta itemprop="wordCount" content="381">
+<meta itemprop="wordCount" content="379">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            381
+            379
             words
             &middot;
             2
@@ -237,10 +237,9 @@
 		Cache cache = new Cache(size);
 		int cnt = 0;
 		for(int i = 0; i &lt; arr.length; i ++) {
-			if(cache.get(arr[i]) &lt; 0) {
+			if(cache.get(arr[i]) &lt; 0) 
 				cnt++;
-				cache.put(arr[i], i);
-			}
+			cache.put(arr[i], i);		
 		}
 		return cnt;
 	}
