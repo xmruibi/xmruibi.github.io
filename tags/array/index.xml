@@ -913,6 +913,7 @@ public class Solution{
 	private static int[][] transpose(int[][] matrix) {
 		int a = matrix.length;
 		int b = matrix[0].length;
+		// get the new matrix with reversed index
 		int[][] newMatrix = new int[b][a];
 		
 		// transpose the value on original matrix to new position on new matrix
