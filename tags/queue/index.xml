@@ -317,6 +317,7 @@
 		int b = matrix[0].length;
 		int[][] newMatrix = new int[b][a];
 		
+		// transpose the value on original matrix to new position on new matrix
 		for (int i = 0; i &amp;lt; b; i++) {
 			for (int j = 0; j &amp;lt; a; j++) {
 				newMatrix[i][j] = matrix[j][i];

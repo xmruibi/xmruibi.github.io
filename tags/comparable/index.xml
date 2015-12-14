@@ -29,50 +29,70 @@
 
 &lt;h2 id=&#34;solution:8857fa3e9119e0ac4dde82275e35c3e7&#34;&gt;Solution&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class KNearestPoints {
-
-    // finding k nearest neighbor from the original point using a MAX heap, each
-    // time if the dist is less than the MAX we put it into the q.
-      public static Collection&amp;lt;Point&amp;gt; knearestPoints( Collection&amp;lt;Point&amp;gt; points, Point origin, int k) {
-        PriorityQueue&amp;lt;CPoint&amp;gt; pq = new PriorityQueue&amp;lt;&amp;gt;();
-        int cnt = 0;
-        for(Point point : points) {
-          CPoint cur = new CPoint(point.x, point.y, origin);
-           if(cnt &amp;lt; k) {
-             pq.offer(cur);
-             cnt++;
-           }else {
-             if(cur.compareTo(pq.peek()) &amp;lt; 0) {
-               pq.poll();
-               pq.offer(cur);
-             }
-           }
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class KnearestPoints {
+    private static class CPoint {
+        public double x;
+        public double y;
+        public CPoint(double x, double y) {
+            this.x = x;
+            this.y = y;
         }
-        return new ArrayList&amp;lt;&amp;gt;(pq);
-      }
-}
-
-class Point {
-    int x, y;
-    public Point(int x, int y) {
-      this.x = x;
-      this.y = y;
     }
-}
-
-class CPoint extends Point implements Comparable&amp;lt;CPoint&amp;gt;{
-  double dist;
-  
-  public CPoint (int x, int y, Point root) {
-    super(x, y);
-    this.dist = Math.hypot(x - root.x, y - root.y);
-  }
-  
-  
-  @Override
-  public int compareTo(CPoint p) {
-    return Double.compare(p.dist, this.dist);
-  }
+    // finding k nearest neighbor from the original point using a MAX heap
+    public static CPoint[] closestk(CPoint[] mylist, int k) {
+        CPoint[] res = new CPoint[k];
+        // edge cases
+        if (mylist == null || mylist.length == 0 || mylist.length &amp;lt; k) {
+            return mylist;
+        }
+        
+        // setup the max heap using priority queue 
+        PriorityQueue&amp;lt;CPoint&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;(k, new Comparator&amp;lt;CPoint&amp;gt;(){
+            @Override
+            public int compare(CPoint o1, CPoint o2) {
+                double dist1 = Math.hypot(o1.x, o1.y);
+                double dist2 = Math.hypot(o2.x, o2.y);
+                // order by decreasing from larger one to less one
+                return Double.compare(dist2, dist1);
+            }
+        });
+        
+        int count = 0;
+        // each time if the dist of new point is less than the MAX in the heap, 
+        // we poll the max point from heap and put this new point into the heap.
+        for (CPoint point: mylist) {
+            if (count &amp;lt; k) {
+                heap.offer(point);
+                count++;
+            } else {
+                CPoint peek = heap.peek();
+                if (Math.hypot(point.x, point.y) &amp;lt; Math.hypot(peek.x, peek.y)) {
+                    heap.poll();
+                    heap.offer(point);
+                }
+            }
+        }
+        
+        for (int i = k - 1; i &amp;gt;= 0; i--) {
+            res[i] = heap.poll(); 
+        }
+        return res;
+    }
+    
+    public static void main(String[] args) {
+        CPoint[] list = new CPoint[6];
+        list[0] = new CPoint(1,2);
+        list[1] = new CPoint(3,2);
+        list[2] = new CPoint(2,2);
+        list[3] = new CPoint(1,0);
+        list[4] = new CPoint(-0.5, -0.5);
+        list[5] = new CPoint(-1, -1);
+        
+        CPoint[] res = closestk(list, 3);
+        
+        for(CPoint p : res)
+          System.out.println(p.x + &amp;quot;   &amp;quot; + p.y);
+    }
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

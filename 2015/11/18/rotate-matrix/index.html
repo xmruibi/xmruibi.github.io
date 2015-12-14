@@ -42,7 +42,7 @@
 
 
 <meta itemprop="dateModified" content="2015-11-18T12:43:13-07:00" />
-<meta itemprop="wordCount" content="272">
+<meta itemprop="wordCount" content="285">
 
 
 
@@ -189,7 +189,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2015-11-18 12:43:13 -0700 -0700" itemprop="datePublished">2015-11-18</time>
             &middot;
-            272
+            285
             words
             &middot;
             2
@@ -262,6 +262,7 @@
 		int b = matrix[0].length;
 		int[][] newMatrix = new int[b][a];
 		
+		// transpose the value on original matrix to new position on new matrix
 		for (int i = 0; i &lt; b; i++) {
 			for (int j = 0; j &lt; a; j++) {
 				newMatrix[i][j] = matrix[j][i];
