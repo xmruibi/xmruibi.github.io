@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Queue on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/queue/</link>
+    <description>Recent content in Queue on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Wed, 18 Nov 2015 12:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/queue/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>LRU Problem</title>
+      <link>http://xmruibi.github.io/2015/11/18/lru-problem/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/lru-problem/</guid>
+      <description>
+
+&lt;p&gt;Given the max size of a LRU cache and a input array, calculate the miss times.&lt;/p&gt;
+
+&lt;p&gt;## Solution # LinkedHashMap&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MissingCacheII {
+	public static int countMiss(int[] arr, int size) {
+		if(arr == null || arr.length == 0)
+			return 0;
+		
+		Cache cache = new Cache(size);
+		int cnt = 0;
+		for(int i = 0; i &amp;lt; arr.length; i ++) {
+			if(cache.get(arr[i]) &amp;lt; 0) 
+				cnt++;
+			cache.put(arr[i], i);		
+		}
+		return cnt;
+	}
+
+	static class Cache {
+		int capacity; // the capacity of cache
+		Map&amp;lt;Integer, Integer&amp;gt; map; // use linkedhashmap to store elements
+
+		public Cache(int capacity) {
+			this.capacity = capacity;
+			// setup the loadFactor with 0.75, and set the access order as true so that it can be a LRU cache
+			this.map = new LinkedHashMap&amp;lt;Integer, Integer&amp;gt;(capacity, 0.75f,
+					true) {
+				// remove the eldest element when the size exceed the capacity
+				protected boolean removeEldestEntry(
+						Map.Entry&amp;lt;Integer, Integer&amp;gt; entry) {
+					return size() &amp;gt; capacity;
+				}
+			};
+		}
+
+		public int get(int key) {
+			if (map.containsKey(key))
+				return map.get(key);
+			else
+				return -1;
+		}
+
+		public void put(int key, int val) {
+			map.put(key, val);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-doubly-linked-list-hash-map:8efa23982de6478b4725ada2918c55f0&#34;&gt;Solution #Doubly Linked List + Hash Map&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MissingCache {
+
+	public static int countMissing(int[] arr, int size) {
+		int missCnt = 0;
+		if (arr == null || arr.length == 0)
+			return missCnt;
+		Cache cache = new Cache(size);
+		for (int i : arr) {
+			if (cache.insert(i) == 1)
+				missCnt++;
+		}
+		return missCnt;
+	}
+
+	static class Cache {
+		int size;
+		int thresHold;
+		DLLNode head, rear;
+		HashMap&amp;lt;Integer, DLLNode&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+
+		public Cache(int thresHold) {
+			this.size = 0;
+			this.thresHold = thresHold;
+			this.head = new DLLNode(0, 0);
+			this.rear = new DLLNode(0, 0);
+			this.head.next = rear;
+			this.rear.prev = head;
+		}
+
+		public void insertHead(DLLNode newnode) {
+			head.next.prev = newnode;
+			newnode.next = head.next;
+			newnode.prev = head;
+			head.next = newnode;
+		}
+
+		public DLLNode remove(DLLNode remove) {
+			remove.prev.next = remove.next;
+			remove.next.prev = remove.prev;
+			return remove;
+		}
+
+		public int insert(int key, int val) {
+			DLLNode newnode = new DLLNode(key, val);
+			if (map.containsKey(key)) {
+				DLLNode node = map.get(key);
+				remove(node);
+				insertHead(newnode);
+				return node.val;
+			} else {
+				if (size &amp;gt;= thresHold) {
+					DLLNode remove = remove(rear.prev);
+					map.remove(remove.key);
+					size--;
+				}
+				insertHead(newnode);
+				map.put(key, newnode);
+				size++;
+				return -1;
+			}
+		}
+	}
+
+	static class DLLNode {
+		int key;
+		int val;
+		DLLNode prev, next;
+
+		public DLLNode(int key, int val) {
+			this.key = key;
+			this.val = val;
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Process Schedule Problems</title>
+      <link>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/process-schedule-problems/</guid>
+      <description>
+
+&lt;p&gt;Process schedule is very important to Operation System. There are several algorithm to deal with such problem. Here we discuss two of them. At first, we are given a process class for coding conveninence.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Process implements Comparable&amp;lt;Process&amp;gt; {
+	int arrTime;
+	int exeTime;
+
+	public Process(int arrTime, int exeTime) {
+		this.arrTime = arrTime;
+		this.exeTime = exeTime;
+	}
+
+	// for shortest job first problem
+	@Override
+	public int compareTo(Process that) {
+		if (this.exeTime == that.exeTime)
+			return this.arrTime - that.arrTime;
+		return this.exeTime - that.exeTime;
+	}
+
+	@Override
+	public String toString() {
+		return &amp;quot;arrTime: &amp;quot; + this.arrTime;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-one:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Problem One&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Robin Round:&lt;/strong&gt; The question is about the robin round. Given an array with start time of each task and another array represent the executing time of each task and &lt;code&gt;q&lt;/code&gt; for quantum which is allowance of CPU time, means the maximum time for exeuting one task. Write a function, calculate the average waiting time on each task.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-robin-round:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Solution #Robin Round&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public double robinRound(int[] arrTime, int[] exeTime, int q) {
+		// edge cases
+		if (arrTime == null || exeTime == null
+				|| exeTime.length != arrTime.length)
+			return 0;
+
+		int waitTime = 0; // total Waiting time
+		int len = arrTime.length; // the len of time list
+		int idx = 0; // pointer for iterate through time list
+		Queue&amp;lt;Process&amp;gt; queue = new LinkedList&amp;lt;&amp;gt;(); // store those processes
+
+		int curTime = 0; // tracking current time
+		while (!queue.isEmpty() || idx &amp;lt; len) {
+			if (queue.isEmpty()) {
+				queue.offer(new Process(arrTime[idx], exeTime[idx]));
+				curTime = arrTime[idx++];
+			} else {
+				// poll out a Process from queue
+				Process curP = queue.poll();
+				// calculate the waiting time on this process and add it to the
+				// total waitTime
+				waitTime += Math.abs(curP.arrTime - curTime);
+				// update curTime track according to the limit of &#39;q&#39;
+				curTime = Math.min(curTime + q, curTime + curP.exeTime);
+				while (idx &amp;lt; len &amp;amp;&amp;amp; arrTime[idx] &amp;lt;= curTime)
+					queue.offer(new Process(arrTime[idx], exeTime[idx++]));
+				// if the current process still not be executed according to the
+				// &#39;quantum&#39; limit, use curTime minus that &#39;q&#39; as new exeTime
+				// and count curTime as new arrTime for new Process, then put it
+				// back to the queue
+				if (curP.exeTime &amp;gt; q) {
+					curP.exeTime -= q;
+					curP.arrTime = curTime;
+					queue.offer(curP);
+				}
+			}
+		}
+		return (double) waitTime / len;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-two:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Problem Two&lt;/h2&gt;
+
+&lt;p&gt;Given an array with start time of each task and another array represent the executing time of each task. Process these task by the principle that the shortest job should always run firstly. Write a function to achieve that.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-shortest-job-first:fd5fbfca02af2e560dbb93ca15b4bf95&#34;&gt;Solution #Shortest Job First&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public static double shortestJobFirst(int[] arrTime, int[] exeTime) {
+		if (arrTime == null || exeTime == null
+				|| exeTime.length != arrTime.length)
+			return 0;
+
+		int waitTime = 0; // total Waiting time
+		int len = arrTime.length; // the len of time list
+		int idx = 0; // pointer for iterate through time list
+		PriorityQueue&amp;lt;Process&amp;gt; heap = new PriorityQueue&amp;lt;&amp;gt;();
+		int curTime = 0; // tracking current time
+		while (!heap.isEmpty() || idx &amp;lt; len) {
+			if (heap.isEmpty()) {
+				heap.offer(new Process(arrTime[idx], exeTime[idx]));
+				curTime = arrTime[idx++];
+			} else {
+				Process curP = heap.poll();
+				System.out.println(curP);
+				waitTime += Math.abs(curP.arrTime - curTime);
+				curTime += curP.exeTime;
+				while (idx &amp;lt; len &amp;amp;&amp;amp; arrTime[idx] &amp;lt;= curTime)
+					heap.offer(new Process(arrTime[idx], exeTime[idx++]));
+			}
+		}
+		return (double) waitTime / len;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rotate Matrix</title>
+      <link>http://xmruibi.github.io/2015/11/18/rotate-matrix/</link>
+      <pubDate>Wed, 18 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/18/rotate-matrix/</guid>
+      <description>
+
+&lt;p&gt;Given A Matrix and rotate by input flag represent the direction of rotation.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:18934d05988ea6297312db56d76fae0e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class RotateMatrix {
+	public static int[][] rotateMatrix(int[][] matrix, boolean flag) {
+		if (matrix == null || matrix.length &amp;lt;= 1 || matrix[0].length &amp;lt;= 1) {
+			return matrix;
+		}
+		
+		int[][] res = transpose(matrix);
+		int m = res.length;
+		int n = res[0].length;
+		
+		if (flag) {
+			for (int i = 0; i &amp;lt; m; i++) {
+				for (int j = 0; j &amp;lt; n / 2; j++) {
+					int temp = res[i][j];
+					res[i][j] = res[i][n - 1 - j];
+					res[i][n - 1 - j] = temp;
+				}
+			}
+		} else {
+			for (int j = 0; j &amp;lt; n; j++) {
+				for (int i = 0; i &amp;lt; m / 2; i++) {
+					int temp = res[i][j];
+					res[i][j] = res[m - 1 - i][j];
+					res[m - 1 - i][j] = temp;
+				}
+			}
+		}
+		
+		return res;
+	}	
+	
+	private static int[][] transpose(int[][] matrix) {
+		int a = matrix.length;
+		int b = matrix[0].length;
+		// get the new matrix with reversed index
+		int[][] newMatrix = new int[b][a];
+		
+		// transpose the value on original matrix to new position on new matrix
+		for (int i = 0; i &amp;lt; b; i++) {
+			for (int j = 0; j &amp;lt; a; j++) {
+				newMatrix[i][j] = matrix[j][i];
+			}
+		}
+		
+		return newMatrix;
+	}
+	
+	public static void main(String[] args) {
+		int[][] matrix = {{1, 2, 3}, {4, 5, 6}};
+		int[][] res = rotateMatrix(matrix, false);
+		for (int i = 0; i &amp;lt; matrix.length; i++) {
+			for (int j = 0; j &amp;lt; matrix[0].length; j++) {
+				System.out.print(matrix[i][j] + &amp;quot; &amp;quot;);
+			}
+			System.out.println();
+		}
+		System.out.println();
+		for (int i = 0; i &amp;lt; res.length; i++) {
+			for (int j = 0; j &amp;lt; res[0].length; j++) {
+				System.out.print(res[i][j] + &amp;quot; &amp;quot;);
+			}
+			System.out.println();
+		}
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Binary Search on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/binary-search/</link>
+    <description>Recent content in Binary Search on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Tue, 08 Dec 2015 22:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Minimum Maximum Path</title>
+      <link>http://xmruibi.github.io/2015/12/08/minimum-maximum-path/</link>
+      <pubDate>Tue, 08 Dec 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/12/08/minimum-maximum-path/</guid>
+      <description>
+
+&lt;h2 id=&#34;solution:dd4611eff104dea2a0befae27dddd5e9&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxMin {
+    //private static int maxMin = Integer.MIN_VALUE;
+    
+    public static int maxMin(int[][] matrix) {
+        int[] res = new int[1];
+        res[0] = Integer.MIN_VALUE;
+        dfs(matrix, 0, 0, Integer.MAX_VALUE, res);
+        return res[0];
+    }
+    
+    private static void dfs(int[][] matrix, int i, int j, int curMin, int[] res) {
+        if (i == matrix.length || j == matrix[0].length) {
+            return;
+        }
+        curMin = Math.min(curMin, matrix[i][j]);
+        if (i == matrix.length - 1 &amp;amp;&amp;amp; j == matrix[0].length - 1) {
+            res[0] = Math.max(res[0], curMin);
+        }
+        dfs(matrix, i + 1, j, curMin, res);
+        dfs(matrix, i, j + 1, curMin, res);
+    }
+    
+    public static void main(String[] args) {
+        int[][] matrix = {{3,4,3},{2,3,4},{4,5,6}};
+        int[][] matrix2 = {{8, 4, 7},{6, 5, 9}};
+        System.out.println(maxMin(matrix2));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Cloeset</title>
+      <link>http://xmruibi.github.io/2015/12/08/two-sum-cloeset/</link>
+      <pubDate>Tue, 08 Dec 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/12/08/two-sum-cloeset/</guid>
+      <description>
+
+&lt;h2 id=&#34;solution:926f52d7c9da5d811d44d49e601d0eb8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumClosest {
+    static class Container {
+        public double first;
+        public double second;
+    }
+    public static Container findOptimalWeight(double[] weight, double capacity) {
+        Container res = new Container();
+        if (weight == null || weight.length == 0) {
+            return res;
+        }
+        
+        Arrays.sort(weight);
+        int l = 0, r = weight.length - 1;
+        double closest = Integer.MAX_VALUE;
+        while (l &amp;lt; r) {
+            if (weight[l] + weight[r] == capacity) {
+                res.first = weight[l];
+                res.second = weight[r];
+                return res;
+            }
+            double diff = capacity - weight[l] - weight[r];
+            if (diff &amp;gt; 0 &amp;amp;&amp;amp; diff &amp;lt; closest) {
+                closest = diff;
+                res.first = weight[l];
+                res.second = weight[r];
+            }
+            if (weight[l] + weight[r] &amp;gt; capacity) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+        
+        return res;
+    }
+    
+    public static void main(String[] args) {
+        double[] weight = {1.0, 1.5, 7.0, 2.8, 4.8, 1.6, 9.1};
+        Container res = findOptimalWeight(weight, 7.0);
+        System.out.println(res.first);
+        System.out.println(res.second);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pow() and Sqrt()</title>
+      <link>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</link>
+      <pubDate>Sun, 15 Nov 2015 13:11:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/pow-and-sqrt/</guid>
+      <description>
+
+&lt;p&gt;Write function to get the power &lt;code&gt;n&lt;/code&gt; of &lt;code&gt;x&lt;/code&gt; and the square root of &lt;code&gt;x&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-pow:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Pow&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	// basic  
+	public float pow(float x, int n) {
+	    if(n==0)
+            return 1.0;
+		if (n == 1)
+			return x;
+		if (n % 2 == 0)
+			return pow(x, n / 2) * pow(x, n / 2);
+		else
+			return x * pow(x, n / 2) * pow(x, n / 2);
+	}
+
+	// improved
+	public double pow(double x, int n) {
+        if(n==0)
+            return 1.0;
+        boolean neg = false;
+        if(n&amp;lt;0)
+            neg = true;
+        double res = 1.0;
+        while(n != 0){
+            if(n%2 != 0){
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return neg?1.0/res:res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-sqrt:8f114c26f536717def87e4afa082746d&#34;&gt;Solution # Sqrt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public float sqrt(float n) {
+        float low = 0, high = n;
+        float mid = low + (high - low) / 2;
+        while (Math.abs(mid * mid - n) &amp;gt; 0.00001) {
+            if (mid * mid &amp;lt; n)
+                low = mid;
+            else if (mid * mid &amp;gt; n)
+                high = mid;
+            mid = low + (high - low) / 2;
+        }
+        return mid;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Implementation</title>
+      <link>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</link>
+      <pubDate>Fri, 13 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/two-sum-implementation/</guid>
+      <description>
+
+&lt;p&gt;Finish a implementation for a interface where it store some data and returns true if there is any pair of numbers in the internal data structure which have sum @param val, and false otherwise.&lt;/p&gt;
+
+&lt;h3 id=&#34;given-code:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Given Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface TwoSum {
+    /**
+     * Stores @param input in an internal data structure.
+     */
+    void store(int input);
+    /**
+     * Returns true if there is any pair of numbers in the internal data structure which
+     * have sum @param val, and false otherwise.
+     * For example, if the numbers 1, -2, 3, and 6 had been stored,
+     * the method should return true for 4, -1, and 9, but false for 10, 5, and 0
+     */
+    boolean test(int val);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Sum problem has two way to solve
+
+&lt;ul&gt;
+&lt;li&gt;Sort strategy (O(nlogn) time, O(1) space);&lt;/li&gt;
+&lt;li&gt;Set strategy (O(n) time, O(n) space);&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:7520a8219794c9e393cc99906f6d5dad&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumProblem implements TwoSum{
+    
+    // thread not safe, use CopyOnWriteArrayList&amp;lt;E&amp;gt; for thread safe
+    List&amp;lt;Integer&amp;gt; list; 
+    // save the previous data for unnecessary duplicate computation
+    HashSet&amp;lt;Integer&amp;gt; set;
+    
+    public TwoSumProblem() {
+        list = new ArrayList&amp;lt;&amp;gt;();
+        set = new HashSet&amp;lt;&amp;gt;();
+    }
+    
+    @Override
+    public void store(int input) {
+        list.add(input);    
+    }
+
+    @Override
+    public boolean test(int val) {
+        if(set.contains(val))
+            return true;
+        return checkTwoSum(val);
+    }
+
+    // sort strategy (O(nlogn) time, O(1) space)
+    private boolean checkTwoSum(int target){
+        Collections.sort(list);
+        int l = 0, r = list.size() - 1;
+        while(l &amp;lt; r) {
+            int sum = list.get(l) + list.get(r);
+            if(sum == target){
+                set.add(target);
+                return true;
+            }else if(sum &amp;lt; target)
+                l++;
+            else
+                r--;
+        }
+        return false;
+    }
+
+    // set strategy (O(n) time, O(n) space)
+    private boolean checkTwoSumII(int target){
+         int len = list.size();
+           Set&amp;lt;Integer&amp;gt; mem = new HashSet();
+            for(int i = 0; i &amp;lt; len; i++){
+                if ( mem.contains(target - list.get(i)) 
+                        return true;
+               else 
+                    mem.add(list.get(i));
+            }
+            return false;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Smallest character that is strictly larger than the search character target</title>
+      <link>http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/smallest-character-that-is-strictly-larger-than-the-search-character-target/</guid>
+      <description>
+
+&lt;p&gt;Given a sorted list of letters, sorted in ascending order and a character for which we are searching. Return the smallest character that is strictly larger than the search character, If no such character exists, return the smallest character in the array.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the following inputs we expect the corresponding output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;a&#39; =&amp;gt; &#39;c&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;c&#39; =&amp;gt; &#39;f&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;k&#39; =&amp;gt; &#39;p&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;j&#39;, &#39;p&#39;, &#39;v&#39;], &#39;z&#39; =&amp;gt; &#39;c&#39; // The wrap around case 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;f&#39; =&amp;gt; &#39;k&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;c&#39; =&amp;gt; &#39;f&#39; 
+[&#39;c&#39;, &#39;f&#39;, &#39;k&#39;], &#39;d&#39; =&amp;gt; &#39;f&#39; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical binary Search&lt;/li&gt;
+&lt;li&gt;Just be aware to wrapped case, use mod.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:bc64afc6494de3ecd97710220a697bf3&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static char search(char[] dict, char c) {
+
+		int l = 0, r = dict.length - 1;
+
+		while (l + 1 &amp;lt; r) {
+			int m = l + (r - l) / 2;
+			if (dict[m] &amp;lt; c)
+				l = m;
+			else
+				r = m;
+		}
+
+		if (dict[l] &amp;gt; c)
+			return dict[l];
+		else if (dict[r] &amp;gt; c)
+			return dict[r];
+		else
+			return dict[(r + 1) % dict.length];
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find the Celebrity</title>
+      <link>http://xmruibi.github.io/2015/11/12/find-the-celebrity/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/find-the-celebrity/</guid>
+      <description>
+
+&lt;p&gt;Suppose you are at a party with &lt;code&gt;n&lt;/code&gt; people (labeled from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;n - 1&lt;/code&gt;) and among them, there may exist one celebrity. The definition of a celebrity is that all the other &lt;code&gt;n - 1&lt;/code&gt; people know him/her but &lt;strong&gt;he/she does not know any of them&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now you want to find out who the celebrity is or verify that there is not one. The only thing you are allowed to do is to ask questions like: &amp;ldquo;Hi, A. Do you know B?&amp;rdquo; to get information of whether A knows B. You need to find out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).&lt;/p&gt;
+
+&lt;p&gt;You are given a helper function &lt;code&gt;bool knows(a, b)&lt;/code&gt; which tells you whether A knows B. Implement a function &lt;code&gt;int findCelebrity(n)&lt;/code&gt;, your function should minimize the number of calls to &lt;code&gt;knows&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:987915e63763fb778a6682d4a9f26f85&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;There will be exactly one celebrity if he/she is in the party. Return the celebrity&amp;rsquo;s label if there is a celebrity in the party. If there is no celebrity, return &lt;code&gt;-1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:987915e63763fb778a6682d4a9f26f85&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Based graph, check the node with &lt;code&gt;n-1&lt;/code&gt; in-degree and &lt;code&gt;0&lt;/code&gt; out-degree.&lt;/li&gt;
+&lt;li&gt;Becuase other &lt;code&gt;n - 1&lt;/code&gt; people know him/her but &lt;strong&gt;he/she does not know any of them&lt;/strong&gt; (&lt;code&gt;0&lt;/code&gt; out-degree)&lt;/li&gt;
+&lt;li&gt;Call times: $$O(n^2)$$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:987915e63763fb778a6682d4a9f26f85&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int findCelebrity(int n) {
+		if (n &amp;lt;= 1)
+			return -1;
+
+		int[] inDegree = new int[n];
+		int[] outDegree = new int[n];
+
+		// call n^2 times
+		for (int i = 0; i &amp;lt; n; i++) {
+			for (int j = 0; j &amp;lt; n; j++) {
+				if (i != j &amp;amp;&amp;amp; knows(i, j)) {
+					outDegree[i]++;
+					inDegree[j]++;
+				}
+			}
+		}
+
+		for (int i = 0; i &amp;lt; n; i++) {
+			if (inDegree[i] == n - 1 &amp;amp;&amp;amp; outDegree[i] == 0) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:987915e63763fb778a6682d4a9f26f85&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Iterations from head and rear to the middle(l -&amp;gt; m &amp;lt;- r).&lt;/li&gt;
+&lt;li&gt;Two cases when check if [l] knows [r].
+
+&lt;ul&gt;
+&lt;li&gt;Left shouldn&amp;rsquo;t be celebrity since he knows someone.&lt;/li&gt;
+&lt;li&gt;Right shouldn&amp;rsquo;t be celebrity because one of people doesn&amp;rsquo;t know him.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:987915e63763fb778a6682d4a9f26f85&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public int findCelebrityII(int n) {
+		if (n &amp;lt;= 1)
+			return -1;
+		
+		int left = 0, right = n - 1;
+		while (left &amp;lt; right) {
+			if (knows(left, right))
+				left++; // left shouldn&#39;t be celebrity since he knows someone
+			else
+				right--; // right shouldn&#39;t be celebrity because one of people doesn&#39;t know him
+		}
+
+		// check the potential candidate is celebrity
+		for (int i = 0; i &amp;lt; n; i++) {
+			if (i == right)
+				continue;
+			if (knows(right, i))
+				return -1;
+		}
+		return right;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find the Duplicate Number</title>
+      <link>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/find-the-duplicate-number/</guid>
+      <description>
+
+&lt;p&gt;Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:51072b7754d767e44ab1a140653d075f&#34;&gt;Note&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You must not modify the array (assume the array is read only).&lt;/li&gt;
+&lt;li&gt;You must use only constant, O(1) extra space.&lt;/li&gt;
+&lt;li&gt;Your runtime complexity should be less than $$O(n^2)$$.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is only one duplicate number in the array, but it could be repeated more than once.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:51072b7754d767e44ab1a140653d075f&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;h5 id=&#34;pigeonhole-principle:51072b7754d767e44ab1a140653d075f&#34;&gt;Pigeonhole Principle&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Split the array into two pieces by the middle point.&lt;/li&gt;
+&lt;li&gt;NOTE: an array nums containing &lt;code&gt;n + 1&lt;/code&gt; integers where each integer is between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;n&lt;/code&gt; (inclusive).&lt;/li&gt;
+&lt;li&gt;Let&amp;rsquo;s say if there is &lt;code&gt;10&lt;/code&gt; elements in array. The index of middle point is &lt;code&gt;4&lt;/code&gt;. Check the all elements and count how many element has the value less or equal to that index. If the counter larger than index value and according to Pigeonhole Priciple,  that means there must have number duplicated in the first half of searching range. So next time we search the first half. Otherwise, we check the last half part.&lt;/li&gt;
+&lt;li&gt;NOTICE: each time we decrease the search range but still check the number in entire array.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:51072b7754d767e44ab1a140653d075f&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int findDuplicate(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            int cnt = 0;
+            for(int i : nums)
+                if(i &amp;lt;= m)
+                    cnt++;
+            if(cnt &amp;lt;= m)
+                l = m + 1;
+            else
+                r = m;
+        }
+        return l;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>H-Index</title>
+      <link>http://xmruibi.github.io/2015/11/11/h-index/</link>
+      <pubDate>Wed, 11 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/h-index/</guid>
+      <description>
+
+&lt;p&gt;Given an array of citations (each citation is a non-negative integer) of a researcher, write a function to compute the researcher&amp;rsquo;s h-index.&lt;/p&gt;
+
+&lt;p&gt;According to the definition of h-index on Wikipedia: &amp;ldquo;A scientist has index h if h of his/her N papers have at least h citations each, and the other N − h papers have no more than h citations each.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;For example, given citations = &lt;code&gt;[3, 0, 6, 1, 5]&lt;/code&gt;, which means the researcher has &lt;code&gt;5&lt;/code&gt; papers in total and each of them had received &lt;code&gt;3, 0, 6, 1, 5&lt;/code&gt; citations respectively. Since the researcher has &lt;code&gt;3&lt;/code&gt; papers with at least &lt;code&gt;3&lt;/code&gt; citations each and the remaining two with no more than &lt;code&gt;3&lt;/code&gt; citations each, his h-index is &lt;code&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there are several possible values for h, the maximum one is taken as the h-index.&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;An easy approach is to sort the array first.&lt;/li&gt;
+&lt;li&gt;What are the possible values of h-index?&lt;/li&gt;
+&lt;li&gt;A faster approach is to use extra space.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort first (takes $$O(n \times log{n})$$)&lt;/li&gt;
+&lt;li&gt;Set a &lt;code&gt;h&lt;/code&gt; variable, increase &lt;code&gt;h&lt;/code&gt; to &lt;code&gt;length - currentIdx&lt;/code&gt; when current element&amp;rsquo;s value is equals or larger than &lt;code&gt;length - currentIdx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)
+            return 0;
+        Arrays.sort(citations);
+        int h = 0;
+        for(int i = 0; i &amp;lt; citations.length; i++) {
+            if(citations[i] &amp;gt;= citations.length - i)
+                h = Math.max(h, citations.length - i);
+        }
+        return h;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Extra Space&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)
+            return 0;
+        int[] memo = new int[citations.length + 1];
+        for(int i = 0; i &amp;lt; citations.length; i++) {
+            if(citations[i] &amp;gt;= memo.length)
+                memo[memo.length - 1] ++;
+            else
+                memo[citations[i]]++;
+        }
+
+        for(int i = memo.length - 1; i &amp;gt;= 0; i--) {
+            if(i &amp;lt; memo.length - 1)
+                memo[i] += memo[i+1];
+            if(memo[i] &amp;gt;= i)
+                return i;
+        }
+        return 0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort and Binary Search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:368830646b62ee3e3ed386f64083e3ce&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)
+            return 0;
+        int l = 0, r = citations.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(citations[m] == citations.length - m)
+                return citations.length - m;
+            else if(citations[m] &amp;lt; citations.length - m)
+                l = m;
+            else
+                r = m;
+        }
+        if(citations[l] &amp;gt;= citations.length - l)
+            return citations.length - l;   // this is larger
+        if(citations[r] &amp;gt;= citations.length - r)
+            return citations.length - r;
+    
+        return 0;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>3Bad Version</title>
+      <link>http://xmruibi.github.io/2015/11/10/3bad-version/</link>
+      <pubDate>Tue, 10 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/10/3bad-version/</guid>
+      <description>
+
+&lt;p&gt;You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.&lt;/p&gt;
+
+&lt;p&gt;Suppose you have &lt;code&gt;n&lt;/code&gt; versions &lt;code&gt;[1, 2, ..., n]&lt;/code&gt; and you want to find out the first bad one, which causes all the following ones to be bad.&lt;/p&gt;
+
+&lt;p&gt;You are given an API bool &lt;code&gt;isBadVersion(version)&lt;/code&gt; which will return whether &lt;code&gt;version&lt;/code&gt; is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:9e518719ec6a4e4c9c1cfdd8abe7be5e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Binary Search idea&lt;/li&gt;
+&lt;li&gt;If the middle one is bad version, try to check the left part, but include middle index as the boundary.&lt;/li&gt;
+&lt;li&gt;If the middle one is not bad version, try the right part, but without the middle index.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:9e518719ec6a4e4c9c1cfdd8abe7be5e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int firstBadVersion(int n) {
+        int l = 1, r = n;
+        while(l&amp;lt;r){
+            int m = l + ((r-l)&amp;gt;&amp;gt;1);
+            if(isBadVersion(m)){
+                r = m;   
+            }else{
+                l = m + 1;
+            }
+        }
+        return l;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>3Sum Smaller</title>
+      <link>http://xmruibi.github.io/2015/11/09/3sum-smaller/</link>
+      <pubDate>Mon, 09 Nov 2015 19:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/09/3sum-smaller/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n integers nums and a target, find the number of index triplets i, j, k with 0 &amp;lt;= i &amp;lt; j &amp;lt; k &amp;lt; n that satisfy the condition &lt;code&gt;nums[i]&lt;/code&gt; + &lt;code&gt;nums[j]&lt;/code&gt; + &lt;code&gt;nums[k]&lt;/code&gt; &amp;lt; &lt;code&gt;target&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;example:ebe05d1f7e0fa5966fe3547434f35f35&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;given nums = &lt;code&gt;[-2, 0, 1, 3]&lt;/code&gt;, and target = &lt;code&gt;2&lt;/code&gt;.
+Return 2. Because there are two triplets which sums are less than &lt;code&gt;2&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[-2, 0, 1]
+[-2, 0, 3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:ebe05d1f7e0fa5966fe3547434f35f35&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set iterate from rear.&lt;/li&gt;
+&lt;li&gt;One tricky pattern:
+
+&lt;ul&gt;
+&lt;li&gt;When &lt;code&gt;nums[l] + nums[r] +nums[i] &amp;lt; target&lt;/code&gt;, all for combinations like: &lt;code&gt;nums[l] + nums[r-1] +nums[i] &amp;lt; target&lt;/code&gt;, &lt;code&gt;nums[l] + nums[r-2] +nums[i] &amp;lt; target&lt;/code&gt;, &amp;hellip;, &lt;code&gt;nums[l] + nums[l+1] +nums[i] &amp;lt; target&lt;/code&gt; are workable.&lt;/li&gt;
+&lt;li&gt;So result counter should directly add the &lt;code&gt;r - l&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;All in all, two cases:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nums[l] + nums[r] +nums[i] &amp;lt; target&lt;/code&gt;, add the cnt and move the &lt;code&gt;l&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nums[l] + nums[r] +nums[i] &amp;gt;= target&lt;/code&gt;, just move the &lt;code&gt;r&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;It is not very similar like binary search but still has kinda idea inside.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ebe05d1f7e0fa5966fe3547434f35f35&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static int threeSumSmaller(int[] nums, int target) {
+        if (nums == null || nums.length &amp;lt; 3) 
+            return 0;
+        Arrays.sort(nums);
+        int resCnt = 0;
+        for (int i = nums.length - 1; i &amp;gt; 1; i--) {
+            int one = nums[i];
+            int l = 0, r = i - 1;
+            while (l &amp;lt; r) {
+                if(one + nums[l] + nums[r] &amp;lt; target) {
+                    resCnt += (r - l);
+                    l++;
+                }else
+                    r--;
+            }
+        }
+        return resCnt;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sqrt(x)</title>
+      <link>http://xmruibi.github.io/2015/10/24/sqrtx/</link>
+      <pubDate>Sat, 24 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/24/sqrtx/</guid>
+      <description>
+
+&lt;p&gt;Implement &lt;code&gt;int sqrt(int x)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Compute and return the square root of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:1989b8b3a92fd67cab06c6c75d9d061f&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;Try to make the time complexity less.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:1989b8b3a92fd67cab06c6c75d9d061f&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The square root should be between 1 to half of input value;&lt;/li&gt;
+&lt;li&gt;Use binary search idea to search the &lt;code&gt;sqrt&lt;/code&gt; inside that range;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:1989b8b3a92fd67cab06c6c75d9d061f&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int mySqrt(int x) {
+        if(x == 0)
+            return 0;
+        // binary search from 1 -&amp;gt; x/2
+        int l = 1, r = (x&amp;gt;&amp;gt;1);
+        while(l &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if( m &amp;lt;= x / m &amp;amp;&amp;amp; (m + 1) &amp;gt; x / (m + 1)) {
+                return m;
+            }else if(m + 1 &amp;lt;= x / m) {
+                l = m + 1;
+            }else{
+                r = m;
+            }
+        }
+        return l;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Triangle Count</title>
+      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
+
+&lt;h3 id=&#34;example:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[3,4,6]
+[3,6,7]
+[4,6,7]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
+[4(1),4(2),4(4)]
+[4(1),4(3),4(4)]
+[4(2),4(3),4(4)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort&lt;/li&gt;
+&lt;li&gt;Binary Search&lt;/li&gt;
+&lt;li&gt;But how to define driven condition? (Tricky Part)
+
+&lt;ul&gt;
+&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param S: A list of integers
+     * @return: An integer
+     */
+    public int triangleCount(int S[]) {
+        if(S == null || S.length == 0)
+            return 0;
+        int cnt = 0;
+        Arrays.sort(S);
+        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
+            int cur = S[i];
+            int l = 0, r = i - 1;
+            while(l &amp;lt; r) {
+                if(S[l] + S[r] &amp;gt; S[i]) {
+                    cnt += (r - l); // keypoint!
+                    r--;
+                }else 
+                    l++;
+            }
+        }
+        return cnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Count of Smaller Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ad7e415f7b598c437e3011438d40401a&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[1,8,5]&lt;/code&gt;, return &lt;code&gt;[0,4,2]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:ad7e415f7b598c437e3011438d40401a&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you use three ways to do it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Just loop&lt;/li&gt;
+&lt;li&gt;Sort and binary search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ad7e415f7b598c437e3011438d40401a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2:ad7e415f7b598c437e3011438d40401a&#34;&gt;1. Solution by Loop with $O(n^2)$&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;
+
+   /** O(n^2) Loop implement
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(A == null || queries == null)
+            return res;
+            
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = 0;
+            for(int j = 0; j &amp;lt; A.length; j++) {
+                if(A[j] &amp;lt; queries[i])
+                    cnt++;
+            }
+            res.add(cnt);
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-solution-by-sort-and-binary-search-with-o-nlogn:ad7e415f7b598c437e3011438d40401a&#34;&gt;2. Solution by Sort and Binary search with O(nlogn)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;    /** O(nlogn) Sort and Binary search
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(queries == null)
+            return res;
+         
+        Arrays.sort(A);
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = binarySearch(A, queries[i]);
+            res.add(cnt);
+        }
+        return res;
+    }
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        if(A[l] &amp;lt; value)
+            return l + 1;
+        else
+            return l; 
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Smallest Difference</title>
+      <link>http://xmruibi.github.io/2015/10/18/smallest-difference/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/smallest-difference/</guid>
+      <description>
+
+&lt;p&gt;Given two array of integers(the first array is array A, the second array is array B), now we are going to find a element in array A which is A[i], and another element in array B which is B[j], so that the difference between A[i] and B&lt;a href=&#34;|A[i] - B[j]|&#34;&gt;j&lt;/a&gt; is as small as possible, return their smallest difference.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:2aeec05bfdff07319e9f8be84d9c06e8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, given array A = &lt;code&gt;[3,6,7,4]&lt;/code&gt;, B = &lt;code&gt;[2,8,9,3]&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:2aeec05bfdff07319e9f8be84d9c06e8&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n log n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:2aeec05bfdff07319e9f8be84d9c06e8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Do sort on one of array&lt;/li&gt;
+&lt;li&gt;One pass on another array and do binary search on the sorted array.&lt;/li&gt;
+&lt;li&gt;Search the target value from passing array and get the minimum difference on sorted array&lt;/li&gt;
+&lt;li&gt;Update the global minimum difference each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A, B: Two integer arrays.
+     * @return: Their smallest difference.
+     */
+    public int smallestDifference(int[] A, int[] B) {
+        if(A == null || B == null || A.length == 0 || B.length == 0)
+            return 0;
+        Arrays.sort(B);
+        int mindiff = Integer.MAX_VALUE;
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            int curdiff = binarySearch(B, A[i]);
+            mindiff = Math.min(mindiff, curdiff);
+        }
+        return mindiff;
+    }
+    
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Search In 2D Matrix I</title>
+      <link>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</link>
+      <pubDate>Mon, 21 Sep 2015 13:37:08 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/09/21/search-in-2d-matrix-i/</guid>
+      <description>
+
+&lt;p&gt;Write an efficient algorithm that searches for a value in an m x n matrix.&lt;/p&gt;
+
+&lt;p&gt;This matrix has the following properties:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integers in each row are sorted from left to right.&lt;/li&gt;
+&lt;li&gt;The first integer of each row is greater than the last integer of the previous row.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;solution:f10b94d913674fb49b94f61e480eb3d9&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First binary search with checking the first element in each row so that we can find the row may contain the target number;&lt;/li&gt;
+&lt;li&gt;So we search the lowbound of target number. However, we also can do if the element is just equals to target number then directly return for reducing time.&lt;/li&gt;
+&lt;li&gt;Once we get the target row, then we do the second binary search in this row to find the target number.&lt;/li&gt;
+&lt;li&gt;All in all, two binary search to find the target!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public class Solution {
+    /**
+     * @param matrix, a list of lists of integers
+     * @param target, an integer
+     * @return a boolean, indicate whether matrix contains target
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if(matrix == null || matrix.length == 0)
+            return false;
+        
+        int up = 0, down = matrix.length - 1;
+        while(up &lt; down - 1) {
+            int mrow = up + ((down - up) &gt;&gt; 1);
+            if(matrix[mrow][0] == target)
+                return true;
+            if(matrix[mrow][0] &lt; target)
+                up = mrow;
+            else
+                down = mrow;
+        }
+        int curRow;
+        if(matrix[up][0] &gt; target)
+            return false;
+        else if(matrix[up][0] &lt;= target &amp;&amp; matrix[down][0] &gt; target)
+            curRow = up;
+        else
+            curRow = down;
+        
+        int l = 0, r = matrix[curRow].length - 1;
+        while(l &lt; r - 1) {
+            int m = l + ((r - l) &gt;&gt; 1);
+            if(matrix[curRow][m] == target)
+                return true;
+            else if(matrix[curRow][m] &lt; target)
+                l = m;
+            else
+                r = m;
+        }
+        
+        if(matrix[curRow][l] == target || matrix[curRow][r] == target)
+            return true;
+        else
+            return false;
+    }
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

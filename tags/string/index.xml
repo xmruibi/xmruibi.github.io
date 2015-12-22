@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>String on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/string/</link>
+    <description>Recent content in String on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Thu, 19 Nov 2015 14:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Longest Palindromic Substring</title>
+      <link>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</link>
+      <pubDate>Thu, 19 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/longest-palindromic-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given the string = &lt;code&gt;&amp;quot;abcdzdcab&amp;quot;&lt;/code&gt;, return &lt;code&gt;&amp;quot;cdzdc&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n2) time is acceptable. Can you do it in O(n) time.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-2:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;One pass on each position in string characters, assume the axis of symmetry on each character or between two character:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    |                       |
+c a b a c f     or     c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;On each axis of symmetry we get the left and right pointers and make them move toward left or right&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;left right           
+   \ /                 
+c a b a c f 
+
+
+...or...        
+
+
+    l r
+    | |
+c a b a c f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param s input string
+     * @return the longest palindromic substring
+     */
+    private String LongestPalindromeSubstringI(String str) {
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        // memorized whether it is palindromical in str (i, j)
+        boolean[][] memo = new boolean[str.length()][str.length()];
+        for (int i = str.length() - 1; i &amp;gt;= 0; i--) {
+            for (int j = i; j &amp;lt; str.length(); j++) {
+                if ((j - i &amp;lt; 2 || memo[i + 1][j - 1])
+                        &amp;amp;&amp;amp; str.charAt(i) == str.charAt(j)) {
+                    memo[i][j] = true;
+                    if (j - i + 1 &amp;gt; maxLen) {
+                        maxSubstr = str.substring(i, j + 1);
+                        maxLen = j - i + 1;
+                    }
+                }
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String LongestPalindromeSubstringII(String str) {
+        if(str == null || str.length() == 0)
+            return &amp;quot;&amp;quot;;
+        // record current longest length
+        int maxLen = 0;
+        String maxSubstr = &amp;quot;&amp;quot;;
+        for (int i = 0; i &amp;lt; str.length(); i++) {
+            // find the longest palindrome, when symmetry axis is the current index
+            String case1 = expandFromCenter(str, i, i);
+            // find the longest palindrome, when symmetry axis is between the current index and next index
+            String case2 = expandFromCenter(str, i, i + 1);
+            
+            if (Math.max(case1.length(), case2.length()) &amp;gt; maxLen) {
+                maxLen = Math.max(case1.length(), case2.length());
+                maxSubstr = case1.length() &amp;gt; case2.length() ? case1 : case2;
+            }
+        }
+        return maxSubstr;
+    }
+
+    private String expandFromCenter(String str, int left, int right) {
+        // expand the left and right index two opposite sides
+        while ( left &amp;gt;= 0
+                &amp;amp;&amp;amp; right &amp;lt; str.length()&amp;amp;&amp;amp;str.charAt(left) == str.charAt(right)) {
+            left--;
+            right++;
+        }
+        return str.substring(left + 1, right);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;analysis:76aab2fbc6504c3eece0bf48890095f0&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;p&gt;One pass from 0 - $$len \times 2$$; inside the loop the palindromic substring search also costs a loop from l - r; So the total is O($$n^2$$);&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Determine valid parentheses</title>
+      <link>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</link>
+      <pubDate>Tue, 17 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/17/determine-valid-parentheses/</guid>
+      <description>
+
+&lt;p&gt;Given a String, judge if it is a valid parenthese.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:10aafbab84837eff25243552bd87c32a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+public static boolean validParenthese(String str) {
+    if(str == null || str.length() == 0)
+      return true;
+    // store the parenthese
+    Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+    // save the parenthese pair in hashmap as a dictionary
+    HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+    map.put(&#39;(&#39;,&#39;)&#39;);map.put(&#39;{&#39;,&#39;}&#39;);map.put(&#39;[&#39;,&#39;]&#39;);
+    
+    for(int i = 0 ; i &amp;lt; str.length() ; i++) {
+      char cur = str.charAt(i);
+      if(map.containsKey(cur))
+        // if the current character is a front parenthese, directly push into stack
+        stack.push(cur);
+      else if(map.containsValue(cur)){  
+      	// if current character is a back parenthese  
+          if(stack.isEmpty() || map.get(stack.pop()) != cur)
+          // if current stack is empty or the poped element doesn&#39;t match with current character 
+            return false;
+      }
+    }
+    return stack.isEmpty();
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Palindromic Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</link>
+      <pubDate>Sun, 15 Nov 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/15/longest-palindromic-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &lt;code&gt;“BBABCBCAB”&lt;/code&gt;, then the output should be 7 as &lt;code&gt;“BABCBAB”&lt;/code&gt; is the longest palindromic subseuqnce in it. &lt;code&gt;“BBBBB”&lt;/code&gt; and &lt;code&gt;“BBCBB”&lt;/code&gt; are also palindromic subsequences of the given sequence, but not the longest ones.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution-dynamic-programming:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution #Dynamic Programming&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static int longestSubsequence(String str) {
+		// memo[len][i] represent from index &#39;i&#39; with length &#39;len&#39; has how many
+		// palindromic subsequence
+		int[][] memo = new int[str.length() + 1][str.length() + 1];
+
+		// initial len with 1 as 1, since for every index it has 1 len
+		// palindromic subsequence
+		for (int i = 0; i &amp;lt; str.length(); i++)
+			memo[1][i] = 1;
+
+		// iterate the str with different length setting
+		for (int len = 2; len &amp;lt;= str.length(); len++) {
+			for (int i = 0; i &amp;lt;= str.length() - len; i++) {
+				int tar = i + len - 1;
+				if (len == 2 &amp;amp;&amp;amp; str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2;
+				else if (str.charAt(i) == str.charAt(tar))
+					memo[len][i] = 2 + memo[len - 2][i + 1];
+				else
+					memo[len][i] = Math.max(memo[len - 1][i],
+							memo[len - 1][i + 1]);
+			}
+		}
+		return memo[str.length()][0];
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;solution-recursive:0dddaebd549f2b96d7e1c402abcf8d05&#34;&gt;Solution # Recursive&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int calculateRecursive(char str[],int start,int len){
+        if(len == 1){
+            return 1;
+        }
+        if(len ==0){
+            return 0;
+        }
+        if(str[start] == str[start+len-1]){
+            return 2 + calculateRecursive(str,start+1,len-2);
+        }else{
+            return Math.max(calculateRecursive(str, start+1, len-1), calculateRecursive(str, start, len-1));
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find Valid IP Address in a File</title>
+      <link>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/find-valid-ip-address-in-a-file/</guid>
+      <description>
+
+&lt;p&gt;Given a file with many lines of Strings, find those valid IP address from them.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ed817a74e0c3a1097fc0cfb76d5d85e1&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class ValidIPAddress {
+
+    public List&amp;lt;String&amp;gt; findValidIPAddr(String filePath) throws IOException {
+        List&amp;lt;String&amp;gt; addresses = new ArrayList&amp;lt;&amp;gt;();
+        Scanner sc = new Scanner(new File(filePath));
+        while (sc.hasNext()) {
+            String line = sc.next();
+            if(validIP(line))
+                addresses.add(line);
+        }
+        return addresses;
+    }
+
+    private boolean validIP(String str) {
+        try {
+            String[] parts = str.split(&amp;quot;.&amp;quot;);
+            // check segment length;
+            if (parts.length != 4 || str.endsWith(&amp;quot;.&amp;quot;))
+                return false;
+
+            // check each segment valid or not
+            for (int i = 0; i &amp;lt; parts.length; i++) {
+                String s = parts[i];
+                int val = Integer.parseInt(s);
+                if ((s.charAt(0) == &#39;0&#39;) || (val &amp;lt; 0 || val &amp;gt; 255)
+                        || (i == 0 &amp;amp;&amp;amp; val == 0))
+                    return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Isomorphic Pair</title>
+      <link>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</link>
+      <pubDate>Sat, 14 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/isomorphic-pair/</guid>
+      <description>
+
+&lt;p&gt;Given two words as Strings, determine if they are isomorphic. Two words are called isomorphic if the letters in one word can be remapped to get the second word. Remapping a letter means replacing all occurrences of it with another letter while the ordering of the letters remains unchanged. No two letters may map to the same letter, but a letter may map to itself.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Two Hashmap for mapping A-B and B-A.&lt;/li&gt;
+&lt;li&gt;make sure both mapping are correct if any character appear in its corresponding mapping.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicString(String str1, String str2) {
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; mapAB = new HashMap&amp;lt;&amp;gt;();
+		HashMap&amp;lt;Character, Character&amp;gt; mapBA = new HashMap&amp;lt;&amp;gt;();
+		for (int i = 0; i &amp;lt; str1.length(); i++) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (!mapAB.containsKey(a) &amp;amp;&amp;amp; !mapBA.containsKey(b)) {
+				mapAB.put(a, b);
+				mapBA.put(b, a);
+			} else {
+				if (mapAB.containsKey(a) &amp;amp;&amp;amp; mapAB.get(a) != b)
+					return false;
+				if (mapBA.containsKey(b) &amp;amp;&amp;amp; mapBA.get(b) != a)
+					return false;
+			}
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One Hashmap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isomorphicStringII(String str1, String str2) {
+		if ((str1 == null &amp;amp;&amp;amp; str2 == null)
+				|| (str1.length() == 0 &amp;amp;&amp;amp; str2.length() == 0)
+				|| str1.equals(str2))
+			return true;
+		if (str1 == null || str2 == null || str1.length() != str2.length())
+			return false;
+		HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+		int i = 0;
+		while (i &amp;lt; str1.length()) {
+			char a = str1.charAt(i);
+			char b = str2.charAt(i);
+			if (map.containsKey(a)) {
+				if (map.get(a) != b)
+					return false;
+			} else {
+				if (map.containsValue(b))
+					return false;
+				map.put(a, b);
+			}
+			i++;
+		}
+		return true;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Think #3&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integer Array with 512 length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-3:7ab6663e72843fc1770a695321dc7d8b&#34;&gt;Solution #3&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public boolean isIsomorphic(String s1, String s2) {
+        int[] m = new int[512];
+        for (int i = 0; i &amp;lt; s1.length(); i++) {
+            if (m[s1.charAt(i)] != m[s2.charAt(i)+256]) 
+                return false;
+            m[s1.charAt(i)] = m[s2.charAt(i)+256] = i+1;
+        }
+        return true;	
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Minimum Window Substring</title>
+      <link>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</link>
+      <pubDate>Sat, 14 Nov 2015 22:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/minimum-window-substring/</guid>
+      <description>
+
+&lt;p&gt;Given a string source and a string target, find the minimum window in source which will contain all the characters in target.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;source = &amp;ldquo;ADOBECODEBANC&amp;rdquo; target = &amp;ldquo;ABC&amp;rdquo; Minimum window is &amp;ldquo;BANC&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;If there is no such window in source that covers all characters in target, return the emtpy string &amp;ldquo;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in source.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Can you do it in time complexity O(n) ?&lt;/p&gt;
+
+&lt;h3 id=&#34;clarification:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Clarification&lt;/h3&gt;
+
+&lt;p&gt;The characters in minimum window doesn&amp;rsquo;t need to has the same order in target.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:550cea2e147a44ca0938087e5ad57f43&#34;&gt;Solution:&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String minWindow(String s, String t) {
+        // preload for target checking
+        if(s == null || s.length() == 0 || t == null || t.length() == 0)
+            return &amp;quot;&amp;quot;;
+        
+        
+        // store t into a hashmap &amp;lt;char, freq&amp;gt;
+        HashMap&amp;lt;Character, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        for(char c : t.toCharArray())
+            map.put(c, map.containsKey(c)?map.get(c) + 1 : 1);
+        // set curidx-i, leftbound-prev, hitcharCnt-hitCnt, default max length-len
+        int prev = 0, hitCnt = 0, len = s.length();
+        String res = &amp;quot;&amp;quot;;
+        
+        for(int i = 0; i&amp;lt;s.length();i++){
+            char cur = s.charAt(i);
+            // skip nonhit char
+            if(!map.containsKey(cur))
+                continue;
+            map.put(cur, map.get(cur) - 1);
+            if(map.get(cur) &amp;gt;= 0)
+                hitCnt++;
+                
+            while(hitCnt == t.length()) {
+                if(i - prev + 1 &amp;lt;= len) {
+                    res = s.substring(prev, i+1);
+                    len = i - prev + 1;
+                }
+                if(map.containsKey(s.charAt(prev))) {
+                   map.put(s.charAt(prev), map.get(s.charAt(prev))+1);
+                   if(map.get(s.charAt(prev)) &amp;gt; 0)
+                      hitCnt--;
+                }
+                prev++;
+            }
+        }
+        return res;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Repeated DNA Sequences</title>
+      <link>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</link>
+      <pubDate>Sat, 14 Nov 2015 13:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/14/repeated-dna-sequences/</guid>
+      <description>
+
+&lt;p&gt;All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: &amp;ldquo;ACGAATTCCG&amp;rdquo;. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.&lt;/p&gt;
+
+&lt;p&gt;Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;s&lt;/code&gt; = &lt;code&gt;&amp;quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&amp;quot;&lt;/code&gt;, Return:  &lt;code&gt;[&amp;quot;AAAAACCCCC&amp;quot;, &amp;quot;CCCCCAAAAA&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Think #Rolling Hash&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The idea based on the rolling hash, we store each segment as a hash code.&lt;/li&gt;
+&lt;li&gt;If the segment repeated, its hashcode should be the same.&lt;/li&gt;
+&lt;li&gt;Iterate through the input String, find each segment and its hashcode.&lt;/li&gt;
+&lt;li&gt;Check the index map where has a index list more than one size.&lt;/li&gt;
+&lt;li&gt;Just record a substring by the index bound from &lt;code&gt;list.get(0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;O(n) time complexity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-rolling-hash:86c36611807a867e11fbbb9582b6e9b6&#34;&gt;Solution #Rolling Hash&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; findRepeatedDnaSequences(String s) {
+        Set&amp;lt;String&amp;gt; res = new HashSet&amp;lt;&amp;gt;();
+        if(s==null||s.length()==0)
+            return new ArrayList(res);
+        Map&amp;lt;Character, Integer&amp;gt; dict = new HashMap&amp;lt;&amp;gt;();
+        dict.put(&#39;A&#39;,0); dict.put(&#39;C&#39;,1); dict.put(&#39;G&#39;,2); dict.put(&#39;T&#39;,3);
+       //int A_SIZE_POW_9 = (int) Math.pow(dict.size(), 9);
+        Set&amp;lt;Integer&amp;gt; hashCodes = new HashSet&amp;lt;&amp;gt;();
+        int hashCode = 0;
+        for(int i=0;i&amp;lt;s.length();i++){
+            if(i&amp;gt;9) // remove first 
+                hashCode -= Math.pow(4,9)*dict.get(s.charAt(i-10));
+            hashCode = 4*hashCode + dict.get(s.charAt(i));
+            if(i&amp;gt;8&amp;amp;&amp;amp;!hashCodes.add(hashCode)) // set add operation return true
+                res.add(s.substring(i-9,i+1));
+        }
+        return new ArrayList(res);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Valid Number</title>
+      <link>http://xmruibi.github.io/2015/11/13/valid-number/</link>
+      <pubDate>Fri, 13 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/valid-number/</guid>
+      <description>
+
+&lt;p&gt;Validate if a given string is numeric.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:d0ba9336933b8515213de1bc6935949b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;0&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot; 0.1 &amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;1 a&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;2e10&amp;quot;&lt;/code&gt; =&amp;gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:d0ba9336933b8515213de1bc6935949b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This question focus on thinking about all of corner case
+
+&lt;ol&gt;
+&lt;li&gt;sign before the number (one sign; two sign)&lt;/li&gt;
+&lt;li&gt;space before the number&lt;/li&gt;
+&lt;li&gt;invalid character before / after the number&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;e&amp;rsquo; or &amp;lsquo;E&amp;rsquo; in the middle of number&lt;/li&gt;
+&lt;li&gt;space after the number&lt;/li&gt;
+&lt;li&gt;decimal checker&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:d0ba9336933b8515213de1bc6935949b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public boolean isNumber(String s) {
+        s = s.trim();
+        int hasNum = 0;
+        boolean allowE = true;
+        boolean allowD = true;
+        boolean afterE = true;
+
+        for (int idx = 0; idx &amp;lt; s.length(); idx++) {
+            char c = s.charAt(idx);
+            if (c &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; c &amp;lt;= &#39;9&#39;) {
+                hasNum++;
+                if(!afterE)
+                    afterE = true;
+            } else if ((c == &#39;e&#39; || c == &#39;E&#39;) &amp;amp;&amp;amp; hasNum &amp;gt; 0 &amp;amp;&amp;amp; allowE) {
+                allowE = afterE = false;
+            } else if (c == &#39;.&#39; &amp;amp;&amp;amp; allowD &amp;amp;&amp;amp; allowE) {
+                allowD  = false;
+            } else if(c == &#39;-&#39; || c == &#39;+&#39;) {
+                if(idx != 0 &amp;amp;&amp;amp; s.charAt(idx-1) != &#39;e&#39;) {
+                    return false;
+                }
+            }else
+                return false;
+        }
+        return hasNum&amp;gt;0 &amp;amp;&amp;amp; afterE;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Braces Check</title>
+      <link>http://xmruibi.github.io/2015/11/13/braces-check/</link>
+      <pubDate>Fri, 13 Nov 2015 10:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/13/braces-check/</guid>
+      <description>
+
+&lt;p&gt;Design a function determines if the braces (&amp;lsquo;(&amp;rsquo; and &amp;lsquo;)&amp;rsquo;) in a string are properly matched. Please ignores non-brace characters.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;quot;()()()()&amp;quot;&lt;/code&gt;   -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;((45+)*a3)&amp;quot;&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;
+&lt;code&gt;&amp;quot;(((())())&amp;quot;&lt;/code&gt;  -&amp;gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Parenthese check problem three way to solve.
+
+&lt;ul&gt;
+&lt;li&gt;If it only contains one kind of parenthese, it can just use a counter.&lt;/li&gt;
+&lt;li&gt;Stack solution with hashmap assistance&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:39c9785383d6c2c463872fe27d7b000d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    // counter method
+    public boolean matched(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        int cnt = 0;
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            if(s.charAt(idx) == &#39;(&#39;)
+                cnt++;
+            else if(s.charAt(idx) == &#39;)&#39;) {
+                if(cnt &amp;lt;= 0) 
+                    return false;
+                cnt--;
+            }
+        }
+        return cnt == 0;
+    }
+
+    // 
+    public boolean matchedII(String s) {
+        if(s == null || s.length() == 0)
+            return true;
+        Stack&amp;lt;Character&amp;gt; stack = new Stack&amp;lt;&amp;gt;();
+        HashMap&amp;lt;Character, Character&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+        map.put(&#39;(&#39;, &#39;)&#39;); map.put(&#39;{&#39;, &#39;}&#39;); map.put(&#39;[&#39;, &#39;]&#39;);
+        int idx = 0;
+        while(idx &amp;lt; s.length()) {
+            char c = s.charAt(idx);
+            if(map.containsKey(c))
+                stack.push(c);
+            else if(map.values().contains(c)){
+                if(!stack.isEmpty() &amp;amp;&amp;amp; map.get(stack.pop()) != c)
+                    return false;
+            }
+        }
+        return stack.isEmpty()
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Expression Add Operators</title>
+      <link>http://xmruibi.github.io/2015/11/12/expression-add-operators/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/expression-add-operators/</guid>
+      <description>
+
+&lt;p&gt;Given a string that contains only digits 0-9 and a target value, return all possibilities to add binary operators (not unary) +, -, or * between the digits so they evaluate to the target value.&lt;/p&gt;
+
+&lt;h3 id=&#34;examples:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Examples&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;123&amp;quot;, 6 -&amp;gt; [&amp;quot;1+2+3&amp;quot;, &amp;quot;1*2*3&amp;quot;] 
+&amp;quot;232&amp;quot;, 8 -&amp;gt; [&amp;quot;2*3+2&amp;quot;, &amp;quot;2+3*2&amp;quot;]
+&amp;quot;105&amp;quot;, 5 -&amp;gt; [&amp;quot;1*0+5&amp;quot;,&amp;quot;10-5&amp;quot;]
+&amp;quot;00&amp;quot;, 0 -&amp;gt; [&amp;quot;0+0&amp;quot;, &amp;quot;0-0&amp;quot;, &amp;quot;0*0&amp;quot;]
+&amp;quot;3456237490&amp;quot;, 9191 -&amp;gt; []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;This problem has a lot of edge cases to be considered:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;overflow: we use a long type once it is larger than Integer.MAX_VALUE or minimum, we get over it.&lt;/li&gt;
+&lt;li&gt;0 sequence: because we can&amp;rsquo;t have numbers with multiple digits started with zero, we have to deal with it too.&lt;/li&gt;
+&lt;li&gt;a little trick is that we should save the value that is to be multiplied in the next recursion.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;solution:b80d8eb4c261a28dea46a3fd4834483e&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+
+    public List&amp;lt;String&amp;gt; addOperators(String num, int target) {
+        List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        helper(res, &amp;quot;&amp;quot;, num, 0, target, 0L, 0L);
+        return res;
+    }
+    
+    private void helper(List&amp;lt;String&amp;gt; res, String cur, String num, int idx, int target, long preVal, long nextVal) {
+       if(idx == num.length()) {
+            if(preVal == target)
+                res.add(new String(cur));
+            return;
+       }
+       
+       for(int i = idx; i &amp;lt; num.length(); i++) {
+           if(i != idx &amp;amp;&amp;amp; num.charAt(idx) == &#39;0&#39;) break;
+           String sbstr = num.substring(idx, i+1);
+           long curVal = Long.parseLong(sbstr);
+           if(idx == 0)
+                helper(res, sbstr, num, i+1, target, curVal, curVal);
+           else {
+               helper(res, cur + &amp;quot;+&amp;quot; + curVal, num, i+1, target, preVal + curVal,  curVal);
+               helper(res, cur + &amp;quot;-&amp;quot; + curVal, num, i+1, target, preVal - curVal, 0 - curVal);
+               helper(res, cur + &amp;quot;*&amp;quot; + curVal, num, i+1, target, preVal - nextVal + nextVal * curVal, nextVal * curVal);
+           }
+       }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Integer to English Words</title>
+      <link>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/integer-to-english-words/</guid>
+      <description>
+
+&lt;p&gt;Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;123&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Hundred Twenty Three&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;12345&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;Twelve Thousand Three Hundred Forty Five&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;1234567&lt;/code&gt; -&amp;gt; &lt;code&gt;&amp;quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;hint:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Hint&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;There are many edge cases. What are some good test cases? Does your code work with input such as &lt;code&gt;0&lt;/code&gt; ? Or &lt;code&gt;1000010&lt;/code&gt;? (middle chunk is zero and should not be printed out)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The regular pattern in English word to count number is splitting by &lt;code&gt;1000&lt;/code&gt;, so set each &lt;code&gt;000.&lt;/code&gt; by &lt;code&gt;&amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Be aware to number less than &lt;code&gt;20&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:59e47c662cbbe0ed988b094d690a4b1b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class Solution {
+    private final String[] lessThan20 = {&amp;quot;&amp;quot;, &amp;quot;One &amp;quot;, &amp;quot;Two &amp;quot;, &amp;quot;Three &amp;quot;, &amp;quot;Four &amp;quot;, &amp;quot;Five &amp;quot;, &amp;quot;Six &amp;quot;, &amp;quot;Seven &amp;quot;, &amp;quot;Eight &amp;quot;, &amp;quot;Nine &amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Eleven &amp;quot;, &amp;quot;Twelve &amp;quot;, &amp;quot;Thirteen &amp;quot;, &amp;quot;Fourteen &amp;quot;, &amp;quot;Fifteen &amp;quot;, &amp;quot;Sixteen &amp;quot;, &amp;quot;Seventeen &amp;quot;, &amp;quot;Eighteen &amp;quot;, &amp;quot;Nineteen &amp;quot;};
+    private final String[] tens = {&amp;quot;&amp;quot;, &amp;quot;Ten &amp;quot;, &amp;quot;Twenty &amp;quot;, &amp;quot;Thirty &amp;quot;, &amp;quot;Forty &amp;quot;, &amp;quot;Fifty &amp;quot;, &amp;quot;Sixty &amp;quot;, &amp;quot;Seventy &amp;quot;, &amp;quot;Eighty &amp;quot;, &amp;quot;Ninety &amp;quot;};
+    private final String[] thousands = {&amp;quot;&amp;quot;, &amp;quot;Thousand &amp;quot;, &amp;quot;Million &amp;quot;, &amp;quot;Billion &amp;quot;};
+
+    public String numberToWords(int num) {
+        if (num == 0)
+            return &amp;quot;Zero&amp;quot;;
+        int i = 0;
+        String words = &amp;quot;&amp;quot;;
+        
+        while(num &amp;gt; 0) {
+            if (num % 1000 != 0)
+                words = eachThousand(num % 1000)+ thousands[i] + words;
+            num /= 1000;
+            i++;
+        }
+        return words.trim();
+    }
+    
+    private String eachThousand(int each) {
+        StringBuilder sb = new StringBuilder();
+        if(each / 100 &amp;gt; 0) {
+            sb.append(lessThan20[each / 100] + &amp;quot;Hundred &amp;quot;);
+        }
+        int ten = each % 100;
+        if(ten &amp;gt;= 20) {
+            sb.append(tens[ten/10]);
+            sb.append(lessThan20[ten%10]);
+        }else {
+            sb.append(lessThan20[ten]);
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unique Word Abbreviation</title>
+      <link>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</link>
+      <pubDate>Thu, 12 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/12/unique-word-abbreviation/</guid>
+      <description>
+
+&lt;p&gt;An abbreviation of a word follows the form &lt;code&gt;&amp;lt;first letter&amp;gt;&amp;lt;number&amp;gt;&amp;lt;last letter&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples of word abbreviations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    a) it                      --&amp;gt; it    (no abbreviation)
+    
+         1
+    b) d|o|g                   --&amp;gt; d1g
+    
+                  1    1  1
+         1---5----0----5--8
+    c) i|nternationalizatio|n  --&amp;gt; i18n
+    
+                  1
+         1---5----0
+    d) l|ocalizatio|n          --&amp;gt; l10n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word&amp;rsquo;s abbreviation is unique if no other word from the dictionary has the same abbreviation.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a71989791a51f811869cd70e5706cbbe&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given dictionary = [ &amp;ldquo;deer&amp;rdquo;, &amp;ldquo;door&amp;rdquo;, &amp;ldquo;cake&amp;rdquo;, &amp;ldquo;card&amp;rdquo; ]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;dear&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cart&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt; ;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;cane&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;false&lt;/code&gt;;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;isUnique(&amp;quot;make&amp;quot;)&lt;/code&gt; -&amp;gt; &lt;code&gt;true&lt;/code&gt;;&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a71989791a51f811869cd70e5706cbbe&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save dictionary words in a set&lt;/li&gt;
+&lt;li&gt;Save the abbreviation from dictionary word to a HashMap.&lt;/li&gt;
+&lt;li&gt;HashMap has the key with abbreviation and value with the original word&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;isUnique(word)&lt;/code&gt; by make abbreviation from that word and compare with the hashmap&lt;/li&gt;
+&lt;li&gt;If hashmap doesn&amp;rsquo;t contain that word, return true.&lt;/li&gt;
+&lt;li&gt;If hashmap contains that word, we should compare if the word is equal to the word saved in hashmap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a71989791a51f811869cd70e5706cbbe&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class UniqueWordAbbreviation {
+
+	Set&amp;lt;String&amp;gt; dict = new HashSet&amp;lt;&amp;gt;(); // keep the dictionary has unique words
+	Map&amp;lt;String, String&amp;gt; abbrDict = new HashMap&amp;lt;&amp;gt;();
+
+	public UniqueWordAbbreviation(String[] dictionary) {
+		for (String str : dictionary) {
+			if (dict.contains(str))
+				continue;
+			String abbr = makeAbbr(str);
+			if (!abbrDict.containsKey(abbr))
+				abbrDict.put(abbr, str);
+			else
+				abbrDict.put(abbr, &amp;quot;&amp;quot;);
+			dict.add(str);
+		}
+	}
+
+	public boolean isUnique(String word) {
+		String abbr = makeAbbr(word);
+		if (abbrDict.containsKey(abbr))
+			return word.equals(abbrDict.get(abbr));
+		return true;
+	}
+
+    private String makeAbbr(String str) {
+		if (str == null || str.length() &amp;lt;= 2)
+			return str;
+		int mid = str.length() - 2;
+		StringBuilder sb = new StringBuilder();
+		sb.append(str.charAt(0));
+		sb.append(mid);
+		sb.append(str.charAt(str.length() - 1));
+		return sb.toString();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Flip Game I/II</title>
+      <link>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</link>
+      <pubDate>Wed, 11 Nov 2015 12:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/11/flip-game-i/ii/</guid>
+      <description>
+
+&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.
+Write a function to compute all possible states of the string after one valid move.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, after one move, it may become one of the following states:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  &amp;quot;--++&amp;quot;,
+  &amp;quot;+--+&amp;quot;,
+  &amp;quot;++--&amp;quot;
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If there is no valid move, return an empty list &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;think:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Only consecutive &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; can be flipped.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public List&amp;lt;String&amp;gt; generatePossibleNextMoves(String s) {
+		List&amp;lt;String&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+		if (s == null || s.length() &amp;lt; 2) {
+            return res;
+        }
+		for (int i = 1; i &amp;lt; s.length(); i++) {
+			StringBuilder sb = new StringBuilder(s);
+			if (s.charAt(i) == &#39;+&#39; &amp;amp;&amp;amp; s.charAt(i - 1) == s.charAt(i)) {
+				sb.insert(i - 1, &#39;-&#39;);
+				sb.insert(i, &#39;-&#39;);
+			}
+			res.add(sb.toString());
+		}
+		return res;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-ii:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Problem II&lt;/h2&gt;
+
+&lt;p&gt;You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -, you and your friend take turns to flip two &lt;strong&gt;consecutive&lt;/strong&gt; &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; into &lt;code&gt;&amp;quot;--&amp;quot;&lt;/code&gt;. The game ends when a person can no longer make a move and therefore the other person will be the winner.&lt;/p&gt;
+
+&lt;p&gt;Write a function to determine if the starting player can guarantee a win.&lt;/p&gt;
+
+&lt;p&gt;For example, given &lt;code&gt;s = &amp;quot;++++&amp;quot;&lt;/code&gt;, return true. The starting player can guarantee a win by flipping the middle &lt;code&gt;&amp;quot;++&amp;quot;&lt;/code&gt; to become &lt;code&gt;&amp;quot;+--+&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;follow:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Follow&lt;/h4&gt;
+
+&lt;p&gt;Derive your algorithm&amp;rsquo;s run-time complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;think-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Backtracking seems to be the only feasible solution to this problem.&lt;/li&gt;
+&lt;li&gt;We can basically try every possible move for the first player (P1), and recursively check if the second player has any chance to win.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:d6c15e48f4096e230090b0674ad8ed6d&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;	public static boolean canWin(String s) {
+		return winHelper(s.toCharArray());
+	}
+
+	private static boolean winHelper(char[] chars) {
+		for (int i = 1; i &amp;lt; chars.length; i++) {
+			if (chars[i] == &#39;+&#39; &amp;amp;&amp;amp; chars[i] == chars[i - 1]) {
+				chars[i - 1] = &#39;-&#39;;
+				chars[i] = &#39;-&#39;;
+			// if sencond player have chance to win
+				boolean win = !winHelper(chars);
+				chars[i - 1] = &#39;+&#39;;
+				chars[i] = &#39;+&#39;;
+				if (win) 
+                    return true;
+			}
+		}
+		return false;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bull and Cows</title>
+      <link>http://xmruibi.github.io/2015/11/10/bull-and-cows/</link>
+      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/10/bull-and-cows/</guid>
+      <description>
+
+&lt;p&gt;You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called &lt;code&gt;&amp;quot;bulls&amp;quot;&lt;/code&gt;) and how many digits match the secret number but locate in the wrong position (called &lt;code&gt;&amp;quot;cows&amp;quot;&lt;/code&gt;). Your friend will use successive guesses and hints to eventually derive the secret number.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;Secret number:  &amp;quot;1807&amp;quot;
+Friend&#39;s guess: &amp;quot;7810&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;1&lt;/code&gt; bull and &lt;code&gt;3&lt;/code&gt; cows. (The bull is &lt;code&gt;8&lt;/code&gt;, the cows are &lt;code&gt;0&lt;/code&gt;, &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;7&lt;/code&gt;.)&lt;/p&gt;
+
+&lt;p&gt;Write a function to return a hint according to the secret number and friend&amp;rsquo;s guess, use &lt;code&gt;A&lt;/code&gt; to indicate the bulls and &lt;code&gt;B&lt;/code&gt; to indicate the cows. In the above example, your function should return &lt;code&gt;&amp;quot;1A3B&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Please note that both secret number and friend&amp;rsquo;s guess may contain duplicate digits, for example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Secret number:  &amp;quot;1123&amp;quot;
+Friend&#39;s guess: &amp;quot;0111&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this case, the 1st 1 in friend&amp;rsquo;s &lt;code&gt;guess&lt;/code&gt; is a bull, the 2nd or 3rd 1 is a cow, and your function should return &lt;code&gt;&amp;quot;1A1B&amp;quot;&lt;/code&gt;.
+You may assume that the secret number and your friend&amp;rsquo;s guess only contain digits, and their lengths are always equal.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;It&amp;rsquo;s pretty tricky to think about one pass solution without HashMap.&lt;br /&gt;
+Here are some pattern we should notice.
+    1. Every character in string is number &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;9&lt;/code&gt;
+    2. Number in &lt;code&gt;guess&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; should also be recorded during the pass
+    3. Avoid duplicate is tough&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Solve it by set a int array with length of 10 for counting&lt;/li&gt;
+&lt;li&gt;meet a number in &lt;code&gt;guess&lt;/code&gt; do a minus on &lt;code&gt;arr[guess_digit]&lt;/code&gt; while meet a number in &lt;code&gt;secrett&lt;/code&gt; do a addition on &lt;code&gt;arr[secret_digit]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;arr[secret_digit]&lt;/code&gt; if it is negative, which means that number should existed in &lt;code&gt;guess&lt;/code&gt; number&lt;/li&gt;
+&lt;li&gt;check &lt;code&gt;arr[guess_digit]&lt;/code&gt; if it is negative, which means that number should existed in &lt;code&gt;secret&lt;/code&gt; number&lt;/li&gt;
+&lt;li&gt;when iteration on number is the same from &lt;code&gt;guess&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; numbers, that should be the &lt;code&gt;bull&lt;/code&gt; but without any modification on counting array.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:3db9a7391ad6c01d56b4bb1ec63fc398&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public String getHint(String secret, String guess) {
+        int cntA = 0;
+        int cntB = 0;
+        int[] valIdx = new int[10];
+        for(int i = 0; i &amp;lt; secret.length(); i++) {
+            int sIdx = secret.charAt(i) - &#39;0&#39;;
+            int gIdx = guess.charAt(i) - &#39;0&#39;;
+            if(gIdx == sIdx)
+                cntA++;
+            else{ 
+                if(valIdx[sIdx] &amp;lt; 0) 
+                    cntB++;
+                if(valIdx[gIdx] &amp;gt; 0) 
+                    cntB++;
+            }
+            valIdx[sIdx]++;
+            valIdx[gIdx]--;
+        }
+        return &amp;quot;&amp;quot; + cntA + &amp;quot;A&amp;quot; + cntB + &amp;quot;B&amp;quot;;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Encode and Decode String</title>
+      <link>http://xmruibi.github.io/2015/11/10/encode-and-decode-string/</link>
+      <pubDate>Tue, 10 Nov 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/10/encode-and-decode-string/</guid>
+      <description>
+
+&lt;p&gt;Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.&lt;/p&gt;
+
+&lt;p&gt;Machine 1 (sender) has the function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public String encode(String[] strs) {
+  // ... your code
+  return encoded_string;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Machine 2 (receiver) has the function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public String[] decode(String s) {
+  //... your code
+  return strs;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So Machine 1 does:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String encoded_string = encode(strs);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and Machine 2 does:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String[] strs2 = decode(encoded_string);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;strs2&lt;/code&gt; in Machine 2 should be the same as &lt;code&gt;strs&lt;/code&gt; in Machine 1.&lt;/p&gt;
+
+&lt;p&gt;Implement the encode and decode methods.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:784b24ea42273a6937579e186ff79201&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The string may contain any possible characters out of 256 valid ascii characters. Your algorithm should be generalized enough to work on any possible characters.&lt;/p&gt;
+
+&lt;p&gt;Do not use class &lt;strong&gt;member / global / static variables&lt;/strong&gt; to store states. Your encode and decode algorithms should be &lt;strong&gt;stateless&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Do not rely on any library method such as eval or serialize methods. You should implement your own encode/decode algorithm.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:784b24ea42273a6937579e186ff79201&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In theoretic way, there should be nothing can do separation for Strings&lt;/li&gt;
+&lt;li&gt;So just make the encode as adding the length of word and &amp;ldquo;#&amp;rdquo; before the word&lt;/li&gt;
+&lt;li&gt;Decode function should be carefully designed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:784b24ea42273a6937579e186ff79201&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class EncodeDecodeString {
+	public String encode(List&amp;lt;String&amp;gt; strs) {
+		StringBuilder sb = new StringBuilder();
+		for (String str : strs) {
+			sb.append(str.length());
+			sb.append(&amp;quot;#&amp;quot;);
+			sb.append(str);
+		}
+
+		return sb.toString();
+	}
+
+	public List&amp;lt;String&amp;gt; decode(String str) {
+		List&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+		int strlen = 0;
+		for (int i = 0; i &amp;lt; str.length(); i++) {
+			char cur = str.charAt(i);
+			if (cur == &#39;#&#39; &amp;amp;&amp;amp; strlen &amp;gt; 0) {
+				StringBuilder sb = new StringBuilder();
+				while (strlen &amp;gt; 0 &amp;amp;&amp;amp; i &amp;lt; str.length()) {
+					sb.append(str.charAt(++i));
+					strlen--;
+				}
+				list.add(sb.toString());
+			} else
+				strlen = strlen * 10 + (cur - &#39;0&#39;);
+		}
+		return list;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

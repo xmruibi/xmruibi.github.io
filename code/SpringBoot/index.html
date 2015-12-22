@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Architecture Design on Social Music Search project &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Architecture Design on Social Music Search project" />
+<meta property="og:description" content="Framework Why Spring Boot? Spring framework goes every where in current enterprise application. However, most of people are familiar with Spring MVC. Here I just want to introduce a new Spring Boot project. Hear what its official document said: Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can &ldquo;just run&rdquo;. Yes, unlike Spring MVC, the Spring Boot require less configuration and easier to deploy on remote virtual machine or cloud computing platform." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/code/SpringBoot/" />
+
+
+<meta property="og:updated_time" content="2015-08-09T10:56:15-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Architecture Design on Social Music Search project">
+<meta itemprop="description" content="Framework Why Spring Boot? Spring framework goes every where in current enterprise application. However, most of people are familiar with Spring MVC. Here I just want to introduce a new Spring Boot project. Hear what its official document said: Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can &ldquo;just run&rdquo;. Yes, unlike Spring MVC, the Spring Boot require less configuration and easier to deploy on remote virtual machine or cloud computing platform.">
+
+
+<meta itemprop="dateModified" content="2015-08-09T10:56:15-07:00" />
+<meta itemprop="wordCount" content="665">
+
+
+
+<meta itemprop="keywords" content="american,apache,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development,ymx," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Architecture Design on Social Music Search project"/>
+<meta name="twitter:description" content="Framework Why Spring Boot? Spring framework goes every where in current enterprise application. However, most of people are familiar with Spring MVC. Here I just want to introduce a new Spring Boot project. Hear what its official document said: Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can &ldquo;just run&rdquo;. Yes, unlike Spring MVC, the Spring Boot require less configuration and easier to deploy on remote virtual machine or cloud computing platform."/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/code/SpringBoot/">
+    <h1 class="article-title" itemprop="name">
+        Architecture Design on Social Music Search project
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-08-09 10:56:15 -0700 PDT" itemprop="datePublished">2015-08-09</time>
+            &middot;
+            665
+            words
+            &middot;
+            4
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/restful">RESTful</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/java">Java</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/cloud-computing">Cloud Computing</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/restful">RESTful</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/configuration">Configuration</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/spring">Spring</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<h2 id="framework:2981cc31fb77e1cf124cb05c7daf63c0">Framework</h2>
+
+<h4 id="why-spring-boot:2981cc31fb77e1cf124cb05c7daf63c0">Why Spring Boot?</h4>
+
+<p>Spring framework goes every where in current enterprise application. However, most of people are familiar with Spring MVC. Here I just want to introduce a new Spring Boot project. Hear what its official document said:</p>
+
+<blockquote>
+<p>Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can &ldquo;just run&rdquo;.</p>
+</blockquote>
+
+<p>Yes, unlike Spring MVC, the Spring Boot require less configuration and easier to deploy on remote virtual machine or cloud computing platform. Spring Boot has following features:</p>
+
+<h4 id="features:2981cc31fb77e1cf124cb05c7daf63c0">Features</h4>
+
+<ul>
+<li>Create stand-alone Spring applications</li>
+<li>Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files)</li>
+<li>Provide opinionated &lsquo;starter&rsquo; POMs to simplify your Maven configuration</li>
+<li>Automatically configure Spring whenever possible</li>
+<li>Provide production-ready features such as metrics, health checks and externalized configuration</li>
+<li>Absolutely no code generation and no requirement for XML configuration</li>
+</ul>
+
+<h4 id="three-layers-should-be-enough-for-everybody:2981cc31fb77e1cf124cb05c7daf63c0">Three Layers Should Be Enough for Everybody</h4>
+
+<p>If think about the responsibilities of a web application, we notice that a web application has the following “concerns”:</p>
+
+<p>It needs to process the user’s input and return the correct response back to the user.<br />
+It needs an exception handling mechanism that provides reasonable error messages to the user.<br />
+It needs a transaction management strategy.
+It needs to handle both authentication and authorization.<br />
+It needs to implement the business logic of the application.<br />
+It needs to communicate with the used data storage and other external resources.</p>
+
+<p>We can fulfil all these concerns by using “only” three layers. These layers are:</p>
+
+<ul>
+<li><strong>The web layer</strong> is the uppermost layer of a web application. It is responsible of processing user’s input and returning the correct response back to the user. The web layer must also handle the exceptions thrown by the other layers. Because the web layer is the entry point of our application, it must take care of authentication and act as a first line of defense against unauthorized users.</li>
+<li><strong>The service layer</strong> resides below the web layer. It acts as a transaction boundary and contains both application and infrastructure services. The application services provides the public API of the service layer. They also act as a transaction boundary and are responsible of authorization. The infrastructure services contain the “plumbing code” that communicates with external resources such as file systems, databases, or email servers. Often these methods are used by more than a one application service.</li>
+<li><strong>The repository layer</strong> is the lowest layer of a web application. It is responsible of communicating with the used data storage.</li>
+</ul>
+
+<p><img src="/media/spring/spring-web-application-layers.png"></p>
+
+<h2 id="backend-design-detail:2981cc31fb77e1cf124cb05c7daf63c0">Backend Design Detail</h2>
+
+<p>Here is how I design my Social Music Search project with Spring Boot:</p>
+
+<h3 id="restful-serivce:2981cc31fb77e1cf124cb05c7daf63c0">RESTful Serivce</h3>
+
+<p>Do the backend and frontend communication</p>
+
+<h5 id="spring-data-rest:2981cc31fb77e1cf124cb05c7daf63c0">Spring-Data-REST</h5>
+
+<p>Package:</p>
+
+<ul>
+<li>Config: ApplicationConfig;</li>
+<li>controller: call services and tranfer data as JSON format to the frondend</li>
+<li>service: call different service from mongodb or elastic search</li>
+</ul>
+
+<h3 id="database-service:2981cc31fb77e1cf124cb05c7daf63c0">Database Service</h3>
+
+<p>Non-SQL database, MongoDB, to be the database solution</p>
+
+<h5 id="spring-data-mongodb:2981cc31fb77e1cf124cb05c7daf63c0">Spring-Data-MongoDB</h5>
+
+<p>Package:</p>
+
+<ul>
+<li>Config: MongoDBConfig;</li>
+<li>mongodb.service</li>
+<li>mongodb.repository;</li>
+<li>domain: Music, BulletComment, User, Genre&hellip;;</li>
+</ul>
+
+<h3 id="indexing-service:2981cc31fb77e1cf124cb05c7daf63c0">Indexing service</h3>
+
+<p>Achieve the advanced search function</p>
+
+<h5 id="spring-data-elasticsearch:2981cc31fb77e1cf124cb05c7daf63c0">Spring-Data-ElasticSearch</h5>
+
+<p>Package:</p>
+
+<ul>
+<li>Config: ElasticSearchConfig; (port:9300)</li>
+<li>index.service</li>
+<li>index.repository;</li>
+<li>index.domain: Indexed Music;</li>
+</ul>
+
+<h2 id="spring-boot-app-configuration:2981cc31fb77e1cf124cb05c7daf63c0">Spring Boot App Configuration</h2>
+
+<p>The Spring Boot requires some basic configuration and set up the bootstrap entrance:</p>
+
+<ul>
+<li>It doesn&rsquo;t need <code>web.xml</code> whic is common for Spring MVC;</li>
+<li>Set up the bootstrap by Maven plugin.</li>
+
+<li><p>Bootstrap Main function (Entrance of Spring Boot App): MusicSearchApplication;</p></li>
+
+<li><p>Spring Configuration (config package)</p>
+
+<ul>
+<li>ApplicationConfig</li>
+</ul>
+
+<pre><code class="language-java">@Configuration
+@PropertySource(&quot;classpath:application.properties&quot;) 
+    // point out the application.properties as configuration source
+public class ApplicationConfig {
+    public @Bean LoggingEventListener mongoEventListener() {
+        return new LoggingEventListener();
+    }
+}
+</code></pre>
+
+<ul>
+<li>WebMVCConfig</li>
+</ul>
+
+<pre><code>@Configuration
+@ComponentScan({&quot;com.musicSearch.core.controller&quot;,
+    &quot;com.musicSearch.core.service&quot;, &quot;com.musicSearch.core.domain&quot;}) 
+// here is important to do component scan
+public class WebMVCConfig extends WebMvcConfigurerAdapter {
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController(&quot;/static&quot;)
+                .setViewName(&quot;forward:/index.html&quot;);
+        // point out the .css/.js or other static files target and default home page
+    }
+}
+</code></pre>
+
+<ul>
+<li>ApplicationInitializer: Core entrance configuration</li>
+</ul>
+
+<pre><code class="language-java">@Configuration
+@EnableAutoConfiguration
+@Import({ MongoDBConfig.class, ElasticSearchConfig.class,
+        ApplicationConfig.class, WebMVCConfig.class,
+        RepositoryRestMvcConfiguration.class })
+public class MusicSearchApplication extends SpringBootServletInitializer {
+    public static void main(String[] args) {
+        SpringApplication.run(MusicSearchApplication.class, args);
+    }
+    @Override
+    protected SpringApplicationBuilder configure(
+            SpringApplicationBuilder application) {
+        return application.sources(MusicSearchApplication.class);
+    }
+}
+</code></pre></li>
+</ul>
+
+<h2 id="reference:2981cc31fb77e1cf124cb05c7daf63c0">Reference</h2>
+
+<p><a href="http://projects.spring.io/spring-boot/">Spring Official Site</a>
+</br>
+<a href="http://www.petrikainulainen.net/software-development/design/understanding-spring-web-application-architecture-the-classic-way/">Understanding Spring Web Application Architecture: The Classic Way</a>
+</br>
+<a href="http://martinfowler.com/eaaCatalog/index.html">Patterns of Enterprise Application Architecture</a></p>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/code/SpringBoot/" data-id="2981cc31fb77e1cf124cb05c7daf63c0" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/code/SpringBoot//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/code/MongoDBwithHadoop/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">How to Input and Output with Mongo DB Data on Hadoop Platform</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/code/ElasticSearch/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Spring Boot App with Elastic Search Indexing Service</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/code\/SpringBoot\/';
+    var disqus_title = 'Architecture Design on Social Music Search project';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/code\/SpringBoot\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#framework:2981cc31fb77e1cf124cb05c7daf63c0">Framework</a>
+<ul>
+<li>
+<ul>
+<li><a href="#why-spring-boot:2981cc31fb77e1cf124cb05c7daf63c0">Why Spring Boot?</a></li>
+<li><a href="#features:2981cc31fb77e1cf124cb05c7daf63c0">Features</a></li>
+<li><a href="#three-layers-should-be-enough-for-everybody:2981cc31fb77e1cf124cb05c7daf63c0">Three Layers Should Be Enough for Everybody</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#backend-design-detail:2981cc31fb77e1cf124cb05c7daf63c0">Backend Design Detail</a>
+<ul>
+<li><a href="#restful-serivce:2981cc31fb77e1cf124cb05c7daf63c0">RESTful Serivce</a>
+<ul>
+<li>
+<ul>
+<li><a href="#spring-data-rest:2981cc31fb77e1cf124cb05c7daf63c0">Spring-Data-REST</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#database-service:2981cc31fb77e1cf124cb05c7daf63c0">Database Service</a>
+<ul>
+<li>
+<ul>
+<li><a href="#spring-data-mongodb:2981cc31fb77e1cf124cb05c7daf63c0">Spring-Data-MongoDB</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#indexing-service:2981cc31fb77e1cf124cb05c7daf63c0">Indexing service</a>
+<ul>
+<li>
+<ul>
+<li><a href="#spring-data-elasticsearch:2981cc31fb77e1cf124cb05c7daf63c0">Spring-Data-ElasticSearch</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#spring-boot-app-configuration:2981cc31fb77e1cf124cb05c7daf63c0">Spring Boot App Configuration</a></li>
+<li><a href="#reference:2981cc31fb77e1cf124cb05c7daf63c0">Reference</a></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

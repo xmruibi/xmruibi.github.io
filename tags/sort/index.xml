@@ -1,0 +1,1185 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sort on Geek Think</title>
+    <link>http://xmruibi.github.io/tags/sort/</link>
+    <description>Recent content in Sort on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Tue, 08 Dec 2015 22:43:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/tags/sort/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Minimum Maximum Path</title>
+      <link>http://xmruibi.github.io/2015/12/08/minimum-maximum-path/</link>
+      <pubDate>Tue, 08 Dec 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/12/08/minimum-maximum-path/</guid>
+      <description>
+
+&lt;h2 id=&#34;solution:dd4611eff104dea2a0befae27dddd5e9&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class MaxMin {
+    //private static int maxMin = Integer.MIN_VALUE;
+    
+    public static int maxMin(int[][] matrix) {
+        int[] res = new int[1];
+        res[0] = Integer.MIN_VALUE;
+        dfs(matrix, 0, 0, Integer.MAX_VALUE, res);
+        return res[0];
+    }
+    
+    private static void dfs(int[][] matrix, int i, int j, int curMin, int[] res) {
+        if (i == matrix.length || j == matrix[0].length) {
+            return;
+        }
+        curMin = Math.min(curMin, matrix[i][j]);
+        if (i == matrix.length - 1 &amp;amp;&amp;amp; j == matrix[0].length - 1) {
+            res[0] = Math.max(res[0], curMin);
+        }
+        dfs(matrix, i + 1, j, curMin, res);
+        dfs(matrix, i, j + 1, curMin, res);
+    }
+    
+    public static void main(String[] args) {
+        int[][] matrix = {{3,4,3},{2,3,4},{4,5,6}};
+        int[][] matrix2 = {{8, 4, 7},{6, 5, 9}};
+        System.out.println(maxMin(matrix2));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Two Sum Cloeset</title>
+      <link>http://xmruibi.github.io/2015/12/08/two-sum-cloeset/</link>
+      <pubDate>Tue, 08 Dec 2015 22:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/12/08/two-sum-cloeset/</guid>
+      <description>
+
+&lt;h2 id=&#34;solution:926f52d7c9da5d811d44d49e601d0eb8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TwoSumClosest {
+    static class Container {
+        public double first;
+        public double second;
+    }
+    public static Container findOptimalWeight(double[] weight, double capacity) {
+        Container res = new Container();
+        if (weight == null || weight.length == 0) {
+            return res;
+        }
+        
+        Arrays.sort(weight);
+        int l = 0, r = weight.length - 1;
+        double closest = Integer.MAX_VALUE;
+        while (l &amp;lt; r) {
+            if (weight[l] + weight[r] == capacity) {
+                res.first = weight[l];
+                res.second = weight[r];
+                return res;
+            }
+            double diff = capacity - weight[l] - weight[r];
+            if (diff &amp;gt; 0 &amp;amp;&amp;amp; diff &amp;lt; closest) {
+                closest = diff;
+                res.first = weight[l];
+                res.second = weight[r];
+            }
+            if (weight[l] + weight[r] &amp;gt; capacity) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+        
+        return res;
+    }
+    
+    public static void main(String[] args) {
+        double[] weight = {1.0, 1.5, 7.0, 2.8, 4.8, 1.6, 9.1};
+        Container res = findOptimalWeight(weight, 7.0);
+        System.out.println(res.first);
+        System.out.println(res.second);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Longest Increasing Subsequence</title>
+      <link>http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/</link>
+      <pubDate>Wed, 04 Nov 2015 13:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/04/longest-increasing-subsequence/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array of integers, find the length of longest increasing sub-sequence.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:f516d18f226d1d60c8b4a8d313fb3738&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;[10, 9, 2, 5, 3, 7, 101, 18]&lt;/code&gt;,
+The longest increasing sub-sequence is &lt;code&gt;[2, 3, 7, 101]&lt;/code&gt;, therefore the length is &lt;code&gt;4&lt;/code&gt;. Note that there may be more than one LIS combination, it is only necessary for you to return the length.&lt;/p&gt;
+
+&lt;p&gt;Your algorithm should run in $$O(n^2)$$ complexity.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up:f516d18f226d1d60c8b4a8d313fb3738&#34;&gt;Follow up&lt;/h3&gt;
+
+&lt;p&gt;Improve it to O(n log n) time complexity?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:f516d18f226d1d60c8b4a8d313fb3738&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup one dimensional array to memorize the longest sub-sequence on each element&lt;/li&gt;
+&lt;li&gt;One pass on each element,&lt;/li&gt;
+&lt;li&gt;But it need to go through the previous indexes to check any elements less than current element and compare the maximum by &lt;code&gt;max(current, prev +1)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:f516d18f226d1d60c8b4a8d313fb3738&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    public int longestIncreasingSubsequence(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        int max = 0;
+        for(int i = 0; i &amp;lt; nums.length; i ++) {
+            memo[i] = 1;
+            for(int j = 0; j &amp;lt; i; j++) {
+                if(nums[j] &amp;lt; nums[i]) {
+                    memo[i] = Math.max(memo[i], memo[j] + 1);
+                }
+                max = Math.max(memo[i], max);
+            }
+        }
+        return max;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:f516d18f226d1d60c8b4a8d313fb3738&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setup an array &lt;code&gt;table&lt;/code&gt; with the length of &lt;code&gt;nums&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;One pass on each element and initial max cursor is &lt;code&gt;0&lt;/code&gt; in &lt;code&gt;table&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace the element in &lt;code&gt;table&lt;/code&gt; is just larger than current passing element&lt;/li&gt;
+&lt;li&gt;If current element is largest, increase the cursor in &lt;code&gt;table&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Finally, the the cursor + 1 is the max length.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:f516d18f226d1d60c8b4a8d313fb3738&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    public int longestIncreasingSubsequence(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        int max = 0;
+        memo[0] = nums[0];
+        for(int i = 1; i &amp;lt; nums.length; i++) {
+            if(nums[i] &amp;lt; memo[0])
+                memo[0] = nums[i];
+            else if(memo[max] &amp;lt;= nums[i])
+                memo[++max] = nums[i];
+            else{
+                int idx = findCeil(memo, max, nums[i]);
+                memo[idx] = nums[i];
+            }
+        }
+        return ++max;
+    }
+    
+    /**
+     * @param arr: the memo array
+     * @param right index: current max in the memo array
+     * @param val: target value
+     * @return: where should val put in memo array
+     */
+    private int findCeil(int[] arr, int r, int val){
+        int l = 0;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l)&amp;gt;&amp;gt;1);
+            if(arr[m] &amp;lt; val)
+                l = m;
+            else
+                r = m;
+        }
+        return r;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Best Meeting Point</title>
+      <link>http://xmruibi.github.io/2015/11/03/best-meeting-point/</link>
+      <pubDate>Tue, 03 Nov 2015 23:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/03/best-meeting-point/</guid>
+      <description>
+
+&lt;p&gt;A group of two or more people wants to meet and minimize the total travel distance. You are given a 2D grid of values 0 or 1, where each 1 marks the home of someone in the group. The distance is calculated using Manhattan Distance, where distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|.&lt;/p&gt;
+
+&lt;p&gt;For example, given three people living at (0,0), (0,4), and (2,2):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        1 - 0 - 0 - 0 - 1
+        |   |   |   |   |
+        0 - 0 - 0 - 0 - 0
+        |   |   |   |   |
+        0 - 0 - 1 - 0 - 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The point (0,2) is an ideal meeting point, as the total travel
+distance of 2+2+2=6 is minimal. So return 6.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a8029a93905c7c719ea6ea0daf9bd00b&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Find all &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; coordinate if value is &lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Each x value and y value should minus the median value so that it can get the distance to the median value.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a8029a93905c7c719ea6ea0daf9bd00b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    public int minTotalDistance(int[][] grid) {
+        if(grid == null || grid.length == 0)
+            return 0;
+        List&amp;lt;Integer&amp;gt; xlist = new ArrayList&amp;lt;&amp;gt;();
+        List&amp;lt;Integer&amp;gt; ylist = new ArrayList&amp;lt;&amp;gt;();
+        for(int i = 0; i &amp;lt; grid.length; i++) {
+            for(int j = 0; j &amp;lt; grid[0].length; j++) {
+                if(grid[i][j] == 1) {
+                    xlist.add(i);
+                    ylist.add(j);
+                }
+            }
+        }
+        
+        int sum = 0;
+        // xlist doesn&#39;t need sort since it already sorted
+        for(Integer xval : xlist) 
+            sum += xval - xlist.get(xlist.size()/2);
+        // ylist need sort
+        Collections.sort(ylist)
+        for(Integer yval : ylist) 
+            sum += yval - ylist.get(ylist.size()/2);
+        
+        return sum;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Maximum Gap</title>
+      <link>http://xmruibi.github.io/2015/11/03/maximum-gap/</link>
+      <pubDate>Tue, 03 Nov 2015 23:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/03/maximum-gap/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array, find the maximum difference between the successive elements in its sorted form.&lt;/p&gt;
+
+&lt;p&gt;Try to solve it in linear time/space.&lt;/p&gt;
+
+&lt;p&gt;Return 0 if the array contains less than 2 elements.&lt;/p&gt;
+
+&lt;p&gt;You may assume all elements in the array are non-negative integers and fit in the 32-bit signed integer range.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:820c6795b41da59fa428a188f2ab6d6c&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the range of array elements&lt;/li&gt;
+&lt;li&gt;Setup the buckets size by $$(range \div len) + 1$$&lt;/li&gt;
+&lt;li&gt;Allocate two buckets for minimum and maximum in that bucket range&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:820c6795b41da59fa428a188f2ab6d6c&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    public int maximumGap(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+            
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        for(int i = 0; i &amp;lt; nums.length; i++) {
+            min = Math.min(min, nums[i]);
+            max = Math.max(max, nums[i]);
+        }
+        
+        int range = max - min;
+        int bucketSize = range / nums.length + 1;
+        int[] mins = new int[num.length - 1];
+        int[] maxs = new int[num.length - 1];
+        for(int i = 0; i &amp;lt; nums.length; i++){
+            // skip the max or min value
+            if(i==min||i==max)
+                continue;
+            int idx = (nums[i] - min) / bucketSize;
+            mins = Math.min(mins[idx], nums[i]);
+            maxs = Math.min(maxs[idx], nums[i]);
+        }
+        
+        // compare the prev max bucket and current min bucket
+        int maxGap = Integer.MIN_VALUE;
+        int prev = min;
+        for(int i = 0; i &amp;lt; mins.length; i++) {
+            // empty bucket
+            if (mins[i] == Integer.MAX_VALUE &amp;amp;&amp;amp; maxs[i] == Integer.MIN_VALUE)
+                continue;
+            maxGap = Math.max(maxGap, mins[i] - prev);
+            prev = maxs[i];
+        }
+        maxGap = Math.max(maxGap, max - prev);
+        return maxGap;
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Colors</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors/</guid>
+      <description>
+
+&lt;p&gt;Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.&lt;/p&gt;
+
+&lt;p&gt;Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.&lt;/p&gt;
+
+&lt;p&gt;Have you met this question in a real interview? Yes&lt;/p&gt;
+
+&lt;h3 id=&#34;example:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given [1, 0, 1, 2], return [0, 1, 1, 2].&lt;/p&gt;
+
+&lt;h3 id=&#34;note:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. First, iterate the array counting number of 0&amp;rsquo;s, 1&amp;rsquo;s, and 2&amp;rsquo;s, then overwrite array with total number of 0&amp;rsquo;s, then 1&amp;rsquo;s and followed by 2&amp;rsquo;s.&lt;/p&gt;
+
+&lt;p&gt;Could you come up with an one-pass algorithm using only constant space?&lt;/p&gt;
+
+&lt;h2 id=&#34;think:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Index mark O&amp;rsquo;s first position from head and 2&amp;rsquo;s first position from the rear.&lt;/li&gt;
+&lt;li&gt;Exchange the two values.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:907bac6eb6d7ead7afb50e858cadaebd&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void sortColors(int[] nums) {
+    if(nums == null || nums.length == 0)
+        return;
+    int zero = 0;
+    int two = nums.length - 1;
+    for(int i = 0; i &amp;lt; nums.length; i++){
+        if(i &amp;gt; zero &amp;amp;&amp;amp; nums[i] == 0){
+            int tmp = nums[zero];
+            nums[zero++] = nums[i];
+            nums[i--] = tmp;
+        }else if(i &amp;lt; two &amp;amp;&amp;amp; nums[i] == 2){
+            int tmp = nums[two];
+            nums[two--] = nums[i];
+            nums[i--] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Colors II</title>
+      <link>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</link>
+      <pubDate>Mon, 02 Nov 2015 09:10:29 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/02/sort-colors-ii/</guid>
+      <description>
+
+&lt;p&gt;Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, &amp;hellip; k.&lt;/p&gt;
+
+&lt;h2 id=&#34;example:db5a7066fa348a409152342e618d2b60&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].&lt;/p&gt;
+
+&lt;h2 id=&#34;note:db5a7066fa348a409152342e618d2b60&#34;&gt;Note&lt;/h2&gt;
+
+&lt;p&gt;You are not suppose to use the library&amp;rsquo;s sort function for this problem.&lt;/p&gt;
+
+&lt;h2 id=&#34;challenge:db5a7066fa348a409152342e618d2b60&#34;&gt;Challenge&lt;/h2&gt;
+
+&lt;p&gt;A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?&lt;/p&gt;
+
+&lt;h2 id=&#34;think-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #1&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bucket Sort but space complexity with $O(k)$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-1:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        int[] bucket = new int[k];
+        for(int i : colors)
+            bucket[i - 1] ++;
+        int idx = 0, bidx = 0;
+        while(bidx &amp;lt; bucket.length) {
+            while(bucket[bidx] &amp;gt; 0) {
+                colors[idx++] = bidx+1;
+                bucket[bidx]--;
+            }
+            bidx++;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Think #2&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complex bucket sort with in-place counting&lt;/li&gt;
+&lt;li&gt;Get a value and find its index by &lt;code&gt;value - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If the target index has another value, exchange and set target index as &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If target index is counter, make it minus 1, e.g. &lt;code&gt;-2&lt;/code&gt; and set original index as &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Steps like following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 3   2   2   1   4
+
+
+ 2   2  -1   1   4
+
+
+ 2  -1  -1   1   4
+
+
+ 0  -2  -1   1   4
+
+
+-1  -2  -1   0   4
+
+
+-1  -2  -1  -1   0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Get back the result by counter value from rear to head&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution-2:db5a7066fa348a409152342e618d2b60&#34;&gt;Solution #2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     * @return: nothing
+     */
+    public void sortColors2(int[] colors, int k) {
+        if(colors == null || colors.length == 0)
+            return;
+        
+        for(int i = 0; i &amp;lt; colors.length; i++){
+            if(colors[i] &amp;lt;= 0)
+                continue;
+            else{
+                int idx = colors[i] - 1;
+                if(colors[idx] &amp;gt; 0){
+                    colors[i--] = colors[idx];
+                    colors[idx] = -1;
+                }else{
+                    colors[i] = 0;
+                    colors[idx]--;
+                }
+            }
+        }
+        
+        int idx = colors.length - 1;
+        for(int i = k - 1; i &amp;gt;= 0; i--){
+            int cnt = -colors[i];
+            while(cnt-- &amp;gt; 0 &amp;amp;&amp;amp; idx &amp;gt;= 0) {
+                colors[idx--] = (i+1);
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Wiggle Sort</title>
+      <link>http://xmruibi.github.io/2015/11/01/wiggle-sort/</link>
+      <pubDate>Sun, 01 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/01/wiggle-sort/</guid>
+      <description>
+
+&lt;p&gt;Given an array, and re-arrange it to wiggle style in one pass.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:b221ee67ed3305fa0f899e781d799713&#34;&gt;Example&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;1.&lt;code&gt;A0 &amp;gt;= A1 &amp;lt;= A2 &amp;gt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;2.&lt;code&gt;A0 &amp;lt;= A1 &amp;gt;= A2 &amp;lt;= A3 .... .... An&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;think:b221ee67ed3305fa0f899e781d799713&#34;&gt;Think&lt;/h2&gt;
+
+&lt;p&gt;Base case. The first two elements $A_0$, satisfy the rules, and  $A_0$ is in its desired position.&lt;/p&gt;
+
+&lt;p&gt;Suppose $A_0$ satisfy the rules, and $A_0$, &amp;hellip;. $A_{k-1}$ are in their desired positions. We want to show that when we consider the pair $A_{k}$ and $A_{k+1}$, the rules are not violated, and the new k-th element will be in its desired position. Without loss of generality, assume that the k-th element should be higher than both of its neighbors. Two cases:&lt;/p&gt;
+
+&lt;p&gt;1) $A_{k} &amp;gt; A_{k+1}$.&lt;/p&gt;
+
+&lt;p&gt;We are good in this case. $A_{k}$ is its desired position, and no rules are violated so far.&lt;/p&gt;
+
+&lt;p&gt;2) $A_{k} &amp;lt; A_{k+1}$.&lt;/p&gt;
+
+&lt;p&gt;We swap $A_{k}$ and $A_{k+1}$. Note that this does not violate $A_{k-1}$, since $A_{k-1} &amp;lt; A_{k}&amp;lt; A_{k+1}$. And the new k-th element (previous $A_{k+1}$) satisfies the rules, and is in its desired position.&lt;/p&gt;
+
+&lt;p&gt;So throughout the process, we do not violate any rules. The algorithm is correct.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:b221ee67ed3305fa0f899e781d799713&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void wiggleSort(int[] arr, boolean swither){
+    int idx = 0;
+    while(idx &amp;lt; arr.length - 1){
+        if((switcher &amp;amp;&amp;amp; arr[idx] &amp;lt; arr[idx + 1])||(!switcher &amp;amp;&amp;amp; arr[idx] &amp;gt; arr[idx + 1])){
+            int tmp = arr[idx];
+            arr[idx] = arr[idx + 1];
+            arr[idx+1] = tmp;
+            switcher ^= true;
+        }
+      idx ++;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sort Algorithms Conclusion</title>
+      <link>http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/</link>
+      <pubDate>Sun, 01 Nov 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/01/sort-algorithms-conclusion/</guid>
+      <description>
+
+&lt;p&gt;Sorting is ordering a list of objects. We can distinguish two types of sorting. If the number of objects is small enough to fits into the main memory, sorting is called internal sorting. If the number of objects is so large that some of them reside on external storage during the sort, it is called external sorting. In this chapter we consider the following internal sorting algorithms&lt;/p&gt;
+
+&lt;h2 id=&#34;by-complexity:01353f0d7aa92901422488934163ba2e&#34;&gt;By Complexity&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Time Complexity: $O(N^2)$
+
+&lt;ul&gt;
+&lt;li&gt;Bubble Sort&lt;/li&gt;
+&lt;li&gt;Selection Sort&lt;/li&gt;
+&lt;li&gt;Insertion Sort (min: $O(N))$&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $O(Nlog_2N)$
+
+&lt;ul&gt;
+&lt;li&gt;Quick Sort (Space Complexity: $O(Nlog_2N)$)&lt;/li&gt;
+&lt;li&gt;Merge Sort (Space Complexity: $O(N)$)&lt;/li&gt;
+&lt;li&gt;Heap Sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Time Complexity: $O(N)$ &amp;amp;&amp;amp; Space Complexity: $O(N)$
+
+&lt;ul&gt;
+&lt;li&gt;Bucket sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;by-stable:01353f0d7aa92901422488934163ba2e&#34;&gt;By Stable&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stable
+
+&lt;ul&gt;
+&lt;li&gt;Insertion sort&lt;/li&gt;
+&lt;li&gt;Merge Sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Not Stable&lt;br /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Bubble Sort&lt;/li&gt;
+&lt;li&gt;Selection Sort&lt;/li&gt;
+&lt;li&gt;Quick Sort&lt;/li&gt;
+&lt;li&gt;Merge Sort&lt;/li&gt;
+&lt;li&gt;Heap Sort&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;elementary-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Elementary Sort&lt;/h1&gt;
+
+&lt;p&gt;These are most basic sort methods with $O(N^2)$ time complexity.&lt;/p&gt;
+
+&lt;h2 id=&#34;bubble-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Bubble Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think:01353f0d7aa92901422488934163ba2e&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Swap when the two adjacent elements is not in order&lt;/li&gt;
+&lt;li&gt;Do a while loop until swap not happened in previous element order check&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution:01353f0d7aa92901422488934163ba2e&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void bubbleSort(int[] arr){
+    boolean swap;
+    do{
+        swap = false;
+        for(int i = 0; i &amp;lt; arr.length - 1; i++){
+            if(arr[i] &amp;gt; arr[i + 1]){
+                int tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
+                swap = true;
+            }
+        }
+    }while(swap);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;insertion-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Insertion Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-1:01353f0d7aa92901422488934163ba2e&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the target value from head of array&lt;/li&gt;
+&lt;li&gt;Find its suitable position from 0 to its position&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-1:01353f0d7aa92901422488934163ba2e&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void insertionSort(int[] arr){
+    for(int i = 1; i &amp;lt; arr.length; i++){
+        for(int j = 0; j &amp;lt; i; j++) {
+            if(arr[j] &amp;gt; arr[i]) {
+                int tmp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = tmp;
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;selection-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Selection Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-2:01353f0d7aa92901422488934163ba2e&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the target value from head of array&lt;/li&gt;
+&lt;li&gt;Find the minimum element on the right of target, swap them if minimum less then target&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-2:01353f0d7aa92901422488934163ba2e&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void selectionSort(int[] arr){
+    for(int i = 0; i &amp;lt; arr.length - 1; i++){
+        int min = i;
+        for(int j = i + 1; j &amp;lt; arr.length; j++) {
+            if(arr[min] &amp;gt; arr[j])
+                min = j;
+        }
+        if(i!=min) {
+            int tmp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;advanced-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Advanced Sort&lt;/h1&gt;
+
+&lt;h2 id=&#34;merge-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Merge Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-3:01353f0d7aa92901422488934163ba2e&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Divide and Conquer&lt;/li&gt;
+&lt;li&gt;Recursion&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-3:01353f0d7aa92901422488934163ba2e&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void mergeSort(int[] arr, int left, int right){
+    if(left &amp;gt;= right)
+        return;
+    int mid = left + ((right - left) &amp;gt;&amp;gt; 1);
+    mergeSort(arr, left, mid - 1);
+    mergeSort(arr, mid, right);
+    merge(arr, left, mid, right);
+}
+
+private void merge(int[] arr, int left, int mid, int right){
+    int[] newarr = new int[right - left + 1];
+  
+    for(int i = left; i &amp;lt;= right; i++)
+        newarr[i - left] = arr[i];
+  
+    int l = 0;
+    int r = mid - left + 1;
+    for(int i = left; i &amp;lt;= right; i++){
+        if(l &amp;gt; mid - left)
+            arr[i] = newarr[r++];
+        else if(r &amp;gt; right - left)
+            arr[i] = newarr[l++];
+        else
+            arr[i] = newarr[l] &amp;lt; newarr[r]? newarr[l++] : newarr[r++];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;quick-sort:01353f0d7aa92901422488934163ba2e&#34;&gt;Quick Sort&lt;/h2&gt;
+
+&lt;h3 id=&#34;think-4:01353f0d7aa92901422488934163ba2e&#34;&gt;Think&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set pivot (the rear of array or ) and consider it as a standard&lt;/li&gt;
+&lt;li&gt;Pass the array and make the element less than pivot on the pivot&amp;rsquo;s left and the element larger than pivot on the pivot&amp;rsquo;s right;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;solution-4:01353f0d7aa92901422488934163ba2e&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void quickSort(int[] arr, int l, int r){
+    if(l &amp;gt; r)
+        return;
+        
+    int pivot = pivot(arr, l, r);
+    quickSort(arr, l, pivot - 1);
+    quickSort(arr, pivot + 1, r);
+}
+
+
+private int pivot(int[] arr, int l, int r){
+    int pivot = arr[r];
+    int idx = l;
+    for(int i = l; i &amp;lt; r; i++){
+        if(arr[i] &amp;lt; pivot){
+            int tmp = arr[idx];
+            arr[idx++] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+    arr[r] = arr[idx];
+    arr[idx] = pivot;
+    return idx;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remove Nth Node From End of List</title>
+      <link>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</link>
+      <pubDate>Sun, 25 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/remove-nth-node-from-end-of-list/</guid>
+      <description>
+
+&lt;p&gt;Given a linked list, remove the nth node from the end of list and return its head.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given linked list: &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;null&lt;/code&gt;, and n = &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After removing the second node from the end, the linked list becomes &lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;5-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;note:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Note&lt;/h3&gt;
+
+&lt;p&gt;The minimum number of nodes in list is n.&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;think:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typical idea on runner and walker linked list question&lt;/li&gt;
+&lt;li&gt;Let runner node run for N step further than walker node.&lt;/li&gt;
+&lt;li&gt;Get the N + 1 th position from end of list.&lt;/li&gt;
+&lt;li&gt;Remove walker.next which is the target node.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ede03d17afbefcb6dafae7940d8bb24d&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: The head of linked list.
+     */
+    ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null)
+            return head;
+        ListNode runner = head;
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode walker = pre;
+        while(n&amp;gt;0&amp;amp;&amp;amp;runner!=null){
+            runner = runner.next;
+            n--;
+        }
+        while(runner!=null){
+            runner = runner.next;
+            walker = walker.next;
+        }
+        walker.next = walker.next.next;
+        return pre.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Insertion Sort for Linked List</title>
+      <link>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</link>
+      <pubDate>Sun, 25 Oct 2015 15:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/25/insertion-sort-for-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Sort a linked list using insertion sort.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:a42e42e7f7cdb3bb867580db5b170fe8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given &lt;code&gt;1-&amp;gt;3-&amp;gt;2-&amp;gt;0-&amp;gt;null&lt;/code&gt;, return &lt;code&gt;0-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;think:a42e42e7f7cdb3bb867580db5b170fe8&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pass nodes from head to end.&lt;/li&gt;
+&lt;li&gt;Once it get an element larger than its next one, do a swap.&lt;/li&gt;
+&lt;li&gt;Then return to the head and to do the passing again.&lt;/li&gt;
+&lt;li&gt;Loop until get all sorted.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:a42e42e7f7cdb3bb867580db5b170fe8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: The head of linked list.
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+            
+            ListNode dummy = new ListNode(0);
+            ListNode pre = dummy;
+            ListNode cur = head;
+            while(cur != null){
+                pre = dummy;
+                ListNode next = cur.next;
+                while(pre.next != null &amp;amp;&amp;amp; pre.next.val &amp;lt; cur.val)
+                    pre = pre.next;
+                cur.next = pre.next;
+                pre.next = cur;
+                cur = next;
+            }
+            
+            return dummy.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Triangle Count</title>
+      <link>http://xmruibi.github.io/2015/10/22/triangle-count/</link>
+      <pubDate>Thu, 22 Oct 2015 14:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/22/triangle-count/</guid>
+      <description>
+
+&lt;p&gt;Given an array of integers, how many three numbers can be found in the array, so that we can build an triangle whose three edges length is the three numbers that we find?&lt;/p&gt;
+
+&lt;h3 id=&#34;example:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Given array S = [3,4,6,7], return 3. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[3,4,6]
+[3,6,7]
+[4,6,7]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Given array S = [4,4,4,4], return 4. They are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[4(1),4(2),4(3)]
+[4(1),4(2),4(4)]
+[4(1),4(3),4(4)]
+[4(2),4(3),4(4)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;think:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Think&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort&lt;/li&gt;
+&lt;li&gt;Binary Search&lt;/li&gt;
+&lt;li&gt;But how to define driven condition? (Tricky Part)
+
+&lt;ul&gt;
+&lt;li&gt;As we know, triangle is made by &lt;code&gt;i + j &amp;gt; k&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;So we capture the largest one&lt;code&gt;[k]&lt;/code&gt; (passing from &lt;code&gt;length - 1&lt;/code&gt; to &lt;code&gt;2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Get &lt;code&gt;left = 0&lt;/code&gt; and &lt;code&gt;right = k - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;gt; [k]&lt;/code&gt;, that means in the segment, &lt;code&gt;[left]&lt;/code&gt; can be valued between &lt;code&gt;[left]&lt;/code&gt; and &lt;code&gt;[right-1]&lt;/code&gt;, all of that can make valid triangle. So &lt;code&gt;count += right - left&lt;/code&gt;!&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;[left] + [right] &amp;lt;= [k]&lt;/code&gt;, just make the &lt;code&gt;left&lt;/code&gt; increase to detect any valid possibility.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:64e9ba8f23880735bd1dca92faa4b945&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution {
+    /**
+     * @param S: A list of integers
+     * @return: An integer
+     */
+    public int triangleCount(int S[]) {
+        if(S == null || S.length == 0)
+            return 0;
+        int cnt = 0;
+        Arrays.sort(S);
+        for(int i = S.length - 1; i &amp;gt;= 2; i--) {
+            int cur = S[i];
+            int l = 0, r = i - 1;
+            while(l &amp;lt; r) {
+                if(S[l] + S[r] &amp;gt; S[i]) {
+                    cnt += (r - l); // keypoint!
+                    r--;
+                }else 
+                    l++;
+            }
+        }
+        return cnt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Count of Smaller Number</title>
+      <link>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/count-of-smaller-number/</guid>
+      <description>
+
+&lt;p&gt;Give you an integer array (index from 0 to n-1, where n is the size of this array, value from 0 to 10000) and an query list. For each query, give you an integer, return the number of element in the array that are smaller that the given integer.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:ad7e415f7b598c437e3011438d40401a&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For array &lt;code&gt;[1,2,7,8,5]&lt;/code&gt;, and queries &lt;code&gt;[1,8,5]&lt;/code&gt;, return &lt;code&gt;[0,4,2]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:ad7e415f7b598c437e3011438d40401a&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;Could you use three ways to do it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Just loop&lt;/li&gt;
+&lt;li&gt;Sort and binary search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:ad7e415f7b598c437e3011438d40401a&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-solution-by-loop-with-o-n-2:ad7e415f7b598c437e3011438d40401a&#34;&gt;1. Solution by Loop with $O(n^2)$&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;
+
+   /** O(n^2) Loop implement
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(A == null || queries == null)
+            return res;
+            
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = 0;
+            for(int j = 0; j &amp;lt; A.length; j++) {
+                if(A[j] &amp;lt; queries[i])
+                    cnt++;
+            }
+            res.add(cnt);
+        }
+        return res;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-solution-by-sort-and-binary-search-with-o-nlogn:ad7e415f7b598c437e3011438d40401a&#34;&gt;2. Solution by Sort and Binary search with O(nlogn)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;    /** O(nlogn) Sort and Binary search
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList&amp;lt;Integer&amp;gt; countOfSmallerNumber(int[] A, int[] queries) {
+        ArrayList&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;();
+        if(queries == null)
+            return res;
+         
+        Arrays.sort(A);
+        for(int i = 0; i &amp;lt; queries.length; i++) {
+            int cnt = binarySearch(A, queries[i]);
+            res.add(cnt);
+        }
+        return res;
+    }
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        if(A[l] &amp;lt; value)
+            return l + 1;
+        else
+            return l; 
+    }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Smallest Difference</title>
+      <link>http://xmruibi.github.io/2015/10/18/smallest-difference/</link>
+      <pubDate>Sun, 18 Oct 2015 16:13:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/18/smallest-difference/</guid>
+      <description>
+
+&lt;p&gt;Given two array of integers(the first array is array A, the second array is array B), now we are going to find a element in array A which is A[i], and another element in array B which is B[j], so that the difference between A[i] and B&lt;a href=&#34;|A[i] - B[j]|&#34;&gt;j&lt;/a&gt; is as small as possible, return their smallest difference.&lt;/p&gt;
+
+&lt;h3 id=&#34;example:2aeec05bfdff07319e9f8be84d9c06e8&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;For example, given array A = &lt;code&gt;[3,6,7,4]&lt;/code&gt;, B = &lt;code&gt;[2,8,9,3]&lt;/code&gt;, return &lt;code&gt;0&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;challenge:2aeec05bfdff07319e9f8be84d9c06e8&#34;&gt;Challenge&lt;/h3&gt;
+
+&lt;p&gt;O(n log n) time&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:2aeec05bfdff07319e9f8be84d9c06e8&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Do sort on one of array&lt;/li&gt;
+&lt;li&gt;One pass on another array and do binary search on the sorted array.&lt;/li&gt;
+&lt;li&gt;Search the target value from passing array and get the minimum difference on sorted array&lt;/li&gt;
+&lt;li&gt;Update the global minimum difference each time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Solution {
+    /**
+     * @param A, B: Two integer arrays.
+     * @return: Their smallest difference.
+     */
+    public int smallestDifference(int[] A, int[] B) {
+        if(A == null || B == null || A.length == 0 || B.length == 0)
+            return 0;
+        Arrays.sort(B);
+        int mindiff = Integer.MAX_VALUE;
+        for(int i = 0; i &amp;lt; A.length; i++) {
+            int curdiff = binarySearch(B, A[i]);
+            mindiff = Math.min(mindiff, curdiff);
+        }
+        return mindiff;
+    }
+    
+    
+    private int binarySearch(int[] A, int value) {
+        if(A == null || A.length == 0)
+            return 0;
+        int l = 0, r = A.length - 1;
+        while(l + 1 &amp;lt; r) {
+            int m = l + ((r - l) &amp;gt;&amp;gt; 1);
+            if(value &amp;gt; A[m])
+                l = m;
+            else
+                r = m;
+        }
+        return Math.min(Math.abs(A[l] - value), Math.abs(A[r] - value));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Closest Number</title>
+      <link>http://xmruibi.github.io/2015/10/12/closest-number/</link>
+      <pubDate>Mon, 12 Oct 2015 21:43:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/10/12/closest-number/</guid>
+      <description>
+
+&lt;p&gt;Given an unsorted array, find out the most closest two elements in this array. Output&lt;/p&gt;
+
+&lt;h4 id=&#34;solution:f7debca91406b310c625fc342b2e0a9b&#34;&gt;Solution:&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sort is important here! You must think about sort first. Since other may may cost&lt;/li&gt;
+&lt;li&gt;Then the gap between adjacent elements are the&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+&lt;code class=&#34;java&#34;&gt;
+public ArrayList&lt;int[]&gt; closestNumber(int[] arr){
+    ArrayList&lt;int[]&gt; res = new ArrayList&lt;&gt;();
+    if(arr == null || arr.length == 0)
+        return res;
+    Arrays.sort(arr);
+
+    int mindiff = Integer.MAX_VALUE;
+    for(int i = 1; i &lt; arr.length; i++) {
+        int curdiff = arr[i] - arr[i - 1];
+        if(curdiff &gt;= mindiff) {
+            if(curdiff &gt; mindiff)
+                res.clear();
+            int[] cres = new int[]{arr[i - 1], arr[i]};
+            res.add(cres);
+        }
+    }
+    return res;
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

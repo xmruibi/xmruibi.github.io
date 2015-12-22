@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Submatrix Sum &middot; Geek Think</title>
+    <meta name="generator" content="Hugo 0.14" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Rui&#39;s Blog">
+    
+    
+    <link rel="icon" href="http://xmruibi.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="http://xmruibi.github.io//apple-touch-icon.png" />
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/style.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/search.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/css/monokai.css">
+    <link rel="stylesheet" href="http://xmruibi.github.io/fancybox/jquery.fancybox.css">
+    <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Submatrix Sum" />
+<meta property="og:description" content="Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://xmruibi.github.io/2015/10/17/submatrix-sum/" />
+
+
+<meta property="og:updated_time" content="2015-10-17T21:43:13-07:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Submatrix Sum">
+<meta itemprop="description" content="Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.
+">
+
+
+<meta itemprop="dateModified" content="2015-10-17T21:43:13-07:00" />
+<meta itemprop="wordCount" content="217">
+
+
+
+<meta itemprop="keywords" content="american,apache,api-design,array,back-pack,backtracking,bfs,binary-search,binary-search-tree,binary-tree,bit-manipulation,bleve-search,bucket,bucket-sort,classical-problem,classification,collaborative-search-engine,combination,comparable,complex-implement,conclusion,configuration,data-structure,data-type,dfs,divide-and-conquer,divide-conquer,dummy-node,duplicates-remove,dynamic-programming,elastic-search,expression,go,graph,hadoop,hash-map,hash-table,heap,hugo,immutable,index-rotate,integer,interval,interval-problem,iterator,java-basic,java-data-structure,java-multiplethread,javascript,linked-list,linkedlist,list-node,map-reduce,markdown,math,matrix,mongodb,object-oriented-programming,palindrome,pattern-match,permutation,polish-notation,prefix-sum,queue,recursion,restful,reverse,road-trip,roman,segement-tree,sort,spring,stack,string,subarray,submatrix,subsequence,substring,tenary---binary,top-k,topological-sort,tree,tree-preorder,two-pointers,union-find,website-construction,algorithm,career-cup,cloud-computing,design,devops,geeks-for-geeks,google,information-retrieval,java,javascript,leetcode,lintcode,machine-learning,restful,travel,web-development,ymx," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Submatrix Sum"/>
+<meta name="twitter:description" content="Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.
+"/>
+
+
+
+</head>
+<body>
+<div class="container">
+
+<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://xmruibi.github.io/" id="logo"><i class="logo" style="background-image: url('http://xmruibi.github.io/css/images/logo.png')"></i></a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/">Home</a>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://xmruibi.github.io/about">About</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://www.gravatar.com/avatar/a0adf13b3b4e8724e9796567554973aa"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/">Home</a></td>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/code/">Project</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/life/">Life</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://xmruibi.github.io/about">About</a></td>
+          
+          
+          <td>
+          <form role="search" id="search">
+            <input id="page" name="p" value="1" type="hidden"/>
+            <input id="query" name="q" type="search" class="st-default-search-input" placeholder="Search">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+
+<div id="container">
+   <div class="outer">
+
+    <section id="main_single_article">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://xmruibi.github.io/2015/10/17/submatrix-sum/">
+    <h1 class="article-title" itemprop="name">
+        Submatrix Sum
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2015-10-17 21:43:13 -0700 PDT" itemprop="datePublished">2015-10-17</time>
+            &middot;
+            217
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        <div class="article-category">
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/lintcode">Lintcode</a>
+            
+            <i class="fa fa-folder"></i>
+            <a class="article-category-link" href="http://xmruibi.github.io/topics/algorithm">Algorithm</a>
+            
+        </div>
+            <div class="article-category">                
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/matrix">Matrix</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/submatrix">Submatrix</a>
+               
+            <i class="fa fa-tag"></i>        
+            <a class="article-category-link" href="http://xmruibi.github.io/tags/dynamic-programming">Dynamic Programming</a>
+            
+        </div>
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                
+
+<p>Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.</p>
+
+<h3 id="example:e10ab144a5aace7a18fe8ad441bebc7a">Example</h3>
+
+<p>Given matrix</p>
+
+<pre><code>[
+  [1 ,5 ,7],
+  [3 ,7 ,-8],
+  [4 ,-8 ,9],
+]
+</code></pre>
+
+<p>return <code>[(1,1), (2,2)]</code></p>
+
+<h3 id="challenge:e10ab144a5aace7a18fe8ad441bebc7a">Challenge</h3>
+
+<p>O(n3) time.</p>
+
+<h2 id="solution:e10ab144a5aace7a18fe8ad441bebc7a">Solution</h2>
+
+<pre><code class="language-java">public class Solution {
+    /**
+     * @param matrix an integer matrix
+     * @return the coordinate of the left-up and right-down number
+     */
+    public int[][] submatrixSum(int[][] matrix) {
+        int[][] result = new int[2][2];
+        int M = matrix.length;
+        if (M == 0) return result;
+        int N = matrix[0].length;
+        if (N == 0) return result;
+        // pre-compute: sum[i][j] = sum of submatrix [(0, 0), (i, j)]
+        int[][] sum = new int[M+1][N+1];
+        for (int j=0; j&lt;=N; ++j) sum[0][j] = 0;
+        for (int i=1; i&lt;=M; ++i) sum[i][0] = 0;
+        for (int i=0; i&lt;M; ++i) {
+            for (int j=0; j&lt;N; ++j)
+                sum[i+1][j+1] = matrix[i][j] + sum[i+1][j] + sum[i][j+1] - sum[i][j];
+        }
+        for (int l=0; l&lt;M; ++l) {
+            for (int h=l+1; h&lt;=M; ++h) {
+                Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
+                for (int j=0; j&lt;=N; ++j) {
+                    int diff = sum[h][j] - sum[l][j];
+                    if (map.containsKey(diff)) {
+                        int k = map.get(diff);
+                        result[0][0] = l;   result[0][1] = k;
+                        result[1][0] = h-1; result[1][1] = j-1;
+                        return result;
+                    } else {
+                        map.put(diff, j);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+</code></pre>
+
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://xmruibi.github.io/2015/10/17/submatrix-sum/" data-id="e10ab144a5aace7a18fe8ad441bebc7a" class="article-share-link">
+        Share
+    </a>
+    
+    <a href="http://xmruibi.github.io/2015/10/17/submatrix-sum//#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://xmruibi.github.io/2015/10/17/flatten-binary-tree-to-linked-list/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Flatten Binary Tree to Linked List</div>
+    </a>
+    
+
+    
+    <a href="http://xmruibi.github.io/2015/10/17/palindrome-linked-list/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Palindrome Linked List</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+    <section id="comments">
+        <div id="disqus_thread">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ruisblog';
+    var disqus_identifier = 'http:\/\/xmruibi.github.io\/2015\/10\/17\/submatrix-sum\/';
+    var disqus_title = 'Submatrix Sum';
+    var disqus_url = 'http:\/\/xmruibi.github.io\/2015\/10\/17\/submatrix-sum\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+
+</section>
+
+    <aside id="sidebar">
+	<div class="widget-wrap">
+    <h3 class="widget-title">
+    Table of Contents
+    </h3>
+     <div class="widget">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#example:e10ab144a5aace7a18fe8ad441bebc7a">Example</a></li>
+<li><a href="#challenge:e10ab144a5aace7a18fe8ad441bebc7a">Challenge</a></li>
+</ul></li>
+<li><a href="#solution:e10ab144a5aace7a18fe8ad441bebc7a">Solution</a></li>
+</ul></li>
+</ul>
+</nav>
+     </div>
+</div>
+	
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Rui Bi. Powered by <a href="//gohugo.io">Hugo</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://xmruibi.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://xmruibi.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- MathJax -->
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','DEzVrzaxVLoB451jJ6Py','2.0.0');
+</script>
+
+</body>
+</html>

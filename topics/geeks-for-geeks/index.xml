@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Geeks For Geeks on Geek Think</title>
+    <link>http://xmruibi.github.io/topics/geeks-for-geeks/</link>
+    <description>Recent content in Geeks For Geeks on Geek Think</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>(c) 2015 Rui Bi.</copyright>
+    <lastBuildDate>Thu, 19 Nov 2015 20:33:13 -0700</lastBuildDate>
+    <atom:link href="http://xmruibi.github.io/topics/geeks-for-geeks/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Insert Node for Circular Linked List</title>
+      <link>http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/</link>
+      <pubDate>Thu, 19 Nov 2015 20:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/insert-node-for-circular-linked-list/</guid>
+      <description>
+
+&lt;p&gt;Write a function to insert a new node in a sorted Circular Linked List (CLL). For example, if the input CLL is following.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:ee71923bba76e242d68d338217d1bb7b&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	/**
+	* Insert a node into a linked list with cycle
+	* @param node: one of node in linked list
+	* @param insert: the node for inserting
+	* @return newNode which is newly inserted node
+	**/
+	public static ListNode insertList (ListNode node, int insert) {
+		ListNode newNode = new ListNode(insert);
+		// egde case
+		if(node == null) {
+			newNode.next = newNode;
+			return newNode;
+		}
+		
+		ListNode origin = node;
+		// find the insert place with iterate through the list
+		do {
+			if(node.val &amp;lt;= insert.val &amp;amp;&amp;amp; insert.val &amp;lt;= node.next.val)
+				break;
+			node = node.next;
+		} while(node != origin);
+
+		newNode.next = node.next;
+		node.next = newNode;
+		return newNode;
+	}
+}
+
+class ListNode{
+	int val;
+	ListNode next;
+	public ListNode(int val) {
+		this.val = val;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Find if Two Rectangles Overlap</title>
+      <link>http://xmruibi.github.io/2015/11/19/find-if-two-rectangles-overlap/</link>
+      <pubDate>Thu, 19 Nov 2015 12:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/find-if-two-rectangles-overlap/</guid>
+      <description>
+
+&lt;p&gt;Given two rectangles, find if the given two rectangles overlap or not. Note that a rectangle can be represented by two coordinates, top left and bottom right. So mainly we are given following four coordinates.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;l1: Top Left coordinate of first rectangle.&lt;/li&gt;
+&lt;li&gt;r1: Bottom Right coordinate of first rectangle.&lt;/li&gt;
+&lt;li&gt;l2: Top Left coordinate of second rectangle.&lt;/li&gt;
+&lt;li&gt;r2: Bottom Right coordinate of second rectangle.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;solution:349119d14e4a4f28c56258b5d1239743&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public static boolean overlapping(Rectangle r1, Rectangle r2) {
+		// edge case, if one of them is null
+		if(r1 == null || r2 == null)
+			return true;
+		// If one rectangle is on left side of other
+		if(r1.leftTop.x &amp;gt;= r2.rightBottom.x || r2.leftTop.x &amp;gt;= r1.rightBottom.x)
+			return false;
+		// If one rectangle is above other
+		if(r1.leftTop.y &amp;lt;= r2.rightBottom.y || r2.leftTop.y &amp;lt;= r1.rightBottom.y)
+			return false;
+		return true;
+	}
+
+	static class Rectangle {
+		Point leftTop, rightBottom;
+		public Rectangle (int x1, int y1, int x2, int y2) {
+			this.leftTop = new Point(x1, y1);
+			this.rightBottom = new Point(x2, y2);
+		}
+
+		private class Point{
+			int x;
+			int y;
+			public Point(int x, int y) {
+				this.x = x;
+				this.y = y;
+			}
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Greatest Common Divisor</title>
+      <link>http://xmruibi.github.io/2015/11/19/greatest-common-divisor/</link>
+      <pubDate>Thu, 19 Nov 2015 12:33:13 -0700</pubDate>
+      
+      <guid>http://xmruibi.github.io/2015/11/19/greatest-common-divisor/</guid>
+      <description>
+
+&lt;p&gt;Write a function to find Greatest Common Divisor of an array.&lt;/p&gt;
+
+&lt;h2 id=&#34;solution:5d09a98119ed49836b368e464065fa50&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Solution{
+	public static int gcdArr(int[] arr) {
+		if (arr == null || arr.length == 0)
+			return 0;
+		if (arr.length == 1)
+			return arr[0];
+		int res = gcd(arr[0], arr[1]);
+		for (int i = 2; i &amp;lt; arr.length; i++) {
+			if( arr[i] &amp;lt;= 0 || res == 0)
+				return 0;
+			res = gcd(res, arr[i]);
+		}
+		return res;
+	}
+
+	private static int gcd(int m, int n) {
+		if (m &amp;lt;= 0 || n &amp;lt;= 0)
+			return 0;
+		
+		if (n &amp;gt; m)
+			return gcd(n, m);
+		if (m % n == 0)
+			return n;
+		return gcd(n, m % n);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
